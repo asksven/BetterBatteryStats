@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<TextView android:id="@+id/callerId" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="10dp" android:gravity="center" android:textSize="15sp" android:freezesText="true"/>
+	<TextView android:id="@+id/callerCommand" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="10dp" android:freezesText="true"/>
+
+	<TextView android:text="@string/wants_to_run" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="20dp"/>
+	<TextView android:id="@+id/desiredCommand" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:singleLine="true" android:textColor="@android:color/white" android:gravity="center" android:freezesText="true"/>
+	<TextView android:text="@string/as" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"/>
+	<TextView android:id="@+id/desiredId" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:textColor="@android:color/white" android:textSize="20dp" android:singleLine="true" android:gravity="center" android:freezesText="true"/>
+	<RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<View android:id="@+id/buttonCenterizer" android:layout_centerInParent="true" android:layout_height="fill_parent" android:layout_width="0dp"/>
+		<Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/deny" android:layout_alignParentBottom="true" android:id="@+id/buttonDeny" android:layout_alignParentRight="true" android:layout_alignLeft="@id/buttonCenterizer"/>
+		<Button android:layout_height="wrap_content" android:text="@string/always_deny" android:id="@+id/buttonDenyAlways" android:layout_above="@id/buttonDeny" android:layout_alignRight="@id/buttonDeny" android:layout_alignLeft="@id/buttonCenterizer" android:layout_width="wrap_content"/>
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/allow" android:id="@+id/buttonAllow" android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"/>
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/always_allow" android:id="@+id/buttonAllowAlways" android:layout_above="@id/buttonAllow"/>
+	</RelativeLayout>
+</LinearLayout>

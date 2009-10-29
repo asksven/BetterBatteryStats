@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Superuser</string>
+    <string name="app_name_request">SU Request</string>
+    <string name="app_name_perms">Superuser Permissions</string>
+    <string name="wants_to_run">Wants to run:</string>
+    <string name="as">as</string>
+    <string name="allow">Allow</string>
+    <string name="always_allow">Always Allow</string>
+    <string name="deny">Deny</string>
+    <string name="always_deny">Always Deny</string>
+</resources>
