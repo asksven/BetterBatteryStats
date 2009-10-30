@@ -1,7 +1,7 @@
 #ifndef SU_h
 #define SU_h 1
 
-#define REQUESTOR_PACKAGE   "org.zenthought.android.su"
+#define REQUESTOR_PACKAGE   "com.noshufou.android.su"
 #define REQUESTOR_CLASS     "SuRequest"
 
 #define REQUESTOR_DATA_PATH "/data/data/" REQUESTOR_PACKAGE
