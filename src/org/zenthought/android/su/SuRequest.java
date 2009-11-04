@@ -1,4 +1,4 @@
-package com.noshufou.android.su; 
+package org.zenthought.android.su; 
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

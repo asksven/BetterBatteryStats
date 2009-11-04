@@ -1,4 +1,4 @@
-package com.noshufou.android.su; 
+package org.zenthought.android.su; 
 
 import android.app.ListActivity;
 import android.content.Context;
