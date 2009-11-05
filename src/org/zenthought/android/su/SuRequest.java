@@ -1,13 +1,6 @@
 package org.zenthought.android.su; 
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.app.Activity;
@@ -17,8 +10,8 @@ import android.net.LocalSocketAddress;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.CheckBox;
 
 public class SuRequest extends Activity {
     String resultCode = "DENY";
@@ -31,38 +24,6 @@ public class SuRequest extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.request);
-
-        findViewById(R.id.buttonAllow).setOnClickListener(new OnClickListener() {
-            public void onClick(View view)
-            {
-                resultCode = "ALLOW";
-                finish();
-            }
-        });
-
-        findViewById(R.id.buttonAllowAlways).setOnClickListener(new OnClickListener() {
-            public void onClick(View view)
-            {
-                resultCode = "ALWAYS_ALLOW";
-                finish();
-            }
-        });
-
-        findViewById(R.id.buttonDeny).setOnClickListener(new OnClickListener() {
-            public void onClick(View view)
-            {
-                resultCode = "DENY";
-                finish();
-            }
-        });
-
-        findViewById(R.id.buttonDenyAlways).setOnClickListener(new OnClickListener() {
-            public void onClick(View view)
-            {
-                resultCode = "ALWAYS_DENY";
-                finish();
-            }
-        });
 
         if (savedInstanceState != null) {
             socketPath = savedInstanceState.getString("socket");
@@ -106,6 +67,20 @@ public class SuRequest extends Activity {
             finish();
         }
     }
+
+    public void clickHandler(View target) {
+        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkRemember);
+        if (target.getId() == R.id.buttonAllow) {
+            resultCode = "ALLOW";
+        } else if (target.getId() == R.id.buttonDeny) {
+            resultCode = "DENY";
+        }
+        if (checkBox.isChecked()) {
+            resultCode = "ALWAYS_" + resultCode;
+        }
+        finish();
+    }
+
 
     private void sendResult() throws IOException
     {
