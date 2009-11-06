@@ -1,4 +1,4 @@
-#ifndef SU_h
+#ifndef SU_h 
 #define SU_h 1
 
 #define REQUESTOR_PACKAGE   "org.zenthought.android.su"

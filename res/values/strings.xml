@@ -6,7 +6,6 @@
     <string name="wants_to_run">Wants to run:</string>
     <string name="as">as</string>
     <string name="allow">Allow</string>
-    <string name="always_allow">Always Allow</string>
     <string name="deny">Deny</string>
-    <string name="always_deny">Always Deny</string>
+    <string name="remember">Remember</string>
 </resources>
