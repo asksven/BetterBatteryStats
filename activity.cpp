@@ -9,6 +9,7 @@
 extern "C" {
 #include "su.h"
 #include <private/android_filesystem_config.h>
+#include <utils/properties.h>
 }
 
 using namespace android;
@@ -50,6 +51,13 @@ static const char *aid_to_string(unsigned aid)
 
 int do_request(struct su_initiator *from, struct su_request *to, const char *socket_path)
 {
+    char sdk_version[PROPERTY_VALUE_MAX] = "0";
+    int is_donut = 0;
+
+    property_get("ro.build.version.sdk", sdk_version, "0");
+    if (atoi(sdk_version) >= 4)
+        is_donut = 1;
+
     sp<IServiceManager> sm = defaultServiceManager();
     sp<IBinder> am = sm->checkService(String16("activity"));
     assert(am != NULL);
@@ -64,9 +72,9 @@ int do_request(struct su_initiator *from, struct su_request *to, const char *soc
     data.writeInt32(NULL_TYPE_ID); /* Uri - type */
     data.writeString16(NULL, 0); /* type */
     data.writeInt32(FLAG_ACTIVITY_NO_HISTORY | FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_MULTIPLE_TASK); /* flags */
-#if DONUT
-    data.writeString16(String16(REQUESTOR_PACKAGE)); /* package name - DONUT ONLY, NOT IN CUPCAKE. */
-#endif
+    if (is_donut) {
+        data.writeString16(String16(REQUESTOR_PACKAGE)); /* package name - DONUT ONLY, NOT IN CUPCAKE. */
+    }
     data.writeString16(String16(REQUESTOR_PACKAGE)); /* ComponentName - package */
     data.writeString16(String16(REQUESTOR_PACKAGE "." REQUESTOR_CLASS)); /* ComponentName - class */
     data.writeInt32(0); /* Categories - size */
