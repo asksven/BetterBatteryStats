@@ -10,6 +10,7 @@ import android.net.LocalSocketAddress;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.CheckBox;
 
@@ -24,18 +25,18 @@ public class SuRequest extends Activity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.request);
+ 
+        if (getCallingPackage() != null) {
+            Log.e("SuRequest", "SuRequest must be started from su");
+            finish();
+            return;
+        }
 
         if (savedInstanceState != null) {
             socketPath = savedInstanceState.getString("socket");
         } else {
-            if (getCallingPackage() != null) {
-                Log.e("SuRequest", "SuRequest must be started from su");
-                finish();
-                return;
-            }
-
             final Intent in = getIntent();
-
+ 
             final TextView callerId = (TextView)findViewById(R.id.callerId);
             final TextView callerCommand = (TextView)findViewById(R.id.callerCommand);
             final TextView desiredId = (TextView)findViewById(R.id.desiredId);
@@ -51,13 +52,25 @@ public class SuRequest extends Activity {
             final String desired_uid = in.getStringExtra("desired_uid");
             final String desired_gid = in.getStringExtra("desired_gid");
             final String desired_cmd = in.getStringExtra("desired_cmd");
-
+ 
             callerId.setText("Process #" + caller_pid + " (" + caller_uid + ":" + caller_gid + ")");
             callerCommand.setText(caller_bin + " " + caller_args);
-            
+
             desiredId.setText(desired_uid + ":" + desired_gid);
             desiredCommand.setText(desired_cmd);
         }
+
+        findViewById(R.id.buttonAllow).setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {clickHandler(view);}
+        });
+        findViewById(R.id.buttonDeny).setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {clickHandler(view);}
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         try {
             socket = new LocalSocket();
@@ -96,16 +109,18 @@ public class SuRequest extends Activity {
     }
     
     @Override
-    public void onDestroy()
+    public void onStop()
     {
-        super.onDestroy();
+        super.onStop();
 
-        if (isFinishing()) {
-            try {
-                sendResult();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if (!isFinishing()) {
+            finish();
+        }
+
+        try {
+            sendResult();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         try {
