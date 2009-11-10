@@ -9,7 +9,7 @@
 extern "C" {
 #include "su.h"
 #include <private/android_filesystem_config.h>
-#include <utils/properties.h>
+#include <cutils/properties.h>
 }
 
 using namespace android;
