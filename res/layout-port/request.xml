@@ -52,14 +52,12 @@
             android:text="@string/allow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="clickHandler"/>
+            android:layout_weight="1" />
         <Button android:id="@+id/buttonDeny"
             android:text="@string/deny"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:onClick="clickHandler"/>
+            android:layout_weight="1" />
     </LinearLayout>
 
     <CheckBox android:id="@+id/checkRemember"

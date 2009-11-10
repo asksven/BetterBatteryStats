@@ -57,13 +57,11 @@
         <Button android:id="@+id/buttonAllow"
             android:text="@string/allow"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="clickHandler" />
+            android:layout_height="wrap_content" />
         <Button android:id="@+id/buttonDeny"
             android:text="@string/deny"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:onClick="clickHandler" />
+            android:layout_width="fill_parent" />
         <CheckBox android:id="@+id/checkRemember"
             android:text="@string/remember"
             android:layout_width="fill_parent"
