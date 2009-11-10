@@ -404,7 +404,7 @@ int main(int argc, char *argv[])
     }
 
 #if UNSIGNED_PACKAGE
-    if (st.st_uid < AID_APP || st.st_gid != st.st_uid)
+    if (st.st_gid != st.st_uid)
 #else
     if (st.st_uid != AID_SYSTEM || st.st_gid != st.st_uid)
 #endif
