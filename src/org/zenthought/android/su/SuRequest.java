@@ -100,6 +100,7 @@ public class SuRequest extends Activity {
         OutputStream os = socket.getOutputStream();
         byte[] bytes = resultCode.getBytes("UTF-8");
         os.write(bytes);
+        os.flush();
     }
 
     public void onSaveInstanceState(Bundle state)
