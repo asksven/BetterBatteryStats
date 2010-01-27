@@ -1,4 +1,4 @@
-package org.zenthought.android.su; 
+package org.zenthought.android.su;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -15,124 +15,125 @@ import android.widget.TextView;
 import android.widget.CheckBox;
 
 public class SuRequest extends Activity {
-    String resultCode = "DENY";
-    String socketPath;
-    LocalSocket socket;
+	
+	private static final String TAG = "SuRequest";
+	
+	String resultCode = "DENY";
+	String socketPath;
+	LocalSocket socket;
 
-    /** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.request);
- 
-        if (getCallingPackage() != null) {
-            Log.e("SuRequest", "SuRequest must be started from su");
-            finish();
-            return;
-        }
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.request);
 
-        if (savedInstanceState != null) {
-            socketPath = savedInstanceState.getString("socket");
-        } else {
-            final Intent in = getIntent();
- 
-            final TextView callerId = (TextView)findViewById(R.id.callerId);
-            final TextView callerCommand = (TextView)findViewById(R.id.callerCommand);
-            final TextView desiredId = (TextView)findViewById(R.id.desiredId);
-            final TextView desiredCommand = (TextView)findViewById(R.id.desiredCommand);
+		if (getCallingPackage() != null) {
+			Log.e(TAG, "SuRequest must be started from su");
+			finish();
+			return;
+		}
 
-            socketPath = in.getStringExtra("socket");
+		if (savedInstanceState != null) {
+			socketPath = savedInstanceState.getString("socket");
+		} else {
+			final Intent in = getIntent();
 
-            final int caller_pid = in.getIntExtra("caller_pid", -1);
-            final String caller_uid = in.getStringExtra("caller_uid");
-            final String caller_gid = in.getStringExtra("caller_gid");
-            final String caller_bin = in.getStringExtra("caller_bin");
-            final String caller_args = in.getStringExtra("caller_args");
-            final String desired_uid = in.getStringExtra("desired_uid");
-            final String desired_gid = in.getStringExtra("desired_gid");
-            final String desired_cmd = in.getStringExtra("desired_cmd");
- 
-            callerId.setText("Process #" + caller_pid + " (" + caller_uid + ":" + caller_gid + ")");
-            callerCommand.setText(caller_bin + " " + caller_args);
+			final TextView callerId = (TextView) findViewById(R.id.callerId);
+			final TextView callerCommand = (TextView) findViewById(R.id.callerCommand);
+			final TextView desiredId = (TextView) findViewById(R.id.desiredId);
+			final TextView desiredCommand = (TextView) findViewById(R.id.desiredCommand);
 
-            desiredId.setText(desired_uid + ":" + desired_gid);
-            desiredCommand.setText(desired_cmd);
-        }
+			socketPath = in.getStringExtra("socket");
 
-        findViewById(R.id.buttonAllow).setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {clickHandler(view);}
-        });
-        findViewById(R.id.buttonDeny).setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {clickHandler(view);}
-        });
-    }
+			final int caller_pid = in.getIntExtra("caller_pid", -1);
+			final String caller_uid = in.getStringExtra("caller_uid");
+			final String caller_gid = in.getStringExtra("caller_gid");
+			final String caller_bin = in.getStringExtra("caller_bin");
+			final String caller_args = in.getStringExtra("caller_args");
+			final String desired_uid = in.getStringExtra("desired_uid");
+			final String desired_gid = in.getStringExtra("desired_gid");
+			final String desired_cmd = in.getStringExtra("desired_cmd");
 
-    @Override
-    public void onStart() {
-        super.onStart();
+			callerId.setText("Process #" + caller_pid + " (" + caller_uid + ":"
+					+ caller_gid + ")");
+			callerCommand.setText(caller_bin + " " + caller_args);
 
-        try {
-            socket = new LocalSocket();
-            socket.connect(new LocalSocketAddress(socketPath, LocalSocketAddress.Namespace.FILESYSTEM));
-        } catch (Exception e) {
-            e.printStackTrace();
-            finish();
-        }
-    }
+			desiredId.setText(desired_uid + ":" + desired_gid);
+			desiredCommand.setText(desired_cmd);
+		}
 
-    public void clickHandler(View target) {
-        final CheckBox checkBox = (CheckBox) findViewById(R.id.checkRemember);
-        if (target.getId() == R.id.buttonAllow) {
-            resultCode = "ALLOW";
-        } else if (target.getId() == R.id.buttonDeny) {
-            resultCode = "DENY";
-        }
-        if (checkBox.isChecked()) {
-            resultCode = "ALWAYS_" + resultCode;
-        }
-        finish();
-    }
+		findViewById(R.id.buttonAllow).setOnClickListener(
+				new OnClickListener() {
+					public void onClick(View view) {
+						clickHandler(view);
+					}
+				});
+		findViewById(R.id.buttonDeny).setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				clickHandler(view);
+			}
+		});
+	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
 
-    private void sendResult() throws IOException
-    {
-        OutputStream os = socket.getOutputStream();
-        byte[] bytes = resultCode.getBytes("UTF-8");
-        os.write(bytes);
-        os.flush();
-    }
+		try {
+			socket = new LocalSocket();
+			socket.connect(new LocalSocketAddress(socketPath,
+					LocalSocketAddress.Namespace.FILESYSTEM));
+		} catch (Exception e) {
+			Log.e(TAG, e.getMessage(), e);
+			cleanup();
+		}
+	}
 
-    public void onSaveInstanceState(Bundle state)
-    {
-        super.onSaveInstanceState(state);
-        state.putString("socket", socketPath);
+    public void onPause() {
+    	
+    	sendResult();
+    	super.onPause();
+   	
     }
     
-    @Override
-    public void onStop()
-    {
-        super.onStop();
+	public void clickHandler(View target) {
+		final CheckBox checkBox = (CheckBox) findViewById(R.id.checkRemember);
+		if (target.getId() == R.id.buttonAllow) {
+			resultCode = "ALLOW";
+		} else if (target.getId() == R.id.buttonDeny) {
+			resultCode = "DENY";
+		}
+		if (checkBox.isChecked()) {
+			resultCode = "ALWAYS_" + resultCode;
+		}
+		finish();
+	}
 
-        if (!isFinishing()) {
-            finish();
-        }
+	private void sendResult() {
+		try {
+			Log.d(TAG, "Sending result: " + resultCode);
+			OutputStream os = socket.getOutputStream();
+			byte[] bytes = resultCode.getBytes("UTF-8");
+			os.write(bytes);
+			os.flush();
+			os.close();
+			cleanup();
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage(), e);
+		}
+	}
 
-        try {
-            sendResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	private void cleanup() {
+		try {
+			if (socket != null) {
+				socket.close();
+			}
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage(), e);
 
-        try {
-            socket.shutdownOutput();
-            socket.shutdownInput();
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        socket = null;
-        socketPath = null;
-    }
+		}
+		socket = null;
+		socketPath = null;
+	}
 }
