@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Superuser</string>
+    <string name="app_name_request">Richiesta SU</string>
+    <string name="app_name_perms">Superuser</string>
+    <string name="wants_to_run">Vuole avviare:</string>
+    <string name="as">come</string>
+    <string name="allow">Consenti</string>
+    <string name="deny">Nega</string>
+    <string name="remember">Memorizza</string>
+</resources>
+
