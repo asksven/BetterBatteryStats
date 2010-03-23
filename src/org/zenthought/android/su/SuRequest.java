@@ -113,15 +113,18 @@ public class SuRequest extends Activity {
 	private void sendResult() {
 		try {
 			Log.d(TAG, "Sending result: " + resultCode);
-			OutputStream os = socket.getOutputStream();
-			byte[] bytes = resultCode.getBytes("UTF-8");
-			os.write(bytes);
-			os.flush();
-			os.close();
-			cleanup();
+            if (socket != null) {
+			    OutputStream os = socket.getOutputStream();
+			    byte[] bytes = resultCode.getBytes("UTF-8");
+			    os.write(bytes);
+			    os.flush();
+			    os.close();
+            }
 		} catch (IOException e) {
 			Log.e(TAG, e.getMessage(), e);
-		}
+		} finally {
+            cleanup();
+        }
 	}
 
 	private void cleanup() {
