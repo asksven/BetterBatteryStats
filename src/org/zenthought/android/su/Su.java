@@ -86,7 +86,6 @@ public class Su extends ListActivity {
 
         dbHelper = new PermissionDBHelper(this);
         db = dbHelper.getWritableDatabase();
-        cursor = db.query("permissions", new String[] { "_id", "from_uid", "from_gid", "exec_uid", "exec_gid", "exec_command", "allow_deny"}, null, null, null, null, "allow_deny");
 
         adapter = new DatabaseAdapter(this, cursor);
         setListAdapter(adapter);
@@ -97,9 +96,19 @@ public class Su extends ListActivity {
             {
                 cursor.moveToPosition(position);
                 db.delete("permissions", "_id=?" , new String[] { cursor.getString(0) });
-                cursor = db.query("permissions", new String[] { "_id", "from_uid", "from_gid", "exec_uid", "exec_gid", "exec_command", "allow_deny"}, null, null, null, null, "allow_deny");
-                adapter.changeCursor(cursor);
+                refresh();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refresh();
+    }
+
+    public void refresh() {
+        cursor = db.query("permissions", new String[] { "_id", "from_uid", "from_gid", "exec_uid", "exec_gid", "exec_command", "allow_deny"}, null, null, null, null, "allow_deny");
+        adapter.changeCursor(cursor);
     }
 }
