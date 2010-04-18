@@ -4,6 +4,8 @@
     <string name="app_name_request">Superuser Request</string>
     <string name="app_name_perms">Superuser Permissions</string>
     <string name="allow">Allow</string>
+    <string name="forget">Forget</string>
+    <string name="cancel">Cancel</string>
     <string name="deny">Deny</string>
     <string name="remember">Remember</string>
     <string name="uid">(uid: %d)</string>
@@ -16,4 +18,6 @@
     <string name="detail_last_accessed">Last Accessed:</string>
     <string name="request_message">The following app is requesting superuser access:</string>
     <string name="request_app_name">App:</string>
+    
+    
 </resources>

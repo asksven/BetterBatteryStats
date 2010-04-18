@@ -64,7 +64,7 @@ public class SuRequest extends Activity {
         builder.setTitle(R.string.app_name_request)
                .setIcon(R.drawable.icon)
                .setView(layout)
-               .setPositiveButton("Allow", new DialogInterface.OnClickListener() {
+               .setPositiveButton(getString(R.string.allow), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialig, int id) {
                         String result = "ALLOW";
                         if (checkRemember.isChecked()) {

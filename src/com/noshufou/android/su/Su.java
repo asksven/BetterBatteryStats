@@ -158,14 +158,14 @@ public class Su extends ListActivity {
                         refreshList();
                     }
                 })
-               .setNeutralButton("Forget", new DialogInterface.OnClickListener() {
+               .setNeutralButton(getString(R.string.forget), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         db.deleteById(appId);
                         refreshList();
                         dialog.cancel();
                     }
                 })
-               .setNegativeButton("Cancel", null);
+               .setNegativeButton(getString(R.string.cancel), null);
         alert = builder.create();
         alert.show();
     }
