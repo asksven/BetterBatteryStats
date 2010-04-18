@@ -18,6 +18,4 @@
     <string name="detail_last_accessed">Last Accessed:</string>
     <string name="request_message">The following app is requesting superuser access:</string>
     <string name="request_app_name">App:</string>
-    
-    
 </resources>
