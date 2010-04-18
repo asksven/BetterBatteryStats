@@ -3,8 +3,6 @@
     <string name="app_name">Superuser</string>
     <string name="app_name_request">SU Anfrage</string>
     <string name="app_name_perms">Superuser Genehmigungen</string>
-    <string name="wants_to_run">Möchte ausführen:</string>
-    <string name="as">als</string>
     <string name="allow">Erlauben</string>
     <string name="deny">Verweigern</string>
     <string name="remember">Merken</string>

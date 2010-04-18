@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Superuser</string>
-    <string name="app_name_request">SU Request</string>
+    <string name="app_name_request">Superuser Request</string>
     <string name="app_name_perms">Superuser Permissions</string>
-    <string name="wants_to_run">Wants to run:</string>
-    <string name="as">as</string>
     <string name="allow">Allow</string>
     <string name="deny">Deny</string>
     <string name="remember">Remember</string>
+    <string name="uid">(uid: %d)</string>
+    <string name="request">%s as %s (uid: %d)</string>
+    <string name="detail_package">Package:</string>
+    <string name="detail_request">Requested UID:</string>
+    <string name="detail_command">Command:</string>
+    <string name="detail_status">Status:</string>
+    <string name="detail_created">Created on:</string>
+    <string name="detail_last_accessed">Last Accessed:</string>
+    <string name="request_message">The following app is requesting superuser access:</string>
+    <string name="request_app_name">App:</string>
 </resources>

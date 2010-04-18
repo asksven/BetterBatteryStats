@@ -29,26 +29,6 @@ static const int VAL_INTEGER = 1;
 
 static const int START_SUCCESS = 0;
 
-static const char *aid_to_string(unsigned aid)
-{
-    unsigned i;
-    static char tmp_string[64];
-
-    if (aid >= AID_APP) {
-        snprintf(tmp_string, sizeof(tmp_string), "app_%u", aid);
-        return tmp_string;
-    }
-
-    for (i = 0; i < android_id_count; i++) {
-        if (android_ids[i].aid == aid) {
-            return android_ids[i].name;
-        }
-    }
-
-    snprintf(tmp_string, sizeof(tmp_string), "%u", aid);
-    return tmp_string;
-}
-
 int do_request(struct su_initiator *from, struct su_request *to, const char *socket_path)
 {
     char sdk_version_prop[PROPERTY_VALUE_MAX] = "0";
@@ -89,39 +69,14 @@ int do_request(struct su_initiator *from, struct su_request *to, const char *soc
             data.writeInt32(9); /* writeMapInternal - size */
 
             data.writeInt32(VAL_STRING);
-            data.writeString16(String16("caller_pid"));
-            data.writeInt32(VAL_INTEGER);
-            data.writeInt32(from->pid);
-
-            data.writeInt32(VAL_STRING);
             data.writeString16(String16("caller_uid"));
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16(aid_to_string(from->uid)));
-
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16("caller_gid"));
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16(aid_to_string(from->gid)));
-
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16("caller_bin"));
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16(from->bin));
-
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16("caller_args"));
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16(from->args));
+            data.writeInt32(VAL_INTEGER);
+            data.writeInt32(from->uid);
 
             data.writeInt32(VAL_STRING);
             data.writeString16(String16("desired_uid"));
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16(aid_to_string(to->uid)));
-
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16("desired_gid"));
-            data.writeInt32(VAL_STRING);
-            data.writeString16(String16(aid_to_string(to->gid)));
+            data.writeInt32(VAL_INTEGER);
+            data.writeInt32(to->uid);
 
             data.writeInt32(VAL_STRING);
             data.writeString16(String16("desired_cmd"));

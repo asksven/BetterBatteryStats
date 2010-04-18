@@ -38,21 +38,18 @@ static char socket_path_buf[PATH_MAX];
 static char *socket_path = NULL;
 static int socket_serv_fd = -1;
 static unsigned req_uid = 0;
-static unsigned req_gid = 0;
 
 static sqlite3 *db = NULL;
 
 static struct su_initiator su_from = {
     .pid = -1,
     .uid = 0,
-    .gid = 0,
     .bin = "",
     .args = "",
 };
 
 static struct su_request su_to = {
     .uid = AID_ROOT,
-    .gid = AID_ROOT,
     .command = DEFAULT_COMMAND,
 };
 
@@ -65,7 +62,6 @@ static int from_init(struct su_initiator *from)
     int i;
 
     from->uid = getuid();
-    from->gid = getgid();
     from->pid = getppid();
 
     /* Get the command line */
@@ -172,7 +168,7 @@ static int socket_create_temp()
         return -1;
     }
 
-    if (chown(sun.sun_path, req_uid, req_gid) < 0) {
+    if (chown(sun.sun_path, req_uid, req_uid) < 0) {
         PLOGE("chown(socket)");
         unlink(sun.sun_path);
         return -1;
@@ -240,7 +236,7 @@ static sqlite3 *database_init()
     sqlite3 *db;
 
     if (mkdir(REQUESTOR_DATABASES_PATH, 0771) >= 0) {
-        chown(REQUESTOR_DATABASES_PATH, req_uid, req_gid);
+        chown(REQUESTOR_DATABASES_PATH, req_uid, req_uid);
     }
 
     if (sqlite3_open(REQUESTOR_DATABASE_PATH, &db) != SQLITE_OK) {
@@ -249,10 +245,10 @@ static sqlite3 *database_init()
     }
 
     chmod(REQUESTOR_DATABASE_PATH, 0660);
-    chown(REQUESTOR_DATABASE_PATH, req_uid, req_gid);
+    chown(REQUESTOR_DATABASE_PATH, req_uid, req_uid);
 
     if (sqlite3_exec(db,
-        "CREATE TABLE IF NOT EXISTS permissions (_id INTEGER, from_uid INTEGER, from_gid INTEGER, exec_uid INTEGER, exec_gid INTEGER, exec_command TEXT, allow_deny TEXT, PRIMARY KEY (_id), UNIQUE (from_uid,from_gid,exec_uid,exec_gid,exec_command));",
+        "CREATE TABLE IF NOT EXISTS permissions (_id INTEGER, from_uid INTEGER, exec_uid INTEGER, exec_command TEXT, allow INTEGER, date_created TEXT, date_access TEXT, PRIMARY KEY (_id), UNIQUE (from_uid,exec_uid,exec_command));",
         NULL,
         NULL, 
         NULL
@@ -279,7 +275,9 @@ static int database_check_callback(void *data, int argc, char **argv, char **nam
 {
     struct database_check_info *dci = data;
 
-    if (argc != 1 || strcmp(name[0], "allow_deny") || strcmp(argv[0], "allow")) {
+    LOGW("database_check_callback argc=%u name[0]=%s argv[0]=%s", argc, name[0], argv[0]);
+
+    if (argc != 1 || strcmp(name[0], "allow") || strcmp(argv[0], "1")) {
         dci->result = DB_DENY;
         return 0;
     }
@@ -297,8 +295,8 @@ static int database_check(sqlite3 *db, struct su_initiator *from, struct su_requ
 
     sqlite3_snprintf(
         sizeof(sql), sql,
-        "SELECT allow_deny FROM permissions WHERE from_uid=%u AND from_gid=%u AND exec_uid=%u AND exec_gid=%u AND exec_command='%q';",
-        (unsigned)from->uid, (unsigned)from->gid, to->uid, to->gid, to->command
+        "SELECT allow FROM permissions WHERE from_uid=%u AND exec_uid=%u AND exec_command='%q';",
+        (unsigned)from->uid, to->uid, to->command
     );
 
     if (strlen(sql) >= sizeof(sql)-1)
@@ -308,19 +306,28 @@ static int database_check(sqlite3 *db, struct su_initiator *from, struct su_requ
 
     if (sqlite3_exec(db, sql, database_check_callback, &dci, NULL) != SQLITE_OK)
         return DB_DENY;
+        
+    sqlite3_snprintf(
+        sizeof(sql), sql,
+        "UPDATE OR IGNORE permissions SET date_access = datetime('now','localtime') WHERE from_uid = %u;",
+        (unsigned)from->uid
+    );
+
+    if (strlen(sql) < sizeof(sql))
+        sqlite3_exec(db, sql, NULL, NULL, NULL);
 
     return dci.result;
 }
 
-static int database_insert(sqlite3 *db, struct su_initiator *from, struct su_request *to, const char *allow_deny)
+static int database_insert(sqlite3 *db, struct su_initiator *from, struct su_request *to, int allow)
 {
     char sql[4096];
     struct database_check_info dci;
 
     sqlite3_snprintf(
         sizeof(sql), sql,
-        "INSERT OR FAIL INTO permissions (from_uid,from_gid,exec_uid,exec_gid,exec_command,allow_deny) VALUES (%u,%u,%u,%u,'%q','%q');",
-        (unsigned)from->uid, (unsigned)from->gid, to->uid, to->gid, to->command, allow_deny
+        "INSERT OR FAIL INTO permissions (from_uid,exec_uid,exec_command,allow,date_created,date_access) VALUES (%u,%u,'%q',%u,datetime('now','localtime'),datetime('now','localtime'));",
+        (unsigned)from->uid, to->uid, to->command, allow
     );
 
     if (strlen(sql) >= sizeof(sql)-1)
@@ -337,7 +344,7 @@ static void deny(void)
     struct su_initiator *from = &su_from;
     struct su_request *to = &su_to;
 
-    LOGW("request rejected (%u:%u->%u:%u %s)", from->uid, from->gid, to->uid, to->gid, to->command);
+    LOGW("request rejected (%u->%u %s)", from->uid, to->uid, to->command);
     fprintf(stderr, "%s\n", strerror(EACCES));
     exit(-1);
 }
@@ -348,9 +355,9 @@ static void allow(void)
     struct su_request *to = &su_to;
 
     setgroups(0, NULL);
-    setresgid(to->gid, to->gid, to->gid);
+    setresgid(to->uid, to->uid, to->uid);
     setresuid(to->uid, to->uid, to->uid);
-    LOGD("%u:%u %s executing %u:%u %s", from->uid, from->gid, from->bin, to->uid, to->gid, to->command);
+    LOGD("%u %s executing %u %s", from->uid, from->bin, to->uid, to->command);
     if (strcmp(to->command, DEFAULT_COMMAND)) {
         execl("/system/bin/sh", "sh", "-c", to->command, (char*)NULL);
     } else {
@@ -381,15 +388,16 @@ int main(int argc, char *argv[])
             break;
         }
     }
-    if (i < argc-1) deny();
+    if (i < argc-1) {
+        deny();
+    }
     if (i == argc-1) {
         struct passwd *pw;
         pw = getpwnam(argv[i]);
         if (!pw) {
-            su_to.uid = su_to.gid = atoi(argv[i]);
+            su_to.uid = atoi(argv[i]);
         } else {
             su_to.uid = pw->pw_uid;
-            su_to.gid = pw->pw_gid;
         }
     }
 
@@ -414,19 +422,19 @@ int main(int argc, char *argv[])
     }
 
     req_uid = st.st_uid;
-    req_gid = st.st_gid;
 
     if (from_init(&su_from) < 0) {
         deny();
     }
 
     if (mkdir(REQUESTOR_CACHE_PATH, 0771) >= 0) {
-        chown(REQUESTOR_CACHE_PATH, req_uid, req_gid);
+        chown(REQUESTOR_CACHE_PATH, req_uid, req_uid);
     }
 
     db = database_init();
-    if (!db)
+    if (!db) {
         deny();
+    }
 
     dballow = database_check(db, &su_from, &su_to);
     switch (dballow) {
@@ -437,8 +445,9 @@ int main(int argc, char *argv[])
     }
 
     socket_serv_fd = socket_create_temp();
-    if (socket_serv_fd < 0)
+    if (socket_serv_fd < 0) {
         deny();
+    }
 
     signal(SIGHUP, cleanup_signal);
     signal(SIGPIPE, cleanup_signal);
@@ -446,11 +455,13 @@ int main(int argc, char *argv[])
     signal(SIGABRT, cleanup_signal);
     atexit(cleanup);
 
-    if (do_request(&su_from, &su_to, socket_path) < 0)
+    if (do_request(&su_from, &su_to, socket_path) < 0) {
         deny();
+    }
 
-    if (socket_receive_result(socket_serv_fd, buf, sizeof(buf)) < 0)
+    if (socket_receive_result(socket_serv_fd, buf, sizeof(buf)) < 0) {
         deny();
+    }
 
     close(socket_serv_fd);
     socket_cleanup();
@@ -458,15 +469,15 @@ int main(int argc, char *argv[])
     result = buf;
 
     if (!strcmp(result, "ALWAYS_DENY")) {
-        if (database_insert(db, &su_from, &su_to, "deny") < 0) {
-            LOGE("Unable to update database with deny (%u:%u %s->%u:%u %s)", su_from.uid, su_from.gid, su_from.bin, su_to.uid, su_to.gid, su_to.command);
+        if (database_insert(db, &su_from, &su_to, 0) < 0) {
+            LOGE("Unable to update database with deny (%u %s->%u %s)", su_from.uid, su_from.bin, su_to.uid, su_to.command);
             deny();
         }
 
         deny();
     } else if (!strcmp(result, "ALWAYS_ALLOW")) {
-        if (database_insert(db, &su_from, &su_to, "allow") < 0) {
-            LOGE("Unable to update database with allow (%u:%u %s->%u:%u %s)", su_from.uid, su_from.gid, su_from.bin, su_to.uid, su_to.gid, su_to.command);
+        if (database_insert(db, &su_from, &su_to, 1) < 0) {
+            LOGE("Unable to update database with allow (%u %s->%u %s)", su_from.uid, su_from.bin, su_to.uid, su_to.command);
             deny();
         }
 

@@ -3,8 +3,6 @@
     <string name="app_name">Superuser</string>
     <string name="app_name_request">SU požadavek</string>
     <string name="app_name_perms">Superuser Permissions</string>
-    <string name="wants_to_run">Spustit aplikaci:</string>
-    <string name="as">jako</string>
     <string name="allow">Povolit</string>
     <string name="deny">Zakázat</string>
     <string name="remember">Zapamatovat</string>

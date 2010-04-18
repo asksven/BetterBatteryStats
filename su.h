@@ -1,7 +1,7 @@
 #ifndef SU_h 
 #define SU_h 1
 
-#define REQUESTOR_PACKAGE   "org.zenthought.android.su"
+#define REQUESTOR_PACKAGE   "com.noshufou.android.su"
 #define REQUESTOR_CLASS     "SuRequest"
 
 #define REQUESTOR_DATA_PATH "/data/data/" REQUESTOR_PACKAGE
@@ -15,14 +15,12 @@
 struct su_initiator {
     pid_t pid;
     unsigned uid;
-    unsigned gid;
     char bin[PATH_MAX];
     char args[4096];
 };
 
 struct su_request {
     unsigned uid;
-    unsigned gid;
     char *command;
 };
 

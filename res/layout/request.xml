@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/requestLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="5dip">
+
+            <TextView android:id="@+id/message"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:text="@string/request_message" />
+
+            <TextView android:id="@+id/appNameTitle"
+                style="@style/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/message"
+                android:layout_alignParentLeft="true"
+                android:text="@string/request_app_name" />
+            <TextView android:id="@+id/appName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/appNameTitle"
+                android:layout_toRightOf="@id/appNameTitle" />
+
+            <TextView android:id="@+id/packageNameTitle"
+                style="@style/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/appNameTitle"
+                android:layout_alignParentLeft="true"
+                android:text="@string/detail_package"/>
+            <TextView android:id="@+id/packageName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/packageNameTitle"
+                android:layout_toRightOf="@id/packageNameTitle" />
+
+            <TextView android:id="@+id/requestDetailTitle"
+                style="@style/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/packageNameTitle"
+                android:layout_alignParentLeft="true"
+                android:text="@string/detail_request" />
+            <TextView android:id="@+id/requestDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/requestDetailTitle"
+                android:layout_toRightOf="@id/requestDetailTitle" />
+
+            <TextView android:id="@+id/commandTitle"
+                style="@style/label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/requestDetailTitle"
+                android:layout_alignParentLeft="true"
+                android:text="@string/detail_command" />
+            <TextView android:id="@+id/command"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/commandTitle"
+                android:layout_toRightOf="@id/commandTitle" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <CheckBox android:id="@+id/checkRemember"
+        android:text="@string/remember"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
