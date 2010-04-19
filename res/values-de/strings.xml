@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Superuser</string>
-    <string name="app_name_request">SU Anfrage</string>
+    <string name="app_name_request">Superuser Anfrage</string>
     <string name="app_name_perms">Superuser Genehmigungen</string>
     <string name="allow">Erlauben</string>
     <string name="deny">Verweigern</string>
     <string name="remember">Merken</string>
+    <string name="uid">(uid: %d)</string>
+    <string name="request">%s als %s (uid: %d)</string>
+    <string name="detail_package">Paket:</string>
+    <string name="detail_request">Angeforderte UID:</string>
+    <string name="detail_command">Befehl:</string>
+    <string name="detail_status">Status:</string>
+    <string name="detail_created">Erstellt am:</string>
+    <string name="detail_last_accessed">Letzter Zugriff:</string>
+    <string name="request_message">Die folgende Anwendung benötigt Superuser-Rechte:</string>
+    <string name="request_app_name">App:</string>
 </resources>
