@@ -4,6 +4,8 @@
     <string name="app_name_request">Superuser Anfrage</string>
     <string name="app_name_perms">Superuser Genehmigungen</string>
     <string name="allow">Erlauben</string>
+    <string name="forget">Widerufen</string>
+    <string name="cancel">Abbrechen</string>
     <string name="deny">Verweigern</string>
     <string name="remember">Merken</string>
     <string name="uid">(uid: %d)</string>
