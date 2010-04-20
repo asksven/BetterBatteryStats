@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Super-utilisateur</string>
+    <string name="app_name_request">Requête super-utilisateur</string>
+    <string name="app_name_perms">Permissions super-utilisateur</string>
+    <string name="allow">Autoriser</string>
+    <string name="forget">Oublier</string>
+    <string name="cancel">Annuler</string>
+    <string name="deny">Refuser</string>
+    <string name="remember">Se souvenir</string>
+    <string name="uid">(idu : %d)</string>
+    <string name="request">%s en tant que %s (idu : %d)</string>
+    <string name="detail_package">Paquet :</string>
+    <string name="detail_request">IDU requis :</string>
+    <string name="detail_command">Commande :</string>
+    <string name="detail_status">Status :</string>
+    <string name="detail_created">Créé le :</string>
+    <string name="detail_last_accessed">Dernier accès :</string>
+    <string name="request_message">L'application suivante requiert un accès super-utilisateur :</string>
+    <string name="request_app_name">Application :</string>
+</resources>
