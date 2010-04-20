@@ -16,6 +16,6 @@
     <string name="detail_status">Status :</string>
     <string name="detail_created">Créé le :</string>
     <string name="detail_last_accessed">Dernier accès :</string>
-    <string name="request_message">L'application suivante requiert un accès super-utilisateur :</string>
+    <string name="request_message">L\'application suivante requiert un accès super-utilisateur :</string>
     <string name="request_app_name">Application :</string>
 </resources>
