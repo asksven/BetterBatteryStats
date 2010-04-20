@@ -111,6 +111,18 @@ public class Su extends ListActivity {
         refreshList();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        cursor.close();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
+
     private void refreshList() {
         cursor = db.getAllApps();
         adapter.changeCursor(cursor);

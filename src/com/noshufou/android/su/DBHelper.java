@@ -48,6 +48,12 @@ public class DBHelper {
         this.db.delete(TABLE_NAME, "from_uid=?", new String[] { Integer.toString(uid) });
     }
 
+    public void close() {
+        if (this.db.isOpen()) {
+            this.db.close();
+        }
+    }
+
     private static class DBOpenHelper extends SQLiteOpenHelper {
 
         DBOpenHelper(Context context) {
