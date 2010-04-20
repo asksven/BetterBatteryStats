@@ -411,12 +411,7 @@ int main(int argc, char *argv[])
         deny();
     }
 
-#if UNSIGNED_PACKAGE
-    if (st.st_gid != st.st_uid)
-#else
-    if (st.st_uid != AID_SYSTEM || st.st_gid != st.st_uid)
-#endif
-    {
+    if (st.st_gid != st.st_uid) {
         LOGE("Bad uid/gid %d/%d for Superuser Requestor application", (int)st.st_uid, (int)st.st_gid);
         deny();
     }
