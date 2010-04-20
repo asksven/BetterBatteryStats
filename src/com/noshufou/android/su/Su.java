@@ -11,6 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -187,13 +188,17 @@ public class Su extends ListActivity {
         String appName = "Unknown";
         String[] packages = pm.getPackagesForUid(uid);
 
-        if (packages.length == 1) {
-            try {
-                ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
-                appName = pm.getApplicationLabel(appInfo).toString();
-            } catch (NameNotFoundException e) { } // Obligitory catch
-        } else if (packages.length > 1) {
-            appName = "Multiple Packages";
+        if (packages != null) {
+            if (packages.length == 1) {
+                try {
+                    ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
+                    appName = pm.getApplicationLabel(appInfo).toString();
+                } catch (NameNotFoundException e) { } // Obligitory catch
+            } else if (packages.length > 1) {
+                appName = "Multiple Packages";
+            }
+        } else {
+            Log.e(TAG, "Package not found");
         }
 
         if (withUid) {
@@ -208,10 +213,14 @@ public class Su extends ListActivity {
         String[] packages = pm.getPackagesForUid(uid);
         String appPackage = "unknown";
 
-        if (packages.length == 1) {
-            appPackage = packages[0];
-        } else if (packages.length > 1) {
-            appPackage = "multiple packages";
+        if (packages != null) {
+            if (packages.length == 1) {
+                appPackage = packages[0];
+            } else if (packages.length > 1) {
+                appPackage = "multiple packages";
+            }
+        } else {
+            Log.e(TAG, "Package not found");
         }
 
         return appPackage;
@@ -222,11 +231,15 @@ public class Su extends ListActivity {
         Drawable appIcon = c.getResources().getDrawable(android.R.drawable.sym_def_app_icon);
         String[] packages = pm.getPackagesForUid(uid);
 
-        if (packages.length == 1) {
-            try {
-                ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
-                appIcon = pm.getApplicationIcon(appInfo);
-            } catch (NameNotFoundException e) { } // Obligitory catch
+        if (packages != null) {
+            if (packages.length == 1) {
+                try {
+                    ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
+                    appIcon = pm.getApplicationIcon(appInfo);
+                } catch (NameNotFoundException e) { } // Obligitory catch
+            }
+        } else {
+            Log.e(TAG, "Package not found");
         }
 
         return appIcon;
