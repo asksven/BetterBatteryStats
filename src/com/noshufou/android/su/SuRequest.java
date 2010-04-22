@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.CheckBox;
 
-
 public class SuRequest extends Activity {
     private static final String TAG = "SuRequest";
 	

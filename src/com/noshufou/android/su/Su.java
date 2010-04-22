@@ -29,7 +29,6 @@ public class Su extends ListActivity {
     private DBHelper db;
     private Cursor cursor;
     private DatabaseAdapter adapter;
-    private String helloworld = "Hello, World!";
 
     private class DatabaseAdapter extends CursorAdapter {
         private LayoutInflater inflater;

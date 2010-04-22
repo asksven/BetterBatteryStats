@@ -275,8 +275,6 @@ static int database_check_callback(void *data, int argc, char **argv, char **nam
 {
     struct database_check_info *dci = data;
 
-    LOGW("database_check_callback argc=%u name[0]=%s argv[0]=%s", argc, name[0], argv[0]);
-
     if (argc != 1 || strcmp(name[0], "allow") || strcmp(argv[0], "1")) {
         dci->result = DB_DENY;
         return 0;
