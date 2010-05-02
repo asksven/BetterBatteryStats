@@ -22,9 +22,11 @@ import android.widget.CheckBox;
 public class SuRequest extends Activity {
     private static final String TAG = "SuRequest";
 	
-    String resultCode = "DENY";
-    String socketPath;
-    LocalSocket socket;
+    private DBHelper db;
+    private String socketPath;
+    private int callerUid = 0;
+    private int desiredUid = 0;
+    private String desiredCmd = "";
 
     /** Called when the activity is first created. */
     @Override
@@ -37,16 +39,27 @@ public class SuRequest extends Activity {
             return;
         }
 
+        db = new DBHelper(this);
+
+        Intent in = getIntent();
+        socketPath = in.getStringExtra("socket");
+        callerUid = in.getIntExtra("caller_uid", 0);
+        desiredUid = in.getIntExtra("desired_uid", 0);
+        desiredCmd = in.getStringExtra("desired_cmd");
+
+        switch (db.checkApp(callerUid, desiredUid, desiredCmd)) {
+            case DBHelper.ALLOW: sendResult("ALLOW", false); break;
+            case DBHelper.DENY:  sendResult("DENY",  false); break;
+            case DBHelper.ASK:   prompt(); break;
+            default: Log.e(TAG, "Bad response from database"); break;
+        }
+    }
+
+    private void prompt() {
         LayoutInflater inflater = LayoutInflater.from(this);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog alert;
         
-        Intent in = getIntent();
-        socketPath = in.getStringExtra("socket");
-        int callerUid = in.getIntExtra("caller_uid", 0);
-        int desiredUid = in.getIntExtra("desired_uid", 0);
-        String desiredCmd = in.getStringExtra("desired_cmd");
-
         View layout = inflater.inflate(R.layout.request, (ViewGroup) findViewById(R.id.requestLayout));
         TextView appNameView = (TextView) layout.findViewById(R.id.appName);
         TextView packageNameView = (TextView) layout.findViewById(R.id.packageName);
@@ -59,34 +72,35 @@ public class SuRequest extends Activity {
         requestDetailView.setText(Su.getUidName(this, desiredUid, true));
         commandView.setText(desiredCmd);
         checkRemember.setChecked(true);
+        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                int result;
+                boolean remember = checkRemember.isChecked();
+                if (id == DialogInterface.BUTTON_POSITIVE) {
+                    sendResult("ALLOW", remember);
+                    result = DBHelper.ALLOW;
+                } else if (id == DialogInterface.BUTTON_NEGATIVE) {
+                    sendResult("DENY", remember);
+                    result = DBHelper.DENY;
+                }
+            }
+        };
 
         builder.setTitle(R.string.app_name_request)
                .setIcon(R.drawable.icon)
                .setView(layout)
-               .setPositiveButton(getString(R.string.allow), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialig, int id) {
-                        String result = "ALLOW";
-                        if (checkRemember.isChecked()) {
-                            result = "ALWAYS_" + result;
-                        }
-                        sendResult(result);
-                    }
-                })
-               .setNegativeButton(R.string.deny, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String result = "DENY";
-                        if (checkRemember.isChecked()) {
-                            result = "ALWAYS_" + result;
-                        }
-                        sendResult(result);
-                    }
-                })
+               .setPositiveButton(R.string.allow, listener)
+               .setNegativeButton(R.string.deny, listener)
                .setCancelable(false);
         alert = builder.create();
         alert.show();
     }
 
-    private void sendResult(String resultCode) {
+    private void sendResult(String resultCode, boolean remember) {
+        LocalSocket socket;
+        if (remember) {
+            db.insert(callerUid, desiredUid, desiredCmd, (resultCode.equals("ALLOW")) ? 1 : 0);
+        }
         try {
             socket = new LocalSocket();
             socket.connect(new LocalSocketAddress(socketPath,

@@ -7,9 +7,6 @@
 #define REQUESTOR_DATA_PATH "/data/data/" REQUESTOR_PACKAGE
 #define REQUESTOR_CACHE_PATH REQUESTOR_DATA_PATH "/cache"
 
-#define REQUESTOR_DATABASES_PATH REQUESTOR_DATA_PATH "/databases"
-#define REQUESTOR_DATABASE_PATH REQUESTOR_DATABASES_PATH "/permissions.sqlite"
-
 #define DEFAULT_COMMAND "/system/bin/sh"
 
 struct su_initiator {
