@@ -5,14 +5,18 @@ import android.app.AlertDialog.Builder;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -29,6 +33,7 @@ public class Su extends ListActivity {
     private DBHelper db;
     private Cursor cursor;
     private DatabaseAdapter adapter;
+    private SharedPreferences prefs;
 
     private class DatabaseAdapter extends CursorAdapter {
         private LayoutInflater inflater;
@@ -99,10 +104,25 @@ public class Su extends ListActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 cursor.moveToPosition(position);
-                appDetails(cursor.getInt(0));
-                refreshList();
+                int appId = cursor.getInt(0);
+                String action = prefs.getString("preference_tap_action", "detail");
+                if (action.equals("detail")) {
+                    appDetails(appId);
+                } else if (action.equals("forget")) {
+                    db.deleteById(appId);
+                    refreshList();
+                } else if (action.equals("toggle")) {
+                    db.changeState(appId);
+                    refreshList();
+                }
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
@@ -121,6 +141,13 @@ public class Su extends ListActivity {
     public void onDestroy() {
         super.onDestroy();
         db.close();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Intent i = new Intent(this, SuPreferences.class);
+        menu.add(0, 0, 0, R.string.preferences).setIcon(android.R.drawable.ic_menu_preferences).setIntent(i);
+        return true;
     }
 
     private void refreshList() {

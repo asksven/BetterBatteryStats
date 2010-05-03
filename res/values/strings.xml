@@ -18,4 +18,8 @@
     <string name="detail_last_accessed">Last Accessed:</string>
     <string name="request_message">The following app is requesting superuser access:</string>
     <string name="request_app_name">App:</string>
+    <string name="preferences">Preferences</string>
+    <string name="preference_category_whitelist_title">Whitelist Preferences</string>
+    <string name="preference_tap_action_title">Tap action</string>
+    <string name="preference_tap_action_summary">Action to perform when an entry is tapped</string>
 </resources>
