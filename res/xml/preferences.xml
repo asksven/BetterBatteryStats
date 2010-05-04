@@ -12,4 +12,14 @@
             android:defaultValue="detail" />
 
     </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/preference_category_notification_title">
+
+        <CheckBoxPreference
+            android:key="preference_notification"
+            android:title="@string/preference_notification_title"
+            android:summary="@string/preference_notification_summary"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

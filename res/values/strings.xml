@@ -22,4 +22,7 @@
     <string name="preference_category_whitelist_title">Whitelist Preferences</string>
     <string name="preference_tap_action_title">Tap action</string>
     <string name="preference_tap_action_summary">Action to perform when an entry is tapped</string>
+    <string name="preference_category_notification_title">Notifications</string>
+    <string name="preference_notification_title">Notification</string>
+    <string name="preference_notification_summary">Show a message in the notification bar when an app is granted SU permissions</string>
 </resources>

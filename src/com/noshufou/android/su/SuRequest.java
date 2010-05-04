@@ -6,10 +6,16 @@ import java.io.OutputStream;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
+import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,6 +102,26 @@ public class SuRequest extends Activity {
         alert.show();
     }
 
+    private void sendNotification() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (prefs.getBoolean("preference_notification", false)) {
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            Context context = getApplicationContext();
+            Intent notificationIntent = new Intent(this, Su.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+            String text = Su.getAppName(this, callerUid, false) + " has been granted Superuser permissions";
+            String title = "Superuser permissions";
+
+            Notification notification = new Notification(R.drawable.stat_su, text, System.currentTimeMillis());
+            notification.setLatestEventInfo(context, title, text, contentIntent);
+            notification.flags = Notification.FLAG_AUTO_CANCEL|Notification.FLAG_ONLY_ALERT_ONCE;
+
+            nm.notify(TAG, callerUid, notification);
+        }
+    }
+
     private void sendResult(String resultCode, boolean remember) {
         LocalSocket socket;
         if (remember) {
@@ -118,6 +144,7 @@ public class SuRequest extends Activity {
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
         }
+        sendNotification();
         finish();
     }
 }
