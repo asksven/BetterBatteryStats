@@ -1,40 +1,51 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/itemLayout"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal"
     android:padding="5dip" >
 
     <ImageView android:id="@+id/appIcon"
         android:layout_width="?android:attr/listPreferredItemHeight"
         android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true" />
+        android:layout_weight="0" />
+        
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
 
-    <TextView android:id="@+id/appName"
-        style="@android:style/TextAppearance.Medium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/appIcon"
-        android:layout_alignParentTop="true" />
+        <TextView android:id="@+id/appName"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+    
+        <TextView android:id="@+id/appUid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/appName"
+            android:layout_alignBaseline="@id/appName"
+            android:paddingLeft="5dip" />
 
-    <TextView android:id="@+id/appUid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/appName"
-        android:layout_alignBaseline="@id/appName"
-        android:paddingLeft="5dip" />
+        <TextView android:id="@+id/request"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appName"
+            android:layout_alignLeft="@id/appName"
+            android:singleLine="true"
+            android:ellipsize="start" />
 
-    <TextView android:id="@+id/request"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/appName"
-        android:layout_alignLeft="@id/appName" />
-
+    </RelativeLayout>
+    
     <ImageView android:id="@+id/itemPermission"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:layout_weight="0"
+        android:layout_gravity="right"
         android:clickable="true"
         android:scaleType="center"
         android:padding="5dip" />
-</RelativeLayout>
+        
+</LinearLayout>
