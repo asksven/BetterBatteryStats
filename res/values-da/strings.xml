@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Superbruger</string>
+    <string name="app_name_request">Ansøg om superbruger tilladelse</string>
+    <string name="app_name_perms">Superbruger tilladelser</string>
+    <string name="allow">Godkend</string>
+    <string name="forget">Glem</string>
+    <string name="cancel">Annullere</string>
+    <string name="deny">Afvis</string>
+    <string name="remember">Husk</string>
+    <string name="uid">(ID : %d)</string>
+    <string name="request">%s som %s (ID : %d)</string>
+    <string name="detail_package">Pakke:</string>
+    <string name="detail_request">Tilladelsesniveau :</string>
+    <string name="detail_command">Sti (Kommando) :</string>
+    <string name="detail_status">Status :</string>
+    <string name="detail_created">Oprettet :</string>
+    <string name="detail_last_accessed">Seneste adgang :</string>
+    <string name="request_message">Dette program kræver root adgang :</string>
+    <string name="request_app_name">Program :</string>
+</resources>
