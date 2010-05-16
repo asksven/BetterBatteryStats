@@ -52,7 +52,6 @@ public class Su extends ListActivity {
         public void bindView(View view, Context context, Cursor c)
         {
             TextView appNameView = (TextView) view.findViewById(R.id.appName);
-            TextView appUidView = (TextView) view.findViewById(R.id.appUid);
             TextView requestView = (TextView) view.findViewById(R.id.request);
             ImageView appIconView = (ImageView) view.findViewById(R.id.appIcon);
             ImageView itemPermission = (ImageView) view.findViewById(R.id.itemPermission);
@@ -68,7 +67,6 @@ public class Su extends ListActivity {
             String requestUser = getUidName(context, requestUid, false);
             
             appNameView.setText(appName);
-            appUidView.setText(getString(R.string.uid, uid));
             requestView.setText(getString(R.string.request, requestCommand, requestUser, requestUid));
             appIconView.setImageDrawable(appIcon);
             itemPermission.setImageDrawable((allow!=0) ? drawableAllow : drawableDeny);

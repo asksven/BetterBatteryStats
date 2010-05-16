@@ -10,34 +10,26 @@
         android:layout_height="fill_parent"
         android:layout_weight="0" />
         
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <TextView android:id="@+id/appName"
             style="@android:style/TextAppearance.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" />
+            android:singleLine="true"
+            android:ellipsize="end" />
     
-        <TextView android:id="@+id/appUid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/appName"
-            android:layout_alignBaseline="@id/appName"
-            android:paddingLeft="5dip" />
-
         <TextView android:id="@+id/request"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/appName"
-            android:layout_alignLeft="@id/appName"
             android:singleLine="true"
             android:ellipsize="start" />
 
-    </RelativeLayout>
+    </LinearLayout>
     
     <ImageView android:id="@+id/itemPermission"
         android:layout_width="wrap_content"
