@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.noshufou.android.su"
-    android:versionCode="8"
-    android:versionName="2.0.3"
+    android:versionCode="9"
+    android:versionName="2.1"
     android:sharedUserId="android.uid.system">
     
     <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4" />
