@@ -18,4 +18,11 @@
     <string name="detail_last_accessed">Letzter Zugriff:</string>
     <string name="request_message">Die folgende Anwendung benötigt Superuser-Rechte:</string>
     <string name="request_app_name">App:</string>
+    <string name="preferences">Einstellungen</string>
+    <string name="preference_category_whitelist_title">Positivliste Einstellungen</string>
+    <string name="preference_tap_action_title">Antipp-Aktion</string>
+    <string name="preference_tap_action_summary">Auszuführende Aktion, wenn ein Eintrag angetippt wird.</string>
+    <string name="preference_category_notification_title">Benachrichtigungen</string>
+    <string name="preference_notification_title">Benachrichtigung</string>
+    <string name="preference_notification_summary">Zeige Benachrichtigung, wenn einer App SU-Rechte gewährt wurden</string>
 </resources>
