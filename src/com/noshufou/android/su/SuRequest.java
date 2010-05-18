@@ -111,8 +111,8 @@ public class SuRequest extends Activity {
             Intent notificationIntent = new Intent(this, Su.class);
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-            String text = Su.getAppName(this, callerUid, false) + " has been granted Superuser permissions";
-            String title = "Superuser permissions";
+            String text = getString(R.string.notification_text, Su.getAppName(this, callerUid, false));
+            String title = getString(R.string.app_name_perms);
 
             Notification notification = new Notification(R.drawable.stat_su, text, System.currentTimeMillis());
             notification.setLatestEventInfo(context, title, text, contentIntent);
