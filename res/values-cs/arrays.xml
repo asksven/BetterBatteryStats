@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="preference_tap_action_entries">
+        <item>Detaily aplikace</item>
+        <item>Zapomenout</item>
+        <item>Přepnout stav</item>
+    </string-array>
+
+    <!-- Do not translate. -->
+    <string-array name="preference_tap_action_values">
+        <item>detail</item>
+        <item>forget</item>
+        <item>toggle</item>
+    </string-array>
+</resources>
