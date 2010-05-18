@@ -37,6 +37,7 @@ static const char socket_path_template[PATH_MAX] = REQUESTOR_CACHE_PATH "/.socke
 static char socket_path_buf[PATH_MAX];
 static char *socket_path = NULL;
 static int socket_serv_fd = -1;
+static char shell[PATH_MAX];
 static unsigned req_uid = 0;
 
 static sqlite3 *db = NULL;
@@ -245,15 +246,20 @@ static void allow(void)
 {
     struct su_initiator *from = &su_from;
     struct su_request *to = &su_to;
+    char *exe = NULL;
 
+    if (!strcmp(shell, "")) {
+        strcpy(shell , "/system/bin/sh");
+    }
+    exe = strrchr (shell, '/') + 1;
     setgroups(0, NULL);
     setresgid(to->uid, to->uid, to->uid);
     setresuid(to->uid, to->uid, to->uid);
-    LOGD("%u %s executing %u %s", from->uid, from->bin, to->uid, to->command);
+    LOGD("%u %s executing %u %s using shell %s : %s", from->uid, from->bin, to->uid, to->command, shell, exe);
     if (strcmp(to->command, DEFAULT_COMMAND)) {
-        execl("/system/bin/sh", "sh", "-c", to->command, (char*)NULL);
+        execl(shell, exe, "-c", to->command, (char*)NULL);
     } else {
-        execl("/system/bin/sh", "sh", "-", (char*)NULL);
+        execl(shell, exe, "-", (char*)NULL);
     }
     PLOGE("exec");
     exit(-1);
@@ -264,12 +270,17 @@ int main(int argc, char *argv[])
     struct stat st;
     char buf[64], *result;
     int i;
-    int dballow;
 
     for (i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "-c")) {
             if (++i < argc) {
                 su_to.command = argv[i];
+            } else {
+                deny();
+            }
+        } else if (!strcmp(argv[i], "-s")) {
+            if (++i < argc) {
+                strcpy(shell, argv[i]);
             } else {
                 deny();
             }
