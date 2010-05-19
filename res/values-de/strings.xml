@@ -25,4 +25,5 @@
     <string name="preference_category_notification_title">Benachrichtigungen</string>
     <string name="preference_notification_title">Benachrichtigung</string>
     <string name="preference_notification_summary">Zeige Benachrichtigung, wenn einer App SU-Rechte gewährt wurden</string>
+    <string name="notification_text">%s wurden SU-Rechte gewährt</string>
 </resources>
