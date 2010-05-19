@@ -27,7 +27,9 @@ import android.widget.CheckBox;
 
 public class SuRequest extends Activity {
     private static final String TAG = "SuRequest";
-	
+    private static final String ALLOW = "ALLOW";
+    private static final String DENY = "DENY";
+
     private DBHelper db;
     private String socketPath;
     private int callerUid = 0;
@@ -54,8 +56,8 @@ public class SuRequest extends Activity {
         desiredCmd = in.getStringExtra("desired_cmd");
 
         switch (db.checkApp(callerUid, desiredUid, desiredCmd)) {
-            case DBHelper.ALLOW: sendResult("ALLOW", false); break;
-            case DBHelper.DENY:  sendResult("DENY",  false); break;
+            case DBHelper.ALLOW: sendResult(ALLOW, false); break;
+            case DBHelper.DENY:  sendResult(DENY,  false); break;
             case DBHelper.ASK:   prompt(); break;
             default: Log.e(TAG, "Bad response from database"); break;
         }
@@ -83,10 +85,10 @@ public class SuRequest extends Activity {
                 int result;
                 boolean remember = checkRemember.isChecked();
                 if (id == DialogInterface.BUTTON_POSITIVE) {
-                    sendResult("ALLOW", remember);
+                    sendResult(ALLOW, remember);
                     result = DBHelper.ALLOW;
                 } else if (id == DialogInterface.BUTTON_NEGATIVE) {
-                    sendResult("DENY", remember);
+                    sendResult(DENY, remember);
                     result = DBHelper.DENY;
                 }
             }
@@ -125,7 +127,7 @@ public class SuRequest extends Activity {
     private void sendResult(String resultCode, boolean remember) {
         LocalSocket socket;
         if (remember) {
-            db.insert(callerUid, desiredUid, desiredCmd, (resultCode.equals("ALLOW")) ? 1 : 0);
+            db.insert(callerUid, desiredUid, desiredCmd, (resultCode.equals(ALLOW)) ? 1 : 0);
         }
         try {
             socket = new LocalSocket();
@@ -144,7 +146,8 @@ public class SuRequest extends Activity {
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
         }
-        sendNotification();
+        if (resultCode.equals(ALLOW))
+            sendNotification();
         finish();
     }
 }
