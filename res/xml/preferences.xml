@@ -15,11 +15,14 @@
     <PreferenceCategory
         android:title="@string/preference_category_notification_title">
 
-        <CheckBoxPreference
-            android:key="preference_notification"
+        <ListPreference
+            android:key="preference_notification_type"
             android:title="@string/preference_notification_title"
             android:summary="@string/preference_notification_summary"
-            android:defaultValue="false" />
+            android:entries="@array/preference_notification_entries"
+            android:entryValues="@array/preference_notification_values"
+            android:defaultValue="toast"
+        />
 
     </PreferenceCategory>
 </PreferenceScreen>

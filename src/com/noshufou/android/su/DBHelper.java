@@ -28,10 +28,26 @@ public class DBHelper {
         this.db = dbOpenHelper.getWritableDatabase();
     }
 
-    public int checkApp(int fromUid, int toUid, String cmd) {
+    public enum AppPermission { ALLOW, DENY, ASK };
+    public class AppStatus {
+        public AppPermission permission;
+        public final String date_access;
+
+        AppStatus(AppPermission permission_in, String date_access_in) {
+            permission = permission_in;
+            date_access = date_access_in;
+        }
+
+        AppStatus(AppPermission permission_in) {
+            this(permission_in, null);
+        }
+    }
+
+    public AppStatus checkApp(int fromUid, int toUid, String cmd) {
         int allow;
+        String date_access = null;
         Cursor c = this.db.query(TABLE_NAME,
-                                 new String[] { "_id", "allow" },
+                                 new String[] { "_id", "allow", "date_access" },
                                  "from_uid=? AND exec_uid=? AND exec_command=?",
                                  new String[] { Integer.toString(fromUid), Integer.toString(toUid), cmd },
                                  null,
@@ -40,15 +56,16 @@ public class DBHelper {
         if (c.moveToFirst()) {
             int id = c.getInt(0);
             allow = c.getInt(1);
+            date_access = c.getString(2);
             try {
                 this.db.execSQL("UPDATE OR FAIL permissions SET date_access = datetime('now', 'localtime') WHERE _id=?",
                     new Object[] { id });
             } catch (SQLException e) {
                 Log.e(TAG, "SQL statement error", e);
             }
-            return (allow!=0) ? ALLOW : DENY;
+            return new AppStatus( allow != 0 ? AppPermission.ALLOW : AppPermission.DENY, date_access );
         }
-        return ASK;
+        return new AppStatus( AppPermission.ASK );
     }
 
     public void insert(int fromUid, int toUid, String cmd, int allow) {
