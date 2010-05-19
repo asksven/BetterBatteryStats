@@ -24,4 +24,5 @@
     <string name="preference_category_notification_title">通知</string>
     <string name="preference_notification_title">通知</string>
     <string name="preference_notification_summary">アプリケーションが Superuser 権限を得たときに通知バーに表示する</string>
+    <string name="notification_text">%s が Superuser 権限を取得しました</string>
 </resources>
