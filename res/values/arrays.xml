@@ -19,6 +19,7 @@
         <item>Notification</item>
     </string-array>
 
+    <!-- Do not translate. -->
     <string-array name="preference_notification_values">
         <item>none</item>
         <item>toast</item>
