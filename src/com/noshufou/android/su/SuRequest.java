@@ -74,6 +74,11 @@ public class SuRequest extends Activity {
             default: Log.e(TAG, "Bad response from database"); break;
         }
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
 
     private void prompt() {
         LayoutInflater inflater = LayoutInflater.from(this);
