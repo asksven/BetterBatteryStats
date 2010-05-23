@@ -20,9 +20,7 @@
             android:title="@string/preference_notification_title"
             android:summary="@string/preference_notification_summary"
             android:entries="@array/preference_notification_entries"
-            android:entryValues="@array/preference_notification_values"
-            android:defaultValue="toast"
-        />
+            android:entryValues="@array/preference_notification_values" />
 
     </PreferenceCategory>
 </PreferenceScreen>

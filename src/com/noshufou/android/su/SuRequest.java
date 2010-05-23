@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
 import android.preference.PreferenceManager;
@@ -125,6 +126,21 @@ public class SuRequest extends Activity {
     }
 
     private void sendNotification() {
+        if (prefs.contains("preference_notification")) {
+            Editor editor = prefs.edit();
+            String newPref = "";
+            if (prefs.getBoolean("preference_notification", false)) {
+                Log.d(TAG, "Old notification setting = true. New notification setting = notification");
+                newPref = "notification";
+            } else {
+                Log.d(TAG, "Old notification setting = false. new notification setting = none");
+                newPref = "none";
+            }
+            editor.putString("preference_notification_type", newPref);
+            editor.remove("preference_notification");
+            editor.commit();
+        }
+
         String notification_type = prefs.getString("preference_notification_type", "toast");
         if (notification_type.equals("none"))
             return;
@@ -139,7 +155,7 @@ public class SuRequest extends Activity {
             Intent notificationIntent = new Intent(this, Su.class);
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-            String title = "Superuser permissions";
+            String title = getString(R.string.app_name_perms);
 
             Notification notification = new Notification(R.drawable.stat_su, notification_message, System.currentTimeMillis());
             notification.setLatestEventInfo(context, title, notification_message, contentIntent);
