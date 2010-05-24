@@ -27,6 +27,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 public class Su extends ListActivity {
     private static final String TAG = "Su";
     
@@ -155,6 +158,7 @@ public class Su extends ListActivity {
 
     private void appDetails(int id) {
         LayoutInflater inflater = LayoutInflater.from(this);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog alert;
@@ -183,8 +187,10 @@ public class Su extends ListActivity {
         requestView.setText(getUidName(this, requestUid, true));
         commandView.setText(app.getString(3));
         statusView.setText((app.getInt(4)!=0) ? R.string.allow : R.string.deny);
-        createdView.setText(app.getString(5));
-        lastAccessedView.setText(app.getString(6));
+        Date dateCreated = new Date(app.getLong(5));
+        createdView.setText(formatter.format(dateCreated));
+        Date dateAccess = new Date(app.getLong(6));
+        lastAccessedView.setText(formatter.format(dateAccess));
 
         builder.setTitle(appName)
                .setIcon(appIcon)

@@ -69,9 +69,9 @@ public class SuRequest extends Activity {
         app_status = db.checkApp(callerUid, desiredUid, desiredCmd);
 
         switch (app_status.permission) {
-            case ALLOW: sendResult(ALLOW, false); break;
-            case DENY:  sendResult(DENY,  false); break;
-            case ASK:   prompt(); break;
+            case DBHelper.ALLOW: sendResult(ALLOW, false); break;
+            case DBHelper.DENY:  sendResult(DENY,  false); break;
+            case DBHelper.ASK:   prompt(); break;
             default: Log.e(TAG, "Bad response from database"); break;
         }
     }
@@ -189,18 +189,11 @@ public class SuRequest extends Activity {
         } catch (IOException e) {
             Log.e(TAG, e.getMessage(), e);
         }
-        if (resultCode.equals(ALLOW)) {
-            Date last_date = new Date(0);
-            if (app_status.date_access != null) {
-                try {
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                    last_date = formatter.parse(app_status.date_access);
-                } catch (java.text.ParseException ex) { }
-            }
 
-            if (last_date.getTime() + 60*1000 < System.currentTimeMillis())
-                sendNotification();
+        if (resultCode.equals(ALLOW) && app_status.dateAccess + 60*1000 < System.currentTimeMillis()) {
+            sendNotification();
         }
+        
         finish();
     }
 }
