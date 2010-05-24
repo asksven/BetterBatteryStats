@@ -21,16 +21,9 @@
 #include <private/android_filesystem_config.h>
 #include <cutils/log.h>
 
-#include <sqlite3.h>
-
 extern char* _mktemp(char*); /* mktemp doesn't link right.  Don't ask me why. */
 
 #include "su.h"
-
-static inline char HEX(unsigned char x) {
-    x &= 0xf;
-    return (x >= 10) ? (x + 'a' - 10) : (x + '0');
-}
 
 /* Ewwww.  I'm way too lazy. */
 static const char socket_path_template[PATH_MAX] = REQUESTOR_CACHE_PATH "/.socketXXXXXX";
@@ -39,8 +32,6 @@ static char *socket_path = NULL;
 static int socket_serv_fd = -1;
 static char shell[PATH_MAX];
 static unsigned req_uid = 0;
-
-static sqlite3 *db = NULL;
 
 static struct su_initiator su_from = {
     .pid = -1,
@@ -125,7 +116,6 @@ static void socket_cleanup(void)
 static void cleanup(void)
 {
     socket_cleanup();
-    if (db) sqlite3_close(db);
 }
 
 static void cleanup_signal(int sig)
