@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name_request">Superuser リクエスト</string>
+    <string name="app_name_perms">Superuser Permissions</string>
+    <string name="allow">許可</string>
+    <string name="forget">消去</string>
+    <string name="cancel">キャンセル</string>
+    <string name="deny">拒否</string>
+    <string name="remember">記憶する</string>
+    <string name="uid">(uid: %d)</string>
+    <string name="request">%s as %s (uid: %d)</string>
+    <string name="detail_package">パッケージ:</string>
+    <string name="detail_request">要求 UID:</string>
+    <string name="detail_command">コマンド:</string>
+    <string name="detail_status">ステータス:</string>
+    <string name="detail_created">作成日時:</string>
+    <string name="detail_last_accessed">最終アクセス:</string>
+    <string name="request_message">次のアプリケーションが Superuser アクセスを要求しています:</string>
+    <string name="request_app_name">アプリ:</string>
+    <string name="preferences">設定</string>
+    <string name="preference_category_whitelist_title">ホワイトリスト設定</string>
+    <string name="preference_tap_action_title">タップアクション</string>
+    <string name="preference_tap_action_summary">エントリがタップされたときに実行するアクション</string>
+    <string name="preference_category_notification_title">通知</string>
+    <string name="preference_notification_title">通知</string>
+    <string name="preference_notification_summary">アプリケーションが Superuser 権限を得たときに通知バーに表示する</string>
+    <string name="notification_text">%s が Superuser 権限を取得しました</string>
+</resources>

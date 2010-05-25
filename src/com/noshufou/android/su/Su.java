@@ -5,13 +5,18 @@ import android.app.AlertDialog.Builder;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -22,13 +27,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 public class Su extends ListActivity {
     private static final String TAG = "Su";
     
     private DBHelper db;
     private Cursor cursor;
     private DatabaseAdapter adapter;
-    private String helloworld = "Hello, World!";
+    private SharedPreferences prefs;
 
     private class DatabaseAdapter extends CursorAdapter {
         private LayoutInflater inflater;
@@ -47,7 +55,6 @@ public class Su extends ListActivity {
         public void bindView(View view, Context context, Cursor c)
         {
             TextView appNameView = (TextView) view.findViewById(R.id.appName);
-            TextView appUidView = (TextView) view.findViewById(R.id.appUid);
             TextView requestView = (TextView) view.findViewById(R.id.request);
             ImageView appIconView = (ImageView) view.findViewById(R.id.appIcon);
             ImageView itemPermission = (ImageView) view.findViewById(R.id.itemPermission);
@@ -63,7 +70,6 @@ public class Su extends ListActivity {
             String requestUser = getUidName(context, requestUid, false);
             
             appNameView.setText(appName);
-            appUidView.setText(getString(R.string.uid, uid));
             requestView.setText(getString(R.string.request, requestCommand, requestUser, requestUid));
             appIconView.setImageDrawable(appIcon);
             itemPermission.setImageDrawable((allow!=0) ? drawableAllow : drawableDeny);
@@ -99,16 +105,50 @@ public class Su extends ListActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 cursor.moveToPosition(position);
-                appDetails(cursor.getInt(0));
-                refreshList();
+                int appId = cursor.getInt(0);
+                String action = prefs.getString("preference_tap_action", "detail");
+                if (action.equals("detail")) {
+                    appDetails(appId);
+                } else if (action.equals("forget")) {
+                    db.deleteById(appId);
+                    refreshList();
+                } else if (action.equals("toggle")) {
+                    db.changeState(appId);
+                    refreshList();
+                }
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         refreshList();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        cursor.close();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        Intent i = new Intent(this, SuPreferences.class);
+        menu.add(0, 0, 0, R.string.preferences).setIcon(android.R.drawable.ic_menu_preferences).setIntent(i);
+        return true;
     }
 
     private void refreshList() {
@@ -118,6 +158,7 @@ public class Su extends ListActivity {
 
     private void appDetails(int id) {
         LayoutInflater inflater = LayoutInflater.from(this);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog alert;
@@ -146,8 +187,10 @@ public class Su extends ListActivity {
         requestView.setText(getUidName(this, requestUid, true));
         commandView.setText(app.getString(3));
         statusView.setText((app.getInt(4)!=0) ? R.string.allow : R.string.deny);
-        createdView.setText(app.getString(5));
-        lastAccessedView.setText(app.getString(6));
+        Date dateCreated = new Date(app.getLong(5));
+        createdView.setText(formatter.format(dateCreated));
+        Date dateAccess = new Date(app.getLong(6));
+        lastAccessedView.setText(formatter.format(dateAccess));
 
         builder.setTitle(appName)
                .setIcon(appIcon)
@@ -175,13 +218,17 @@ public class Su extends ListActivity {
         String appName = "Unknown";
         String[] packages = pm.getPackagesForUid(uid);
 
-        if (packages.length == 1) {
-            try {
-                ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
-                appName = pm.getApplicationLabel(appInfo).toString();
-            } catch (NameNotFoundException e) { } // Obligitory catch
-        } else if (packages.length > 1) {
-            appName = "Multiple Packages";
+        if (packages != null) {
+            if (packages.length == 1) {
+                try {
+                    ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
+                    appName = pm.getApplicationLabel(appInfo).toString();
+                } catch (NameNotFoundException e) { } // Obligitory catch
+            } else if (packages.length > 1) {
+                appName = "Multiple Packages";
+            }
+        } else {
+            Log.e(TAG, "Package not found");
         }
 
         if (withUid) {
@@ -196,10 +243,14 @@ public class Su extends ListActivity {
         String[] packages = pm.getPackagesForUid(uid);
         String appPackage = "unknown";
 
-        if (packages.length == 1) {
-            appPackage = packages[0];
-        } else if (packages.length > 1) {
-            appPackage = "multiple packages";
+        if (packages != null) {
+            if (packages.length == 1) {
+                appPackage = packages[0];
+            } else if (packages.length > 1) {
+                appPackage = "multiple packages";
+            }
+        } else {
+            Log.e(TAG, "Package not found");
         }
 
         return appPackage;
@@ -210,11 +261,15 @@ public class Su extends ListActivity {
         Drawable appIcon = c.getResources().getDrawable(android.R.drawable.sym_def_app_icon);
         String[] packages = pm.getPackagesForUid(uid);
 
-        if (packages.length == 1) {
-            try {
-                ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
-                appIcon = pm.getApplicationIcon(appInfo);
-            } catch (NameNotFoundException e) { } // Obligitory catch
+        if (packages != null) {
+            if (packages.length == 1) {
+                try {
+                    ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
+                    appIcon = pm.getApplicationIcon(appInfo);
+                } catch (NameNotFoundException e) { } // Obligitory catch
+            }
+        } else {
+            Log.e(TAG, "Package not found");
         }
 
         return appIcon;
