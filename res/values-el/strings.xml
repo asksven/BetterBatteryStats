@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Superuser</string>
@@ -26,3 +27,4 @@
     <string name="preference_notification_title">Ειδοποίηση</string>
     <string name="preference_notification_summary">Προβολή μηνύματος στην μπάρα ενημερώσεων όταν μία εφαρμογή παίρνει δικαιώματα SU</string>
 </resources>
+
