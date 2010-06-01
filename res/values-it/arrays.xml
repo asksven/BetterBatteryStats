@@ -6,12 +6,7 @@
         <item>Cambia stato</item>
     </string-array>
 
-    <!-- Do not translate. -->
-    <string-array name="preference_tap_action_values">
-        <item>dettagli</item>
-        <item>dimentica</item>
-        <item>cambia</item>
-    </string-array>
+    
 
     <string-array name="preference_notification_entries">
         <item>Nessuna</item>
@@ -19,11 +14,6 @@
         <item>Notifica</item>
     </string-array>
 
-    <!-- Do not translate. -->
-    <string-array name="preference_notification_values">
-        <item>none</item>
-        <item>toast</item>
-        <item>notification</item>
-    </string-array>
+    
 
 </resources>
