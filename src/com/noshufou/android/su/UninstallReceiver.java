@@ -12,5 +12,6 @@ public class UninstallReceiver extends BroadcastReceiver {
         if (uid != 1 && !(intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))) {
             db.deleteByUid(uid);
         }
+        db.close();
     }
 }
