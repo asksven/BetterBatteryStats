@@ -22,6 +22,9 @@ public class SuRequest extends Activity {
     private int desiredUid = 0;
     private String desiredCmd = "";
 
+    private DBHelper db;
+    private SendResponseHelper ResponseHelper;
+    
     SharedPreferences prefs;
 
     /** Called when the activity is first created. */
@@ -42,8 +45,19 @@ public class SuRequest extends Activity {
     	callerUid = in.getIntExtra(SuRequestBroadcast.EXTRA_CALLERUID, 0);
     	desiredUid = in.getIntExtra(SuRequestBroadcast.EXTRA_UID, 0);
     	desiredCmd = in.getStringExtra(SuRequestBroadcast.EXTRA_CMD);
+    	
+    	db = new DBHelper(this);
+    	
+    	ResponseHelper = new SendResponseHelper(this);
 
     	prompt();
+    }
+    
+    @Override
+    public void onDestroy()
+    {
+    	db.close();
+    	super.onDestroy();
     }
 
     private void prompt() {
@@ -67,9 +81,9 @@ public class SuRequest extends Activity {
             public void onClick(DialogInterface dialog, int id) {
                 boolean remember = checkRemember.isChecked();
                 if (id == DialogInterface.BUTTON_POSITIVE) {
-                    sendResult(SuRequestBroadcast.ALLOW, remember);
+                	ResponseHelper.sendResult(SuRequestBroadcast.ALLOW, remember, callerUid, desiredUid, desiredCmd, socketPath);
                 } else if (id == DialogInterface.BUTTON_NEGATIVE) {
-                    sendResult(SuRequestBroadcast.DENY, remember);
+                	ResponseHelper.sendResult(SuRequestBroadcast.DENY, remember, callerUid, desiredUid, desiredCmd, socketPath);
                 }
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("last_remember_value", checkRemember.isChecked());
@@ -85,20 +99,5 @@ public class SuRequest extends Activity {
                .setCancelable(false);
         alert = builder.create();
         alert.show();
-    }
-
-    private void sendResult(String resultCode, boolean remember) {
-    	
-    	Intent SuRequestResponse = new Intent(this, SuRequestBroadcast.class);
-    	SuRequestResponse.setAction(SuRequestBroadcast.RESPONSE);
-    	SuRequestResponse.putExtra(SuRequestBroadcast.EXTRA_CALLERUID, callerUid);
-    	SuRequestResponse.putExtra(SuRequestBroadcast.EXTRA_UID, desiredUid);
-    	SuRequestResponse.putExtra(SuRequestBroadcast.EXTRA_CMD, desiredCmd);
-    	SuRequestResponse.putExtra(SuRequestBroadcast.EXTRA_SOCKET, socketPath);
-    	SuRequestResponse.putExtra(SuRequestBroadcast.EXTRA_REMEMBER, remember);
-    	SuRequestResponse.putExtra(SuRequestBroadcast.EXTRA_RESPONSE, resultCode);
-		sendBroadcast(SuRequestResponse);
-
-        finish();
     }
 }
