@@ -5,7 +5,7 @@
     android:versionName="2.1"
     android:sharedUserId="android.uid.system">
     
-    <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4" />
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="7" />
 
     <application android:icon="@drawable/icon" android:label="@string/app_name_perms">
         <activity android:name="Su"
@@ -31,6 +31,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+        <receiver android:name="SuRequestBroadcast">
+        	<intent-filter>
+				<action android:name="com.noshufou.android.su.SuRequestBroadcast.REQUEST" />
+			</intent-filter>
+        </receiver>
         <receiver android:name="UninstallReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
