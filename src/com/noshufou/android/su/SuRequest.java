@@ -22,7 +22,6 @@ public class SuRequest extends Activity {
     private int desiredUid = 0;
     private String desiredCmd = "";
 
-    private DBHelper db;
     private SendResponseHelper ResponseHelper;
     
     SharedPreferences prefs;
@@ -46,18 +45,9 @@ public class SuRequest extends Activity {
     	desiredUid = in.getIntExtra(SuRequestBroadcast.EXTRA_UID, 0);
     	desiredCmd = in.getStringExtra(SuRequestBroadcast.EXTRA_CMD);
     	
-    	db = new DBHelper(this);
-    	
     	ResponseHelper = new SendResponseHelper(this);
 
     	prompt();
-    }
-    
-    @Override
-    public void onDestroy()
-    {
-    	db.close();
-    	super.onDestroy();
     }
 
     private void prompt() {
