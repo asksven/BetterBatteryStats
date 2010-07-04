@@ -12,40 +12,25 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-public class SendResponseHelper 
+public class ResponseHelper 
 {
 	private static final String TAG = "SuRequest";
-	public static final String ALLOW = "ALLOW";
-	public static final String DENY = "DENY";
 
-	private DBHelper db;
-    private DBHelper.AppStatus app_status;
-    
-    Context context;
-    SharedPreferences prefs;
-    
-    public SendResponseHelper(Context context)
-    {
-    	this.context = context;
-    	db = new DBHelper(this.context);
-    }
-	
-	public void sendResult(String resultCode, boolean remember, int callerUid, int desiredUid, String desiredCmd, String socketPath) {
+	public static void sendResult(Context context, AppStatus appStatus, String socketPath) {
         LocalSocket socket;
-        if (remember) {
-            db.insert(callerUid, desiredUid, desiredCmd, (resultCode.equals(ALLOW)) ? 1 : 0);
-        }
         try {
             socket = new LocalSocket();
             socket.connect(new LocalSocketAddress(socketPath,
                 LocalSocketAddress.Namespace.FILESYSTEM));
 
-            Log.d(TAG, "Sending result: " + resultCode);
             if (socket != null) {
                 OutputStream os = socket.getOutputStream();
+                String resultCode = appStatus.getPermissionCode();
+                Log.d(TAG, "Sending result: " + resultCode);
                 byte[] bytes = resultCode.getBytes("UTF-8");
                 os.write(bytes);
                 os.flush();
@@ -56,12 +41,13 @@ public class SendResponseHelper
             Log.e(TAG, e.getMessage(), e);
         }
 
-        if (resultCode.equals(ALLOW) && app_status.dateAccess + 60*1000 < System.currentTimeMillis()) {
-            sendNotification(callerUid);
+        if (appStatus.permission == AppStatus.ALLOW && appStatus.dateAccess + 60*1000 < System.currentTimeMillis()) {
+            sendNotification(context, appStatus.callerUid);
         }
     }
 	
-	private void sendNotification(int callerUid) {
+	private static void sendNotification(Context context, int callerUid) {
+	    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.contains("preference_notification")) {
             Editor editor = prefs.edit();
             String newPref = "";

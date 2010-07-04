@@ -3,6 +3,8 @@
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Request</string>
     <string name="app_name_perms">Superuser Permissions</string>
+    <string name="permlab_respond">respond to superuser requests</string>
+    <string name="permdesc_respond">Allows the application to respond to requests for superuser access. Malicious applications grant permissions to apps that the user has not explicitly given permission to.</string>
     <string name="allow">Allow</string>
     <string name="forget">Forget</string>
     <string name="cancel">Cancel</string>

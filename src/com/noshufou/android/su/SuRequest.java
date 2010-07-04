@@ -2,6 +2,7 @@ package com.noshufou.android.su;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,8 +23,6 @@ public class SuRequest extends Activity {
     private int desiredUid = 0;
     private String desiredCmd = "";
 
-    private SendResponseHelper ResponseHelper;
-    
     SharedPreferences prefs;
 
     /** Called when the activity is first created. */
@@ -40,13 +39,11 @@ public class SuRequest extends Activity {
         }
     	
     	Intent in = getIntent();
-    	socketPath = in.getStringExtra(SuRequestBroadcast.EXTRA_SOCKET);
-    	callerUid = in.getIntExtra(SuRequestBroadcast.EXTRA_CALLERUID, 0);
-    	desiredUid = in.getIntExtra(SuRequestBroadcast.EXTRA_UID, 0);
-    	desiredCmd = in.getStringExtra(SuRequestBroadcast.EXTRA_CMD);
+    	socketPath = in.getStringExtra(SuRequestReceiver.EXTRA_SOCKET);
+    	callerUid = in.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
+    	desiredUid = in.getIntExtra(SuRequestReceiver.EXTRA_UID, 0);
+    	desiredCmd = in.getStringExtra(SuRequestReceiver.EXTRA_CMD);
     	
-    	ResponseHelper = new SendResponseHelper(this);
-
     	prompt();
     }
 
@@ -69,15 +66,24 @@ public class SuRequest extends Activity {
         checkRemember.setChecked(prefs.getBoolean("last_remember_value", true));
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                Context context = getApplicationContext();
                 boolean remember = checkRemember.isChecked();
+                AppStatus appStatus = new AppStatus(0, callerUid, System.currentTimeMillis());
                 if (id == DialogInterface.BUTTON_POSITIVE) {
-                	ResponseHelper.sendResult(SuRequestBroadcast.ALLOW, remember, callerUid, desiredUid, desiredCmd, socketPath);
+                    appStatus.permission = AppStatus.ALLOW;
                 } else if (id == DialogInterface.BUTTON_NEGATIVE) {
-                	ResponseHelper.sendResult(SuRequestBroadcast.DENY, remember, callerUid, desiredUid, desiredCmd, socketPath);
+                    appStatus.permission = AppStatus.DENY;
                 }
+                if (remember) {
+                    DBHelper db = new DBHelper(context);
+                   	db.insert(callerUid, desiredUid, desiredCmd, appStatus.permission);
+                   	db.close();
+                }
+                ResponseHelper.sendResult(context, appStatus, socketPath);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putBoolean("last_remember_value", checkRemember.isChecked());
                 editor.commit();
+                finish();
             }
         };
 

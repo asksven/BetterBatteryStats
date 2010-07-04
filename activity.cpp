@@ -14,7 +14,7 @@ extern "C" {
 
 using namespace android;
 
-static const int START_ACTIVITY_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 2;
+static const int BROADCAST_INTENT_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 13;
 
 static const int FLAG_ACTIVITY_NO_HISTORY = 0x40000000;
 static const int FLAG_ACTIVITY_NEW_TASK = 0x10000000;
@@ -46,16 +46,15 @@ int do_request(struct su_initiator *from, struct su_request *to, const char *soc
     data.writeStrongBinder(NULL); /* caller */
 
     /* intent */
-    data.writeString16(String16("android.intent.action.MAIN")); /* action */
-    data.writeInt32(NULL_TYPE_ID); /* Uri - type */
+    data.writeString16(String16("com.noshufou.android.su.REQUEST")); /* action */
+    data.writeInt32(NULL_TYPE_ID); /* Uri - data */
     data.writeString16(NULL, 0); /* type */
-    data.writeInt32(FLAG_ACTIVITY_NO_HISTORY | FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_MULTIPLE_TASK); /* flags */
+    data.writeInt32(0); /* flags */
     if (sdk_version >= 4) {
         // added in donut
-        data.writeString16(String16(REQUESTOR_PACKAGE)); /* package name - DONUT ONLY, NOT IN CUPCAKE. */
+        data.writeString16(NULL, 0); /* package name - DONUT ONLY, NOT IN CUPCAKE. */
     }
-    data.writeString16(String16(REQUESTOR_PACKAGE)); /* ComponentName - package */
-    data.writeString16(String16(REQUESTOR_PACKAGE "." REQUESTOR_CLASS)); /* ComponentName - class */
+    data.writeString16(NULL, 0); /* ComponentName - package */
     data.writeInt32(0); /* Categories - size */
     if (sdk_version >= 7) {
         // added in eclair rev 7
@@ -66,7 +65,7 @@ int do_request(struct su_initiator *from, struct su_request *to, const char *soc
         int oldPos = data.dataPosition();
         data.writeInt32(0x4C444E42); // 'B' 'N' 'D' 'L'
         { /* writeMapInternal */
-            data.writeInt32(9); /* writeMapInternal - size */
+            data.writeInt32(4); /* writeMapInternal - size */
 
             data.writeInt32(VAL_STRING);
             data.writeString16(String16("caller_uid"));
@@ -96,16 +95,18 @@ int do_request(struct su_initiator *from, struct su_request *to, const char *soc
 
     data.writeString16(NULL, 0); /* resolvedType */
 
-    data.writeInt32(-1); /* grantedUriPermissions */
-    data.writeInt32(0); /* grantedMode */
+    data.writeStrongBinder(NULL); /* resultTo (something about this makes for an error reading it back */
+    data.writeInt32(-1); /* resultCode */
+    data.writeString16(NULL, 0); /* resultData */
 
-    data.writeStrongBinder(NULL); /* resultTo */
-    data.writeString16(NULL, 0); /* resultWho */
-    data.writeInt32(-1); /* requestCode */
-    data.writeInt32(false); /* onlyIfNeeded */
-    data.writeInt32(false); /* debug */
-
-    status_t ret = am->transact(START_ACTIVITY_TRANSACTION, data, &reply);
+    data.writeInt32(-1); /* somewhere between these two lines is resultExtras */
+    data.writeInt32(-1); /* not sure which line it is, but they both need to be here*/
+    
+    data.writeString16(String16("com.noshufou.android.su.RESPOND")); /* perm */
+    data.writeInt32(0); /* serialized */
+    data.writeInt32(0); /* sticky */
+    
+    status_t ret = am->transact(BROADCAST_INTENT_TRANSACTION, data, &reply);
     if (ret < START_SUCCESS) return -1;
 
     return 0;

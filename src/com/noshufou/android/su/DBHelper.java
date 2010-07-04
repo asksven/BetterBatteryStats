@@ -16,10 +16,6 @@ public class DBHelper {
     private static final int DATABASE_VERSION = 2;
     private static final String TABLE_NAME = "permissions";
 
-    public static final int ASK = 0;
-    public static final int ALLOW = 1;
-    public static final int DENY = 2;
-
     private Context context;
     private SQLiteDatabase db;
 
@@ -29,18 +25,8 @@ public class DBHelper {
         this.db = dbOpenHelper.getWritableDatabase();
     }
 
-    public class AppStatus {
-        public int permission;
-        public long dateAccess;
-
-        AppStatus(int permissionIn, long dateAccessIn) {
-            permission = permissionIn;
-            dateAccess = dateAccessIn;
-        }
-    }
-
     public AppStatus checkApp(int fromUid, int toUid, String cmd) {
-        int allow = ASK;
+        int allow = AppStatus.ASK;
         long dateAccess = 0;
         Cursor c = this.db.query(TABLE_NAME,
                                  new String[] { "_id", "allow", "date_access" },
@@ -58,10 +44,10 @@ public class DBHelper {
             values.put("date_access", System.currentTimeMillis());
             this.db.update(TABLE_NAME, values, "_id=?", new String[] { Integer.toString(id) });
             
-            allow = (allow != 0) ? ALLOW : DENY;
+            allow = (allow != 0) ? AppStatus.ALLOW : AppStatus.DENY;
         }
         c.close();
-        return new AppStatus( allow, dateAccess );
+        return new AppStatus( allow, fromUid, dateAccess );
     }
 
     public void insert(int fromUid, int toUid, String cmd, int allow) {
