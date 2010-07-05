@@ -274,6 +274,9 @@ int main(int argc, char *argv[])
             } else {
                 deny();
             }
+        } else if (!strcmp(argv[i], "-v")) {
+            printf("%s\n", VERSION);
+            exit(-1);
         } else if (!strcmp(argv[i], "-")) {
             ++i;
             break;
