@@ -27,5 +27,8 @@
     <string name="preference_category_notification_title">Notifications</string>
     <string name="preference_notification_title">Notification</string>
     <string name="preference_notification_summary">Show a message in the notification bar when an app is granted SU permissions</string>
+    <string name="preference_category_info_title">Superuser information</string>
+    <string name="preference_version_title">Superuser v%s</string>
+    <string name="preference_version_summary">su v%s</string>
     <string name="notification_text">%s has been granted Superuser permissions</string>
 </resources>
