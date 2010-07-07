@@ -41,7 +41,7 @@
         </receiver>
     </application>
 
-    <uses-sdk android:targetSdkVersion="3" android:minSdkVersion="4"/>
+    <uses-sdk android:targetSdkVersion="4" android:minSdkVersion="3"/>
     <uses-permission android:name="com.noshufou.android.su.RESPOND" />
     
     <permission android:name="com.noshufou.android.su.RESPOND"
