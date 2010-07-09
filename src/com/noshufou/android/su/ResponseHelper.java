@@ -41,7 +41,7 @@ public class ResponseHelper
             Log.e(TAG, e.getMessage(), e);
         }
 
-        if (appStatus.permission == AppStatus.ALLOW && appStatus.dateAccess + 60*1000 < System.currentTimeMillis()) {
+        if (appStatus.permission == AppStatus.ALLOW && appStatus.dateAccess + 60*1000 > System.currentTimeMillis()) {
             sendNotification(context, appStatus.callerUid);
         }
     }
