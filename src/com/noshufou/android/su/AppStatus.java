@@ -1,9 +1,9 @@
 package com.noshufou.android.su;
 
 public class AppStatus {
-    public static final int ASK = 0;
+    public static final int ASK = -1;
+    public static final int DENY = 0;
     public static final int ALLOW = 1;
-    public static final int DENY = 2;
 
 	public static final String ALLOW_CODE = "ALLOW";
 	public static final String DENY_CODE = "DENY";

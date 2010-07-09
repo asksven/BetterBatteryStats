@@ -71,7 +71,7 @@ public class Su extends ListActivity {
             appNameView.setText(appName);
             requestView.setText(getString(R.string.request, requestCommand, requestUser, requestUid));
             appIconView.setImageDrawable(appIcon);
-            itemPermission.setImageDrawable((allow!=0) ? drawableAllow : drawableDeny);
+            itemPermission.setImageDrawable((allow < AppStatus.ALLOW) ? drawableDeny : drawableAllow);
             itemPermission.setOnClickListener(new OnClickListener() {
                 public void onClick(View view) {
                     db.changeState(id);

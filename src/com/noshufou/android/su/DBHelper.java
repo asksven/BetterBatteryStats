@@ -43,8 +43,6 @@ public class DBHelper {
             ContentValues values = new ContentValues();
             values.put("date_access", System.currentTimeMillis());
             this.db.update(TABLE_NAME, values, "_id=?", new String[] { Integer.toString(id) });
-            
-            allow = (allow != 0) ? AppStatus.ALLOW : AppStatus.DENY;
         }
         c.close();
         return new AppStatus( allow, fromUid, dateAccess );
