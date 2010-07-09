@@ -17,7 +17,7 @@ public class SuPreferences extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-        
+
         Preference versionPreference = (Preference)getPreferenceScreen().findPreference("preference_version");
         
         versionPreference.setTitle(getString(R.string.preference_version_title, getSuperuserVersion()));
