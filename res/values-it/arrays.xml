@@ -11,7 +11,7 @@
     <string-array name="preference_notification_entries">
         <item>Nessuna</item>
         <item>Toast</item>
-        <item>Notifica</item>
+        <item>Barra Notifiche</item>
     </string-array>
 
     
