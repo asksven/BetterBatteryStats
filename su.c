@@ -179,8 +179,8 @@ static int socket_accept(int serv_fd)
     fd_set fds;
     int fd;
 
-    /* Wait 10 seconds for a connection, then give up. */
-    tv.tv_sec = 10;
+    /* Wait 20 seconds for a connection, then give up. */
+    tv.tv_sec = 20;
     tv.tv_usec = 0;
     FD_ZERO(&fds);
     FD_SET(serv_fd, &fds);
