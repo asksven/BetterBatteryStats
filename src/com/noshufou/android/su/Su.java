@@ -64,9 +64,9 @@ public class Su extends ListActivity {
             final String requestCommand = c.getString(3);
             final int allow = c.getInt(4);
 
-            String appName = getAppName(context, uid, false);
-            Drawable appIcon = getAppIcon(context, uid);
-            String requestUser = getUidName(context, requestUid, false);
+            String appName = Util.getAppName(context, uid, false);
+            Drawable appIcon = Util.getAppIcon(context, uid);
+            String requestUser = Util.getUidName(context, requestUid, false);
             
             appNameView.setText(appName);
             requestView.setText(getString(R.string.request, requestCommand, requestUser, requestUid));
@@ -176,14 +176,14 @@ public class Su extends ListActivity {
         final int appId = app.getInt(0);
         int appUid = app.getInt(1);
 
-        String appName = getAppName(this, appUid, true);
-        String appPackage = getAppPackage(this, appUid);
-        Drawable appIcon = getAppIcon(this, appUid);
+        String appName = Util.getAppName(this, appUid, true);
+        String appPackage = Util.getAppPackage(this, appUid);
+        Drawable appIcon = Util.getAppIcon(this, appUid);
 
         packageNameView.setText(appPackage);
 
         int requestUid = app.getInt(2);
-        requestView.setText(getUidName(this, requestUid, true));
+        requestView.setText(Util.getUidName(this, requestUid, true));
         commandView.setText(app.getString(3));
         statusView.setText((app.getInt(4)!=0) ? R.string.allow : R.string.deny);
         Date dateCreated = new Date(app.getLong(5));
@@ -210,83 +210,5 @@ public class Su extends ListActivity {
                .setNegativeButton(getString(R.string.cancel), null);
         alert = builder.create();
         alert.show();
-    }
-
-    public static String getAppName(Context c, int uid, boolean withUid) {
-        PackageManager pm = c.getPackageManager();
-        String appName = "Unknown";
-        String[] packages = pm.getPackagesForUid(uid);
-
-        if (packages != null) {
-            if (packages.length == 1) {
-                try {
-                    ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
-                    appName = pm.getApplicationLabel(appInfo).toString();
-                } catch (NameNotFoundException e) { } // Obligitory catch
-            } else if (packages.length > 1) {
-                appName = "Multiple Packages";
-            }
-        } else {
-            Log.e(TAG, "Package not found");
-        }
-
-        if (withUid) {
-            appName += " (" + uid + ")";
-        }
-
-        return appName;
-    }
-
-    public static String getAppPackage(Context c, int uid) {
-        PackageManager pm = c.getPackageManager();
-        String[] packages = pm.getPackagesForUid(uid);
-        String appPackage = "unknown";
-
-        if (packages != null) {
-            if (packages.length == 1) {
-                appPackage = packages[0];
-            } else if (packages.length > 1) {
-                appPackage = "multiple packages";
-            }
-        } else {
-            Log.e(TAG, "Package not found");
-        }
-
-        return appPackage;
-    }
-
-    public static Drawable getAppIcon(Context c, int uid) {
-        PackageManager pm = c.getPackageManager();
-        Drawable appIcon = c.getResources().getDrawable(android.R.drawable.sym_def_app_icon);
-        String[] packages = pm.getPackagesForUid(uid);
-
-        if (packages != null) {
-            if (packages.length == 1) {
-                try {
-                    ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
-                    appIcon = pm.getApplicationIcon(appInfo);
-                } catch (NameNotFoundException e) { } // Obligitory catch
-            }
-        } else {
-            Log.e(TAG, "Package not found");
-        }
-
-        return appIcon;
-    }
-
-    public static String getUidName(Context c, int uid, boolean withUid) {
-        PackageManager pm = c.getPackageManager();
-        String uidName= "";
-        if (uid == 0) {
-            uidName = "root";
-        } else {
-            pm.getNameForUid(uid);
-        }
-
-        if (withUid) {
-            uidName += " (" + uid + ")";
-        }
-        
-        return uidName;
     }
 }

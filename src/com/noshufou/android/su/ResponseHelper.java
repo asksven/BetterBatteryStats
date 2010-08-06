@@ -68,7 +68,7 @@ public class ResponseHelper
             return;
 
         String notification_message = context.getString(R.string.notification_text,
-            Su.getAppName(context, callerUid, false));
+            Util.getAppName(context, callerUid, false));
 
         if (notification_type.equals("notification")) {
             NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

@@ -59,9 +59,9 @@ public class SuRequest extends Activity {
         TextView commandView = (TextView) layout.findViewById(R.id.command);
         final CheckBox checkRemember = (CheckBox) layout.findViewById(R.id.checkRemember);
 
-        appNameView.setText(Su.getAppName(this, callerUid, true));
-        packageNameView.setText(Su.getAppPackage(this, callerUid));
-        requestDetailView.setText(Su.getUidName(this, desiredUid, true));
+        appNameView.setText(Util.getAppName(this, callerUid, true));
+        packageNameView.setText(Util.getAppPackage(this, callerUid));
+        requestDetailView.setText(Util.getUidName(this, desiredUid, true));
         commandView.setText(desiredCmd);
         checkRemember.setChecked(prefs.getBoolean("last_remember_value", true));
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
