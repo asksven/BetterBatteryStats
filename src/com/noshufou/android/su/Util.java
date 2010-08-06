@@ -65,7 +65,9 @@ public class Util {
                 try {
                     ApplicationInfo appInfo = pm.getApplicationInfo(packages[0], 0);
                     appIcon = pm.getApplicationIcon(appInfo);
-                } catch (NameNotFoundException e) { } // Obligatory catch
+                } catch (NameNotFoundException e) {
+                	Log.e(TAG, "No package found matching with the uid " + uid);
+                }
             }
         } else {
             Log.e(TAG, "Package not found for uid " + uid);
