@@ -18,11 +18,11 @@
     <string name="request_message">次のアプリケーションが Superuser アクセスを要求しています:</string>
     <string name="request_app_name">アプリ:</string>
     <string name="preferences">設定</string>
-    <string name="preference_category_whitelist_title">ホワイトリスト設定</string>
-    <string name="preference_tap_action_title">タップアクション</string>
-    <string name="preference_tap_action_summary">エントリがタップされたときに実行するアクション</string>
-    <string name="preference_category_notification_title">通知</string>
-    <string name="preference_notification_title">通知</string>
-    <string name="preference_notification_summary">アプリケーションが Superuser 権限を得たときに通知バーに表示する</string>
+    <string name="pref_category_whitelist_title">ホワイトリスト設定</string>
+    <string name="pref_tap_action_title">タップアクション</string>
+    <string name="pref_tap_action_summary">エントリがタップされたときに実行するアクション</string>
+    <string name="pref_category_notification_title">通知</string>
+    <string name="pref_notification_title">通知</string>
+    <string name="pref_notification_summary">アプリケーションが Superuser 権限を得たときに通知バーに表示する</string>
     <string name="notification_text">%s が Superuser 権限を取得しました</string>
 </resources>

@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="preference_tap_action_entries">
+    <string-array name="pref_tap_action_entries">
         <item>アプリ詳細</item>
         <item>消去する</item>
         <item>状態変更</item>
     </string-array>
-
-    <string-array name="preference_notification_entries">
-        <item>なし</item>
-        <item>トースト</item>
-        <item>通知</item>
-    </string-array>
-
 </resources>

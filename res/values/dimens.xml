@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Dimensions for an app list item -->
+	<dimen name="list_item_perferred_height">64dip</dimen>
+    <dimen name="list_item_padding_top">4dip</dimen>
+    <dimen name="list_item_padding_right">11dip</dimen>
+    <dimen name="list_item_padding_bottom">4dip</dimen>
+    <dimen name="list_item_padding_left">4dip</dimen>
+    <dimen name="list_item_gap_between_image_and_text">8dip</dimen>
+    <dimen name="list_iten_gap_between_type_and_log">5dip</dimen>
+    <dimen name="list_item_status_button_padding">14dip</dimen>
+    <dimen name="list_item_header_padding_left">10dip</dimen>
+    
+    <!-- Dimensions for a log item -->
+    <dimen name="log_item_padding_top">4dip</dimen>
+    <dimen name="log_item_padding_right">4dip</dimen>
+    <dimen name="log_item_padding_bottom">4dip</dimen>
+    <dimen name="log_item_padding_left">4dip</dimen>
+    <dimen name="log_item_gap_between_fields">5dip</dimen>
+    <dimen name="log_item_header_padding_left">10dip</dimen>
+</resources>

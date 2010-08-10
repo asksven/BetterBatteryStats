@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Request</string>
     <string name="app_name_perms">Superuser Permissions</string>
+
     <string name="permlab_respond">respond to superuser requests</string>
     <string name="permdesc_respond">Allows the application to respond to requests for superuser access. Malicious applications grant permissions to apps that the user has not explicitly given permission to.</string>
+
     <string name="allow">Allow</string>
     <string name="forget">Forget</string>
     <string name="cancel">Cancel</string>
@@ -12,23 +14,50 @@
     <string name="remember">Remember</string>
     <string name="uid">(uid: %d)</string>
     <string name="request">%s as %s (uid: %d)</string>
+    <string name="unknown">Unknown name</string>
+
+    <string name="allowed">Allowed</string>
+    <string name="denied">Denied</string>
+    <string name="created">Created</string>
+    <string name="toggled">Toggled</string>
+
+    <string name="no_log_data">No log data</string>
+    <string name="last_allowed">Last allowed:</string>
+    <string name="last_denied">Last denied:</string>
+    <string name="empty">No apps in list</string>
+
     <string name="detail_package">Package:</string>
     <string name="detail_request">Requested UID:</string>
     <string name="detail_command">Command:</string>
     <string name="detail_status">Status:</string>
     <string name="detail_created">Created on:</string>
     <string name="detail_last_accessed">Last Accessed:</string>
+
     <string name="request_message">The following app is requesting superuser access:</string>
     <string name="request_app_name">App:</string>
+
     <string name="preferences">Preferences</string>
-    <string name="preference_category_whitelist_title">Whitelist Preferences</string>
-    <string name="preference_tap_action_title">Tap action</string>
-    <string name="preference_tap_action_summary">Action to perform when an entry is tapped</string>
-    <string name="preference_category_notification_title">Notifications</string>
-    <string name="preference_notification_title">Notification</string>
-    <string name="preference_notification_summary">Show a message in the notification bar when an app is granted SU permissions</string>
-    <string name="preference_category_info_title">Superuser information</string>
-    <string name="preference_version_title">Superuser v%s</string>
-    <string name="preference_version_summary">su v%s</string>
+    <string name="pref_category_whitelist_title">Apps list</string>
+    <string name="pref_tap_action_title">Tap action</string>
+    <string name="pref_tap_action_summary">Action to perform when an entry is tapped</string>
+    <string name="pref_show_status_icons_title">Show status icons</string>
+    <string name="pref_show_status_icons_summary_on">Show icon for status of each app</string>
+    <string name="pref_show_status_icons_summary_off">Do not show icon for status of each app</string>
+    <string name="pref_status_icon_type_title">Status icon type</string>
+    <string name="pref_status_icon_type_summary">Style of status icon to show</string>
+    <string name="pref_category_log_title">Log</string>
+    <string name="pref_date_format_title">Select date format</string>
+    <string name="pref_24_hour_title">Use 24-hour format</string>
+    <string name="pref_show_seconds_title">Show seconds</string>
+    <string name="pref_category_notification_title">Notifications</string>
+    <string name="pref_notifications_title">Notifications</string>
+    <string name="pref_notifications_summary_on">Show notification when an app is granted Su permissions</string>
+    <string name="pref_notifications_summary_off">Do not show notification when an app is granted Su permissions</string>
+    <string name="pref_notification_title">Notification type</string>
+    <string name="pref_notification_summary">Type of notification to show when an app is granted SU permissions</string>
+    <string name="pref_category_info_title">Superuser information</string>
+    <string name="pref_version_title">Superuser v%s</string>
+    <string name="pref_version_summary">su v%s</string>
+
     <string name="notification_text">%s has been granted Superuser permissions</string>
 </resources>
