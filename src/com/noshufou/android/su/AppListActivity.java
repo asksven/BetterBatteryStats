@@ -28,8 +28,7 @@ import com.noshufou.android.su.DBHelper.Apps;
 import com.noshufou.android.su.DBHelper.Logs;
 import com.noshufou.android.su.PinnedHeaderListView.PinnedHeaderCache;
 
-public class AppListActivity extends ListActivity 
-		implements View.OnClickListener, OnSharedPreferenceChangeListener {
+public class AppListActivity extends ListActivity implements View.OnClickListener {
     private static final String TAG = "Su.AppListActivity";
     
     private static final int STATUS_BUTTON_ID = 1;
@@ -39,7 +38,6 @@ public class AppListActivity extends ListActivity
     private DBHelper mDB;
     private Cursor mCursor;
     private AppListAdapter mAdapter;
-    private SharedPreferences prefs;
     private Context mContext;
     private boolean mShowStatusIcons;
     private int mStatusIconType;
@@ -63,7 +61,6 @@ public class AppListActivity extends ListActivity
     @Override
     public void onStart() {
         super.onStart();
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     @Override
@@ -96,24 +93,6 @@ public class AppListActivity extends ListActivity
         super.onDestroy();
     }
     
-    @Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) {
-    	Log.d(TAG, "onSharedPreferenceChanged()");
-		if (key.equals("pref_show_status_icons")) {
-			mShowStatusIcons = sharedPreferences.getBoolean("pref_show_status_icons", true);
-			refreshList();
-		} else if (key.equals("pref_status_icon_type")) {
-			String type = sharedPreferences.getString("pref_status_icon_type", "dot");
-			if (type.equals("dot")) {
-				mStatusIconType = STATUS_TYPE_DOT;
-			} else if (type.equals("emote")) {
-				mStatusIconType = STATUS_TYPE_EMOTE;
-			}
-			refreshList();
-		}
-	}
-
 	private void setupListView() {
     	final ListView list = getListView();
     	final LayoutInflater inflater = getLayoutInflater();
@@ -146,7 +125,7 @@ public class AppListActivity extends ListActivity
 
     @Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-    	String action = prefs.getString("pref_tap_action", "detail");
+    	String action = mPrefs.getString("pref_tap_action", "detail");
     	Log.d(TAG, "action=" + action + " id=" + id + " position=" + position);
     	if (action.equals("detail")) {
     		appDetails(id);
@@ -158,13 +137,6 @@ public class AppListActivity extends ListActivity
     		refreshList();
     	}
 	}
-
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Intent i = new Intent(this, SuPreferences.class);
-        menu.add(0, 0, 0, R.string.preferences).setIcon(R.drawable.ic_menu_preferences).setIntent(i);
-        return true;
-    }
 
     private void refreshList() {
         mCursor = mDB.getAllApps();
