@@ -1,63 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="app_name">Superbruger</string>
-    <string name="app_name_request">Anmod om superbrugertilladelse</string>
-    <string name="app_name_perms">Superbrugertilladelser</string>
-
-    <string name="permlab_respond">Svar på superbruger anmodninger</string>
-    <string name="permdesc_respond">Tillader programmet at besvare på superbruger anmodninger. Ondskabsfulde programmer kan give tilladelserne til programmer som brugeren ikke specifikt har givet tilladelse til.</string>
-
+    <string name="app_name_request">AnsÃ¸g om superbruger tilladelse</string>
+    <string name="app_name_perms">Superbruger tilladelser</string>
     <string name="allow">Godkend</string>
     <string name="forget">Glem</string>
-    <string name="cancel">Annuller</string>
+    <string name="cancel">Annullere</string>
     <string name="deny">Afvis</string>
     <string name="remember">Husk</string>
-    <string name="uid">(uid: %d)</string>
-    <string name="request">%s som %s (uid: %d)</string>
-    <string name="unknown">Ukendt navn</string>
-
-    <string name="allowed">Godkendt</string>
-    <string name="denied">Afvist</string>
-    <string name="created">Oprettet</string>
-    <string name="toggled">Ændret</string>
-
-    <string name="no_log_data">Ingen log data</string>
-    <string name="last_allowed">Sidst godkendt:</string>
-    <string name="last_denied">Sidst afvist:</string>
-    <string name="empty">Ingen programmer på listen</string>
-
+    <string name="uid">(ID : %d)</string>
+    <string name="request">%s som %s (ID : %d)</string>
     <string name="detail_package">Pakke:</string>
-    <string name="detail_request">Tilladelsesniveau:</string>
-    <string name="detail_command">Sti (kommando):</string>
-    <string name="detail_status">Status:</string>
-    <string name="detail_created">Oprettet:</string>
-    <string name="detail_last_accessed">Seneste adgang:</string>
-
-    <string name="request_message">Dette program kræver superbrugertilladelser:</string>
-    <string name="request_app_name">Program:</string>
-
-    <string name="preferences">Indstillinger</string>
-    <string name="pref_category_whitelist_title">Programliste</string>
-    <string name="pref_tap_action_title">Tap-funktion</string>
-    <string name="pref_tap_action_summary">Funktion som skal udføres når et program bliver trykket på</string>
-    <string name="pref_show_status_icons_title">Vis statusikon</string>
-    <string name="pref_show_status_icons_summary_on">Vis statusikon for hver enkelt program</string>
-    <string name="pref_show_status_icons_summary_off">Vis ikke statusikon for hver enkelt program</string>
-    <string name="pref_status_icon_type_title">Statusikon type</string>
-    <string name="pref_status_icon_type_summary">Måden at vise statusikonet på</string>
-    <string name="pref_category_log_title">Log</string>
-    <string name="pref_date_format_title">Vælg datoformat</string>
-    <string name="pref_24_hour_title">Brug 24-timers urformat</string>
-    <string name="pref_show_seconds_title">Vis sekunder</string>
-    <string name="pref_category_notification_title">Meddelelser</string>
-    <string name="pref_notifications_title">Meddelelser</string>
-    <string name="pref_notifications_summary_on">Vis en meddelelse når et program får superbruger tilladelse</string>
-    <string name="pref_notifications_summary_off">Vis ikke en meddelelse når et program får superbruger tilladelse</string>
-    <string name="pref_notification_title">Meddelelsestype</string>
-    <string name="pref_notification_summary">Måden hvorpå der meddeles, når et program får superbruger tilladelse</string>
-    <string name="pref_category_info_title">Superbruger information</string>
-    <string name="pref_version_title">Superbruger v%s</string>
-    <string name="pref_version_summary">su v%s</string>
-
-    <string name="notification_text">%s er blevet tildelt Superbruger tilladelser</string>
+    <string name="detail_request">Tilladelsesniveau :</string>
+    <string name="detail_command">Sti (Kommando) :</string>
+    <string name="detail_status">Status :</string>
+    <string name="detail_created">Oprettet :</string>
+    <string name="detail_last_accessed">Seneste adgang :</string>
+    <string name="request_message">Dette program krÃ¦ver root adgang :</string>
+    <string name="request_app_name">Program :</string>
 </resources>
