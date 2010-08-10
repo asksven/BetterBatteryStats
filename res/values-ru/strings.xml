@@ -21,14 +21,14 @@
     <string name="request_message">Данное приложение запрашивает права Суперпользователя:</string>
     <string name="request_app_name">Приложение:</string>
     <string name="preferences">Настройки</string>
-    <string name="preference_category_whitelist_title">Список доверенных приложений</string>
-    <string name="preference_tap_action_title">Действие при выборе</string>
-    <string name="preference_tap_action_summary">Действите выполняемое при выборе элемента</string>
-    <string name="preference_category_notification_title">Уведомления</string>
-    <string name="preference_notification_title">Уведомления</string>
-    <string name="preference_notification_summary">Показывать уведомление, если приложению предоставлены права Суперпользователя</string>
-    <string name="preference_category_info_title">Информация о приложении</string>
-    <string name="preference_version_title">Суперпользователь v%s</string>
-    <string name="preference_version_summary">su v%s</string>
+    <string name="pref_category_whitelist_title">Список доверенных приложений</string>
+    <string name="pref_tap_action_title">Действие при выборе</string>
+    <string name="pref_tap_action_summary">Действите выполняемое при выборе элемента</string>
+    <string name="pref_category_notification_title">Уведомления</string>
+    <string name="pref_notification_title">Уведомления</string>
+    <string name="pref_notification_summary">Показывать уведомление, если приложению предоставлены права Суперпользователя</string>
+    <string name="pref_category_info_title">Информация о приложении</string>
+    <string name="pref_version_title">Суперпользователь v%s</string>
+    <string name="pref_version_summary">su v%s</string>
     <string name="notification_text">Приложению %s были предоставлены права Суперпользователя</string>
 </resources>

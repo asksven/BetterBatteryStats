@@ -5,6 +5,7 @@
 #include <sys/un.h>
 #include <sys/wait.h>
 #include <sys/select.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <limits.h>
 #include <fcntl.h>
@@ -21,6 +22,8 @@
 #include <private/android_filesystem_config.h>
 #include <cutils/log.h>
 
+#include <sqlite3.h>
+
 extern char* _mktemp(char*); /* mktemp doesn't link right.  Don't ask me why. */
 
 #include "su.h"
@@ -32,6 +35,8 @@ static char *socket_path = NULL;
 static int socket_serv_fd = -1;
 static char shell[PATH_MAX];
 static unsigned req_uid = 0;
+
+static sqlite3 *db = NULL;
 
 static struct su_initiator su_from = {
     .pid = -1,
@@ -116,6 +121,7 @@ static void socket_cleanup(void)
 static void cleanup(void)
 {
     socket_cleanup();
+    if (db) sqlite3_close(db);
 }
 
 static void cleanup_signal(int sig)
@@ -222,6 +228,127 @@ static int socket_receive_result(int serv_fd, char *result, ssize_t result_len)
     return 0;
 }
 
+static sqlite3 *database_init()
+{
+    sqlite3 *db;
+
+    if (mkdir(REQUESTOR_DATABASES_PATH, 0771) >= 0) {
+        chown(REQUESTOR_DATABASES_PATH, req_uid, req_uid);
+    }
+
+    if (sqlite3_open(REQUESTOR_DATABASE_PATH, &db) != SQLITE_OK) {
+        LOGE("Couldn't open database");
+        return NULL;
+    }
+
+    chmod(REQUESTOR_DATABASE_PATH, 0660);
+    chown(REQUESTOR_DATABASE_PATH, req_uid, req_uid);
+
+    if (sqlite3_exec(db,
+        "CREATE TABLE IF NOT EXISTS apps (_id INTEGER, uid INTEGER, package TEXT, name TEXT, exec_uid INTEGER, exec_cmd TEXT, allow INTEGER, PRIMARY KEY (_id), UNIQUE (uid,exec_uid,exec_cmd));",
+        NULL,
+        NULL,
+        NULL
+    ) != SQLITE_OK) {
+        LOGE("Couldn't create apps table");
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    if (sqlite3_exec(db,
+        "CREATE TABLE IF NOT EXISTS logs (_id INTEGER, app_id INTEGER, date INTEGER, type INTEGER, PRIMARY KEY (_id));",
+        NULL,
+        NULL,
+        NULL
+    ) != SQLITE_OK) {
+        LOGE("Couldn't create logs table");
+        sqlite3_close(db);
+        return NULL;
+    }
+
+    return db;
+}
+
+enum {
+    DB_INTERACTIVE,
+    DB_DENY,
+    DB_ALLOW
+};
+
+static int database_check(sqlite3 *db, struct su_initiator *from, struct su_request *to)
+{
+    char sql[4096];
+    char *zErrmsg;
+    char **result;
+    int nrow,ncol;
+    int allow;
+    struct timeval tv;
+
+    sqlite3_snprintf(
+        sizeof(sql), sql,
+        "SELECT _id,allow FROM apps WHERE uid=%u AND exec_uid=%u AND exec_cmd='%q';",
+        (unsigned)from->uid, to->uid, to->command
+    );
+
+    if (strlen(sql) >= sizeof(sql)-1)
+        return DB_DENY;
+        
+    if (sqlite3_get_table(db, sql, &result, &nrow, &ncol, &zErrmsg) != SQLITE_OK) {
+        LOGE("Database check failed with error message %s", zErrmsg);
+        return DB_DENY;
+    }
+    
+    if (nrow == 0 || ncol != 2)
+        return DB_INTERACTIVE;
+        
+    if (strcmp(result[0], "_id") == 0 && strcmp(result[1], "allow") == 0) {
+        if (strcmp(result[3], "1") == 0) {
+            allow = DB_ALLOW;
+        } else {
+            allow = DB_DENY;
+        }
+        gettimeofday(&tv, NULL);
+        sqlite3_snprintf(
+            sizeof(sql), sql,
+            "INSERT OR IGNORE INTO logs (app_id,date,type) VALUES (%s,(%ld*1000)+(%ld/1000),%s);",
+            result[2], tv.tv_sec, tv.tv_usec, result[3]
+        );
+        sqlite3_exec(db, sql, NULL, NULL, NULL);
+        return allow;
+    }
+
+    sqlite3_free_table(result);
+    
+    return DB_INTERACTIVE;
+}
+
+static int check_notifications(sqlite3 *db)
+{
+    char sql[4096];
+    char *zErrmsg;
+    char **result;
+    int nrow,ncol;
+    int notifications;
+    
+    sqlite3_snprintf(
+        sizeof(sql), sql,
+        "SELECT value FROM prefs WHERE key='notifications';"
+    );
+    
+    if (sqlite3_get_table(db, sql, &result, &nrow, &ncol, &zErrmsg) != SQLITE_OK) {
+        LOGE("Notifications check failed with error message %s", zErrmsg);
+        return 0;
+    }
+    
+    if (nrow == 0 || ncol != 1)
+        return 0;
+    
+    if (strcmp(result[0], "value") == 0 && strcmp(result[1], "1") == 0)
+        return 1;
+        
+    return 0;
+}
+
 static void deny(void)
 {
     struct su_initiator *from = &su_from;
@@ -232,12 +359,15 @@ static void deny(void)
     exit(-1);
 }
 
-static void allow(void)
+static void allow(int notifications)
 {
     struct su_initiator *from = &su_from;
     struct su_request *to = &su_to;
     char *exe = NULL;
 
+    if (notifications)
+        send_intent(&su_from, &su_to, "", 1);
+        
     if (!strcmp(shell, "")) {
         strcpy(shell , "/system/bin/sh");
     }
@@ -260,6 +390,7 @@ int main(int argc, char *argv[])
     struct stat st;
     char buf[64], *result;
     int i;
+    int dballow;
 
     for (i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "-c")) {
@@ -300,7 +431,7 @@ int main(int argc, char *argv[])
     from_init(&su_from);
 
     if (su_from.uid == AID_ROOT)
-        allow();
+        allow(0);
 
     if (stat(REQUESTOR_DATA_PATH, &st) < 0) {
         PLOGE("stat");
@@ -323,6 +454,20 @@ int main(int argc, char *argv[])
         chown(REQUESTOR_CACHE_PATH, req_uid, req_uid);
     }
 
+    db = database_init();
+    if (!db) {
+        deny();
+    }
+
+    dballow = database_check(db, &su_from, &su_to);
+    int notifications = check_notifications(db);
+    switch (dballow) {
+        case DB_DENY: deny();
+        case DB_ALLOW: allow(notifications);
+        case DB_INTERACTIVE: break;
+        default: deny();
+    }
+
     socket_serv_fd = socket_create_temp();
     if (socket_serv_fd < 0) {
         deny();
@@ -334,7 +479,7 @@ int main(int argc, char *argv[])
     signal(SIGABRT, cleanup_signal);
     atexit(cleanup);
 
-    if (do_request(&su_from, &su_to, socket_path) < 0) {
+    if (send_intent(&su_from, &su_to, socket_path, 0) < 0) {
         deny();
     }
 
@@ -350,7 +495,7 @@ int main(int argc, char *argv[])
     if (!strcmp(result, "DENY")) {
         deny();
     } else if (!strcmp(result, "ALLOW")) {
-        allow();
+        allow(notifications);
     } else {
         LOGE("unknown response from Superuser Requestor: %s", result);
         deny();

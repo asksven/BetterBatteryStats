@@ -1,10 +1,13 @@
 package com.noshufou.android.su;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 public class Util {
@@ -27,7 +30,7 @@ public class Util {
                 appName = "Multiple Packages";
             }
         } else {
-            Log.e(TAG, "Package not found");
+            Log.e(TAG, "Package not found for uid " + uid);
         }
 
         if (withUid) {
@@ -46,7 +49,7 @@ public class Util {
             if (packages.length == 1) {
                 appPackage = packages[0];
             } else if (packages.length > 1) {
-                appPackage = "multiple packages";
+                appPackage = "Multiple packages";
             }
         } else {
             Log.e(TAG, "Package not found");
@@ -90,6 +93,46 @@ public class Util {
         }
         
         return uidName;
+    }
+    
+    public static String formatDate(Context context, long date) {
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    	String format = prefs.getString("pref_date_format", "default");
+    	if (format.equals("default")) {
+    		return DateFormat.getDateFormat(context).format(date);
+    	} else {
+    		return (String)DateFormat.format(format, date);
+    	}
+    }
+    
+    public static String formatTime(Context context, long time) {
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    	boolean hour24 = prefs.getBoolean("pref_24_hour_format", true);
+    	boolean showSeconds = prefs.getBoolean("pref_show_seconds", true);
+    	String hour = "kk";
+    	String min = "mm";
+    	String sec = ":ss";
+    	String post = "";
+    	
+    	if (hour24) {
+    		hour = "kk";
+    	} else {
+    		hour = "hh";
+    		post = "aa";
+    	}
+    	
+    	if (showSeconds) {
+    		sec = ":ss";
+    	} else {
+    		sec = "";
+    	}
+    	
+    	String format = String.format("%s:%s%s%s", hour, min, sec, post);
+    	 return (String)DateFormat.format(format, time);
+    }
+    
+    public static String formatDateTime(Context context, long date) {
+    	return formatDate(context, date) + " " + formatTime(context, date);
     }
 
 }

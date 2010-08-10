@@ -7,9 +7,12 @@
 #define REQUESTOR_DATA_PATH "/data/data/" REQUESTOR_PACKAGE
 #define REQUESTOR_CACHE_PATH REQUESTOR_DATA_PATH "/cache"
 
+#define REQUESTOR_DATABASES_PATH REQUESTOR_DATA_PATH "/databases"
+#define REQUESTOR_DATABASE_PATH REQUESTOR_DATABASES_PATH "/permissions.sqlite"
+
 #define DEFAULT_COMMAND "/system/bin/sh"
 
-#define VERSION "2.2.1-ef"
+#define VERSION "2.3-ef"
 
 struct su_initiator {
     pid_t pid;
@@ -23,7 +26,7 @@ struct su_request {
     char *command;
 };
 
-extern int do_request(struct su_initiator *from, struct su_request *to, const char *socket_path);
+extern int send_intent(struct su_initiator *from, struct su_request *to, const char *socket_path, int type);
 
 #if 0
 #undef LOGE

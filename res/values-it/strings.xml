@@ -19,11 +19,11 @@
     <string name="request_message">Questa applicazione richiede l\'accesso come superuser:</string>
     <string name="request_app_name">App:</string>
     <string name="preferences">Impostazioni</string>
-    <string name="preference_category_whitelist_title">Impostazioni whitelist</string>
-    <string name="preference_tap_action_title">Tap action</string>
-    <string name="preference_tap_action_summary">Azione da eseguire quando si clicca un\'app</string>
-    <string name="preference_category_notification_title">Notifiche</string>
-    <string name="preference_notification_title">Notifica</string>
-    <string name="preference_notification_summary">Mostra un messaggio sulla barra delle notifiche quando un\'app ottiene permessi SU </string>
+    <string name="pref_category_whitelist_title">Impostazioni whitelist</string>
+    <string name="pref_tap_action_title">Tap action</string>
+    <string name="pref_tap_action_summary">Azione da eseguire quando si clicca un\'app</string>
+    <string name="pref_category_notification_title">Notifiche</string>
+    <string name="pref_notification_title">Notifica</string>
+    <string name="pref_notification_summary">Mostra un messaggio sulla barra delle notifiche quando un\'app ottiene permessi SU </string>
     <string name="notification_text">%s ha ottenuto i permessi Superuser</string>
 </resources>

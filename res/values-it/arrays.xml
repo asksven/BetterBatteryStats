@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="preference_tap_action_entries">
+    <string-array name="pref_tap_action_entries">
         <item>Dettagli app</item>
         <item>Dimentica</item>
         <item>Cambia stato</item>
     </string-array>
-
-    
-
-    <string-array name="preference_notification_entries">
-        <item>Nessuna</item>
-        <item>Toast</item>
-        <item>Notifica</item>
-    </string-array>
-
-    
-
 </resources>

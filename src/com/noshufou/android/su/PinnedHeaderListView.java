@@ -17,11 +17,14 @@
 package com.noshufou.android.su;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * A ListView that maintains a header pinned at the top of the list. The
@@ -93,9 +96,6 @@ public class PinnedHeaderListView extends ListView {
     public void setPinnedHeaderView(View view) {
         mHeaderView = view;
 
-        // Disable vertical fading when the pinned header is present
-        // TODO change ListView to allow separate measures for top and bottom fading edge;
-        // in this particular case we would like to disable the top, but not the bottom edge.
         if (mHeaderView != null) {
             setFadingEdgeLength(0);
         }
@@ -151,7 +151,6 @@ public class PinnedHeaderListView extends ListView {
             case PinnedHeaderAdapter.PINNED_HEADER_PUSHED_UP: {
                 View firstView = getChildAt(0);
                 int bottom = firstView.getBottom();
-                int itemHeight = firstView.getHeight();
                 int headerHeight = mHeaderView.getHeight();
                 int y;
                 int alpha;
@@ -179,4 +178,12 @@ public class PinnedHeaderListView extends ListView {
             drawChild(canvas, mHeaderView, getDrawingTime());
         }
     }
+    
+    final static class PinnedHeaderCache {
+        public TextView titleView;
+        public ColorStateList textColor;
+        public Drawable background;
+    }
+    
+
 }

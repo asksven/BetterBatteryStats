@@ -16,20 +16,14 @@ using namespace android;
 
 static const int BROADCAST_INTENT_TRANSACTION = IBinder::FIRST_CALL_TRANSACTION + 13;
 
-static const int FLAG_ACTIVITY_NO_HISTORY = 0x40000000;
-static const int FLAG_ACTIVITY_NEW_TASK = 0x10000000;
-static const int FLAG_ACTIVITY_MULTIPLE_TASK = 0x08000000;
-
-static const int URI_TYPE_ID = 1;
 static const int NULL_TYPE_ID = 0;
 
-static const int VAL_NULL = -1;
 static const int VAL_STRING = 0;
 static const int VAL_INTEGER = 1;
 
 static const int START_SUCCESS = 0;
 
-int do_request(struct su_initiator *from, struct su_request *to, const char *socket_path)
+int send_intent(struct su_initiator *from, struct su_request *to, const char *socket_path, int type)
 {
     char sdk_version_prop[PROPERTY_VALUE_MAX] = "0";
     property_get("ro.build.version.sdk", sdk_version_prop, "0");
@@ -46,7 +40,11 @@ int do_request(struct su_initiator *from, struct su_request *to, const char *soc
     data.writeStrongBinder(NULL); /* caller */
 
     /* intent */
-    data.writeString16(String16("com.noshufou.android.su.REQUEST")); /* action */
+    if (type == 0) {
+        data.writeString16(String16("com.noshufou.android.su.REQUEST")); /* action */
+    } else {
+        data.writeString16(String16("com.noshufou.android.su.NOTIFICATION")); /* action */
+    }
     data.writeInt32(NULL_TYPE_ID); /* Uri - data */
     data.writeString16(NULL, 0); /* type */
     data.writeInt32(0); /* flags */
@@ -95,7 +93,9 @@ int do_request(struct su_initiator *from, struct su_request *to, const char *soc
 
     data.writeString16(NULL, 0); /* resolvedType */
 
-    data.writeStrongBinder(NULL); /* resultTo (something about this makes for an error reading it back */
+    data.writeInt32(-1); /* Not sure what this is for, but it prevents a warning */
+
+    data.writeStrongBinder(NULL); /* resultTo */
     data.writeInt32(-1); /* resultCode */
     data.writeString16(NULL, 0); /* resultData */
 
@@ -105,6 +105,7 @@ int do_request(struct su_initiator *from, struct su_request *to, const char *soc
     data.writeString16(String16("com.noshufou.android.su.RESPOND")); /* perm */
     data.writeInt32(0); /* serialized */
     data.writeInt32(0); /* sticky */
+    data.writeInt32(-1);
     
     status_t ret = am->transact(BROADCAST_INTENT_TRANSACTION, data, &reply);
     if (ret < START_SUCCESS) return -1;
