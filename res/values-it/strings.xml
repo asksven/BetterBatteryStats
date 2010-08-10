@@ -3,6 +3,10 @@
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Richiesta Superuser</string>
     <string name="app_name_perms">Superuser Permission</string>
+
+    <string name="permlab_respond">rispondi alla richiesta supeuser</string>
+    <string name="permdesc_respond">Permette alle applicazioni di rispondere alla richiesta per permessi da superuser. Applicazioni malevoli concedono permessi ad app alle quali l\'utente non ha esplicitamente dato permesso.</string>
+
     <string name="allow">Consenti</string>
     <string name="forget">Elimina</string>
     <string name="cancel">Annulla</string>
@@ -10,14 +14,49 @@
     <string name="remember">Ricorda</string>
     <string name="uid">(uid: %d)</string>
     <string name="request">%s as %s (uid: %d)</string>
+    <string name="unknown">Unknown name</string>
+
+    <string name="allowed">Consentito</string>
+    <string name="denied">Negato</string>
+    <string name="created">Creato</string>
+    <string name="toggled">Modificato</string>
+
+    <string name="no_log_data">Nessun log di dati</string>
+    <string name="last_allowed">Ultimo consentito:</string>
+    <string name="last_denied">Ultimo negato:</string>
+    <string name="empty">Nessuna app nella lista</string>
+
     <string name="detail_package">Pacchetto:</string>
     <string name="detail_request">Richiesta UID:</string>
     <string name="detail_command">Comando:</string>
     <string name="detail_status">Stato:</string>
     <string name="detail_created">Creato il:</string>
     <string name="detail_last_accessed">Ultimo accesso:</string>
+
     <string name="request_message">Questa applicazione richiede i permessi di root:</string>
     <string name="request_app_name">App:</string>
     <string name="preferences">Impostazioni</string>
+        <string name="pref_category_whitelist_title">Lista app</string>
+    <string name="pref_tap_action_title">Tap action</string>
+    <string name="pref_tap_action_summary">Azione da eseguire quando si clicca un\'app</string>
+    <string name="pref_show_status_icons_title">Mostra icona di stato</string>
+    <string name="pref_show_status_icons_summary_on">Mostra icona di stato per ogni app</string>
+    <string name="pref_show_status_icons_summary_off">Non mostrare l\'icona di stato per ogni app</string>
+    <string name="pref_status_icon_type_title">Tipo icona di stato</string>
+    <string name="pref_status_icon_type_summary">Stile dell\'icona di stato da mostrare</string>
+    <string name="pref_category_log_title">Log</string>
+    <string name="pref_date_format_title">Select formato data</string>
+    <string name="pref_24_hour_title">Usa formato 24-ore</string>
+    <string name="pref_show_seconds_title">Mostra secondi</string>
+    <string name="pref_category_notification_title">Notifiche</string>
+    <string name="pref_notifications_title">Notifiche</string>
+    <string name="pref_notifications_summary_on">Mostra una notifica quando vengono concessi i permessi di root ad un\'app</string>
+    <string name="pref_notifications_summary_off">Non mostrare una notifica quando vengono concessi i permessi di root ad un\'app</string>
+    <string name="pref_notification_title">Tipologia notifica</string>
+    <string name="pref_notification_summary">Scegli come vuoi che ti venga notificato quando un\'app ottiene i permessi di root </string>
+    <string name="pref_category_info_title">Informazioni Superuser</string>
+    <string name="pref_version_title">Superuser v%s</string>
+    <string name="pref_version_summary">su v%s</string>
+
     <string name="notification_text">%s ha ottenuto i permessi di root</string>
 </resources>

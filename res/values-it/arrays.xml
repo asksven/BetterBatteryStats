@@ -6,9 +6,21 @@
         <item>Cambia stato</item>
     </string-array>
 
-    <string-array name="preference_notification_entries">
-        <item>Nessuna</item>
-        <item>Toast</item>
-        <item>Barra Notifiche</item>
+    <string-array name="pref_status_icon_type_entries">
+    	<item>Punto</item>
+    	<item>Emoticon</item>
     </string-array>
+
+    <string-array name="pref_date_format_entries">
+    	<item>Default di sistema</item>
+    	<item>12/31/2010</item>
+    	<item>31/12/2010</item>
+    	<item>2010/12/31</item>
+    </string-array>
+
+    <string-array name="pref_notification_entries">
+        <item>Toast</item>
+        <item>Notifica</item>
+    </string-array>
+    
 </resources>
