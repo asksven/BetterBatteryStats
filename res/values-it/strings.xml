@@ -45,7 +45,7 @@
     <string name="pref_status_icon_type_title">Tipo icona di stato</string>
     <string name="pref_status_icon_type_summary">Stile dell\'icona di stato da mostrare</string>
     <string name="pref_category_log_title">Log</string>
-    <string name="pref_date_format_title">Select formato data</string>
+    <string name="pref_date_format_title">Seleziona formato data</string>
     <string name="pref_24_hour_title">Usa formato 24-ore</string>
     <string name="pref_show_seconds_title">Mostra secondi</string>
     <string name="pref_category_notification_title">Notifiche</string>
