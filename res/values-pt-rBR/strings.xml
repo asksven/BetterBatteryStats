@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Superuser</string>
-    <string name="app_name_request">Requisições de Superuser</string>
-    <string name="app_name_perms">Permissões de Superuser</string>
+    <string name="app_name_request">RequisiÃ§Ãµes de Superuser</string>
+    <string name="app_name_perms">PermissÃµes de Superuser</string>
 
-    <string name="permlab_respond">responder às requisições de superuser</string>
-    <string name="permdesc_respond">Permite o aplicativo responder às requisições para acesso de superuser. Aplicativos maliciosos dão permissões aos aplicativos que o usuário não autorizou.</string>
+    <string name="permlab_respond">responder Ã s requisiÃ§Ãµes de superuser</string>
+    <string name="permdesc_respond">Permite o aplicativo responder Ã s requisiÃ§Ãµes para acesso de superuser. Aplicativos maliciosos dÃ£o permissÃµes aos aplicativos que o usuÃ¡rio nÃ£o autorizou.</string>
 
     <string name="allow">Permitir</string>
     <string name="forget">Esquecer</string>
@@ -21,43 +21,43 @@
     <string name="created">Criado</string>
     <string name="toggled">Modificar</string>
 
-    <string name="no_log_data">Não há log</string>
-    <string name="last_allowed">Último permitido:</string>
-    <string name="last_denied">Último negado:</string>
-    <string name="empty">Não há aplicativos na lista</string>
+    <string name="no_log_data">NÃ£o hÃ¡ log</string>
+    <string name="last_allowed">Ãšltimo permitido:</string>
+    <string name="last_denied">Ãšltimo negado:</string>
+    <string name="empty">NÃ£o hÃ¡ aplicativos na lista</string>
 
     <string name="detail_package">Pacote:</string>
     <string name="detail_request">UID de Requerimento:</string>
     <string name="detail_command">Comando:</string>
     <string name="detail_status">Status:</string>
     <string name="detail_created">Criado em:</string>
-    <string name="detail_last_accessed">Último acesso:</string>
+    <string name="detail_last_accessed">Ãšltimo acesso:</string>
 
-    <string name="request_message">O aplicativo a seguir está requisitando acesso de superuser:</string>
+    <string name="request_message">O aplicativo a seguir estÃ¡ requisitando acesso de superuser:</string>
     <string name="request_app_name">Aplicativo:</string>
 
-    <string name="preferences">Preferências</string>
+    <string name="preferences">PreferÃªncias</string>
     <string name="pref_category_whitelist_title">Lista de aplicativos</string>
-    <string name="pref_tap_action_title">Ação de toque</string>
-    <string name="pref_tap_action_summary">Ação a ser executada quando o item for tocado</string>
-    <string name="pref_show_status_icons_title">Mostrar ícones de status</string>
-    <string name="pref_show_status_icons_summary_on">Mostrar ícones de status de cada aplicativo</string>
-    <string name="pref_show_status_icons_summary_off">Não mostrar ícones de status de cada aplicativo</string>
-    <string name="pref_status_icon_type_title">Tipo de ícones de status</string>
-    <string name="pref_status_icon_type_summary">Estilo dos ícones de status a mostrar</string>
+    <string name="pref_tap_action_title">AÃ§Ã£o de toque</string>
+    <string name="pref_tap_action_summary">AÃ§Ã£o a ser executada quando o item for tocado</string>
+    <string name="pref_show_status_icons_title">Mostrar Ã­cones de status</string>
+    <string name="pref_show_status_icons_summary_on">Mostrar Ã­cones de status de cada aplicativo</string>
+    <string name="pref_show_status_icons_summary_off">NÃ£o mostrar Ã­cones de status de cada aplicativo</string>
+    <string name="pref_status_icon_type_title">Tipo de Ã­cones de status</string>
+    <string name="pref_status_icon_type_summary">Estilo dos Ã­cones de status a mostrar</string>
     <string name="pref_category_log_title">Log</string>
     <string name="pref_date_format_title">Selecione o formato da data</string>
     <string name="pref_24_hour_title">Usar formato 24h</string>
     <string name="pref_show_seconds_title">Mostrar segundos</string>
-    <string name="pref_category_notification_title">Notificações</string>
-    <string name="pref_notifications_title">Notificações</string>
-    <string name="pref_notifications_summary_on">Mostrar notificação quando um aplicativo receber as permissões SU</string>
-    <string name="pref_notifications_summary_off">Não mostrar notificação quando um aplicativo receber as permissões SU</string>
-    <string name="pref_notification_title">Tipo de notificação</string>
-    <string name="pref_notification_summary">Tipo de notificação quando um aplicativo receber as permissões SU</string>
-    <string name="pref_category_info_title">Informação do Superuser</string>
+    <string name="pref_category_notification_title">NotificaÃ§Ãµes</string>
+    <string name="pref_notifications_title">NotificaÃ§Ãµes</string>
+    <string name="pref_notifications_summary_on">Mostrar notificaÃ§Ã£o quando um aplicativo receber as permissÃµes SU</string>
+    <string name="pref_notifications_summary_off">NÃ£o mostrar notificaÃ§Ã£o quando um aplicativo receber as permissÃµes SU</string>
+    <string name="pref_notification_title">Tipo de notificaÃ§Ã£o</string>
+    <string name="pref_notification_summary">Tipo de notificaÃ§Ã£o quando um aplicativo receber as permissÃµes SU</string>
+    <string name="pref_category_info_title">InformaÃ§Ã£o do Superuser</string>
     <string name="pref_version_title">Superuser v%s</string>
     <string name="pref_version_summary">su v%s</string>
 
-    <string name="notification_text">%s recebeu as permissões de Superuser</string>
+    <string name="notification_text">%s recebeu as permissÃµes de Superuser</string>
 </resources>
