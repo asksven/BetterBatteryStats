@@ -210,6 +210,10 @@ public class DBHelper {
     	values.put("value", notifications?1:0);
     	this.mDB.update(PREFS_TABLE, values, "key=?", new String[] { "notifications" });
     }
+    
+    public int getDBVersion() {
+    	return this.mDB.getVersion();
+    }
 
     public void close() {
         if (this.mDB.isOpen()) {

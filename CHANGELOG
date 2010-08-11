@@ -4,3 +4,4 @@
  - Fix FC due to unexpected column names
  - Localize tab names
  - Use activity to manage cursors
+ - Add database version to Settings screen
