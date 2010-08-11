@@ -1,0 +1,2 @@
+2.3.1:
+ - Ensure getStatusButtonDrawable() gets a value it can use, to prevent an ArrayIndexOutOfBoundsException

@@ -407,6 +407,11 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
    					{ R.drawable.perm_deny_dot, R.drawable.perm_allow_dot },
    					{ R.drawable.perm_deny_emo, R.drawable.perm_allow_emo }
    			};
+   			
+   			if (allow < 0 || allow > 1) {
+   				Log.e(TAG, "Bad value given to getStatusButtonDrawable(int). Expecting 0 or 1, got " + allow);
+   				return null;
+   			}
 
    			Drawable drawable = mContext.getResources().getDrawable(statusButtons[mStatusIconType][allow]);
    			return drawable;
