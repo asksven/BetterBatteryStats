@@ -5,3 +5,4 @@
  - Localize tab names
  - Use activity to manage cursors
  - Add database version to Settings screen
+ - Prevent a possible FC in LogActivity
