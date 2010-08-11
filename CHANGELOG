@@ -2,3 +2,4 @@
  - Ensure getStatusButtonDrawable() gets a value it can use, to prevent an ArrayIndexOutOfBoundsException
  - Fix DateIndexer to return proper section if there are no log entries for today
  - Fix FC due to unexpected column names
+ - Localize tab names
