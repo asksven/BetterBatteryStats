@@ -42,9 +42,6 @@ public class LogActivity extends ListActivity {
     @Override
 	protected void onPause() {
 		super.onPause();
-		if (!mCursor.isClosed()) {
-			mCursor.close();
-		}
 	}
 
 	@Override
@@ -81,6 +78,7 @@ public class LogActivity extends ListActivity {
     
     private void refreshList() {
     	mCursor = mDB.getAllLogs();
+    	startManagingCursor(mCursor);
     	mAdapter.changeCursor(mCursor);
     }
     

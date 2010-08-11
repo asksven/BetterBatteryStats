@@ -63,9 +63,6 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
     @Override
 	protected void onPause() {
 		super.onPause();
-		if (!mCursor.isClosed()) {
-			mCursor.close();
-		}
 	}
 
 	@Override
@@ -137,6 +134,7 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
 
     private void refreshList() {
         mCursor = mDB.getAllApps();
+        startManagingCursor(mCursor);
         mAdapter.changeCursor(mCursor);
     }
 
