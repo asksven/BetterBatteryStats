@@ -181,8 +181,6 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
         TextView titleUid = (TextView) customTitle.findViewById(R.id.appUid);
         titleUid.setText(Integer.toString(appUid));
 
-//        builder.setTitle(appName)
-//               .setIcon(appIcon)
         builder.setCustomTitle(customTitle)
                .setView(layout)
                .setPositiveButton(appDetails.getPermissionBool() ? R.string.deny : R.string.allow, new DialogInterface.OnClickListener() {
