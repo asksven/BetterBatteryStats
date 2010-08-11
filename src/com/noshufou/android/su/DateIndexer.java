@@ -5,10 +5,11 @@ import java.util.GregorianCalendar;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.widget.SectionIndexer;
 
 public class DateIndexer implements SectionIndexer {
-//	private static final String TAG = "Su.DateIndexer";
+	private static final String TAG = "Su.DateIndexer";
 	
 	private Cursor mCursor;
 	private int mColumnIndex;
@@ -98,10 +99,17 @@ public class DateIndexer implements SectionIndexer {
 		mCursor.moveToPosition(position);
 		long date = mCursor.getLong(mColumnIndex);
 		mCursor.moveToPosition(savedCursorPos);
-		long today = System.currentTimeMillis();
 		int dateInt = Integer.parseInt(mIntFormat.format(date));
-		int todayInt = Integer.parseInt(mIntFormat.format(today));
-		return todayInt - dateInt;
+		// Simple linear search since there aren't that many sections.
+		// May optimize this later if necessary.
+		for (int i = 0; i < mSectionCount; i++) {
+			if (dateInt == mSectionDates[i]) {
+				return i;
+			}
+		}
+		// If it wasn't found, something went wrong. Log it
+		Log.e(TAG, "Section not found for date " + dateInt);
+		return 0;
 	}
 
 	@Override
