@@ -6,24 +6,20 @@
         <item>Переключить состояние</item>
     </string-array>
 
-    <!-- Do not translate. -->
-    <string-array name="pref_tap_action_values">
-        <item>detail</item>
-        <item>forget</item>
-        <item>toggle</item>
+    <string-array name="pref_status_icon_type_entries">
+    	<item>Точка</item>
+    	<item>Смайл</item>
     </string-array>
-
+    
+    <string-array name="pref_date_format_entries">
+    	<item>Системные настройки</item>
+    	<item>12/31/2010</item>
+    	<item>31/12/2010</item>
+    	<item>2010/12/31</item>
+    </string-array>
+    
     <string-array name="pref_notification_entries">
-        <item>Не показывать</item>
         <item>Всплывающие</item>
         <item>В список уведомлений</item>
     </string-array>
-
-    <!-- Do not translate. -->
-    <string-array name="pref_notification_values">
-        <item>none</item>
-        <item>toast</item>
-        <item>notification</item>
-    </string-array>
-
 </resources>
