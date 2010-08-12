@@ -238,7 +238,6 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
    		public View newView(Context context, Cursor cursor, ViewGroup parent) {
    			final AppListItem view = new AppListItem(context, null);
    			view.setOnStatusButtonClickListener(AppListActivity.this);
-   			view.setTag(new AppListItemCache());
    			return view;
    		}
 
@@ -412,11 +411,5 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
    			Drawable drawable = mContext.getResources().getDrawable(statusButtons[mStatusIconType][allow]);
    			return drawable;
    		}
-    }
-    
-    final static class AppListItemCache {
-    	public Drawable appIcon;
-    	public String nameText;
-    	public String logText;
     }
 }
