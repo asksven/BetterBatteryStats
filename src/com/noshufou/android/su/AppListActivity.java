@@ -68,7 +68,6 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
 	@Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume()");
 
         mShowStatusIcons = mPrefs.getBoolean("pref_show_status_icons", true);
 		String type = mPrefs.getString("pref_status_icon_type", "dot");
@@ -120,7 +119,6 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
     @Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
     	String action = mPrefs.getString("pref_tap_action", "detail");
-    	Log.d(TAG, "action=" + action + " id=" + id + " position=" + position);
     	if (action.equals("detail")) {
     		appDetails(id);
     	} else if (action.equals("forget")) {
