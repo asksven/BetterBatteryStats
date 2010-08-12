@@ -1,0 +1,9 @@
+2.3.1:
+ - Ensure getStatusButtonDrawable() gets a value it can use, to prevent an ArrayIndexOutOfBoundsException
+ - Fix DateIndexer to return proper section if there are no log entries for today
+ - Fix FC due to unexpected column names
+ - Localize tab names
+ - Use activity to manage cursors
+ - Add database version to Settings screen
+ - Prevent a possible FC in LogActivity
+ - New drawables and better layout for request window. Now supports landscape and ldpi devices

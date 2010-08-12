@@ -20,19 +20,19 @@ public class Su extends TabActivity {
 		Intent intent;
 		
 		intent = new Intent().setClass(this, AppListActivity.class);
-		spec = tabHost.newTabSpec("apps").setIndicator("Apps",
+		spec = tabHost.newTabSpec("apps").setIndicator(getString(R.string.tab_apps),
 				res.getDrawable(R.drawable.ic_tab_permissions))
 				.setContent(intent);
 		tabHost.addTab(spec);
 		
 		intent = new Intent().setClass(this, LogActivity.class);
-		spec = tabHost.newTabSpec("log").setIndicator("Log",
+		spec = tabHost.newTabSpec("log").setIndicator(getString(R.string.tab_log),
 				res.getDrawable(R.drawable.ic_tab_log))
 				.setContent(intent);
 		tabHost.addTab(spec);
 		
 		intent = new Intent().setClass(this, SuPreferences.class);
-		spec = tabHost.newTabSpec("settings").setIndicator("Settings",
+		spec = tabHost.newTabSpec("settings").setIndicator(getString(R.string.tab_settings),
 				res.getDrawable(R.drawable.ic_tab_settings))
 				.setContent(intent);
 		tabHost.addTab(spec);

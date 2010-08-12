@@ -4,9 +4,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -14,7 +12,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -66,15 +63,11 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
     @Override
 	protected void onPause() {
 		super.onPause();
-		if (!mCursor.isClosed()) {
-			mCursor.close();
-		}
 	}
 
 	@Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume()");
 
         mShowStatusIcons = mPrefs.getBoolean("pref_show_status_icons", true);
 		String type = mPrefs.getString("pref_status_icon_type", "dot");
@@ -126,7 +119,6 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
     @Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
     	String action = mPrefs.getString("pref_tap_action", "detail");
-    	Log.d(TAG, "action=" + action + " id=" + id + " position=" + position);
     	if (action.equals("detail")) {
     		appDetails(id);
     	} else if (action.equals("forget")) {
@@ -140,6 +132,7 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
 
     private void refreshList() {
         mCursor = mDB.getAllApps();
+        startManagingCursor(mCursor);
         mAdapter.changeCursor(mCursor);
     }
 
@@ -184,8 +177,6 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
         TextView titleUid = (TextView) customTitle.findViewById(R.id.appUid);
         titleUid.setText(Integer.toString(appUid));
 
-//        builder.setTitle(appName)
-//               .setIcon(appIcon)
         builder.setCustomTitle(customTitle)
                .setView(layout)
                .setPositiveButton(appDetails.getPermissionBool() ? R.string.deny : R.string.allow, new DialogInterface.OnClickListener() {
@@ -245,7 +236,6 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
    		public View newView(Context context, Cursor cursor, ViewGroup parent) {
    			final AppListItem view = new AppListItem(context, null);
    			view.setOnStatusButtonClickListener(AppListActivity.this);
-   			view.setTag(new AppListItemCache());
    			return view;
    		}
 
@@ -410,15 +400,14 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
    					{ R.drawable.perm_deny_dot, R.drawable.perm_allow_dot },
    					{ R.drawable.perm_deny_emo, R.drawable.perm_allow_emo }
    			};
+   			
+   			if (allow < 0 || allow > 1) {
+   				Log.e(TAG, "Bad value given to getStatusButtonDrawable(int). Expecting 0 or 1, got " + allow);
+   				return null;
+   			}
 
    			Drawable drawable = mContext.getResources().getDrawable(statusButtons[mStatusIconType][allow]);
    			return drawable;
    		}
-    }
-    
-    final static class AppListItemCache {
-    	public Drawable appIcon;
-    	public String nameText;
-    	public String logText;
     }
 }

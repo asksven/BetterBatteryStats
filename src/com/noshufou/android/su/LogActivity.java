@@ -42,9 +42,6 @@ public class LogActivity extends ListActivity {
     @Override
 	protected void onPause() {
 		super.onPause();
-		if (!mCursor.isClosed()) {
-			mCursor.close();
-		}
 	}
 
 	@Override
@@ -81,6 +78,7 @@ public class LogActivity extends ListActivity {
     
     private void refreshList() {
     	mCursor = mDB.getAllLogs();
+    	startManagingCursor(mCursor);
     	mAdapter.changeCursor(mCursor);
     }
     
@@ -187,7 +185,7 @@ public class LogActivity extends ListActivity {
 		}
 
 		private void updateIndexer(Cursor cursor) {
-			if (cursor == null || cursor.getCount() == 0) {
+			if (cursor == null) {
 				mIndexer = null;
 				return;
 			}
@@ -238,7 +236,8 @@ public class LogActivity extends ListActivity {
 
 		@Override
 		public int getPinnedHeaderState(int position) {
-			if (mIndexer == null || mCursor == null || mCursor.getCount() == 0) {
+			if (mIndexer == null || mCursor == null || mCursor.getCount() == 0
+					|| mCursor.isClosed()) {
 				return PINNED_HEADER_GONE;
 			}
 			

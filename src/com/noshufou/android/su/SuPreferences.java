@@ -23,7 +23,9 @@ public class SuPreferences extends PreferenceActivity implements OnSharedPrefere
         Preference versionPreference = (Preference)getPreferenceScreen().findPreference("pref_version");
         
         versionPreference.setTitle(getString(R.string.pref_version_title, getSuperuserVersion()));
-        versionPreference.setSummary(getString(R.string.pref_version_summary, getSuVersion()));
+        DBHelper db = new DBHelper(this);
+        versionPreference.setSummary(getString(R.string.pref_version_summary, getSuVersion(), db.getDBVersion()));
+        db.close();
     }
     
 	@Override

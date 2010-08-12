@@ -94,20 +94,24 @@ public class DBHelper {
     }
 
     public Cursor getAllApps() {
-    	return this.mDB.rawQuery("SELECT apps._id,apps.uid,apps.package,apps.name,apps.allow," +
-    			"logs.date,logs.type FROM apps,logs WHERE apps._id=logs.app_id AND " +
+    	return this.mDB.rawQuery("SELECT apps._id AS _id,apps.uid AS uid,apps.package AS package," +
+    			"apps.name AS name,apps.allow AS allow,logs.date AS date,logs.type AS type " +
+    			"FROM apps,logs WHERE apps._id=logs.app_id AND " +
     			"(logs.type=1 OR logs.type=2) GROUP BY logs.app_id " +
     			"ORDER BY apps.allow DESC,apps.name ASC,logs.date DESC", null);
     }
     
     public Cursor getAllLogs() {
-    	return this.mDB.rawQuery("SELECT logs._id,logs.date,logs.type,apps.uid,apps.name " +
+    	return this.mDB.rawQuery("SELECT logs._id AS _id,logs.date AS date,logs.type AS type," +
+    			"apps.uid AS uid,apps.name AS name " +
     			"FROM logs,apps WHERE apps._id=logs.app_id ORDER BY date DESC", null);
     }
 
     public AppDetails getAppDetails(long id) {
-        Cursor cursor = this.mDB.rawQuery("SELECT apps._id,apps.uid,apps.package,apps.name,apps.exec_uid," +
-        		"apps.exec_cmd,apps.allow,logs.date,logs.type FROM apps,logs " + 
+        Cursor cursor = this.mDB.rawQuery("SELECT apps._id AS _id,apps.uid AS uid,apps.package AS package," +
+        		"apps.name AS name,apps.exec_uid AS exec_uid,apps.exec_cmd AS exec_cmd,apps.allow AS allow," +
+        		"logs.date AS date,logs.type AS type " +
+        		"FROM apps,logs " + 
         		"WHERE apps._id=? AND logs.app_id=apps._id AND (logs.type=0 OR logs.type=1 OR logs.type=2)" +
         		"ORDER BY logs.date DESC ",
         		new String[] { Long.toString(id) });
@@ -205,6 +209,10 @@ public class DBHelper {
     	ContentValues values = new ContentValues();
     	values.put("value", notifications?1:0);
     	this.mDB.update(PREFS_TABLE, values, "key=?", new String[] { "notifications" });
+    }
+    
+    public int getDBVersion() {
+    	return this.mDB.getVersion();
     }
 
     public void close() {
