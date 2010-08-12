@@ -4,4 +4,9 @@
         <item name="android:textStyle">bold</item>
         <item name="android:paddingRight">5dip</item>
     </style>
+    
+    <style name="RequestPanel" parent="@android:style/Theme.Panel">
+    	<item name="android:windowBackground">@drawable/dialog_background</item>
+    	<item name="android:windowIsFloating">false</item>
+    </style>
 </resources>
