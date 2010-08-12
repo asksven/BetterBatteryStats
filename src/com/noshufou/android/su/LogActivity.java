@@ -185,7 +185,7 @@ public class LogActivity extends ListActivity {
 		}
 
 		private void updateIndexer(Cursor cursor) {
-			if (cursor == null || cursor.getCount() == 0) {
+			if (cursor == null) {
 				mIndexer = null;
 				return;
 			}
