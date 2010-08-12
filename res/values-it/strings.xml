@@ -5,7 +5,11 @@
     <string name="app_name_perms">Superuser Permission</string>
 
     <string name="permlab_respond">rispondi alla richiesta supeuser</string>
-    <string name="permdesc_respond">Permette alle applicazioni di rispondere alla richiesta per permessi da superuser. Applicazioni malevoli concedono permessi ad app alle quali l\'utente non ha esplicitamente dato permesso.</string>
+    <string name="permdesc_respond">Permette alle applicazioni di rispondere alla richiesta per permessi da superuser.</string>
+
+    <string name="tab_apps">Apps</string>
+    <string name="tab_log">Log</string>
+    <string name="tab_settings">Impostazioni</string>
 
     <string name="allow">Consenti</string>
     <string name="forget">Elimina</string>
@@ -56,7 +60,7 @@
     <string name="pref_notification_summary">Scegli come vuoi che ti venga notificato quando un\'app ottiene i permessi di root </string>
     <string name="pref_category_info_title">Informazioni Superuser</string>
     <string name="pref_version_title">Superuser v%s</string>
-    <string name="pref_version_summary">su v%s</string>
+    <string name="pref_version_summary">su v%s, Versione Database %s</string>
 
     <string name="notification_text">%s ha ottenuto i permessi di root</string>
 </resources>
