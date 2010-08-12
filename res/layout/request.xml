@@ -97,7 +97,7 @@
 			android:layout_height="wrap_content"
 			android:layout_below="@id/requestDetailLabel"
 			android:layout_alignParentLeft="true"
-			android:text="Command:" />
+			android:text="@string/detail_command" />
 
 		<TextView android:id="@+id/command"
 			android:layout_width="wrap_content"
