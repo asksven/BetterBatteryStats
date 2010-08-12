@@ -128,7 +128,7 @@ public class PinnedHeaderListView extends ListView {
     }
 
     public void configureHeaderView(int position) {
-        if (mHeaderView == null) {
+        if (mHeaderView == null || getCount() == 0) {
             return;
         }
 
