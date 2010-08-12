@@ -4,7 +4,12 @@
     <string name="app_name_request">Superuser Anfrage</string>
     <string name="app_name_perms">Superuser Genehmigungen</string>
     <string name="permlab_respond">Auf SU-Anfragen reagieren</string>
-    <string name="permdesc_respond">Erlaubt den Anwendungen auf SU-Anfragen zu reagieren. Schadprogrammen Genehmigungen gewähren auf Anwendungen, auf die der Benutzer nicht explizit Zugriff gewährt hat.</string>
+    <string name="permdesc_respond">Erlaubt den Anwendungen auf SU-Anfragen zu reagieren.</string>
+
+    <string name="tab_apps">Apps</string>
+    <string name="tab_log">Log</string>
+    <string name="tab_settings">Optionen</string>
+
     <string name="allow">Erlauben</string>
     <string name="forget">Widerufen</string>
     <string name="cancel">Abbrechen</string>
@@ -53,6 +58,7 @@
     <string name="pref_notification_title">Benachrichtigungstyp</string>
     <string name="pref_notification_summary">Art der Benachrichtigung, wenn einer App SU-Rechte gewährt wurden</string>
     <string name="pref_category_info_title">Superuser Information</string>
+    <string name="pref_version_summary">su v%s, Datenbank-Version %s</string>
 
     <string name="notification_text">%s wurden SU-Rechte gewährt</string>
 </resources>
