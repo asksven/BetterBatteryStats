@@ -6,3 +6,4 @@
  - Use activity to manage cursors
  - Add database version to Settings screen
  - Prevent a possible FC in LogActivity
+ - New drawables and better layout for request window. Now supports landscape and ldpi devices

@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/layout"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:paddingLeft="20dip"
 	android:paddingRight="20dip"
-	android:background="@drawable/dialog_background" >
+	android:orientation="vertical"
+	android:gravity="center">
 	
 	<ImageView android:id="@+id/icon"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_alignParentTop="true"
-		android:layout_centerHorizontal="true"
 		android:scaleType="centerInside"
 		android:src="@drawable/icon" />
 		
 	<TextView android:id="@+id/title"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/icon"
-		android:layout_centerHorizontal="true"
 		android:textSize="16sp"
 		android:textStyle="bold"
 		android:text="@string/app_name_request" />
@@ -27,8 +24,6 @@
 	<ImageView android:id="@+id/titleBottom"
 		android:layout_width="fill_parent"
 		android:layout_height="2dip"
-		android:layout_below="@id/title"
-		android:layout_centerHorizontal="true"
 		android:layout_marginTop="5dip"
 		android:layout_marginBottom="5dip"
 		android:scaleType="fitXY"
@@ -37,16 +32,12 @@
 	<TextView android:id="@+id/message"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/titleBottom"
-		android:layout_centerHorizontal="true"
 		android:gravity="center_horizontal"
 		android:text="@string/request_message" />
 
 	<RelativeLayout android:id="@+id/detailsLayout"
-		android:layout_width="fill_parent"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/message"
-		android:layout_centerHorizontal="true"
 		android:paddingTop="5dip"
 		android:paddingBottom="5dip"
 		android:paddingLeft="15dip"
@@ -104,9 +95,9 @@
 			style="@style/label"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@id/requestDetailLabel"
+			android:layout_below="@id/packageNameLabel"
 			android:layout_alignParentLeft="true"
-			android:text="@string/detail_command" />
+			android:text="Command:" />
 
 		<TextView android:id="@+id/command"
 			android:layout_width="wrap_content"
@@ -118,24 +109,30 @@
 	
 	</RelativeLayout>
 	
-    <CheckBox android:id="@+id/checkRemember"
-        android:text="@string/remember"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detailsLayout"
-        android:layout_alignParentLeft="true" />
-        
-    <TextView android:id="@+id/timer"
-    	android:layout_width="wrap_content"
+    <LinearLayout
+    	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:layout_alignBaseline="@id/checkRemember"
-    	android:layout_alignParentRight="true"
-    	android:paddingRight="5dip" />
+    	android:orientation="horizontal">
+    	
+        <CheckBox android:id="@+id/checkRemember"
+            android:text="@string/remember"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView android:id="@+id/timer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingRight="5dip"
+            android:singleLine="true"
+            android:gravity="right" />
+
+    </LinearLayout>
 
 	<LinearLayout 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/checkRemember"
 		android:orientation="horizontal" >
 		
 		<Button android:id="@+id/allow"
@@ -152,4 +149,4 @@
 			android:text="@string/deny" />
 	</LinearLayout>
 	
-</RelativeLayout>
+</LinearLayout>
