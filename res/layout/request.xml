@@ -36,7 +36,7 @@
 		android:text="@string/request_message" />
 
 	<RelativeLayout android:id="@+id/detailsLayout"
-		android:layout_width="wrap_content"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:paddingTop="5dip"
 		android:paddingBottom="5dip"
@@ -95,7 +95,7 @@
 			style="@style/label"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_below="@id/packageNameLabel"
+			android:layout_below="@id/requestDetailLabel"
 			android:layout_alignParentLeft="true"
 			android:text="Command:" />
 
