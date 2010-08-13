@@ -2,6 +2,9 @@
 <resources>
     <string name="app_name_request">Superuser リクエスト</string>
     <string name="app_name_perms">Superuser Permissions</string>
+    <string name="tab_apps">アプリ</string>
+    <string name="tab_log">ログ</string>
+    <string name="tab_settings">設定</string>
     <string name="allow">許可</string>
     <string name="forget">消去</string>
     <string name="cancel">キャンセル</string>
