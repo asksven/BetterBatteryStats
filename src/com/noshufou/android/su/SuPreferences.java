@@ -12,8 +12,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 
 public class SuPreferences extends PreferenceActivity implements OnSharedPreferenceChangeListener {
+	private static final String TAG = "Su.SuPreferences";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +23,6 @@ public class SuPreferences extends PreferenceActivity implements OnSharedPrefere
         addPreferencesFromResource(R.xml.preferences);
 
         Preference versionPreference = (Preference)getPreferenceScreen().findPreference("pref_version");
-        
         versionPreference.setTitle(getString(R.string.pref_version_title, getSuperuserVersion()));
         DBHelper db = new DBHelper(this);
         versionPreference.setSummary(getString(R.string.pref_version_summary, getSuVersion(), db.getDBVersion()));
@@ -76,7 +77,7 @@ public class SuPreferences extends PreferenceActivity implements OnSharedPrefere
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			suVersion = stdInput.readLine();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "Call to su failed. Perhaps the wrong version of su is present", e);
 			return null;
 		}
     	
