@@ -135,8 +135,12 @@ public class Su extends TabActivity {
 						byte[] reader = new byte[fileIn.available()];
 						while (fileIn.read(reader) != -1);
 						fileOut.write(reader);
-						fileIn.close();
-						fileOut.close();
+						if (fileIn != null) {
+							fileIn.close();
+						}
+						if (fileOut != null) {
+							fileOut.close();
+						}
 					} catch (FileNotFoundException e) {
 						Log.e(TAG, "Error:", e);
 					} catch (IOException e) {
@@ -163,12 +167,20 @@ public class Su extends TabActivity {
     	try {
     		process = Runtime.getRuntime().exec("md5sum /system/bin/su");
     		stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    		binSuMd5 = stdInput.readLine().split(" ")[0];
-    		stdInput.close();
+    		if (stdInput != null) {
+    			binSuMd5 = stdInput.readLine().split(" ")[0];
+    			stdInput.close();
+    		} else {
+    			return null;
+    		}
     		process = Runtime.getRuntime().exec("md5sum /system/xbin/su");
     		stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    		xbinSuMd5 = stdInput.readLine().split(" ")[0];
-    		stdInput.close();
+    		if (stdInput != null) {
+    			xbinSuMd5 = stdInput.readLine().split(" ")[0];
+    			stdInput.close();
+    		} else {
+    			return null;
+    		}
     	} catch (IOException e) {
     		Log.e(TAG, "Failed to gather MD5 sums", e);
     		return null;
