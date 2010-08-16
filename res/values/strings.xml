@@ -10,7 +10,7 @@
     <string name="permdesc_respond">Allows the application to respond to requests for superuser access.</string>
     
     <string name="new_su">New version of su</string>
-    <string name="new_su_msg">There is a new version of the su binary available. Reboot your phone into recovery mode and apply su-2.3-bin.sip to upgrade to this version</string>
+    <string name="new_su_msg">There is a new version of the su binary available. Reboot your phone into recovery mode and apply su-2.3-bin.zip to upgrade to this version</string>
     
     <string name="tab_apps">Apps</string>
     <string name="tab_log">Log</string>
