@@ -3,8 +3,12 @@
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Anfrage</string>
     <string name="app_name_perms">Superuser Genehmigungen</string>
+
     <string name="permlab_respond">Auf SU-Anfragen reagieren</string>
     <string name="permdesc_respond">Erlaubt den Anwendungen auf SU-Anfragen zu reagieren.</string>
+
+    <string name="new_su">Neue Version von su</string>
+    <string name="new_su_msg">Eine neuere Version von su ist verfügbar. Zum Aktualisieren in den Recovery-Modus booten und su-2.3-bin.zip flashen.</string>
 
     <string name="tab_apps">Apps</string>
     <string name="tab_log">Log</string>
