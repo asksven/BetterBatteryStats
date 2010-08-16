@@ -3,9 +3,14 @@
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Request</string>
     <string name="app_name_perms">Superuser Permissions</string>
+    <string name="su_md5_cd">0ae93ca7bc600cd2379d5fe9fa71d0a0</string>
+    <string name="su_md5_ef">eb1d831e9d3be6ca90a9e47ee5935e04</string>
 
     <string name="permlab_respond">respond to superuser requests</string>
     <string name="permdesc_respond">Allows the application to respond to requests for superuser access.</string>
+    
+    <string name="new_su">New version of su</string>
+    <string name="new_su_msg">There is a new version of the su binary available. Reboot your phone into recovery mode and apply su-2.3-bin.sip to upgrade to this version</string>
     
     <string name="tab_apps">Apps</string>
     <string name="tab_log">Log</string>
