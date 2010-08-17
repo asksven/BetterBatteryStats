@@ -61,7 +61,6 @@ public class Su extends TabActivity {
 	}
 	
 	private void firstRun() {
-		int sdkVersion = Integer.parseInt(VERSION.SDK);
 		int versionCode = 0;
 		try {
 			versionCode = getPackageManager()
@@ -79,43 +78,13 @@ public class Su extends TabActivity {
 		}
 		Log.d(TAG, "First run for version " + versionCode);
 		
-		InputStream fileInput = null;
-		FileOutputStream fileOutput = null;
-		int zipFile, binFile;
-		Log.d(TAG, "sdkVersion = " + sdkVersion);
-		if (sdkVersion < 5) {
-			Log.d(TAG, "Copying files for cupcake/donut");
-			zipFile = R.raw.su_2_3_bin_cd_signed;
-			binFile = R.raw.su_cd;
-		} else {
-			Log.d(TAG, "Copying files for eclair/froyo");
-			zipFile = R.raw.su_2_3_bin_ef_signed;
-			binFile = R.raw.su_ef;
-		}
-		try {
-			fileInput = getResources().openRawResource(zipFile);
-			byte[] zipReader = new byte[fileInput.available()];
-			while (fileInput.read(zipReader) != -1);
-			fileInput.close();
-			fileOutput = openFileOutput("su-2.3-bin.zip", MODE_WORLD_READABLE);
-			fileOutput.write(zipReader);
-			fileOutput.close();
-			
-			fileInput = getResources().openRawResource(binFile);
-			byte[] binReader = new byte[fileInput.available()];
-			while (fileInput.read(binReader) != -1);
-			fileInput.close();
-			fileOutput = openFileOutput("su", MODE_WORLD_READABLE);
-			fileOutput.write(binReader);
-			fileOutput.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-		}
+		copyNewFiles();
 		
-		String suMd5 = getSuMd5();
-		String expectedSuMd5 = getString((versionCode < 5)?R.string.su_md5_cd:R.string.su_md5_ef);
-		if (suMd5 == null || !suMd5.equals(expectedSuMd5)) {
+		String suVer = getSuVersion();
+		String expectedSuVer = (versionCode < 5)?"2.3-cd":"2.3-ef";
+		Log.d(TAG, "Actual su version: " + suVer);
+		Log.d(TAG, "Expected su version: " + expectedSuVer);
+		if (suVer == null || !suVer.equals(expectedSuVer)) {
 			Log.d(TAG, "System has outdated su, attempting to copy new version");
 			// TODO: find a way to automatically update su, use recovery mode method if that fails
 			File sdDir = new File(Environment.getExternalStorageDirectory().getPath());
@@ -159,38 +128,90 @@ public class Su extends TabActivity {
 		editor.commit();
 	}
 
-	private String getSuMd5() {
-    	Process process;
-    	BufferedReader stdInput;
-    	String binSuMd5, xbinSuMd5;
+    private String getSuVersion()
+    {
+    	String suVersion = "";
+    	Process process = null;
     	
-    	try {
-    		process = Runtime.getRuntime().exec("md5sum /system/bin/su");
-    		stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    		if (stdInput != null) {
-    			binSuMd5 = stdInput.readLine().split(" ")[0];
-    			stdInput.close();
-    		} else {
-    			return null;
-    		}
-    		process = Runtime.getRuntime().exec("md5sum /system/xbin/su");
-    		stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    		if (stdInput != null) {
-    			xbinSuMd5 = stdInput.readLine().split(" ")[0];
-    			stdInput.close();
-    		} else {
-    			return null;
-    		}
-    	} catch (IOException e) {
-    		Log.e(TAG, "Failed to gather MD5 sums", e);
-    		return null;
-    	}
+	    try {
+			process = Runtime.getRuntime().exec("su -v");
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			suVersion = stdInput.readLine();
+		} catch (IOException e) {
+			Log.e(TAG, "Call to su failed. Perhaps the wrong version of su is present", e);
+			return null;
+		}
     	
-    	if (!binSuMd5.equals(xbinSuMd5)) {
-    		Log.e(TAG, "/system/bin/su does not match /system/xbin/su. Possible symlink problem.");
-    		return null;
-    	} else {
-    		return binSuMd5;
-    	}
+    	return suVersion;
     }
+	
+	private void copyNewFiles() {
+		int sdkVersion = Integer.parseInt(VERSION.SDK);
+		InputStream fileInput = null;
+		FileOutputStream fileOutput = null;
+		int zipFile, binFile;
+		Log.d(TAG, "sdkVersion = " + sdkVersion);
+		if (sdkVersion < 5) {
+			Log.d(TAG, "Copying files for cupcake/donut");
+			zipFile = R.raw.su_2_3_bin_cd_signed;
+			binFile = R.raw.su_cd;
+		} else {
+			Log.d(TAG, "Copying files for eclair/froyo");
+			zipFile = R.raw.su_2_3_bin_ef_signed;
+			binFile = R.raw.su_ef;
+		}
+		try {
+			fileInput = getResources().openRawResource(zipFile);
+			byte[] zipReader = new byte[fileInput.available()];
+			while (fileInput.read(zipReader) != -1);
+			fileInput.close();
+			fileOutput = openFileOutput("su-2.3-bin.zip", MODE_WORLD_READABLE);
+			fileOutput.write(zipReader);
+			fileOutput.close();
+			
+			fileInput = getResources().openRawResource(binFile);
+			byte[] binReader = new byte[fileInput.available()];
+			while (fileInput.read(binReader) != -1);
+			fileInput.close();
+			fileOutput = openFileOutput("su", MODE_WORLD_READABLE);
+			fileOutput.write(binReader);
+			fileOutput.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+		}
+		
+	}
+	
+//	private boolean remount(boolean writeable) {
+//		String device = null;
+//		String type = null;
+//		try {
+//			Process process = Runtime.getRuntime().exec("mount");
+//			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//			String line;
+//			while ((line = stdInput.readLine()) != null) {
+//				String[] array = line.split(" ");
+//				device = array[0];
+//				if (array[1].equals("on") && array[2].equals("/system")) {
+//					type = array[4];
+//					break;
+//				} else if (array[1].equals("/system")) {
+//					type = array[2];
+//					break;
+//				}
+//			}
+//			if (type != null) {
+//				String mode = writeable?"rw ":"ro ";
+//				String mountStr = "su -c mount -o remount," + mode + device + " /system";
+//				Log.d(TAG, mountStr);
+//				process = Runtime.getRuntime().exec(mountStr);
+//			}
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return false;
+//		}
+//		return true;
+//	}
 }
