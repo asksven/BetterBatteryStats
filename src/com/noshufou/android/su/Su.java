@@ -182,36 +182,4 @@ public class Su extends TabActivity {
 		}
 		
 	}
-	
-//	private boolean remount(boolean writeable) {
-//		String device = null;
-//		String type = null;
-//		try {
-//			Process process = Runtime.getRuntime().exec("mount");
-//			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//			String line;
-//			while ((line = stdInput.readLine()) != null) {
-//				String[] array = line.split(" ");
-//				device = array[0];
-//				if (array[1].equals("on") && array[2].equals("/system")) {
-//					type = array[4];
-//					break;
-//				} else if (array[1].equals("/system")) {
-//					type = array[2];
-//					break;
-//				}
-//			}
-//			if (type != null) {
-//				String mode = writeable?"rw ":"ro ";
-//				String mountStr = "su -c mount -o remount," + mode + device + " /system";
-//				Log.d(TAG, mountStr);
-//				process = Runtime.getRuntime().exec(mountStr);
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return false;
-//		}
-//		return true;
-//	}
 }
