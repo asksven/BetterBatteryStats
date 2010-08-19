@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Superusuario</string>
     <string name="app_name_request">Petición superusuario</string>
-    <string name="app_name_perms">Permisos superusuario</string>
     <string name="allow">Permitir</string>
     <string name="forget">Borrar</string>
     <string name="cancel">Cancelar</string>

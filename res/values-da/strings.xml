@@ -2,7 +2,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Superbruger</string>
     <string name="app_name_request">Anmod om superbrugertilladelse</string>
-    <string name="app_name_perms">Superbrugertilladelser</string>
 
     <string name="permlab_respond">Svar på superbruger anmodninger</string>
     <string name="permdesc_respond">Tillader programmet at besvare på superbruger anmodninger. Ondskabsfulde programmer kan give tilladelserne til programmer som brugeren ikke specifikt har givet tilladelse til.</string>

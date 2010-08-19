@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser požadavek</string>
-    <string name="app_name_perms">Superuser povolení</string>
     <string name="allow">Povolit</string>
     <string name="forget">Zapomenout</string>
     <string name="cancel">Zrušit</string>

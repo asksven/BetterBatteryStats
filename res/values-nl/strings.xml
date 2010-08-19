@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Aanvraag</string>
-    <string name="app_name_perms">Superuser Machtigingen</string>
     <string name="allow">Toestaan</string>
     <string name="forget">Vergeten</string>
     <string name="cancel">Annuleren</string>

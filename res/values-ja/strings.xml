@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name_request">Superuser リクエスト</string>
-    <string name="app_name_perms">Superuser Permissions</string>
     <string name="tab_apps">アプリ</string>
     <string name="tab_log">ログ</string>
     <string name="tab_settings">設定</string>

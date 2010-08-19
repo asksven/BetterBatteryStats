@@ -33,7 +33,7 @@ public class SuNotificationReceiver extends BroadcastReceiver {
             Intent notificationIntent = new Intent(context, Su.class);
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
-            String title = context.getString(R.string.app_name_perms);
+            String title = context.getString(R.string.app_name);
 
             Notification notification = new Notification(R.drawable.stat_su, notification_message,
             		System.currentTimeMillis());

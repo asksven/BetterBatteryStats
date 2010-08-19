@@ -4,9 +4,9 @@
     android:versionCode="19"
     android:versionName="2.3.2.3">
     
-    <application android:icon="@drawable/icon" android:label="@string/app_name_perms">
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:name="Su"
-            android:label="@string/app_name_perms"
+            android:label="@string/app_name"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

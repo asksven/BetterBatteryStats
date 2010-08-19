@@ -2,7 +2,6 @@
 <resources> 
     <string name="app_name">Super-utilisateur</string> 
     <string name="app_name_request">Requête super-utilisateur</string> 
-    <string name="app_name_perms">Permissions super-utilisateur</string> 
     <string name="allow">Autoriser</string> 
     <string name="forget">Oublier</string> 
     <string name="cancel">Annuler</string> 

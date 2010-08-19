@@ -2,7 +2,6 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Requisições de Superuser</string>
-    <string name="app_name_perms">Permissões de Superuser</string>
 
     <string name="permlab_respond">responder às requisições de superuser</string>
     <string name="permdesc_respond">Permite o aplicativo responder às requisições para acesso de superuser. Aplicativos maliciosos dão permissões aos aplicativos que o usuário não autorizou.</string>

@@ -2,13 +2,11 @@
 <resources>
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Richiesta Superuser</string>
-    <string name="app_name_perms">Superuser Permission</string>
 
     <string name="permlab_respond">rispondi alla richiesta supeuser</string>
     <string name="permdesc_respond">Permette alle applicazioni di rispondere alla richiesta per permessi da superuser.</string>
 
     <string name="new_su">Nuova versione di su</string>
-    <string name="new_su_msg">È disponibile una nuova versione del binario su. Riavvia in recovery e applica su-2.3-bin.zip per aggiornare a questa versione</string>
 
     <string name="tab_apps">Apps</string>
     <string name="tab_log">Log</string>

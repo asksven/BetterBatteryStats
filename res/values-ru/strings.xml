@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Суперпользователь</string>
     <string name="app_name_request">Запрос на Суперпользователя</string>
-    <string name="app_name_perms">Права Суперпользователя</string>
 
     <string name="permlab_respond">ответ на запрос прав суперпользователя</string>
     <string name="permdesc_respond">Разрешить приложению отвечать на запросы прав суперпользователя. Вредоносные приложения могут предоставлять права другим приложениям, которым права суперпользователя не выдавались.</string>
