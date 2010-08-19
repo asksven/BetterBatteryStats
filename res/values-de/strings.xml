@@ -3,17 +3,20 @@
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Anfrage</string>
 
-    <string name="permlab_respond">Auf SU-Anfragen reagieren</string>
-    <string name="permdesc_respond">Erlaubt den Anwendungen auf SU-Anfragen zu reagieren.</string>
+    <string name="permlab_respond">Auf su-Anfragen reagieren</string>
+    <string name="permdesc_respond">Erlaubt den Anwendungen auf su-Anfragen zu reagieren.</string>
 
     <string name="new_su">Neue Version von su</string>
+    <string name="su_updated">su-Binary erfolgreich aktualisiert</string>
+    <string name="su_not_updated_title">Automatisches Update fehlgeschlagen</string>
+    <string name="su_not_updated">Ein Fehler ist aufgetreten. su wurde nicht aktualisiert. Eine ZIP-Datei wurde auf der SD-Karte abgelegt. Bitte ins Recovery booten und die Datei flashen, um su zu aktualisieren.</string>
 
     <string name="tab_apps">Apps</string>
     <string name="tab_log">Log</string>
     <string name="tab_settings">Optionen</string>
 
     <string name="allow">Erlauben</string>
-    <string name="forget">Widerufen</string>
+    <string name="forget">Widerrufen</string>
     <string name="cancel">Abbrechen</string>
     <string name="deny">Verweigern</string>
     <string name="remember">Merken</string>
@@ -55,12 +58,12 @@
     <string name="pref_show_seconds_title">Sekunden zeigen</string>
     <string name="pref_category_notification_title">Benachrichtigungen</string>
     <string name="pref_notifications_title">Benachrichtigungen</string>
-    <string name="pref_notifications_summary_on">Zeige Benachrichtigung, wenn einer App SU-Rechte gewährt wurden</string>
-    <string name="pref_notifications_summary_off">Keine Benachrichtigung, wenn einer App SU-Rechte gewährt wurden</string>
+    <string name="pref_notifications_summary_on">Zeige Benachrichtigung, wenn einer App su-Rechte gewährt wurden</string>
+    <string name="pref_notifications_summary_off">Keine Benachrichtigung, wenn einer App su-Rechte gewährt wurden</string>
     <string name="pref_notification_title">Benachrichtigungstyp</string>
-    <string name="pref_notification_summary">Art der Benachrichtigung, wenn einer App SU-Rechte gewährt wurden</string>
+    <string name="pref_notification_summary">Art der Benachrichtigung, wenn einer App su-Rechte gewährt wurden</string>
     <string name="pref_category_info_title">Superuser Information</string>
     <string name="pref_version_summary">su v%s, Datenbank-Version %s</string>
 
-    <string name="notification_text">%s wurden SU-Rechte gewährt</string>
+    <string name="notification_text">%s wurden su-Rechte gewährt</string>
 </resources>
