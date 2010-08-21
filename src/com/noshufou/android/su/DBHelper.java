@@ -195,6 +195,7 @@ public class DBHelper {
     		this.mDB.delete(LOGS_TABLE, "_id=?", new String[] { Long.toString(id) });
     	}
         this.mDB.delete(APPS_TABLE, "uid=?", new String[] { Integer.toString(uid) });
+        cursor.close();
     }
     
     private void addLog(long id, long time, int logType) {
