@@ -117,17 +117,14 @@ public class Su extends TabActivity {
     {
     	String suVersion = "";
     	Process process = null;
-    	
-	    try {
-			process = Runtime.getRuntime().exec("su -v");
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			suVersion = stdInput.readLine();
-		} catch (IOException e) {
-			Log.e(TAG, "Call to su failed. Perhaps the wrong version of su is present", e);
-			return null;
-		}
-    	
-    	return suVersion;
+    	try {
+    		process = Runtime.getRuntime().exec("su -v");
+    		BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+    		return stdInput.readLine();
+    	} catch (IOException e) {
+    		Log.e(TAG, "Call to su failed. Perhaps the wrong version of su is present", e);
+    		return null;
+    	}
     }
 	
 	private void copyNewFiles() {
