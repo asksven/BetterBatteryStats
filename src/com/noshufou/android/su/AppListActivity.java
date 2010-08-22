@@ -209,7 +209,7 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
     private final class AppListAdapter extends CursorAdapter
     		implements OnScrollListener, PinnedHeaderListView.PinnedHeaderAdapter {
     	
-    	private final String[] sections = { "Allow", "Deny" };
+    	private final String[] sections = { getString(R.string.allow), getString(R.string.deny) };
 
    		private CharSequence mUnknownNameText;
    		private CharSequence mNoLogDataText;
