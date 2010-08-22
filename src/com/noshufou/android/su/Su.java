@@ -115,12 +115,13 @@ public class Su extends TabActivity {
 
     public static String getSuVersion()
     {
-    	String suVersion = "";
     	Process process = null;
     	try {
     		process = Runtime.getRuntime().exec("su -v");
     		BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-    		return stdInput.readLine();
+    		String suVersion = stdInput.readLine();
+    		stdInput.close();
+    		return suVersion;
     	} catch (IOException e) {
     		Log.e(TAG, "Call to su failed. Perhaps the wrong version of su is present", e);
     		return null;
