@@ -61,7 +61,7 @@
     <string name="pref_notification_summary">Scegli come vuoi che ti venga notificato quando un\'app ottiene i permessi di root </string>
     <string name="pref_category_info_title">Informazioni Superuser</string>
     <string name="pref_version_title">Superuser v%s</string>
-    <string name="pref_version_summary">su v%s, Versione Database %s</string>
+    <string name="pref_version_summary">Versione Database %s</string>
 
     <string name="notification_text">%s ha ottenuto i permessi di root</string>
 </resources>

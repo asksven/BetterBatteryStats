@@ -56,7 +56,6 @@
     <string name="pref_notification_summary">Tipo de notificação quando um aplicativo receber as permissões SU</string>
     <string name="pref_category_info_title">Informação do Superuser</string>
     <string name="pref_version_title">Superuser v%s</string>
-    <string name="pref_version_summary">su v%s</string>
 
     <string name="notification_text">%s recebeu as permissões de Superuser</string>
 </resources>

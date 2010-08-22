@@ -60,7 +60,7 @@
     <string name="pref_notification_summary">Тип уведомления, показываемый когда приложению предоставлены права Суперпользователя</string>
     <string name="pref_category_info_title">Информация о приложении</string>
     <string name="pref_version_title">Суперпользователь v%s</string>
-    <string name="pref_version_summary">su v%s, Версия БД %s</string>
+    <string name="pref_version_summary">Версия БД %s</string>
 
     <string name="notification_text">Приложению %s были предоставлены права Суперпользователя</string>
 </resources>

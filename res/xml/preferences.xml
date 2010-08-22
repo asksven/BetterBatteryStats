@@ -76,6 +76,11 @@
             android:key="pref_version"
             android:title="@string/pref_version_title"
             android:summary="@string/pref_version_summary" />
+        
+        <Preference
+        	android:key="pref_bin_version"
+        	android:title="@string/pref_bin_version_title"
+        	android:summary="@string/pref_bin_version_summary" />
             
     </PreferenceCategory>
 </PreferenceScreen>
