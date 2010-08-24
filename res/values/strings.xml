@@ -16,6 +16,7 @@
     <string name="su_not_updated">An error occurred and su was not updated. A zip file (su-2.3.1-bin-signed.zip) has been placed on your sdcard, please reboot into recovery mode and flash it to update your su binary.</string>
     <string name="su_up_to_date">su is up to date</string>
     <string name="checking">Checking...</string>
+    <string name="no_connection">No network connection. Could not check for updates</string>
     
     <string name="tab_apps">Apps</string>
     <string name="tab_log">Log</string>

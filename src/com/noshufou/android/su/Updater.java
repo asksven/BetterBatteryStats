@@ -20,6 +20,8 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Build.VERSION;
@@ -40,8 +42,15 @@ public class Updater {
     }
     
     public void doUpdate() {
-        // Get the process started, it all goes from here.
-        new DownloadFileTask().execute("http://dl.dropbox.com/u/6408470/Superuser/manifest.json");
+        ConnectivityManager cm =
+                (ConnectivityManager)mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() == null
+                || cm.getActiveNetworkInfo().getState() == NetworkInfo.State.DISCONNECTED) {
+            Toast.makeText(mContext, R.string.no_connection, Toast.LENGTH_SHORT).show();
+        } else {
+            // Get the process started, it all goes from here.
+            new DownloadFileTask().execute("http://dl.dropbox.com/u/6408470/Superuser/manifest.json");
+        }
     }
 
     private void postManifest() {
