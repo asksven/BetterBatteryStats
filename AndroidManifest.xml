@@ -48,6 +48,12 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+        <receiver android:name="InstallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <uses-sdk android:targetSdkVersion="4" android:minSdkVersion="3"/>

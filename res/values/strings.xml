@@ -22,6 +22,8 @@
     
     <string name="warning">Warning</string>
     <string name="malicious_app_found">Package %s was found to be requesting permission to respond to Superuser requests. It\'s likely that this app is malicious and attempting to grant superuser access without your knowledge. It\'s recommended that you uninstall it now.</string>
+    <string name="malicious_app_notification_ticker">Potentially malicious app detected</string>
+    <string name="malicious_app_notification_text">%s may be malicious.</string>
     <string name="uninstall">Uninstall</string>
     <string name="uninstall_successful">Uninstall finished</string>
     <string name="report_msg">Would you like to report this package to the developer of Superuser for investigation?</string>
