@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.w3c.dom.ProcessingInstruction;
-
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
