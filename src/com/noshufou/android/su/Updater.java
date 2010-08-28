@@ -173,7 +173,9 @@ public class Updater {
 
         @Override
         protected void onPostExecute(String result) {
-            if (result.equals("manifest.json")) {
+        	if (result == null) {
+        		Toast.makeText(mContext, R.string.manifest_download_failed, Toast.LENGTH_SHORT).show();
+        	} else if (result.equals("manifest.json")) {
                 postManifest();
             } else if (result.equals("su")) {
                 new AutoUpdateTask().execute();

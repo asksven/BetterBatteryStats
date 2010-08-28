@@ -2,7 +2,10 @@ package com.noshufou.android.su;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import org.w3c.dom.ProcessingInstruction;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -85,13 +88,25 @@ public class Su extends TabActivity {
     	Process process = null;
     	try {
     		process = Runtime.getRuntime().exec("su -v");
-    		BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String suVersion = stdInput.readLine();
-    		stdInput.close();
-    		return suVersion;
+    		InputStream processInputStream = process.getInputStream();
+    		BufferedReader stdInput = new BufferedReader(new InputStreamReader(processInputStream));
+    		Thread.sleep(500);
+    		try {
+    			if (stdInput.ready()) {
+    				String suVersion = stdInput.readLine();
+    				return suVersion;
+    			} else {
+    				return " " + R.string.su_original;
+    			}
+    		} finally {
+    			stdInput.close();
+    		}
     	} catch (IOException e) {
     		Log.e(TAG, "Call to su failed. Perhaps the wrong version of su is present", e);
-    		return null;
-    	}
+    		return " " + R.string.su_original;
+    	} catch (InterruptedException e) {
+    		Log.e(TAG, "Call to su failed.", e);
+    		return " ...";
+		}
     }
 }

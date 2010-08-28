@@ -17,6 +17,8 @@
     <string name="su_up_to_date">su is up to date</string>
     <string name="checking">Checking...</string>
     <string name="no_connection">No network connection. Could not check for updates</string>
+    <string name="manifest_download_failed">Checking avalaible version failed</string>
+    <string name="su_original">original</string>
     
     <string name="tab_apps">Apps</string>
     <string name="tab_log">Log</string>
