@@ -20,6 +20,18 @@
     <string name="manifest_download_failed">Checking avalaible version failed</string>
     <string name="su_original">original</string>
     
+    <string name="warning">Warning</string>
+    <string name="malicious_app_found">Package %s was found to be requesting permission to respond to Superuser requests. It\'s likely that this app is malicious and attempting to grant superuser access without your knowledge. It\'s recommended that you uninstall it now.</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="uninstall_successful">Uninstall finished</string>
+    <string name="report_msg">Would you like to report this package to the developer of Superuser for investigation?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    
+    <!-- Do not translate -->
+    <string name="report_subject">Possibly malicious app found</string>
+    <string name="report_body">The following package was found to be requesting to respond to Superuser requests.\n\n - %s\n\nPlease investigate.</string>
+    
     <string name="tab_apps">Apps</string>
     <string name="tab_log">Log</string>
     <string name="tab_settings">Settings</string>
