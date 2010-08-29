@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 
 import com.noshufou.android.su.DBHelper.Apps;
-import com.noshufou.android.su.DBHelper.Logs;
 import com.noshufou.android.su.PinnedHeaderListView.PinnedHeaderCache;
 
 public class AppListActivity extends ListActivity implements View.OnClickListener {
@@ -246,16 +245,18 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
    			final int idColumnIndex = cursor.getColumnIndex(Apps.ID);
    			final int uidColumnIndex = cursor.getColumnIndex(Apps.UID);
    			final int nameColumnIndex = cursor.getColumnIndex(Apps.NAME);
-   			final int dateColumnIndex = cursor.getColumnIndex(Logs.DATE);
    			final int allowColumnIndex = cursor.getColumnIndex(Apps.ALLOW);
    			
-   			// Set the app icon
-   			int uid = cursor.getInt(uidColumnIndex);
+            int id = cursor.getInt(idColumnIndex);
+            int uid = cursor.getInt(uidColumnIndex);
+            String nameText = cursor.getString(nameColumnIndex);
+            int allow = cursor.getInt(allowColumnIndex);
+
+            // Set the app icon
    			Drawable appIcon = Util.getAppIcon(mContext, uid);
    			view.setAppIcon(appIcon);
    			
    			// Set the name
-   			String nameText = cursor.getString(nameColumnIndex);
    			if (nameText != null && nameText.length() > 0) {
    				view.setNameText(nameText);
    			} else {
@@ -263,7 +264,7 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
    			}
    			
    			// Set the log info
-   			long dateLong = cursor.getLong(dateColumnIndex);
+   			long dateLong = mDB.getLastLog(id, allow);
    			if (dateLong > 0) {
    				view.setLogText(Util.formatDateTime(context, dateLong));
    			} else {
@@ -272,8 +273,6 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
    			
    			// Set the status button, if applicable
    			if (mShowStatusIcons) {
-   				int id = cursor.getInt(idColumnIndex);
-   				int allow = cursor.getInt(allowColumnIndex);
    				Drawable statusButton = getStatusButtonDrawable(allow);
    				view.setStatusButton(statusButton, STATUS_BUTTON_ID, id);
    			}

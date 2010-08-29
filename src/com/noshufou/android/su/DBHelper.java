@@ -94,11 +94,10 @@ public class DBHelper {
     }
 
     public Cursor getAllApps() {
-    	return this.mDB.rawQuery("SELECT apps._id AS _id,apps.uid AS uid,apps.package AS package," +
-    			"apps.name AS name,apps.allow AS allow,logs.date AS date,logs.type AS type " +
-    			"FROM apps,logs WHERE apps._id=logs.app_id AND " +
-    			"(logs.type=1 OR logs.type=2) GROUP BY logs.app_id " +
-    			"ORDER BY apps.allow DESC,apps.name ASC,logs.date DESC", null);
+        return this.mDB.query(APPS_TABLE,
+                new String[] { Apps.ID, Apps.UID, Apps.PACKAGE, Apps.NAME, Apps.ALLOW },
+                null, null, null, null, 
+                "allow DESC, name ASC");
     }
     
     public Cursor getAllLogs() {
@@ -142,6 +141,23 @@ public class DBHelper {
         }
         cursor.close();
         return appDetails;
+    }
+    
+    public long getLastLog(int appId, int type) {
+        Cursor c = this.mDB.query(LOGS_TABLE, 
+                new String[] { Logs.ID, Logs.DATE, Logs.TYPE },
+                "app_id=? AND type=?",
+                new String[] { Integer.toString(appId), Integer.toString(type) },
+                null,
+                null,
+                "date DESC",
+                "1");
+        long date = 0;
+        if (c.moveToFirst()) {
+            date = c.getLong(c.getColumnIndex(Logs.DATE));
+        }
+        c.close();
+        return date;
     }
     
     public int countPermissions(int permission) {
