@@ -28,6 +28,9 @@ public class SuPreferences extends PreferenceActivity implements OnSharedPrefere
         Preference binVersionPreference = getPreferenceScreen().findPreference("pref_bin_version");
         binVersionPreference.setTitle(getString(R.string.pref_bin_version_title, Su.getSuVersion()));
         binVersionPreference.setOnPreferenceClickListener(this);
+        
+        Preference clearLogPreference = getPreferenceScreen().findPreference("pref_clear_log");
+        clearLogPreference.setOnPreferenceClickListener(this);
     }
     
 	@Override
@@ -57,6 +60,11 @@ public class SuPreferences extends PreferenceActivity implements OnSharedPrefere
 	    if (preference.getKey().equals("pref_bin_version")) {
 	        Toast.makeText(this, R.string.checking, Toast.LENGTH_SHORT).show();
 	        new Updater(this, Su.getSuVersion()).doUpdate();
+	        return true;
+	    } else if (preference.getKey().equals("pref_clear_log")) {
+	        DBHelper db = new DBHelper(this);
+	        db.clearLog();
+	        db.close();
 	        return true;
 	    } else {
 	        return false;

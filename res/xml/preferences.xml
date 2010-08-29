@@ -31,6 +31,10 @@
     <PreferenceCategory
     	android:title="@string/pref_category_log_title">
     	
+    	<Preference 
+    		android:key="pref_clear_log"
+    		android:title="@string/pref_clear_log" />
+    	
     	<CheckBoxPreference
     		android:key="pref_24_hour_format"
     		android:title="@string/pref_24_hour_title"

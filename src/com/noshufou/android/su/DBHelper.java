@@ -222,6 +222,10 @@ public class DBHelper {
     	this.mDB.insert(LOGS_TABLE, null, values);
     }
     
+    public void clearLog() {
+        this.mDB.delete(LOGS_TABLE, null, null);
+    }
+    
     public void setNotifications(boolean notifications) {
     	ContentValues values = new ContentValues();
     	values.put("value", notifications?1:0);
