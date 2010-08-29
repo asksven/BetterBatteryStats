@@ -5,6 +5,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -25,10 +26,11 @@ public class SuPreferences extends PreferenceActivity implements OnSharedPrefere
         DBHelper db = new DBHelper(this);
         versionPreference.setSummary(getString(R.string.pref_version_summary, db.getDBVersion()));
         db.close();
+
         Preference binVersionPreference = getPreferenceScreen().findPreference("pref_bin_version");
-        binVersionPreference.setTitle(getString(R.string.pref_bin_version_title, Su.getSuVersion()));
+        new ShowBinVersion().execute();
         binVersionPreference.setOnPreferenceClickListener(this);
-        
+
         Preference clearLogPreference = getPreferenceScreen().findPreference("pref_clear_log");
         clearLogPreference.setOnPreferenceClickListener(this);
     }
@@ -85,5 +87,22 @@ public class SuPreferences extends PreferenceActivity implements OnSharedPrefere
         }
         
         return versionName;
+    }
+    
+    private class ShowBinVersion extends AsyncTask<String, Integer, Boolean> {
+        private String suVersion;
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            suVersion = Su.getSuVersion();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            getPreferenceScreen().findPreference("pref_bin_version")
+                    .setTitle(getString(R.string.pref_bin_version_title, suVersion));
+        }
+        
     }
 }
