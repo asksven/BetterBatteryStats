@@ -32,7 +32,7 @@
     <string name="no_log_data">Keine Log-Daten</string>
     <string name="last_allowed">Zuletzt erlaubt:</string>
     <string name="last_denied">Zuletzt verweigert:</string>
-    <string name="empty">Keine Apps in Liste</string>
+    <string name="empty_apps">Keine Apps in Liste</string>
 
     <string name="detail_package">Paket:</string>
     <string name="detail_request">Angeforderte UID:</string>

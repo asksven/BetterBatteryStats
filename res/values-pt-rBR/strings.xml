@@ -23,7 +23,7 @@
     <string name="no_log_data">Não há log</string>
     <string name="last_allowed">Último permitido:</string>
     <string name="last_denied">Último negado:</string>
-    <string name="empty">Não há aplicativos na lista</string>
+    <string name="empty_apps">Não há aplicativos na lista</string>
 
     <string name="detail_package">Pacote:</string>
     <string name="detail_request">UID de Requerimento:</string>

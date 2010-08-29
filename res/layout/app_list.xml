@@ -13,6 +13,6 @@
 	<TextView android:id="@android:id/empty"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
-		android:text="@string/empty" />
+		android:text="@string/empty_apps" />
 
 </LinearLayout>

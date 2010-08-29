@@ -38,7 +38,7 @@
     <string name="no_log_data">ログデータ無し</string>
     <string name="last_allowed">最終許可:</string>
     <string name="last_denied">最終拒否:</string>
-    <string name="empty">リストは空です</string>
+    <string name="empty_apps">リストは空です</string>
     <string name="pref_show_status_icons_title">ステータスアイコンを表示</string>
     <string name="pref_show_status_icons_summary_on">アプリごとにステータスアイコンを表示する</string>
     <string name="pref_show_status_icons_summary_off">アプリごとのステータスアイコンを表示しない</string>

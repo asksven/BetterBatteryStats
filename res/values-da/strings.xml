@@ -23,7 +23,7 @@
     <string name="no_log_data">Ingen log data</string>
     <string name="last_allowed">Sidst godkendt:</string>
     <string name="last_denied">Sidst afvist:</string>
-    <string name="empty">Ingen programmer på listen</string>
+    <string name="empty_apps">Ingen programmer på listen</string>
 
     <string name="detail_package">Pakke:</string>
     <string name="detail_request">Tilladelsesniveau:</string>

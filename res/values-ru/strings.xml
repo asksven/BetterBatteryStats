@@ -27,7 +27,7 @@
     <string name="no_log_data">Данные отчета отсутствуют</string>
     <string name="last_allowed">Последний разрешенный:</string>
     <string name="last_denied">Последний запрещенный:</string>
-    <string name="empty">Нет приложений</string>
+    <string name="empty_apps">Нет приложений</string>
 
     <string name="detail_package">Пакет:</string>
     <string name="detail_request">Запрашиваемый UID:</string>

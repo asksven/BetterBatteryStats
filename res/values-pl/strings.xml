@@ -23,7 +23,7 @@
     <string name="no_log_data">Brak Logu</string>
     <string name="last_allowed">Ostatnio zezwolony:</string>
     <string name="last_denied">ZOstatnio odmówiony:</string>
-    <string name="empty">Brak aplikacji na liście</string>
+    <string name="empty_apps">Brak aplikacji na liście</string>
     <string name="detail_package">Pakiet:</string>
     <string name="detail_request">Żądane UID:</string>
     <string name="detail_command">Komenda:</string>

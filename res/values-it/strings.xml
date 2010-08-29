@@ -29,7 +29,7 @@
     <string name="no_log_data">Nessun log di dati</string>
     <string name="last_allowed">Ultimo consentito:</string>
     <string name="last_denied">Ultimo negato:</string>
-    <string name="empty">Nessuna app nella lista</string>
+    <string name="empty_apps">Nessuna app nella lista</string>
 
     <string name="detail_package">Pacchetto:</string>
     <string name="detail_request">Richiesta UID:</string>

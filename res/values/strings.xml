@@ -55,7 +55,8 @@
     <string name="no_log_data">No log data</string>
     <string name="last_allowed">Last allowed:</string>
     <string name="last_denied">Last denied:</string>
-    <string name="empty">No apps in list</string>
+    <string name="empty_apps">No apps in list</string>
+    <string name="empty_logs">No log information</string>
 
     <string name="detail_package">Package:</string>
     <string name="detail_request">Requested UID:</string>
