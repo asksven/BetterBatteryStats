@@ -1,27 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources> 
-    <string name="app_name">Super-utilisateur</string> 
-    <string name="app_name_request">Requête super-utilisateur</string> 
+<resources>
+    <string name="app_name">Super-utilisateur</string>
+    <string name="app_name_request">Requête super-utilisateur</string>
+
+    <string name="permlab_respond">Répondre aux requêtes super-utilisateur</string>
+    <string name="permdesc_respond">Permet aux applications de répondre à une requête super-utilisateur (commande su).</string>
+
+    <string name="new_su">Nouvelle version de su</string>
+    <string name="new_su_msg">Une nouvelle version de su est disponbile. Presser OK afin de tenter une installation automatique.</string>
+    <string name="su_updated">su a été correctement mis à jour</string>
+    <string name="su_not_updated_title">La mise à jour automatique a échoué</string>
+    <string name="su_not_updated">"Une erreur est survenue et su n\'a pas été mis à jour. Un fichier zip (su-[version]-bin-signed.zip) a été placé à la racine de votre carte SD, vous pouvez redémarrer en mode recovery afin de le flasher."</string>
+    <string name="su_up_to_date">su est à jour</string>
+    <string name="checking">Vérification...</string>
+    <string name="no_connection">Pas de connexion réseau. Impossible de chercher les mises à jour</string>
+
+    <string name="tab_apps">Applis</string>
+    <string name="tab_log">Journal</string>
+    <string name="tab_settings">Paramètres</string>
+
     <string name="allow">Autoriser</string> 
-    <string name="forget">Oublier</string> 
-    <string name="cancel">Annuler</string> 
-    <string name="deny">Refuser</string> 
-    <string name="remember">Se souvenir</string> 
-    <string name="uid">(idu: %d)</string> 
-    <string name="request">%s en tant que %s (idu : %d)</string> 
-    <string name="detail_package">Paquet :</string> 
-    <string name="detail_request">IDU demandé :</string> 
-    <string name="detail_command">Commande :</string> 
-    <string name="detail_status">Status :</string> 
-    <string name="detail_created">Créé le :</string> 
-    <string name="detail_last_accessed">Dernier accès :</string> 
-    <string name="request_message">L\'application suivante requiert un accès super-utilisateur :</string> 
-    <string name="request_app_name">Application :</string> 
-    <string name="preferences">Préférences</string> 
-    <string name="pref_category_whitelist_title">Préférences de liste blanche</string> 
-    <string name="pref_tap_action_title">Action au tapé</string> 
-    <string name="pref_tap_action_summary">Action à effectuer lorsqu\'une entrée est tapée</string> 
-    <string name="pref_category_notification_title">Notifications</string> 
-    <string name="pref_notification_title">Notification</string> 
-    <string name="pref_notification_summary">Montrer un message dans la barre de notification lorsqu\'une application à accès à des droits Super-utilisateur</string> 
+    <string name="forget">Oublier</string>
+    <string name="cancel">Annuler</string>
+    <string name="deny">Refuser</string>
+    <string name="remember">Se souvenir</string>
+    <string name="uid">(idu: %d)</string>
+    <string name="request">%s en tant que %s (idu : %d)</string>
+    <string name="unknown">Nom inconnu</string>
+
+    <string name="allowed">Autorisé</string>
+    <string name="denied">Refusé</string>
+    <string name="created">Crée</string>
+    <string name="toggled">(Dés)activé</string>
+
+    <string name="no_log_data">Aucun journal</string>
+    <string name="last_allowed">Dernière autorisation :</string>
+    <string name="last_denied">Dernier refus :</string>
+    <string name="empty">Aucune application dans la liste</string>
+
+    <string name="detail_package">Paquet :</string>
+    <string name="detail_request">IDU demandé :</string>
+    <string name="detail_command">Commande :</string>
+    <string name="detail_status">Statut :</string>
+    <string name="detail_created">Créé le :</string>
+    <string name="detail_last_accessed">Dernier accès :</string>
+
+    <string name="request_message">L\'application suivante requiert un accès super-utilisateur :</string>
+    <string name="request_app_name">Application :</string>
+
+    <string name="preferences">Préférences</string>
+    <string name="pref_category_whitelist_title">Préférences de liste blanche</string>
+    <string name="pref_tap_action_title">Action au tapé</string>
+    <string name="pref_tap_action_summary">Action à effectuer lorsqu\'une entrée est tapée</string>
+    <string name="pref_show_status_icons_title">Icônes de statut</string>
+    <string name="pref_show_status_icons_summary_on">Afficher une icône de statut pour chaque application</string>
+    <string name="pref_show_status_icons_summary_off">Ne pas afficher d\'icône de statut</string>
+    <string name="pref_status_icon_type_title">Type d\'icône</string>
+    <string name="pref_status_icon_type_summary">Style d\'icône à afficher</string>
+    <string name="pref_category_log_title">Journal</string>
+    <string name="pref_date_format_title">Format de date</string>
+    <string name="pref_24_hour_title">Utiliser le format 24H</string>
+    <string name="pref_show_seconds_title">Afficher les secondes</string>
+    <string name="pref_category_notification_title">Notifications</string>
+    <string name="pref_notifications_title">Notifications</string>
+    <string name="pref_notifications_summary_on">Afficher un message lorsqu\'une application a accès aux droits super-utilisateur</string>
+    <string name="pref_notifications_summary_off">Ne pas afficher de message lorsqu\'une application a accès aux droits super-utilisateur</string>
+    <string name="pref_notification_title">Type de notification</string>
+    <string name="pref_notification_summary">Type de notification à afficher lorsqu\'une application à accès aux droits super-utilisateur</string>
+    <string name="pref_category_info_title">Informations de version</string>
+    <string name="pref_version_title">Super-utilisateur v%s</string>
+    <string name="pref_version_summary">Version %s de la base de données</string>
+    <string name="pref_bin_version_title">Commande su v%s</string>
+    <string name="pref_bin_version_summary">Toucher pour rechercher des mises à jour</string>
+
+    <string name="notification_text">%s a reçu les autorisations super-utilisateur</string>
 </resources>

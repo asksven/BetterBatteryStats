@@ -4,5 +4,22 @@
         <item>Détails de l\'application</item> 
         <item>Oublier</item> 
         <item>Activer l\'état</item> 
-    </string-array> 
+    </string-array>
+
+    <string-array name="pref_status_icon_type_entries">
+        <item>Point</item>
+        <item>Émoticône</item>
+    </string-array>
+
+    <string-array name="pref_date_format_entries">
+        <item>Réglage système</item>
+        <item>12/31/2010</item>
+        <item>31/12/2010</item>
+        <item>2010/12/31</item>
+    </string-array>
+
+    <string-array name="pref_notification_entries">
+        <item>Toast</item>
+        <item>Notification</item>
+    </string-array>
 </resources>
