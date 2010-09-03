@@ -29,7 +29,7 @@ public class Su extends TabActivity {
     private static final int PACKAGE_UNINSTALL = 1;
     private static final int SEND_REPORT = 2;
     
-    private Context mContext;
+    private static Context mContext;
     private String mMaliciousAppPackage = "";
     
 	@Override
@@ -162,20 +162,23 @@ public class Su extends TabActivity {
     		process = Runtime.getRuntime().exec("su -v");
     		InputStream processInputStream = process.getInputStream();
     		BufferedReader stdInput = new BufferedReader(new InputStreamReader(processInputStream));
-    		Thread.sleep(500);
     		try {
-    			if (stdInput.ready()) {
-    				String suVersion = stdInput.readLine();
-    				return suVersion;
-    			} else {
-    				return " " + R.string.su_original;
+    			int counter = 0;
+    			while(counter < 20) {
+	   				Thread.sleep(50);
+	    			if (stdInput.ready()) {
+	    				String suVersion = stdInput.readLine();
+	    				return suVersion;
+	    			}
+	    			counter++;
     			}
+    			return " " + mContext.getString(R.string.su_original);
     		} finally {
     			stdInput.close();
     		}
     	} catch (IOException e) {
     		Log.e(TAG, "Call to su failed. Perhaps the wrong version of su is present", e);
-    		return " " + R.string.su_original;
+    		return " " + mContext.getString(R.string.su_original);
     	} catch (InterruptedException e) {
     		Log.e(TAG, "Call to su failed.", e);
     		return " ...";

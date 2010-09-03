@@ -240,6 +240,10 @@ public class Updater {
         @Override
         protected void onPostExecute(Boolean result) {
             if (result) {
+                if (mContext instanceof SuPreferences) {
+                	// update version number after binary update
+                	((SuPreferences)mContext).updateSuVersionInformation();	
+                }
                 Toast.makeText(mContext, R.string.su_updated, Toast.LENGTH_SHORT).show();
             } else {
                 copyUpdateZip(true);

@@ -28,7 +28,7 @@ public class SuPreferences extends PreferenceActivity implements OnSharedPrefere
         db.close();
 
         Preference binVersionPreference = getPreferenceScreen().findPreference("pref_bin_version");
-        new ShowBinVersion().execute();
+        updateSuVersionInformation();
         binVersionPreference.setOnPreferenceClickListener(this);
 
         Preference clearLogPreference = getPreferenceScreen().findPreference("pref_clear_log");
@@ -72,6 +72,10 @@ public class SuPreferences extends PreferenceActivity implements OnSharedPrefere
 	        return false;
 	    }
     }
+	
+	public void updateSuVersionInformation() {
+		new ShowBinVersion().execute();
+	}
 
     private String getSuperuserVersion()
     {

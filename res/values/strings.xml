@@ -3,9 +3,6 @@
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Request</string>
     
-    <!-- Do not translate -->
-    <string name="update_filename">su-2.3.1-bin-signed.zip</string>
-
     <string name="permlab_respond">respond to superuser requests</string>
     <string name="permdesc_respond">Allows the application to respond to requests for superuser access.</string>
     
@@ -29,10 +26,6 @@
     <string name="report_msg">Would you like to report this package to the developer of Superuser for investigation?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    
-    <!-- Do not translate -->
-    <string name="report_subject">Possibly malicious app found</string>
-    <string name="report_body">The following package was found to be requesting to respond to Superuser requests.\n\n - %s\n\nPlease investigate.</string>
     
     <string name="tab_apps">Apps</string>
     <string name="tab_log">Log</string>
@@ -95,4 +88,9 @@
     <string name="pref_bin_version_summary">Tap to check for updates</string>
 
     <string name="notification_text">%s has been granted Superuser permissions</string>
+
+    <!-- Do not translate -->
+    <string name="report_subject">Possibly malicious app found</string>
+    <string name="report_body">The following package was found to be requesting to respond to Superuser requests.\n\n - %s\n\nPlease investigate.</string>
+    <string name="update_filename">su-2.3.1-bin-signed.zip</string>
 </resources>
