@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string-array name="pref_tap_action_entries">
+        <item>程式詳情</item>
+        <item>忘記</item>
+        <item>切換狀態</item>
+    </string-array>
+    <string-array name="pref_status_icon_type_entries">
+        <item>圓點</item>
+        <item>表情</item>
+    </string-array>
+    <string-array name="pref_date_format_entries">
+        <item>系統默認</item>
+        <item>12/31/2010</item>
+        <item>31/12/2010</item>
+        <item>2010/12/31</item>
+    </string-array>
+    <string-array name="pref_notification_entries">
+        <item>無</item>
+        <item>通知</item>
+    </string-array>
+</resources>
