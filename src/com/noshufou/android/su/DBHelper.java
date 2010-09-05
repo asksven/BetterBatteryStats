@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
@@ -84,12 +85,21 @@ public class DBHelper {
         values.put(Apps.ALLOW, allow);
         values.put(Apps.PACKAGE, Util.getAppPackage(mContext, uid));
         values.put(Apps.NAME, Util.getAppName(mContext, uid, false));
-        long id = this.mDB.insert(APPS_TABLE, null, values);
-        values.clear();
-
-        if (id > 0) {
-        	addLog(id, System.currentTimeMillis(), LogType.CREATE);
-        	addLog(id, System.currentTimeMillis(), (allow==AppDetails.ALLOW)?LogType.ALLOW:LogType.DENY);
+        long id = 0;
+        try {
+            id = this.mDB.insertOrThrow(APPS_TABLE, null, values);
+        } catch (SQLException e) {
+            // There was an old, probably stagnant, row in the table
+            // Delete it and try again
+            deleteByUid(uid);
+            id = this.mDB.insert(APPS_TABLE, null, values);
+        } finally {
+            values.clear();
+        
+            if (id > 0) {
+                addLog(id, System.currentTimeMillis(), LogType.CREATE);
+                addLog(id, System.currentTimeMillis(), (allow==AppDetails.ALLOW)?LogType.ALLOW:LogType.DENY);
+            }
         }
     }
 
