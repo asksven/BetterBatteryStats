@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -22,6 +24,8 @@ import com.noshufou.android.su.PinnedHeaderListView.PinnedHeaderCache;
 
 public class LogActivity extends ListActivity {
 //	private static final String TAG = "Su.LogActivity";
+    
+    private static final int MENU_CLEAR_LOG = 1;
 	
 	private DBHelper mDB;
 	private Cursor mCursor;
@@ -56,6 +60,23 @@ public class LogActivity extends ListActivity {
         super.onDestroy();
     }
 	
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(Menu.NONE, MENU_CLEAR_LOG, Menu.NONE, R.string.pref_clear_log)
+                .setIcon(R.drawable.ic_menu_clear);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == MENU_CLEAR_LOG) {
+            mDB.clearLog();
+            refreshList();
+            return true;
+        }
+        return false;
+    }
+
     private void setupListView() {
     	final ListView list = getListView();
     	final LayoutInflater inflater = getLayoutInflater();
