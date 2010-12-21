@@ -45,12 +45,14 @@ public class LogActivity extends ListActivity {
 
     @Override
 	protected void onPause() {
-		super.onPause();
+            mDB.close();
+            super.onPause();
 	}
 
 	@Override
     public void onResume() {
         super.onResume();
+        mDB = new DBHelper(this);
         refreshList();
     }
 
@@ -310,3 +312,4 @@ public class LogActivity extends ListActivity {
    		}
     }
 }
+

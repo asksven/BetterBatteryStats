@@ -61,13 +61,15 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
 
     @Override
 	protected void onPause() {
-		super.onPause();
+            mDB.close();
+            super.onPause();
 	}
 
 	@Override
     public void onResume() {
         super.onResume();
 
+        mDB = new DBHelper(this);
         mShowStatusIcons = mPrefs.getBoolean("pref_show_status_icons", true);
 		String type = mPrefs.getString("pref_status_icon_type", "dot");
 		if (type.equals("dot")) {
@@ -410,3 +412,4 @@ public class AppListActivity extends ListActivity implements View.OnClickListene
    		}
     }
 }
+
