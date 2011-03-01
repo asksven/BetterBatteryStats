@@ -14,9 +14,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<!-- Layout used for list separators. -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="?android:attr/listSeparatorTextViewStyle"
-    android:textColor="@*android:color/dim_foreground_dark"
-    android:gravity="left|center_vertical"
-/>
+<resources>
+    <item type="id" name="title_container" />
+    <item type="id" name="title_logo" />
+    <item type="id" name="title_text" />
+</resources>

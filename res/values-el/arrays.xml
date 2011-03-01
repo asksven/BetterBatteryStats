@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="pref_tap_action_entries">
-        <item>Λεπτομέρειες Εφαρμογής</item>
-        <item>Ξέχασε</item>
-        <item>Αλλαγή κατάστασης</item>
-    </string-array>
-</resources>

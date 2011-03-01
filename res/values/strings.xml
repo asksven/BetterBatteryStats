@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2011 Adam Shanks (ChainsDD)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Request</string>
+    <string name="app_details">App Details</string>
+    
+    <string name="description_log">Log</string>
+    <string name="description_home">Home</string>
     
     <string name="permlab_respond">respond to superuser requests</string>
     <string name="permdesc_respond">Allows the application to respond to requests for superuser access.</string>
+    
+    <string name="recent_activity">Recent activity</string>
     
     <string name="new_su">New version of su</string>
     <string name="new_su_msg">There is a new version of the su binary available. Press \'Ok\' to attempt to install it automatically.</string>
@@ -37,7 +58,7 @@
     <string name="deny">Deny</string>
     <string name="remember">Remember</string>
     <string name="uid">(uid: %d)</string>
-    <string name="request">%s as %s (uid: %d)</string>
+    <string name="request">%1$s as %1$s (uid: %1$d)</string>
     <string name="unknown">Unknown name</string>
 
     <string name="allowed">Allowed</string>
@@ -52,6 +73,7 @@
     <string name="empty_logs">No log information</string>
 
     <string name="detail_package">Package:</string>
+    <string name="detail_app_uid">App UID:</string>
     <string name="detail_request">Requested UID:</string>
     <string name="detail_command">Command:</string>
     <string name="detail_status">Status:</string>
