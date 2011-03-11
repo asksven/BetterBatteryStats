@@ -50,7 +50,7 @@
         android:gravity="center_horizontal"
         android:text="@string/request_message" />
 
-    <RelativeLayout android:id="@+id/detailsLayout"
+    <RelativeLayout android:id="@+id/details_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dip"
@@ -58,65 +58,65 @@
         android:paddingLeft="15dip"
         android:paddingRight="15dip">
 
-        <TextView android:id="@+id/appNameLabel"
+        <TextView android:id="@+id/app_name_label"
             style="@style/DetailsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:text="@string/request_app_name" />
-        <TextView android:id="@+id/appName"
+        <TextView android:id="@+id/app_name"
             style="@style/DetailsInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/appNameLabel"
-            android:layout_toRightOf="@id/appNameLabel" />
+            android:layout_alignBaseline="@id/app_name_label"
+            android:layout_toRightOf="@id/app_name_label" />
 
-        <TextView android:id="@+id/packageNameLabel"
+        <TextView android:id="@+id/package_name_label"
             style="@style/DetailsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/appNameLabel"
+            android:layout_below="@id/app_name_label"
             android:layout_alignParentLeft="true"
             android:text="@string/detail_package" />
-        <TextView android:id="@+id/packageName"
+        <TextView android:id="@+id/package_name"
             style="@style/DetailsInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/packageNameLabel"
-            android:layout_toRightOf="@id/packageNameLabel" />
+            android:layout_alignBaseline="@id/package_name_label"
+            android:layout_toRightOf="@id/package_name_label" />
 
-        <TextView android:id="@+id/requestDetailLabel"
+        <TextView android:id="@+id/request_detail_label"
             style="@style/DetailsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/packageNameLabel"
+            android:layout_below="@id/package_name_label"
             android:layout_alignParentLeft="true"
             android:text="@string/detail_request" />
-        <TextView android:id="@+id/requestDetail"
+        <TextView android:id="@+id/request_detail"
             style="@style/DetailsInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/requestDetailLabel"
-            android:layout_toRightOf="@id/requestDetailLabel" />
+            android:layout_alignBaseline="@id/request_detail_label"
+            android:layout_toRightOf="@id/request_detail_label" />
 
-        <TextView android:id="@+id/commandLabel"
+        <TextView android:id="@+id/command_label"
             style="@style/DetailsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/requestDetailLabel"
+            android:layout_below="@id/request_detail_label"
             android:layout_alignParentLeft="true"
             android:text="@string/detail_command" />
         <TextView android:id="@+id/command"
             style="@style/DetailsInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/commandLabel"
-            android:layout_toRightOf="@id/commandLabel" />
+            android:layout_alignBaseline="@+id/command_label"
+            android:layout_toRightOf="@+id/command_label" />
 
     </RelativeLayout>
 
-    <LinearLayout android:id="@+id/buttonLayout"
+    <LinearLayout android:id="@+id/button_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -135,7 +135,7 @@
 
     </LinearLayout>
     
-    <CheckBox android:id="@+id/checkRemember"
+    <CheckBox android:id="@+id/check_remember"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/remember" />

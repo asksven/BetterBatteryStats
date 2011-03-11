@@ -108,19 +108,19 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             finish();
         }
 
-        TextView appNameView = (TextView) findViewById(R.id.appName);
+        TextView appNameView = (TextView) findViewById(R.id.app_name);
         appNameView.setText(Util.getAppName(this, mCallerUid, true));
 
-        TextView packageNameView = (TextView) findViewById(R.id.packageName);
+        TextView packageNameView = (TextView) findViewById(R.id.package_name);
         packageNameView.setText(Util.getAppPackage(this, mCallerUid));
 
-        TextView requestDetailView = (TextView) findViewById(R.id.requestDetail);
+        TextView requestDetailView = (TextView) findViewById(R.id.request_detail);
         requestDetailView.setText(Util.getUidName(this, mDesiredUid, true));
 
         TextView commandView = (TextView)findViewById(R.id.command);
         commandView.setText(mDesiredCmd);
 
-        mRememberCheckBox = (CheckBox) findViewById(R.id.checkRemember);
+        mRememberCheckBox = (CheckBox) findViewById(R.id.check_remember);
         mRememberCheckBox.setChecked(mPrefs.getBoolean("last_remember_value", true));
         mRememberCheckBox.setEnabled(mDbEnabled);
 

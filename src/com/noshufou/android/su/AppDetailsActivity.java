@@ -54,12 +54,12 @@ public class AppDetailsActivity extends ListActivity implements OnClickListener 
 
         // Title bar
         ((TextView)findViewById(R.id.title_text)).setText(appDetails.getName());
-        ((ImageButton)findViewById(R.id.homeButton)).setOnClickListener(this);
+        ((ImageButton)findViewById(R.id.home_button)).setOnClickListener(this);
         
-        ((ImageView)findViewById(R.id.appIcon)).setImageDrawable(Util.getAppIcon(this, appUid));
-        ((TextView)findViewById(R.id.packageName)).setText(appDetails.getPackageName());
-        ((TextView)findViewById(R.id.appUid)).setText(Integer.toString(appUid));
-        ((TextView)findViewById(R.id.requestDetail))
+        ((ImageView)findViewById(R.id.app_icon)).setImageDrawable(Util.getAppIcon(this, appUid));
+        ((TextView)findViewById(R.id.package_name)).setText(appDetails.getPackageName());
+        ((TextView)findViewById(R.id.app_uid)).setText(Integer.toString(appUid));
+        ((TextView)findViewById(R.id.request_detail))
                 .setText(Util.getUidName(this, reqUid, true));
         ((TextView)findViewById(R.id.command)).setText(appDetails.getCommand());
         ((TextView)findViewById(R.id.status)).setText(
@@ -72,7 +72,7 @@ public class AppDetailsActivity extends ListActivity implements OnClickListener 
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
-        case R.id.homeButton:
+        case R.id.home_button:
             final Intent intent = new Intent(this, AppListActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -89,9 +89,9 @@ public class AppDetailsActivity extends ListActivity implements OnClickListener 
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
             long date = cursor.getLong(cursor.getColumnIndex(Logs.DATE));
-            ((TextView)view.findViewById(R.id.logDate))
+            ((TextView)view.findViewById(R.id.log_date))
                     .setText(Util.formatDate(context, date));
-            ((TextView)view.findViewById(R.id.logTime))
+            ((TextView)view.findViewById(R.id.log_time))
                     .setText(Util.formatTime(context, date));
             int logType = R.string.unknown;
             switch (cursor.getInt(cursor.getColumnIndex(Logs.TYPE))) {
@@ -108,7 +108,7 @@ public class AppDetailsActivity extends ListActivity implements OnClickListener 
                 logType = R.string.toggled;
                 break;
             }
-            ((TextView)view.findViewById(R.id.logType)).setText(logType);
+            ((TextView)view.findViewById(R.id.log_type)).setText(logType);
         }
 
     }
