@@ -84,6 +84,15 @@
         <item name="android:ellipsize">end</item>
     </style>
     
+    <style name="TitleBarProgressIndicator" parent="@android:style/Widget.ProgressBar.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">14dip</item>
+        <item name="android:layout_marginRight">15dip</item>
+        <item name="android:layout_marginTop">14dip</item>
+        <item name="android:indeterminate">true</item>
+    </style>
+
     <style name="RequestPanel" parent="@android:style/Theme.Panel">
         <item name="android:windowBackground">@drawable/dialog_background</item>
         <item name="android:windowIsFloating">false</item>

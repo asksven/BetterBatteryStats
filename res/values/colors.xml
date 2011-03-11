@@ -30,4 +30,9 @@
     <color name="pinned_header_background">#ffcccccc</color>
     
     <color name="dim_foreground_light">#323232</color>
+
+    <color name="console_background">#222222</color>
+    <color name="console_grey">#eeeeec</color>
+    <color name="console_red">#ef2929</color>
+    <color name="console_green">#8ae234</color>
 </resources>

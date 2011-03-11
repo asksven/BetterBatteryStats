@@ -88,6 +88,24 @@ public class AppListActivity extends ListActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(Menu.NONE, MENU_UPDATE, Menu.NONE, R.string.updater_update);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case MENU_UPDATE:
+            Intent intent = new Intent(this, UpdaterActivity.class);
+            startActivity(intent);
+            return true;
+        default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final Intent intent = new Intent(this, AppDetailsActivity.class);
         intent.putExtra("id", id);

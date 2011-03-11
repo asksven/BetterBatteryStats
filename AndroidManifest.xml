@@ -30,6 +30,9 @@
         <activity android:name="AppDetailsActivity"
             android:theme="@style/Theme.Superuser"
             android:label="Details" />
+        <activity android:name="UpdaterActivity"
+            android:theme="@style/Theme.Superuser"
+            android:label="Updater" />
         <activity android:name="SuRequestActivity"
             android:label="@string/app_name_request"
             android:excludeFromRecents="true"
@@ -51,6 +54,7 @@
     <uses-sdk android:minSdkVersion="3" />
     
     <uses-permission android:name="com.noshufou.android.su.RESPOND" />
+    <uses-permission android:name="android.permission.INTERNET" />
     
     <permission android:name="com.noshufou.android.su.RESPOND"
         android:label="@string/permlab_respond"

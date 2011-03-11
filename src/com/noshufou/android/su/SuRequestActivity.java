@@ -15,16 +15,16 @@
  ******************************************************************************/
 /**
  ** Copyright (C) 2010 Adam Shanks (chainsdd@gmail.com)
- ** 
+ **
  ** This program is free software; you can redistribute it and/or
  ** modify it under the terms of the GNU General Public License,
  ** version 2 as published by the Free Software Foundation.
- ** 
+ **
  ** This program is distributed in the hope that it will be useful,
  ** but WITHOUT ANY WARRANTY; without even the implied warranty of
  ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  ** GNU General Public License for more details.
- ** 
+ **
  ** You should have received a copy of the GNU General Public License
  ** along with this program; if not, write to the Free Software
  ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -36,8 +36,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteException;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
 import android.os.Bundle;
@@ -64,7 +69,9 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     private int mCallerUid = 0;
     private int mDesiredUid = 0;
     private String mDesiredCmd = "";
-    
+
+    private boolean mDbEnabled = true;
+
     private CheckBox mRememberCheckBox;
 
     @Override
@@ -82,12 +89,14 @@ public class SuRequestActivity extends Activity implements OnClickListener {
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        mDbEnabled = mPrefs.getBoolean("db_enabled", true);
+
         Intent intent = this.getIntent();
         mCallerUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
         mDesiredUid = intent.getIntExtra(SuRequestReceiver.EXTRA_UID, 0);
         mDesiredCmd = intent.getStringExtra(SuRequestReceiver.EXTRA_CMD);
         socketPath = intent.getStringExtra(SuRequestReceiver.EXTRA_SOCKET);
-        
+
         try {
             mSocket = new LocalSocket();
             mSocket.connect(new LocalSocketAddress(socketPath,
@@ -98,22 +107,23 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             Log.e(TAG, "Failed to connect to socket", e);
             finish();
         }
-        
+
         TextView appNameView = (TextView) findViewById(R.id.appName);
         appNameView.setText(Util.getAppName(this, mCallerUid, true));
-        
+
         TextView packageNameView = (TextView) findViewById(R.id.packageName);
         packageNameView.setText(Util.getAppPackage(this, mCallerUid));
-        
+
         TextView requestDetailView = (TextView) findViewById(R.id.requestDetail);
         requestDetailView.setText(Util.getUidName(this, mDesiredUid, true));
-        
+
         TextView commandView = (TextView)findViewById(R.id.command);
         commandView.setText(mDesiredCmd);
-        
+
         mRememberCheckBox = (CheckBox) findViewById(R.id.checkRemember);
         mRememberCheckBox.setChecked(mPrefs.getBoolean("last_remember_value", true));
-        
+        mRememberCheckBox.setEnabled(mDbEnabled);
+
         ((Button)findViewById(R.id.allow)).setOnClickListener(this);
         ((Button)findViewById(R.id.deny)).setOnClickListener(this);
     }
@@ -137,23 +147,53 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             break;
         }
     }
-    
+
     private void sendResult(boolean allow) {
-        DBHelper db = new DBHelper(this);
-        String appName = Util.getAppName(this, mCallerUid, false);
-        long time = System.currentTimeMillis();
         String resultCode = allow ? AppDetails.ALLOW_CODE : AppDetails.DENY_CODE;
-        
-        if (mRememberCheckBox.isChecked()) {
-            db.insert(mCallerUid, mDesiredUid, mDesiredCmd, allow, time);
-        } else if (mPrefs.getBoolean("pref_log_enabled", true)) {
-            db.addLog(appName, allow ? LogType.ALLOW : LogType.DENY, time);
+
+        if (mDbEnabled) {
+            DBHelper db = null;
+            try {
+                db = new DBHelper(this);
+                String appName = Util.getAppName(this, mCallerUid, false);
+                long time = System.currentTimeMillis();
+
+                if (mRememberCheckBox.isChecked()) {
+                    db.insert(mCallerUid, mDesiredUid, mDesiredCmd, allow, time);
+                } else if (mPrefs.getBoolean("pref_log_enabled", true)) {
+                    db.addLog(appName, allow ? LogType.ALLOW : LogType.DENY, time);
+                }
+            } catch (SQLiteException e) {
+                Log.e(TAG, "Opening database failed", e);
+
+                // Disable the database until su is updated
+                mPrefs.edit().putBoolean("remember_enabled", false)
+                    .putBoolean("last_remember_value", false).commit();
+
+                // Notify the user of the problem
+                NotificationManager nm =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                Notification notification = new Notification(R.drawable.stat_su,
+                        getString(R.string.notif_disable_remember_ticker),
+                        System.currentTimeMillis());
+                Intent notificationIntent = new Intent(this, UpdaterActivity.class);
+                PendingIntent contentIntent = PendingIntent
+                    .getActivity(this, 0, notificationIntent, 0);
+                notification.flags |= Notification.FLAG_AUTO_CANCEL;
+                notification.setLatestEventInfo(this,
+                        getString(R.string.notif_disable_remember_title),
+                        getString(R.string.notif_disable_remember_text), contentIntent);
+                nm.notify(0, notification);
+            } finally {
+                if (db != null) {
+                    db.close();
+                }
+            }
         }
-        db.close();
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean("last_remember_value", mRememberCheckBox.isChecked());
         editor.commit();
-        
+
         try {
             OutputStream os = mSocket.getOutputStream();
             Log.d(TAG, "Sending result: " + resultCode + " for UID: " + mCallerUid);

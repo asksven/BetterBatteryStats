@@ -18,26 +18,15 @@
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Request</string>
     <string name="app_details">App Details</string>
-    
+
     <string name="description_log">Log</string>
     <string name="description_home">Home</string>
-    
+
     <string name="permlab_respond">respond to superuser requests</string>
     <string name="permdesc_respond">Allows the application to respond to requests for superuser access.</string>
-    
+
     <string name="recent_activity">Recent activity</string>
-    
-    <string name="new_su">New version of su</string>
-    <string name="new_su_msg">There is a new version of the su binary available. Press \'Ok\' to attempt to install it automatically.</string>
-    <string name="su_updated">su binary updated successfully</string>
-    <string name="su_not_updated_title">Automatic update failed</string>
-    <string name="su_not_updated">An error occurred and su was not updated. A zip file (su-2.3.1-bin-signed.zip) has been placed on your sdcard, please reboot into recovery mode and flash it to update your su binary.</string>
-    <string name="su_up_to_date">su is up to date</string>
-    <string name="checking">Checking...</string>
-    <string name="no_connection">No network connection. Could not check for updates</string>
-    <string name="manifest_download_failed">Checking avalaible version failed</string>
-    <string name="su_original">original</string>
-    
+
     <string name="warning">Warning</string>
     <string name="malicious_app_found">Package %s was found to be requesting permission to respond to Superuser requests. It\'s likely that this app is malicious and attempting to grant superuser access without your knowledge. It\'s recommended that you uninstall it now.</string>
     <string name="malicious_app_notification_ticker">Potentially malicious app detected</string>
@@ -109,7 +98,28 @@
     <string name="pref_bin_version_title">Su binary v%s</string>
     <string name="pref_bin_version_summary">Tap to check for updates</string>
 
+    <string name="updater_title">Binary Updater</string>
+    <string name="updater_update_now">Tap \'Update\' button to begin update.</string>
+    <string name="updater_new_su_found">New version of su binary found. Update now?</string>
+    <string name="updater_current_installed">Current version already installed. No action required.</string>
+    <string name="updater_update">Update</string>
+    <string name="updater_no_action">No action required</string>
+    <string name="updater_working">Working...</string>
+    <string name="updater_manifest_legacy">http://downloads.androidsu.com/superuser/su/manifest-legacy.json</string>
+    <string name="updater_manifest">http://downloads.androidsu.com/superuser/su/manifest.json</string>
+    <string name="updater_ok">ok!</string>
+    <string name="updater_fail">fail!</string>
+    <string name="updater_outdated">outdated</string>
+    <string name="updater_update_failed">Update failed. Try again?</string>
+    <string name="updater_download_failed">Download failed. Try again?</string>
+    <string name="updater_try_again">Try again</string>
+    <string name="updater_su_updated">su binary updated successfully</string>
+
     <string name="notification_text">%s has been granted Superuser permissions</string>
+
+    <string name="notif_disable_remember_ticker">Permission remembering has been disabled due to an outdated su binary</string>
+    <string name="notif_disable_remember_title">Permission remembering disabled</string>
+    <string name="notif_disable_remember_text">Tap to update su binary</string>
 
     <!-- Do not translate -->
     <string name="report_subject">Possibly malicious app found</string>
