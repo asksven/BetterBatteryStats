@@ -24,6 +24,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -44,6 +46,8 @@ import com.noshufou.android.su.widget.PinnedHeaderListView.PinnedHeaderCache;
 public class AppListActivity extends ListActivity {
     private static final String TAG = "Su.AppListActivity";
     
+    private static final int MENU_UPDATE = 1;
+    
     private Context mContext;
     private DBHelper mDB;
     private Cursor mCursor;
@@ -62,26 +66,25 @@ public class AppListActivity extends ListActivity {
         
         mContext = this;
 
-        mDB = new DBHelper(this);
-        
-        setupListView();
     }
     
     @Override
     protected void onResume() {
         super.onResume();
+        mDB = new DBHelper(this);
+        setupListView();
 //        refreshList();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mDB.close();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mDB.close();
     }
 
     @Override
