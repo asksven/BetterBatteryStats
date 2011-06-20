@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright (c) 2011 Adam Shanks (ChainsDD)
+  Copyright (c) 2009 The Android Open Source Project
   
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,22 +16,17 @@
   limitations under the License.
 -->
 <!-- Layout used for list section separators. -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="25dip"
-    android:background="@drawable/light_header"
-    >
-    <TextView
+    android:background="@drawable/light_header">
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/header_text"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
+        android:layout_height="25dp"
         android:paddingLeft="10dip"
         android:textStyle="bold"
         android:textColor="@color/dim_foreground_light"
         android:textSize="14sp"
-        android:gravity="left"
-    />
+        android:gravity="center_vertical" />
 </RelativeLayout>

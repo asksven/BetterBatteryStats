@@ -17,6 +17,7 @@
 <resources>
     <dimen name="title_height">45dp</dimen>
     <dimen name="now_playing_height">90dip</dimen>
+    <dimen name="text_size_console">10sp</dimen>
     <dimen name="text_size_small">14sp</dimen>
     <dimen name="text_size_medium">18sp</dimen>
     <dimen name="text_size_large">22sp</dimen>
@@ -33,10 +34,11 @@
     <dimen name="list_item_header_padding_left">10dip</dimen>
     
     <!-- Dimensions for a log item -->
+    <dimen name="log_item_perferred_height">30dip</dimen>
     <dimen name="log_item_padding_top">4dip</dimen>
     <dimen name="log_item_padding_right">4dip</dimen>
     <dimen name="log_item_padding_bottom">4dip</dimen>
-    <dimen name="log_item_padding_left">4dip</dimen>
+    <dimen name="log_item_padding_left">100dip</dimen>
     <dimen name="log_item_gap_between_fields">5dip</dimen>
     <dimen name="log_item_header_padding_left">10dip</dimen>
 </resources>

@@ -15,102 +15,39 @@
  ******************************************************************************/
 package com.noshufou.android.su;
 
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ResourceCursorAdapter;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
-import com.noshufou.android.su.util.AppDetails;
-import com.noshufou.android.su.util.DBHelper;
 import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.util.DBHelper.LogType;
-import com.noshufou.android.su.util.DBHelper.Logs;
 
-public class AppDetailsActivity extends ListActivity implements OnClickListener {
+public class AppDetailsActivity extends FragmentActivity {
+    private static final String TAG = "Su.AppDetailsActivity";
     
-    private Button mToggleButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Configuration config = getResources().getConfiguration();
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE
+                && config.screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            finish();
+            return;
+        }
+        
         setContentView(R.layout.activity_app_details);
-        
-        Intent callingIntent = this.getIntent();
-        long appId = callingIntent.getLongExtra("id", 0);
-        
-        DBHelper db = new DBHelper(this);
-        AppDetails appDetails = db.getAppDetails(appId);
-        int appUid = appDetails.getUid();
-        int reqUid = appDetails.getExecUid();
-
-        // Title bar
-        ((TextView)findViewById(R.id.title_text)).setText(appDetails.getName());
-        ((ImageButton)findViewById(R.id.home_button)).setOnClickListener(this);
-        
-        ((ImageView)findViewById(R.id.app_icon)).setImageDrawable(Util.getAppIcon(this, appUid));
-        ((TextView)findViewById(R.id.package_name)).setText(appDetails.getPackageName());
-        ((TextView)findViewById(R.id.app_uid)).setText(Integer.toString(appUid));
-        ((TextView)findViewById(R.id.request_detail))
-                .setText(Util.getUidName(this, reqUid, true));
-        ((TextView)findViewById(R.id.command)).setText(appDetails.getCommand());
-        ((TextView)findViewById(R.id.status)).setText(
-                appDetails.getPermissionBool() ? R.string.allow : R.string.deny);
-        
-        setListAdapter(new LogAdapter(this, R.layout.log_list_item,
-                appDetails.getRecentUsage()));
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()) {
-        case R.id.home_button:
-            final Intent intent = new Intent(this, AppListActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            break;
+        if (savedInstanceState == null) {
+            AppDetailsFragment detailsFragment = new AppDetailsFragment();
+            detailsFragment.setArguments(getIntent().getExtras());
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, detailsFragment).commit();
         }
     }
-    
-    private class LogAdapter extends ResourceCursorAdapter {
 
-        public LogAdapter(Context context, int layout, Cursor c) {
-            super(context, layout, c);
-        }
-
-        @Override
-        public void bindView(View view, Context context, Cursor cursor) {
-            long date = cursor.getLong(cursor.getColumnIndex(Logs.DATE));
-            ((TextView)view.findViewById(R.id.log_date))
-                    .setText(Util.formatDate(context, date));
-            ((TextView)view.findViewById(R.id.log_time))
-                    .setText(Util.formatTime(context, date));
-            int logType = R.string.unknown;
-            switch (cursor.getInt(cursor.getColumnIndex(Logs.TYPE))) {
-            case LogType.ALLOW:
-                logType = R.string.allowed;
-                break;
-            case LogType.DENY:
-                logType = R.string.denied;
-                break;
-            case LogType.CREATE:
-                logType = R.string.created;
-                break;
-            case LogType.TOGGLE:
-                logType = R.string.toggled;
-                break;
-            }
-            ((TextView)view.findViewById(R.id.log_type)).setText(logType);
-        }
-
+    public void goHome(View view) {
+        Log.d(TAG, "Home button pressed");
+        Util.goHome(this);
     }
-
 }

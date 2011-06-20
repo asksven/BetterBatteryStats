@@ -24,6 +24,9 @@
     <color name="background2">#ffd5ddeb</color>
     <color name="background3">#ffe3e8f1</color>
     <color name="title_separator">#40ffffff</color>
+    
+    <color name="list_item_selected">#ffa4c639</color>
+    <color name="list_item_pressed">#ffd6debd</color>
 
     <color name="session_foreground_past">#ff999999</color>
 

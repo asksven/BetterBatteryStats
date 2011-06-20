@@ -16,20 +16,43 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.noshufou.android.su"
-      android:versionCode="26"
-      android:versionName="3.0">
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+      android:versionCode="28"
+      android:versionName="3.0-beta1"
+      android:sharedUserId="com.noshufou.android.su"
+      android:sharedUserLabel="@string/superuser">
+    <application android:label="@string/app_name"
+        android:icon="@drawable/icon"
+        android:logo="@drawable/title_logo"
+        android:hardwareAccelerated="true">
         <activity android:name="AppListActivity"
                   android:label="@string/app_name"
                   android:theme="@style/Theme.Superuser">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity-alias android:name="Su"
+            android:targetActivity="AppListActivity"
+            android:label="Superuser"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
         <activity android:name="AppDetailsActivity"
             android:theme="@style/Theme.Superuser"
             android:label="Details" />
+        <activity android:name="LogActivity"
+            android:theme="@style/Theme.Superuser"
+            android:label="Log" />
+        <activity android:name=".preferences.PreferencesActivity"
+            android:theme="@style/Theme.Superuser.Preferences"
+            android:label="Preferences" />
+        <activity android:name="preferences.PreferencesActivityHC"
+            android:theme="@style/Theme.Superuser"
+            android:label="Preferences" />
         <activity android:name="UpdaterActivity"
             android:theme="@style/Theme.Superuser"
             android:label="Updater" />
@@ -38,7 +61,8 @@
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:theme="@style/RequestPanel"
-            android:taskAffinity="">
+            android:taskAffinity=""
+            android:windowSoftInputMode="stateAlwaysHidden">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 <!--                <category android:name="android.intent.category.DEFAULT" />-->
@@ -50,16 +74,56 @@
                 <action android:name="com.noshufou.android.su.REQUEST" />
             </intent-filter>
         </receiver>
+        <receiver android:name="SuResultReceiver">
+            <intent-filter>
+                <action android:name="com.noshufou.android.su.RESULT" />
+                <action android:name="com.noshufou.android.su.NOTIFICATION" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="SecretCodeReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE"/>
+                <data android:scheme="android_secret_code" />
+            </intent-filter>
+        </receiver>
+        
+        <service android:name=".service.LogService"
+            android:exported="true" />
+        <service android:name=".service.NotificationService"
+            android:exported="true" />
+        
+        <provider android:name=".provider.PermissionsProvider"
+            android:authorities="com.noshufou.android.su.provider"
+            android:exported="true"
+            android:readPermission="com.noshufou.android.su.provider.READ"
+            android:writePermission="com.noshufou.android.su.provider.WRITE" />
     </application>
-    <uses-sdk android:minSdkVersion="3" />
+    
+    <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="11"/>
     
     <uses-permission android:name="com.noshufou.android.su.RESPOND" />
+    <uses-permission android:name="com.noshufou.android.su.provider.READ" />
+    <uses-permission android:name="com.noshufou.android.su.provider.WRITE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    
+    <permission-group android:name="com.noshufou.android.su.permission-group.SUPERUSER"
+        android:label="@string/permgrouplab_superuser"
+        android:description="@string/permgroupdesc_superuser" />
     
     <permission android:name="com.noshufou.android.su.RESPOND"
         android:label="@string/permlab_respond"
         android:description="@string/permdesc_respond"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="signature" />
+    <permission android:name="com.noshufou.android.su.provider.READ"
+        android:label="@string/permlab_provider_read"
+        android:description="@string/permdesc_provider_read"
+        android:permissionGroup="com.noshufou.android.su.permission-group.SUPERUSER"
+        android:protectionLevel="signature" />
+    <permission android:name="com.noshufou.android.su.provider.WRITE"
+        android:label="@string/permlab_provider_write"
+        android:description="@string/permdesc_provider_write"
+        android:permissionGroup="com.noshufou.android.su.permission-group.SUPERUSER"
         android:protectionLevel="signature" />
 
 </manifest> 

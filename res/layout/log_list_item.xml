@@ -8,8 +8,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="5dp"
         android:paddingRight="5dp" />
-    <TextView android:id="@+id/log_time"
-        android:layout_width="0dp"
+    <TextView android:id="@+id/app_name"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:singleLine="true"

@@ -13,22 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-/**
- ** Copyright (C) 2010 Adam Shanks (chainsdd@gmail.com)
- **
- ** This program is free software; you can redistribute it and/or
- ** modify it under the terms of the GNU General Public License,
- ** version 2 as published by the Free Software Foundation.
- **
- ** This program is distributed in the hope that it will be useful,
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- ** GNU General Public License for more details.
- **
- ** You should have received a copy of the GNU General Public License
- ** along with this program; if not, write to the Free Software
- ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- **/
 
 package com.noshufou.android.su;
 
@@ -39,10 +23,11 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
 import android.os.Bundle;
@@ -50,15 +35,16 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.noshufou.android.su.util.AppDetails;
-import com.noshufou.android.su.util.DBHelper;
+import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.util.DBHelper.LogType;
 
 public class SuRequestActivity extends Activity implements OnClickListener {
     private static final String TAG = "SuRequest";
@@ -67,12 +53,17 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     private SharedPreferences mPrefs;
 
     private int mCallerUid = 0;
+    private String mCallerBin = "";
     private int mDesiredUid = 0;
     private String mDesiredCmd = "";
-
-    private boolean mDbEnabled = true;
+    private int mSuVersionCode = 0;
+    
+    private boolean mUseDb = true;
+    private boolean mUsePin = false;
+    private int mAttempts = 3;
 
     private CheckBox mRememberCheckBox;
+    private EditText mPinText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,18 +80,42 @@ public class SuRequestActivity extends Activity implements OnClickListener {
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mDbEnabled = mPrefs.getBoolean("db_enabled", true);
-
         Intent intent = this.getIntent();
         mCallerUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
+        mCallerBin = intent.getStringExtra(SuRequestReceiver.EXTRA_CALLERBIN);
         mDesiredUid = intent.getIntExtra(SuRequestReceiver.EXTRA_UID, 0);
         mDesiredCmd = intent.getStringExtra(SuRequestReceiver.EXTRA_CMD);
         socketPath = intent.getStringExtra(SuRequestReceiver.EXTRA_SOCKET);
+        mSuVersionCode = intent.getIntExtra(SuRequestReceiver.EXTRA_VERSION_CODE, 0);
 
+        mUsePin = mPrefs.getBoolean(Preferences.PIN, false);
+        if (mUsePin) {
+            this.setContentView(R.layout.activity_request_pin);
+            ViewGroup pinLayout = (ViewGroup) findViewById(R.id.pin_layout);
+            mPinText = (EditText) pinLayout.findViewById(R.id.pin);
+            ((Button)pinLayout.findViewById(R.id.pin_0)).setOnClickListener(onPinButton);
+            ((Button)pinLayout.findViewById(R.id.pin_1)).setOnClickListener(onPinButton);
+            ((Button)pinLayout.findViewById(R.id.pin_2)).setOnClickListener(onPinButton);
+            ((Button)pinLayout.findViewById(R.id.pin_3)).setOnClickListener(onPinButton);
+            ((Button)pinLayout.findViewById(R.id.pin_4)).setOnClickListener(onPinButton);
+            ((Button)pinLayout.findViewById(R.id.pin_5)).setOnClickListener(onPinButton);
+            ((Button)pinLayout.findViewById(R.id.pin_6)).setOnClickListener(onPinButton);
+            ((Button)pinLayout.findViewById(R.id.pin_7)).setOnClickListener(onPinButton);
+            ((Button)pinLayout.findViewById(R.id.pin_8)).setOnClickListener(onPinButton);
+            ((Button)pinLayout.findViewById(R.id.pin_9)).setOnClickListener(onPinButton);
+            ((Button)findViewById(R.id.pin_ok)).setOnClickListener(this);
+            ((Button)findViewById(R.id.pin_cancel)).setOnClickListener(this);
+        } else {
+            this.setContentView(R.layout.activity_request);
+            ((Button)findViewById(R.id.allow)).setOnClickListener(this);
+            ((Button)findViewById(R.id.deny)).setOnClickListener(this);
+        }
+        
         try {
             mSocket = new LocalSocket();
             mSocket.connect(new LocalSocketAddress(socketPath,
                     LocalSocketAddress.Namespace.FILESYSTEM));
+            Log.d(TAG, "socketPath = " + socketPath);
         } catch (IOException e) {
             // If we can't connect to the socket, there's no point in
             // being here. Log it and quit
@@ -108,11 +123,28 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             finish();
         }
 
+        if (mSuVersionCode < 6) {
+            // This won't check for the absolute latest version of su, just the 
+            // latest required to work properly.
+            Log.d(TAG, "su binary out of date, version code = " + mSuVersionCode);
+            mUseDb = false;
+            NotificationManager nm = 
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification notification = new Notification(R.drawable.stat_su,
+                    getString(R.string.notif_outdated_ticker), System.currentTimeMillis());
+            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                    new Intent(this, UpdaterActivity.class), 0);
+            notification.setLatestEventInfo(this, getString(R.string.notif_outdated_title),
+                    getString(R.string.notif_outdated_text), contentIntent);
+            notification.flags |= Notification.FLAG_AUTO_CANCEL|Notification.FLAG_ONLY_ALERT_ONCE;
+            nm.notify(1, notification);
+        }
+
         TextView appNameView = (TextView) findViewById(R.id.app_name);
-        appNameView.setText(Util.getAppName(this, mCallerUid, true));
+        appNameView.setText(Util.getAppName(this, mCallerUid, mCallerBin, true));
 
         TextView packageNameView = (TextView) findViewById(R.id.package_name);
-        packageNameView.setText(Util.getAppPackage(this, mCallerUid));
+        packageNameView.setText(mCallerBin);
 
         TextView requestDetailView = (TextView) findViewById(R.id.request_detail);
         requestDetailView.setText(Util.getUidName(this, mDesiredUid, true));
@@ -120,18 +152,17 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         TextView commandView = (TextView)findViewById(R.id.command);
         commandView.setText(mDesiredCmd);
 
+        Log.d(TAG, "mUseDb = " + mUseDb);
         mRememberCheckBox = (CheckBox) findViewById(R.id.check_remember);
-        mRememberCheckBox.setChecked(mPrefs.getBoolean("last_remember_value", true));
-        mRememberCheckBox.setEnabled(mDbEnabled);
-
-        ((Button)findViewById(R.id.allow)).setOnClickListener(this);
-        ((Button)findViewById(R.id.deny)).setOnClickListener(this);
+        mRememberCheckBox.setChecked(mUseDb?mPrefs.getBoolean("last_remember_value", true):false);
+        mRememberCheckBox.setEnabled(mUseDb);
+        mRememberCheckBox.setText(mUseDb?R.string.remember:R.string.remember_disabled);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) {
-            sendResult(false);
+            sendResult(false, false);
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -140,58 +171,59 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch(v.getId()) {
         case R.id.allow:
-            sendResult(true);
+        case R.id.pin_ok:
+            if (mUsePin) {
+                mAttempts--;
+                if (Util.checkPin(this, mPinText.getText().toString())) {
+                    sendResult(true, mRememberCheckBox.isChecked());
+                } else if (mAttempts > 0) {
+                    mPinText.setText("");
+                    mPinText.setHint(getResources().getQuantityString(R.plurals.pin_incorrect_try,
+                            mAttempts, mAttempts));
+                    mPinText.setHintTextColor(Color.RED);
+                } else {
+                    sendResult(false, false);
+                }
+            } else {
+                sendResult(true, mRememberCheckBox.isChecked());
+            }
             break;
         case R.id.deny:
-            sendResult(false);
+        case R.id.pin_cancel:
+            sendResult(false, mRememberCheckBox.isChecked());
             break;
         }
     }
-
-    private void sendResult(boolean allow) {
-        String resultCode = allow ? AppDetails.ALLOW_CODE : AppDetails.DENY_CODE;
-
-        if (mDbEnabled) {
-            DBHelper db = null;
-            try {
-                db = new DBHelper(this);
-                String appName = Util.getAppName(this, mCallerUid, false);
-                long time = System.currentTimeMillis();
-
-                if (mRememberCheckBox.isChecked()) {
-                    db.insert(mCallerUid, mDesiredUid, mDesiredCmd, allow, time);
-                } else if (mPrefs.getBoolean("pref_log_enabled", true)) {
-                    db.addLog(appName, allow ? LogType.ALLOW : LogType.DENY, time);
-                }
-            } catch (SQLiteException e) {
-                Log.e(TAG, "Opening database failed", e);
-
-                // Disable the database until su is updated
-                mPrefs.edit().putBoolean("remember_enabled", false)
-                    .putBoolean("last_remember_value", false).commit();
-
-                // Notify the user of the problem
-                NotificationManager nm =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                Notification notification = new Notification(R.drawable.stat_su,
-                        getString(R.string.notif_disable_remember_ticker),
-                        System.currentTimeMillis());
-                Intent notificationIntent = new Intent(this, UpdaterActivity.class);
-                PendingIntent contentIntent = PendingIntent
-                    .getActivity(this, 0, notificationIntent, 0);
-                notification.flags |= Notification.FLAG_AUTO_CANCEL;
-                notification.setLatestEventInfo(this,
-                        getString(R.string.notif_disable_remember_title),
-                        getString(R.string.notif_disable_remember_text), contentIntent);
-                nm.notify(0, notification);
-            } finally {
-                if (db != null) {
-                    db.close();
-                }
-            }
+    
+    private View.OnClickListener onPinButton = new View.OnClickListener() {
+        public void onClick(View view) {
+            Button button = (Button) view;
+            mPinText.append(button.getText());
         }
+    };
+
+    private void sendResult(boolean allow, boolean remember) {
+        String resultCode = allow ? "ALLOW" : "DENY";
+
+        if (remember && mSuVersionCode >= 4) {
+            ContentValues values = new ContentValues();
+            values.put(Apps.UID, mCallerUid);
+            values.put(Apps.PACKAGE, mCallerBin);
+            values.put(Apps.NAME, Util.getAppName(this, mCallerUid, mCallerBin, false));
+            values.put(Apps.EXEC_UID, mDesiredUid);
+            values.put(Apps.EXEC_CMD, mDesiredCmd);
+            values.put(Apps.ALLOW, allow?Apps.AllowType.ALLOW:Apps.AllowType.DENY);
+            getContentResolver().insert(Apps.CONTENT_URI, values);
+        }
+
         SharedPreferences.Editor editor = mPrefs.edit();
         editor.putBoolean("last_remember_value", mRememberCheckBox.isChecked());
+        
+        int timeout = mPrefs.getInt(Preferences.TIMEOUT, 0);
+        if (timeout > 0 && allow) {
+            String key = "active_" + (mCallerBin != null ? mCallerBin : mCallerUid);
+            editor.putLong(key, System.currentTimeMillis() + (timeout * 1000));
+        }
         editor.commit();
 
         try {

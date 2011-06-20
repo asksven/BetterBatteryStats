@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2011 Adam Shanks (ChainsDD)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/app_name_label"
+            style="@style/DetailsLabel"
+            android:layout_width="wrap_content"
+            android:paddingRight="3dp"
+            android:text="@string/request_app_name" />
+        <TextView android:id="@+id/app_name"
+            style="@style/DetailsInfo"
+            android:singleLine="true"
+            android:ellipsize="middle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/package_name_label"
+            style="@style/DetailsLabel"
+            android:layout_width="wrap_content"
+            android:paddingRight="3dp"
+            android:text="@string/detail_package" />
+        <TextView android:id="@+id/package_name"
+            style="@style/DetailsInfo"
+            android:singleLine="true"
+            android:ellipsize="middle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/request_detail_label"
+            style="@style/DetailsLabel"
+            android:layout_width="wrap_content"
+            android:paddingRight="3dp"
+            android:text="@string/detail_request" />
+        <TextView android:id="@+id/request_detail"
+            style="@style/DetailsInfo"
+            android:singleLine="true"
+            android:ellipsize="middle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView android:id="@+id/command_label"
+            style="@style/DetailsLabel"
+            android:layout_width="wrap_content"
+            android:paddingRight="3dp"
+            android:text="@string/detail_command" />
+        <TextView android:id="@+id/command"
+            style="@style/DetailsInfo"
+            android:singleLine="true"
+            android:ellipsize="middle" />
+    </LinearLayout>
+</merge>

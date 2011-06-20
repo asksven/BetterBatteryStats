@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2011 Adam Shanks (ChainsDD)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+    <!-- Base application theme is the default theme -->
+    <style name="Theme" parent="android:Theme.Holo" />
+
+    <style name="Theme.Superuser" parent="android:style/Theme.Holo.Light">
+        <item name="android:windowBackground">@color/title_background</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Superuser</item>
+    </style>
+    
+    <style name="Theme.Superuser.Preferences" parent="style/Theme.Superuser">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    
+    <style name="ActionBar.Superuser" parent="android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@color/title_background</item>
+        <item name="android:displayOptions">useLogo|showHome</item>
+    </style>
+    
+    <style name="RequestPanel" parent="android:style/Theme.Holo.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowMinWidthMajor">40%</item>
+        <item name="android:windowMinWidthMinor">45%</item>
+    </style>
+    
+    <style name="TitleBar">
+        <item name="android:id">@id/title_container</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:visibility">gone</item>
+    </style>
+    
+    <style name="AppDetailsRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/app_icon_header_background</item>
+    </style>
+    
+    <style name="DetailsLabel">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+    </style>
+    
+    <style name="DetailsInfo">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="PinButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">100dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/btn_dial</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+</resources>

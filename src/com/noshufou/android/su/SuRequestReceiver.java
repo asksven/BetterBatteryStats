@@ -32,23 +32,82 @@
 
 package com.noshufou.android.su;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.LocalSocket;
+import android.net.LocalSocketAddress;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.noshufou.android.su.preferences.Preferences;
 
 public class SuRequestReceiver extends BroadcastReceiver {
+    private static final String TAG = "SuRequestReceiver";
     
     public static final String EXTRA_CALLERUID = "caller_uid";
+    public static final String EXTRA_CALLERBIN = "caller_bin";
     public static final String EXTRA_UID = "desired_uid";
     public static final String EXTRA_CMD = "desired_cmd";
     public static final String EXTRA_SOCKET = "socket";
+    public static final String EXTRA_ALLOW = "allow";
+    public static final String EXTRA_VERSION_CODE = "version_code";
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String automaticAction = prefs.getString(Preferences.AUTOMATIC_ACTION, "prompt");
+        if (automaticAction.equals("deny")) {
+            sendResult(context, intent, false);
+            return;
+        } else if (automaticAction.equals("allow")) {
+            sendResult(context, intent, true);
+            return;
+        }
+        int sysTimeout = prefs.getInt(Preferences.TIMEOUT, 0);
+        if ( sysTimeout > 0) {
+            String packageName = intent.getStringExtra(EXTRA_CALLERBIN);
+            String key = "active_" +
+                    (packageName != null ? packageName : intent.getIntExtra(EXTRA_CALLERUID, 0));
+            long timeout = prefs.getLong(key, 0);
+            if (System.currentTimeMillis() < timeout) {
+                sendResult(context, intent, true);
+                return;
+            } else {
+                showPrompt(context, intent);
+                return;
+            }
+        } else {
+            showPrompt(context, intent);
+            return;
+        }
+    }
+    
+    private void showPrompt(Context context, Intent intent) {
         Intent prompt = new Intent(context, SuRequestActivity.class);
         prompt.putExtras(intent);
         prompt.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(prompt);
+    }
+    
+    private void sendResult(Context context, Intent intent, boolean allow) {
+        LocalSocket socket = new LocalSocket();
+        OutputStream os = null;;
+        try {
+            socket.connect(new LocalSocketAddress(
+                    intent.getStringExtra(EXTRA_SOCKET), LocalSocketAddress.Namespace.FILESYSTEM));
+            os = socket.getOutputStream();
+            os.write((allow?"ALLOW":"DENY").getBytes());
+            os.flush();
+            os.close();
+            socket.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to write to socket", e);
+        }
     }
 
 }

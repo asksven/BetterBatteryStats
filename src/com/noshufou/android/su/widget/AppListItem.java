@@ -19,20 +19,24 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
 
 import com.noshufou.android.su.R;
 
-public class AppListItem extends ViewGroup {
+public class AppListItem extends ViewGroup implements Checkable {
 
     private final Context mContext;
 
@@ -46,6 +50,7 @@ public class AppListItem extends ViewGroup {
     private final int mStatusButtonPadding;
     private final int mHeaderPaddingLeft;
 
+    private boolean mChecked = false;
     private boolean mHorizontalDividerVisible;
     private Drawable mHorizontalDividerDrawable;
     private int mHorizontalDividerHeight;
@@ -151,7 +156,18 @@ public class AppListItem extends ViewGroup {
             topBound += mHeaderBackgroundHeight;
         }
 
+        if (mHorizontalDividerVisible) {
+            ensureHorizontalDivider();
+            mHorizontalDividerDrawable.setBounds(
+                    0,
+                    height - mHorizontalDividerHeight,
+                    width,
+                    height);
+        }
+
         int leftBound = mPaddingLeft;
+        int rightBound = right;
+        
         if (mIconView != null) {
             int iconTop = topBound + (height - topBound - mIconViewSize) / 2;
             mIconView.layout(
@@ -162,37 +178,30 @@ public class AppListItem extends ViewGroup {
             leftBound += mIconViewSize + mGapBetweenImageAndText;
         }
 
-        int rightBound = right;
-        if (isVisible(mStatusButton)) {
-            int buttonWidth = mStatusButton.getMeasuredWidth();
-            rightBound -= buttonWidth;
-            mStatusButton.layout(
-                    rightBound,
-                    topBound,
-                    rightBound + buttonWidth,
-                    height);
-        }
-
-        if (mHorizontalDividerVisible) {
-            ensureHorizontalDivider();
-            mHorizontalDividerDrawable.setBounds(
-                    0,
-                    height - mHorizontalDividerHeight,
-                    width,
-                    height);
-        }
+        topBound += mPaddingTop;
 
         topBound += mPaddingTop;
         int bottomBound = height - mPaddingBottom;
         rightBound -= mPaddingRight;
+        int line1RightBound = rightBound;
 
         int totalTextHeight = mLine1Height + mLine2Height;
         int textTopBound = (bottomBound + topBound - totalTextHeight) / 2;
 
+        if (isVisible(mStatusButton)) {
+            int buttonWidth = mStatusButton.getMeasuredWidth();
+            line1RightBound -= buttonWidth;
+            mStatusButton.layout(
+                    rightBound - buttonWidth,
+                    textTopBound,
+                    rightBound,
+                    textTopBound + mLine1Height);
+        }
+
         mNameTextView.layout(
                 leftBound,
                 textTopBound,
-                rightBound,
+                line1RightBound - mGapBetweenImageAndText,
                 textTopBound + mLine1Height);
 
         if (isVisible(mLogTextView)) {
@@ -343,8 +352,8 @@ public class AppListItem extends ViewGroup {
             if (mStatusButton == null) {
                 mStatusButton = new ImageView(mContext);
                 mStatusButton.setId(id);
-                mStatusButton.setOnClickListener(mStatusButtonClickListener);
-                mStatusButton.setPadding(mStatusButtonPadding, 0, mStatusButtonPadding, 0);
+//                mStatusButton.setOnClickListener(mStatusButtonClickListener);
+//                mStatusButton.setPadding(mStatusButtonPadding, 0, mStatusButtonPadding, 0);
                 mStatusButton.setScaleType(ScaleType.CENTER);
                 addView(mStatusButton);
             }
@@ -356,5 +365,21 @@ public class AppListItem extends ViewGroup {
                 mStatusButton.setVisibility(View.GONE);
             }
         }
+    }
+
+    @Override
+    public boolean isChecked() {
+        return mChecked;
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        mChecked = checked;
+        setBackgroundResource(checked?R.drawable.list_activated:R.drawable.list_normal);
+    }
+
+    @Override
+    public void toggle() {
+        setChecked(!mChecked);
     }
 }
