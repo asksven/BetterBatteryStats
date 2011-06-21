@@ -16,10 +16,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.noshufou.android.su"
-      android:versionCode="28"
-      android:versionName="3.0-beta1"
-      android:sharedUserId="com.noshufou.android.su"
-      android:sharedUserLabel="@string/superuser">
+      android:versionCode="29"
+      android:versionName="3.0-beta1">
     <application android:label="@string/app_name"
         android:icon="@drawable/icon"
         android:logo="@drawable/title_logo"
