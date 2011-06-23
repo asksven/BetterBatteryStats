@@ -85,6 +85,12 @@
                 <data android:scheme="android_secret_code" />
             </intent-filter>
         </receiver>
+        <receiver android:name="InstallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
         
         <service android:name=".service.LogService"
             android:exported="true" />

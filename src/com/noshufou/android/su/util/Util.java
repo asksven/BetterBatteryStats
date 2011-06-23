@@ -23,6 +23,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -370,5 +372,50 @@ public class Util {
                 newState ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED:
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
+    }
+    
+    public static List<String> findMaliciousPackages(Context context) {
+        List<String> maliciousApps = new ArrayList<String>();
+        List<PackageInfo> installedApps = context.getPackageManager()
+                .getInstalledPackages(PackageManager.GET_PERMISSIONS);
+        
+        for (PackageInfo pkg : installedApps) {
+            if (isPackageMalicious(context, pkg)) {
+                maliciousApps.add(pkg.packageName);
+            }
+        }
+        return maliciousApps;
+    }
+    
+    public static boolean isPackageMalicious(Context context, PackageInfo packageInfo) {
+        // If the package being checked is this one, it's not malicious
+        if (packageInfo.packageName.equals(context.getPackageName())) {
+            return false;
+        }
+        
+        // If the package being checked shares a UID with Superuser, it's
+        // probably malicious
+        if (packageInfo.applicationInfo.uid == context.getApplicationInfo().uid) {
+            return true;
+        }
+        
+        // Finally we check for any permissions that other apps should not have.
+        if (packageInfo.requestedPermissions != null) {
+            String[] bannedPermissions = new String[] { 
+                "com.noshufou.android.su.RESPOND",
+                "com.noshufou.android.su.provider.WRITE"
+            };
+            for (String s : packageInfo.requestedPermissions) {
+                for (String t : bannedPermissions) {
+                    if (s.equals(t) &&
+                        context.getPackageManager().checkPermission(t, packageInfo.packageName)
+                                == PackageManager.PERMISSION_GRANTED) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
     }
 }

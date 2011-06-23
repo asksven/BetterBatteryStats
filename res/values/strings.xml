@@ -42,12 +42,6 @@
 
     <string name="recent_activity">Recent activity</string>
 
-    <string name="warning">Warning</string>
-    <string name="malicious_app_found">Package %s was found to be requesting permission to respond to Superuser requests. It\'s likely that this app is malicious and attempting to grant superuser access without your knowledge. It\'s recommended that you uninstall it now.</string>
-    <string name="malicious_app_notification_ticker">Potentially malicious app detected</string>
-    <string name="malicious_app_notification_text">%s may be malicious.</string>
-    <string name="uninstall">Uninstall</string>
-    <string name="uninstall_successful">Uninstall finished</string>
     <string name="report_msg">Would you like to report this package to the developer of Superuser for investigation?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -224,6 +218,19 @@
         <item quantity="one">Last chance</item>
         <item quantity="other">Nope - %d tries left</item>
     </plurals>
+    
+    <string name="malicious_apps_title">Warning</string>
+    <plurals name="malicious_apps_message1">
+    	<item quantity="one">The following package was found to be malicious:</item>
+    	<item quantity="other">The following packages were found to be malicious:</item>
+    </plurals>
+    <string name="malicious_apps_message2">Apps are market as malicious because they contain elements that indicate they are attempting to grant root access, possibly without your consent. It is highly recommended you uninstall them immediately.</string>
+    <string name="malicious_apps_check">I understand the risk and want to ignore it</string>
+    <string name="malicious_apps_uninstall">Uninstall</string>
+    <string name="malicious_apps_ignore">Ignore</string>
+    <string name="malicious_apps_toast">Check the box if you want to ignore the risk</string>
+    <string name="malicious_app_notification_ticker">Potentially malicious app detected</string>
+    <string name="malicious_app_notification_text">%s is probably malicious. Tap to uninstall.</string>
 
     <!-- Do not translate -->
     <string name="report_subject">Possibly malicious app found</string>
