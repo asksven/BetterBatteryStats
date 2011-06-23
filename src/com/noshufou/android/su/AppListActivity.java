@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -91,6 +92,9 @@ public class AppListActivity extends FragmentActivity {
         case R.id.menu_prefs:
             gotoPrefs(null);
             return true;
+        case R.id.menu_extras:
+            gotoExtras(null);
+            return true;
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -144,6 +148,13 @@ public class AppListActivity extends FragmentActivity {
 //        } else {
 //            startActivity(new Intent(this, PreferencesActivityHC.class));
 //        }
+    }
+    
+    public void gotoExtras(View view) {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.noshufou.android.su.elite",
+                "com.noshufou.android.su.elite.FeaturedAppsActivity"));
+        startActivity(intent);
     }
     
     private class EliteCheck extends AsyncTask<Void, Void, Boolean> {

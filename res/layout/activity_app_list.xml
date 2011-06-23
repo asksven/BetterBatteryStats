@@ -30,7 +30,8 @@
         <ImageButton style="@style/TitleBarAction"
             android:id="@+id/extras_button"
             android:contentDescription="@string/description_extras"
-            android:src="@drawable/ic_title_star" />
+            android:src="@drawable/ic_title_star"
+            android:onClick="gotoExtras" />
             
         <ImageView style="@style/TitleBarSeparator" />
         <ImageButton style="@style/TitleBarAction"
