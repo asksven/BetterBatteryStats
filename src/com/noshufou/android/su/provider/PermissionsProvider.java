@@ -278,10 +278,7 @@ public class PermissionsProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        if (!ensureDb()){
-            Log.d(TAG, "Database problem");
-            return null;
-        }
+        if (!ensureDb()) return null;
         
         long rowId = 0;
         Uri returnUri = null;
@@ -413,8 +410,23 @@ public class PermissionsProvider extends ContentProvider {
     
     private boolean ensureDb() {
         if (mDb == null) {
-            mDb = mDbHelper.getWritableDatabase();
-            if (mDb == null) return false;
+            if (Util.isSuCurrent()) {
+                mDb = mDbHelper.getWritableDatabase();
+                if (mDb == null) return false;
+            } else {
+              Log.d(TAG, "su binary too old, not giving you the database");
+              NotificationManager nm = 
+                  (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+              Notification notification = new Notification(R.drawable.stat_su,
+                      mContext.getString(R.string.notif_outdated_ticker), System.currentTimeMillis());
+              PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
+                      new Intent(mContext, UpdaterActivity.class), 0);
+              notification.setLatestEventInfo(mContext, mContext.getString(R.string.notif_outdated_title),
+                      mContext.getString(R.string.notif_outdated_text), contentIntent);
+              notification.flags |= Notification.FLAG_AUTO_CANCEL|Notification.FLAG_ONLY_ALERT_ONCE;
+              nm.notify(1, notification);
+              return false;
+            }
         }
         return true;
     }
@@ -422,8 +434,6 @@ public class PermissionsProvider extends ContentProvider {
     private static class DBOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "permissions.sqlite";
         private static final int DATABASE_VERSION = 6;
-        
-        private Context mContext = null;
 
         private static final String CREATE_APPS = "CREATE TABLE IF NOT EXISTS " + Apps.TABLE_NAME +
                 " (_id INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, package TEXT, name TEXT,  " +
@@ -436,27 +446,6 @@ public class PermissionsProvider extends ContentProvider {
 
         DBOpenHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
-            mContext = context;
-        }
-
-        @Override
-        public synchronized SQLiteDatabase getWritableDatabase() {
-            if (Util.getSuVersionCode() < 6) {
-                Log.d(TAG, "su binary too old, not giving you the database");
-                NotificationManager nm = 
-                    (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-                Notification notification = new Notification(R.drawable.stat_su,
-                        mContext.getString(R.string.notif_outdated_ticker), System.currentTimeMillis());
-                PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
-                        new Intent(mContext, UpdaterActivity.class), 0);
-                notification.setLatestEventInfo(mContext, mContext.getString(R.string.notif_outdated_title),
-                        mContext.getString(R.string.notif_outdated_text), contentIntent);
-                notification.flags |= Notification.FLAG_AUTO_CANCEL|Notification.FLAG_ONLY_ALERT_ONCE;
-                nm.notify(1, notification);
-                return null;
-            } else {
-                return super.getWritableDatabase();
-            }
         }
 
         @Override
