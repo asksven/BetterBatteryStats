@@ -53,7 +53,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     private SharedPreferences mPrefs;
 
     private int mCallerUid = 0;
-    private String mCallerBin = "";
     private int mDesiredUid = 0;
     private String mDesiredCmd = "";
     private int mSuVersionCode = 0;
@@ -82,7 +81,6 @@ public class SuRequestActivity extends Activity implements OnClickListener {
 
         Intent intent = this.getIntent();
         mCallerUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
-        mCallerBin = intent.getStringExtra(SuRequestReceiver.EXTRA_CALLERBIN);
         mDesiredUid = intent.getIntExtra(SuRequestReceiver.EXTRA_UID, 0);
         mDesiredCmd = intent.getStringExtra(SuRequestReceiver.EXTRA_CMD);
         socketPath = intent.getStringExtra(SuRequestReceiver.EXTRA_SOCKET);
@@ -123,7 +121,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             finish();
         }
 
-        if (mSuVersionCode < 6) {
+        if (mSuVersionCode < 10) {
             // This won't check for the absolute latest version of su, just the 
             // latest required to work properly.
             Log.d(TAG, "su binary out of date, version code = " + mSuVersionCode);
@@ -141,10 +139,10 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         }
 
         TextView appNameView = (TextView) findViewById(R.id.app_name);
-        appNameView.setText(Util.getAppName(this, mCallerUid, mCallerBin, true));
+        appNameView.setText(Util.getAppName(this, mCallerUid, true));
 
         TextView packageNameView = (TextView) findViewById(R.id.package_name);
-        packageNameView.setText(mCallerBin);
+        packageNameView.setText(Util.getAppPackage(this, mCallerUid));
 
         TextView requestDetailView = (TextView) findViewById(R.id.request_detail);
         requestDetailView.setText(Util.getUidName(this, mDesiredUid, true));
@@ -208,8 +206,8 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         if (remember && mSuVersionCode >= 4) {
             ContentValues values = new ContentValues();
             values.put(Apps.UID, mCallerUid);
-            values.put(Apps.PACKAGE, mCallerBin);
-            values.put(Apps.NAME, Util.getAppName(this, mCallerUid, mCallerBin, false));
+            values.put(Apps.PACKAGE, Util.getAppPackage(this, mCallerUid));
+            values.put(Apps.NAME, Util.getAppName(this, mCallerUid, false));
             values.put(Apps.EXEC_UID, mDesiredUid);
             values.put(Apps.EXEC_CMD, mDesiredCmd);
             values.put(Apps.ALLOW, allow?Apps.AllowType.ALLOW:Apps.AllowType.DENY);
@@ -221,7 +219,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
         
         int timeout = mPrefs.getInt(Preferences.TIMEOUT, 0);
         if (timeout > 0 && allow) {
-            String key = "active_" + (mCallerBin != null ? mCallerBin : mCallerUid);
+            String key = "active_" +  mCallerUid;
             editor.putLong(key, System.currentTimeMillis() + (timeout * 1000));
         }
         editor.commit();

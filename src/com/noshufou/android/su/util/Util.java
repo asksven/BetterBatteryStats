@@ -46,30 +46,27 @@ import com.noshufou.android.su.preferences.Preferences;
 public class Util {
     private static final String TAG = "Su.Util";
 
-    public static String getAppName(Context c, int uid, String packageName, boolean withUid) {
+    public static String getAppName(Context c, int uid, boolean withUid) {
         PackageManager pm = c.getPackageManager();
-        String appName = packageName;
+        String appName = "Unknown";
         String[] packages = pm.getPackagesForUid(uid);
 
         if (packages != null) {
             try {
-            	if (appName == null) {
-            		if(packages.length == 1) {
-            			appName = pm.getApplicationInfo(packages[0], 0).toString();
-            		} else {
-            			return c.getString(R.string.shared_uid, uid);
-            		}
-            	} else {
-            		for (String s : packages) {
-            			if (s.equals(packageName)) {
-            				appName = pm.getApplicationLabel(pm.getApplicationInfo(s, 0))
-            						.toString();
-            				break;
-            			}
-            		}
-            	}
+                if (packages.length == 1) {
+                    appName = pm.getApplicationLabel(pm.getApplicationInfo(packages[0], 0))
+                            .toString();
+                } else if (packages.length > 1) {
+                    appName = "";
+                    for (int i = 0; i < packages.length; i++) {
+                        appName += packages[i];
+                        if (i < packages.length - 1) {
+                            appName += ", ";
+                        }
+                    }
+                }
             } catch (NameNotFoundException e) {
-            	Log.e(TAG, "Package name not found", e);
+                Log.e(TAG, "Package name not found", e);
             }
         } else {
             Log.e(TAG, "Package not found for uid " + uid);
@@ -82,23 +79,29 @@ public class Util {
         return appName;
     }
 
-//    public static String getAppPackage(Context c, int uid) {
-//        PackageManager pm = c.getPackageManager();
-//        String[] packages = pm.getPackagesForUid(uid);
-//        String appPackage = "unknown";
-//
-//        if (packages != null) {
-//            if (packages.length == 1) {
-//                appPackage = packages[0];
-//            } else if (packages.length > 1) {
-//                appPackage = "Multiple packages";
-//            }
-//        } else {
-//            Log.e(TAG, "Package not found");
-//        }
-//
-//        return appPackage;
-//    }
+    public static String getAppPackage(Context c, int uid) {
+        PackageManager pm = c.getPackageManager();
+        String[] packages = pm.getPackagesForUid(uid);
+        String appPackage = "unknown";
+
+        if (packages != null) {
+            if (packages.length == 1) {
+                appPackage = packages[0];
+            } else if (packages.length > 1) {
+                appPackage = "";
+                for (int i = 0; i < packages.length; i++) {
+                    appPackage += packages[i];
+                    if (i < packages.length - 1) {
+                        appPackage += ", ";
+                    }
+                }
+            }
+        } else {
+            Log.e(TAG, "Package not found");
+        }
+
+        return appPackage;
+    }
 
     public static Drawable getAppIcon(Context c, int uid) {
         PackageManager pm = c.getPackageManager();

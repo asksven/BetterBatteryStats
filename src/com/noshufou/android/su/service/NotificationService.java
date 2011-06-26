@@ -46,14 +46,13 @@ public class NotificationService extends IntentService {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         int callerUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
-        String callerBin = intent.getStringExtra(SuRequestReceiver.EXTRA_CALLERBIN);
         Long currentTime = System.currentTimeMillis();
 
         String notificationType = mPrefs.getString(Preferences.NOTIFICATION_TYPE, "toast");
         int allow = intent.getIntExtra(SuRequestReceiver.EXTRA_ALLOW, 0);
         String notificationMessage = getString(
                 allow==1?R.string.notification_text_allow:R.string.notification_text_deny,
-                Util.getAppName(this, callerUid, callerBin, false));
+                Util.getAppName(this, callerUid, false));
         if (notificationType.equals("status")) {
             showNotification(callerUid, notificationMessage, currentTime);
         } else if (notificationType.equals("toast")) {

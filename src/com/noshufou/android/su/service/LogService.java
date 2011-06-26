@@ -73,10 +73,10 @@ public class LogService extends IntentService {
     private void addAppAndLog(Intent intent) {
         ContentValues values = new ContentValues();
         int appUid = intent.getIntExtra(SuRequestReceiver.EXTRA_CALLERUID, 0);
-        String appPackage = intent.getStringExtra(SuRequestReceiver.EXTRA_CALLERBIN);
+        String appPackage = Util.getAppPackage(this, appUid);
         values.put(Apps.UID, appUid);
         values.put(Apps.PACKAGE, appPackage);
-        values.put(Apps.NAME, Util.getAppName(this, appUid, appPackage, false));
+        values.put(Apps.NAME, Util.getAppName(this, appUid, false));
         values.put(Apps.EXEC_UID, intent.getIntExtra("desired_uid", 0));
         values.put(Apps.EXEC_CMD, intent.getStringExtra("desired_cmd"));
         values.put(Apps.ALLOW, Apps.AllowType.ASK);

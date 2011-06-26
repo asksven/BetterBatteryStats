@@ -50,7 +50,6 @@ public class SuRequestReceiver extends BroadcastReceiver {
     private static final String TAG = "SuRequestReceiver";
     
     public static final String EXTRA_CALLERUID = "caller_uid";
-    public static final String EXTRA_CALLERBIN = "caller_bin";
     public static final String EXTRA_UID = "desired_uid";
     public static final String EXTRA_CMD = "desired_cmd";
     public static final String EXTRA_SOCKET = "socket";
@@ -70,9 +69,7 @@ public class SuRequestReceiver extends BroadcastReceiver {
         }
         int sysTimeout = prefs.getInt(Preferences.TIMEOUT, 0);
         if ( sysTimeout > 0) {
-            String packageName = intent.getStringExtra(EXTRA_CALLERBIN);
-            String key = "active_" +
-                    (packageName != null ? packageName : intent.getIntExtra(EXTRA_CALLERUID, 0));
+            String key = "active_" + intent.getIntExtra(EXTRA_CALLERUID, 0);
             long timeout = prefs.getLong(key, 0);
             if (System.currentTimeMillis() < timeout) {
                 sendResult(context, intent, true);
