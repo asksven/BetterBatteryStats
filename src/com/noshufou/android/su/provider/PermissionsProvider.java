@@ -17,10 +17,6 @@ package com.noshufou.android.su.provider;
 
 import java.util.HashMap;
 
-import com.noshufou.android.su.R;
-import com.noshufou.android.su.UpdaterActivity;
-import com.noshufou.android.su.util.Util;
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -33,11 +29,16 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.noshufou.android.su.R;
+import com.noshufou.android.su.UpdaterActivity;
+import com.noshufou.android.su.util.Util;
 
 public class PermissionsProvider extends ContentProvider {
     private static final String TAG = "PermissionsProvider";

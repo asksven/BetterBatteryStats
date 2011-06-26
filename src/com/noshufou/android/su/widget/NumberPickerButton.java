@@ -22,7 +22,6 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
-import com.noshufou.android.su.widget.NumberPicker;
 
 import com.noshufou.android.su.R;
 

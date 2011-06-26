@@ -14,7 +14,6 @@ import android.widget.AbsListView.OnScrollListener;
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.util.Util;
-import com.noshufou.android.su.widget.PinnedHeaderListView.PinnedHeaderAdapter;
 import com.noshufou.android.su.widget.PinnedHeaderListView.PinnedHeaderCache;
 
 public class LogAdapter extends CursorAdapter

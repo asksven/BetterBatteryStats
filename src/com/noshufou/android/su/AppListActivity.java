@@ -41,8 +41,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.noshufou.android.su.preferences.PreferencesActivity;
 import com.noshufou.android.su.util.Util;

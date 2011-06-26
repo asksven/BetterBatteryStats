@@ -1,7 +1,5 @@
 package com.noshufou.android.su;
 
-import com.noshufou.android.su.preferences.Preferences;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +7,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.noshufou.android.su.preferences.Preferences;
 
 public class SecretCodeReceiver extends BroadcastReceiver {
 

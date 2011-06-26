@@ -1,7 +1,5 @@
 package com.noshufou.android.su.widget;
 
-import com.noshufou.android.su.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.noshufou.android.su.R;
 
 public class PinView extends LinearLayout {
     private static final String TAG = "PinView";

@@ -2,10 +2,9 @@ package com.noshufou.android.su.preferences;
 
 import java.util.List;
 
-import com.noshufou.android.su.R;
-import com.noshufou.android.su.R.xml;
-
 import android.preference.PreferenceActivity;
+
+import com.noshufou.android.su.R;
 
 public class PreferencesActivityHC extends PreferenceActivity {
 
