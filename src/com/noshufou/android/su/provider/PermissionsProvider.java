@@ -260,14 +260,18 @@ public class PermissionsProvider extends ContentProvider {
         
         // TODO: Check columns in incoming projection to make sure they're valid
         projection = projection==null?defaultProjection:projection;
-//        Log.d("PermissionsProvider", qBuilder.buildQuery(projection, selection, selectionArgs, groupBy, null, sortOrder, null));
-        Cursor c = qBuilder.query(mDb,
-                projection,
-                selection,
-                selectionArgs,
-                groupBy,
-                null,
-                sortOrder);
+        Cursor c = null;
+        try {
+            c = qBuilder.query(mDb,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    groupBy,
+                    null,
+                    sortOrder);
+        } catch (SQLiteException e) {
+            Log.e(TAG, "Query failed, returning null cursor.", e);
+        }
         c.setNotificationUri(mContext.getContentResolver(), uri);
         return c;
     }
@@ -457,7 +461,9 @@ public class PermissionsProvider extends ContentProvider {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            db.execSQL("DROP TABLE IF EXISTS apps");
             db.execSQL(CREATE_APPS);
+            db.execSQL("DROP TABLE IF EXISTS logs");
             db.execSQL(CREATE_LOGS);
         }
 
@@ -484,8 +490,14 @@ public class PermissionsProvider extends ContentProvider {
             }
 
             if (upgradeVersion == 5) {
-                db.execSQL("ALTER TABLE apps ADD COLUMN notifications INTEGER");
-                db.execSQL("ALTER TABLE apps ADD COLUMN logging INTEGER");
+                try {
+                    db.execSQL("ALTER TABLE apps ADD COLUMN notifications INTEGER");
+                    db.execSQL("ALTER TABLE apps ADD COLUMN logging INTEGER");
+                } catch (SQLiteException e) {
+                    // We're getting this exception because the columns already exist
+                    // for some reason...
+                    Log.e(TAG, "notifications and logging columns already exist... wut?", e);
+                }
                 upgradeVersion = 6;
             }
         }
