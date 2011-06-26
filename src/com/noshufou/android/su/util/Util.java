@@ -277,6 +277,13 @@ public class Util {
         return 0;
     }
 
+    public static boolean isSuCurrent() {
+        if (getSuVersionCode() < 10) {
+            return false;
+        }
+        return true;
+    }
+
     public static String formatDate(Context context, long date) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String format = prefs.getString("pref_date_format", "default");
