@@ -431,9 +431,9 @@ public class PermissionsProvider extends ContentProvider {
         return true;
     }
 
-    private static class DBOpenHelper extends SQLiteOpenHelper {
+    private class DBOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "permissions.sqlite";
-        private static final int DATABASE_VERSION = 6;
+        private static final int DATABASE_VERSION = 7;
 
         private static final String CREATE_APPS = "CREATE TABLE IF NOT EXISTS " + Apps.TABLE_NAME +
                 " (_id INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, package TEXT, name TEXT,  " +
@@ -488,6 +488,22 @@ public class PermissionsProvider extends ContentProvider {
                     Log.e(TAG, "notifications and logging columns already exist... wut?", e);
                 }
                 upgradeVersion = 6;
+            }
+
+            if (upgradeVersion == 6) {
+                Cursor c = db.query(Apps.TABLE_NAME, new String[] { Apps._ID, Apps.UID },
+                        null, null, null, null, null);
+                ContentValues values;
+                while (c.moveToNext()) {
+                    int uid = c.getInt(c.getColumnIndex(Apps.UID));
+                    long appId = c.getLong(c.getColumnIndex(Apps._ID));
+                    values = new ContentValues();
+                    values.put(Apps.NAME, Util.getAppName(mContext, uid, false));
+                    values.put(Apps.PACKAGE, Util.getAppPackage(mContext, uid));
+                    db.update(Apps.TABLE_NAME, values, Apps._ID + "=?",
+                            new String[] { String.valueOf(appId) });
+                }
+                c.close();
             }
         }
     }
