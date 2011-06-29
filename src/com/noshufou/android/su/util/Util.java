@@ -45,6 +45,11 @@ import com.noshufou.android.su.preferences.Preferences;
 
 public class Util {
     private static final String TAG = "Su.Util";
+    
+    public static final int MALICIOUS_NOT = 0;
+    public static final int MALICIOUS_UID = 1;
+    public static final int MALICIOUS_RESPOND = 2;
+    public static final int MALICIOUS_PROVIDER_WRITE = 3;
 
     public static String getAppName(Context c, int uid, boolean withUid) {
         PackageManager pm = c.getPackageManager();
@@ -390,23 +395,24 @@ public class Util {
                 .getInstalledPackages(PackageManager.GET_PERMISSIONS);
         
         for (PackageInfo pkg : installedApps) {
-            if (isPackageMalicious(context, pkg)) {
-                maliciousApps.add(pkg.packageName);
+            int result = isPackageMalicious(context, pkg);
+            if (result != 0) {
+                maliciousApps.add(pkg.packageName + ":" + result);
             }
         }
         return maliciousApps;
     }
     
-    public static boolean isPackageMalicious(Context context, PackageInfo packageInfo) {
+    public static int isPackageMalicious(Context context, PackageInfo packageInfo) {
         // If the package being checked is this one, it's not malicious
         if (packageInfo.packageName.equals(context.getPackageName())) {
-            return false;
+            return MALICIOUS_NOT;
         }
         
         // If the package being checked shares a UID with Superuser, it's
         // probably malicious
         if (packageInfo.applicationInfo.uid == context.getApplicationInfo().uid) {
-            return true;
+            return MALICIOUS_UID;
         }
         
         // Finally we check for any permissions that other apps should not have.
@@ -416,16 +422,17 @@ public class Util {
                 "com.noshufou.android.su.provider.WRITE"
             };
             for (String s : packageInfo.requestedPermissions) {
-                for (String t : bannedPermissions) {
-                    if (s.equals(t) &&
-                        context.getPackageManager().checkPermission(t, packageInfo.packageName)
+                for (int i = 0; i < 2; i++) {
+                    if (s.equals(bannedPermissions[i]) &&
+                        context.getPackageManager().
+                                checkPermission(bannedPermissions[i], packageInfo.packageName)
                                 == PackageManager.PERMISSION_GRANTED) {
-                        return true;
+                        return i + 2;
                     }
                 }
             }
         }
         
-        return false;
+        return MALICIOUS_NOT;
     }
 }

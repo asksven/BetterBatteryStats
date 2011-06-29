@@ -231,6 +231,9 @@
     <string name="malicious_apps_toast">Check the box if you want to ignore the risk</string>
     <string name="malicious_app_notification_ticker">Potentially malicious app detected</string>
     <string name="malicious_app_notification_text">%s is probably malicious. Tap to uninstall.</string>
+    <string name="malicious_app_uid">shares UID with Superuser</string>
+    <string name="malicious_app_respond">requests respond permission</string>
+    <string name="malicious_app_write">requests permission to write to permissions provider</string>
 
     <!-- Do not translate -->
     <string name="report_subject">Possibly malicious app found</string>

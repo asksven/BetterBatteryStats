@@ -44,7 +44,7 @@ public class InstallReceiver extends BroadcastReceiver {
             return;
         }
         
-        if (Util.isPackageMalicious(context, packageInfo)) {
+        if (Util.isPackageMalicious(context, packageInfo) != 0) {
             NotificationManager nm = 
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             Notification notification = new Notification(R.drawable.stat_su,

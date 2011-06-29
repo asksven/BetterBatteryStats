@@ -41,8 +41,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 
 import com.noshufou.android.su.preferences.PreferencesActivity;
 import com.noshufou.android.su.util.Util;
@@ -50,7 +50,6 @@ import com.noshufou.android.su.util.Util;
 public class AppListActivity extends FragmentActivity {
     private static final String TAG = "Superuser";
     
-    private static final int MENU_PREFERENCES = 1;
     TransitionDrawable mTitleLogo = null;
     
     List<Intent> mMaliciousAppsIntents;
@@ -193,16 +192,34 @@ public class AppListActivity extends FragmentActivity {
                 mMaliciousAppsIntents = new ArrayList<Intent>();
                 PackageManager pm = getPackageManager();
                 for (String s : result) {
-                    TextView newText = new TextView(AppListActivity.this);
-                    newText.setTextColor(getResources().getColor(android.R.color.primary_text_dark));
+                    Log.d(TAG, s);
+                    TextView nameText = new TextView(AppListActivity.this);
+                    nameText.setTextColor(getResources().getColor(android.R.color.primary_text_dark));
+                    String[] parts = s.split(":");
                     try {
                         String appName = pm.getApplicationLabel(
-                                pm.getApplicationInfo(s, 0)).toString();
-                        newText.setText(appName);
+                                pm.getApplicationInfo(parts[0], 0)).toString();
+                        nameText.setText(appName + " (" + parts[0] + ")");
                     } catch (NameNotFoundException e) {
-                        newText.setText(s);
+                        nameText.setText(s);
                     }
-                    apps.addView(newText, new LayoutParams(
+                    TextView probText = new TextView(AppListActivity.this);
+                    probText.setTextColor(getResources().getColor(android.R.color.primary_text_dark));
+                    probText.setPadding(10, 0, 0, 0);
+                    switch (Integer.parseInt(parts[1])) {
+                    case Util.MALICIOUS_UID:
+                        probText.setText(R.string.malicious_app_uid);
+                        break;
+                    case Util.MALICIOUS_RESPOND:
+                        probText.setText(R.string.malicious_app_respond);
+                        break;
+                    case Util.MALICIOUS_PROVIDER_WRITE:
+                        probText.setText(R.string.malicious_app_write);
+                        break;
+                    }
+                    apps.addView(nameText, new LayoutParams(
+                            LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+                    apps.addView(probText, new LayoutParams(
                             LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                     mMaliciousAppsIntents.add(new Intent(Intent.ACTION_DELETE,
                             Uri.parse("package:" + s)));
