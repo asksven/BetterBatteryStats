@@ -222,7 +222,7 @@ public class AppListActivity extends FragmentActivity {
                     apps.addView(probText, new LayoutParams(
                             LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                     mMaliciousAppsIntents.add(new Intent(Intent.ACTION_DELETE,
-                            Uri.parse("package:" + s)));
+                            Uri.parse("package:" + parts[0])));
                 }
 
                 AlertDialog.Builder builder;
