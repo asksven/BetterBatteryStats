@@ -91,6 +91,12 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+        <receiver android:name="UninstallReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
         
         <service android:name=".service.LogService"
             android:exported="true" />
