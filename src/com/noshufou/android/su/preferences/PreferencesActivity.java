@@ -15,19 +15,32 @@
  ******************************************************************************/
 package com.noshufou.android.su.preferences;
 
+import java.io.IOException;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.IntentFilter.MalformedMimeTypeException;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.nfc.FormatException;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -64,7 +77,13 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
     private static final int NEW_PIN = 2;
     private static final int CONFIRM_PIN = 3;
     private static final int WRONG_PIN = 4;
-    private static final int DISABLE_PIN = 5;
+//    private static final int DISABLE_PIN = 5;
+//    private static final int CHANGE_TAG = 6;
+    
+    private static final int TAG_NONE = 0;
+    private static final int TAG_ALLOW = 1;
+    
+    private int mTagToWrite = TAG_NONE;
 
     SharedPreferences mPrefs = null;
 
@@ -77,6 +96,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
     private CheckBoxPreference mPin = null;
     private CheckBoxPreference mGhostMode = null;
     private EditTextPreference mSecretCode = null;
+    private CheckBoxPreference mAllowTag = null;
+    
+    private NfcAdapter mNfcAdapter = null;
 
     private Context mContext;
     private boolean mElite = false;
@@ -102,8 +124,12 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             Log.d(TAG, "Elite not found, removing Elite preferences");
             for (String s : Preferences.ELITE_PREFS) {
                 String[] bits = s.split(":");
-                ((PreferenceCategory)findPreference(bits[0]))
-                        .removePreference(findPreference(bits[1]));
+                if (bits[1].equals("")) {
+                    prefScreen.removePreference(findPreference(bits[0]));
+                } else {
+                    ((PreferenceCategory)findPreference(bits[0]))
+                            .removePreference(findPreference(bits[1]));
+                }
             }
         } else {
             mLogLimit = prefScreen.findPreference(Preferences.LOG_ENTRY_LIMIT);
@@ -122,6 +148,18 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             mToastLocation = prefScreen.findPreference(Preferences.TOAST_LOCATION);
             mToastLocation.setEnabled(prefScreen.getSharedPreferences()
                     .getString(Preferences.NOTIFICATION_TYPE, "toast").equals("toast"));
+
+            // Remove NFC options if there's no NFC hardware
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
+                mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+                if (mNfcAdapter == null) {
+                    prefScreen.removePreference(findPreference(Preferences.CATEGORY_NFC));
+                } else {
+                    mAllowTag =
+                        (CheckBoxPreference) prefScreen.findPreference(Preferences.USE_ALLOW_TAG);
+                }
+            }
+
             ((PreferenceCategory)findPreference(Preferences.CATEGORY_INFO))
                     .removePreference(findPreference(Preferences.GET_ELITE));
         }
@@ -144,6 +182,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
         super.onPause();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
+        if (mNfcAdapter != null) {
+            mNfcAdapter.disableForegroundDispatch(this);
+        }
     }
 
     @Override
@@ -206,6 +247,15 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
                     mPrefs.getInt(Preferences.TIMEOUT, 0),
                     0, 600,
                     R.string.pref_timeout_title).show();
+        } else if (pref.equals(Preferences.USE_ALLOW_TAG) ||
+                pref.equals(Preferences.WRITE_ALLOW_TAG)) {
+            if (!preferenceScreen.getSharedPreferences()
+                    .getBoolean(Preferences.USE_ALLOW_TAG, false)) {
+                return false;
+            } else {
+                changePin(OLD_PIN, "allow_tag", 0);
+                return true;
+            }
         } else if (pref.equals(Preferences.GET_ELITE)) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
@@ -300,7 +350,8 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             pinText.setHint(R.string.pin_new_pin);
             break;
         case OLD_PIN:
-        case DISABLE_PIN:
+//        case DISABLE_PIN:
+//        case CHANGE_TAG:
             pinText.setHint(R.string.pin_old_pin);
             break;
         case NEW_PIN:
@@ -340,6 +391,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
                             changePin(NEW_PIN, "", 0);
                         } else if (extra.equals("disable")) {
                             mPin.setChecked(false);
+                        } else if (extra.equals("allow_tag")) {
+                            mAllowTag.setChecked(true);
+                            prepareToWriteTag(TAG_ALLOW);
                         }
                     } else {
                         dialog.dismiss();
@@ -379,6 +433,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
                 if (extra.equals("disable")) {
                     mPrefs.edit().putBoolean(Preferences.PIN, true).commit();
                     mPin.setChecked(true);
+                } else if (extra.equals("allow_tag")) {
+                    mPrefs.edit().putBoolean(Preferences.USE_ALLOW_TAG, false).commit();
+                    mAllowTag.setChecked(false);
                 }
             }
         });
@@ -402,6 +459,84 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
         ((Button)dialog.findViewById(R.id.pin_9)).setOnClickListener(onPinButton);
 
         dialog.show();
+    }
+    
+    private void prepareToWriteTag(int whichTag) {
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        try {
+            ndef.addDataType("*/*");
+        } catch (MalformedMimeTypeException e) {
+            Log.e(TAG, "Bad MIME type declared", e);
+            return;
+        }
+        IntentFilter[] filters = new IntentFilter[] { ndef };
+        String[][] techLists = new  String[][] {
+                new String[] { Ndef.class.getName() },
+                new String[] { NdefFormatable.class.getName() }
+        };
+        mTagToWrite = whichTag;
+        mNfcAdapter.enableForegroundDispatch(this, pendingIntent, filters, techLists);
+        Toast.makeText(this, "Ready to write tag", Toast.LENGTH_SHORT).show();
+    }
+    
+    @Override
+    public void onNewIntent(Intent intent) {
+        switch (mTagToWrite) {
+        case TAG_ALLOW:
+            Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+
+            NdefRecord record = new NdefRecord(NdefRecord.TNF_EXTERNAL_TYPE,
+                    "com.noshufou:a".getBytes(),
+                    new byte[0],
+                    mPrefs.getString("pin", "").getBytes());
+            NdefMessage message = new NdefMessage(new NdefRecord[] {record });
+
+            Ndef ndef = Ndef.get(tagFromIntent);
+            if (ndef != null) {
+                if (!ndef.isWritable()) {
+                    Toast.makeText(this, "Tag not writeable", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                
+                int maxSize = ndef.getMaxSize();
+                Log.d(TAG, "Max tag size = " + maxSize + ", Message size = " + message.toByteArray().length);
+                
+                if (maxSize < message.toByteArray().length) {
+                    Toast.makeText(this, "Tag not big enough", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    ndef.connect();
+                    ndef.writeNdefMessage(message);
+                } catch (IOException e) {
+                    Log.e(TAG, "IOException", e);
+                    return;
+                } catch (FormatException e) {
+                    Log.e(TAG, "FormatException", e);
+                    return;
+                }
+            } else {
+                NdefFormatable format = NdefFormatable.get(tagFromIntent);
+                if (format != null) {
+                    try {
+                        format.connect();
+                        format.format(message);
+                        Log.d(TAG, "formated tag");
+                    } catch (IOException e) {
+                        Log.e(TAG, "IOException", e);
+                        return;
+                    } catch (FormatException e) {
+                        Log.e(TAG, "FormatException", e);
+                        return;
+                    }
+                }
+            }
+            Toast.makeText(this, "Tag wrote", Toast.LENGTH_SHORT).show();
+            mTagToWrite = TAG_NONE;
+            break;
+        }
     }
     
     private class ClearLog extends AsyncTask<Void, Void, Integer> {

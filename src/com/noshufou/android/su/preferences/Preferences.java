@@ -21,6 +21,8 @@ public class Preferences {
     public static final String NOTIFICATIONS = "pref_notifications";
     public static final String NOTIFICATION_TYPE = "pref_notification_type";
     public static final String TOAST_LOCATION = "pref_toast_location";
+    public static final String USE_ALLOW_TAG = "pref_use_allow_tag";
+    public static final String WRITE_ALLOW_TAG = "pref_write_allow_tag";
     public static final String VERSION = "pref_version";
     public static final String BIN_VERSION = "pref_bin_version";
     public static final String CHANGELOG = "pref_changelog";
@@ -30,6 +32,7 @@ public class Preferences {
     public static final String CATEGORY_APPLIST = "pref_category_applist";
     public static final String CATEGORY_LOG = "pref_category_log";
     public static final String CATEGORY_NOTIFICATION = "pref_category_notification";
+    public static final String CATEGORY_NFC = "pref_category_nfc";
     public static final String CATEGORY_INFO = "pref_category_info";
     
     public static final String ELITE_PREFS[] = new String[] {
@@ -39,7 +42,8 @@ public class Preferences {
         CATEGORY_SECURITY + ":" + GHOST_MODE,
         CATEGORY_SECURITY + ":" + SECRET_CODE,
         CATEGORY_LOG + ":" + LOG_ENTRY_LIMIT ,
-        CATEGORY_NOTIFICATION + ":" + TOAST_LOCATION 
+        CATEGORY_NOTIFICATION + ":" + TOAST_LOCATION,
+        CATEGORY_NFC + ":"
     };
 
 }

@@ -149,6 +149,12 @@
     <string name="pref_notifications_type_summary">Type of notification to show when an app is granted SU permissions</string>
     <string name="pref_toast_location_title">Toast location</string>
     <string name="pref_toast_location_summary">Where the notification will show on the screen</string>
+    <string name="pref_category_nfc_title">NFC</string>
+    <string name="pref_use_allow_tag_title">Use NFC tag to allow</string>
+    <string name="pref_use_allow_tag_summary_on">Enter PIN or scan tag to allow</string>
+    <string name="pref_use_allow_tag_summary_off">Enter PIN only to allow</string>
+    <string name="pref_write_allow_tag_title">Write new allow tag</string>
+    <string name="pref_write_allow_tag_summary">Write a new tag to be used to allow</string>
     <string name="pref_category_info_title">Superuser information</string>
     <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
     <string name="pref_version_summary">Database version %s</string>

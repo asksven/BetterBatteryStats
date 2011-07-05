@@ -26,11 +26,19 @@ import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.IntentFilter.MalformedMimeTypeException;
 import android.graphics.Color;
 import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -41,6 +49,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
@@ -60,6 +69,8 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     private boolean mUseDb = true;
     private boolean mUsePin = false;
     private int mAttempts = 3;
+    
+    private NfcAdapter mNfcAdapter = null;
 
     private CheckBox mRememberCheckBox;
     private EditText mPinText;
@@ -158,6 +169,36 @@ public class SuRequestActivity extends Activity implements OnClickListener {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (mPrefs.getBoolean(Preferences.USE_ALLOW_TAG, false)) {
+            mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            PendingIntent pendingIntent = PendingIntent.getActivity(
+                    this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+            IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+            try {
+                ndef.addDataType("*/*");
+            } catch (MalformedMimeTypeException e) {
+                Log.e(TAG, "Bad MIME type declared", e);
+                return;
+            }
+            IntentFilter[] filters = new IntentFilter[] { ndef };
+            String[][] techLists = new  String[][] {
+                    new String[] { Ndef.class.getName() }
+            };
+            mNfcAdapter.enableForegroundDispatch(this, pendingIntent, filters, techLists);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mNfcAdapter != null) {
+            mNfcAdapter.disableForegroundDispatch(this);
+        }
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) {
             sendResult(false, false);
@@ -235,5 +276,29 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             Log.e(TAG, "Failed to write to socket", e);
         }
         finish();
+    }
+    
+    @Override
+    public void onNewIntent(Intent intent) {
+        Log.d(TAG, "Found tag");
+        Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+        if (rawMsgs != null) {
+            Log.d(TAG, "There's messages there");
+            NdefMessage msg = (NdefMessage) rawMsgs[0];
+            NdefRecord record = msg.getRecords()[0];
+            short tnf = record.getTnf();
+            String type = new String(record.getType());
+            Log.d(TAG, "Record TNF = " + tnf + ", Record type = " + type);
+            if (tnf == NdefRecord.TNF_EXTERNAL_TYPE &&
+                    type.equals("com.noshufou:a")) {
+                Log.d(TAG, "Right type, let's check the pin");
+                String tagPin = new String(record.getPayload());
+                Log.d(TAG, tagPin);
+                if (tagPin.equals(mPrefs.getString("pin", ""))) {
+                    Log.d(TAG, "That's the right PIN, allow");
+                    sendResult(true, mRememberCheckBox.isChecked());
+                }
+            }
+        }
     }
 }
