@@ -124,7 +124,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             Log.d(TAG, "Elite not found, removing Elite preferences");
             for (String s : Preferences.ELITE_PREFS) {
                 String[] bits = s.split(":");
-                if (bits[1].equals("")) {
+                if (bits[1].equals("all")) {
                     prefScreen.removePreference(findPreference(bits[0]));
                 } else {
                     ((PreferenceCategory)findPreference(bits[0]))

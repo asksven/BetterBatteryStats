@@ -43,7 +43,7 @@ public class Preferences {
         CATEGORY_SECURITY + ":" + SECRET_CODE,
         CATEGORY_LOG + ":" + LOG_ENTRY_LIMIT ,
         CATEGORY_NOTIFICATION + ":" + TOAST_LOCATION,
-        CATEGORY_NFC + ":"
+        CATEGORY_NFC + ":all"
     };
 
 }
