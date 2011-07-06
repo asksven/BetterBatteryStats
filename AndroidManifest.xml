@@ -111,11 +111,14 @@
     </application>
     
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="11"/>
+
+    <uses-feature android:name="android.hardware.nfc" android:required="false" />
     
     <uses-permission android:name="com.noshufou.android.su.RESPOND" />
     <uses-permission android:name="com.noshufou.android.su.provider.READ" />
     <uses-permission android:name="com.noshufou.android.su.provider.WRITE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NFC" />
     
     <permission-group android:name="com.noshufou.android.su.permission-group.SUPERUSER"
         android:label="@string/permgrouplab_superuser"
