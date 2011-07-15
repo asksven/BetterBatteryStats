@@ -1,0 +1,9 @@
+This project depends on AndroidCommon (https://github.com/asksven/AndroidCommon).
+
+Make sure to:
+- add AndroidCommon as a Project to Eclipse
+- define that project as a lib (Properties -> Android and "Is Library" checked)
+- define AndroidCommon as a library referenced by BetterBatteryStats (Properties -> Android and "AndroidCommon" added as a references Lib
+
+Note: One some Eclipse there is a bug preventing the referenced library to stick between Eclipse restarts.
+Only known workaround (to me): Go to Properties -> Android of BetteryBatteryStats and remove the referenced Lib, close, go to Properties -> Android again and re-add (close between those actions is mandatory for this to work)
