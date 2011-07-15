@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2011 asksven
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.asksven.betterbatterystats;
 
 import java.util.List;
@@ -15,7 +30,8 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 
-public class BetterBatteryStatsActivity extends Activity {
+public class BetterBatteryStatsActivity extends Activity
+{
 
     private final int MENU_ITEM_0 = 0;  
     private final int MENU_ITEM_1 = 1;
@@ -27,12 +43,10 @@ public class BetterBatteryStatsActivity extends Activity {
 
 	/** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        Log.i("YourIdentifier","This is an information message");
-        
-        Log.e("YourIdentifier","This is an error message");
     }
 
     /** 
@@ -40,7 +54,8 @@ public class BetterBatteryStatsActivity extends Activity {
      * 
      * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
      */
-    public boolean onCreateOptionsMenu(Menu menu) {  
+    public boolean onCreateOptionsMenu(Menu menu)
+    {  
         menu.add(0, MENU_ITEM_0, 0, "Battery State");  
         menu.add(0, MENU_ITEM_1, 0, "Battery Remaining");
         menu.add(0, MENU_ITEM_2, 0, "Process Stats");
@@ -54,8 +69,10 @@ public class BetterBatteryStatsActivity extends Activity {
      * 
      * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
      */
-    public boolean onOptionsItemSelected(MenuItem item) {  
-        switch (item.getItemId()) {  
+    public boolean onOptionsItemSelected(MenuItem item)
+    {  
+        switch (item.getItemId())
+        {  
             case MENU_ITEM_0:  
             	doIsOnBattery(); 
             	break;
