@@ -19,10 +19,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -48,6 +50,18 @@ public class BetterBatteryStatsActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        // retrieve the version name and display it
+        try
+        {
+        	PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+        	TextView versionTextView = (TextView) findViewById(R.id.textViewVersion);
+        	versionTextView.setText(pinfo.versionName);
+        }
+        catch (Exception e)
+        {
+        	Log.e(TAG, "An error occured retrieveing the version info: " + e.getMessage());
+        }
     }
 
     /** 
