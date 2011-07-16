@@ -38,6 +38,7 @@ public class BetterBatteryStatsActivity extends Activity
     private final int MENU_ITEM_2 = 2;
     private final int MENU_ITEM_3 = 3;
     private final int MENU_ITEM_4 = 4;
+    private final int MENU_ITEM_5 = 5;
     
     private static final String TAG = "BetterBatteryStatsActivity";
 
@@ -56,11 +57,12 @@ public class BetterBatteryStatsActivity extends Activity
      */
     public boolean onCreateOptionsMenu(Menu menu)
     {  
-        menu.add(0, MENU_ITEM_0, 0, "Battery State");  
-        menu.add(0, MENU_ITEM_1, 0, "Battery Remaining");
-        menu.add(0, MENU_ITEM_2, 0, "Process Stats");
-        menu.add(0, MENU_ITEM_3, 0, "Wakelock Stats");
-        menu.add(0, MENU_ITEM_4, 0, "Show Wakelock Stats");
+//        menu.add(0, MENU_ITEM_0, 0, "Battery State");  
+//        menu.add(0, MENU_ITEM_1, 0, "Battery Remaining");
+//        menu.add(0, MENU_ITEM_2, 0, "Process Stats");
+//        menu.add(0, MENU_ITEM_3, 0, "Wakelock Stats");
+        menu.add(0, MENU_ITEM_4, 0, "Wakelock Stats");
+        menu.add(0, MENU_ITEM_5, 0, "Process Stats");
         return true;  
     }  
      
@@ -86,8 +88,12 @@ public class BetterBatteryStatsActivity extends Activity
             	getWakelockStats(); 
             	break;	
             case MENU_ITEM_4: 
-            	Intent intent = new Intent(this, WakelockStatsActivity.class);
-                this.startActivity(intent);
+            	Intent intentWakelocks = new Intent(this, WakelockStatsActivity.class);
+                this.startActivity(intentWakelocks);
+            	break;	
+            case MENU_ITEM_5: 
+            	Intent intentProcesses = new Intent(this, ProcessStatsActivity.class);
+                this.startActivity(intentProcesses);
             	break;	
             	
         }  
