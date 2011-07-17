@@ -67,6 +67,13 @@
 <!--                <category android:name="android.intent.category.DEFAULT" />-->
 <!--            </intent-filter>-->
         </activity>
+        <activity android:name="PinActivity"
+            android:label="PinActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/RequestPanel"
+            android:taskAffinity=""
+            android:windowSoftInputMode="stateAlwaysHidden" />
         
         <receiver android:name="SuRequestReceiver">
             <intent-filter>

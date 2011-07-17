@@ -18,15 +18,14 @@ package com.noshufou.android.su.preferences;
 import java.io.IOException;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.IntentFilter.MalformedMimeTypeException;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -45,22 +44,20 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.noshufou.android.su.AppListActivity;
+import com.noshufou.android.su.PinActivity;
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
@@ -72,13 +69,10 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
         OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
     private static final String TAG = "Su.Preferences";
 
-    private static final int SET_PIN = 0;
-    private static final int OLD_PIN = 1;
-    private static final int NEW_PIN = 2;
-    private static final int CONFIRM_PIN = 3;
-    private static final int WRONG_PIN = 4;
-//    private static final int DISABLE_PIN = 5;
-//    private static final int CHANGE_TAG = 6;
+    private static final int REQUEST_ENABLE_PIN = 1;
+    private static final int REQUEST_DISABLE_PIN = 2;
+    private static final int REQUEST_CHANGE_PIN = 3;
+    private static final int REQUEST_WRITE_TAG = 4;
     
     private static final int TAG_NONE = 0;
     private static final int TAG_ALLOW = 1;
@@ -231,14 +225,19 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             startActivity(intent);
             return true;
         } else if (pref.equals(Preferences.PIN)) {
+            Intent intent = new Intent(this, PinActivity.class);
             if (preferenceScreen.getSharedPreferences().getBoolean(Preferences.PIN, false)) {
-                changePin(NEW_PIN, "", 0);
+                intent.putExtra(PinActivity.EXTRA_MODE, PinActivity.MODE_NEW);
+                startActivityForResult(intent, REQUEST_ENABLE_PIN);
             } else {
-                changePin(OLD_PIN, "disable", 0);
+                intent.putExtra(PinActivity.EXTRA_MODE, PinActivity.MODE_CHECK);
+                startActivityForResult(intent, REQUEST_DISABLE_PIN);
             }
             return true;
         } else if (pref.equals(Preferences.CHANGE_PIN)) {
-            changePin(OLD_PIN, "change", 0);
+            Intent intent = new Intent(this, PinActivity.class);
+            intent.putExtra(PinActivity.EXTRA_MODE, PinActivity.MODE_CHANGE);
+            startActivityForResult(intent, REQUEST_CHANGE_PIN);
         } else if (pref.equals(Preferences.GHOST_MODE)) {
             return true;
         } else if (pref.equals(Preferences.TIMEOUT)) {
@@ -253,7 +252,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
                     .getBoolean(Preferences.USE_ALLOW_TAG, false)) {
                 return false;
             } else {
-                changePin(OLD_PIN, "allow_tag", 0);
+                Intent intent = new Intent(this, PinActivity.class);
+                intent.putExtra(PinActivity.EXTRA_MODE, PinActivity.MODE_CHECK);
+                startActivityForResult(intent, REQUEST_WRITE_TAG);
                 return true;
             }
         } else if (pref.equals(Preferences.GET_ELITE)) {
@@ -339,128 +340,38 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
         }
     };
 
-    private void changePin(final int action, final String extra, final int attempt) {
-        Log.d(TAG, "Showing PIN dialog for action " + action + ", extra = " + extra);
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.pin_layout);
-        final TextView pinText = (TextView) dialog.findViewById(R.id.pin);
-        switch(action) {
-        case SET_PIN:
-            pinText.setHint(R.string.pin_new_pin);
-            break;
-        case OLD_PIN:
-//        case DISABLE_PIN:
-//        case CHANGE_TAG:
-            pinText.setHint(R.string.pin_old_pin);
-            break;
-        case NEW_PIN:
-            if (extra.equals("mismatch")) {
-                pinText.setHint(R.string.pin_mismatch);
-            } else {
-                pinText.setHint(R.string.pin_new_pin);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_CANCELED) {
+            switch (requestCode) {
+            case REQUEST_ENABLE_PIN:
+                mPin.setChecked(false);
+                break;
+            case REQUEST_DISABLE_PIN:
+                mPin.setChecked(true);
+                break;
+            }
+            return;
+        }
+        
+        switch (requestCode) {
+        case REQUEST_ENABLE_PIN:
+        case REQUEST_CHANGE_PIN:
+            if (data.hasExtra(PinActivity.EXTRA_PIN)) {
+                CharSequence newPin = data.getCharSequenceExtra(PinActivity.EXTRA_PIN);
+                mPrefs.edit().putString("pin", newPin.toString()).commit();
+                mPin.setChecked(true);
             }
             break;
-        case CONFIRM_PIN:
-            pinText.setHint(R.string.pin_confirm_pin);
+        case REQUEST_DISABLE_PIN:
+            mPin.setChecked(false);
             break;
-        case WRONG_PIN:
-            int tryCount = 3 - attempt;
-            pinText.setHint(getResources().getQuantityString(
-                    R.plurals.pin_incorrect_try, tryCount, tryCount));
+        case REQUEST_WRITE_TAG:
+            prepareToWriteTag(TAG_ALLOW);
             break;
         }
-        dialog.setCancelable(true);
-        Button okButton = (Button) dialog.findViewById(R.id.pin_ok);
-        okButton.setText(R.string.ok);
-        okButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String pinStr = ((EditText)dialog.findViewById(R.id.pin)).getText().toString();
-                switch (action) {
-                case SET_PIN:
-                case NEW_PIN:
-                    dialog.dismiss();
-                    changePin(CONFIRM_PIN, pinStr, 0);
-                    break;
-                case OLD_PIN:
-                case WRONG_PIN:
-                    if (Util.checkPin(getApplicationContext(), pinStr)) {
-                        dialog.dismiss();
-                        if (extra.equals("change")) {
-                            changePin(NEW_PIN, "", 0);
-                        } else if (extra.equals("disable")) {
-                            mPin.setChecked(false);
-                        } else if (extra.equals("allow_tag")) {
-                            mAllowTag.setChecked(true);
-                            prepareToWriteTag(TAG_ALLOW);
-                        }
-                    } else {
-                        dialog.dismiss();
-                        if (attempt < 2) {
-                            changePin(WRONG_PIN, extra, attempt + 1);
-                        }
-                    }
-                    break;
-                case CONFIRM_PIN:
-                    if (pinStr.equals(extra)) {
-                        mPrefs.edit().putString("pin", Util.getHash(pinStr)).commit();
-                        mPin.setChecked(true);
-                        dialog.dismiss();
-                    } else {
-                        dialog.dismiss();
-                        changePin(NEW_PIN, "mismatch", 0);
-                    }
-                    break;
-                }
-            }
-        });
-        Button cancelButton = (Button) dialog.findViewById(R.id.pin_cancel);
-        cancelButton.setText(R.string.cancel);
-        cancelButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.cancel();
-            }
-        });
-        dialog.setOnCancelListener(new OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                if (action == NEW_PIN) {
-                    mPrefs.edit().putBoolean(Preferences.PIN, false).commit();
-                    mPin.setChecked(false);
-                }
-                if (extra.equals("disable")) {
-                    mPrefs.edit().putBoolean(Preferences.PIN, true).commit();
-                    mPin.setChecked(true);
-                } else if (extra.equals("allow_tag")) {
-                    mPrefs.edit().putBoolean(Preferences.USE_ALLOW_TAG, false).commit();
-                    mAllowTag.setChecked(false);
-                }
-            }
-        });
-
-        OnClickListener onPinButton = new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Button button = (Button) view;
-                pinText.setText(new StringBuffer(pinText.getText()).append(button.getText()));
-            }
-        };
-        ((Button)dialog.findViewById(R.id.pin_0)).setOnClickListener(onPinButton);
-        ((Button)dialog.findViewById(R.id.pin_1)).setOnClickListener(onPinButton);
-        ((Button)dialog.findViewById(R.id.pin_2)).setOnClickListener(onPinButton);
-        ((Button)dialog.findViewById(R.id.pin_3)).setOnClickListener(onPinButton);
-        ((Button)dialog.findViewById(R.id.pin_4)).setOnClickListener(onPinButton);
-        ((Button)dialog.findViewById(R.id.pin_5)).setOnClickListener(onPinButton);
-        ((Button)dialog.findViewById(R.id.pin_6)).setOnClickListener(onPinButton);
-        ((Button)dialog.findViewById(R.id.pin_7)).setOnClickListener(onPinButton);
-        ((Button)dialog.findViewById(R.id.pin_8)).setOnClickListener(onPinButton);
-        ((Button)dialog.findViewById(R.id.pin_9)).setOnClickListener(onPinButton);
-
-        dialog.show();
     }
-    
+
     private void prepareToWriteTag(int whichTag) {
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
