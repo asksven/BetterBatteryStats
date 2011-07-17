@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="1" android:versionName="1.0"
+<manifest android:versionCode="1" android:versionName="0.2.0.0"
     package="com.asksven.betterbatterystats" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="9"/>
     <application android:icon="@drawable/icon" android:label="BetterBatteryStats">
-        <activity android:label="BetterBatteryStats" android:name="com.asksven.betterbatterystats.BetterBatteryStatsActivity">
+        <activity android:label="BetterBatteryStats" android:name="com.asksven.betterbatterystats.StatsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".WakelockStatsActivity"/>
-        <activity android:name=".ProcessStatsActivity"/>
+        <activity android:name=".AboutActivity"/>
     </application>
     
     <uses-permission android:name="android.permission.BATTERY_STATS"/>
