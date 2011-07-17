@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<!-- Values for the statistic. -->
+    <string-array name="stats" translatable="false">
+        <item>Process</item>
+        <item>Wakelocks</item>
+        <item>Network usage</item>
+    </string-array>
     <!-- Values for the statistic type. -->
     <string-array name="stat_types" translatable="false">
         <item>Since charged</item>
