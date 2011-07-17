@@ -119,9 +119,10 @@ public class ProcessStatsActivity extends ListActivity implements AdapterView.On
     		for (int i = 0; i < myProcesses.size(); i++)
     		{
     			Process ps = myProcesses.get(i); 
-//    			if ((ps.getSystem()/1000) > 0)
+    			// show only non-zero values
+    			if ( ((ps.getSystemTime()+ps.getUserTime()) /1000) > 0)
     			{
-    				myStats.add(ps.getName() + " Sys:" + ps.getSystemTime()/1000 + "s, Us: " + ps.getUserTime()/1000);
+    				myStats.add(ps.getName() + " Sys:" + ps.getSystemTime()/1000 + "s, Us: " + ps.getUserTime()/1000 + "s");
     			}
     		}
     	}
