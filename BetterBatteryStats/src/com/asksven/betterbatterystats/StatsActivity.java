@@ -32,6 +32,10 @@ import com.asksven.android.common.privateapiproxies.Process;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -246,9 +250,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			Wakelock wl = myWakelocks.get(i); 
 			if ((wl.getDuration()/1000) > 0)
 			{
+				
 				myStats.add(wl.getName() 
+						+ " (" + wl.getFullQualifiedName() + ")"
 						+ " " + wl.getDuration()/1000 + "s"
-						+ "(count=" + wl.getCount() + ")");
+						+ " (count=" + wl.getCount() + ")");
 			}
 		}
 		return myStats;
@@ -274,12 +280,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			NetworkUsage usage = myUsages.get(i); 
 			if ((usage.getBytesReceived() + usage.getBytesSent()) > 0)
 			{
-				myStats.add(usage.getUid() 
+				myStats.add(usage.getFullQualifiedName() 
+						+ " (" + usage.getUid() + ")" 
 						+ " " + usage.getBytesReceived() + " bytes received, " 
 						+ usage.getBytesSent() + " bytes sent");
 			}
 		}
 		return myStats;
 	}
-	
 }
