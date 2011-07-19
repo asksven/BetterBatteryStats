@@ -27,6 +27,7 @@ import java.util.Vector;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.common.privateapiproxies.Process;
 
@@ -58,7 +59,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	/**
 	 * The ArrayAdpater for rendering the ListView
 	 */
-	private ArrayAdapter<String> m_listViewAdapter;
+//	private ArrayAdapter<String> m_listViewAdapter;
+	private StatsAdapter m_listViewAdapter;
 	
 	/**
 	 * The Type of Stat to be displayed (default is "Since charged")
@@ -79,7 +81,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.process_stats);
+		setContentView(R.layout.stats);
 
 		// Spinner for selecting the stat
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);
@@ -99,12 +101,20 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		spinnerStatType.setAdapter(spinnerAdapter);
 		spinnerStatType.setOnItemSelectedListener(this);
 
-		m_listViewAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,  
-                getStatList());
-        setListAdapter(m_listViewAdapter);
+		this.setListViewAdapter();
 	}
 
+	/**
+	 * In order to refresh the ListView we need to re-create the Adapter
+	 * (should be the case but notifyDataSetChanged doesn't work so
+	 * we recreate and set a new one)
+	 */
+	private void setListViewAdapter()
+	{
+		m_listViewAdapter = new StatsAdapter(this, getStatList());
+        setListAdapter(m_listViewAdapter);
+	}
+	
     /** 
      * Add menu items
      * 
@@ -129,7 +139,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	Intent intentProcesses = new Intent(this, AboutActivity.class);
                 this.startActivity(intentProcesses);
             	break;	
-            	
+           	
         }  
         return false;  
     }    
@@ -156,10 +166,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		
 		m_listViewAdapter.notifyDataSetChanged();
-		m_listViewAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,  
-                getStatList());
-        setListAdapter(m_listViewAdapter);
+		this.setListViewAdapter();
 	}
 
 	public void onNothingSelected(AdapterView<?> parent)
@@ -171,17 +178,20 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	}
 	/**
 	 * Get the Stat to be displayed
-	 * @return a List of Wakelocks sorted by duration (descending)
+	 * @return a List of StatElements sorted (descending)
 	 */
-	List<String> getStatList()
+	private List<StatElement> getStatList()
 	{
 		try
     	{
+			BatteryStatsProxy mStats = new BatteryStatsProxy(this);
+			
 			switch (m_iStat)
 			{
 				// constants are related to arrays.xml string-array name="stats"
 				case 0:
 					return getProcessStatList();
+					
 				case 1:
 					return getWakelockStatList();
 				case 2:
@@ -196,17 +206,17 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		Toast.makeText(this, "Wakelock Stats: an error occured while retrieving the statistics", Toast.LENGTH_SHORT).show();
     	}
 		
-		return new Vector<String>();
+		return new Vector<StatElement>();
 	}
 	
 	/**
 	 * Get the Process Stat to be displayed
 	 * @return a List of Wakelocks sorted by duration (descending)
 	 */
-	List<String> getProcessStatList() throws Exception
+	List<StatElement> getProcessStatList() throws Exception
 	{
 		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
-		List<String> myStats = new Vector<String>();
+		List<StatElement> myStats = new Vector<StatElement>();
 		
    		List<Process> myProcesses = mStats.getProcessStats(this, m_iStatType);
 		
@@ -215,14 +225,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 		for (int i = 0; i < myProcesses.size(); i++)
 		{
-			Process ps = myProcesses.get(i); 
-			// show only non-zero values
-			if ( ((ps.getSystemTime()+ps.getUserTime()) /1000) > 0)
+			Process ps = myProcesses.get(i);
+			if ((ps.getSystemTime() + ps.getUserTime()) > 0)
 			{
-				myStats.add(ps.getName() + " Sys:" 
-						+ ps.getSystemTime()/1000 + "s, Us: " 
-						+ ps.getUserTime()/1000 + "s, "
-						+ ps.getStarts() + "starts");
+				myStats.add((StatElement) ps);
 			}
 		}
 		
@@ -234,9 +240,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 * Get the Process Stat to be displayed
 	 * @return a List of Wakelocks sorted by duration (descending)
 	 */
-	List<String> getWakelockStatList() throws Exception
+	List<StatElement> getWakelockStatList() throws Exception
 	{
-		List<String> myStats = new Vector<String>();
+		List<StatElement> myStats = new Vector<StatElement>();
 		
 		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
 
@@ -247,14 +253,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 		for (int i = 0; i < myWakelocks.size(); i++)
 		{
-			Wakelock wl = myWakelocks.get(i); 
+			Wakelock wl = myWakelocks.get(i);
 			if ((wl.getDuration()/1000) > 0)
 			{
-				
-				myStats.add(wl.getName() 
-						+ " (" + wl.getFullQualifiedName() + ")"
-						+ " " + wl.getDuration()/1000 + "s"
-						+ " (count=" + wl.getCount() + ")");
+				myStats.add((StatElement) wl);
 			}
 		}
 		return myStats;
@@ -264,9 +266,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 * Get the Network Usage Stat to be displayed
 	 * @return a List of Wakelocks sorted by duration (descending)
 	 */
-	List<String> getNetworkUsageStatList() throws Exception
+	List<StatElement> getNetworkUsageStatList() throws Exception
 	{
-		List<String> myStats = new Vector<String>();
+		List<StatElement> myStats = new Vector<StatElement>();
 		
 		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
 
@@ -280,12 +282,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			NetworkUsage usage = myUsages.get(i); 
 			if ((usage.getBytesReceived() + usage.getBytesSent()) > 0)
 			{
-				myStats.add(usage.getFullQualifiedName() 
-						+ " (" + usage.getUid() + ")" 
-						+ " " + usage.getBytesReceived() + " bytes received, " 
-						+ usage.getBytesSent() + " bytes sent");
+				myStats.add((StatElement) usage);
 			}
 		}
 		return myStats;
 	}
+	
+	
 }
