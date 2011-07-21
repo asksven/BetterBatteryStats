@@ -15,29 +15,17 @@
  ******************************************************************************/
 package com.noshufou.android.su.preferences;
 
-import java.io.IOException;
-
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.IntentFilter.MalformedMimeTypeException;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
-import android.nfc.FormatException;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
-import android.nfc.tech.Ndef;
-import android.nfc.tech.NdefFormatable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -59,6 +47,7 @@ import android.widget.Toast;
 import com.noshufou.android.su.AppListActivity;
 import com.noshufou.android.su.PinActivity;
 import com.noshufou.android.su.R;
+import com.noshufou.android.su.TagWriterActivity;
 import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.service.LogService;
@@ -74,11 +63,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
     private static final int REQUEST_CHANGE_PIN = 3;
     private static final int REQUEST_WRITE_TAG = 4;
     
-    private static final int TAG_NONE = 0;
-    private static final int TAG_ALLOW = 1;
-    
-    private int mTagToWrite = TAG_NONE;
-
     SharedPreferences mPrefs = null;
 
     private Preference mLogLimit = null;
@@ -92,8 +76,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
     private EditTextPreference mSecretCode = null;
     private CheckBoxPreference mAllowTag = null;
     
-    private NfcAdapter mNfcAdapter = null;
-
     private Context mContext;
     private boolean mElite = false;
 
@@ -145,8 +127,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
 
             // Remove NFC options if there's no NFC hardware
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
-                mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-                if (mNfcAdapter == null) {
+                if (NfcAdapter.getDefaultAdapter(this) == null) {
                     prefScreen.removePreference(findPreference(Preferences.CATEGORY_NFC));
                 } else {
                     mAllowTag =
@@ -176,9 +157,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
         super.onPause();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
-        if (mNfcAdapter != null) {
-            mNfcAdapter.disableForegroundDispatch(this);
-        }
     }
 
     @Override
@@ -367,85 +345,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             mPin.setChecked(false);
             break;
         case REQUEST_WRITE_TAG:
-            prepareToWriteTag(TAG_ALLOW);
-            break;
-        }
-    }
-
-    private void prepareToWriteTag(int whichTag) {
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
-        try {
-            ndef.addDataType("*/*");
-        } catch (MalformedMimeTypeException e) {
-            Log.e(TAG, "Bad MIME type declared", e);
-            return;
-        }
-        IntentFilter[] filters = new IntentFilter[] { ndef };
-        String[][] techLists = new  String[][] {
-                new String[] { Ndef.class.getName() },
-                new String[] { NdefFormatable.class.getName() }
-        };
-        mTagToWrite = whichTag;
-        mNfcAdapter.enableForegroundDispatch(this, pendingIntent, filters, techLists);
-        Toast.makeText(this, "Ready to write tag", Toast.LENGTH_SHORT).show();
-    }
-    
-    @Override
-    public void onNewIntent(Intent intent) {
-        switch (mTagToWrite) {
-        case TAG_ALLOW:
-            Tag tagFromIntent = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-
-            NdefRecord record = new NdefRecord(NdefRecord.TNF_EXTERNAL_TYPE,
-                    "com.noshufou:a".getBytes(),
-                    new byte[0],
-                    mPrefs.getString("pin", "").getBytes());
-            NdefMessage message = new NdefMessage(new NdefRecord[] {record });
-
-            Ndef ndef = Ndef.get(tagFromIntent);
-            if (ndef != null) {
-                if (!ndef.isWritable()) {
-                    Toast.makeText(this, "Tag not writeable", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                
-                int maxSize = ndef.getMaxSize();
-                Log.d(TAG, "Max tag size = " + maxSize + ", Message size = " + message.toByteArray().length);
-                
-                if (maxSize < message.toByteArray().length) {
-                    Toast.makeText(this, "Tag not big enough", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                try {
-                    ndef.connect();
-                    ndef.writeNdefMessage(message);
-                } catch (IOException e) {
-                    Log.e(TAG, "IOException", e);
-                    return;
-                } catch (FormatException e) {
-                    Log.e(TAG, "FormatException", e);
-                    return;
-                }
-            } else {
-                NdefFormatable format = NdefFormatable.get(tagFromIntent);
-                if (format != null) {
-                    try {
-                        format.connect();
-                        format.format(message);
-                        Log.d(TAG, "formated tag");
-                    } catch (IOException e) {
-                        Log.e(TAG, "IOException", e);
-                        return;
-                    } catch (FormatException e) {
-                        Log.e(TAG, "FormatException", e);
-                        return;
-                    }
-                }
-            }
-            Toast.makeText(this, "Tag wrote", Toast.LENGTH_SHORT).show();
-            mTagToWrite = TAG_NONE;
+            Intent intent = new Intent(this, TagWriterActivity.class);
+            intent.putExtra(TagWriterActivity.EXTRA_TAG, TagWriterActivity.TAG_ALLOW);
+            startActivity(intent);
             break;
         }
     }

@@ -225,6 +225,9 @@
         <item quantity="other">Nope - %d tries left</item>
     </plurals>
     
+    <string name="nfc_write_tag">Scan tag to write</string>
+    <string name="nfc_writing_tag">Writing...</string>
+
     <string name="malicious_apps_title">Warning</string>
     <plurals name="malicious_apps_message1">
     	<item quantity="one">The following package was found to be malicious:</item>

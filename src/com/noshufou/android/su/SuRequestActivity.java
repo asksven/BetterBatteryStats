@@ -177,7 +177,7 @@ public class SuRequestActivity extends Activity implements OnClickListener {
                     this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
             IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
             try {
-                ndef.addDataType("*/*");
+                ndef.addDataType("text/x-su-a");
             } catch (MalformedMimeTypeException e) {
                 Log.e(TAG, "Bad MIME type declared", e);
                 return;
@@ -289,8 +289,8 @@ public class SuRequestActivity extends Activity implements OnClickListener {
             short tnf = record.getTnf();
             String type = new String(record.getType());
             Log.d(TAG, "Record TNF = " + tnf + ", Record type = " + type);
-            if (tnf == NdefRecord.TNF_EXTERNAL_TYPE &&
-                    type.equals("com.noshufou:a")) {
+            if (tnf == NdefRecord.TNF_MIME_MEDIA &&
+                    type.equals("text/x-su-a")) {
                 Log.d(TAG, "Right type, let's check the pin");
                 String tagPin = new String(record.getPayload());
                 Log.d(TAG, tagPin);
