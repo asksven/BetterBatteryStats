@@ -15,6 +15,7 @@
  ******************************************************************************/
 package com.noshufou.android.su;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -35,16 +36,16 @@ import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
@@ -221,7 +222,27 @@ public class AppDetailsFragment extends ListFragment
         if (!mReady) {
             return;
         }
+        
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getBoolean(Preferences.PIN, false)) {
+            Intent intent = new Intent(getActivity(), PinActivity.class);
+            intent.putExtra(PinActivity.EXTRA_MODE, PinActivity.MODE_CHECK);
+            startActivityForResult(intent, 0);
+        } else {
+            doToggle();
+        }
 
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "requestCode = " + requestCode + ", resultCode = " + resultCode);
+        if (resultCode == Activity.RESULT_OK) {
+            doToggle();
+        }
+    }
+
+    private void doToggle() {
         ContentResolver cr = getActivity().getContentResolver();
         Uri uri = Uri.withAppendedPath(Apps.CONTENT_URI, String.valueOf(mShownIndex));
 
