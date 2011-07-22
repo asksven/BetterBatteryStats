@@ -4,7 +4,7 @@
     <string-array name="stats" translatable="false">
         <item>Process</item>
         <item>Wakelocks</item>
-        <item>Network usage</item>
+<!-- removed because of issue #1        <item>Network usage</item>  -->
     </string-array>
     <!-- Values for the statistic type. -->
     <string-array name="stat_types" translatable="false">
@@ -13,4 +13,32 @@
         <item>Current</item>
         <item>Since unplugged</item>
     </string-array>
+    
+    <!--  Values for the preferences -->
+    <string-array name="statLabels">
+        <item name="0">Process</item>
+        <item name="1">Wakelocks</item>
+<!-- removed because of issue #1        <item name="2">Network usage</item> -->
+    </string-array>
+
+    <string-array name="statValues">
+        <item name="0">0</item>
+        <item name="1">1</item>
+<!-- removed because of issue #1        <item name="2">2</item> -->
+    </string-array>
+
+    <string-array name="statTypeLabels">
+        <item name="0">Since charged</item>
+        <item name="1">Last</item>
+        <item name="2">Current</item>
+        <item name="3">Since unplugged</item>
+    </string-array>
+
+    <string-array name="statTypeValues">
+        <item name="0">0</item>
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+    </string-array>
+
 </resources>

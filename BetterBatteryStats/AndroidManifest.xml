@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest
-	android:versionCode="1"
-	android:versionName="0.3.1.0"
-    package="com.asksven.betterbatterystats"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-sdk android:maxSdkVersion="10" android:targetSdkVersion="9" android:minSdkVersion="8"/>
+<manifest android:versionCode="1" android:versionName="0.4.0.0"
+    package="com.asksven.betterbatterystats" xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-sdk android:maxSdkVersion="10" android:minSdkVersion="8" android:targetSdkVersion="9"/>
     <application android:icon="@drawable/icon" android:label="BetterBatteryStats">
         <activity android:label="BetterBatteryStats" android:name="com.asksven.betterbatterystats.StatsActivity">
             <intent-filter>
@@ -13,11 +10,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AboutActivity"/>
+        <activity android:name=".PreferencesActivity"/>
     </application>
-    
+
     <uses-permission android:name="android.permission.BATTERY_STATS"/>
-    <uses-permission android:name="android.permission.DEVICE_POWER"/>
-    <uses-permission android:name="android.permission.HARDWARE_TEST"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
 </manifest>

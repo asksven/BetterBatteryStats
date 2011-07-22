@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+	<CheckBoxPreference 
+		android:key="filter_data"
+		android:summary="Enable or disable the filtering of data to non-zero values"
+		android:title="Filter stats" 
+		android:defaultValue="true"
+    />    
+    
+    <ListPreference 
+            android:key="default_stat"
+            android:title="Default stat"
+            android:summary="Define the stat to be shown upon starting the app"
+            android:defaultValue="0" 
+            android:entries="@array/statLabels"
+            android:entryValues="@array/statValues"
+        />
+        
+    <ListPreference 
+            android:key="default_stat_type"
+            android:title="Default stat type"
+            android:summary="Define the stat type to be shown upon starting the app"
+            android:defaultValue="0" 
+            android:entries="@array/statTypeLabels"
+            android:entryValues="@array/statTypeValues"
+        />
+        
+</PreferenceScreen>
