@@ -411,10 +411,11 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     executeCommand(os, null, mBusyboxPath, "mount -o remount,ro /system");
                     inLine = executeCommand(os, is, mBusyboxPath, "touch /system/su ||",
                             mBusyboxPath, "echo YEAH");
-                    if (!inLine.equals("YEAH")) {
+                    if (inLine == null || !inLine.equals("YEAH")) {
                         publishProgress(progressTotal, progressStep - 1, progressStep,
-                                R.string.updater_ok, CONSOLE_RED);
-                        return STATUS_FINISHED_FAIL;
+                                R.string.updater_fail, CONSOLE_RED);
+                        publishProgress(progressTotal, progressStep, progressStep,
+                                R.string.updater_remount_ro_failed);
                     }
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);

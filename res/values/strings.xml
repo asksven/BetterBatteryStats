@@ -206,6 +206,7 @@
     <string name="updater_step_verify_installed_version">Checking installed version...\u0020</string>
     <string name="updater_step_clean_up">Cleaning up...\u0020</string>
     <string name="updater_step_failed">Last step failed, press retry to retry last step or restart to begin the process over</string>
+    <string name="updater_remount_ro_failed">Failed to remount the system as read-only, please reboot to finish the update</string>
 
     <string name="notification_text_allow">%s has been granted Superuser permissions</string>
     <string name="notification_text_deny">%s has been denied Superuser permissions</string>
