@@ -26,6 +26,7 @@ import java.util.Vector;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
+import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
@@ -39,6 +40,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -212,10 +214,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				// constants are related to arrays.xml string-array name="stats"
 				case 0:
 					return getProcessStatList(bFilterStats);
-					
 				case 1:
 					return getWakelockStatList(bFilterStats);
 				case 2:
+					return getOtherUsageStatList(bFilterStats);	
+				case 3:
 					return getNetworkUsageStatList(bFilterStats);
 						
 			}
@@ -260,7 +263,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	}
 
 	/**
-	 * Get the Process Stat to be displayed
+	 * Get the Wakelock Stat to be displayed
 	 * @param bFilter defines if zero-values should be filtered out
 	 * @return a List of Wakelocks sorted by duration (descending)
 	 * @throws Exception if the API call failed
@@ -290,7 +293,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	/**
 	 * Get the Network Usage Stat to be displayed
 	 * @param bFilter defines if zero-values should be filtered out
-	 * @return a List of Wakelocks sorted by duration (descending)
+	 * @return a List of Network usages sorted by duration (descending)
 	 * @throws Exception if the API call failed
 	 */
 	List<StatElement> getNetworkUsageStatList(boolean bFilter) throws Exception
@@ -308,6 +311,68 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 			NetworkUsage usage = myUsages.get(i); 
 			if ( (!bFilter) || ((usage.getBytesReceived() + usage.getBytesSent()) > 0) )
+			{
+				myStats.add((StatElement) usage);
+			}
+		}
+		return myStats;
+	}
+
+	/**
+	 * Get the Other Usage Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Other usages sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	List<StatElement> getOtherUsageStatList(boolean bFilter) throws Exception
+	{
+		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
+
+		List<StatElement> myStats = new Vector<StatElement>();
+		
+		// List to store the other usages to
+		List<Misc> myUsages = new Vector<Misc>();
+		
+		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+        final long batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
+        final long whichRealtime = mStats.computeBatteryRealtime(rawRealtime, m_iStatType)  / 1000;      
+        long time = mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, m_iStatType) / 1000;
+        if (time > 0) {
+            myUsages.add(new Misc("Awake", time, whichRealtime)); //, whichRealtime)); 
+        }
+        
+        time = mStats.getScreenOnTime(batteryRealtime, m_iStatType) / 1000;
+        if (time > 0) {
+        	myUsages.add(new Misc("Screen On", time, whichRealtime));  
+        }
+        
+        time = mStats.getPhoneOnTime(batteryRealtime, m_iStatType) / 1000;
+        if (time > 0) {
+        	myUsages.add(new Misc("Phone On", time, whichRealtime));
+        }
+        
+        time = mStats.getWifiOnTime(batteryRealtime, m_iStatType) / 1000;
+        if (time > 0) {
+        	myUsages.add(new Misc("Wifi On", time, whichRealtime));
+        }
+        
+        time = mStats.getWifiRunningTime(batteryRealtime, m_iStatType) / 1000;
+        if (time > 0) {
+        	myUsages.add(new Misc("Wifi Running", time, whichRealtime));
+        }
+        
+        time = mStats.getBluetoothOnTime(batteryRealtime, m_iStatType) / 1000;
+        if (time > 0) {
+        	myUsages.add(new Misc("Bluetooth On", time, whichRealtime)); 
+        }
+        
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myUsages);
+
+		for (int i = 0; i < myUsages.size(); i++)
+		{
+			Misc usage = myUsages.get(i); 
+			if ( (!bFilter) || (usage.getTimeOn() > 0) )
 			{
 				myStats.add((StatElement) usage);
 			}
