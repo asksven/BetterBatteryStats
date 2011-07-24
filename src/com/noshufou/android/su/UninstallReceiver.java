@@ -13,6 +13,10 @@ public class UninstallReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) {
+            return;
+        }
+        
         ContentResolver cr = context.getContentResolver();
         Cursor cursor = cr.query(Apps.CONTENT_URI,
                 new String[] { Apps._ID },
