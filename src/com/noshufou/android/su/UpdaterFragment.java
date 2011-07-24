@@ -185,7 +185,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                 // needs to be addressed.
                 boolean fixDb = (Util.getSuVersionCode() == 0);
                 if (fixDb) {
-                    progressTotal = 15;
+                    progressTotal = 16;
                     progressStep = 1;
                     publishProgress(progressTotal, progressStep - 1, progressStep,
                             R.string.updater_step_fix_db);
@@ -216,7 +216,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);
                 } else {
-                    progressTotal = 14;
+                    progressTotal = 15;
                     progressStep = 0;
                 }
 
@@ -262,6 +262,28 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                             R.string.updater_fail, CONSOLE_RED);
                     return STATUS_FINISHED_FAIL;
                 }
+                
+                // Check where the current su binary is installed
+                progressStep++;
+                publishProgress(progressTotal, progressStep - 1, progressStep,
+                        R.string.updater_step_check_installed_path);
+                String installedSu = whichSu();
+                Log.d(TAG, "su installed to " + installedSu);
+                if (installedSu == null) {
+                    publishProgress(progressTotal, progressStep - 1, progressStep,
+                            R.string.updater_fail, CONSOLE_RED);
+                    publishProgress(progressTotal, progressStep - 1, progressStep,
+                            R.string.updater_find_su_failed);
+                    return STATUS_FINISHED_FAIL;
+                } else if (installedSu.equals("/sbin/su")) {
+                    publishProgress(progressTotal, progressStep - 1, progressStep,
+                            installedSu, CONSOLE_RED);
+                    publishProgress(progressTotal, progressStep - 1, progressStep,
+                            R.string.updater_bad_install_location);
+                    return STATUS_FINISHED_FAIL;
+                }
+                publishProgress(progressTotal, progressStep, progressStep,
+                        installedSu, CONSOLE_GREEN);
                 
                 // Download new su binary
                 progressStep++;
@@ -325,7 +347,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     executeCommand(os, null, mBusyboxPath + " mount -o remount,rw /system");
                     inLine = executeCommand(os, is, mBusyboxPath + " touch /system/su && " +
                             mBusyboxPath + " echo YEAH");
-                    if (!inLine.equals("YEAH")) {
+                    if (inLine == null || !inLine.equals("YEAH")) {
                         publishProgress(progressTotal, progressStep - 1, progressStep,
                                 R.string.updater_ok, CONSOLE_RED);
                         return STATUS_FINISHED_FAIL;
@@ -341,7 +363,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                             R.string.updater_step_cp);
                     inLine = executeCommand(os, is, mBusyboxPath, "cp", suPath, "/system &&",
                             mBusyboxPath, "echo YEAH");
-                    if (!inLine.equals("YEAH")) {
+                    if (inLine == null || !inLine.equals("YEAH")) {
                         publishProgress(progressTotal, progressStep - 1, progressStep,
                                 R.string.updater_fail, CONSOLE_RED);
                         return STATUS_FINISHED_FAIL;
@@ -363,13 +385,13 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     publishProgress(progressTotal, progressStep, progressStep,
                             R.string.updater_ok, CONSOLE_GREEN);
                     
-                    // Move /system/su to /system/bin/su
+                    // Move /system/su to wherer it belongs
                     progressStep++;
                     publishProgress(progressTotal, progressStep - 1, progressStep,
                             R.string.updater_step_mv);
-                    inLine = executeCommand(os, is, mBusyboxPath, "mv /system/su /system/bin/su &&",
-                            mBusyboxPath, "echo YEAH");
-                    if (!inLine.equals("YEAH")) {
+                    inLine = executeCommand(os, is, mBusyboxPath, "mv /system/su", installedSu,
+                            "&&", mBusyboxPath, "echo YEAH");
+                    if (inLine == null || !inLine.equals("YEAH")) {
                         publishProgress(progressTotal, progressStep - 1, progressStep,
                                 R.string.updater_fail, CONSOLE_RED);
                         return STATUS_FINISHED_FAIL;
@@ -397,7 +419,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                             R.string.updater_step_chmod);
                     inLine = executeCommand(os, is, mBusyboxPath, "chmod 06755 /system/bin/su &&",
                             mBusyboxPath, "echo YEAH");
-                    if (!inLine.equals("YEAH")) {
+                    if (inLine == null || !inLine.equals("YEAH")) {
                         publishProgress(progressTotal, progressStep - 1, progressStep,
                                 R.string.updater_fail, CONSOLE_RED);
                     }
@@ -612,6 +634,38 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
             return false;
         }
         return true;
+    }
+    
+    private String whichSu() {
+        if (mBusyboxPath == null) {
+            Log.e(TAG, "Busybox not present");
+            return null;
+        }
+        
+        Process process = null;
+        try {
+            String cmd = mBusyboxPath + " which su";
+            Log.d(TAG, cmd);
+            process = Runtime.getRuntime().exec(cmd);
+            BufferedReader is = new BufferedReader(new InputStreamReader(
+                    new DataInputStream(process.getInputStream())), 64);
+            for (int i = 0; i < 100; i++) {
+                if (is.ready()) break;
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    Log.w(TAG, "Sleep timer got interrupted...");
+                }
+            }
+            return is.readLine();
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to find su binary");
+        } finally {
+            if (process != null) {
+                process.destroy();
+            }
+        }
+        return null;
     }
     
     private String executeCommand(DataOutputStream os, BufferedReader is, String... commands)

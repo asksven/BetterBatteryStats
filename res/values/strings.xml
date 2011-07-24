@@ -196,17 +196,20 @@
     <string name="updater_step_fix_db">Fixing database...\u0020</string>
     <string name="updater_step_download_busybox">Downloading custom busybox...\u0020</string>
     <string name="updater_step_check_md5sum">Checking md5sum...\u0020</string>
+    <string name="updater_step_check_installed_path">Checking current install path...\u0020</string>
     <string name="updater_step_download_su">Downloading new binary...\u0020</string>
     <string name="updater_step_get_root">Gaining root access...\u0020</string>
     <string name="updater_step_remount_rw">Remounting /system as rw...\u0020</string>
     <string name="updater_step_cp">Copying su to /system...\u0020</string>
     <string name="updater_step_chmod">Changing su file mode to 06755...\u0020</string>
-    <string name="updater_step_mv">Moving su to /system/bin...\u0020</string>
+    <string name="updater_step_mv">Moving su to it\'s final location...\u0020</string>
     <string name="updater_step_remount_ro">Remounting /system as ro...\u0020</string>
     <string name="updater_step_verify_installed_version">Checking installed version...\u0020</string>
     <string name="updater_step_clean_up">Cleaning up...\u0020</string>
     <string name="updater_step_failed">Last step failed, press retry to retry last step or restart to begin the process over</string>
     <string name="updater_remount_ro_failed">Failed to remount the system as read-only, please reboot to finish the update</string>
+    <string name="updater_find_su_failed">Failed to find currently installed su binary. Update cannot continue</string>
+    <string name="updater_bad_install_location">su binary is currently installed in /sbin. This updater is not capable of updating it. Please find a new ROM for your device.</string>
 
     <string name="notification_text_allow">%s has been granted Superuser permissions</string>
     <string name="notification_text_deny">%s has been denied Superuser permissions</string>
