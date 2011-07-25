@@ -66,7 +66,7 @@ public class StatsAdapter extends BaseAdapter
         tvName.setText(entry.getName());
 
         TextView tvFqn = (TextView) convertView.findViewById(R.id.TextViewFqn);
-        tvFqn.setText(entry.getFqn());
+        tvFqn.setText(entry.getFqn(context));
 
         TextView tvData = (TextView) convertView.findViewById(R.id.TextViewData);
         tvData.setText(entry.getData());

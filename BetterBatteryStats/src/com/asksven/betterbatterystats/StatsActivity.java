@@ -40,6 +40,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -88,6 +89,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);
 
+		
 		// retrieve default selections for spinners
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
@@ -119,6 +121,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 		this.setListViewAdapter();
 	}
+
 
 	/**
 	 * In order to refresh the ListView we need to re-create the Adapter
