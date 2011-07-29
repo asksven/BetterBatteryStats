@@ -404,7 +404,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     publishProgress(progressTotal, progressStep - 1, progressStep,
                             R.string.updater_step_check_md5sum);
                     // Can't use the verifyFile method here since we need to be root
-                    inLine = executeCommand(os, is, mBusyboxPath, "md5sum /system/bin/su");
+                    inLine = executeCommand(os, is, mBusyboxPath, "md5sum", installedSu);
                     if (inLine == null || !inLine.split(" ")[0].equals(mManifest.binaryMd5)) {
                         publishProgress(progressTotal, progressStep - 1, progressStep,
                                 R.string.updater_fail, CONSOLE_RED);
@@ -417,7 +417,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     progressStep++;
                     publishProgress(progressTotal, progressStep - 1, progressStep,
                             R.string.updater_step_chmod);
-                    inLine = executeCommand(os, is, mBusyboxPath, "chmod 06755 /system/bin/su &&",
+                    inLine = executeCommand(os, is, mBusyboxPath, "chmod 06755", installedSu, "&&",
                             mBusyboxPath, "echo YEAH");
                     if (inLine == null || !inLine.equals("YEAH")) {
                         publishProgress(progressTotal, progressStep - 1, progressStep,
