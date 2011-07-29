@@ -199,7 +199,7 @@ public class Util {
             // the stream, using increments of 5ms makes it return as quick as
             // possible, and limiting to 500ms makes sure that it doesn't hang for
             // too long if there's a problem.
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 200; i++) {
                 if (is.ready()) {
                     Log.d(TAG, "slept " + i + " times");
                     break;
@@ -245,7 +245,7 @@ public class Util {
             // the stream, using increments of 5ms makes it return as quick as
             // possible, and limiting to 500ms makes sure that it doesn't hang for
             // too long if there's a problem.
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 200; i++) {
                 if (is.ready()) {
                     Log.d(TAG, "slept " + i + " times");
                     break;
