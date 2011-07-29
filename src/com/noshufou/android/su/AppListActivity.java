@@ -48,7 +48,7 @@ import com.noshufou.android.su.preferences.PreferencesActivity;
 import com.noshufou.android.su.util.Util;
 
 public class AppListActivity extends FragmentActivity {
-    private static final String TAG = "Superuser";
+    private static final String TAG = "Su.AppListActivity";
     
     TransitionDrawable mTitleLogo = null;
     

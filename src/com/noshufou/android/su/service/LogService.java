@@ -17,7 +17,7 @@ import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.util.Util;
 
 public class LogService extends IntentService {
-    private static final String TAG = "LogService";
+    private static final String TAG = "Su.LogService";
 
     public static final String EXTRA_ACTION = "action";
     public static final String EXTRA_APP_ID = "app_id";

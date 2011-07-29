@@ -56,7 +56,7 @@ import com.noshufou.android.su.widget.NumberPickerDialog;
 
 public class PreferencesActivity extends PreferenceActivity implements OnClickListener,
         OnSharedPreferenceChangeListener, OnPreferenceChangeListener {
-    private static final String TAG = "Su.Preferences";
+    private static final String TAG = "Su.PreferencesActivity";
 
     private static final int REQUEST_ENABLE_PIN = 1;
     private static final int REQUEST_DISABLE_PIN = 2;

@@ -41,7 +41,7 @@ import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.util.Util;
 
 public class PermissionsProvider extends ContentProvider {
-    private static final String TAG = "PermissionsProvider";
+    private static final String TAG = "Su.PermissionsProvider";
     
     public static final String AUTHORITY = "com.noshufou.android.su.provider";
     

@@ -35,7 +35,7 @@ import com.noshufou.android.su.widget.PinnedHeaderListView;
 import com.noshufou.android.su.widget.PinnedHeaderListView.PinnedHeaderCache;
 
 public class AppListFragment extends ListFragment implements LoaderCallbacks<Cursor> {
-    private static final String TAG = "Superuser";
+    private static final String TAG = "Su.AppListFragment";
     
     private boolean mShowStatusIcons = true;
     private boolean mShowLogData = true;

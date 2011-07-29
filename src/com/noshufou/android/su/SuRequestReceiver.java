@@ -47,7 +47,7 @@ import android.util.Log;
 import com.noshufou.android.su.preferences.Preferences;
 
 public class SuRequestReceiver extends BroadcastReceiver {
-    private static final String TAG = "SuRequestReceiver";
+    private static final String TAG = "Su.SuRequestReceiver";
     
     public static final String EXTRA_CALLERUID = "caller_uid";
     public static final String EXTRA_UID = "desired_uid";

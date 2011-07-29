@@ -56,7 +56,7 @@ import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.util.Util;
 
 public class SuRequestActivity extends Activity implements OnClickListener {
-    private static final String TAG = "SuRequest";
+    private static final String TAG = "Su.SuRequestActivity";
 
     private LocalSocket mSocket;
     private SharedPreferences mPrefs;

@@ -58,7 +58,7 @@ import com.noshufou.android.su.widget.PinnedHeaderListView;
 
 public class AppDetailsFragment extends ListFragment
     implements LoaderManager.LoaderCallbacks<Cursor>, FragmentWithLog, OnClickListener {
-    private static final String TAG = "Superuser";
+    private static final String TAG = "Su.AppDetailsFragment";
 
     private TextView mAppName = null;
     private ImageView mAppIcon = null;

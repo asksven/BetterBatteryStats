@@ -29,6 +29,7 @@ import android.util.Log;
 import com.noshufou.android.su.util.Util;
 
 public class InstallReceiver extends BroadcastReceiver {
+    private static final String TAG = "Su.InstallReceiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -40,7 +41,7 @@ public class InstallReceiver extends BroadcastReceiver {
             packageInfo  = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
         } catch (NameNotFoundException e) {
             // This won't happen, but if it does, we don't continue
-            Log.e("Superuser", "PackageManager divided by zero...", e);
+            Log.e(TAG, "PackageManager divided by zero...", e);
             return;
         }
         

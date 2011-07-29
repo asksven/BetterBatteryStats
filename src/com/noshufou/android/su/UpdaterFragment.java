@@ -38,7 +38,7 @@ import android.widget.TextView;
 import com.noshufou.android.su.util.Util;
 
 public class UpdaterFragment extends ListFragment implements OnClickListener {
-    private static final String TAG = "UpdaterFragment";
+    private static final String TAG = "Su.UpdaterFragment";
     
     private String MANIFEST_URL;
     private int CONSOLE_RED;

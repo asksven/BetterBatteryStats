@@ -20,7 +20,7 @@ import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.util.Util;
 
 public class NotificationService extends IntentService {
-    private static final String TAG = "NotificationService";
+    private static final String TAG = "Su.NotificationService";
 
     private SharedPreferences mPrefs;
 

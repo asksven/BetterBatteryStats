@@ -13,7 +13,7 @@ import android.widget.EditText;
 import com.noshufou.android.su.util.Util;
 
 public class PinActivity extends Activity implements OnClickListener {
-    private static final String TAG = "PinActivity";
+    private static final String TAG = "Su.PinActivity";
     
     public static final int MODE_NEW = 1;
     public static final int MODE_CHANGE = 2;
