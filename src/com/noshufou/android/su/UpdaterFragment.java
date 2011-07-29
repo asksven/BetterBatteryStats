@@ -605,7 +605,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
                     new DataInputStream(process.getInputStream())), 64);
             BufferedReader es = new BufferedReader(new InputStreamReader(
                     new DataInputStream(process.getErrorStream())), 64);
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 200; i++) {
                 if (is.ready()) break;
                 try {
                     Thread.sleep(5);
@@ -649,7 +649,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
             process = Runtime.getRuntime().exec(cmd);
             BufferedReader is = new BufferedReader(new InputStreamReader(
                     new DataInputStream(process.getInputStream())), 64);
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 200; i++) {
                 if (is.ready()) break;
                 try {
                     Thread.sleep(5);
@@ -679,7 +679,7 @@ public class UpdaterFragment extends ListFragment implements OnClickListener {
         Log.d(TAG, command.toString());
         os.writeBytes(command.toString());
         if (is != null) {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 200; i++) {
                 if (is.ready()) break;
                 try {
                     Thread.sleep(5);
