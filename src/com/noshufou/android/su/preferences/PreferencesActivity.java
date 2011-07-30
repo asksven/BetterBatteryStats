@@ -62,6 +62,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
     private static final int REQUEST_DISABLE_PIN = 2;
     private static final int REQUEST_CHANGE_PIN = 3;
     private static final int REQUEST_WRITE_TAG = 4;
+    private static final int REQUEST_SECRET_CODE = 5;
     
     SharedPreferences mPrefs = null;
 
@@ -73,7 +74,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
     private Preference mTimeoutPreference = null;
     private CheckBoxPreference mPin = null;
     private CheckBoxPreference mGhostMode = null;
-    private EditTextPreference mSecretCode = null;
+    private Preference mSecretCode = null;
     private CheckBoxPreference mAllowTag = null;
     
     private Context mContext;
@@ -117,7 +118,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             mPin = (CheckBoxPreference) prefScreen.findPreference(Preferences.PIN);
             mGhostMode = (CheckBoxPreference) prefScreen.findPreference(Preferences.GHOST_MODE);
             mGhostMode.setOnPreferenceChangeListener(this);
-            mSecretCode = (EditTextPreference) prefScreen.findPreference(Preferences.SECRET_CODE);
+            mSecretCode = (Preference) prefScreen.findPreference(Preferences.SECRET_CODE);
             mSecretCode.setSummary(getString(R.string.pref_secret_code_summary,
                     mPrefs.getString(Preferences.SECRET_CODE, "787378737")));
             mSecretCode.setOnPreferenceChangeListener(this);
@@ -218,6 +219,10 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             startActivityForResult(intent, REQUEST_CHANGE_PIN);
         } else if (pref.equals(Preferences.GHOST_MODE)) {
             return true;
+        } else if (pref.equals(Preferences.SECRET_CODE)) {
+            Intent intent = new Intent(this, PinActivity.class);
+            intent.putExtra(PinActivity.EXTRA_MODE, PinActivity.MODE_SECRET_CODE);
+            startActivityForResult(intent, REQUEST_SECRET_CODE);
         } else if (pref.equals(Preferences.TIMEOUT)) {
             new NumberPickerDialog(this,
                     mTimeoutSet,
@@ -348,6 +353,11 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             Intent intent = new Intent(this, TagWriterActivity.class);
             intent.putExtra(TagWriterActivity.EXTRA_TAG, TagWriterActivity.TAG_ALLOW);
             startActivity(intent);
+            break;
+        case REQUEST_SECRET_CODE:
+            CharSequence newSecretCode = data.getCharSequenceExtra(PinActivity.EXTRA_SECRET_CODE);
+            mPrefs.edit().putString(Preferences.SECRET_CODE, newSecretCode.toString()).commit();
+            mSecretCode.setSummary(getString(R.string.pref_secret_code_summary, newSecretCode));
             break;
         }
     }

@@ -45,11 +45,10 @@
             android:summaryOn="@string/pref_ghost_mode_summary_on"
             android:summaryOff="@string/pref_ghost_mode_summary_off"
             android:defaultValue="false" />
-        <EditTextPreference
+        <Preference
             android:key="pref_secret_code"
             android:title="@string/pref_secret_code_title"
             android:summary="@string/pref_secret_code_summary"
-            android:inputType="number"
             android:dependency="pref_ghost_mode" />
     </PreferenceCategory>
     <PreferenceCategory

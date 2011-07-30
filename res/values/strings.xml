@@ -228,6 +228,7 @@
         <item quantity="one">Last chance</item>
         <item quantity="other">Nope - %d tries left</item>
     </plurals>
+    <string name="pin_enter_secret_code">Enter secret code</string>
     
     <string name="nfc_write_tag">Scan tag to write</string>
     <string name="nfc_writing_tag">Writing...</string>

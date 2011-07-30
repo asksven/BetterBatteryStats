@@ -18,10 +18,12 @@ public class PinActivity extends Activity implements OnClickListener {
     public static final int MODE_NEW = 1;
     public static final int MODE_CHANGE = 2;
     public static final int MODE_CHECK = 3;
+    public static final int MODE_SECRET_CODE = 4;
     
     public static final String EXTRA_MODE = "mode";
     public static final String EXTRA_ATTEMPTS_ALLOWED = "attempts_allowed";
     public static final String EXTRA_PIN = "pin";
+    public static final String EXTRA_SECRET_CODE = "secret_code";
     
     private String mPinConfirm = "";
     private int mAttemptsAllowed = 3;
@@ -67,6 +69,11 @@ public class PinActivity extends Activity implements OnClickListener {
         case MODE_CHANGE:
         case MODE_CHECK:
             mPinText.setHint(R.string.pin_enter_pin);
+            break;
+        case MODE_SECRET_CODE:
+            mPinText.setVisibility(View.GONE);
+            mPinText = (EditText) findViewById(R.id.secret_code);
+            findViewById(R.id.secret_code_layout).setVisibility(View.VISIBLE);
             break;
         default:
             throw new IllegalArgumentException("You must specify an operating mode");
@@ -151,6 +158,12 @@ public class PinActivity extends Activity implements OnClickListener {
                     finish();
                 }
             }
+            break;
+        case MODE_SECRET_CODE:
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_SECRET_CODE, mPinText.getText());
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
 
