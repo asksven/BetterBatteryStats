@@ -45,7 +45,7 @@
     <string name="report_msg">Would you like to report this package to the developer of Superuser for investigation?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="ok">Ok</string>
+    <string name="ok">Okay</string>
     <string name="stop">Stop</string>
     <string name="retry">Retry</string>
     <string name="restart">Restart</string>
@@ -182,7 +182,7 @@
     <string name="updater_working">Working...</string>
     <string name="updater_manifest_legacy">http://downloads.androidsu.com/superuser/su/manifest-legacy.json</string>
     <string name="updater_manifest">http://downloads.androidsu.com/superuser/su/manifest.json</string>
-    <string name="updater_ok">ok!</string>
+    <string name="updater_ok">okay!</string>
     <string name="updater_fail">fail!</string>
     <string name="updater_outdated">outdated</string>
     <string name="updater_update_failed">Update failed. Try again?</string>
