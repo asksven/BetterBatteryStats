@@ -46,6 +46,7 @@ import android.widget.TextView;
 
 import com.noshufou.android.su.preferences.PreferencesActivity;
 import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.ChangeLog;
 
 public class AppListActivity extends FragmentActivity {
     private static final String TAG = "Su.AppListActivity";
@@ -76,6 +77,11 @@ public class AppListActivity extends FragmentActivity {
         
         new EliteCheck().execute();
         new MaliciousAppCheck().execute();
+        
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.firstRun()) {
+            cl.getLogDialog().show();
+        }
     }
 
     @Override

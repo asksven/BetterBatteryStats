@@ -248,7 +248,10 @@
     <string name="malicious_app_uid">shares UID with Superuser</string>
     <string name="malicious_app_respond">requests respond permission</string>
     <string name="malicious_app_write">requests permission to write to permissions provider</string>
-
+    
+    <string name="changelog_full_title">Changelog</string>
+    <string name="changelog_title">What\'s New</string>
+    
     <!-- Do not translate -->
     <string name="report_subject">Possibly malicious app found</string>
     <string name="report_body">The following package was found to be requesting to respond to Superuser requests.\n\n - %s\n\nPlease investigate.</string>

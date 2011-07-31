@@ -52,6 +52,7 @@ import com.noshufou.android.su.UpdaterActivity;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.service.LogService;
 import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.ChangeLog;
 import com.noshufou.android.su.widget.NumberPickerDialog;
 
 public class PreferencesActivity extends PreferenceActivity implements OnClickListener,
@@ -240,6 +241,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
                 startActivityForResult(intent, REQUEST_WRITE_TAG);
                 return true;
             }
+        } else if (pref.equals(Preferences.CHANGELOG)) {
+            ChangeLog cl = new ChangeLog(this);
+            cl.getFullLogDialog().show();
         } else if (pref.equals(Preferences.GET_ELITE)) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
