@@ -8,10 +8,21 @@
 	<Spinner android:id="@+id/spinnerStat"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>
-
+	
 	<Spinner android:id="@+id/spinnerStatType"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>
+
+	<FrameLayout android:layout_width="match_parent"
+		android:id="@+id/FrameLayoutSince"
+		android:layout_height="wrap_content">
+
+		<TextView android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Since..."
+	        android:id="@+id/TextViewSince"
+	        android:textSize="13sp"/>
+	</FrameLayout>
 		
     <!-- Set height to 0, and let the weight param expand it -->
     <!-- Note the use of the default ID! This lets us use a 
