@@ -15,14 +15,11 @@
   limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="superuser">Superuser</string>
     <string name="app_name">Superuser</string>
     <string name="app_name_request">Superuser Request</string>
-    <string name="app_details">App Details</string>
 
     <string name="description_home">Home</string>
     <string name="description_log">Log</string>
-    <string name="description_clear_log">Clear log</string>
     <string name="description_preferences">Preferences</string>
     <string name="description_extras">Extras</string>
     
@@ -42,26 +39,16 @@
 
     <string name="recent_activity">Recent activity</string>
 
-    <string name="report_msg">Would you like to report this package to the developer of Superuser for investigation?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">Okay</string>
-    <string name="stop">Stop</string>
-    <string name="retry">Retry</string>
-    <string name="restart">Restart</string>
-    
-    <string name="dialog_database_error_title">Database error</string>
-    <string name="dialog_database_error_message">Superuser database could not be opened, try again later. If the problem persists please contact the developer.</string>
     
     <string name="allow">Allow</string>
-    <string name="forget">Forget</string>
     <string name="cancel">Cancel</string>
     <string name="deny">Deny</string>
     <string name="set">Set</string>
     <string name="remember">Remember</string>
     <string name="remember_disabled">Remembering disabled until su is updated</string>
-    <string name="uid">(uid: %d)</string>
-    <string name="shared_uid">Shared UID (%1$d)</string>
     <string name="request">%1$s as %2$s (uid: %3$d)</string>
     <string name="unknown">Unknown name</string>
 
@@ -70,7 +57,6 @@
     <string name="created">Created</string>
     <string name="toggled">Toggled</string>
 
-    <string name="no_log_data">No log data</string>
     <string name="empty_apps">No apps in list</string>
     <string name="empty_logs">No log information</string>
     <string name="log_count">Showing %d entries</string>
@@ -85,8 +71,6 @@
     <string name="detail_request">Requested UID</string>
     <string name="detail_command">Command</string>
     <string name="detail_status">Status</string>
-    <string name="detail_created">Created on</string>
-    <string name="detail_last_accessed">Last Accessed</string>
 
     <string name="request_message">The following app is requesting superuser access:</string>
     <string name="request_app_name">App</string>
@@ -109,8 +93,6 @@
     <string name="pref_secret_code_title">Secret code</string>
     <string name="pref_secret_code_summary">Secret code is *#*#%1$s#*#*</string>
     <string name="pref_category_applist_title">Apps list</string>
-    <string name="pref_tap_action_title">Tap action</string>
-    <string name="pref_tap_action_summary">Action to perform when an entry is tapped</string>
     <string name="pref_show_status_icons_title">Show status icons</string>
     <string name="pref_show_status_icons_summary_on">Show icon for status of each app</string>
     <string name="pref_show_status_icons_summary_off">Do not show icon for status of each app</string>
@@ -140,7 +122,6 @@
     <string name="pref_clear_log_title">Clear log</string>
     <string name="pref_clearing_log_title">Clearing log</string>
     <string name="pref_clearing_log_summary">Please wait</string>
-    <string name="pref_log_cleared">Log cleared, %1$d entries deleted.</string>
     <string name="pref_category_notification_title">Notifications</string>
     <string name="pref_notifications_title">Notifications</string>
     <string name="pref_notifications_summary_on">Show notification when an app is granted Su permissions</string>
@@ -165,28 +146,23 @@
     <string name="pref_changelog_summary">Display the changelog</string>
     <string name="pref_get_elite_title">Go Elite!</string>
     <string name="pref_get_elite_summary">Buy Elite to unlock all the options</string>
-    <string name="pref_elite_only_summary">This option is only available to Elite users</string>
     <plurals name="pref_logs_deleted">
         <item quantity="one">One log deleted</item>
         <item quantity="other">%1$d logs deleted</item>
     </plurals>
 
     <string name="updater_title">Binary Updater</string>
-    <string name="updater_update_now">Tap \'Update\' button to begin update.</string>
     <string name="updater_new_su_found">New version of su binary found. Update now?</string>
     <string name="updater_current_installed">Current version already installed. No action required.</string>
     <string name="updater_update">Update</string>
     <string name="updater_update_anyway">Update anyway</string>
     <string name="updater_cool">That was cool, do it again</string>
-    <string name="updater_no_action">No action required</string>
     <string name="updater_working">Working...</string>
     <string name="updater_manifest_legacy">http://downloads.androidsu.com/superuser/su/manifest-legacy.json</string>
     <string name="updater_manifest">http://downloads.androidsu.com/superuser/su/manifest.json</string>
     <string name="updater_ok">okay!</string>
     <string name="updater_fail">fail!</string>
-    <string name="updater_outdated">outdated</string>
     <string name="updater_update_failed">Update failed. Try again?</string>
-    <string name="updater_download_failed">Download failed. Try again?</string>
     <string name="updater_try_again">Try again</string>
     <string name="updater_su_updated">su binary updated successfully</string>
     <string name="updater_step_download_manifest">Downloading manifest...\u0020</string>
@@ -204,9 +180,7 @@
     <string name="updater_step_chmod">Changing su file mode to 06755...\u0020</string>
     <string name="updater_step_mv">Moving su to it\'s final location...\u0020</string>
     <string name="updater_step_remount_ro">Remounting /system as ro...\u0020</string>
-    <string name="updater_step_verify_installed_version">Checking installed version...\u0020</string>
     <string name="updater_step_clean_up">Cleaning up...\u0020</string>
-    <string name="updater_step_failed">Last step failed, press retry to retry last step or restart to begin the process over</string>
     <string name="updater_remount_ro_failed">Failed to remount the system as read-only, please reboot to finish the update</string>
     <string name="updater_find_su_failed">Failed to find currently installed su binary. Update cannot continue</string>
     <string name="updater_bad_install_location">su binary is currently installed in /sbin. This updater is not capable of updating it. Please find a new ROM for your device.</string>
@@ -220,10 +194,8 @@
     
     <string name="pin_enter_pin">Enter PIN</string>
     <string name="pin_new_pin">Enter new PIN</string>
-    <string name="pin_old_pin">Enter current PIN</string>
     <string name="pin_confirm_pin">Confirm PIN</string>
     <string name="pin_mismatch">PINs don\'t match, try again</string>
-    <string name="pin_incorrect">Incorrect PIN</string>
     <plurals name="pin_incorrect_try">
         <item quantity="one">Last chance</item>
         <item quantity="other">Nope - %d tries left</item>
@@ -231,7 +203,6 @@
     <string name="pin_enter_secret_code">Enter secret code</string>
     
     <string name="nfc_write_tag">Scan tag to write</string>
-    <string name="nfc_writing_tag">Writing...</string>
 
     <string name="malicious_apps_title">Warning</string>
     <plurals name="malicious_apps_message1">
@@ -239,10 +210,8 @@
     	<item quantity="other">The following packages were found to be malicious:</item>
     </plurals>
     <string name="malicious_apps_message2">Apps are market as malicious because they contain elements that indicate they are attempting to grant root access, possibly without your consent. It is highly recommended you uninstall them immediately.</string>
-    <string name="malicious_apps_check">I understand the risk and want to ignore it</string>
     <string name="malicious_apps_uninstall">Uninstall</string>
     <string name="malicious_apps_ignore">Ignore</string>
-    <string name="malicious_apps_toast">Check the box if you want to ignore the risk</string>
     <string name="malicious_app_notification_ticker">Potentially malicious app detected</string>
     <string name="malicious_app_notification_text">%s is probably malicious. Tap to uninstall.</string>
     <string name="malicious_app_uid">shares UID with Superuser</string>
@@ -251,9 +220,4 @@
     
     <string name="changelog_full_title">Changelog</string>
     <string name="changelog_title">What\'s New</string>
-    
-    <!-- Do not translate -->
-    <string name="report_subject">Possibly malicious app found</string>
-    <string name="report_body">The following package was found to be requesting to respond to Superuser requests.\n\n - %s\n\nPlease investigate.</string>
-    <string name="update_filename">su-2.3.1-bin-signed.zip</string>
 </resources>

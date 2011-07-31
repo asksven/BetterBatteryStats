@@ -20,11 +20,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;
 
 import com.noshufou.android.su.preferences.Preferences;
 import com.noshufou.android.su.provider.PermissionsProvider.Apps;
@@ -245,7 +245,6 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
         public void bindView(View itemView, Context context, Cursor cursor) {
             final AppListItem view = (AppListItem) itemView;
 
-            int id = cursor.getInt(cursor.getColumnIndex(Apps._ID));
             int uid = cursor.getInt(cursor.getColumnIndex(Apps.UID));
             String nameText = cursor.getString(cursor.getColumnIndex(Apps.NAME));
             int allow = cursor.getInt(cursor.getColumnIndex(Apps.ALLOW));

@@ -28,8 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Checkable;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
+import android.widget.TextView;
 
 import com.noshufou.android.su.R;
 
@@ -44,7 +44,6 @@ public class AppListItem extends ViewGroup implements Checkable {
     private final int mPaddingLeft;
     private final int mIconViewSize;
     private final int mGapBetweenImageAndText;
-    private final int mStatusButtonPadding;
     private final int mHeaderPaddingLeft;
 
     private boolean mChecked = false;
@@ -86,8 +85,6 @@ public class AppListItem extends ViewGroup implements Checkable {
             resources.getDimensionPixelSize(R.dimen.list_item_icon_size);
         mGapBetweenImageAndText =
                 resources.getDimensionPixelSize(R.dimen.list_item_gap_between_image_and_text);
-        mStatusButtonPadding =
-                resources.getDimensionPixelSize(R.dimen.list_item_status_button_padding);
         mHeaderPaddingLeft =
                 resources.getDimensionPixelSize(R.dimen.list_item_header_padding_left);
     }

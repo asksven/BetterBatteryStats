@@ -30,7 +30,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
-import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
@@ -76,7 +75,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
     private CheckBoxPreference mPin = null;
     private CheckBoxPreference mGhostMode = null;
     private Preference mSecretCode = null;
-    private CheckBoxPreference mAllowTag = null;
     
     private Context mContext;
     private boolean mElite = false;
@@ -131,9 +129,6 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
                 if (NfcAdapter.getDefaultAdapter(this) == null) {
                     prefScreen.removePreference(findPreference(Preferences.CATEGORY_NFC));
-                } else {
-                    mAllowTag =
-                        (CheckBoxPreference) prefScreen.findPreference(Preferences.USE_ALLOW_TAG);
                 }
             }
 

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -13,7 +12,7 @@ import android.widget.EditText;
 import com.noshufou.android.su.util.Util;
 
 public class PinActivity extends Activity implements OnClickListener {
-    private static final String TAG = "Su.PinActivity";
+//    private static final String TAG = "Su.PinActivity";
     
     public static final int MODE_NEW = 1;
     public static final int MODE_CHANGE = 2;

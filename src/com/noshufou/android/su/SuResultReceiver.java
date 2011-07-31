@@ -35,7 +35,6 @@ public class SuResultReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         
-        int callerUid = intent.getIntExtra("caller_uid", 0);
         Long currentTime = System.currentTimeMillis();
         
         // Notify the user if their su binary is outdated. Note this doesn't

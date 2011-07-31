@@ -3,7 +3,6 @@ package com.noshufou.android.su.preferences;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
 
 public class PreferencesFragment extends PreferenceFragment {
 
@@ -19,7 +18,7 @@ public class PreferencesFragment extends PreferenceFragment {
         
         addPreferencesFromResource(res);
         
-        PreferenceScreen screen = getPreferenceScreen();
+//        PreferenceScreen screen = getPreferenceScreen();
 //        Preferences.setupScreen(getActivity(), screen);
     }
 

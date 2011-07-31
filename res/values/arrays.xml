@@ -73,22 +73,4 @@
         <item>17</item>
         <item>80</item>
     </string-array>
-
-    <string-array name="updater_steps">
-        <item></item>
-        <item>Downloading manifest...</item>
-        <item>Parsing manifest...</item>
-        <item>Current version =</item>
-        <item>Checking installed version...</item>
-        <item>Downloading new version...</item>
-        <item>Checking md5sum...</item>
-        <item>Gaining root access...</item>
-        <item>Remounting /system as rw...</item>
-        <item>Changing su file mode to 06755...</item>
-        <item>Copying su...</item>
-        <item>Checking md5sum...</item>
-        <item>Remounting /system as ro...</item>
-        <item>Cleaning up...</item>
-        <item>Checking installed version...</item>
-    </string-array>
 </resources>
