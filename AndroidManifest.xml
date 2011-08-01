@@ -74,6 +74,13 @@
             android:theme="@style/RequestPanel"
             android:taskAffinity=""
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name="TagWriterActivity"
+            android:label="TagWriterActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@style/RequestPanel"
+            android:taskAffinity=""
+            android:windowSoftInputMode="stateAlwaysHidden" />
         
         <receiver android:name="SuRequestReceiver">
             <intent-filter>
