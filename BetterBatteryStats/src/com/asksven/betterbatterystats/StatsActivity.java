@@ -149,11 +149,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_refBatteryRealtime = 0;
 			
     		Log.e(TAG, "Exception: " + e.getMessage());
+    		DataStorage.LogToFile(LOGFILE, "Exception in onCreate restoring Bundle");
     		DataStorage.LogToFile(LOGFILE, e.getMessage());
     		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
     		
     		Toast.makeText(this, "Wakelock Stats: an error occured while recovering the previous state", Toast.LENGTH_SHORT).show();
-
 		}
 
 		// Display the reference of the stat
@@ -198,31 +198,74 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		this.setListViewAdapter();
 	}
 	
-	/**
-	 * Lifecycle methof of the Activity: save state
-	 */
-    @Override
-    protected void onPause()
+//	/**
+//	 * Lifecycle methof of the Activity: save state
+//	 */
+//    @Override
+//    protected void onPause()
+//    {
+//    	super.onPause();
+//    	
+//    	Bundle savedInstanceState = new Bundle();
+//    	savedInstanceState.putSerializable("stattype", m_iStatType); 
+//    	savedInstanceState.putSerializable("stat", m_iStat);
+//		
+//    	if (m_refProcesses != null)
+//    	{
+//    		
+//    		savedInstanceState.putSerializable("wakelockstate", m_refWakelocks);
+//    		savedInstanceState.putSerializable("processstate", m_refProcesses);
+//    		savedInstanceState.putSerializable("otherstate", m_refOther);
+//    		savedInstanceState.putSerializable("networkstate", m_refNetwork);
+//    		savedInstanceState.putSerializable("batteryrealtime", m_refBatteryRealtime);
+//    		
+//        }
+//		try
+//		{
+//			// recover any saved state
+//			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
+//			{
+//				m_refWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
+//				m_refProcesses 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
+//				m_refOther 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
+//				m_iStat 		= (Integer) savedInstanceState.getSerializable("stat");
+//				m_iStatType 	= (Integer) savedInstanceState.getSerializable("stattype");
+//				m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
+//			}
+//		}
+//		catch (Exception e)
+//		{
+//    		Log.e(TAG, "Exception: " + e.getMessage());
+//    		DataStorage.LogToFile(LOGFILE, "Exception in onPause restoring Bundle");
+//    		DataStorage.LogToFile(LOGFILE, e.getMessage());
+//    		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
+//
+//		}
+//
+//    }
+
+
+    
+    /**
+     * Save state, the application is going to get moved out of memory
+     * @see http://stackoverflow.com/questions/151777/how-do-i-save-an-android-applications-state
+     */
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState)
     {
-    	super.onPause();
-    	
-    	Bundle savedInstanceState = new Bundle();
+    	super.onSaveInstanceState(savedInstanceState);
+        
     	savedInstanceState.putSerializable("stattype", m_iStatType); 
     	savedInstanceState.putSerializable("stat", m_iStat);
+    	savedInstanceState.putSerializable("batteryrealtime", m_refBatteryRealtime);
 		
     	if (m_refProcesses != null)
-    	{
-    		
+    	{		
     		savedInstanceState.putSerializable("wakelockstate", m_refWakelocks);
     		savedInstanceState.putSerializable("processstate", m_refProcesses);
     		savedInstanceState.putSerializable("otherstate", m_refOther);
     		savedInstanceState.putSerializable("networkstate", m_refNetwork);
-    		savedInstanceState.putSerializable("batteryrealtime", m_refBatteryRealtime);
-    		
-//			m_refOther 		= null;
-//			m_refWakelocks 	= null;
-//			m_refProcesses 	= null;
-//			m_refNetwork 	= null;			
+    		savedInstanceState.putSerializable("batteryrealtime", m_refBatteryRealtime);	
         }
 		try
 		{
@@ -240,13 +283,58 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		catch (Exception e)
 		{
     		Log.e(TAG, "Exception: " + e.getMessage());
-    		Toast.makeText(this, "Wakelock Stats: an error occured while recovering the previous state", Toast.LENGTH_SHORT).show();
+    		DataStorage.LogToFile(LOGFILE, "Exception in onSaveInstanceState restoring Bundle");
+    		DataStorage.LogToFile(LOGFILE, e.getMessage());
+    		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
 
 		}
-
+		
+		
     }
-
-
+    
+//    /**
+//     * Restore a saved state
+//     */
+//
+//    @Override
+//    public void onRestoreInstanceState(Bundle savedInstanceState)
+//    {
+//    	super.onRestoreInstanceState(savedInstanceState);
+//		// retrieve default selections for spinners
+//		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+//		m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
+//		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "0"));
+//		
+//		try
+//		{
+//			// recover any saved state
+//			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
+//			{
+//				m_refWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
+//				m_refProcesses 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
+//				m_refOther 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
+//				m_iStat 		= (Integer) savedInstanceState.getSerializable("stat");
+//				m_iStatType 	= (Integer) savedInstanceState.getSerializable("stattype");
+//				m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
+//	 			
+//			}
+//		}
+//		catch (Exception e)
+//		{
+//			m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
+//			m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "0"));
+//			m_refBatteryRealtime = 0;
+//			
+//  		Log.e(TAG, "Exception: " + e.getMessage());
+//  		DataStorage.LogToFile(LOGFILE, "Exception in onCreate restoring Bundle");
+//  		DataStorage.LogToFile(LOGFILE, e.getMessage());
+//  		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
+//  		
+//  		Toast.makeText(this, "Wakelock Stats: an error occured while recovering the previous state", Toast.LENGTH_SHORT).show();
+//
+//		}
+//    }
+    
 	/**
 	 * In order to refresh the ListView we need to re-create the Adapter
 	 * (should be the case but notifyDataSetChanged doesn't work so
@@ -804,7 +892,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
 		if (iStatType == STATS_CUSTOM)
 		{
-			whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, iStatType) / 1000;
+			whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 			whichRealtime -= m_refBatteryRealtime;	
 		}
 		else
@@ -919,7 +1007,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_refOther 		= getOtherUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_refWakelocks 	= getWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_refProcesses 	= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_refNetwork 	= getNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);			
+			m_refNetwork 	= getNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
     	}
     	catch (Exception e)
     	{
@@ -929,6 +1018,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_refWakelocks 	= null;
 			m_refProcesses 	= null;
 			m_refNetwork 	= null;
+			m_refBatteryRealtime = 0;
     	}			
 	}
 }
