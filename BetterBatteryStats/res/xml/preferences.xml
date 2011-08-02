@@ -14,7 +14,12 @@
 		android:title="Hide time since stat begin" 
 		android:defaultValue="true"
     />    
-    
+    <CheckBoxPreference 
+		android:key="hide_bars"
+		android:summary="Hide or show the graph bars"
+		android:title="Hide graph bars" 
+		android:defaultValue="false"
+    />
     <ListPreference 
             android:key="default_stat"
             android:title="Default stat"
