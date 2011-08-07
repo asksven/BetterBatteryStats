@@ -29,6 +29,14 @@
     	android:textAppearance="?android:attr/textAppearanceSmall" 
     	android:text="Contact: https://github.com/asksven"
     	android:layout_gravity="center"/>
+    <TextView 
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
+    	android:id="@+id/textView1" 
+    	android:textAppearance="?android:attr/textAppearanceSmall" 
+    	android:text="or @asksven on twitter"
+    	android:layout_gravity="center"/>
+
     <ImageView 
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
