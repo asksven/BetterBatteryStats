@@ -3,15 +3,13 @@
 	<!-- Values for the statistic. -->
     <string-array name="stats" translatable="false">
         <item>Process</item>
-        <item>Wakelocks</item>
+        <item>Partial Wakelocks</item>
         <item>Other</item>
 <!-- removed because of issue #1        <item>Network usage</item>  -->
     </string-array>
     <!-- Values for the statistic type. -->
     <string-array name="stat_types" translatable="false">
         <item>Since charged</item>
-        <item>Last</item>
-        <item>Current</item>
         <item>Since unplugged</item>
         <item>Since Custom Ref.</item>
     </string-array>
@@ -19,7 +17,7 @@
     <!--  Values for the preferences -->
     <string-array name="statLabels">
         <item name="0">Process</item>
-        <item name="1">Wakelocks</item>
+        <item name="1">Partial Wakelocks</item>
         <item name="2">Other</item>
 <!-- removed because of issue #1        <item name="3">Network usage</item> -->
     </string-array>
@@ -27,24 +25,20 @@
     <string-array name="statValues">
         <item name="0">0</item>
         <item name="1">1</item>
-        <item name="3">2</item>
+        <item name="2">2</item>
 <!-- removed because of issue #1        <item name="3">3</item> -->
     </string-array>
 
     <string-array name="statTypeLabels">
         <item name="0">Since charged</item>
-        <item name="1">Last</item>
-        <item name="2">Current</item>
-        <item name="3">Since unplugged</item>
-        <item name="4">Since Custom Ref.</item>
+        <item name="1">Since unplugged</item>
+        <item name="2">Since Custom Ref.</item>
     </string-array>
 
     <string-array name="statTypeValues">
         <item name="0">0</item>
         <item name="1">1</item>
         <item name="2">2</item>
-        <item name="3">3</item>
-        <item name="4">4</item>
     </string-array>
 
 </resources>
