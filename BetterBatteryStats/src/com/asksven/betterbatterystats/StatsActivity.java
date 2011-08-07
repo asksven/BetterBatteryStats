@@ -31,6 +31,7 @@ import java.util.List;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -114,8 +115,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 	/**
 	 * @see android.app.Activity#onCreate(Bundle@SuppressWarnings("rawtypes")
-@SuppressWarnings("rawtypes")
-)
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -191,60 +190,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    
 		spinnerStatType.setAdapter(spinnerAdapter);
 		// setSelection MUST be called after setAdapter
-		spinnerStatType.setSelection(m_iStatType);
+		spinnerStatType.setSelection(positionFromStatType(m_iStatType));
 		spinnerStatType.setOnItemSelectedListener(this);
 
-		// new LoadStatData().execute("");
 		this.setListViewAdapter();
 	}
-	
-//	/**
-//	 * Lifecycle methof of the Activity: save state
-//	 */
-//    @Override
-//    protected void onPause()
-//    {
-//    	super.onPause();
-//    	
-//    	Bundle savedInstanceState = new Bundle();
-//    	savedInstanceState.putSerializable("stattype", m_iStatType); 
-//    	savedInstanceState.putSerializable("stat", m_iStat);
-//		
-//    	if (m_refProcesses != null)
-//    	{
-//    		
-//    		savedInstanceState.putSerializable("wakelockstate", m_refWakelocks);
-//    		savedInstanceState.putSerializable("processstate", m_refProcesses);
-//    		savedInstanceState.putSerializable("otherstate", m_refOther);
-//    		savedInstanceState.putSerializable("networkstate", m_refNetwork);
-//    		savedInstanceState.putSerializable("batteryrealtime", m_refBatteryRealtime);
-//    		
-//        }
-//		try
-//		{
-//			// recover any saved state
-//			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
-//			{
-//				m_refWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
-//				m_refProcesses 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
-//				m_refOther 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
-//				m_iStat 		= (Integer) savedInstanceState.getSerializable("stat");
-//				m_iStatType 	= (Integer) savedInstanceState.getSerializable("stattype");
-//				m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
-//			}
-//		}
-//		catch (Exception e)
-//		{
-//    		Log.e(TAG, "Exception: " + e.getMessage());
-//    		DataStorage.LogToFile(LOGFILE, "Exception in onPause restoring Bundle");
-//    		DataStorage.LogToFile(LOGFILE, e.getMessage());
-//    		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
-//
-//		}
-//
-//    }
-
-
     
     /**
      * Save state, the application is going to get moved out of memory
@@ -291,50 +241,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 		
     }
-    
-//    /**
-//     * Restore a saved state
-//     */
-//
-//    @Override
-//    public void onRestoreInstanceState(Bundle savedInstanceState)
-//    {
-//    	super.onRestoreInstanceState(savedInstanceState);
-//		// retrieve default selections for spinners
-//		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-//		m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
-//		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "0"));
-//		
-//		try
-//		{
-//			// recover any saved state
-//			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
-//			{
-//				m_refWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
-//				m_refProcesses 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
-//				m_refOther 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
-//				m_iStat 		= (Integer) savedInstanceState.getSerializable("stat");
-//				m_iStatType 	= (Integer) savedInstanceState.getSerializable("stattype");
-//				m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
-//	 			
-//			}
-//		}
-//		catch (Exception e)
-//		{
-//			m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
-//			m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "0"));
-//			m_refBatteryRealtime = 0;
-//			
-//  		Log.e(TAG, "Exception: " + e.getMessage());
-//  		DataStorage.LogToFile(LOGFILE, "Exception in onCreate restoring Bundle");
-//  		DataStorage.LogToFile(LOGFILE, e.getMessage());
-//  		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
-//  		
-//  		Toast.makeText(this, "Wakelock Stats: an error occured while recovering the previous state", Toast.LENGTH_SHORT).show();
-//
-//		}
-//    }
-    
+        
 	/**
 	 * In order to refresh the ListView we need to re-create the Adapter
 	 * (should be the case but notifyDataSetChanged doesn't work so
@@ -358,7 +265,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	menu.add(0, MENU_ITEM_2, 0, "Dump to File");
     	menu.add(0, MENU_ITEM_3, 0, "Custom Reference");
         menu.add(0, MENU_ITEM_4, 0, "About");
-//        menu.add(0, MENU_ITEM_5, 0, "Battery History");
+        menu.add(0, MENU_ITEM_5, 0, "Battery History");
 //        menu.add(0, MENU_ITEM_6, 0, "Manage Apps");
         return true;  
     }  
@@ -395,7 +302,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    			myLayout.setVisibility(View.VISIBLE);
 	    		}
 	    		
-            	// this.getStatList();
             	this.setListViewAdapter();
             	break;
             case MENU_ITEM_2:
@@ -405,7 +311,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	break;
             case MENU_ITEM_3:
             	// Set custom reference
-            	this.setCustomReference();
+            	new SetCustomRef().execute(this);
             	break;
             case MENU_ITEM_4:
             	// About
@@ -416,9 +322,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	// Battery History
             	try
             	{
-            		Intent intentHistory = new Intent("com.android.settings.fuelgauge.PowerUsageSummary");
+            		Intent intentHistory = new Intent(Intent.ACTION_MAIN, null);
+            		intentHistory.addCategory(Intent.CATEGORY_LAUNCHER);
+            		ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.fuelgauge.PowerUsageSummary");
+            		intentHistory.setComponent(cn);
+            		intentHistory.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            		startActivity(intentHistory);
             		// or com.android.settings.battery_history.BatteryHistory in Froyo
-            		this.startActivity(intentHistory);
             	}
             	catch (ActivityNotFoundException e)
             	{
@@ -452,7 +362,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// id is in the order of the spinners, 0 is stat, 1 is stat_type
 		if (parent == (Spinner) findViewById(R.id.spinnerStatType))
 		{
-			m_iStatType = position;
+			// The Spinner does not show all available stats so it must be translated
+			m_iStatType = statTypeFromPosition(position);
 			// Display the reference of the stat
 	        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 			tvSince.setText("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)));
@@ -505,6 +416,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        // update hourglass
 	    }
 	 }
+
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 	// for more details
 	private class LoadStatData extends AsyncTask<Context, Integer, StatsAdapter>
@@ -547,6 +459,46 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    }
 	}
 	
+	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
+	// for more details
+	private class SetCustomRef extends AsyncTask<Context, Integer, Boolean>
+	{
+		@Override
+	    protected Boolean doInBackground(Context... params)
+	    {
+			//super.doInBackground(params);
+			StatsActivity.this.setCustomReference();
+			return true;
+	    }
+		
+		@Override
+		protected void onPostExecute(Boolean b)
+	    {
+			super.onPostExecute(b);
+	        // update hourglass
+	    	if (m_progressDialog != null)
+	    	{
+	    		m_progressDialog.hide();
+	    		m_progressDialog = null;
+	    	}
+	    	
+	    }
+	    @Override
+	    protected void onPreExecute()
+	    {
+	        // update hourglass
+	    	// @todo this code is only there because onItemSelected is called twice
+	    	if (m_progressDialog == null)
+	    	{
+		    	m_progressDialog = new ProgressDialog(StatsActivity.this);
+		    	m_progressDialog.setMessage("Saving...");
+		    	m_progressDialog.setIndeterminate(true);
+		    	m_progressDialog.setCancelable(false);
+		    	m_progressDialog.show();
+	    	}
+	    }
+	}
+
 	/**
 	 * Get the Stat to be displayed
 	 * @return a List of StatElements sorted (descending)
@@ -933,7 +885,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 				out.write("BetterBatteryStats version: " + pinfo.versionName + "\n");
 				out.write("Creation Date: " + DateUtils.now() + "\n");
-				out.write("Statistic Type: " + m_iStatType + "\n");
+				out.write("Statistic Type: (" + m_iStatType + ") " + statTypeToLabel(m_iStatType) + "\n");
+				out.write("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)) + "\n");
 				out.write("VERSION.RELEASE: " + Build.VERSION.RELEASE+"\n");
 				out.write("BRAND: "+Build.BRAND+"\n");
 				out.write("DEVICE: "+Build.DEVICE+"\n");
@@ -1021,4 +974,82 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_refBatteryRealtime = 0;
     	}			
 	}
+	
+	/**
+	 * translate the spinner position (see arrays.xml) to the stat type
+	 * @param position the spinner position
+	 * @return the stat type
+	 */
+	private int statTypeFromPosition(int position)
+	{
+		int iRet = 0;
+		switch (position)
+		{
+			case 0:
+				iRet = 0;
+				break;
+			case 1:
+				iRet = 3;
+				break;
+			case 2:
+				iRet = 4;
+				break;
+				
+		}
+		return iRet;
+	}
+	
+	/**
+	 * translate the stat type to the spinner position (see arrays.xml)
+	 * @param iStatType the stat type
+	 * @return the spinner position
+	 */
+	private int positionFromStatType(int iStatType)
+	{
+		int iRet = 0;
+		switch (iStatType)
+		{
+			case 0:
+				iRet = 0;
+				break;
+			case 3:
+				iRet = 1;
+				break;
+			case 4:
+				iRet = 2;
+				break;
+				
+		}
+		return iRet;
+	}
+
+	/**
+	 * translate the stat type (see arrays.xml) to the corresponding label
+	 * @param position the spinner position
+	 * @return the stat type
+	 */
+	private String statTypeToLabel(int statType)
+	{
+		String strRet = "";
+		switch (statType)
+		{
+			case 0:
+				strRet = "Since Charged";
+				break;
+			case 1:
+				strRet = "Last";
+				break;
+			case 2:
+				strRet = "Current";
+				break;
+			case 3:
+				strRet = "Since Unplugged";
+				break;
+			case 4:
+				strRet = "Custom Reference";
+				break;	
+		}
+		return strRet;
+	}
+
 }
