@@ -56,11 +56,11 @@ public class LogService extends IntentService {
                     Log.d(TAG, "app_id=" + c.getLong(c.getColumnIndex(Apps._ID)));
                     addLog(c.getLong(c.getColumnIndex(Apps._ID)),
                             intent.getIntExtra(EXTRA_ALLOW, 0));
+                    c.close();
                 } else {
                     Log.d(TAG, "app_id not found, add it to the database");
                     addAppAndLog(intent);
                 }
-                c.close();
             }
             recycle();
         } else if (intent.getIntExtra(EXTRA_ACTION, 0) == RECYCLE) {
