@@ -23,7 +23,7 @@
     <ListPreference 
             android:key="default_stat"
             android:title="Default stat"
-            android:summary="Define the stat to be shown upon starting the app"
+            android:summary="Set the stat to be shown upon starting the app"
             android:defaultValue="0" 
             android:entries="@array/statLabels"
             android:entryValues="@array/statValues"
@@ -32,10 +32,18 @@
     <ListPreference 
             android:key="default_stat_type"
             android:title="Default stat type"
-            android:summary="Define the stat type to be shown upon starting the app"
+            android:summary="Set the stat type to be shown upon starting the app"
             android:defaultValue="0" 
             android:entries="@array/statTypeLabels"
             android:entryValues="@array/statTypeValues"
+        />
+    <ListPreference 
+            android:key="default_wl_ref"
+            android:title="Wakelock % Ref."
+            android:summary="Set the reference for wakelock percentage"
+            android:defaultValue="0" 
+            android:entries="@array/wlRefLabels"
+            android:entryValues="@array/wlRefValues"
         />
         
 </PreferenceScreen>
