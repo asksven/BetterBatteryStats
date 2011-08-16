@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="1" android:versionName="0.7.0.0"
+<manifest android:versionCode="1" android:versionName="0.8.0.0"
     package="com.asksven.betterbatterystats" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:maxSdkVersion="10" android:minSdkVersion="8" android:targetSdkVersion="9"/>
-    <application android:icon="@drawable/icon" android:label="BetterBatteryStats">
+    <application android:icon="@drawable/icon_notext" android:label="BetterBatteryStats">
         <activity android:label="BetterBatteryStats" android:name="com.asksven.betterbatterystats.StatsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
