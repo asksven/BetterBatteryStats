@@ -507,6 +507,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
+		
 		try
     	{			
 			switch (m_iStat)
@@ -515,7 +517,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				case 0:
 					return getProcessStatList(bFilterStats, m_iStatType);
 				case 1:
-					return getWakelockStatList(bFilterStats, m_iStatType);
+					return getWakelockStatList(bFilterStats, m_iStatType, iPctType);
 				case 2:
 					return getOtherUsageStatList(bFilterStats, m_iStatType);	
 				case 3:
@@ -602,7 +604,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 * @return a List of Wakelocks sorted by duration (descending)
 	 * @throws Exception if the API call failed
 	 */
-	ArrayList<StatElement> getWakelockStatList(boolean bFilter, int iStatType) throws Exception
+	ArrayList<StatElement> getWakelockStatList(boolean bFilter, int iStatType, int iPctType) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
@@ -613,11 +615,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// if we are using custom ref. always retrieve "stats current"
 		if (iStatType == STATS_CUSTOM)
 		{
-			myWakelocks = mStats.getWakelockStats(this, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT);
+			myWakelocks = mStats.getWakelockStats(this, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
 		}
 		else
 		{
-			myWakelocks = mStats.getWakelockStats(this, BatteryStatsTypes.WAKE_TYPE_PARTIAL, iStatType);
+			myWakelocks = mStats.getWakelockStats(this, BatteryStatsTypes.WAKE_TYPE_PARTIAL, iStatType, iPctType);
 		}
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
@@ -862,6 +864,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
 		
 		if (!DataStorage.isExternalStorageWritable())
 		{
@@ -901,7 +904,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				out.write("=========\n");
 				out.write("Wakelocks\n");
 				out.write("=========\n");
-				dumpList(getWakelockStatList(bFilterStats, m_iStatType), out);
+				dumpList(getWakelockStatList(bFilterStats, m_iStatType, iPctType), out);
 				// write process info
 				out.write("=========\n");
 				out.write("Processes\n");
@@ -949,6 +952,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
+		
 		try
     	{			
 			m_refOther 		= null;
@@ -958,7 +963,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	
 			// create a copy of each list for further reference
 			m_refOther 		= getOtherUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_refWakelocks 	= getWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			m_refWakelocks 	= getWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType);
 			m_refProcesses 	= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_refNetwork 	= getNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
