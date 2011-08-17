@@ -15,10 +15,8 @@
  */
 package com.asksven.betterbatterystats.widgets;
 
-import android.widget.Button;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -63,7 +61,7 @@ public class GraphableButton extends Button
     @Override
     public void onDraw(Canvas canvas)
     {
-        Log.i(TAG, "onDraw: w = " + getWidth() + ", h = " + getHeight());
+        Log.d(TAG, "onDraw: w = " + getWidth() + ", h = " + getHeight());
         
         int xmin = getPaddingLeft();
         int xmax = getWidth() - getPaddingRight();
@@ -74,6 +72,7 @@ public class GraphableButton extends Button
         for (int i = 0; i < mValues.length; i++)
         {
             int endx = xmin + (int) (mValues[i] * (xmax - xmin));
+            Log.d(TAG, "onDraw: canvas (" + startx + ", " + ymin + ", " + endx + ", " + ymax +")");
             canvas.drawRect(startx, ymin, endx, ymax, sPaint[i]);
             startx = endx;
         }

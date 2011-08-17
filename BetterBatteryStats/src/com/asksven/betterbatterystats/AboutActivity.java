@@ -15,22 +15,11 @@
  */
 package com.asksven.betterbatterystats;
 
-import java.util.List;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
-import com.asksven.android.common.privateapiproxies.Process;
-import com.asksven.android.common.privateapiproxies.Wakelock;
 
 public class AboutActivity extends Activity
 {
