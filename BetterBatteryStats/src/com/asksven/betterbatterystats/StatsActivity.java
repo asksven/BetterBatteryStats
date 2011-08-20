@@ -1018,10 +1018,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			case 0:
 				iRet = 0;
 				break;
-			case 3:
+			case 1:
 				iRet = 1;
 				break;
-			case 4:
+			case 2:
 				iRet = 2;
 				break;
 				
@@ -1043,15 +1043,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				strRet = "Since Charged";
 				break;
 			case 1:
-				strRet = "Last";
-				break;
-			case 2:
-				strRet = "Current";
-				break;
-			case 3:
 				strRet = "Since Unplugged";
 				break;
-			case 4:
+			case 2:
 				strRet = "Custom Reference";
 				break;	
 		}
