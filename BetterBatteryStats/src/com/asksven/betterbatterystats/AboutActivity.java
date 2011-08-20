@@ -20,6 +20,7 @@ import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import com.asksven.betterbatterystats.R;
 
 public class AboutActivity extends Activity
 {

@@ -62,6 +62,7 @@ import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
+import com.asksven.betterbatterystats.R;
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
 {

@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.widgets.GraphableButton;
+import com.asksven.betterbatterystats.R;
 
 public class StatsAdapter extends BaseAdapter
 {

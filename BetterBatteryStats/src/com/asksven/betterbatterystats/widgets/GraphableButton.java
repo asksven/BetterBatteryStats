@@ -67,6 +67,14 @@ public class GraphableButton extends Button
         int xmax = getWidth() - getPaddingRight();
         int ymin = getPaddingTop();
         int ymax = getHeight() - getPaddingBottom();
+        if (ymin == ymax)
+        {
+        	// @hack for some densities / resolutions the height of the canvas 
+        	// becomes 0 -> invisible
+        	// for that case render it at min a height of 4 px
+        	ymin = ymin - 2;
+        	ymax = ymax + 2;
+        }
         
         int startx = xmin;
         for (int i = 0; i < mValues.length; i++)
