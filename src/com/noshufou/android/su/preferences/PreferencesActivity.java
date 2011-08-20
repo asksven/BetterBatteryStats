@@ -43,7 +43,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.noshufou.android.su.AppListActivity;
 import com.noshufou.android.su.PinActivity;
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.TagWriterActivity;
@@ -177,9 +176,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
     }
 
     private void goHome() {
-        final Intent intent = new Intent(this, AppListActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        Util.goHome(this);
     }
 
     @Override

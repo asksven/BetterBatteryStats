@@ -210,6 +210,11 @@ public class AppListItem extends ViewGroup implements Checkable {
     private boolean isVisible(View view) {
         return view != null && view.getVisibility() == View.VISIBLE;
     }
+    
+    public void setHorizontalDivider(int res) {
+        mHorizontalDividerDrawable = mContext.getResources().getDrawable(res);
+        mHorizontalDividerHeight = mHorizontalDividerDrawable.getIntrinsicHeight();
+    }
 
     /**
      * Loads the drawable for the horizontal divider if it has not yet been loaded.
@@ -217,9 +222,14 @@ public class AppListItem extends ViewGroup implements Checkable {
     private void ensureHorizontalDivider() {
         if (mHorizontalDividerDrawable == null) {
             mHorizontalDividerDrawable = mContext.getResources().getDrawable(
-                    R.drawable.divider_horizontal_bright_opaque);
+                    R.drawable.app_list_divider);
             mHorizontalDividerHeight = mHorizontalDividerDrawable.getIntrinsicHeight();
         }
+    }
+    
+    public void setHeaderBackground(int res) {
+        mHeaderBackgroundDrawable = mContext.getResources().getDrawable(res);
+        mHeaderBackgroundHeight = mHeaderBackgroundDrawable.getIntrinsicHeight();
     }
 
     /**
@@ -228,7 +238,7 @@ public class AppListItem extends ViewGroup implements Checkable {
     private void ensureHeaderBackground() {
         if (mHeaderBackgroundDrawable == null) {
             mHeaderBackgroundDrawable = mContext.getResources().getDrawable(
-                    R.drawable.light_header);
+                    R.drawable.app_list_header);
             mHeaderBackgroundHeight = mHeaderBackgroundDrawable.getIntrinsicHeight();
         }
     }

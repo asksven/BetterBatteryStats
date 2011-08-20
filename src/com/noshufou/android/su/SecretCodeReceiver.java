@@ -20,7 +20,7 @@ public class SecretCodeReceiver extends BroadcastReceiver {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getBoolean(Preferences.GHOST_MODE, false) &&
                 prefs.getString(Preferences.SECRET_CODE, "787378737").equals(secretCode)) {
-            Intent appList = new Intent(context, AppListActivity.class);
+            Intent appList = new Intent(context, HomeActivity.class);
             appList.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(appList);
         }

@@ -19,12 +19,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="25dip"
-    android:background="@drawable/light_header">
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/header_text"
+    android:background="@drawable/app_list_header">
+    <TextView android:id="@+id/header_text"
         android:layout_width="fill_parent"
         android:layout_height="25dp"
-        android:paddingLeft="10dip"
+        android:paddingLeft="15dip"
         android:textStyle="bold"
         android:textColor="@color/dim_foreground_light"
         android:textSize="14sp"

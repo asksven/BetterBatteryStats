@@ -39,9 +39,10 @@ import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-import com.noshufou.android.su.AppListActivity;
+import com.noshufou.android.su.HomeActivity;
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.preferences.Preferences;
+import com.noshufou.android.su.preferences.PreferencesActivity;
 
 public class Util {
     private static final String TAG = "Su.Util";
@@ -174,7 +175,7 @@ public class Util {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         Intent intent;
         if (prefs.getBoolean(Preferences.GHOST_MODE, false)) {
-            intent = new Intent(context, AppListActivity.class);
+            intent = new Intent(context, HomeActivity.class);
         } else {
             intent = new Intent();
             intent.setComponent(new ComponentName("com.noshufou.android.su",
@@ -352,6 +353,14 @@ public class Util {
                 return true;
             }
         }
+    }
+    
+    public static void launchPreferences(Context context) {
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            context.startActivity(new Intent(context, PreferencesActivity.class));
+//        } else {
+//            context.startActivity(new Intent(context, PreferencesActivityHC.class));
+//        }
     }
     
     public static String getHash(String pin) {

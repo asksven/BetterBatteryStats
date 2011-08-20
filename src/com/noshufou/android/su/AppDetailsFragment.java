@@ -137,6 +137,10 @@ public class AppDetailsFragment extends ListFragment
             moreButton.setOnClickListener(this);
             moreButton.setVisibility(View.VISIBLE);
         }
+        View closeButton = view.findViewById(R.id.close_button);
+        if (closeButton != null) {
+            closeButton.setOnClickListener(this);
+        }
         
         return view;
     }
@@ -214,6 +218,9 @@ public class AppDetailsFragment extends ListFragment
             Log.d(TAG, "more button clicked");
             MoreOptionsPopup popup = new MoreOptionsPopup(view);
             popup.show();
+            break;
+        case R.id.close_button:
+            ((HomeActivity)getActivity()).showLog();
             break;
         }
     }

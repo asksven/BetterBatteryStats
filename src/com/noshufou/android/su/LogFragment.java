@@ -33,7 +33,10 @@ public class LogFragment extends ListFragment
         View view = inflater.inflate(R.layout.fragment_log, container, false);
         
         mLogCountTextView = (TextView) view.findViewById(R.id.log_count);
-        view.findViewById(R.id.clear_log_button).setOnClickListener(this);
+        View clearLogButton = view.findViewById(R.id.clear_log_button);
+        if (clearLogButton != null) {
+            clearLogButton.setOnClickListener(this);
+        }
         
         return view;
     }

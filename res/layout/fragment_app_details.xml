@@ -35,9 +35,12 @@
         <ImageButton style="@style/TitleBarAction"
             android:id="@+id/status_icon"
             android:scaleType="center" />
-        <ImageView style="@style/TitleBarSeparator" />
-
     </LinearLayout>
+    
+<!--     <ImageView -->
+<!--         android:layout_width="match_parent" -->
+<!--         android:layout_height="@dimen/title_shadow" -->
+<!--         android:src="@drawable/shadow" /> -->
 
     <LinearLayout style="@style/AppDetailsLayout"
         android:id="@+id/details_layout"

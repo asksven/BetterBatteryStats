@@ -112,7 +112,7 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        ((AppListActivity)getActivity()).showDetails(id);
+        ((HomeActivity)getActivity()).showDetails(id);
     }
 
     @Override
@@ -136,8 +136,7 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
         
         if (list instanceof PinnedHeaderListView &&
                 mAdapter.getDisplaySectionHeadersEnabled()) {
-            mPinnedHeaderBackgroundColor =
-                    getResources().getColor(R.color.pinned_header_background);
+            mPinnedHeaderBackgroundColor = 0xffffffff;
             PinnedHeaderListView pinnedHeaderExpandableList =
                     (PinnedHeaderListView) list;
             View pinnedHeader = inflater.inflate(R.layout.list_section, list, false);
@@ -301,7 +300,7 @@ public class AppListFragment extends ListFragment implements LoaderCallbacks<Cur
 
                 // move the divider for the last item in a section
                 if (getPositionForSection(section + 1) - 1 == position) {
-                    view.setDividerVisible(false);
+                    view.setDividerVisible(true);
                 } else {
                     view.setDividerVisible(true);
                 }
