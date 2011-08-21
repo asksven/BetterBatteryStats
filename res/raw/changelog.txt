@@ -18,20 +18,31 @@
         color: #c0c0c0 }
       a {
         color: #c0f0c0 }
+      span.elite {
+        color: #a4c639 }
     </style>
   </head>
 
   <body>
+$ 3.0-beta4
+  % 3.0-beta4
+  _ 2011-08-21
+    * New layout for home activity with app list and log in the same place
+    * <span class="elite">*</span>Basic backup/restore capability for apps (will be expanded later)
+    * Fix a FC in the LogService
+    * Updated translations from crowdin.net, see <a href="http://androidsu.com/3-0-beta/translators">the translators page</a> for details
+    * Change the Changelog dialog so that Elite only features are more obvious
+  
 $ 3.0-beta3
   % 3.0 beta3
-  _ unreleased
-    * New PIN activity for setting/changing/checking PIN
-    * New NFC tag writer activity
-    * Check PIN when toggling an app's permission if PIN is enabled
+  _ 2011-08-02
+    * <span class="elite">*</span>New PIN activity for setting/changing/checking PIN
+    * <span class="elite">*</span>New NFC tag writer activity
+    * <span class="elite">*</span>Check PIN when toggling an app's permission if PIN is enabled
     * Let the binary updater fail to remount /system as read-only, and alert the user about it
     * When updating the su binary, put the new one in the same place as the old, if possible
     * Fix for apps being removed from the allow list when they're updated
-    * Use the PIN activity for setting the code for Ghost mode
+    * <span class="elite">*</span>Use the PIN activity for setting the code for Ghost mode
     * Changelog dialog thanks to <a href="https://code.google.com/p/android-change-log/">Karsten Priegnitz</a>
     
 $ 3.0-beta2
@@ -39,9 +50,9 @@ $ 3.0-beta2
   _ 2011-06-26
     * Fixed Honeycomb prompt
     * Fixed Superuser3 being deleted on reboot on some ROMS
-    * Keep Superuser out of Recent Apps when Ghost mode is enabled
+    * <span class="elite">*</span>Keep Superuser out of Recent Apps when Ghost mode is enabled
     * Automatic malicious app scanner
-    * Star button in title bar now points to Elite's Featured Apps
+    * <span class="elite">*</span>Star button in title bar now points to Elite's Featured Apps
     * Better handling of database to reduce FCs
     * Fixed bug causing some apps to not display right
     * Fixed bug causing some apps to prompt again even if they're already remembered

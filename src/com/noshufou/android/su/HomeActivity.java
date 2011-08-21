@@ -19,6 +19,7 @@ import android.widget.ImageView;
 
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.util.Util;
+import com.noshufou.android.su.widget.ChangeLog;
 import com.noshufou.android.su.widget.PagerHeader;
 
 public class HomeActivity extends FragmentActivity {
@@ -55,6 +56,10 @@ public class HomeActivity extends FragmentActivity {
         mTitleLogo = 
                 (TransitionDrawable) ((ImageView)findViewById(android.R.id.home)).getDrawable();
         new EliteCheck().execute();
+
+        ChangeLog cl = new ChangeLog(this);
+        if (cl.firstRun())
+            cl.getLogDialog().show();
     }
 
     @Override
