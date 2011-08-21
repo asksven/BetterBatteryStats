@@ -39,10 +39,10 @@
   <string name="empty_logs">Nenhuma informação de registro</string>
   <string name="log_count">Mostrando entradas %d</string>
   <string name="log_last_accessed">Último acesso em %1$s em %2$s</string>
-  <string name="log_last_allowed">Último permitido em% 1 $ s em% 2 $ s</string>
-  <string name="log_last_denied">Último negado em% 1 $ s em% 2 $ s</string>
-  <string name="log_last_toggled">Último alternado em% 1 $ s em% 2 $ s</string>
-  <string name="log_created_on">Criado em% 1 $ s em% 2 $ s</string>
+  <string name="log_last_allowed">Último permitido em %1$s em %2$s</string>
+  <string name="log_last_denied">Último negado em %1$s em %2$s</string>
+  <string name="log_last_toggled">Último alternado em %1$s em %2$s</string>
+  <string name="log_created_on">Criado em %1$s em %2$s</string>
   <string name="detail_package">Pacote</string>
   <string name="detail_app_uid">App UID</string>
   <string name="detail_request">UID solicitado</string>
@@ -57,7 +57,7 @@
   <string name="pref_pin_summary_off">Prompt de permissões não exigirá PIN</string>
   <string name="pref_change_pin_title">Mudar PIN</string>
   <string name="pref_timeout_title">Tempo limite de acesso</string>
-  <string name="pref_timeout_summary">Aplicativos que não lembrados terão acesso por% 1 $ d segundos após o aviso</string>
+  <string name="pref_timeout_summary">Aplicativos que não lembrados terão acesso por %1$d segundos após o aviso</string>
   <string name="pref_automatic_action_title">Resposta automática</string>
   <string name="pref_automatic_action_summary">Definir a forma como Superusuário lida com as novas solicitações  </string>
   <string name="pref_ghost_mode_title">Modo fantasma</string>
@@ -66,7 +66,7 @@
   <string name="pref_ghost_mode_message">Modo fantasma esconde o ícone Superuser no lançador. O ícone ficará oculto na próxima vez que o lançador for reiniciado. Quando o ícone está escondido você pode acessar Superuser discando um código secreto no discador. O código secreto padrão é * # * # 787378737 # * # * (*#*# superusuário #*#*), mas os dígitos podem ser alterados. \ N \ nNote que se o dispositivo não tem um discador, você provavelmente não devia habilitar \ \'t  modo fantasma. \ n \ habilitar modo fantasma?</string>
   <string name="pref_ghost_mode_enabled_message">Modo fantasma habilitado. Por favor, reinicie o lançador ou seu telefone para ver a mudança.</string>
   <string name="pref_secret_code_title">Código secreto</string>
-  <string name="pref_secret_code_summary">Código secreto é *#*#% 1 $ s # * # *</string>
+  <string name="pref_secret_code_summary">Código secreto é *#*#%1$s#*#*</string>
   <string name="pref_category_applist_title">Lista de aplicativos</string>
   <string name="pref_show_status_icons_title">Mostrar ícones de status</string>
   <string name="pref_show_status_icons_summary_on">Mostrar ícone de status de cada aplicativo</string>
@@ -84,7 +84,7 @@
   <string name="pref_delete_old_logs_summary_on">Excluir entradas de log antigas quando o limite for atingido</string>
   <string name="pref_delete_old_logs_summary_off">Não exclua entradas de log antigas quando o limite for atingido</string>
   <string name="pref_log_entry_limit_title">Limite de entrada de log</string>
-  <string name="pref_log_entry_limit_summary">1% entradas de log $ d</string>
+  <string name="pref_log_entry_limit_summary">%1$d entradas de log</string>
   <string name="pref_log_entries_to_save">Definir o número de entradas de log para salvar</string>
   <string name="pref_24_hour_title">Usar formato 24 horas</string>
   <string name="pref_24_hour_summary_on">Horários no log serão mostrados no formato de 24 horas</string>
@@ -112,10 +112,10 @@
   <string name="pref_write_allow_tag_title">Write new allow tag</string>
   <string name="pref_write_allow_tag_summary">Write a new tag to be used to allow</string>
   <string name="pref_category_info_title">Informações de superusuário</string>
-  <string name="pref_version_title">Superusuário v% 1 $ s (% 2 $ d)</string>
-  <string name="pref_version_summary">Banco de dados versão% s</string>
+  <string name="pref_version_title">Superusuário v%1$s (%2$d)</string>
+  <string name="pref_version_summary">Banco de dados versão %s</string>
   <string name="pref_bin_version_title_loading">Carregando versão binária de su</string>
-  <string name="pref_bin_version_title">Binários Su v% s</string>
+  <string name="pref_bin_version_title">Binários Su v %s</string>
   <string name="pref_bin_version_summary">Toque para verificar se há atualizações</string>
   <string name="pref_changelog_title">Changelog</string>
   <string name="pref_changelog_summary">Exibir o changelog</string>
@@ -152,7 +152,7 @@
   <string name="updater_remount_ro_failed">Failed to remount the system as read-only, please reboot to finish the update</string>
   <string name="updater_find_su_failed">Failed to find currently installed su binary. Update cannot continue</string>
   <string name="updater_bad_install_location">su binary is currently installed in /sbin. This updater is not capable of updating it. Please find a new ROM for your device.</string>
-  <string name="notification_text_allow">S% foi concedido permissões de superusuário</string>
+  <string name="notification_text_allow">%s foi concedido permissões de superusuário</string>
   <string name="notification_text_deny">%s foi negado permissões de superusuário</string>
   <string name="notif_outdated_ticker">os Binarios de su estão desatualizados</string>
   <string name="notif_outdated_title">binários de su desatualizados</string>
@@ -160,7 +160,7 @@
   <string name="pin_enter_pin">Entre PIN</string>
   <string name="pin_new_pin">Digite o novo PIN</string>
   <string name="pin_confirm_pin">Confirmar PIN</string>
-  <string name="pin_mismatch">PINs não coincidem \ \'t, tente novamente</string>
+  <string name="pin_mismatch">PINs não coincidem\'t, tente novamente</string>
   <string name="pin_enter_secret_code">Enter secret code</string>
   <string name="nfc_write_tag">Scan tag to write</string>
   <string name="malicious_apps_title">Aviso</string>
@@ -176,11 +176,11 @@
   <string name="changelog_title">What\'s New</string>
   <plurals name="pref_logs_deleted">
     <item quantity="one">Um log excluído</item>
-    <item quantity="other">% 1 $ d registros excluídos</item>
+    <item quantity="other">%1$d registros excluídos</item>
   </plurals>
   <plurals name="pin_incorrect_try">
     <item quantity="one">Última chance</item>
-    <item quantity="other">Nenhuma - d% tentativa sobrando</item>
+    <item quantity="other">Nenhuma - %d tentativa sobrando</item>
   </plurals>
   <plurals name="malicious_apps_message1">
     <item quantity="one">O seguinte pacote foi definido como mal-intencionado:</item>
