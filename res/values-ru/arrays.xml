@@ -7,7 +7,7 @@
     <item>Разрешить</item>
   </string-array>
   <string-array name="pref_status_icon_type_entries">
-    <item>Точка</item>
+    <item>Кружок</item>
     <item>Смайлик</item>
   </string-array>
   <string-array name="pref_date_format_entries">

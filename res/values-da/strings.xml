@@ -134,7 +134,7 @@
   <string name="updater_try_again">Prøv igen</string>
   <string name="updater_su_updated">su binær blev opdateret</string>
   <string name="updater_step_download_manifest">Henter manifest...\u0020</string>
-  <string name="updater_step_parse_manifest">Tolker manifest...\ u0020</string>
+  <string name="updater_step_parse_manifest">Tolker manifest...\u0020</string>
   <string name="updater_step_latest_version">Nyeste version =\u0020</string>
   <string name="updater_step_check_installed_version">Kontrollerer installeret version =\u0020</string>
   <string name="updater_step_fix_db">Reparerer database...\u0020</string>

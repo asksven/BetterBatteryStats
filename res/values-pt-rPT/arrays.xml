@@ -6,6 +6,10 @@
     <item>Negar</item>
     <item>Permitir</item>
   </string-array>
+  <string-array name="pref_status_icon_type_entries">
+    <item>Dot</item>
+    <item>Emoticon</item>
+  </string-array>
   <string-array name="pref_date_format_entries">
     <item>Pré-definição do sistema</item>
     <item>12/31/2011</item>

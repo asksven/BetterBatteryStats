@@ -83,7 +83,7 @@
   <string name="pref_delete_old_logs_title">Șterge intrările vechi din jurnal</string>
   <string name="pref_delete_old_logs_summary_on">Șterge intrările vechi din jurnal când limita este atinsă </string>
   <string name="pref_delete_old_logs_summary_off">Nu şterge intrările vechi din jurnal când limita este atinsă </string>
-  <string name="pref_log_entry_limit_title">Limita intrarilor în jurnal</string>
+  <string name="pref_log_entry_limit_title">Limita intrărilor în jurnal</string>
   <string name="pref_log_entry_limit_summary">%1$d intrări în jurnal</string>
   <string name="pref_log_entries_to_save">Setează numărul intrărilor în jurnal salvate</string>
   <string name="pref_24_hour_title">Utilizaţi formatul 24 ore</string>
@@ -93,7 +93,7 @@
   <string name="pref_show_seconds_summary_on">Arată timpul în jurnal cu secunde</string>
   <string name="pref_show_seconds_summary_off">Arată timpul în jurnal fără secunde</string>
   <string name="pref_date_format_title">Selectează formatul datei</string>
-  <string name="pref_date_format_summary">Modul în care timpul va fi arătat în jurnal.</string>
+  <string name="pref_date_format_summary">Modul în care timpul va fi afișat în jurnal.</string>
   <string name="pref_clear_log_title">Șterge jurnalul</string>
   <string name="pref_clearing_log_title">Se șterge jurnalul</string>
   <string name="pref_clearing_log_summary">Vă rog așteptați</string>
@@ -110,7 +110,7 @@
   <string name="pref_use_allow_tag_summary_on">Introduceți codul PIN sau scanați tag-ul pentru a permite</string>
   <string name="pref_use_allow_tag_summary_off">Introduceți codul PIN numai pentru a permite</string>
   <string name="pref_write_allow_tag_title">Scrie un nou tag de permitere</string>
-  <string name="pref_write_allow_tag_summary">Scrie o nouă etichetă care urmează să fie folosită pentru a permite</string>
+  <string name="pref_write_allow_tag_summary">Scrie un nou tag care urmează să fie folosit pentru a permite</string>
   <string name="pref_category_info_title">Informații Superuser</string>
   <string name="pref_version_title">Superuser v%1$s (%2$d)</string>
   <string name="pref_version_summary">Versiunea bazei de date %s</string>
@@ -118,18 +118,16 @@
   <string name="pref_bin_version_title">Su v%s</string>
   <string name="pref_bin_version_summary">Apăsați pentru a căuta actualizări</string>
   <string name="pref_changelog_title">Istoric modificari</string>
-  <string name="pref_changelog_summary">Afiseaza istoricul de modificari</string>
+  <string name="pref_changelog_summary">Afișează istoricul de modificări</string>
   <string name="pref_get_elite_title">Go Elite!</string>
   <string name="pref_get_elite_summary">Cumpără Elite pentru a debloca toate opțiunile</string>
   <string name="updater_title">Actualizator su</string>
   <string name="updater_new_su_found">Există o nouă versiune de SU. Doriți să o actualizați?</string>
-  <string name="updater_current_installed">Ultima versiune deja instalata. Nu este necesara nici o actiune.</string>
+  <string name="updater_current_installed">Ultima versiune deja instalată. Nu este necesară nicio acțiune.</string>
   <string name="updater_update">Actualizare</string>
   <string name="updater_update_anyway">Actualizează oricum</string>
   <string name="updater_cool">Ce tare! Mai fă odată</string>
   <string name="updater_working">Lucrează...</string>
-  <string name="updater_manifest_legacy">http://downloads.androidsu.com/superuser/su/manifest-legacy.json</string>
-  <string name="updater_manifest">http://downloads.androidsu.com/superuser/su/manifest.json</string>
   <string name="updater_ok">OK!</string>
   <string name="updater_fail">Eșuat!</string>
   <string name="updater_update_failed">Actualizarea a eșuat. Încercați din nou?</string>
@@ -152,7 +150,7 @@
   <string name="updater_step_remount_ro">Se remontează /system ca ro...\u0020</string>
   <string name="updater_step_clean_up">Se curăță...\u0020</string>
   <string name="updater_remount_ro_failed">Sistemul nu s-a putut remonta ca read-only, vă rugăm reporniți aparatul pentru a termina actualizarea.</string>
-  <string name="updater_find_su_failed">Su nu a fost gasit. Actualizarea nu poate continua</string>
+  <string name="updater_find_su_failed">Su nu a fost găsit. Actualizarea nu poate continua</string>
   <string name="updater_bad_install_location">su este instalat in /sbin. Acest actualizator nu este capabil de actualizare. Va rugam gasiti un nou ROM pentru aparatul dvs.</string>
   <string name="notification_text_allow">%s a primit permisiuni de Superuser</string>
   <string name="notification_text_deny">%s a fost respinsă pentru permisiunile de Superuser</string>
@@ -166,15 +164,15 @@
   <string name="pin_enter_secret_code">Introduceți codul secret</string>
   <string name="nfc_write_tag">Scanează tag-ul pentru a scrie</string>
   <string name="malicious_apps_title">Atenție </string>
-  <string name="malicious_apps_message2">Aplicațiile sunt marcate ca rău intenționate pentru ca pot conține elemente care indică încercarea obținerii de acces root, posibil fără acordul dumneavoastră. Este foarte recomandat sa le dezinstalați imediat.</string>
+  <string name="malicious_apps_message2">Aplicațiile sunt marcate ca malițioase deoarece au elemente ce indică incercarea acestora de a obține acces de tip root, posibil fără acordul dumneavoastră. Se recomandă dezinstalarea acestora imediată!</string>
   <string name="malicious_apps_uninstall">Dezinstalare </string>
   <string name="malicious_apps_ignore">Ignoră </string>
-  <string name="malicious_app_notification_ticker">Aplicație posibil dăunătoare detectată</string>
-  <string name="malicious_app_notification_text">%s este probabil rău intenționat. Apasă pentru dezinstalare.</string>
+  <string name="malicious_app_notification_ticker">Aplicație posibil malițioasă detectată</string>
+  <string name="malicious_app_notification_text">%s este probabil malițioasă. Apasă pentru dezinstalare.</string>
   <string name="malicious_app_uid">împarte UID-ul cu Superuser</string>
   <string name="malicious_app_respond">solicită permisiunea de a răspunde</string>
   <string name="malicious_app_write">solicită permisiunea de a scrie la furnizorul de permisiuni</string>
-  <string name="changelog_full_title">Jurnal schimbări</string>
+  <string name="changelog_full_title">Schimbari recente</string>
   <string name="changelog_title">Ce e nou</string>
   <plurals name="pref_logs_deleted">
     <item quantity="one">Un fișier de jurnal șters</item>
@@ -182,10 +180,10 @@
   </plurals>
   <plurals name="pin_incorrect_try">
     <item quantity="one">Ultima șansă  </item>
-    <item quantity="other">Nu - %d încearcă dreapta </item>
+    <item quantity="other">Nu - %d încercări rămase</item>
   </plurals>
   <plurals name="malicious_apps_message1">
-    <item quantity="one">Următorul pachet a fost găsit ca fiind rău intenționat:</item>
-    <item quantity="other">Următoarele pachete au fost găsite ca fiind rău intenționate:</item>
+    <item quantity="one">Următorul pachet a fost găsit ca fiind malițios:</item>
+    <item quantity="other">Următoarele pachete au fost găsite ca fiind malițioase:</item>
   </plurals>
 </resources>
