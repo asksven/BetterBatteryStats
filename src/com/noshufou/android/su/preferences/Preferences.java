@@ -23,6 +23,11 @@ public class Preferences {
     public static final String TOAST_LOCATION = "pref_toast_location";
     public static final String USE_ALLOW_TAG = "pref_use_allow_tag";
     public static final String WRITE_ALLOW_TAG = "pref_write_allow_tag";
+    public static final String USE_GHOST_TAG = "pref_use_ghost_tag";
+    public static final String WRITE_GHOST_TAG = "pref_write_ghost_tag";
+    public static final String DEBUGGING = "pref_debugging";
+    public static final String BACKUP = "pref_backup";
+    public static final String RESTORE = "pref_restore";
     public static final String VERSION = "pref_version";
     public static final String BIN_VERSION = "pref_bin_version";
     public static final String CHANGELOG = "pref_changelog";
@@ -33,6 +38,7 @@ public class Preferences {
     public static final String CATEGORY_LOG = "pref_category_log";
     public static final String CATEGORY_NOTIFICATION = "pref_category_notification";
     public static final String CATEGORY_NFC = "pref_category_nfc";
+    public static final String CATEGORY_BACKUP_RESTORE = "pref_category_backup_restore";
     public static final String CATEGORY_INFO = "pref_category_info";
     
     public static final String ELITE_PREFS[] = new String[] {

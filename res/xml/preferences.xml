@@ -68,7 +68,6 @@
             android:entryValues="@array/pref_status_icon_type_values"
             android:defaultValue="emote"
             android:dependency="pref_show_status_icons" />
-
         <CheckBoxPreference
             android:key="pref_applist_show_log_data"
             android:title="@string/pref_applist_show_log_data_title"
@@ -76,7 +75,6 @@
             android:summaryOff="@string/pref_applist_show_log_data_summary_off"
             android:defaultValue="true"
             android:dependency="pref_logging" />
-
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_category_log"
@@ -166,6 +164,15 @@
             android:title="@string/pref_write_allow_tag_title"
             android:summary="@string/pref_write_allow_tag_summary"
             android:dependency="pref_use_allow_tag" />
+    </PreferenceCategory>
+    <PreferenceCategory android:key="pref_category_backup_restore"
+        android:title="@string/pref_category_backup_restore_title">
+        <Preference
+            android:key="pref_backup"
+            android:title="@string/pref_backup_title" />
+        <Preference
+            android:key="pref_restore"
+            android:title="@string/pref_restore_title" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_category_info"

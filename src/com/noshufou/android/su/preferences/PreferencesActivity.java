@@ -15,7 +15,19 @@
  ******************************************************************************/
 package com.noshufou.android.su.preferences;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlSerializer;
+
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,11 +36,13 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.Cursor;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -36,6 +50,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.util.Log;
+import android.util.Xml;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,6 +62,7 @@ import com.noshufou.android.su.PinActivity;
 import com.noshufou.android.su.R;
 import com.noshufou.android.su.TagWriterActivity;
 import com.noshufou.android.su.UpdaterActivity;
+import com.noshufou.android.su.provider.PermissionsProvider.Apps;
 import com.noshufou.android.su.provider.PermissionsProvider.Logs;
 import com.noshufou.android.su.service.LogService;
 import com.noshufou.android.su.util.Util;
@@ -240,6 +256,10 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("market://details?id=com.noshufou.android.su.elite"));
             startActivity(intent);
+        } else if (pref.equals(Preferences.BACKUP)) {
+            new BackupApps().execute();
+        } else if (pref.equals(Preferences.RESTORE)) {
+            new RestoreApps().execute();
         }
 
         return super.onPreferenceTreeClick(preferenceScreen, preference);
@@ -409,6 +429,128 @@ public class PreferencesActivity extends PreferenceActivity implements OnClickLi
             mApkVersion.setTitle(getString(R.string.pref_version_title, apkVersion, apkVersionCode));
             mBinVersion.setTitle(getString(R.string.pref_bin_version_title, binVersion));
         }
+    }
+    
+    private class BackupApps extends AsyncTask<Void, Void, Boolean> {
 
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Cursor c = getContentResolver().query(Apps.CONTENT_URI, null, null, null, null);
+            XmlSerializer serializer = Xml.newSerializer();
+            FileOutputStream file = null;;
+            try {
+                file = new FileOutputStream(
+                        new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                                + "/subackup.xml"));
+                serializer.setOutput(file, "UTF-8");
+                serializer.startDocument(null, true);
+                serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+                serializer.startTag("", "backup");
+                while (c.moveToNext()) {
+                    serializer.startTag("", "app");
+                    serializer.attribute("", Apps.PACKAGE,
+                            c.getString(c.getColumnIndex(Apps.PACKAGE)));
+                    serializer.attribute("", Apps.NAME,
+                            c.getString(c.getColumnIndex(Apps.NAME)));
+                    serializer.attribute("", Apps.EXEC_UID,
+                            c.getString(c.getColumnIndex(Apps.EXEC_UID)));
+                    serializer.attribute("", Apps.EXEC_CMD,
+                            c.getString(c.getColumnIndex(Apps.EXEC_CMD)));
+                    serializer.attribute("", Apps.ALLOW,
+                            c.getString(c.getColumnIndex(Apps.ALLOW)));
+                    String notifications = c.getString(c.getColumnIndex(Apps.NOTIFICATIONS));
+                    if (notifications != null) {
+                        serializer.attribute("", Apps.NOTIFICATIONS, notifications);
+                    }
+                    String logging = c.getString(c.getColumnIndex(Apps.LOGGING));
+                    if (logging != null) {
+                        serializer.attribute("", Apps.LOGGING, logging);
+                    }
+                    serializer.endTag("", "app");
+                }
+                serializer.endTag("", "backup");
+                serializer.endDocument();
+                serializer.flush();
+                file.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                if (c != null) {
+                    c.close();
+                }
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                Toast.makeText(getApplicationContext(), "Backup written to sdcard", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
+    
+    private class RestoreApps extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            PackageManager pm = getPackageManager();
+            ContentResolver cr = getContentResolver();
+            XmlPullParser parser = Xml.newPullParser();
+            FileInputStream file = null;
+            ContentValues currentItem = null;
+            try {
+                file = new FileInputStream(
+                        new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                                + "/subackup.xml"));
+                parser.setInput(file, "UTF-8");
+                int eventType = parser.getEventType();
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        if (parser.getName().equalsIgnoreCase("app")) {
+                            String pkg = parser.getAttributeValue("", Apps.PACKAGE);
+                            try {
+                                int uid = pm.getApplicationInfo(pkg, 0).uid;
+                                currentItem = new ContentValues();
+                                currentItem.put(Apps.UID, uid);
+                                for (int i = 0; i < parser.getAttributeCount(); i++) {
+                                    currentItem.put(parser.getAttributeName(i),
+                                            parser.getAttributeValue(i));
+                                }
+                                cr.insert(Apps.CONTENT_URI, currentItem);
+                                currentItem = null;
+                            } catch (NameNotFoundException e) {
+                                Log.d(TAG, "package" + pkg + " not installed, skipping restore");
+                            }
+                        }
+                        break;
+                    }
+                    eventType = parser.next();
+                }
+            } catch (FileNotFoundException e) {
+                return false;
+            } catch (XmlPullParserException e) {
+                e.printStackTrace();
+                return false;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                Toast.makeText(getApplicationContext(), "Restore completed", Toast.LENGTH_SHORT).show();
+            }
+        }
+        
     }
 }
