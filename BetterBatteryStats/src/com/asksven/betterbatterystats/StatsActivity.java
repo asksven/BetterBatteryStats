@@ -197,6 +197,30 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		this.setListViewAdapter();
 	}
     
+	/* Request updates at startup */
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+	}
+
+	/* Remove the locationlistener updates when Activity is paused */
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		Intent startMain = new Intent(Intent.ACTION_MAIN);
+		startMain.addCategory(Intent.CATEGORY_HOME);
+		startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(startMain);
+		
+		return;
+	}
     /**
      * Save state, the application is going to get moved out of memory
      * @see http://stackoverflow.com/questions/151777/how-do-i-save-an-android-applications-state
@@ -218,29 +242,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		savedInstanceState.putSerializable("networkstate", m_refNetwork);
     		savedInstanceState.putSerializable("batteryrealtime", m_refBatteryRealtime);	
         }
-		try
-		{
-			// recover any saved state
-			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
-			{
-				m_refWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
-				m_refProcesses 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
-				m_refOther 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
-				m_iStat 		= (Integer) savedInstanceState.getSerializable("stat");
-				m_iStatType 	= (Integer) savedInstanceState.getSerializable("stattype");
-				m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
-			}
-		}
-		catch (Exception e)
-		{
-    		Log.e(TAG, "Exception: " + e.getMessage());
-    		DataStorage.LogToFile(LOGFILE, "Exception in onSaveInstanceState restoring Bundle");
-    		DataStorage.LogToFile(LOGFILE, e.getMessage());
-    		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
-
-		}
-		
-		
     }
         
 	/**
@@ -370,7 +371,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			tvSince.setText("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)));
 
 			// warn the user if custom ref was chosen without having selected a ref first
-			if ( (m_iStatType == STATS_CUSTOM) && (m_refProcesses == null))
+			if ( (m_iStatType == STATS_CUSTOM) && (m_refBatteryRealtime == 0))
 			{
 				Toast.makeText(this, "Warning: there is no custom reference set.", Toast.LENGTH_SHORT).show();
 			}
