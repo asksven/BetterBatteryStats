@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2011 Adam Shanks (ChainsDD)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_category_security"
+        android:title="@string/pref_category_security">
+        <CheckBoxPreference
+            android:key="pref_pin"
+            android:title="@string/pref_pin_title"
+            android:summaryOn="@string/pref_pin_summary_on"
+            android:summaryOff="@string/pref_pin_summary_off"
+            android:defaultValue="false" />
+        <Preference
+            android:key="pref_change_pin"
+            android:title="@string/pref_change_pin_title"
+            android:dependency="pref_pin" />
+        <Preference
+            android:key="pref_timeout"
+            android:title="@string/pref_timeout_title"
+            android:summary="@string/pref_timeout_summary" />
+        <ListPreference
+            android:key="pref_automatic_action"
+            android:title="@string/pref_automatic_action_title"
+            android:summary="@string/pref_automatic_action_summary"
+            android:entries="@array/pref_automatic_action_entries"
+            android:entryValues="@array/pref_automatic_action_values"
+            android:defaultValue="prompt" />
+        <CheckBoxPreference
+            android:key="pref_ghost_mode"
+            android:title="@string/pref_ghost_mode_title"
+            android:summaryOn="@string/pref_ghost_mode_summary_on"
+            android:summaryOff="@string/pref_ghost_mode_summary_off"
+            android:defaultValue="false" />
+        <Preference
+            android:key="pref_secret_code"
+            android:title="@string/pref_secret_code_title"
+            android:summary="@string/pref_secret_code_summary"
+            android:dependency="pref_ghost_mode" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_category_applist"
+        android:title="@string/pref_category_applist_title">
+        <CheckBoxPreference
+            android:key="pref_show_status_icons"
+            android:title="@string/pref_show_status_icons_title"
+            android:summaryOn="@string/pref_show_status_icons_summary_on"
+            android:summaryOff="@string/pref_show_status_icons_summary_off"
+            android:defaultValue="true" />
+        <ListPreference
+            android:key="pref_status_icon_type"
+            android:title="@string/pref_status_icon_type_title"
+            android:summary="@string/pref_status_icon_type_summary"
+            android:entries="@array/pref_status_icon_type_entries"
+            android:entryValues="@array/pref_status_icon_type_values"
+            android:defaultValue="emote"
+            android:dependency="pref_show_status_icons" />
+        <CheckBoxPreference
+            android:key="pref_applist_show_log_data"
+            android:title="@string/pref_applist_show_log_data_title"
+            android:summaryOn="@string/pref_applist_show_log_data_summary_on"
+            android:summaryOff="@string/pref_applist_show_log_data_summary_off"
+            android:defaultValue="true"
+            android:dependency="pref_logging" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_category_log"
+        android:title="@string/pref_category_log_title">
+        <CheckBoxPreference
+            android:key="pref_logging"
+            android:title="@string/pref_enable_logging_title"
+            android:summaryOn="@string/pref_enable_logging_summary_on"
+            android:summaryOff="@string/pref_enable_logging_summary_off"
+            android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="pref_delete_old_logs"
+            android:title="@string/pref_delete_old_logs_title"
+            android:summaryOn="@string/pref_delete_old_logs_summary_on"
+            android:summaryOff="@string/pref_delete_old_logs_summary_off"
+            android:dependency="pref_logging"
+            android:defaultValue="true" />
+        <Preference
+            android:key="pref_log_entry_limit"
+            android:title="@string/pref_log_entry_limit_title"
+            android:summary="@string/pref_log_entry_limit_summary"
+            android:dependency="pref_delete_old_logs" />
+        <CheckBoxPreference
+            android:key="pref_24_hour_format"
+            android:title="@string/pref_24_hour_title"
+            android:summaryOn="@string/pref_24_hour_summary_on"
+            android:summaryOff="@string/pref_24_hour_summary_off"
+            android:dependency="pref_logging"
+            android:defaultValue="true" />
+        <CheckBoxPreference
+            android:key="pref_show_seconds"
+            android:title="@string/pref_show_seconds_title"
+            android:summaryOn="@string/pref_show_seconds_summary_on"
+            android:summaryOff="@string/pref_show_seconds_summary_off"
+            android:dependency="pref_logging"
+            android:defaultValue="true" />
+        <ListPreference
+            android:key="pref_date_format"
+            android:title="@string/pref_date_format_title"
+            android:summary="@string/pref_date_format_summary"
+            android:entries="@array/pref_date_format_entries"
+            android:entryValues="@array/pref_date_format_values"
+            android:dependency="pref_logging"
+            android:defaultValue="default" />
+        <Preference
+            android:key="pref_clear_log"
+            android:title="@string/pref_clear_log_title"
+            android:dependency="pref_logging" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_category_notification"
+        android:title="@string/pref_category_notification_title">
+        <CheckBoxPreference
+            android:key="pref_notifications"
+            android:title="@string/pref_notifications_title"
+            android:summaryOn="@string/pref_notifications_summary_on"
+            android:summaryOff="@string/pref_notifications_summary_off"
+            android:defaultValue="true" />
+        <ListPreference
+            android:key="pref_notification_type"
+            android:title="@string/pref_notifications_type_title"
+            android:summary="@string/pref_notifications_type_summary"
+            android:entries="@array/pref_notifications_type_entries"
+            android:entryValues="@array/pref_notifications_type_values"
+            android:defaultValue="toast"
+            android:dependency="pref_notifications" />
+        <ListPreference
+            android:key="pref_toast_location"
+            android:title="@string/pref_toast_location_title"
+            android:summary="@string/pref_toast_location_summary"
+            android:entries="@array/pref_toast_location_entries"
+            android:entryValues="@array/pref_toast_location_values"
+            android:defaultValue="0"
+            android:dependency="pref_notifications" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_category_nfc"
+        android:title="@string/pref_category_nfc_title">
+        <CheckBoxPreference
+            android:key="pref_use_allow_tag"
+            android:title="@string/pref_use_allow_tag_title"
+            android:summaryOn="@string/pref_use_allow_tag_summary_on"
+            android:summaryOff="@string/pref_use_allow_tag_summary_off"
+            android:dependency="pref_pin" />
+        <Preference
+            android:key="pref_write_allow_tag"
+            android:title="@string/pref_write_allow_tag_title"
+            android:summary="@string/pref_write_allow_tag_summary"
+            android:dependency="pref_use_allow_tag" />
+    </PreferenceCategory>
+    <PreferenceCategory android:key="pref_category_backup_restore"
+        android:title="@string/pref_category_backup_restore_title">
+        <Preference
+            android:key="pref_backup"
+            android:title="@string/pref_backup_title" />
+        <Preference
+            android:key="pref_restore"
+            android:title="@string/pref_restore_title" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_category_info"
+        android:title="@string/pref_category_info_title">
+        <Preference
+            android:key="pref_version"
+            android:title="@string/pref_version_title" />
+        <Preference
+            android:key="pref_bin_version"
+            android:title="@string/pref_bin_version_title_loading"
+            android:summary="@string/pref_bin_version_summary" />
+        <Preference
+            android:key="pref_changelog"
+            android:title="@string/pref_changelog_title"
+            android:summary="@string/pref_changelog_summary" />
+        <Preference
+        	android:key="pref_get_elite"
+        	android:title="@string/pref_get_elite_title"
+        	android:summary="@string/pref_get_elite_summary" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2011 Adam Shanks (ChainsDD)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+    <string-array name="pref_automatic_action_entries">
+        <item>Prompt</item>
+        <item>Deny</item>
+        <item>Allow</item>
+    </string-array>
+    <!-- Do not translate -->
+    <string-array name="pref_automatic_action_values">
+        <item>prompt</item>
+        <item>deny</item>
+        <item>allow</item>
+    </string-array>
+
+    <string-array name="pref_status_icon_type_entries">
+        <item>Dot</item>
+        <item>Emoticon</item>
+    </string-array>
+    <!-- Do not translate -->
+    <string-array name="pref_status_icon_type_values">
+        <item>dot</item>
+        <item>emote</item>
+    </string-array>
+
+    <string-array name="pref_date_format_entries">
+        <item>System default</item>
+        <item>12/31/2011</item>
+        <item>31/12/2011</item>
+        <item>2011/12/31</item>
+    </string-array>
+    <!-- Do not translate -->
+    <string-array name="pref_date_format_values">
+        <item>default</item>
+        <item>MM/dd/yyyy</item>
+        <item>dd/MM/yyyy</item>
+        <item>yyyy/MM/dd</item>
+    </string-array>
+
+    <string-array name="pref_notifications_type_entries">
+        <item>Toast</item>
+        <item>Status bar</item>
+    </string-array>
+    <!-- Do not translate -->
+    <string-array name="pref_notifications_type_values">
+        <item>toast</item>
+        <item>status</item>
+    </string-array>
+
+    <string-array name="pref_toast_location_entries">
+        <item>Default</item>
+        <item>Top</item>
+        <item>Center</item>
+        <item>Bottom</item>
+    </string-array>
+    <string-array name="pref_toast_location_values">
+        <item>0</item>
+        <item>48</item>
+        <item>17</item>
+        <item>80</item>
+    </string-array>
+</resources>

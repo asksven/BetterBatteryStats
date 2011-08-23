@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2011 Adam Shanks (ChainsDD)
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+    http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+    <dimen name="title_height">45dp</dimen>
+    <dimen name="title_shadow">4dp</dimen>
+    <dimen name="text_size_console">10sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    
+    <!-- Dimensions for an app list item -->
+    <dimen name="list_item_perferred_height">64dip</dimen>
+    <dimen name="list_item_padding_top">4dip</dimen>
+    <dimen name="list_item_padding_right">4dip</dimen>
+    <dimen name="list_item_padding_bottom">4dip</dimen>
+    <dimen name="list_item_padding_left">4dip</dimen>
+    <dimen name="list_item_icon_size">48dip</dimen>
+    <dimen name="list_item_gap_between_image_and_text">8dip</dimen>
+    <dimen name="list_item_status_button_padding">14dip</dimen>
+    <dimen name="list_item_header_padding_left">15dip</dimen>
+    <dimen name="list_item_header_height">24dip</dimen>
+    
+    <!-- Dimensions for a log item -->
+    <dimen name="log_item_perferred_height">30dip</dimen>
+    <dimen name="log_item_padding_top">4dip</dimen>
+    <dimen name="log_item_padding_right">4dip</dimen>
+    <dimen name="log_item_padding_bottom">4dip</dimen>
+    <dimen name="log_item_padding_left">100dip</dimen>
+    <dimen name="log_item_gap_between_fields">5dip</dimen>
+    <dimen name="log_item_header_padding_left">10dip</dimen>
+    
+    <!--  Dimensions for PagerHeaders -->
+    <dimen name="pager_header_height">32dp</dimen>
+    <dimen name="pager_header_padding_top">3dip</dimen>
+    <dimen name="pager_header_padding_bottom">5dip</dimen>
+    <dimen name="pager_header_padding_push">50dip</dimen>
+    <dimen name="pager_header_tab_height">4dip</dimen>
+    <dimen name="pager_header_tab_padding">10dip</dimen>
+    <dimen name="pager_header_fading_edge_length">30dip</dimen>
+</resources>

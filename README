@@ -1,0 +1,5 @@
+This is the Superuser.apk for Android
+
+Any app that requires root access must call the su binary which in turn calls this app to prompt the user for permission. This app is also used to manage which apps have root permission as well as monitor their usage of the permission.
+
+Please note that the 'master-dev' branch is a working branch. Code contained in that branch should be considered 'pre-alpha'. Many features are missing and there are many bugs. Compile and use at your own risk.
