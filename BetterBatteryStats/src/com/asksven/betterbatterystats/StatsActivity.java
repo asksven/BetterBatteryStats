@@ -28,11 +28,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -43,6 +45,7 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -211,16 +214,61 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onPause();
 	}
 
-	@Override
-	public void onBackPressed()
-	{
-		Intent startMain = new Intent(Intent.ACTION_MAIN);
-		startMain.addCategory(Intent.CATEGORY_HOME);
-		startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(startMain);
-		
-		return;
-	}
+//	@Override
+//	public void onBackPressed()
+//	{
+//		Intent startMain = new Intent(Intent.ACTION_MAIN);
+//		startMain.addCategory(Intent.CATEGORY_HOME);
+//		startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//		startActivity(startMain);
+//		
+//		return;
+//	}
+	
+	/**
+	 * Handle the "back" button to make sure the user wants to
+	 * quit the application and lose any custom ref 
+	 */
+	@Override 
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+	{ 
+        // if "back" was pressed. If a custom ref was saved ask if app should
+		// still be closed
+        switch(KeyEvent.KEYCODE_BACK) 
+        { 
+                case KeyEvent.KEYCODE_BACK: 
+                	// do we have a custom ref
+                	if (m_refOther != null)
+                	{
+                		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                		    @Override
+                		    public void onClick(DialogInterface dialog, int which)
+                		    {
+                		        switch (which)
+                		        {
+                		        case DialogInterface.BUTTON_POSITIVE:
+                		            //Yes button clicked
+                		        	finish();
+                		            break;
+
+                		        case DialogInterface.BUTTON_NEGATIVE:
+                		            //No button clicked
+                		            break;
+                		        }
+                		    }
+                		};
+                		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                		builder.setMessage("By closing the custom reference will be lost. Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                		    .setNegativeButton("No", dialogClickListener).show();
+                		return true;
+                	}
+                	else
+                	{
+                		return super.onKeyDown(keyCode, event);
+                	}
+        } 
+        return super.onKeyDown(keyCode, event); 
+    } 	
     /**
      * Save state, the application is going to get moved out of memory
      * @see http://stackoverflow.com/questions/151777/how-do-i-save-an-android-applications-state
