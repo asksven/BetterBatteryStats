@@ -52,5 +52,16 @@
         <item name="1">1</item>
         <item name="2">2</item>
     </string-array>
+    
+	<string-array name="graphBarHeigthLabels">
+		<item name="0">Default</item>
+		<item name="1">4</item>
+		<item name="2">8</item>
+	</string-array>
+	<string-array name="graphBarHeigthValues">
+		<item name="0">0</item>
+		<item name="1">4</item>
+		<item name="2">8</item>
+	</string-array>
 
 </resources>
