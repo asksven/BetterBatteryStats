@@ -205,6 +205,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	protected void onResume()
 	{
 		super.onResume();
+		// refresh 
+		doRefresh();
 	}
 
 	/* Remove the locationlistener updates when Activity is paused */
@@ -214,17 +216,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onPause();
 	}
 
-//	@Override
-//	public void onBackPressed()
-//	{
-//		Intent startMain = new Intent(Intent.ACTION_MAIN);
-//		startMain.addCategory(Intent.CATEGORY_HOME);
-//		startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//		startActivity(startMain);
-//		
-//		return;
-//	}
-	
 	/**
 	 * Handle the "back" button to make sure the user wants to
 	 * quit the application and lose any custom ref 
@@ -234,38 +225,38 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{ 
         // if "back" was pressed. If a custom ref was saved ask if app should
 		// still be closed
-        switch(KeyEvent.KEYCODE_BACK) 
+        if (keyCode == KeyEvent.KEYCODE_BACK) 
         { 
-                case KeyEvent.KEYCODE_BACK: 
-                	// do we have a custom ref
-                	if (m_refOther != null)
-                	{
-                		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                		    @Override
-                		    public void onClick(DialogInterface dialog, int which)
-                		    {
-                		        switch (which)
-                		        {
-                		        case DialogInterface.BUTTON_POSITIVE:
-                		            //Yes button clicked
-                		        	finish();
-                		            break;
+        	// do we have a custom ref
+        	if (m_refOther != null)
+        	{
+        		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+        		{
+        		    @Override
+        		    public void onClick(DialogInterface dialog, int which)
+        		    {
+        		        switch (which)
+        		        {
+        		        case DialogInterface.BUTTON_POSITIVE:
+        		            //Yes button clicked
+        		        	finish();
+        		            break;
 
-                		        case DialogInterface.BUTTON_NEGATIVE:
-                		            //No button clicked
-                		            break;
-                		        }
-                		    }
-                		};
-                		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                		builder.setMessage("By closing the custom reference will be lost. Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                		    .setNegativeButton("No", dialogClickListener).show();
-                		return true;
-                	}
-                	else
-                	{
-                		return super.onKeyDown(keyCode, event);
-                	}
+        		        case DialogInterface.BUTTON_NEGATIVE:
+        		            //No button clicked
+        		            break;
+        		        }
+        		    }
+        		};
+        		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        		builder.setMessage("By closing the custom reference will be lost. Are you sure?").setPositiveButton("Yes", dialogClickListener)
+        		    .setNegativeButton("No", dialogClickListener).show();
+        		return true;
+        	}
+        	else
+        	{
+        		return super.onKeyDown(keyCode, event);
+        	}
         } 
         return super.onKeyDown(keyCode, event); 
     } 	
@@ -335,24 +326,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        	break;	
 	        case MENU_ITEM_1:
             	// Refresh
-	        	new LoadStatData().execute(this);
-	    		// Display the reference of the stat
-	    		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-	            TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-	            tvSince.setText("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)));
-	        	
-	            FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
-	    		if (sharedPrefs.getBoolean("hide_since", true))
-	            {
-	            	myLayout.setVisibility(View.GONE);
-	            }
-	    		else
-	    		{
-	    			myLayout.setVisibility(View.VISIBLE);
-	    		}
-	    		
-            	this.setListViewAdapter();
+	        	doRefresh();
             	break;
             case MENU_ITEM_2:
             	// Dump to File
@@ -449,7 +423,29 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		//m_listViewAdapter.notifyDataSetChanged();
 		
 	}
+	
+	private void doRefresh()
+	{
+    	new LoadStatData().execute(this);
+		// Display the reference of the stat
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
+        tvSince.setText("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)));
+    	
+        FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
+		if (sharedPrefs.getBoolean("hide_since", true))
+        {
+        	myLayout.setVisibility(View.GONE);
+        }
+		else
+		{
+			myLayout.setVisibility(View.VISIBLE);
+		}
+		
+    	this.setListViewAdapter();
+
+	}
 	private class WriteDumpFile extends AsyncTask
 	{
 		@Override
