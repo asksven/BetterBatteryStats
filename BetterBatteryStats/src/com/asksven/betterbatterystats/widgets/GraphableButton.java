@@ -15,12 +15,19 @@
  */
 package com.asksven.betterbatterystats.widgets;
 
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.betterbatterystats.R;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 /**
  * @author sven
@@ -29,7 +36,8 @@ import android.widget.Button;
 public class GraphableButton extends Button
 {
     private static final String TAG = "GraphableButton";
-
+    private Context m_context;
+    
     static Paint[] sPaint = new Paint[2];
     static
     {
@@ -47,6 +55,7 @@ public class GraphableButton extends Button
     public GraphableButton(Context context, AttributeSet attrs)
     {
         super(context, attrs);
+        m_context = context;
     }
     
     public void setValues(double[] values, double maxValue)
@@ -67,13 +76,25 @@ public class GraphableButton extends Button
         int xmax = getWidth() - getPaddingRight();
         int ymin = getPaddingTop();
         int ymax = getHeight() - getPaddingBottom();
-        if (ymin == ymax)
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
+		int iHeight = 0;
+		
+		try
+		{
+			iHeight = Integer.valueOf(sharedPrefs.getString("graph_bar_height", "0"));
+		}
+		catch (Exception e)
+		{
+			// nop
+		}
+		
+		if (iHeight != 0)
         {
-        	// @hack for some densities / resolutions the height of the canvas 
-        	// becomes 0 -> invisible
-        	// for that case render it at min a height of 4 px
-        	ymin = ymin - (getPaddingBottom() / 2) - 2;
-        	ymax = ymax + (getPaddingBottom() / 2) + 2;
+        	int iMiddle = ymax - ymin;
+        	
+        	ymin = ymin - (iHeight / 2);
+        	ymax = ymax + (iHeight / 2);
         }
         
         int startx = xmin;
