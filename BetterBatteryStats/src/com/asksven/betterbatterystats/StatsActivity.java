@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -961,7 +962,25 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				//out.write("Network\n");
 				//out.write("=======\n");
 				//dumpList(getNetworkUsageStatList(bFilterStats, m_iStatType), out);
+		
+				out.write("========\n");
+				out.write("Services\n");
+				out.write("========\n");
+				out.write("Active since: The time when the service was first made active, either by someone starting or binding to it.\n");
+				out.write("Last activity: The time when there was last activity in the service (either explicit requests to start it or clients binding to it)\n");
+				out.write("See http://developer.android.com/reference/android/app/ActivityManager.RunningServiceInfo.html\n");
+				ActivityManager am = (ActivityManager)this.getSystemService(ACTIVITY_SERVICE);
+				List<ActivityManager.RunningServiceInfo> rs = am.getRunningServices(50);
+				         
+				for (int i=0; i < rs.size(); i++) {
+				  ActivityManager.RunningServiceInfo  rsi = rs.get(i);
+				  out.write(rsi.process + " (" + rsi.service.getClassName() + ")\n");
+				  out.write("  Active since: " + DateUtils.formatDuration(rsi.activeSince) + "\n");
+				  out.write("  Last activity: " + DateUtils.formatDuration(rsi.lastActivityTime) + "\n");
+				  out.write("  Crash count:" + rsi.crashCount + "\n");
+				}
 				
+				// see http://androidsnippets.com/show-all-running-services
 				// close file
 				out.close();
 		    }
