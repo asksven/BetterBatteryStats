@@ -1,0 +1,82 @@
+<HTML>
+<head>
+    <title>Help</title>    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	<meta name="viewport" content="width=device-width-constant; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" /> 
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" /> 
+</head> 
+<body> 
+ 
+	
+<h2>BetterBatteryStats<span>Help</span></h2> 
+<div id="content"> 
+<p id="intro">Here you will find details about the views and options of BetterBatteryStatistics are organised. Further information about using BetterBatteryStats is located in the how-tos.</p>
+<h2>Views</h2>
+<p>These are the three statistics:
+<ul>
+	<li>Other: shows total times the different part of the phone have been on (display, wifi, bluetooth)</li>
+	<li>Partial wakelocks: shows the total time and the count of partial wakelocks by application</li>
+	<li>Processes: shows the cpu time (user and system) processes have consumed</li>
+</ul></p>
+<p>and these are the possible timespans:
+<ul>
+	<li>Since changed: all statitics give details since the phone was 100% charged</li>
+	<li>Since unplugged: all statitics give details since the phone was unplugged from A/C or USB</li>
+	<li>Since custom reference: all statitics give details since a custom reference was set (from the "Actions" menu)</li>
+</ul></p>
+
+<h3>Other</h3>
+<p>
+Group of different indicators about what is consuming the battery. This statistic should always be checked first as it gives a good idea about the draining profile.
+</p>
+<p>
+A usual profile would show low "Screen on" times compared the "Awake" meaning that partial wakelocks are resonsible for the battery drain as those preventing the phone from going to deep sleep.
+</p>
+<ul>
+	<li>Awake: the total time the phone was not in deep-sleep</li>
+	<li>Screen On: the total time the phone was awake and the display was on</li>
+	<li>Phone On: the total time the phone was in a call</li>
+	<li>Wifi On: the total time Wifi was on</li>
+	<li>Wifi running: the total time Wifi was connected to a SSID</li>
+	<li>Bluetooth On: the total time bluetooth was on</li>
+</ul>
+<h3>Partial wakelocks</h3>
+<p>
+The list shows the total time of partial wakelock that was held by an application or by a service during the timespan, the number of wakelocks and the impact in percent.
+The impact in percent is calculated against the total time on, the awake time or the awake time - screen on time depending on the settings.
+Usually the impact calculated against the awake time is the most representative as it shows the potential in terms of reducing the awake time. 
+The graph bars show the percentage depending on the preferences (see above).
+</p>
+<p>
+Even if the total time is low it is important to check the high counts as well. A large number of short wake periods can have a huge impact on the awake time as the phone takes some time to wake up and some time to go back to sleep that is not shown in this stat.
+For example let's assume the phone takes 1/2 second to wake up and sleep again. For a wakelock of 10 seconds the resulting awake time would be 11 seconds. For 10 wakelocks of 0,1 seconds the total wakelock time would be as low as 1 second but the awake time would be 11 seconds. 
+</p>
+<h3>Processes</h3>
+<p>
+The list shows the processes and their CPU consumption during the timespan. CPU consumption is expressed in user CPU and system CPU and both times are shown in the total and in the bar graph with different colors.
+</p>
+<h2>Menu</h2>
+<p>
+<ul>
+	<li>Preferences</li>
+	<li>Refresh</li>
+	<li>Actions</li>
+	<ul>
+		<li>Dump to file: writes the statistics to /sdcard/BetterBatteryStats.log</li>
+		<li>Set Custom Reference: set a custom begin mark for a statitic</li>
+		<li>Battery History: shows a graph of battery usage (Gingerbread only)</li>
+	</ul>
+	<li>Help: access to this help was well as the how-to</li>
+</ul>
+</p>
+</div> 
+<br />	
+	<nav class=""> 
+		<ul> 
+			<li><a href="help.html">Getting started</a></li> 
+			<li><a href="howto.html">How To...</a></li> 
+			<!-- <li><a href="/wakelocks.html">Wakelocks</a></li> -->
+		</ul> 
+	</nav> 
+</body>
+</HTML>

@@ -1,0 +1,56 @@
+<HTML>
+<head>
+    <title>Help</title>    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	<meta name="viewport" content="width=device-width-constant; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" /> 
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" /> 
+</head> 
+<body> 
+ 
+	
+<h2>BetterBatteryStats<span>How To</span></h2> 
+<div id="content"> 
+This document provides an insight about how to use BetterBatteryStats to reduce the battery drain in a systematic manner.
+<p id="intro">The process to follow is pretty simple and follows this simple flowchart:</p>
+<img src="howto.png" alt="flowchart"/><br/><br/><br/>
+<h2>Determine awake vs. screen on ratio</h2>
+<p>
+The awake vs. screen on ratio tells you how much time your phone has spent with the display being off but not being in the optimal deep-sleep mode. During this time the reason why your phone is not going to deep-sleep or is being woken up from deep-sleep is caused by background processes (services, apps reacting on different events). These use partial wakelocks to prevent your phone from reaching its optimal state of deep-sleep. The good news is we can change this to some extent and by doing so improve the battery life dramatically.
+</p>
+
+<h2>Check wakelocks</h2>
+<p>
+Go to the "Partial wakelocks" statistic and check the list. The wakelocks are sorted by time in descending order. In the first step we want to check for high times (minutes or more), once there are no hot spots left we want to look at the high counts.
+</p>
+<H2>Deinstall or freeze</H2>
+<p>
+Once a cause for wakelocks has been spotted you have to ask yourself if you even use that app. If not disable/deinstall/freeze it.
+Go back to the start and take another reading to see the effect of the action.
+</p>
+<h2>Check / change settings</h2>
+<p>
+Sometimes we really want the app / functionality causing the wakelocks and the good news is there is still hope. Many apps have settings that condition their behaviour so these should be checked:
+<ul>
+	<li>frequency: having twitter check for new messages every 2 minutes is not something compatible with a long battery life. Once you know the cost of a functionality it may be easier to decide to use it on demand instead of let it running as a background scheduled task</li>
+	<li>quantity: check for optional services like e.g. cloud backup, full sync etc. and ask yourself if you really need all that stuff</li>
+</ul>
+<h2>Enjoy your successes</h2>
+<p>
+One basic rule in performance optimization is to check the results for each action taken and this applies here too:
+<ul>
+	<li>don't make too many changes at once: once hot spots have been removed you may have a completely different picture. This is why processing more than two findings at once may be a loss of time</li>
+	<li>don't change the reference while optimizing: switching kernel, ROM or modem during a round of optimization may lead you to wrong conclusions and may also be demotivating</li>
+	<li>consider factory from outside, in case of doubt run another round of readings: our phones are no closed systems and conditions like network coverage may influence readings. In case of doubt repeating the readings under other conditions to confirm is the best way to make sure you are investing your time into solving the right problem</li> 
+	<li>don't obsess: you want to enjoy your phone too so don't obsess by hunting down the last second of wakelock. Enjoy your results and come back to check the stats from time to time of if you feel battery life is getting worse</li>
+</ul>
+</div> 
+<br />	
+	<nav class=""> 
+		<ul> 
+			<li><a href="/help.html">Getting started</a></li> 
+			<li><a href="/howto.html">How To...</a></li> 
+			<!-- <li><a href="/wakelocks.html">Wakelocks</a></li> -->
+		</ul> 
+	</nav> 
+</body>
+</HTML>
