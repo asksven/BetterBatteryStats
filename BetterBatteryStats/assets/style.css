@@ -1,0 +1,29 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,form,label,table,caption,tbody,tfoot,thead,tr,th,td {margin: 0; padding: 0; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; background: transparent; }
+body { line-height: 1; }
+ol, ul { list-style: none; }
+blockquote, q { quotes: none; }
+:focus { outline: 0; }
+ins { text-decoration: none; }
+del { text-decoration: line-through; }
+table { border-collapse: collapse; border-spacing: 0; }
+body { font-family: Arial; color: #e1e1e1; background: #101010;	-webkit-text-size-adjust: none; }
+h1 { display: block; margin: 40px auto 0; text-indent: -999999px; }
+h2 { font-size: 14px; color:#656565; width: 200px; font-weight: normal; margin-bottom: 20px; padding: 30px 30px 5px; }
+h2 span { display: block; font-size: 20px; color: #fff; margin-top: 5px; }
+h2#post span { margin-top: 0; margin-bottom: 10px;  }
+div#content h2 { display: inline; background-color: #000; font-size: 13px; color: #fff; margin: 0; padding: 0; font-weight: bold; }
+
+h3,h4,h5 { color: #fff; }
+
+/* content */
+div#content { padding: 30px; font-size: 15px; color: #acacac; line-height: 140% }
+div#content p { margin: 20px 0; }
+div#content p:first-child { margin-top: 0; }
+div#content ul { list-style: disc; line-height: 160%; padding: 0 35px; }
+	div#content ul li { margin: 15px 0 0; }
+div#content a { color: #fff; }
+
+/* Nav */
+nav ul { overflow: hidden; width: 320px; margin: 0 auto; text-align: center; }
+nav ul li { display: inline-block; text-align: center; }
+nav ul li a { display: block; font-size: 15px; color: #888; text-decoration: none; text-align: center; padding: 18px 25px 16px; }
