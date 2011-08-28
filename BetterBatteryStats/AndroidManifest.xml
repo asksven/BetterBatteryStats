@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="4" android:versionName="0.9.0.0"
+<manifest android:versionCode="5" android:versionName="0.10.0.0"
     package="com.asksven.betterbatterystats" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="9"/>
+    <supports-screens android:anyDensity="true"
+        android:largeScreens="true" android:normalScreens="true"
+        android:resizeable="true" android:smallScreens="true"/>
     <application android:icon="@drawable/icon_notext" android:label="BetterBatteryStats">
         <activity android:label="BetterBatteryStats" android:name="com.asksven.betterbatterystats.StatsActivity">
             <intent-filter>
@@ -11,10 +14,9 @@
         </activity>
         <activity android:name="com.asksven.betterbatterystats.AboutActivity"/>
         <activity android:name="com.asksven.betterbatterystats.PreferencesActivity"/>
+        <activity android:name="com.asksven.betterbatterystats.HelpActivity"/>
     </application>
-
     <uses-permission android:name="android.permission.BATTERY_STATS"/>
     <!--  required for writing dump files -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>
