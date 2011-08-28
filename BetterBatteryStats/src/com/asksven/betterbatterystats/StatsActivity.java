@@ -49,6 +49,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -77,7 +78,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     private final int MENU_ITEM_4 = 4;
     private final int MENU_ITEM_5 = 5;
     private final int MENU_ITEM_6 = 6;
-    
+    private final int MENU_ITEM_7 = 7;
+    private final int MENU_ITEM_8 = 8;
     // dependent on arrays.xml
     private final static int STATS_CUSTOM 	= 4;
     
@@ -305,9 +307,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	menu.add(0, MENU_ITEM_0, 0, "Preferences");
     	menu.add(0, MENU_ITEM_1, 0, "Refresh");
     	menu.add(0, MENU_ITEM_2, 0, "Dump to File");
-    	menu.add(0, MENU_ITEM_3, 0, "Custom Reference");
+    	menu.add(0, MENU_ITEM_3, 0, "Set Custom Reference");
+    	menu.add(0, MENU_ITEM_5, 0, "Battery History");
+    	
         menu.add(0, MENU_ITEM_4, 0, "About");
-        menu.add(0, MENU_ITEM_5, 0, "Battery History");
+        menu.add(0, MENU_ITEM_7, 0, "Getting started");
+        menu.add(0, MENU_ITEM_8, 0, "How To...");
 //        menu.add(0, MENU_ITEM_6, 0, "Manage Apps");
         return true;  
     }  
@@ -375,6 +380,20 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
             	break;	
 
+            case MENU_ITEM_7:
+            	// Help
+            	Intent intentHelp = new Intent(this, HelpActivity.class);
+            	intentHelp.putExtra("filename", "help.html");
+                this.startActivity(intentHelp);
+            	break;	
+
+            case MENU_ITEM_8:
+            	// Help
+            	Intent intentHowTo = new Intent(this, HelpActivity.class);
+            	intentHowTo.putExtra("filename", "howto.html");
+                this.startActivity(intentHowTo);
+            	break;	
+	
         }  
         return false;  
     }    
