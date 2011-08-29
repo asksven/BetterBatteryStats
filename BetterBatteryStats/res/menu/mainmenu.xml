@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/preferences"
+          android:title="Preferences" />
+    <item android:id="@+id/refresh"
+          android:title="Refresh" />
+    <!-- Actions group -->
+    <item android:id="@+id/actions_group"
+          android:title="Actions">            
+	    <menu>
+	    	<item android:id="@+id/dump"
+	        	android:title="Dump to File" />
+	        <item android:id="@+id/custom_ref"
+	        	android:title="Set Custom Ref." />
+	        <item android:id="@+id/history"
+	        	android:title="Battery History" />  
+	    </menu>
+	</item>
+    <item android:id="@+id/help_group"
+          android:title="Help">
+    	<menu>
+    		<item android:id="@+id/about"
+	        	android:title="About" />
+	        <item android:id="@+id/getting_started"
+	        	android:title="Getting started" />
+	        <item android:id="@+id/howto"
+	        	android:title="How to..." />
+	        	
+	        	
+	        
+    	</menu>
+    </item>      
+</menu>
