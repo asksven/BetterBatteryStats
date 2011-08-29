@@ -48,6 +48,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
@@ -304,17 +305,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
      */
     public boolean onCreateOptionsMenu(Menu menu)
     {  
-    	menu.add(0, MENU_ITEM_0, 0, "Preferences");
-    	menu.add(0, MENU_ITEM_1, 0, "Refresh");
-    	menu.add(0, MENU_ITEM_2, 0, "Dump to File");
-    	menu.add(0, MENU_ITEM_3, 0, "Set Custom Reference");
-    	menu.add(0, MENU_ITEM_5, 0, "Battery History");
-    	
-        menu.add(0, MENU_ITEM_4, 0, "About");
-        menu.add(0, MENU_ITEM_7, 0, "Getting started");
-        menu.add(0, MENU_ITEM_8, 0, "How To...");
-//        menu.add(0, MENU_ITEM_6, 0, "Manage Apps");
-        return true;  
+    	MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mainmenu, menu);
+        return true;
     }  
     
     /** 
@@ -326,29 +319,29 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     {  
         switch (item.getItemId())
         {  
-	        case MENU_ITEM_0:  
+	        case R.id.preferences:  
 	        	Intent intentPrefs = new Intent(this, PreferencesActivity.class);
 	            this.startActivity(intentPrefs);
 	        	break;	
-	        case MENU_ITEM_1:
+	        case R.id.refresh:
             	// Refresh
 	        	doRefresh();
             	break;
-            case MENU_ITEM_2:
+            case R.id.dump:
             	// Dump to File
             	new WriteDumpFile().execute("");
             	//this.writeDumpToFile();
             	break;
-            case MENU_ITEM_3:
+            case R.id.custom_ref:
             	// Set custom reference
             	new SetCustomRef().execute(this);
             	break;
-            case MENU_ITEM_4:
+            case R.id.about:
             	// About
             	Intent intentAbout = new Intent(this, AboutActivity.class);
                 this.startActivity(intentAbout);
             	break;
-            case MENU_ITEM_5:
+            case R.id.history:
             	// Battery History
             	try
             	{
@@ -365,30 +358,30 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             		Toast.makeText(this, "Unable to open Battery History", Toast.LENGTH_SHORT).show();
             	}
             	break;
-            case MENU_ITEM_6:
-            	// Manage Applications
-            	try
-            	{
-            		Intent intentManage = new Intent();
-            		intentManage.setAction(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-            		startActivity(intentManage); 
-            	}
-            	catch (ActivityNotFoundException e)
-            	{
-            		Toast.makeText(this, "Unable to open Manage Apps", Toast.LENGTH_SHORT).show();
-            	}
+//            case MENU_ITEM_6:
+//            	// Manage Applications
+//            	try
+//            	{
+//            		Intent intentManage = new Intent();
+//            		intentManage.setAction(android.provider.Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+//            		startActivity(intentManage); 
+//            	}
+//            	catch (ActivityNotFoundException e)
+//            	{
+//            		Toast.makeText(this, "Unable to open Manage Apps", Toast.LENGTH_SHORT).show();
+//            	}
+//
+//            	break;	
 
-            	break;	
-
-            case MENU_ITEM_7:
+            case R.id.getting_started:
             	// Help
             	Intent intentHelp = new Intent(this, HelpActivity.class);
             	intentHelp.putExtra("filename", "help.html");
                 this.startActivity(intentHelp);
             	break;	
 
-            case MENU_ITEM_8:
-            	// Help
+            case R.id.howto:
+            	// How To
             	Intent intentHowTo = new Intent(this, HelpActivity.class);
             	intentHowTo.putExtra("filename", "howto.html");
                 this.startActivity(intentHowTo);
