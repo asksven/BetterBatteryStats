@@ -49,6 +49,31 @@ Sometimes we really want the app / functionality causing the wakelocks and the g
 	<li>frequency: having twitter check for new messages every 2 minutes is not something compatible with a long battery life. Once you know the cost of a functionality it may be easier to decide to use it on demand instead of let it running as a background scheduled task</li>
 	<li>quantity: check for optional services like e.g. cloud backup, full sync etc. and ask yourself if you really need all that stuff</li>
 </ul>
+
+<h2>Optimize screen-on drain</h2>
+<p>
+If you awake time is not less than the screen on time there are two aspects to consider:
+<ul>
+	<li>What is preventing the phone from sleeping is you interacting with your phone</li>
+	<li>There still may be too many things happening in the backgroud that would prevent you phone from sleeping if you weren't using it</li>	
+</ul>
+So even if partial wakelocks are not the root cause of you drain we still recommend checking them and make sure there is nothing unwanted happening in the background.
+<br/>
+Following tips can help you lower the drain when screen is on:
+<ul>
+	<li>Don't use auto brightness but keep it as low as possible</li>
+	<li>If the minimum brightness is still too high consider using a 3rd party tool like screen filter</li>
+	<li>Don't use animated wallpapers</li>
+	<li>Lower your auto-off timeout to turn off the screen faster if unused</li>
+	<li>Check the refresh settings of your widgets</li>
+	<li>Use Wifi instead of 3G data</li>
+	<li>Check for rogue apps in terms of CPU consumption (process view)</li>
+	<li>Turn your GPS off (automatic is not was good as off)</li>
+	<li>When you are finished using an app close it with the "back" button. This will terminate it and avoid background management</li>
+	<li>Don't use any auto killer apps. If there are apps you don't want to be started or cached freeze them or configure their auto-start properly</li>
+	<li>Don't use and power saving tools like Juice Defender or Green Power: most apps do not behave properly when they can't use the data connection and will generate overhead by trying</li>
+</ul>
+</p>
 <h2>Enjoy your successes</h2>
 <p>
 One basic rule in performance optimization is to check the results for each action taken and this applies here too:
