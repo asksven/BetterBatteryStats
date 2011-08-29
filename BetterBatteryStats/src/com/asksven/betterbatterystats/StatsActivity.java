@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -72,15 +73,6 @@ import com.asksven.betterbatterystats.R;
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
 {
-    private final int MENU_ITEM_0 = 0;
-    private final int MENU_ITEM_1 = 1;
-    private final int MENU_ITEM_2 = 2;
-    private final int MENU_ITEM_3 = 3;
-    private final int MENU_ITEM_4 = 4;
-    private final int MENU_ITEM_5 = 5;
-    private final int MENU_ITEM_6 = 6;
-    private final int MENU_ITEM_7 = 7;
-    private final int MENU_ITEM_8 = 8;
     // dependent on arrays.xml
     private final static int STATS_CUSTOM 	= 4;
     
@@ -130,9 +122,36 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);
 
-		// retrieve default selections for spinners
+		// check if we have a new release
+		// if yes show release notes
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
+		String strLastRelease	= sharedPrefs.getString("last_release", "0");
+		String strCurrentRelease = "";
+		try
+		{
+		PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+		
+    	strCurrentRelease = Integer.toString(pinfo.versionCode);
+		}
+		catch (Exception e)
+		{
+			// nop strCurrentRelease is set to ""
+		}
+    	if (!strLastRelease.equals(strCurrentRelease))
+    	{
+    		// show the readme
+	    	Intent intentReleaseNotes = new Intent(this, HelpActivity.class);
+	    	intentReleaseNotes.putExtra("filename", "readme.html");
+	        this.startActivity(intentReleaseNotes);
+	        
+	        // save the current release to properties so that the dialog won't be shown till next version
+	        SharedPreferences.Editor editor = sharedPrefs.edit();
+	        editor.putString("last_release", strCurrentRelease);
+	        editor.commit();
+    	}
+		// retrieve default selections for spinners
+    	
+    	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
 		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "0"));
 		
 		try
@@ -385,6 +404,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	Intent intentHowTo = new Intent(this, HelpActivity.class);
             	intentHowTo.putExtra("filename", "howto.html");
                 this.startActivity(intentHowTo);
+            	break;	
+
+            case R.id.releasenotes:
+            	// Release notes
+            	Intent intentReleaseNotes = new Intent(this, HelpActivity.class);
+            	intentReleaseNotes.putExtra("filename", "readme.html");
+                this.startActivity(intentReleaseNotes);
             	break;	
 	
         }  
