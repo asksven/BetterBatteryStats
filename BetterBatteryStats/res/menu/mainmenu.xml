@@ -25,6 +25,8 @@
 	        	android:title="Getting started" />
 	        <item android:id="@+id/howto"
 	        	android:title="How to..." />
+	        <item android:id="@+id/releasenotes"
+	        	android:title="Release Notes" />	
 	        	
 	        	
 	        
