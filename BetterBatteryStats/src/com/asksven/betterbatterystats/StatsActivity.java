@@ -631,6 +631,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<Process> myProcesses = null;
+		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 		
 		// if we are using custom ref. always retrieve "stats current"
 		if (iStatType == STATS_CUSTOM)
@@ -643,7 +644,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		Collections.sort(myProcesses);
+		//Collections.sort(myProcesses);
 		
 		for (int i = 0; i < myProcesses.size(); i++)
 		{
@@ -668,15 +669,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 					// we must recheck if the delta process is still above threshold
 					if ( (!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0) )
 					{
-						myStats.add((StatElement) ps);
+						myRetProcesses.add(ps);
 					}
 				}
 				else
 				{
 					// case b) nothing special
-					myStats.add((StatElement) ps);
+					myRetProcesses.add(ps);
 				}
 			}
+		}
+		
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myRetProcesses);
+		
+		for (int i=0; i < myRetProcesses.size(); i++)
+		{
+			myStats.add((StatElement) myRetProcesses.get(i));
 		}
 		
 		return myStats;
@@ -695,8 +704,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
 		
-		List<Wakelock> myWakelocks = null;
-		
+		ArrayList<Wakelock> myWakelocks = null;
+		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 		// if we are using custom ref. always retrieve "stats current"
 		if (iStatType == STATS_CUSTOM)
 		{
@@ -733,17 +742,30 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 					// we must recheck if the delta process is still above threshold
 					if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
 					{
-						myStats.add((StatElement) wl);
+						myRetWakelocks.add( wl);
 					}
 				}
 				else
 				{
 					// case b) nothing special
-					myStats.add((StatElement) wl);
+					myRetWakelocks.add(wl);
 				}
 
 			}
 		}
+		// @todo sort mystats
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		String strOrderBy	= sharedPrefs.getString("default_wlorderby", "0");
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myRetWakelocks);
+		
+		for (int i=0; i < myRetWakelocks.size(); i++)
+		{
+			myStats.add((StatElement) myRetWakelocks.get(i));
+		}
+
+		// @todo add sorting by settings here: Collections.sort......
 		return myStats;
 	}
 
@@ -809,6 +831,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 			}
 		}
+		
+		// @todo sort mystats: see implementations for processes / wakelocks
 		return myStats;
 	}
 
