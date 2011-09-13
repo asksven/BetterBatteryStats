@@ -46,12 +46,21 @@
     <PreferenceCategory android:title="Wakelock">    
     <ListPreference 
             android:key="default_wl_ref"
-            android:title="Wakelock % Ref."
-            android:summary="Set the reference for wakelock percentage"
+            android:title="Wakelock % of"
+            android:summary="Wakelock expressed as % of time..."
             android:defaultValue="0" 
             android:entries="@array/wlRefLabels"
             android:entryValues="@array/wlRefValues"
         />
+	   <ListPreference 
+	            android:key="default_wlorderby"
+	            android:title="Default order by"
+	            android:summary="Set the default sorting of wakelocks"
+	            android:defaultValue="0" 
+	            android:entries="@array/orderbyLabels"
+	            android:entryValues="@array/orderbyValues"
+	        />     
+
     </PreferenceCategory>
     <PreferenceCategory android:title="Advanced">
 	    <PreferenceScreen android:title="Advance Preferences">

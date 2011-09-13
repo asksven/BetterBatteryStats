@@ -44,7 +44,7 @@
     <string-array name="wlRefLabels">
         <item name="0">% of time on battery</item>
         <item name="1">% of time awake</item>
-        <item name="2">% of time awake - time with screen on</item>
+        <item name="2">% of time awake minus time with screen on</item>
     </string-array>
 
     <string-array name="wlRefValues">
@@ -63,5 +63,14 @@
 		<item name="1">4</item>
 		<item name="2">8</item>
 	</string-array>
+    <string-array name="orderbyLabels">
+        <item name="0">By time (DESC)</item>
+        <item name="1">By count (DESC)</item>
+    </string-array>
+
+    <string-array name="orderbyValues">
+        <item name="0">0</item>
+        <item name="1">1</item>
+    </string-array>
 
 </resources>
