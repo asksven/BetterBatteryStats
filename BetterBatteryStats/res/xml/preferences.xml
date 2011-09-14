@@ -52,14 +52,6 @@
             android:entries="@array/wlRefLabels"
             android:entryValues="@array/wlRefValues"
         />
-	   <ListPreference 
-	            android:key="default_wlorderby"
-	            android:title="Default order by"
-	            android:summary="Set the default sorting of wakelocks"
-	            android:defaultValue="0" 
-	            android:entries="@array/orderbyLabels"
-	            android:entryValues="@array/orderbyValues"
-	        />     
 
     </PreferenceCategory>
     <PreferenceCategory android:title="Advanced">
@@ -73,6 +65,15 @@
 	            android:entries="@array/graphBarHeigthLabels"
 	            android:entryValues="@array/graphBarHeigthValues"
 	        />
+		   <ListPreference 
+	            android:key="default_orderby"
+	            android:title="Default order by"
+	            android:summary="Set the default sorting"
+	            android:defaultValue="0" 
+	            android:entries="@array/orderbyLabels"
+	            android:entryValues="@array/orderbyValues"
+	        />     
+
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>

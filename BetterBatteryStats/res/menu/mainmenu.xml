@@ -4,6 +4,16 @@
           android:title="Preferences" />
     <item android:id="@+id/refresh"
           android:title="Refresh" />
+    <!-- Sorting group -->
+    <item android:id="@+id/sorting_group"
+          android:title="Order by...">            
+	    <menu>
+	    	<item android:id="@+id/by_time_desc"
+	        	android:title="By time (DESC)" />
+	        <item android:id="@+id/by_count_desc"
+	        	android:title="By count (DESC)" />	
+	    </menu>
+	</item>    
     <!-- Actions group -->
     <item android:id="@+id/actions_group"
           android:title="Actions">            
