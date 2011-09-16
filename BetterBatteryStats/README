@@ -1,3 +1,8 @@
+Credits:
+this project makes use of google gson (http://code.google.com/p/google-gson/downloads/detail?name=google-gson-1.7.1-release.zip&can=2&q=)
+licensed onder the terms of the Apache License Version 2.0, http://www.apache.org/licenses/
+See lib LICENSE 
+
 This project depends on AndroidCommon (https://github.com/asksven/AndroidCommon).
 
 Make sure to:
