@@ -13,6 +13,11 @@
         <item>Since unplugged</item>
         <item>Since Custom Ref.</item>
     </string-array>
+    <string-array name="stat_types_froyo" translatable="false">
+        <item>Total</item>
+        <item>Since unplugged</item>
+        <item>Since Custom Ref.</item>
+    </string-array>
     
     <!--  Values for the preferences -->
     <string-array name="statLabels">

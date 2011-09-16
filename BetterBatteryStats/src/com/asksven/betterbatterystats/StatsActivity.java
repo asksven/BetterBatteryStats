@@ -26,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.prefs.Preferences;
 
@@ -69,6 +70,7 @@ import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
+import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.R;
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
@@ -113,6 +115,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 */
 	private int m_iStat = 0; 
 
+	/**
+	 * the selected sorting
+	 */
+	private int m_iSorting = 0;
 	/**
 	 * @see android.app.Activity#onCreate(Bundle@SuppressWarnings("rawtypes")
 	 */
@@ -211,8 +217,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// Spinner for Selecting the Stat type
 		Spinner spinnerStatType = (Spinner) findViewById(R.id.spinnerStatType);
 		
-		ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource(
-	            this, R.array.stat_types, android.R.layout.simple_spinner_item);
+		ArrayAdapter spinnerAdapter = null;
+		if (AndroidVersion.isFroyo())
+		{
+			spinnerAdapter = ArrayAdapter.createFromResource(
+	            this, R.array.stat_types_froyo, android.R.layout.simple_spinner_item);
+		}
+		else
+		{
+			spinnerAdapter = ArrayAdapter.createFromResource(
+		            this, R.array.stat_types, android.R.layout.simple_spinner_item);
+			
+		}
+		
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    
 		spinnerStatType.setAdapter(spinnerAdapter);
@@ -221,6 +238,20 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		spinnerStatType.setOnItemSelectedListener(this);
 
 		this.setListViewAdapter();
+
+		// sorting
+		String strOrderBy = sharedPrefs.getString("default_orderby", "0");
+		try
+		{
+			m_iSorting = Integer.valueOf(strOrderBy);
+		}
+		catch(Exception e)
+		{
+			// handle error here
+			m_iSorting = 0;
+			
+		}
+
 	}
     
 	/* Request updates at startup */
@@ -329,6 +360,42 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         return true;
     }  
     
+    @Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+    {
+    	boolean bSortingEnabled = true;
+    	    	
+    	MenuItem sortCount = menu.findItem(R.id.by_count_desc);
+    	MenuItem sortTime = menu.findItem(R.id.by_time_desc);
+    	
+    	if (m_iSorting == 0)
+    	{
+    		// sorting is by time
+    		sortTime.setEnabled(false);
+    		sortCount.setEnabled(true);
+    	}
+    	else
+    	{
+    		// sorting is by count
+    		sortTime.setEnabled(true);
+    		sortCount.setEnabled(false);
+    	}
+    	
+		if (m_iStat == 2) // @see arrays.xml, dependency to string-array name="stats"
+		{
+			// disable menu group
+			bSortingEnabled = true;
+		}
+		else
+		{
+			// enable menu group
+			bSortingEnabled = true;
+		}
+		menu.setGroupEnabled(R.id.sorting_group, bSortingEnabled);
+		
+		return true;
+    	
+    }
     /** 
      * Define menu action
      * 
@@ -355,6 +422,17 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	// Set custom reference
             	new SetCustomRef().execute(this);
             	break;
+            case R.id.by_time_desc:
+            	// Enable "count" option
+            	m_iSorting = 0;            	
+            	doRefresh();
+            	break;	
+            case R.id.by_count_desc:
+            	// Enable "count" option
+            	m_iSorting = 1;            	
+            	doRefresh();
+            	break;	
+
             case R.id.about:
             	// About
             	Intent intentAbout = new Intent(this, AboutActivity.class);
@@ -681,7 +759,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		Collections.sort(myRetProcesses);
+		switch (m_iSorting)
+		{
+			case 0:
+				// by Duration
+				Comparator<Process> myCompTime = new Process.ProcessTimeComparator();
+				Collections.sort(myRetProcesses, myCompTime);
+				break;
+			case 1:
+				// by Count
+				Comparator<Process> myCompCount = new Process.ProcessCountComparator();
+				Collections.sort(myRetProcesses, myCompCount);
+				break;
+		}
 		
 		for (int i=0; i < myRetProcesses.size(); i++)
 		{
@@ -753,12 +843,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 			}
 		}
-		// @todo sort mystats
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String strOrderBy	= sharedPrefs.getString("default_wlorderby", "0");
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		Collections.sort(myRetWakelocks);
+		switch (m_iSorting)
+		{
+			case 0:
+				// by Duration
+				Comparator<Wakelock> myCompTime = new Wakelock.WakelockTimeComparator();
+				Collections.sort(myRetWakelocks, myCompTime);
+				break;
+			case 1:
+				// by Count
+				Comparator<Wakelock> myCompCount = new Wakelock.WakelockCountComparator();
+				Collections.sort(myRetWakelocks, myCompCount);
+				break;
+		}
+
+		
 		
 		for (int i=0; i < myRetWakelocks.size(); i++)
 		{
@@ -832,7 +933,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			}
 		}
 		
-		// @todo sort mystats: see implementations for processes / wakelocks
 		return myStats;
 	}
 
@@ -1178,4 +1278,5 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		return strRet;
 	}
 
+	
 }
