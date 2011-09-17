@@ -13,37 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.data;
 
 /**
+ * Value holder for one KB entry
  * @author sven
  *
  */
-
-import com.google.gson.Gson;
-import com.asksven.betterbatterystats.data.KbData;
-import com.asksven.betterbatterystats.data.SampleKbData;
-
-public class KbReader
+public class KbEntry
 {
-    
-    public static KbData read()
-    {
-    	KbData data = null;
-    	try
-    	{
-	        // Now do the magic.
-	        data = new Gson().fromJson(SampleKbData.json, KbData.class);
+    private String fqn;
+	private String title;
+	private String url;
 	
-	        // Show it.
-	        System.out.println(data);
-    	}
-    	catch (Exception e)
-    	{
-    		e.printStackTrace();
-    	}
-    	
-    	return data;
-    }
+    public String getFqn() { return fqn; }
+    public String getTitle() { return title; }
+    public String getUrl() { return url; }
+    
 
+    public void setTitle(String title) { this.title = title; }
+    public void setFqn(String fqn) { this.fqn = fqn; }
+    public void setUrl(String url) { this.url = url; }
+
+    public String toString()
+    {
+        return String.format("fqn:%s,title:%s,url:%s", fqn, title, url);
+    }
 }

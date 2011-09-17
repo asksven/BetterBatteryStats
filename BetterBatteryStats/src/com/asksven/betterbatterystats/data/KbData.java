@@ -24,21 +24,19 @@ import java.util.List;
 public class KbData
 {
     private String title;
-    private Long id;
-    private Boolean children;
-    private List<KbData> groups;
+    private Long version;
+    private List<KbEntry> entries;
 
     public String getTitle() { return title; }
-    public Long getId() { return id; }
-    public Boolean getChildren() { return children; }
-    public List<KbData> getGroups() { return groups; }
+    public Long getVersion() { return version; }
+    public List<KbEntry> getEntries() { return entries; }
 
     public void setTitle(String title) { this.title = title; }
-    public void setId(Long id) { this.id = id; }
-    public void setChildren(Boolean children) { this.children = children; }
-    public void setGroups(List<KbData> groups) { this.groups = groups; }
+    public void setVersion(Long version) { this.version = version; }
+    public void setEntries(List<KbEntry> entries) { this.entries = entries; }
 
-    public String toString() {
-        return String.format("title:%s,id:%d,children:%s,groups:%s", title, id, children, groups);
+    public String toString()
+    {
+        return String.format("title:%s,version:%d,entries:%s", title, version, entries);
     }
 }

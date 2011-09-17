@@ -24,6 +24,26 @@ public class SampleKbData
 {
 	public static String json = 
 	        "{"
+	            + "'title': 'BetterBatteryStats KB',"
+	            + "'version' : 1,"
+	            + "'entries' : ["
+	            	+ "{"
+	                + "'fqn' : 'AlarmManager',"
+	                + "'title' : 'Alarm Manager',"
+	                + "'url' : 'http://'"
+	                + "},"
+	            	+ "{"
+	                + "'fqn' : '*network-location*',"
+	                + "'title' : 'Location Service',"
+	                + "'url' : 'http://'"
+	                + "}"
+	                
+	            + "]"
+	        + "}";
+
+
+	public static String json2 = 
+	        "{"
 	            + "'title': 'Computing and Information systems',"
 	            + "'id' : 1,"
 	            + "'children' : 'true',"
