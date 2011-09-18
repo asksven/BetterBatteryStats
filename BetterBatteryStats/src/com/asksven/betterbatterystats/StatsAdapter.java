@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,9 +54,9 @@ public class StatsAdapter extends BaseAdapter
         this.context = context;
         this.m_listData = listData;
 
-		// retrieve KB
-		this.m_kb = KbReader.read();
-
+        // async read KB
+        new ReadKb().execute("");
+        
         for (int i = 0; i < m_listData.size(); i++)
         {
         	StatElement g = m_listData.get(i);
@@ -172,5 +173,24 @@ public class StatsAdapter extends BaseAdapter
   	      	}
         }
     }
+    
+    private class ReadKb extends AsyncTask
+	{
+		@Override
+	    protected Object doInBackground(Object... params)
+	    {
+			// retrieve KB
+			StatsAdapter.this.m_kb = KbReader.read();
+
+	    	return true;
+	    }
+
+		@Override
+		protected void onPostExecute(Object o)
+	    {
+			super.onPostExecute(o);
+	        // update hourglass
+	    }
+	 }
 }
 

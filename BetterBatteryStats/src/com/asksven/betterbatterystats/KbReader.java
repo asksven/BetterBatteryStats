@@ -20,13 +20,31 @@ package com.asksven.betterbatterystats;
  *
  */
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.SampleKbData;
 
 public class KbReader
 {
+	private static final String URL = "http://asksven.github.com/BetterBatteryStats-Knowledge-Base/kb_v1.0.json";
     private static KbData m_kb = null;
+    
+    private static final String TAG = "KbReader";
     
     public static KbData read()
     {
@@ -39,11 +57,23 @@ public class KbReader
 	    	KbData data = null;
 	    	try
 	    	{
-		        // Now do the magic.
-		        data = new Gson().fromJson(SampleKbData.json, KbData.class);
+	    		InputStream source = retrieveStream(URL);
+	    		
+	    		if (source == null)
+	    		{
+	    			return null;
+	    		}
+	    		Gson gson = new Gson();
+
+	    		Reader reader = new InputStreamReader(source);
+	    		
+	    		// Now do the magic.
+	    		data = gson.fromJson(reader,
+	    				KbData.class);
+	    		
+		        // testing with static data
+		        //data = new Gson().fromJson(SampleKbData.json, KbData.class);
 		
-		        // Show it.
-		        System.out.println(data);
 	    	}
 	    	catch (Exception e)
 	    	{
@@ -53,5 +83,32 @@ public class KbReader
     	}
     	return m_kb;
     }
+    
+    private static InputStream retrieveStream(String url)
+    {
+        DefaultHttpClient client = new DefaultHttpClient();
+        HttpGet getRequest = new HttpGet(url);
+        try
+        {
+           HttpResponse getResponse = client.execute(getRequest);
+
+           final int statusCode = getResponse.getStatusLine().getStatusCode();
+
+           if (statusCode != HttpStatus.SC_OK)
+           {
+              Log.w(TAG,
+                  "Error " + statusCode + " for URL " + url);
+              return null;
+           }
+           HttpEntity getResponseEntity = getResponse.getEntity();
+           return getResponseEntity.getContent();
+        }
+        catch (IOException e)
+        {
+           getRequest.abort();
+           Log.w(TAG, "Error for URL " + url, e);
+        }
+        return null;
+     }
 
 }
