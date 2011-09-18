@@ -18,7 +18,13 @@
                         android:layout_height="wrap_content"
                         android:text="NameGoesHere"
                         android:id="@+id/TextViewFqn"
-                        android:textSize="13sp"></TextView>
+                        android:textSize="13sp"
+                        android:layout_weight="10">
+                </TextView>
+                <ImageView android:id="@+id/imageKB"
+                	android:src="@drawable/icon_kb"
+                	android:layout_width="29dp"
+                	android:layout_height="match_parent"></ImageView>
         </LinearLayout> 
         <LinearLayout android:id="@+id/LinearLayout02"
                 android:layout_height="wrap_content"
@@ -33,14 +39,14 @@
         <LinearLayout android:id="@+id/LinearLayoutBar"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent" android:weightSum="1">
- 			<com.asksven.betterbatterystats.widgets.GraphableButton
+  			<com.asksven.betterbatterystats.widgets.GraphableButton
 				android:id="@+id/ButtonBar"
 				android:layout_width="fill_parent"
 				android:layout_height="20dp"
 				android:layout_marginLeft="2dp"
 				android:layout_marginRight="2dp"
 				android:layout_marginBottom="2dp"
-				android:layout_weight="1" />
+				android:layout_weight="1" />				
 	  </LinearLayout> 
 
 </LinearLayout>
