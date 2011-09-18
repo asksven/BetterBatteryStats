@@ -19,4 +19,6 @@
     <uses-permission android:name="android.permission.BATTERY_STATS"/>
     <!--  required for writing dump files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--  required for accessing the knowledge base -->
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
