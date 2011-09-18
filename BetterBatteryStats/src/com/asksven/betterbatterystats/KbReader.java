@@ -26,24 +26,32 @@ import com.asksven.betterbatterystats.data.SampleKbData;
 
 public class KbReader
 {
+    private static KbData m_kb = null;
     
     public static KbData read()
     {
-    	KbData data = null;
-    	try
+    	if (m_kb != null)
     	{
-	        // Now do the magic.
-	        data = new Gson().fromJson(SampleKbData.json, KbData.class);
-	
-	        // Show it.
-	        System.out.println(data);
+    		return m_kb;
     	}
-    	catch (Exception e)
+    	else
     	{
-    		e.printStackTrace();
+	    	KbData data = null;
+	    	try
+	    	{
+		        // Now do the magic.
+		        data = new Gson().fromJson(SampleKbData.json, KbData.class);
+		
+		        // Show it.
+		        System.out.println(data);
+	    	}
+	    	catch (Exception e)
+	    	{
+	    		e.printStackTrace();
+	    	}
+	    	m_kb = data;
     	}
-    	
-    	return data;
+    	return m_kb;
     }
 
 }
