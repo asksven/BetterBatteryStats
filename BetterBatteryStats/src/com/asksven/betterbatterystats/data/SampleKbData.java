@@ -16,7 +16,7 @@
 package com.asksven.betterbatterystats.data;
 
 /**
- * COnstant pattern: Delivers sample KB data
+ * COnstant pattern: Delivers sample KB data for testing
  * @author sven
  *
  */
@@ -30,34 +30,14 @@ public class SampleKbData
 	            	+ "{"
 	                + "'fqn' : 'AlarmManager',"
 	                + "'title' : 'Alarm Manager',"
-	                + "'url' : 'http://'"
+	                + "'url' : 'http:////'"
 	                + "},"
 	            	+ "{"
-	                + "'fqn' : '*network-location*',"
-	                + "'title' : 'Location Service',"
-	                + "'url' : 'http://'"
+	                + "'fqn' : '',"
+	                + "'title' : '*network-location*',"
+	                + "'url' : 'http:////www.cri.ch//sven'"
 	                + "}"
 	                
 	            + "]"
 	        + "}";
-
-
-	public static String json2 = 
-	        "{"
-	            + "'title': 'Computing and Information systems',"
-	            + "'id' : 1,"
-	            + "'children' : 'true',"
-	            + "'groups' : [{"
-	                + "'title' : 'Level one CIS',"
-	                + "'id' : 2,"
-	                + "'children' : 'true',"
-	                + "'groups' : [{"
-	                    + "'title' : 'Intro To Computing and Internet',"
-	                    + "'id' : 3,"
-	                    + "'children': 'false',"
-	                    + "'groups':[]"
-	                + "}]" 
-	            + "}]"
-	        + "}";
-
 }
