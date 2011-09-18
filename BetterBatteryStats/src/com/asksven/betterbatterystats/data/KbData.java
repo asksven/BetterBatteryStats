@@ -17,6 +17,8 @@ package com.asksven.betterbatterystats.data;
 
 import java.util.List;
 
+import com.asksven.android.common.privateapiproxies.StatElement;
+
 /**
  * @author sven
  *
@@ -39,4 +41,64 @@ public class KbData
     {
         return String.format("title:%s,version:%d,entries:%s", title, version, entries);
     }
+    
+    public KbEntry findByName(String name)
+    {
+    	KbEntry ret = null;
+    	List<KbEntry> entries = getEntries();
+    	
+    	for (int i=0; i < entries.size(); i++)
+    	{
+    		KbEntry comp = (KbEntry) entries.get(i);
+    		if (comp.getTitle().equals(name))
+    		{
+    			ret = comp;
+    			break;
+    		}
+    	}
+    	return ret;
+    }
+    
+    public KbEntry findByFqn(String fqn)
+    {
+    	KbEntry ret = null;
+
+    	for (int i=0; i < entries.size(); i++)
+    	{
+    		KbEntry comp = (KbEntry) entries.get(i);
+	    	if (comp.getFqn().equals(fqn))
+			{
+				ret = comp;
+				break;
+			}
+    	}
+    	return ret;
+    }
+    
+    public KbEntry findByStatElement(String name, String fqn)
+    {
+    	KbEntry ret = null;
+
+    	for (int i=0; i < entries.size(); i++)
+    	{
+    		KbEntry comp = (KbEntry) entries.get(i);
+    		
+    		// first round: search for name + fqn
+	    	if ( (comp.getFqn().equals(fqn))
+	    			&& (comp.getTitle().equals(name)) )
+			{
+				ret = comp;
+				break;
+			}
+    		// second round: search for name only
+	    	if (comp.getTitle().equals(name))
+			{
+				ret = comp;
+				break;
+			}
+
+    	}
+    	return ret;
+    }
+
 }
