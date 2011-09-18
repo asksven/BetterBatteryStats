@@ -1,0 +1,22 @@
+Description:
+------------
+A high battery drain is often a limiting factor for a great user experience.
+With BetterBatteryStats you can analyse the behaviour of your phone, find applications causing the phone to drain battery while it is supposed to be asleep and measure the effect of corrective actions:
+- Spot drainers based on detailed information about the root cause
+- measure the effect of actions to reduce drain
+- detect changes in the awake/sleep profile and quickly find the causes (rogue apps)
+
+In other words BetterBatteryStats helps you getting the best out of your Android smartphone.
+
+Support:
+Please don't use the market's feedback system for support. In case of issues or for any question please contact me by mail or use the contact information from the about box.
+
+Permissions:
+- android.permission.WRITE_EXTERNAL_STORAGE is used only for writing dumps to the SD. In case you don't need that feature please fell free to remoke that permission. It won't have any side effect besides disabling that feature
+- android.permission.BATTERY_STATS is obviously the permission to access the internal statitics and can not be revokes without making the app unusable
+
+BetterBatteryStats is open source so you can inspect/review, contribute or submit issues or feature requests. Please check the about dialog for further details. 
+
+Recent changes:
+---------------
+Added Preference for different calculation mode of wakelock percentage (% to battery time, % to awake time, % to awake - screen on time)
