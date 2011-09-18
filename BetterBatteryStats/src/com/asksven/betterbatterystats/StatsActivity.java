@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.prefs.Preferences;
-
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -52,7 +50,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -83,7 +80,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     private ArrayList<StatElement> m_refNetwork	 = null;
     private ArrayList<StatElement> m_refOther	 = null;
     private long m_refBatteryRealtime = 0;
-    
+
 	/**
 	 * The logging TAG
 	 */
@@ -127,7 +124,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);
-
+		
 		// check if we have a new release
 		// if yes show release notes
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -259,6 +256,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	protected void onResume()
 	{
 		super.onResume();
+		
 		// refresh 
 		doRefresh();
 	}
@@ -345,6 +343,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	private void setListViewAdapter()
 	{
 		m_listViewAdapter = new StatsAdapter(this, getStatList());
+		
         setListAdapter(m_listViewAdapter);
 	}
 	
@@ -359,7 +358,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         inflater.inflate(R.menu.mainmenu, menu);
         return true;
     }  
-    
+
     @Override
 	public boolean onPrepareOptionsMenu(Menu menu)
     {
