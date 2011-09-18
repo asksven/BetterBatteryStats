@@ -54,9 +54,20 @@
         />
 
     </PreferenceCategory>
+        <PreferenceCategory android:title="Knowledge Base">
+	    <PreferenceScreen android:title="Knowledge Base Preferences">	
+	    <CheckBoxPreference 
+			android:key="enable_kb"
+			android:summary="Enable the display of the knowledge base"
+			android:title="Enable KB" 
+			android:defaultValue="true"
+	    />
+
+		</PreferenceScreen>
+	</PreferenceCategory>
+    
     <PreferenceCategory android:title="Advanced">
-	    <PreferenceScreen android:title="Advance Preferences">
-	
+	    <PreferenceScreen android:title="Advanced Preferences">	
 			<ListPreference 
 	            android:key="graph_bar_height"
 	            android:title="Height for graph bars"
@@ -76,4 +87,5 @@
 
 		</PreferenceScreen>
 	</PreferenceCategory>
+
 </PreferenceScreen>
