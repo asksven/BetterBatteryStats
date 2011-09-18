@@ -62,6 +62,12 @@
 			android:title="Enable KB" 
 			android:defaultValue="true"
 	    />
+	    <CheckBoxPreference 
+			android:key="kb_ext_browser"
+			android:summary="Use default browser to display the knowledge base"
+			android:title="Use default browser" 
+			android:defaultValue="true"
+	    />
 
 		</PreferenceScreen>
 	</PreferenceCategory>
