@@ -41,14 +41,24 @@ public class HelpActivity extends Activity
 	    
 	    // retrieve any passed data (filename)
 	    String strFilename = getIntent().getStringExtra("filename");
+	    String strURL = getIntent().getStringExtra("url");
 	    
-	    if (strFilename.equals(""))
+	    // if a URL is passed open it
+	    // if not open a local file
+	    if (strURL.equals(""))
 	    {
-	    	browser.loadUrl("file:///android_asset/help.html");
+		    if (strFilename.equals(""))
+		    {
+		    	browser.loadUrl("file:///android_asset/help.html");
+		    }
+		    else
+		    {
+		    	browser.loadUrl("file:///android_asset/" + strFilename);
+		    }
 	    }
 	    else
 	    {
-	    	browser.loadUrl("file:///android_asset/" + strFilename);
+	    	browser.loadUrl(strURL);
 	    }
 	}
 }
