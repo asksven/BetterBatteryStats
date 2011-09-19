@@ -45,7 +45,7 @@ public class HelpActivity extends Activity
 	    
 	    // if a URL is passed open it
 	    // if not open a local file
-	    if (strURL.equals(""))
+	    if ( (strURL == null) || (strURL.equals("")) )
 	    {
 		    if (strFilename.equals(""))
 		    {
