@@ -33,6 +33,9 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -46,7 +49,7 @@ public class KbReader
     
     private static final String TAG = "KbReader";
     
-    public static KbData read()
+    public static KbData read(Context ctx)
     {
     	if (m_kb != null)
     	{
@@ -55,9 +58,13 @@ public class KbReader
     	else
     	{
 	    	KbData data = null;
+	     	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		  	 
+	    	String strUrlMod = sharedPrefs.getString("kb_url_modifier", "");
+  	      	
 	    	try
 	    	{
-	    		InputStream source = retrieveStream(URL);
+	    		InputStream source = retrieveStream(URL + strUrlMod);
 	    		
 	    		if (source == null)
 	    		{
