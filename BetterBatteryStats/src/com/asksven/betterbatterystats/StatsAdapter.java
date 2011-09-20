@@ -54,8 +54,14 @@ public class StatsAdapter extends BaseAdapter
         this.context = context;
         this.m_listData = listData;
 
-        // async read KB
-        new ReadKb().execute("");
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.context);
+        boolean bKbEnabled = sharedPrefs.getBoolean("enable_kb", true);
+        
+        if (bKbEnabled)
+        {
+        	// async read KB
+        	new ReadKb().execute("");
+        }
         
         for (int i = 0; i < m_listData.size(); i++)
         {
@@ -93,8 +99,12 @@ public class StatsAdapter extends BaseAdapter
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
        	tvName.setText(entry.getName());
 
-        KbEntry kbentry = m_kb.findByStatElement(entry.getName(), entry.getFqn(context));
-
+       	KbEntry kbentry = null;
+        if (m_kb != null)
+        {
+        	 kbentry = m_kb.findByStatElement(entry.getName(), entry.getFqn(context));
+        }
+        
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.context);
         boolean bShowKb = sharedPrefs.getBoolean("enable_kb", true);
         ImageView iconKb = (ImageView) convertView.findViewById(R.id.imageKB);
@@ -156,6 +166,7 @@ public class StatsAdapter extends BaseAdapter
 	  	      	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsAdapter.this.context);
 	  	      	
 	  	      	String url = kbentry.getUrl();
+	  	      	
 	  	        if (sharedPrefs.getBoolean("kb_ext_browser", true))
 	  	        {
 					
@@ -180,7 +191,7 @@ public class StatsAdapter extends BaseAdapter
 	    protected Object doInBackground(Object... params)
 	    {
 			// retrieve KB
-			StatsAdapter.this.m_kb = KbReader.read();
+			StatsAdapter.this.m_kb = KbReader.read(StatsAdapter.this.context);
 
 	    	return true;
 	    }
