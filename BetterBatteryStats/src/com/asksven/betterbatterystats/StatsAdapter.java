@@ -160,6 +160,11 @@ public class StatsAdapter extends BaseAdapter
         {
         	StatElement entry = (StatElement) getItem(m_iPosition);
             
+        	// the timing may lead to m_kb not being initialized yet, it must be checked
+        	if (m_kb == null)
+        	{
+        		return;
+        	}
         	KbEntry kbentry = m_kb.findByStatElement(entry.getName(), entry.getFqn(StatsAdapter.this.context));
   	      	if (kbentry != null)
   	      	{
