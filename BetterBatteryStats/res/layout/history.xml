@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+	
+    <LinearLayout 
+            android:layout_width="fill_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+        <TextView  
+        	android:id="@+id/TextTime"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="10"
+            android:text="Time"
+            />
+
+        <TextView  
+        	android:id="@+id/TextBatteryPct"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="15"
+            android:text="Bat"
+            />
+        <TextView  
+        	android:id="@+id/TextCharing"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="15"
+            android:text="Pow"
+            />
+        <TextView  
+        	android:id="@+id/TextScreenOn"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="15"
+            android:text="Scr"
+            />
+        <TextView  
+        	android:id="@+id/TextWakelock"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="15"
+            android:text="WL"
+            />
+        <TextView  
+        	android:id="@+id/TextWifiOn"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="15"
+            android:text="Wifi"
+            />
+        <TextView  
+        	android:id="@+id/TextGpsOn"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="15"
+            android:text="GPS"
+            />
+
+        <TextView  
+        	android:id="@+id/TextBtOn"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="15"
+            android:text="BT"
+            />
+
+        <TextView  
+        	android:id="@+id/TextPhoneInCall"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="15"
+            android:text="Call"
+            />
+
+        <TextView  
+        	android:id="@+id/TextPhoneScanning"
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/hist_font_size"
+            android:gravity="left"
+            android:layout_weight="15"
+            android:text="Scan"
+            />
+
+    </LinearLayout>
+
+		
+    <!-- Set height to 0, and let the weight param expand it -->
+    <!-- Note the use of the default ID! This lets us use a 
+         ListActivity still! -->
+    
+    <ListView android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" 
+         /> 
+
+</LinearLayout>
