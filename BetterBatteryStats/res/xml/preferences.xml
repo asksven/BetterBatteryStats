@@ -22,7 +22,9 @@
 			android:title="Hide graph bars" 
 			android:defaultValue="false"
 	    />
+ 
 	</PreferenceCategory>
+
 	<PreferenceCategory android:title="Defaults">    
 	    <ListPreference 
 	            android:key="default_stat"
@@ -42,38 +44,38 @@
 	            android:entryValues="@array/statTypeValues"
 	        />
     </PreferenceCategory>
-    
+     
     <PreferenceCategory android:title="Wakelock">    
-    <ListPreference 
-            android:key="default_wl_ref"
-            android:title="Wakelock % of"
-            android:summary="Wakelock expressed as % of time..."
-            android:defaultValue="0" 
-            android:entries="@array/wlRefLabels"
-            android:entryValues="@array/wlRefValues"
-        />
-
+	    <ListPreference 
+	            android:key="default_wl_ref"
+	            android:title="Wakelock pct of"
+	            android:summary="Wakelock expressed as pct of time..."
+	            android:defaultValue="0" 
+	            android:entries="@array/wlRefLabels"
+	            android:entryValues="@array/wlRefValues"/>
     </PreferenceCategory>
-        <PreferenceCategory android:title="Knowledge Base">
+    
+
+    <PreferenceCategory android:title="Knowledge Base">
 	    <PreferenceScreen android:title="Knowledge Base Preferences">	
-	    <CheckBoxPreference 
-			android:key="enable_kb"
-			android:summary="Enable the display of the knowledge base"
-			android:title="Enable KB" 
-			android:defaultValue="true"
-	    />
-	    <CheckBoxPreference 
-			android:key="kb_ext_browser"
-			android:summary="Use default browser to display the knowledge base"
-			android:title="Use default browser" 
-			android:defaultValue="true"
-	    />
-	    <EditTextPreference
-	    	android:key="kb_url_modifier"
-	    	android:summary="Append a string to the service URL to use a test URL"
-			android:title="Append to Service URL" 
-			android:defaultValue="true"
-		/>
+		    <CheckBoxPreference 
+				android:key="enable_kb"
+				android:summary="Enable the display of the knowledge base"
+				android:title="Enable KB" 
+				android:defaultValue="true"
+		    />
+		    <CheckBoxPreference 
+				android:key="kb_ext_browser"
+				android:summary="Use default browser to display the knowledge base"
+				android:title="Use default browser" 
+				android:defaultValue="true"
+		    />
+		    <EditTextPreference
+		    	android:key="kb_url_modifier"
+		    	android:summary="Append a string to the service URL to use a test URL"
+				android:title="Append to Service URL" 
+				android:defaultValue=""
+			/>
 
 		</PreferenceScreen>
 	</PreferenceCategory>
@@ -99,5 +101,4 @@
 
 		</PreferenceScreen>
 	</PreferenceCategory>
-
 </PreferenceScreen>
