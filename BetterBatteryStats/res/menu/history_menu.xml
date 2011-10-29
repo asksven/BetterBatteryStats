@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/refresh"
+		android:title="Refresh" />
+<!-- 
+	<item android:id="@+id/zoom_plus"
+		android:title="Zoom in" />
+	<item android:id="@+id/zoom_minus"
+		android:title="Zoom out" />
+ -->		
+    <item android:id="@+id/view_serie"
+    	android:title="View Serie" />  
+    
+</menu>
