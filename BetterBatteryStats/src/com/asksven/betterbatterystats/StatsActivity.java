@@ -408,6 +408,16 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        	Intent intentPrefs = new Intent(this, PreferencesActivity.class);
 	            this.startActivity(intentPrefs);
 	        	break;	
+//	        case R.id.zoomscroll:  
+//	        	Intent intentZoom = new Intent(this, ZoomScrollGraphActivity.class);
+//	            this.startActivity(intentZoom);
+//	        	break;	
+
+	        case R.id.graph:  
+	        	Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
+	            this.startActivity(intentGraph);
+	        	break;	
+
 	        case R.id.refresh:
             	// Refresh
 	        	doRefresh();
@@ -437,23 +447,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	Intent intentAbout = new Intent(this, AboutActivity.class);
                 this.startActivity(intentAbout);
             	break;
-            case R.id.history:
-            	// Battery History
-            	try
-            	{
-            		Intent intentHistory = new Intent(Intent.ACTION_MAIN, null);
-            		intentHistory.addCategory(Intent.CATEGORY_LAUNCHER);
-            		ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.fuelgauge.PowerUsageSummary");
-            		intentHistory.setComponent(cn);
-            		intentHistory.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            		startActivity(intentHistory);
-            		// or com.android.settings.battery_history.BatteryHistory in Froyo
-            	}
-            	catch (ActivityNotFoundException e)
-            	{
-            		Toast.makeText(this, "Unable to open Battery History", Toast.LENGTH_SHORT).show();
-            	}
-            	break;
+//            case R.id.history:
+//            	// Battery History
+//            	try
+//            	{
+//            		Intent intentHistory = new Intent(Intent.ACTION_MAIN, null);
+//            		intentHistory.addCategory(Intent.CATEGORY_LAUNCHER);
+//            		ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.fuelgauge.PowerUsageSummary");
+//            		intentHistory.setComponent(cn);
+//            		intentHistory.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            		startActivity(intentHistory);
+//            		// or com.android.settings.battery_history.BatteryHistory in Froyo
+//            	}
+//            	catch (ActivityNotFoundException e)
+//            	{
+//            		Toast.makeText(this, "Unable to open Battery History", Toast.LENGTH_SHORT).show();
+//            	}
+//            	break;
 //            case MENU_ITEM_6:
 //            	// Manage Applications
 //            	try
