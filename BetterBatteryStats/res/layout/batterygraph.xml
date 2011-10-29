@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="2"> 
+	
+	    <com.androidplot.xy.XYPlot
+		    android:id="@+id/myBatteryXYPlot"
+		    android:layout_width="fill_parent"
+		    android:layout_height="200px"
+		    android:layout_marginTop="5px"
+		    android:layout_marginLeft="10px"
+		    android:layout_marginRight="10px"
+		    android:layout_marginBottom="5px"
+		    title="Battery Charge"/>
+	</LinearLayout>
+ 
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="4"> 
+	    
+	    <com.androidplot.xy.XYPlot
+		    android:id="@+id/wakelockPlot"
+		    android:layout_width="fill_parent"
+		    android:layout_height="100px"
+		    android:layout_marginTop="0px"
+		    android:layout_marginBottom="0px"
+		    android:layout_marginLeft="10px"
+		    android:layout_marginRight="10px"
+		    title="Awake"/>
+	 </LinearLayout>
+	 
+	 <LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="4"> 
+	
+	    <com.androidplot.xy.XYPlot
+		    android:id="@+id/screenOnPlot"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="100px"
+	    	android:layout_marginTop="0px"
+	    	android:layout_marginBottom="0px"
+	    	android:layout_marginLeft="10px"
+	   		android:layout_marginRight="10px"
+	    	title="Screen On"/>
+	</LinearLayout>
+<!--
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="4"> 
+	
+	    <com.androidplot.xy.XYPlot
+		    android:id="@+id/chargingPlot"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	android:layout_marginTop="0px"
+	    	android:layout_marginBottom="0px"
+	    	android:layout_marginLeft="10px"
+	   		android:layout_marginRight="10px"
+	    	title="Charging"/>
+	</LinearLayout>
+-->
+	
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="4"> 
+	
+	    <com.androidplot.xy.XYPlot
+		    android:id="@+id/wifiPlot"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="100px"
+	    	android:layout_marginTop="0px"
+	    	android:layout_marginBottom="0px"
+	    	android:layout_marginLeft="10px"
+	   		android:layout_marginRight="10px"
+	    	title="Wifi"/>
+	</LinearLayout>
+<!-- 
+	<LinearLayout
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="4"> 
+	
+	    <com.androidplot.xy.XYPlot
+		    android:id="@+id/gpsPlot"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="fill_parent"
+	    	android:layout_marginTop="0px"
+	    	android:layout_marginBottom="0px"
+	    	android:layout_marginLeft="10px"
+	   		android:layout_marginRight="10px"
+	    	title="GPS"/>
+	</LinearLayout>
+	 -->
+	 
+</LinearLayout>
