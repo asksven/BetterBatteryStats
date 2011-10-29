@@ -22,8 +22,14 @@
 	        	android:title="Dump to File" />
 	        <item android:id="@+id/custom_ref"
 	        	android:title="Set Custom Ref." />
-	        <item android:id="@+id/history"
-	        	android:title="Battery History" />  
+<!-- 	        <item android:id="@+id/history"
+	        	android:title="Battery History" />
+ 	        	
+	        <item android:id="@+id/zoomscroll"
+	        	android:title="Zoom and scroll" />
+-->	        	
+	        <item android:id="@+id/graph"
+	        	android:title="Battery Graph" />
 	    </menu>
 	</item>
     <item android:id="@+id/help_group"
