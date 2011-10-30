@@ -184,6 +184,7 @@ public class BatteryGraphActivity extends Activity implements OnTouchListener
 //				m_plotCharge.redraw();
 //				break;
 			case R.id.refresh:
+				m_histList = this.getHistList();
 				checkBoundaries();
 				m_plotCharge.redraw();
 			break;
@@ -201,29 +202,32 @@ public class BatteryGraphActivity extends Activity implements OnTouchListener
      */
     private void makePlotPretty(XYPlot plot)
     {	 
-        // hide legend
-        plot.getLegendWidget().setVisible(false);
-        // make our domain and range labels invisible:
-        plot.getDomainLabelWidget().setVisible(false);
-        plot.getRangeLabelWidget().setVisible(false);
- 
-//	        plot.getGraphWidget().setRangeLabelMargin(-1);
-        plot.getGraphWidget().setRangeLabelWidth(25);
-        plot.getGraphWidget().setDomainLabelWidth(10);
-//	        plot.getGraphWidget().setDomainLabelMargin(-6);
-        plot.setBackgroundPaint(null);
-        plot.getGraphWidget().setBackgroundPaint(null);
-        plot.setBorderPaint(null);
-        
-        plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.BLACK);
-        plot.getGraphWidget().getDomainLabelPaint().setTextSize(FONT_LABEL_SIZE);
-        plot.getGraphWidget().getDomainOriginLabelPaint().setTextSize(FONT_LABEL_SIZE);
-        plot.getGraphWidget().getRangeLabelPaint().setTextSize(FONT_LABEL_SIZE);
-        plot.getGraphWidget().getRangeOriginLabelPaint().setTextSize(FONT_LABEL_SIZE);
-        plot.getGraphWidget().getGridLinePaint().setPathEffect(new DashPathEffect(new float[]{1, 2, 1, 2}, 0));
-        plot.getTitleWidget().getLabelPaint().setTextSize(FONT_LABEL_SIZE);
-        plot.getTitleWidget().pack();
-        plot.disableAllMarkup();
+    	if (plot != null)
+    	{
+	        // hide legend
+	        plot.getLegendWidget().setVisible(false);
+	        // make our domain and range labels invisible:
+	        plot.getDomainLabelWidget().setVisible(false);
+	        plot.getRangeLabelWidget().setVisible(false);
+	 
+	//	        plot.getGraphWidget().setRangeLabelMargin(-1);
+	        plot.getGraphWidget().setRangeLabelWidth(25);
+	        plot.getGraphWidget().setDomainLabelWidth(10);
+	//	        plot.getGraphWidget().setDomainLabelMargin(-6);
+	        plot.setBackgroundPaint(null);
+	        plot.getGraphWidget().setBackgroundPaint(null);
+	        plot.setBorderPaint(null);
+	        
+	        plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.BLACK);
+	        plot.getGraphWidget().getDomainLabelPaint().setTextSize(FONT_LABEL_SIZE);
+	        plot.getGraphWidget().getDomainOriginLabelPaint().setTextSize(FONT_LABEL_SIZE);
+	        plot.getGraphWidget().getRangeLabelPaint().setTextSize(FONT_LABEL_SIZE);
+	        plot.getGraphWidget().getRangeOriginLabelPaint().setTextSize(FONT_LABEL_SIZE);
+	        plot.getGraphWidget().getGridLinePaint().setPathEffect(new DashPathEffect(new float[]{1, 2, 1, 2}, 0));
+	        plot.getTitleWidget().getLabelPaint().setTextSize(FONT_LABEL_SIZE);
+	        plot.getTitleWidget().pack();
+	        plot.disableAllMarkup();
+    	}
     }
 	 
     private void seriesSetup()
@@ -287,7 +291,7 @@ public class BatteryGraphActivity extends Activity implements OnTouchListener
 				m_histList,
 				BatteryGraphSeries.SERIE_WIFI,
 				"Wifi");
-		m_plotScreenOn.addSeries(mySerie5, formater2);	        
+		m_plotWifi.addSeries(mySerie5, formater2);	        
 		configBinPlot(m_plotWifi);
 
     }

@@ -66,23 +66,28 @@ public class BatteryGraphSeries implements XYSeries
     @Override
     public Number getY(int index)
     {
-    	// return the Y data depending on the m_iSerie 
+    	// return the Y data depending on the m_iSerie
+    	Number ret = 0;
     	switch (m_iSerie)
     	{
     		case SERIE_CHARGE:
-    			return m_dataSource.get(index).getBatteryLevelInt();
+    			ret = m_dataSource.get(index).getBatteryLevelInt();
+    			break;
     		case SERIE_WAKELOCK:
-    			return m_dataSource.get(index).getWakelockInt();
+    			ret = m_dataSource.get(index).getWakelockInt();
+    			break;
     		case SERIE_SCREENON:	
-    			return m_dataSource.get(index).getScreenOnInt();
+    			ret = m_dataSource.get(index).getScreenOnInt();
+    			break;
     		case SERIE_CHARGING:
-    			return m_dataSource.get(index).getChargingInt();
+    			ret = m_dataSource.get(index).getChargingInt();
+    			break;
     		case SERIE_WIFI:
-    			return m_dataSource.get(index).getWifiRunningInt();	
-    					
-    		default: // unexisting
-    			return 0;
+    			ret = m_dataSource.get(index).getWifiRunningInt();
+    			break;
     	}
+    	
+    	return ret;
     }	
 
 }
