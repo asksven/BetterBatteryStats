@@ -99,7 +99,7 @@ public class HistActivity extends ListActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {  
     	MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.history_menu, menu);
+        inflater.inflate(R.menu.serie_menu, menu);
         return true;
     }  
 
