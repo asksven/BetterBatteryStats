@@ -40,6 +40,7 @@ import com.androidplot.xy.*;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.betterbatterystats.ZoomScrollGraphActivity.Viewport;
+import com.asksven.betterbatterystats.R;
  
 import java.sql.Date;
 import java.text.DecimalFormat;

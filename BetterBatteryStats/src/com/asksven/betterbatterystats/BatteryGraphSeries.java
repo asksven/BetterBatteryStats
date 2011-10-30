@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import com.androidplot.series.XYSeries;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
+import com.asksven.betterbatterystats.R;
 
 /**
  * The data source for all series to plot

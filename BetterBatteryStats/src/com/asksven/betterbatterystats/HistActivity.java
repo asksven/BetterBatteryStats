@@ -37,6 +37,7 @@ import android.view.MenuItem;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
+import com.asksven.betterbatterystats.R;
 
 public class HistActivity extends ListActivity
 {
