@@ -2,6 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/refresh"
 		android:title="Refresh" />
+  	<item android:id="@+id/dump"
+      	android:title="Dump to File" />
+
 <!-- 
 	<item android:id="@+id/zoom_plus"
 		android:title="Zoom in" />

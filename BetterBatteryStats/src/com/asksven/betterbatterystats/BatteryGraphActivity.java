@@ -16,32 +16,46 @@
 package com.asksven.betterbatterystats;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.FloatMath;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidplot.LineRegion;
 import com.androidplot.ui.*;
 import com.androidplot.xy.*;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
+import com.asksven.android.common.utils.DataStorage;
+import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.ZoomScrollGraphActivity.Viewport;
 import com.asksven.betterbatterystats.R;
  
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
@@ -172,6 +186,11 @@ public class BatteryGraphActivity extends Activity // implements OnTouchListener
 				Intent intentHist = new Intent(this, HistActivity.class);
 			    this.startActivity(intentHist);
 			    break;
+            case R.id.dump:
+            	// Dump to File
+            	new WriteDumpFile().execute("");
+            	break;
+
 //			case R.id.zoom_plus:
 //				m_viewPort.zoom(2);
 //				checkBoundaries();
@@ -590,5 +609,89 @@ public class BatteryGraphActivity extends Activity // implements OnTouchListener
 //				maxXY.x = maxXY.x + (float) (MIN_DIFF - (maxXY.x - minXY.x));
 //		}
 //	}
+
+	private class WriteDumpFile extends AsyncTask
+	{
+		@Override
+	    protected Object doInBackground(Object... params)
+	    {
+			writeDumpToFile();
+	    	return true;
+	    }
+
+		@Override
+		protected void onPostExecute(Object o)
+	    {
+			super.onPostExecute(o);
+	        // update hourglass
+	    }
+	}
+	/** 
+	 * Dumps relevant data to an output file
+	 * 
+	 */
+	void writeDumpToFile()
+	{
+		
+		if (!DataStorage.isExternalStorageWritable())
+		{
+			Log.e(TAG, "External storage can not be written");
+    		Toast.makeText(this, "External Storage can not be written", Toast.LENGTH_SHORT).show();
+		}
+		try
+    	{		
+			// open file for writing
+			File root = Environment.getExternalStorageDirectory();
+		    if (root.canWrite())
+		    {
+		    	File dumpFile = new File(root, "BetterBatteryStats_History.txt");
+		        FileWriter fw = new FileWriter(dumpFile);
+		        BufferedWriter out = new BufferedWriter(fw);
+			  
+				// write header
+		        out.write("===================\n");
+				out.write("History\n");
+				out.write("===================\n");
+				PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+				out.write("BetterBatteryStats version: " + pinfo.versionName + "\n");
+				out.write("Creation Date: " + DateUtils.now() + "\n");
+				out.write("\n");
+				out.write("\n");
+				out.write("Time;Battery Level;Charging;"
+						+ "Screen On;GPS On;Wifi Running;"
+						+ "Wakelock;BT On;In Call;"
+						+ "Phone Scanning"
+						+ "\n");
+				
+				for (int i=0; i < m_histList.size(); i++)
+				{
+			    	HistoryItem entry = m_histList.get(i);
+			    	
+			       	out.write(
+			       			entry.getNormalizedTime() + ";"
+			       			+ entry.getBatteryLevel() + ";"
+			       			+ entry.getCharging() + ";"
+			       			+ entry.getScreenOn() + ";"
+			       			+ entry.getGpsOn() + ";"
+			       			+ entry.getWifiRunning() + ";"
+			       			+ entry.getWakelock() + ";"
+			       			+ entry.getBLuetoothOn() + ";"
+			       			+ entry.getPhoneInCall() + ";"
+			       			+ entry.getPhoneScanning() 
+			       			+ "\n");	
+				}
+				
+				// close file
+				out.close();
+		    }
+    	}
+    	catch (Exception e)
+    	{
+    		Log.e(TAG, "Exception: " + e.getMessage());
+    		Toast.makeText(this, "an error occured while dumping the history", Toast.LENGTH_SHORT).show();
+    	}		
+	}
+	
+	
 
 }
