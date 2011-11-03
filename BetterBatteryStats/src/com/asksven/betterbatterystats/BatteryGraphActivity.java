@@ -50,6 +50,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.ZoomScrollGraphActivity.Viewport;
 import com.asksven.betterbatterystats.R;
  
@@ -360,6 +361,10 @@ public class BatteryGraphActivity extends Activity // implements OnTouchListener
 	 */
 	private ArrayList<HistoryItem> getHistList()
 	{
+		if (AndroidVersion.isFroyo())
+		{
+			Toast.makeText(this, "Unfortunately Froyo does not support history data.", Toast.LENGTH_SHORT).show();
+		}
 		ArrayList<HistoryItem> myRet = new ArrayList<HistoryItem>();
 		
 		
