@@ -60,7 +60,7 @@ import java.util.TimerTask;
  * @author sven
  *
  */
-public class BatteryGraphActivity extends Activity implements OnTouchListener
+public class BatteryGraphActivity extends Activity // implements OnTouchListener
 {
 	/**
 	 * a progess dialog to be used for long running tasks
@@ -74,7 +74,7 @@ public class BatteryGraphActivity extends Activity implements OnTouchListener
     private XYPlot m_plotScreenOn;
     private XYPlot m_plotWifi;
 
-    private Viewport m_viewPort; 
+//    private Viewport m_viewPort; 
 
 //    private XYPlot m_plotCharging;
 
@@ -108,7 +108,7 @@ public class BatteryGraphActivity extends Activity implements OnTouchListener
 
 		//Set of internal variables for keeping track of the boundaries
 		m_plotCharge.calculateMinMaxVals();
-		m_viewPort = new Viewport(m_plotCharge);
+//		m_viewPort = new Viewport(m_plotCharge);
 
 //		m_plotCharge.setOnTouchListener(this);
     }
@@ -185,7 +185,7 @@ public class BatteryGraphActivity extends Activity implements OnTouchListener
 //				break;
 			case R.id.refresh:
 				m_histList = this.getHistList();
-				checkBoundaries();
+//				checkBoundaries();
 				m_plotCharge.redraw();
 			break;
 	
@@ -436,159 +436,159 @@ public class BatteryGraphActivity extends Activity implements OnTouchListener
 	private float distBetweenFingers;
 	private float lastZooming;
  
-	@Override
-	public boolean onTouch(View arg0, MotionEvent event)
-	{
-		switch(event.getAction() & MotionEvent.ACTION_MASK)
-		{
-			case MotionEvent.ACTION_DOWN: // Start gesture
-				firstFinger = new PointF(event.getX(), event.getY());
-				mode = ONE_FINGER_DRAG;
-				break;
-			case MotionEvent.ACTION_UP:
-			case MotionEvent.ACTION_POINTER_UP:
-				//When the gesture ends, a thread is created to give inertia to the scrolling and zoom 
-				final Timer t = new Timer();
-				t.schedule(new TimerTask()
-				{
-					@Override
-					public void run()
-					{
-						while(Math.abs(lastScrolling) > 1f
-								|| Math.abs(lastZooming - 1) < 1.01)
-						{
-							lastScrolling *= .8;	//speed of scrolling damping
-							m_viewPort.scroll(lastScrolling);
-							lastZooming += (1 - lastZooming) * .2;	//speed of zooming damping
-//							m_viewPort.zoom(lastZooming);
-							checkBoundaries();
-							try
-							{
-								m_plotCharge.postRedraw();
-							}
-							catch (final InterruptedException e)
-							{
-								e.printStackTrace();
-							}
-							// the thread lives until the scrolling and zooming are imperceptible
-						}
-					}
-				}, 0);
- 
-			case MotionEvent.ACTION_POINTER_DOWN: // second finger
-				distBetweenFingers = spacing(event);
-				// the distance check is done to avoid false alarms
-				if (distBetweenFingers > 5f)
-				{
-					mode = TWO_FINGERS_DRAG;
-				}
-				break;
-			case MotionEvent.ACTION_MOVE:
-				if (mode == ONE_FINGER_DRAG)
-				{
-					final PointF oldFirstFinger = firstFinger;
-					firstFinger = new PointF(event.getX(), event.getY());
-					lastScrolling = oldFirstFinger.x - firstFinger.x;
-					m_viewPort.scroll(lastScrolling);
-					lastZooming = (firstFinger.y - oldFirstFinger.y) / m_plotCharge.getHeight();
-					if (lastZooming < 0)
-					{
-						lastZooming = 1 / (1 - lastZooming);
-					}
-					else
-					{
-						lastZooming += 1;
-					}
-//					m_viewPort.zoom(lastZooming);
-					checkBoundaries();
-					m_plotCharge.redraw();
- 
-				}
-//				else if (mode == TWO_FINGERS_DRAG) {
-//					final float oldDist = distBetweenFingers;
-//					distBetweenFingers = spacing(event);
-//					lastZooming = oldDist / distBetweenFingers;
-//					m_viewPort.zoom(lastZooming);
-//					checkBoundaries();
-//					mySimpleXYPlot.redraw();
+//	@Override
+//	public boolean onTouch(View arg0, MotionEvent event)
+//	{
+//		switch(event.getAction() & MotionEvent.ACTION_MASK)
+//		{
+//			case MotionEvent.ACTION_DOWN: // Start gesture
+//				firstFinger = new PointF(event.getX(), event.getY());
+//				mode = ONE_FINGER_DRAG;
+//				break;
+//			case MotionEvent.ACTION_UP:
+//			case MotionEvent.ACTION_POINTER_UP:
+//				//When the gesture ends, a thread is created to give inertia to the scrolling and zoom 
+//				final Timer t = new Timer();
+//				t.schedule(new TimerTask()
+//				{
+//					@Override
+//					public void run()
+//					{
+//						while(Math.abs(lastScrolling) > 1f
+//								|| Math.abs(lastZooming - 1) < 1.01)
+//						{
+//							lastScrolling *= .8;	//speed of scrolling damping
+//							m_viewPort.scroll(lastScrolling);
+//							lastZooming += (1 - lastZooming) * .2;	//speed of zooming damping
+////							m_viewPort.zoom(lastZooming);
+//							checkBoundaries();
+//							try
+//							{
+//								m_plotCharge.postRedraw();
+//							}
+//							catch (final InterruptedException e)
+//							{
+//								e.printStackTrace();
+//							}
+//							// the thread lives until the scrolling and zooming are imperceptible
+//						}
+//					}
+//				}, 0);
+// 
+//			case MotionEvent.ACTION_POINTER_DOWN: // second finger
+//				distBetweenFingers = spacing(event);
+//				// the distance check is done to avoid false alarms
+//				if (distBetweenFingers > 5f)
+//				{
+//					mode = TWO_FINGERS_DRAG;
 //				}
-				break;
-		}
-		return true;
-	}
- 
- 
-	private float spacing(MotionEvent event)
-	{
-		final float x = event.getX(0) - event.getX(1);
-		final float y = event.getY(0) - event.getY(1);
-		return FloatMath.sqrt(x * x + y * y);
-	}
- 
-	private void checkBoundaries()
-	{
-		//Make sure the proposed domain boundaries will not cause plotting issues
-		m_viewPort.updateBoudaries();
-		m_plotCharge.setDomainBoundaries(m_viewPort.minXY.x, m_viewPort.maxXY.x, BoundaryMode.AUTO);
-	}
-
-	class Viewport
-	{
-		public PointF minXY;
-		public PointF maxXY;
-		public float absMinX;
-		public float absMaxX;
-		public float minNoError;
-		public float maxNoError;
-//		public double minDif;
-		protected double MIN_DIFF;
-
-		public Viewport(XYPlot aPlot)
-		{
-			minXY = new PointF(m_plotCharge.getCalculatedMinX().floatValue(),
-					m_plotCharge.getCalculatedMinY().floatValue()); //initial minimum data point
-			absMinX = minXY.x; //absolute minimum data point
-			//absolute minimum value for the domain boundary maximum
-			minNoError = Math.round(m_histList.get(1).getNormalizedTimeLong().floatValue() + 2);
-			maxXY = new PointF(m_plotCharge.getCalculatedMaxX().floatValue(),
-					m_plotCharge.getCalculatedMaxY().floatValue()); //initial maximum data point
-			absMaxX = maxXY.x; //absolute maximum data point
-			//absolute maximum value for the domain boundary minimum
-			maxNoError = (float) Math.round(m_histList.get(m_histList.size() - 1).getNormalizedTimeLong().floatValue()) - 2;
-			MIN_DIFF = (absMaxX - absMinX) / 10;
-
-		}
-		private void zoom(float scale)
-		{
-			final float domainSpan = maxXY.x - minXY.x;
-			final float domainMidPoint = maxXY.x - domainSpan / 2.0f;
-			final float offset = domainSpan * scale / 2.0f;
-			minXY.x = domainMidPoint - offset;
-			maxXY.x = domainMidPoint + offset;
-		}
-	 
-		private void scroll(float pan)
-		{
-			final float domainSpan = maxXY.x - minXY.x;
-			final float step = domainSpan / m_plotCharge.getWidth();
-			final float offset = pan * step;
-			minXY.x += offset;
-			maxXY.x += offset;
-		}
-		
-		private void updateBoudaries()
-		{
-			if (minXY.x < absMinX)
-				minXY.x = absMinX;
-			else if (minXY.x > maxNoError)
-				minXY.x = maxNoError;
-			if (maxXY.x > absMaxX)
-				maxXY.x = absMaxX;
-			else if (maxXY.x < minNoError)
-				maxXY.x = minNoError;
-			if (maxXY.x - minXY.x < MIN_DIFF)
-				maxXY.x = maxXY.x + (float) (MIN_DIFF - (maxXY.x - minXY.x));
-		}
-	}
+//				break;
+//			case MotionEvent.ACTION_MOVE:
+//				if (mode == ONE_FINGER_DRAG)
+//				{
+//					final PointF oldFirstFinger = firstFinger;
+//					firstFinger = new PointF(event.getX(), event.getY());
+//					lastScrolling = oldFirstFinger.x - firstFinger.x;
+//					m_viewPort.scroll(lastScrolling);
+//					lastZooming = (firstFinger.y - oldFirstFinger.y) / m_plotCharge.getHeight();
+//					if (lastZooming < 0)
+//					{
+//						lastZooming = 1 / (1 - lastZooming);
+//					}
+//					else
+//					{
+//						lastZooming += 1;
+//					}
+////					m_viewPort.zoom(lastZooming);
+//					checkBoundaries();
+//					m_plotCharge.redraw();
+// 
+//				}
+////				else if (mode == TWO_FINGERS_DRAG) {
+////					final float oldDist = distBetweenFingers;
+////					distBetweenFingers = spacing(event);
+////					lastZooming = oldDist / distBetweenFingers;
+////					m_viewPort.zoom(lastZooming);
+////					checkBoundaries();
+////					mySimpleXYPlot.redraw();
+////				}
+//				break;
+//		}
+//		return true;
+//	}
+// 
+// 
+//	private float spacing(MotionEvent event)
+//	{
+//		final float x = event.getX(0) - event.getX(1);
+//		final float y = event.getY(0) - event.getY(1);
+//		return FloatMath.sqrt(x * x + y * y);
+//	}
+// 
+//	private void checkBoundaries()
+//	{
+//		//Make sure the proposed domain boundaries will not cause plotting issues
+//		m_viewPort.updateBoudaries();
+//		m_plotCharge.setDomainBoundaries(m_viewPort.minXY.x, m_viewPort.maxXY.x, BoundaryMode.AUTO);
+//	}
+//
+//	class Viewport
+//	{
+//		public PointF minXY;
+//		public PointF maxXY;
+//		public float absMinX;
+//		public float absMaxX;
+//		public float minNoError;
+//		public float maxNoError;
+////		public double minDif;
+//		protected double MIN_DIFF;
+//
+//		public Viewport(XYPlot aPlot)
+//		{
+//			minXY = new PointF(m_plotCharge.getCalculatedMinX().floatValue(),
+//					m_plotCharge.getCalculatedMinY().floatValue()); //initial minimum data point
+//			absMinX = minXY.x; //absolute minimum data point
+//			//absolute minimum value for the domain boundary maximum
+//			minNoError = Math.round(m_histList.get(1).getNormalizedTimeLong().floatValue() + 2);
+//			maxXY = new PointF(m_plotCharge.getCalculatedMaxX().floatValue(),
+//					m_plotCharge.getCalculatedMaxY().floatValue()); //initial maximum data point
+//			absMaxX = maxXY.x; //absolute maximum data point
+//			//absolute maximum value for the domain boundary minimum
+//			maxNoError = (float) Math.round(m_histList.get(m_histList.size() - 1).getNormalizedTimeLong().floatValue()) - 2;
+//			MIN_DIFF = (absMaxX - absMinX) / 10;
+//
+//		}
+//		private void zoom(float scale)
+//		{
+//			final float domainSpan = maxXY.x - minXY.x;
+//			final float domainMidPoint = maxXY.x - domainSpan / 2.0f;
+//			final float offset = domainSpan * scale / 2.0f;
+//			minXY.x = domainMidPoint - offset;
+//			maxXY.x = domainMidPoint + offset;
+//		}
+//	 
+//		private void scroll(float pan)
+//		{
+//			final float domainSpan = maxXY.x - minXY.x;
+//			final float step = domainSpan / m_plotCharge.getWidth();
+//			final float offset = pan * step;
+//			minXY.x += offset;
+//			maxXY.x += offset;
+//		}
+//		
+//		private void updateBoudaries()
+//		{
+//			if (minXY.x < absMinX)
+//				minXY.x = absMinX;
+//			else if (minXY.x > maxNoError)
+//				minXY.x = maxNoError;
+//			if (maxXY.x > absMaxX)
+//				maxXY.x = absMaxX;
+//			else if (maxXY.x < minNoError)
+//				maxXY.x = minNoError;
+//			if (maxXY.x - minXY.x < MIN_DIFF)
+//				maxXY.x = maxXY.x + (float) (MIN_DIFF - (maxXY.x - minXY.x));
+//		}
+//	}
 
 }
