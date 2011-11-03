@@ -29,7 +29,7 @@
 	        	android:title="Zoom and scroll" />
 -->	        	
 	        <item android:id="@+id/graph"
-	        	android:title="Battery Graph" />
+	        	android:title="History" />
 	    </menu>
 	</item>
     <item android:id="@+id/help_group"
