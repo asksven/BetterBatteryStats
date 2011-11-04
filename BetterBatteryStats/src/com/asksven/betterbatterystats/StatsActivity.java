@@ -62,6 +62,7 @@ import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
+import com.asksven.android.common.privateapiproxies.KernelWakelock;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Process;
@@ -76,6 +77,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     private final static int STATS_CUSTOM 	= 4;
     
     private ArrayList<StatElement> m_refWakelocks = null;
+    private ArrayList<StatElement> m_refKernelWakelocks = null;
     private ArrayList<StatElement> m_refProcesses = null;
     private ArrayList<StatElement> m_refNetwork	 = null;
     private ArrayList<StatElement> m_refOther	 = null;
@@ -163,6 +165,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
 			{
 				m_refWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
+				m_refWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("kernelwakelockstate");
 				m_refProcesses 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
 				m_refOther 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
 				m_iStat 		= (Integer) savedInstanceState.getSerializable("stat");
@@ -328,6 +331,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	if (m_refProcesses != null)
     	{		
     		savedInstanceState.putSerializable("wakelockstate", m_refWakelocks);
+    		savedInstanceState.putSerializable("kernelwakelockstate", m_refKernelWakelocks);
     		savedInstanceState.putSerializable("processstate", m_refProcesses);
     		savedInstanceState.putSerializable("otherstate", m_refOther);
     		savedInstanceState.putSerializable("networkstate", m_refNetwork);
@@ -692,8 +696,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 					return getWakelockStatList(bFilterStats, m_iStatType, iPctType);
 				case 2:
 					return getOtherUsageStatList(bFilterStats, m_iStatType);	
+//				case 3:
+//					return getNetworkUsageStatList(bFilterStats, m_iStatType);
 				case 3:
-					return getNetworkUsageStatList(bFilterStats, m_iStatType);
+					return getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType);
 						
 			}
 			
@@ -701,7 +707,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
-    		Toast.makeText(this, "Wakelock Stats: an error occured while retrieving the statistics", Toast.LENGTH_SHORT).show();
     	}
 		
 		return new ArrayList<StatElement>();
@@ -880,6 +885,94 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	}
 
 	/**
+	 * Get the Kernel Wakelock Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Wakelocks sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	ArrayList<StatElement> getKernelWakelockStatList(boolean bFilter, int iStatType, int iPctType) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		
+		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
+		
+		ArrayList<KernelWakelock> myKernelWakelocks = null;
+		ArrayList<KernelWakelock> myRetKernelWakelocks = new ArrayList<KernelWakelock>();
+		// if we are using custom ref. always retrieve "stats current"
+		if (iStatType == STATS_CUSTOM)
+		{
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
+		}
+		else
+		{
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.WAKE_TYPE_PARTIAL, iStatType, iPctType);
+		}
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myKernelWakelocks);
+		
+		for (int i = 0; i < myKernelWakelocks.size(); i++)
+		{
+			KernelWakelock wl = myKernelWakelocks.get(i);
+			if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+			{
+				// we must distinguish two situations
+				// a) we use custom stat type
+				// b) we use regular stat type
+				
+				if (iStatType == STATS_CUSTOM)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					wl.substractFromRef(m_refKernelWakelocks);
+					
+					// we must recheck if the delta process is still above threshold
+					if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+					{
+						myRetKernelWakelocks.add( wl);
+					}
+				}
+				else
+				{
+					// case b) nothing special
+					myRetKernelWakelocks.add(wl);
+				}
+
+			}
+		}
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		switch (m_iSorting)
+		{
+			case 0:
+				// by Duration
+				Comparator<KernelWakelock> myCompTime = new KernelWakelock.TimeComparator();
+				Collections.sort(myRetKernelWakelocks, myCompTime);
+				break;
+			case 1:
+				// by Count
+				Comparator<KernelWakelock> myCompCount = new KernelWakelock.CountComparator();
+				Collections.sort(myRetKernelWakelocks, myCompCount);
+				break;
+		}
+
+		
+		
+		for (int i=0; i < myRetKernelWakelocks.size(); i++)
+		{
+			myStats.add((StatElement) myRetKernelWakelocks.get(i));
+		}
+
+		// @todo add sorting by settings here: Collections.sort......
+		return myStats;
+	}
+
+	/**
 	 * Get the Network Usage Stat to be displayed
 	 * @param bFilter defines if zero-values should be filtered out
 	 * @return a List of Network usages sorted by duration (descending)
@@ -969,27 +1062,44 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         long timePhoneOn		= 0;
         long timeWifiOn			= 0;
         long timeWifiRunning	= 0;
+        long timeWifiMulticast	= 0;
+        long timeWifiLocked		= 0;
+        long timeWifiScan		= 0;
+        long timeAudioOn		= 0;
+        long timeVideoOn		= 0;
         long timeBluetoothOn	= 0;
         
 		// if we are using custom ref. always retrieve "stats current"
 		if (iStatType == STATS_CUSTOM)
 		{
-	        whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
-	        timeBatteryUp 	= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeScreenOn 	= mStats.getScreenOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timePhoneOn 	= mStats.getPhoneOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeWifiOn 		= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeWifiRunning	= mStats.getWifiRunningTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        whichRealtime 		= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
+	        timeBatteryUp 		= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeScreenOn 		= mStats.getScreenOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timePhoneOn 		= mStats.getPhoneOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiOn 			= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiRunning		= mStats.getWifiRunningTime(this, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiMulticast	= mStats.getWifiMulticastTime(this, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiLocked		= mStats.getFullWifiLockTime(this, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiScan		= mStats.getScanWifiLockTime(this, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeAudioOn			= mStats.getAudioTurnedOnTime(this, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeVideoOn			= mStats.getVideoTurnedOnTime(this, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+
+	        timeBluetoothOn 	= mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 		}
 		else
 		{
-	        whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, iStatType)  / 1000;      
-	        timeBatteryUp 	= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, iStatType) / 1000;		
-	        timeScreenOn 	= mStats.getScreenOnTime(batteryRealtime, iStatType) / 1000;
-	        timePhoneOn 	= mStats.getPhoneOnTime(batteryRealtime, iStatType) / 1000;
-	        timeWifiOn 		= mStats.getWifiOnTime(batteryRealtime, iStatType) / 1000;
-	        timeWifiRunning = mStats.getWifiRunningTime(batteryRealtime, iStatType) / 1000;
+	        whichRealtime 		= mStats.computeBatteryRealtime(rawRealtime, iStatType)  / 1000;      
+	        timeBatteryUp 		= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, iStatType) / 1000;		
+	        timeScreenOn 		= mStats.getScreenOnTime(batteryRealtime, iStatType) / 1000;
+	        timePhoneOn 		= mStats.getPhoneOnTime(batteryRealtime, iStatType) / 1000;
+	        timeWifiOn 			= mStats.getWifiOnTime(batteryRealtime, iStatType) / 1000;
+	        timeWifiRunning 	= mStats.getWifiRunningTime(this, batteryRealtime, iStatType) / 1000;
+	        timeWifiMulticast	= mStats.getWifiMulticastTime(this, batteryRealtime, iStatType) / 1000;
+	        timeWifiLocked		= mStats.getFullWifiLockTime(this, batteryRealtime, iStatType) / 1000;
+	        timeWifiScan		= mStats.getScanWifiLockTime(this, batteryRealtime, iStatType) / 1000;
+	        timeAudioOn			= mStats.getAudioTurnedOnTime(this, batteryRealtime, iStatType) / 1000;
+	        timeVideoOn			= mStats.getVideoTurnedOnTime(this, batteryRealtime, iStatType) / 1000;
+
 	        timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, iStatType) / 1000;
 		}
 
@@ -1021,6 +1131,31 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         if (timeBluetoothOn > 0)
         {
         	myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, whichRealtime)); 
+        }
+
+        if (timeWifiMulticast > 0)
+        {
+        	myUsages.add(new Misc("Wifi Multicast On", timeBluetoothOn, whichRealtime)); 
+        }
+
+        if (timeWifiLocked > 0)
+        {
+        	myUsages.add(new Misc("Wifi Locked", timeBluetoothOn, whichRealtime)); 
+        }
+
+        if (timeWifiScan > 0)
+        {
+        	myUsages.add(new Misc("Wifi Scan", timeBluetoothOn, whichRealtime)); 
+        }
+
+        if (timeAudioOn > 0)
+        {
+        	myUsages.add(new Misc("Video On", timeBluetoothOn, whichRealtime)); 
+        }
+
+        if (timeVideoOn > 0)
+        {
+        	myUsages.add(new Misc("Video On", timeBluetoothOn, whichRealtime)); 
         }
 
         // sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
@@ -1123,6 +1258,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				out.write("Wakelocks\n");
 				out.write("=========\n");
 				dumpList(getWakelockStatList(bFilterStats, m_iStatType, iPctType), out);
+				// write kernel wakelock info
+				out.write("================\n");
+				out.write("Kernel Wakelocks\n");
+				out.write("================\n");
+				dumpList(getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType), out);
+
 				// write process info
 				out.write("=========\n");
 				out.write("Processes\n");
@@ -1192,27 +1333,31 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 		try
     	{			
-			m_refOther 		= null;
-			m_refWakelocks 	= null;
-			m_refProcesses 	= null;
-			m_refNetwork 	= null;			
+			m_refOther 				= null;
+			m_refWakelocks 			= null;
+			m_refKernelWakelocks 	= null;
+			m_refProcesses 			= null;
+			m_refNetwork 			= null;			
     	
 			// create a copy of each list for further reference
-			m_refOther 		= getOtherUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_refWakelocks 	= getWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType);
-			m_refProcesses 	= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_refNetwork 	= getNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+			m_refOther 				= getOtherUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			m_refWakelocks 			= getWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType);
+			m_refKernelWakelocks 	= getKernelWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType);
+			m_refProcesses 			= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			m_refNetwork 			= getNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
     	}
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
     		Toast.makeText(this, "an error occured while creating the custom reference", Toast.LENGTH_SHORT).show();
-    		m_refOther 		= null;
-			m_refWakelocks 	= null;
-			m_refProcesses 	= null;
-			m_refNetwork 	= null;
-			m_refBatteryRealtime = 0;
+    		m_refOther 				= null;
+			m_refWakelocks 			= null;
+			m_refKernelWakelocks 	= null;
+			m_refProcesses 			= null;
+			m_refNetwork 			= null;
+			
+			m_refBatteryRealtime 	= 0;
     	}			
 	}
 	
