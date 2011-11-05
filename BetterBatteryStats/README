@@ -3,10 +3,11 @@ this project makes use of google gson (http://code.google.com/p/google-gson/down
 licensed under the terms of the Apache License Version 2.0, http://www.apache.org/licenses/
 See lib LICENSE_GSON
 
-and
-
 AndroidPlot (http://androidplot.com/wiki/Home) licensed under the terms of a modified BSD license
 See lib LICENSE_ANDROIDPLOT 
+
+AchartEngine licensed under the terms of the Apache License Version 2.0
+See libLICENSE_ACHARTENGINE
 
 This project depends on AndroidCommon (https://github.com/asksven/AndroidCommon).
 
