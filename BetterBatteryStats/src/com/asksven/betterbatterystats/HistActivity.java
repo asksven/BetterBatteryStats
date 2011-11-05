@@ -64,10 +64,6 @@ public class HistActivity extends ListActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history);
-//		m_listViewAdapter = new HistAdapter(this, getHistList());
-//        setListAdapter(m_listViewAdapter);
-
-
 	}
 	
 	/* Request updates at startup */
@@ -79,18 +75,6 @@ public class HistActivity extends ListActivity
 		new LoadStatData().execute(this);
 	}
 
-	/**
-	 * In order to refresh the ListView we need to re-create the Adapter
-	 * (should be the case but notifyDataSetChanged doesn't work so
-	 * we recreate and set a new one)
-	 */
-//	private void setListViewAdapter()
-//	{
-//		m_listViewAdapter = new HistAdapter(this, getHistList());
-//		
-//        setListAdapter(m_listViewAdapter);
-//	}
-	
     /** 
      * Add menu items
      * 
@@ -126,7 +110,6 @@ public class HistActivity extends ListActivity
 	{
 //    	new LoadStatData().execute(this);
 		// Display the reference of the stat
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
 //    	this.setListViewAdapter();
     	m_listViewAdapter.notifyDataSetChanged();
@@ -181,24 +164,6 @@ public class HistActivity extends ListActivity
 	 */
 	private ArrayList<HistoryItem> getHistList()
 	{
-		ArrayList<HistoryItem> myRet = new ArrayList<HistoryItem>();
-		
-//		HistoryItem myItem = new HistoryItem(Long.valueOf(32545550), 
-//				Byte.valueOf("0"), Byte.valueOf("12"), Byte.valueOf("1"),
-//				Byte.valueOf("12"), Byte.valueOf("1"),"", "", 120);
-//		myRet.add(myItem);
-		
-		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
-		try
-		{
-			myRet = mStats.getHistory(this);
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An error occured while retrieving history. No result");
-		}
-		return myRet;
+		return BatteryGraphActivity.m_histList;
 	}
-	
-
 }
