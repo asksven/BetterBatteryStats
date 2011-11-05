@@ -36,6 +36,8 @@ public class BatteryGraphSeries implements XYSeries
     public static final int SERIE_SCREENON 	= 3;
     public static final int SERIE_CHARGING 	= 4;
     public static final int SERIE_WIFI	 	= 5;
+    public static final int SERIE_GPS	 	= 6;
+    public static final int SERIE_BT	 	= 7;
     
 
     public BatteryGraphSeries(ArrayList<HistoryItem> datasource, int iSerie, String title)
@@ -85,6 +87,14 @@ public class BatteryGraphSeries implements XYSeries
     		case SERIE_WIFI:
     			ret = m_dataSource.get(index).getWifiRunningInt();
     			break;
+    		case SERIE_GPS:
+    			ret = m_dataSource.get(index).getGpsOnInt(); 
+    			break;
+    		case SERIE_BT:
+    			ret = m_dataSource.get(index).getBluetoothOnInt();
+    			break;
+
+    			
     	}
     	
     	return ret;
