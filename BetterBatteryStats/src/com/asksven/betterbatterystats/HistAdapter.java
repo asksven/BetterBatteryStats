@@ -86,7 +86,7 @@ public class HistAdapter extends BaseAdapter
         tvWakelock.setText(entry.getWakelock());
 
         TextView tvBtOn = (TextView) convertView.findViewById(R.id.TextViewBtOn);
-        tvBtOn.setText(entry.getBLuetoothOn());
+        tvBtOn.setText(entry.getBluetoothOn());
 
         TextView tvInCall = (TextView) convertView.findViewById(R.id.TextViewPhoneInCall);
         tvInCall.setText(entry.getPhoneInCall());
