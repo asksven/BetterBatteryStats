@@ -901,11 +901,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// if we are using custom ref. always retrieve "stats current"
 		if (iStatType == STATS_CUSTOM)
 		{
-			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.STATS_CURRENT, iPctType);
 		}
 		else
 		{
-			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.WAKE_TYPE_PARTIAL, iStatType, iPctType);
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, iStatType, iPctType);
 		}
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
