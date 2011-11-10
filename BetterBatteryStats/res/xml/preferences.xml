@@ -71,7 +71,7 @@
 				android:defaultValue="true"
 		    />
 		    <EditTextPreference
-		    	android:key="kb_url_modifier"
+		    	android:key="kb_url_appender"
 		    	android:summary="Append a string to the service URL to use a test URL"
 				android:title="Append to Service URL" 
 				android:defaultValue=""
