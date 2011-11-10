@@ -61,7 +61,7 @@ public class KbReader
 	    	KbData data = null;
 	     	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		  	 
-	    	String strUrlMod = sharedPrefs.getString("kb_url_modifier", "");
+	    	String strUrlMod = sharedPrefs.getString("kb_url_appender", "");
   	      	
 	    	try
 	    	{
