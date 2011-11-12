@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="9" android:versionName="1.3.0.0"
+<manifest android:versionCode="10" android:versionName="1.3.2.0"
     package="com.asksven.betterbatterystats" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="9"/>
     <supports-screens android:anyDensity="true"

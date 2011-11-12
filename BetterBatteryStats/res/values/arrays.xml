@@ -6,7 +6,7 @@
         <item>Partial Wakelocks</item>
         <item>Other</item>
         <item>Kernel Wakelocks</item>
-<!-- removed because of issue #1        <item>Network usage</item>  -->
+        <item>Kernel Wakelock (alternate)</item>
     </string-array>
     <!-- Values for the statistic type. -->
     <string-array name="stat_types" translatable="false">
@@ -26,6 +26,7 @@
         <item name="1">Partial Wakelocks</item>
         <item name="2">Other</item>
         <item name="3">Kernel Wakelock</item>
+        <item name="4">Kernel Wakelock (alternate)</item>
 <!-- removed because of issue #1        <item name="3">Network usage</item> -->
     </string-array>
 
@@ -34,6 +35,7 @@
         <item name="1">1</item>
         <item name="2">2</item>
         <item name="3">3</item>
+        <item name="4">4</item>
 <!-- removed because of issue #1        <item name="3">3</item> -->
     </string-array>
 
