@@ -194,7 +194,7 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
 				m_histList,
 				BatteryGraphSeries.SERIE_BT,
 				"Bluetooth");
-		m_plotGps.addSeries(mySerie7, formater2);	        
+		m_plotBt.addSeries(mySerie7, formater2);	        
 		configBinPlot(m_plotBt);
 
     }
