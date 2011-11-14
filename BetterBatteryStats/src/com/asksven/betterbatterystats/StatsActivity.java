@@ -79,7 +79,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     
     private ArrayList<StatElement> m_refWakelocks = null;
     private ArrayList<StatElement> m_refKernelWakelocks = null;
-    private ArrayList<StatElement> m_refKernelWakelocksAlt = null;
     private ArrayList<StatElement> m_refProcesses = null;
     private ArrayList<StatElement> m_refNetwork	 = null;
     private ArrayList<StatElement> m_refOther	 = null;
@@ -334,7 +333,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	{		
     		savedInstanceState.putSerializable("wakelockstate", m_refWakelocks);
     		savedInstanceState.putSerializable("kernelwakelockstate", m_refKernelWakelocks);
-    		savedInstanceState.putSerializable("kernelwakelockstatealt", m_refKernelWakelocksAlt);
     		savedInstanceState.putSerializable("processstate", m_refProcesses);
     		savedInstanceState.putSerializable("otherstate", m_refOther);
     		savedInstanceState.putSerializable("networkstate", m_refNetwork);
@@ -490,9 +488,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			// The Spinner does not show all available stats so it must be translated
 			m_iStatType = statTypeFromPosition(position);
 			// Display the reference of the stat
-	        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-			tvSince.setText("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)));
-
+	
 			// warn the user if custom ref was chosen without having selected a ref first
 			if ( (m_iStatType == STATS_CUSTOM) && (m_refBatteryRealtime == 0))
 			{
@@ -503,19 +499,17 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 			m_iStat = position;
 			
-			// check if Alt Kernel Wakelocks
-			if (m_iStat == 4)  // array.xml
+			// check if Kernel Wakelocks
+			if (m_iStat == 3)  // array.xml
 			{
-				//((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.INVISIBLE);
+				((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.INVISIBLE);
 				((Spinner) findViewById(R.id.spinnerStatType)).setEnabled(false);
 				m_iStatType = BatteryStatsTypes.STATS_SINCE_CHARGED;
-				((Spinner) findViewById(R.id.spinnerStatType)).setSelection(positionFromStatType(m_iStatType));
-				
-				((TextView) findViewById(R.id.TextViewSince)).setText("Since " + DateUtils.formatDuration(getBatteryRealtime(BatteryStatsTypes.STATS_SINCE_CHARGED)));
+//				((Spinner) findViewById(R.id.spinnerStatType)).setSelection(positionFromStatType(m_iStatType));
 			}
 			else
 			{
-				//((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.VISIBLE);
+				((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.VISIBLE);
 				((Spinner) findViewById(R.id.spinnerStatType)).setEnabled(true);
 			}
 		}
@@ -525,7 +519,18 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		Toast.makeText(this, "Error: could not resolve what changed", Toast.LENGTH_SHORT).show();
 
 		}
-		
+
+        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
+		long timeSinceBoot = SystemClock.elapsedRealtime();
+
+        if (m_iStat != 3)
+        {
+        	tvSince.setText("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)));
+        }
+        else
+        {
+        	tvSince.setText("Since boot " + DateUtils.formatDuration(timeSinceBoot));
+        }
 		
 		// @todo fix this: this method is called twice
 		//m_listViewAdapter.notifyDataSetChanged();
@@ -684,9 +689,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				case 2:
 					return getOtherUsageStatList(bFilterStats, m_iStatType);	
 				case 3:
-					return getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType, false);
-				case 4:
-					return getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType, true);						
+					return getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType);
 			}
 			
     	}
@@ -876,7 +879,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 * @return a List of Wakelocks sorted by duration (descending)
 	 * @throws Exception if the API call failed
 	 */
-	ArrayList<StatElement> getKernelWakelockStatList(boolean bFilter, int iStatType, int iPctType, boolean bAlternateMethod) throws Exception
+	ArrayList<StatElement> getKernelWakelockStatList(boolean bFilter, int iStatType, int iPctType) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
@@ -887,11 +890,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// if we are using custom ref. always retrieve "stats current"
 		if (iStatType == STATS_CUSTOM)
 		{
-			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.STATS_CURRENT, iPctType, bAlternateMethod);
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.STATS_CURRENT, iPctType, true);
 		}
 		else
 		{
-			myKernelWakelocks = mStats.getKernelWakelockStats(this, iStatType, iPctType, bAlternateMethod);
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, iStatType, iPctType, true);
 		}
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
@@ -915,14 +918,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					if (bAlternateMethod)
-					{
-						wl.substractFromRef(m_refKernelWakelocksAlt);
-					}
-					else
-					{
-						wl.substractFromRef(m_refKernelWakelocks);
-					}
+					wl.substractFromRef(m_refKernelWakelocks);
+
+
 					// we must recheck if the delta process is still above threshold
 					if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
 					{
@@ -1254,12 +1252,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				out.write("================\n");
 				out.write("Kernel Wakelocks\n");
 				out.write("================\n");
-				dumpList(getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType, false), out);
-				out.write("======================\n");
-				out.write("Kernel Wakelocks (alt)\n");
-				out.write("======================\n");
-				dumpList(getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType, true), out);
-
+				dumpList(getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType), out);
 				// write process info
 				out.write("=========\n");
 				out.write("Processes\n");
@@ -1332,15 +1325,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_refOther 				= null;
 			m_refWakelocks 			= null;
 			m_refKernelWakelocks 	= null;
-			m_refKernelWakelocksAlt	= null;
 			m_refProcesses 			= null;
 			m_refNetwork 			= null;			
     	
 			// create a copy of each list for further reference
 			m_refOther 				= getOtherUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_refWakelocks 			= getWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType);
-			m_refKernelWakelocks 	= getKernelWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, false);
-			m_refKernelWakelocksAlt	= getKernelWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, true);
+			m_refKernelWakelocks 	= getKernelWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType);
 
 			m_refProcesses 			= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_refNetwork 			= getNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
@@ -1353,7 +1344,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		m_refOther 				= null;
 			m_refWakelocks 			= null;
 			m_refKernelWakelocks 	= null;
-			m_refKernelWakelocksAlt	= null;
 			m_refProcesses 			= null;
 			m_refNetwork 			= null;
 			
