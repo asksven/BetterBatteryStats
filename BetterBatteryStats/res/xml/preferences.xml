@@ -98,7 +98,13 @@
 	            android:entries="@array/orderbyLabels"
 	            android:entryValues="@array/orderbyValues"
 	        />     
-
+		   <CheckBoxPreference 
+	            android:key="alternate_kwl"
+	            android:title="Use alternate kernel wakelock"
+	            android:summary="Use alternate (safe) method for retrieving kernel wakelocks"
+	            android:defaultValue="true" 
+	        />     
+		   
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
