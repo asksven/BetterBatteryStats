@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="10" android:versionName="1.3.2.0"
+<manifest android:versionCode="10" android:versionName="1.3.3.0"
     package="com.asksven.betterbatterystats" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="9"/>
     <supports-screens android:anyDensity="true"
@@ -15,9 +15,12 @@
         <activity android:name="com.asksven.betterbatterystats.AboutActivity"/>
         <activity android:name="com.asksven.betterbatterystats.PreferencesActivity"/>
         <activity android:name="com.asksven.betterbatterystats.HelpActivity"/>
-        <activity android:name="com.asksven.betterbatterystats.HistActivity"/>
-        <activity android:name="com.asksven.betterbatterystats.BatteryGraphActivity"/>
-        <activity android:name="com.asksven.betterbatterystats.BatteryGraph2Activity"/>
+        <activity android:name="com.asksven.betterbatterystats.HistActivity"
+            android:configChanges="orientation"/>
+        <activity android:name="com.asksven.betterbatterystats.BatteryGraphActivity"
+            android:configChanges="orientation"/>
+        <activity android:name="com.asksven.betterbatterystats.BatteryGraph2Activity"
+            android:configChanges="orientation"/>
         <activity android:name="com.asksven.betterbatterystats.ZoomScrollGraphActivity"/>
         <activity android:name="org.achartengine.GraphicalActivity" />
     </application>
