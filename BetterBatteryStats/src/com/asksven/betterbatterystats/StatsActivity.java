@@ -165,12 +165,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			// recover any saved state
 			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
 			{
-				m_refWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
-				m_refWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("kernelwakelockstate");
-				m_refProcesses 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
-				m_refOther 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
-				m_iStat 		= (Integer) savedInstanceState.getSerializable("stat");
-				m_iStatType 	= (Integer) savedInstanceState.getSerializable("stattype");
+				m_refWakelocks 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
+				m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("kernelwakelockstate");
+				m_refProcesses 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
+				m_refOther 				= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
+				m_iStat 				= (Integer) savedInstanceState.getSerializable("stat");
+				m_iStatType 			= (Integer) savedInstanceState.getSerializable("stattype");
 				m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
 	 			
 			}
@@ -413,10 +413,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        	Intent intentPrefs = new Intent(this, PreferencesActivity.class);
 	            this.startActivity(intentPrefs);
 	        	break;	
-//	        case R.id.zoomscroll:  
-//	        	Intent intentZoom = new Intent(this, ZoomScrollGraphActivity.class);
-//	            this.startActivity(intentZoom);
-//	        	break;	
 
 	        case R.id.graph:  
 	        	Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
@@ -482,6 +478,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 */
 	public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
 	{
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean bAlternateMethod = sharedPrefs.getBoolean("alternate_kwl", true);
+
 		// id is in the order of the spinners, 0 is stat, 1 is stat_type
 		if (parent == (Spinner) findViewById(R.id.spinnerStatType))
 		{
@@ -499,8 +498,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 			m_iStat = position;
 			
-			// check if Kernel Wakelocks
-			if (m_iStat == 3)  // array.xml
+			// check if Kernel Wakelocks: if so disable stat type except the prefs say otherwise
+			if ( (m_iStat == 3) && (bAlternateMethod) ) // array.xml
 			{
 				((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.INVISIBLE);
 				((Spinner) findViewById(R.id.spinnerStatType)).setEnabled(false);
@@ -523,7 +522,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 		long timeSinceBoot = SystemClock.elapsedRealtime();
 
-        if (m_iStat != 3)
+        if ( (m_iStat != 3) || (!bAlternateMethod) )
         {
         	tvSince.setText("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)));
         }
@@ -881,6 +880,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 */
 	ArrayList<StatElement> getKernelWakelockStatList(boolean bFilter, int iStatType, int iPctType) throws Exception
 	{
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean bAlternateMethod = sharedPrefs.getBoolean("alternate_kwl", true);
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
 		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
@@ -888,13 +890,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		ArrayList<KernelWakelock> myKernelWakelocks = null;
 		ArrayList<KernelWakelock> myRetKernelWakelocks = new ArrayList<KernelWakelock>();
 		// if we are using custom ref. always retrieve "stats current"
+
 		if (iStatType == STATS_CUSTOM)
 		{
-			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.STATS_CURRENT, iPctType, true);
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.STATS_CURRENT, iPctType, bAlternateMethod);
 		}
 		else
 		{
-			myKernelWakelocks = mStats.getKernelWakelockStats(this, iStatType, iPctType, true);
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, iStatType, iPctType, bAlternateMethod);
 		}
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
@@ -1125,27 +1128,27 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
         if (timeWifiMulticast > 0)
         {
-        	myUsages.add(new Misc("Wifi Multicast On", timeBluetoothOn, whichRealtime)); 
+        	myUsages.add(new Misc("Wifi Multicast On", timeWifiMulticast, whichRealtime)); 
         }
 
         if (timeWifiLocked > 0)
         {
-        	myUsages.add(new Misc("Wifi Locked", timeBluetoothOn, whichRealtime)); 
+        	myUsages.add(new Misc("Wifi Locked", timeWifiLocked, whichRealtime)); 
         }
 
         if (timeWifiScan > 0)
         {
-        	myUsages.add(new Misc("Wifi Scan", timeBluetoothOn, whichRealtime)); 
+        	myUsages.add(new Misc("Wifi Scan", timeWifiScan, whichRealtime)); 
         }
 
         if (timeAudioOn > 0)
         {
-        	myUsages.add(new Misc("Video On", timeBluetoothOn, whichRealtime)); 
+        	myUsages.add(new Misc("Video On", timeAudioOn, whichRealtime)); 
         }
 
         if (timeVideoOn > 0)
         {
-        	myUsages.add(new Misc("Video On", timeBluetoothOn, whichRealtime)); 
+        	myUsages.add(new Misc("Video On", timeVideoOn, whichRealtime)); 
         }
 
         // sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
