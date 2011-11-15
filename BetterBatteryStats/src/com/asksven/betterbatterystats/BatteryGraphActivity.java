@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -126,7 +127,7 @@ public class BatteryGraphActivity extends Activity
 
 	}
 
-    /** 
+	/** 
      * Add menu items
      * 
      * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)

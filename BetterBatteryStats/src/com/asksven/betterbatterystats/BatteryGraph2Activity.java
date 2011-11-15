@@ -16,6 +16,7 @@
 package com.asksven.betterbatterystats;
 
 import android.app.ProgressDialog;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -98,6 +99,7 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
 		super.onResume();
 
 	}
+
 
     /** 
      * Add menu items
