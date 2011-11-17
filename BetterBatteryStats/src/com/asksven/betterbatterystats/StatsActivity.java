@@ -60,6 +60,8 @@ import android.widget.Toast;
 
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.KernelWakelock;
@@ -79,6 +81,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     
     private ArrayList<StatElement> m_refWakelocks = null;
     private ArrayList<StatElement> m_refKernelWakelocks = null;
+    private ArrayList<StatElement> m_refNativeKernelWakelocks = null;
     private ArrayList<StatElement> m_refProcesses = null;
     private ArrayList<StatElement> m_refNetwork	 = null;
     private ArrayList<StatElement> m_refOther	 = null;
@@ -167,6 +170,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				m_refWakelocks 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
 				m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("kernelwakelockstate");
+				m_refNativeKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativekernelwakelockstate");
 				m_refProcesses 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
 				m_refOther 				= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
 				m_iStat 				= (Integer) savedInstanceState.getSerializable("stat");
@@ -333,6 +337,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	{		
     		savedInstanceState.putSerializable("wakelockstate", m_refWakelocks);
     		savedInstanceState.putSerializable("kernelwakelockstate", m_refKernelWakelocks);
+    		savedInstanceState.putSerializable("nativekernelwakelockstate", m_refNativeKernelWakelocks);
     		savedInstanceState.putSerializable("processstate", m_refProcesses);
     		savedInstanceState.putSerializable("otherstate", m_refOther);
     		savedInstanceState.putSerializable("networkstate", m_refNetwork);
@@ -468,7 +473,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	intentReleaseNotes.putExtra("filename", "readme.html");
                 this.startActivity(intentReleaseNotes);
             	break;	
-	
+
+//            case R.id.procwakelocks:
+//            	// Release notes
+//            	Wakelocks.parseProcWakelocks();
+//            	break;	
+
         }  
         return false;  
     }    
@@ -499,7 +509,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_iStat = position;
 			
 			// check if Kernel Wakelocks: if so disable stat type except the prefs say otherwise
-			if ( (m_iStat == 3) && (bAlternateMethod) ) // array.xml
+			if ( (m_iStat == 4) || ((m_iStat == 3) && (bAlternateMethod)) ) // array.xml
 			{
 				((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.INVISIBLE);
 				((Spinner) findViewById(R.id.spinnerStatType)).setEnabled(false);
@@ -522,7 +532,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 		long timeSinceBoot = SystemClock.elapsedRealtime();
 
-        if ( (m_iStat != 3) || (!bAlternateMethod) )
+        if ( ((m_iStat != 3) || (!bAlternateMethod)) && (m_iStat != 4) )
         {
         	tvSince.setText("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)));
         }
@@ -689,6 +699,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 					return getOtherUsageStatList(bFilterStats, m_iStatType);	
 				case 3:
 					return getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType);
+				case 4:
+					return getNativeKernelWakelockStatList(bFilterStats, m_iStatType, iPctType);
+
 			}
 			
     	}
@@ -964,6 +977,87 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// @todo add sorting by settings here: Collections.sort......
 		return myStats;
 	}
+	
+	/**
+	 * Get the Kernel Wakelock Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Wakelocks sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	ArrayList<StatElement> getNativeKernelWakelockStatList(boolean bFilter, int iStatType, int iPctType) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		ArrayList<NativeKernelWakelock> myKernelWakelocks = Wakelocks.parseProcWakelocks();
+
+		ArrayList<NativeKernelWakelock> myRetKernelWakelocks = new ArrayList<NativeKernelWakelock>();
+		// if we are using custom ref. always retrieve "stats current"
+
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myKernelWakelocks);
+		
+		for (int i = 0; i < myKernelWakelocks.size(); i++)
+		{
+			NativeKernelWakelock wl = myKernelWakelocks.get(i);
+			if ( (!bFilter) || ((wl.getDuration()) > 0) )
+			{	
+				// we must distinguish two situations
+				// a) we use custom stat type
+				// b) we use regular stat type
+				
+				if (iStatType == STATS_CUSTOM)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					wl.substractFromRef(m_refNativeKernelWakelocks);
+
+
+					// we must recheck if the delta process is still above threshold
+					if ( (!bFilter) || ((wl.getDuration()) > 0) )
+					{
+						myRetKernelWakelocks.add( wl);
+					}
+				}
+				else
+				{
+					// case b) nothing special
+					myRetKernelWakelocks.add(wl);
+				}
+
+			}
+		}
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		switch (m_iSorting)
+		{
+			case 0:
+				// by Duration
+				Comparator<NativeKernelWakelock> myCompTime = new NativeKernelWakelock.TimeComparator();
+				Collections.sort(myRetKernelWakelocks, myCompTime);
+				break;
+			case 1:
+				// by Count
+				Comparator<NativeKernelWakelock> myCompCount = new NativeKernelWakelock.CountComparator();
+				Collections.sort(myRetKernelWakelocks, myCompCount);
+				break;
+		}
+
+		
+		
+		for (int i=0; i < myRetKernelWakelocks.size(); i++)
+		{
+			myStats.add((StatElement) myRetKernelWakelocks.get(i));
+		}
+
+		// @todo add sorting by settings here: Collections.sort......
+		return myStats;
+	}
+
 
 	/**
 	 * Get the Network Usage Stat to be displayed
@@ -1328,6 +1422,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_refOther 				= null;
 			m_refWakelocks 			= null;
 			m_refKernelWakelocks 	= null;
+			m_refNativeKernelWakelocks 	= null;
 			m_refProcesses 			= null;
 			m_refNetwork 			= null;			
     	
@@ -1335,6 +1430,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_refOther 				= getOtherUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_refWakelocks 			= getWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType);
 			m_refKernelWakelocks 	= getKernelWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType);
+			m_refNativeKernelWakelocks 	= getNativeKernelWakelockStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType);
 
 			m_refProcesses 			= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_refNetwork 			= getNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
@@ -1347,6 +1443,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		m_refOther 				= null;
 			m_refWakelocks 			= null;
 			m_refKernelWakelocks 	= null;
+			m_refNativeKernelWakelocks 	= null;
 			m_refProcesses 			= null;
 			m_refNetwork 			= null;
 			
