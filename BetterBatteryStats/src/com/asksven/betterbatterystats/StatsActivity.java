@@ -515,7 +515,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_iStat = position;
 			
 			// check if Kernel Wakelocks: if so disable stat type except the prefs say otherwise
-			if ( (m_iStat == 4) || ((m_iStat == 3) && (bAlternateMethod)) ) // array.xml
+			if ( m_iStat == 3) // array.xml
 			{
 				((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.INVISIBLE);
 				((Spinner) findViewById(R.id.spinnerStatType)).setEnabled(false);
@@ -538,7 +538,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 		long timeSinceBoot = SystemClock.elapsedRealtime();
 
-        if ( ((m_iStat != 3) || (!bAlternateMethod)) && (m_iStat != 4) )
+        if ( m_iStat != 3 )
         {
         	tvSince.setText("Since " + DateUtils.formatDuration(getBatteryRealtime(m_iStatType)));
         }
@@ -704,8 +704,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				case 2:
 					return getOtherUsageStatList(bFilterStats, m_iStatType);	
 				case 3:
-					return getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType);
-				case 4:
 					return getNativeKernelWakelockStatList(bFilterStats, m_iStatType, iPctType);
 
 			}
