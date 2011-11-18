@@ -1353,7 +1353,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				out.write("================\n");
 				out.write("Kernel Wakelocks\n");
 				out.write("================\n");
-				dumpList(getKernelWakelockStatList(bFilterStats, m_iStatType, iPctType), out);
+				dumpList(getNativeKernelWakelockStatList(bFilterStats, m_iStatType, iPctType), out);
 				// write process info
 				out.write("=========\n");
 				out.write("Processes\n");
