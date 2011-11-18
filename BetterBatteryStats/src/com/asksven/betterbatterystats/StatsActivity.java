@@ -60,6 +60,7 @@ import android.widget.Toast;
 
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -424,6 +425,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	            this.startActivity(intentGraph);
 	        	break;	
 
+	        case R.id.alarms:  
+	        	Intent intentAlarms = new Intent(this, AlarmsActivity.class);
+	            this.startActivity(intentAlarms);
+	        	break;	
+
 	        case R.id.refresh:
             	// Refresh
 	        	doRefresh();
@@ -474,9 +480,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
                 this.startActivity(intentReleaseNotes);
             	break;	
 
-//            case R.id.procwakelocks:
-//            	// Release notes
-//            	Wakelocks.parseProcWakelocks();
+//            case R.id.test:
+//            	// Test something
+//            	AlarmsDumpsys.getAlarms();
 //            	break;	
 
         }  
@@ -1210,40 +1216,40 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         	myUsages.add(new Misc("Wifi On", timeWifiOn, whichRealtime));
         }
         
-        if (timeWifiRunning > 0)
-        {
-        	myUsages.add(new Misc("Wifi Running", timeWifiRunning, whichRealtime));
-        }
+//        if (timeWifiRunning > 0)
+//        {
+//        	myUsages.add(new Misc("Wifi Running", timeWifiRunning, whichRealtime));
+//        }
         
         if (timeBluetoothOn > 0)
         {
         	myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, whichRealtime)); 
         }
 
-        if (timeWifiMulticast > 0)
-        {
-        	myUsages.add(new Misc("Wifi Multicast On", timeWifiMulticast, whichRealtime)); 
-        }
-
-        if (timeWifiLocked > 0)
-        {
-        	myUsages.add(new Misc("Wifi Locked", timeWifiLocked, whichRealtime)); 
-        }
-
-        if (timeWifiScan > 0)
-        {
-        	myUsages.add(new Misc("Wifi Scan", timeWifiScan, whichRealtime)); 
-        }
-
-        if (timeAudioOn > 0)
-        {
-        	myUsages.add(new Misc("Video On", timeAudioOn, whichRealtime)); 
-        }
-
-        if (timeVideoOn > 0)
-        {
-        	myUsages.add(new Misc("Video On", timeVideoOn, whichRealtime)); 
-        }
+//        if (timeWifiMulticast > 0)
+//        {
+//        	myUsages.add(new Misc("Wifi Multicast On", timeWifiMulticast, whichRealtime)); 
+//        }
+//
+//        if (timeWifiLocked > 0)
+//        {
+//        	myUsages.add(new Misc("Wifi Locked", timeWifiLocked, whichRealtime)); 
+//        }
+//
+//        if (timeWifiScan > 0)
+//        {
+//        	myUsages.add(new Misc("Wifi Scan", timeWifiScan, whichRealtime)); 
+//        }
+//
+//        if (timeAudioOn > 0)
+//        {
+//        	myUsages.add(new Misc("Video On", timeAudioOn, whichRealtime)); 
+//        }
+//
+//        if (timeVideoOn > 0)
+//        {
+//        	myUsages.add(new Misc("Video On", timeVideoOn, whichRealtime)); 
+//        }
 
         // sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		Collections.sort(myUsages);
