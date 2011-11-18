@@ -2,8 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/preferences"
           android:title="Preferences" />
-    <item android:id="@+id/refresh"
+    <item android:id="@+id/refresh"    
           android:title="Refresh" />
+<!-- 
+    <item android:id="@+id/test"    
+          android:title="Test" />
+ -->    
     <!-- Sorting group -->
     <item android:id="@+id/sorting_group"
           android:title="Order by...">            
@@ -30,6 +34,9 @@
 -->	        	
 	        <item android:id="@+id/graph"
 	        	android:title="History" />
+	       	<item android:id="@+id/alarms"
+	        	android:title="Alarms" />
+	        
 	    </menu>
 	</item>
     <item android:id="@+id/help_group"
