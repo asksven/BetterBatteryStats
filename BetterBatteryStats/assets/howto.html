@@ -30,16 +30,21 @@ This document provides an insight about how to use BetterBatteryStats to reduce 
 <img src="howto.png" alt="flowchart"/><br/><br/><br/>
 <h2>Determine awake vs. screen on ratio</h2>
 <p>
-The awake vs. screen on ratio tells you how much time your phone has spent with the display being off but not being in the optimal deep-sleep mode. During this time the reason why your phone is not going to deep-sleep or is being woken up from deep-sleep is caused by background processes (services, apps reacting on different events). These use partial wakelocks to prevent your phone from reaching its optimal state of deep-sleep. The good news is we can change this to some extent and by doing so improve the battery life dramatically.
+The awake vs. screen on ratio tells you how much time your phone has spent with the display being off but not being in the optimal deep-sleep mode. During this time the reason why your phone is not going to deep-sleep or is being woken up from deep-sleep is caused by background processes (services, apps reacting on different events, kernel). These use partial wakelocks or kernel wakelocks to prevent your phone from reaching its optimal state of deep-sleep. The good news is we can change this to some extent and by doing so improve the battery life dramatically.
 </p>
 
-<h2>Check wakelocks</h2>
+<h2>Check partial wakelocks</h2>
 <p>
 Go to the "Partial wakelocks" statistic and check the list. The wakelocks are sorted by time in descending order. In the first step we want to check for high times (minutes or more), once there are no hot spots left we want to look at the high counts.
 </p>
+
+<h2>Check for kernel wakelocks</h2>
+<p>
+Besides applications causing awake times by holding partial wakelocks certain events at kernel level can cause awake by holding kernel wakelocks (in response to events like incoming network traffic or in response to services requested by applications (e.g. data traffic). 
+</p>
 <H2>Deinstall or freeze</H2>
 <p>
-Once a cause for wakelocks has been spotted you have to ask yourself if you even use that app. If not disable/deinstall/freeze it.
+Once a cause for partial wakelocks has been spotted you have to ask yourself if you even use that app. If not disable/deinstall/freeze it.
 Go back to the start and take another reading to see the effect of the action.
 </p>
 <h2>Check / change settings</h2>

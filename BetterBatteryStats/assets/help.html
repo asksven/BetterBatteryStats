@@ -27,13 +27,14 @@
 
 <p id="intro">Here you will find details about the views and options of BetterBatteryStatistics are organised. Further information about using BetterBatteryStats is located in the how-tos.</p>
 <h2>Views</h2>
-<p>These are the three statistics:
+<p>These are the four statistics:
 <ul>
 	<li>Other: shows total times the different part of the phone have been on (display, wifi, bluetooth)</li>
 	<li>Partial wakelocks: shows the total time and the count of partial wakelocks by application</li>
+	<li>Kernel Wakelocks: shows the total time and the count of kernel wakelocks</li>
 	<li>Processes: shows the cpu time (user and system) processes have consumed</li>
 </ul></p>
-<p>and these are the possible timespans:
+<p>and these are the possible timespans (except for kernel wakelocks that always are "since boot"):
 <ul>
 	<li>Since changed: all statitics give details since the phone was 100% charged</li>
 	<li>Since unplugged: all statitics give details since the phone was unplugged from A/C or USB</li>
@@ -66,6 +67,10 @@ The graph bars show the percentage depending on the preferences (see above).
 Even if the total time is low it is important to check for high counts as well. A large number of short wake periods can have a huge impact on the awake time as the phone takes some time to wake up and some time to go back to sleep. This is not shown in this stat.
 For example let's assume the phone takes 1/2 second to wake up and sleep again. For a wakelock of 10 seconds the resulting awake time would be 11 seconds. For 10 wakelocks of 0,1 seconds the total wakelock time would be as low as 1 second but the awake time would be 11 seconds. 
 </p>
+<h3>Kernel wakelocks</h3>
+<p>
+Like for partial wakelocks as well long running wakelocks as wakelocks with a high count (large number of wakeups) should be taken into acount.
+</p>
 <h3>Processes</h3>
 <p>
 The list shows the processes and their CPU consumption during the timespan. CPU consumption is expressed in user CPU and system CPU and both times are shown in the total and in the bar graph with different colors.
@@ -75,11 +80,13 @@ The list shows the processes and their CPU consumption during the timespan. CPU 
 <ul>
 	<li>Preferences</li>
 	<li>Refresh</li>
+	<li>Order By/li>
 	<li>Actions</li>
 	<ul>
 		<li>Dump to file: writes the statistics to /sdcard/BetterBatteryStats.log</li>
 		<li>Set Custom Reference: set a custom begin mark for a statitic</li>
-		<li>Battery History: shows a graph of battery usage (Gingerbread only)</li>
+		<li>History: shows different graphs like battery usage or wakeups (starting from android 2.3)</li>
+		<li>Alarms: a tool for analysing partial wakelocks caused by AlarmManager</li>
 	</ul>
 	<li>Help: access to this help was well as the how-to</li>
 </ul>
