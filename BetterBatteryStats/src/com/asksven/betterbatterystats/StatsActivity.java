@@ -494,9 +494,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 */
 	public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
 	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean bAlternateMethod = sharedPrefs.getBoolean("alternate_kwl", true);
-
 		// id is in the order of the spinners, 0 is stat, 1 is stat_type
 		if (parent == (Spinner) findViewById(R.id.spinnerStatType))
 		{
@@ -897,9 +894,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 */
 	ArrayList<StatElement> getKernelWakelockStatList(boolean bFilter, int iStatType, int iPctType) throws Exception
 	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean bAlternateMethod = sharedPrefs.getBoolean("alternate_kwl", true);
-
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
 		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
@@ -910,11 +904,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 		if (iStatType == STATS_CUSTOM)
 		{
-			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.STATS_CURRENT, iPctType, bAlternateMethod);
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, BatteryStatsTypes.STATS_CURRENT, iPctType, true);
 		}
 		else
 		{
-			myKernelWakelocks = mStats.getKernelWakelockStats(this, iStatType, iPctType, bAlternateMethod);
+			myKernelWakelocks = mStats.getKernelWakelockStats(this, iStatType, iPctType, true);
 		}
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
