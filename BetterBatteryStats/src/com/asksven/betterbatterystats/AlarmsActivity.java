@@ -30,6 +30,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,6 +38,8 @@ import android.widget.Toast;
 
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
+import com.asksven.android.common.kernelutils.RootDetection;
+import com.asksven.betterbatterystats.R;
 
 public class AlarmsActivity extends ListActivity
 {
@@ -70,8 +73,14 @@ public class AlarmsActivity extends ListActivity
 	protected void onResume()
 	{
 		super.onResume();
-		
-		new LoadStatData().execute(this);
+		if (RootDetection.hasSuRights())
+		{
+			new LoadStatData().execute(this);
+		}
+		else
+		{
+			Toast.makeText(this, "Your phone must be rooted and BetterBatteryStats granted 'su' rights in order to view alarms", Toast.LENGTH_SHORT).show();
+		}
 	}
 
     /** 
@@ -184,8 +193,7 @@ public class AlarmsActivity extends ListActivity
 		}
 		catch (Exception e)
 		{
-			Toast.makeText(this, "Error: either your phone is not rooted or su rights are not granted to BetterBatteryStats.", Toast.LENGTH_SHORT).show();
-
+			Log.e(TAG, "An exception occured: " + e.getMessage());
 		}
 		return myRet;
 	}
