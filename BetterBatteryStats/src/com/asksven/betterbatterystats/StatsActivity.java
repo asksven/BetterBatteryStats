@@ -1315,7 +1315,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			File root = Environment.getExternalStorageDirectory();
 		    if (root.canWrite())
 		    {
-		    	File dumpFile = new File(root, "BetterBatteryStats.txt");
+		    	String strFilename = "BetterBatteryStats" + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + "txt";
+		    	File dumpFile = new File(root, strFilename);
 		        FileWriter fw = new FileWriter(dumpFile);
 		        BufferedWriter out = new BufferedWriter(fw);
 			  
