@@ -47,6 +47,7 @@ public class KbReader
 {
 	private static final String URL = "http://asksven.github.com/BetterBatteryStats-Knowledge-Base/kb_v1.0.json";
     private static KbData m_kb = null;
+    private static boolean m_bNoConnection = false;
     
     private static final String TAG = "KbReader";
     
@@ -58,6 +59,12 @@ public class KbReader
     	}
     	else
     	{
+    		// make sure we don't obcess
+    		if (m_bNoConnection)
+    		{
+    			return null;
+    		}
+    		
 	    	KbData data = null;
 	     	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		  	 
@@ -69,6 +76,7 @@ public class KbReader
 	    		
 	    		if (source == null)
 	    		{
+	    			m_bNoConnection = true;
 	    			return null;
 	    		}
 	    		Gson gson = new Gson();

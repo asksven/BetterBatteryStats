@@ -353,9 +353,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 */
 	private void setListViewAdapter()
 	{
-		m_listViewAdapter = new StatsAdapter(this, getStatList());
+		// make sure we only instanciate when the reference does not exist
+		if (m_listViewAdapter == null)
+		{
+			m_listViewAdapter = new StatsAdapter(this, getStatList());
 		
-        setListAdapter(m_listViewAdapter);
+			setListAdapter(m_listViewAdapter);
+		}
 	}
 	
     /** 
@@ -494,12 +498,25 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 */
 	public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
 	{
+		// this method is fired even if nothing has changed so we nee to find that out
+		boolean bChanged = false;
+		
 		// id is in the order of the spinners, 0 is stat, 1 is stat_type
 		if (parent == (Spinner) findViewById(R.id.spinnerStatType))
 		{
 			// The Spinner does not show all available stats so it must be translated
-			m_iStatType = statTypeFromPosition(position);
-			// Display the reference of the stat
+			int iNewStatType = statTypeFromPosition(position);
+			
+			// detect if something changed
+			if (m_iStatType != iNewStatType)
+			{
+				m_iStatType = iNewStatType;
+				bChanged = true;
+			}
+			else
+			{
+				return;
+			}
 	
 			// warn the user if custom ref was chosen without having selected a ref first
 			if ( (m_iStatType == STATS_CUSTOM) && (m_refBatteryRealtime == 0))
@@ -509,8 +526,16 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		else if (parent == (Spinner) findViewById(R.id.spinnerStat))
 		{
-			m_iStat = position;
-			
+			int iNewStat = position;
+			if ( m_iStat != iNewStat )
+			{
+				m_iStat = iNewStat;
+				bChanged = true;
+			}
+			else
+			{
+				return;
+			}
 			// check if Kernel Wakelocks: if so disable stat type except the prefs say otherwise
 			if ( m_iStat == 3) // array.xml
 			{
@@ -546,8 +571,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 		// @todo fix this: this method is called twice
 		//m_listViewAdapter.notifyDataSetChanged();
-		new LoadStatData().execute(this);
-		//this.setListViewAdapter();
+        if (bChanged)
+        {
+        	new LoadStatData().execute(this);
+        }
 	}
 
 	public void onNothingSelected(AdapterView<?> parent)
@@ -560,7 +587,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	
 	private void doRefresh()
 	{
-    	new LoadStatData().execute(this);
+		new LoadStatData().execute(this);
+
 		// Display the reference of the stat
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -577,7 +605,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			myLayout.setVisibility(View.VISIBLE);
 		}
 		
-    	this.setListViewAdapter();
+//    	this.setListViewAdapter();
 
 	}
 	private class WriteDumpFile extends AsyncTask
