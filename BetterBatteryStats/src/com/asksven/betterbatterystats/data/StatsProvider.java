@@ -1,0 +1,996 @@
+/*
+ * Copyright (C) 2011 asksven
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.asksven.betterbatterystats.data;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.SystemClock;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.asksven.android.common.kernelutils.Alarm;
+import com.asksven.android.common.kernelutils.AlarmsDumpsys;
+import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.kernelutils.Wakelocks;
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
+import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
+import com.asksven.android.common.privateapiproxies.KernelWakelock;
+import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.Process;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.privateapiproxies.Wakelock;
+import com.asksven.android.common.utils.DataStorage;
+import com.asksven.android.common.utils.DateUtils;
+
+/**
+ * Singleton provider for all the statistics
+ * @author sven
+ *
+ */
+public class StatsProvider
+{
+	/** the singleton instance */
+	static StatsProvider m_statsProvider = null;
+	
+	/** the application context */
+	static Context m_context = null;
+	
+	/** constant for custom stats */
+    // dependent on arrays.xml
+	public final static int STATS_CUSTOM 	= 4;
+	
+	/** the logger tag */
+	static String TAG = "StatsProvider"; 
+
+	/** storage of custom references */
+    private ArrayList<StatElement> m_refWakelocks 		= null;
+    private ArrayList<StatElement> m_refKernelWakelocks = null;
+    private ArrayList<StatElement> m_refProcesses 		= null;
+    private ArrayList<StatElement> m_refNetwork	 		= null;
+    private ArrayList<StatElement> m_refOther	 		= null;
+    private long m_refBatteryRealtime = 0;
+
+
+	/**
+	 * The constructor (hidden)
+	 */
+	private StatsProvider()
+	{
+	}
+	
+	/**
+	 * returns a singleton instance
+	 * @param ctx the application context
+	 * @return the singleton StatsProvider
+	 */
+	public static StatsProvider getInstance(Context ctx)
+	{
+		if (m_statsProvider == null)
+		{
+			m_statsProvider = new StatsProvider();
+			m_context = ctx;
+		}
+		
+		return m_statsProvider;
+	}
+	
+	/**
+	 * Get the Stat to be displayed
+	 * @return a List of StatElements sorted (descending)
+	 */
+	public ArrayList<StatElement> getStatList(int iStat, int iStatType, int iSort)
+	{
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
+		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
+		
+		try
+    	{			
+
+			switch (iStat)
+			{
+				// constants are related to arrays.xml string-array name="stats"
+				case 0:
+					return getProcessStatList(bFilterStats, iStatType, iSort);
+				case 1:
+					return getWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
+				case 2:
+					return getOtherUsageStatList(bFilterStats, iStatType);	
+				case 3:
+					return getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
+
+			}
+			
+    	}
+    	catch (Exception e)
+    	{
+    		Log.e(TAG, "Exception: " + e.getMessage());
+    	}
+		
+		return new ArrayList<StatElement>();
+	}
+
+	/**
+	 * Get the Alarm Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Other usages sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	public ArrayList<StatElement> getAlarmsStatList(boolean bFilter) throws Exception
+	{
+		ArrayList<StatElement> myRet = new ArrayList<StatElement>();
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
+		try
+		{
+			ArrayList<Alarm> myAlarms = AlarmsDumpsys.getAlarms();
+			Collections.sort(myAlarms);
+	
+			for (int i = 0; i < myAlarms.size(); i++)
+			{
+				Alarm usage = myAlarms.get(i); 
+				if ( (!bFilter) || (usage.getWakeups() > 0) )
+				{
+						myRet.add(usage);
+				}
+			}
+	
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, "An exception occured: " + e.getMessage());
+		}
+		return myRet;
+	}
+	
+	/**
+	 * Get the Process Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Wakelocks sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	public ArrayList<StatElement> getProcessStatList(boolean bFilter, int iStatType, int iSort) throws Exception
+	{
+		BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		ArrayList<Process> myProcesses = null;
+		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
+		
+		// if we are using custom ref. always retrieve "stats current"
+		if (iStatType == STATS_CUSTOM)
+		{
+			myProcesses = mStats.getProcessStats(m_context, BatteryStatsTypes.STATS_CURRENT);
+		}
+		else
+		{
+			myProcesses = mStats.getProcessStats(m_context, iStatType);
+		}
+		
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		//Collections.sort(myProcesses);
+		
+		for (int i = 0; i < myProcesses.size(); i++)
+		{
+			Process ps = myProcesses.get(i);
+			if ( (!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0) )
+			{
+				// we must distinguish two situations
+				// a) we use custom stat type
+				// b) we use regular stat type
+				
+				if (iStatType == STATS_CUSTOM)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					ps.substractFromRef(m_refProcesses);
+					
+					// we must recheck if the delta process is still above threshold
+					if ( (!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0) )
+					{
+						myRetProcesses.add(ps);
+					}
+				}
+				else
+				{
+					// case b) nothing special
+					myRetProcesses.add(ps);
+				}
+			}
+		}
+		
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		switch (iSort)
+		{
+			case 0:
+				// by Duration
+				Comparator<Process> myCompTime = new Process.ProcessTimeComparator();
+				Collections.sort(myRetProcesses, myCompTime);
+				break;
+			case 1:
+				// by Count
+				Comparator<Process> myCompCount = new Process.ProcessCountComparator();
+				Collections.sort(myRetProcesses, myCompCount);
+				break;
+		}
+		
+		for (int i=0; i < myRetProcesses.size(); i++)
+		{
+			myStats.add((StatElement) myRetProcesses.get(i));
+		}
+		
+		return myStats;
+		
+	}
+
+	/**
+	 * Get the Wakelock Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Wakelocks sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	public ArrayList<StatElement> getWakelockStatList(boolean bFilter, int iStatType, int iPctType, int iSort) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		
+		BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+		
+		ArrayList<Wakelock> myWakelocks = null;
+		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
+		// if we are using custom ref. always retrieve "stats current"
+		if (iStatType == STATS_CUSTOM)
+		{
+			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
+		}
+		else
+		{
+			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, iStatType, iPctType);
+		}
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myWakelocks);
+		
+		for (int i = 0; i < myWakelocks.size(); i++)
+		{
+			Wakelock wl = myWakelocks.get(i);
+			if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+			{
+				// we must distinguish two situations
+				// a) we use custom stat type
+				// b) we use regular stat type
+				
+				if (iStatType == STATS_CUSTOM)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					wl.substractFromRef(m_refWakelocks);
+					
+					// we must recheck if the delta process is still above threshold
+					if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+					{
+						myRetWakelocks.add( wl);
+					}
+				}
+				else
+				{
+					// case b) nothing special
+					myRetWakelocks.add(wl);
+				}
+
+			}
+		}
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		switch (iSort)
+		{
+			case 0:
+				// by Duration
+				Comparator<Wakelock> myCompTime = new Wakelock.WakelockTimeComparator();
+				Collections.sort(myRetWakelocks, myCompTime);
+				break;
+			case 1:
+				// by Count
+				Comparator<Wakelock> myCompCount = new Wakelock.WakelockCountComparator();
+				Collections.sort(myRetWakelocks, myCompCount);
+				break;
+		}
+
+		
+		
+		for (int i=0; i < myRetWakelocks.size(); i++)
+		{
+			myStats.add((StatElement) myRetWakelocks.get(i));
+		}
+
+		// @todo add sorting by settings here: Collections.sort......
+		return myStats;
+	}
+
+	/**
+	 * Get the Kernel Wakelock Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Wakelocks sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	public ArrayList<StatElement> getKernelWakelockStatList(boolean bFilter, int iStatType, int iPctType, int iSort) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		
+		BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+		
+		ArrayList<KernelWakelock> myKernelWakelocks = null;
+		ArrayList<KernelWakelock> myRetKernelWakelocks = new ArrayList<KernelWakelock>();
+		// if we are using custom ref. always retrieve "stats current"
+
+		if (iStatType == STATS_CUSTOM)
+		{
+			myKernelWakelocks = mStats.getKernelWakelockStats(m_context, BatteryStatsTypes.STATS_CURRENT, iPctType, true);
+		}
+		else
+		{
+			myKernelWakelocks = mStats.getKernelWakelockStats(m_context, iStatType, iPctType, true);
+		}
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myKernelWakelocks);
+		
+		for (int i = 0; i < myKernelWakelocks.size(); i++)
+		{
+			KernelWakelock wl = myKernelWakelocks.get(i);
+			if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+			{
+				// we must distinguish two situations
+				// a) we use custom stat type
+				// b) we use regular stat type
+				
+				if (iStatType == STATS_CUSTOM)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					wl.substractFromRef(m_refKernelWakelocks);
+
+
+					// we must recheck if the delta process is still above threshold
+					if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+					{
+						myRetKernelWakelocks.add( wl);
+					}
+				}
+				else
+				{
+					// case b) nothing special
+					myRetKernelWakelocks.add(wl);
+				}
+
+			}
+		}
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		switch (iSort)
+		{
+			case 0:
+				// by Duration
+				Comparator<KernelWakelock> myCompTime = new KernelWakelock.TimeComparator();
+				Collections.sort(myRetKernelWakelocks, myCompTime);
+				break;
+			case 1:
+				// by Count
+				Comparator<KernelWakelock> myCompCount = new KernelWakelock.CountComparator();
+				Collections.sort(myRetKernelWakelocks, myCompCount);
+				break;
+		}
+
+		
+		
+		for (int i=0; i < myRetKernelWakelocks.size(); i++)
+		{
+			myStats.add((StatElement) myRetKernelWakelocks.get(i));
+		}
+
+		// @todo add sorting by settings here: Collections.sort......
+		return myStats;
+	}
+	
+	/**
+	 * Get the Kernel Wakelock Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Wakelocks sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	public ArrayList<StatElement> getNativeKernelWakelockStatList(boolean bFilter, int iStatType, int iPctType, int iSort) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		ArrayList<NativeKernelWakelock> myKernelWakelocks = Wakelocks.parseProcWakelocks();
+
+		ArrayList<NativeKernelWakelock> myRetKernelWakelocks = new ArrayList<NativeKernelWakelock>();
+		// if we are using custom ref. always retrieve "stats current"
+
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myKernelWakelocks);
+		
+		for (int i = 0; i < myKernelWakelocks.size(); i++)
+		{
+			NativeKernelWakelock wl = myKernelWakelocks.get(i);
+			if ( (!bFilter) || ((wl.getDuration()) > 0) )
+			{	
+				// we must distinguish two situations
+				// a) we use custom stat type
+				// b) we use regular stat type
+				
+				if (iStatType == STATS_CUSTOM)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					wl.substractFromRef(m_refKernelWakelocks);
+
+
+					// we must recheck if the delta process is still above threshold
+					if ( (!bFilter) || ((wl.getDuration()) > 0) )
+					{
+						myRetKernelWakelocks.add( wl);
+					}
+				}
+				else
+				{
+					// case b) nothing special
+					myRetKernelWakelocks.add(wl);
+				}
+
+			}
+		}
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		switch (iSort)
+		{
+			case 0:
+				// by Duration
+				Comparator<NativeKernelWakelock> myCompTime = new NativeKernelWakelock.TimeComparator();
+				Collections.sort(myRetKernelWakelocks, myCompTime);
+				break;
+			case 1:
+				// by Count
+				Comparator<NativeKernelWakelock> myCompCount = new NativeKernelWakelock.CountComparator();
+				Collections.sort(myRetKernelWakelocks, myCompCount);
+				break;
+		}
+
+		
+		
+		for (int i=0; i < myRetKernelWakelocks.size(); i++)
+		{
+			myStats.add((StatElement) myRetKernelWakelocks.get(i));
+		}
+
+		// @todo add sorting by settings here: Collections.sort......
+		return myStats;
+	}
+
+
+	/**
+	 * Get the Network Usage Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Network usages sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	public ArrayList<StatElement> getNetworkUsageStatList(boolean bFilter, int iStatType) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		
+		BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+
+		ArrayList<NetworkUsage> myUsages = null;
+		
+		
+		// if we are using custom ref. always retrieve "stats current"
+		if (iStatType == STATS_CUSTOM)
+		{
+			myUsages = mStats.getNetworkUsageStats(m_context, BatteryStatsTypes.STATS_CURRENT);
+		}
+		else
+		{
+			myUsages = mStats.getNetworkUsageStats(m_context, iStatType);
+		}
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myUsages);
+		
+		for (int i = 0; i < myUsages.size(); i++)
+		{
+			NetworkUsage usage = myUsages.get(i); 
+			if ( (!bFilter) || ((usage.getBytesReceived() + usage.getBytesSent()) > 0) )
+			{
+				// we must distinguish two situations
+				// a) we use custom stat type
+				// b) we use regular stat type
+				
+				if (iStatType == STATS_CUSTOM)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					usage.substractFromRef(m_refNetwork);
+					
+					// we must recheck if the delta process is still above threshold
+					if ( (!bFilter) || ((usage.getBytesReceived() + usage.getBytesSent()) > 0) )
+					{
+						myStats.add((StatElement) usage);
+					}
+				}
+				else
+				{
+					// case b) nothing special
+					myStats.add((StatElement) usage);
+				}
+
+			}
+		}
+		
+		return myStats;
+	}
+
+	/**
+	 * Get the Other Usage Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Other usages sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	public ArrayList<StatElement> getOtherUsageStatList(boolean bFilter, int iStatType) throws Exception
+	{
+		BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		
+		// List to store the other usages to
+		ArrayList<Misc> myUsages = new ArrayList<Misc>();
+
+		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+        long batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
+
+        long whichRealtime 		= 0;
+        long timeBatteryUp 		= 0;
+        long timeScreenOn		= 0;
+        long timePhoneOn		= 0;
+        long timeWifiOn			= 0;
+        long timeWifiRunning	= 0;
+        long timeWifiMulticast	= 0;
+        long timeWifiLocked		= 0;
+        long timeWifiScan		= 0;
+        long timeAudioOn		= 0;
+        long timeVideoOn		= 0;
+        long timeBluetoothOn	= 0;
+        
+		// if we are using custom ref. always retrieve "stats current"
+		if (iStatType == STATS_CUSTOM)
+		{
+	        whichRealtime 		= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
+	        timeBatteryUp 		= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeScreenOn 		= mStats.getScreenOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timePhoneOn 		= mStats.getPhoneOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiOn 			= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiRunning		= mStats.getWifiRunningTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiMulticast	= mStats.getWifiMulticastTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiLocked		= mStats.getFullWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiScan		= mStats.getScanWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+
+	        timeBluetoothOn 	= mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+		}
+		else
+		{
+	        whichRealtime 		= mStats.computeBatteryRealtime(rawRealtime, iStatType)  / 1000;      
+	        timeBatteryUp 		= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, iStatType) / 1000;		
+	        timeScreenOn 		= mStats.getScreenOnTime(batteryRealtime, iStatType) / 1000;
+	        timePhoneOn 		= mStats.getPhoneOnTime(batteryRealtime, iStatType) / 1000;
+	        timeWifiOn 			= mStats.getWifiOnTime(batteryRealtime, iStatType) / 1000;
+	        timeWifiRunning 	= mStats.getWifiRunningTime(m_context, batteryRealtime, iStatType) / 1000;
+	        timeWifiMulticast	= mStats.getWifiMulticastTime(m_context, batteryRealtime, iStatType) / 1000;
+	        timeWifiLocked		= mStats.getFullWifiLockTime(m_context, batteryRealtime, iStatType) / 1000;
+	        timeWifiScan		= mStats.getScanWifiLockTime(m_context, batteryRealtime, iStatType) / 1000;
+	        timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, iStatType) / 1000;
+	        timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, iStatType) / 1000;
+
+	        timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, iStatType) / 1000;
+		}
+
+		if (timeBatteryUp > 0)
+		{
+            myUsages.add(new Misc("Awake", timeBatteryUp, whichRealtime));
+        }
+        
+        if (timeScreenOn > 0)
+        {
+        	myUsages.add(new Misc("Screen On", timeScreenOn, whichRealtime));  
+        }
+                
+        if (timePhoneOn > 0)
+        {
+        	myUsages.add(new Misc("Phone On", timePhoneOn, whichRealtime));
+        }
+        
+        if (timeWifiOn > 0)
+        {
+        	myUsages.add(new Misc("Wifi On", timeWifiOn, whichRealtime));
+        }
+        
+//        if (timeWifiRunning > 0)
+//        {
+//        	myUsages.add(new Misc("Wifi Running", timeWifiRunning, whichRealtime));
+//        }
+        
+        if (timeBluetoothOn > 0)
+        {
+        	myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, whichRealtime)); 
+        }
+
+//        if (timeWifiMulticast > 0)
+//        {
+//        	myUsages.add(new Misc("Wifi Multicast On", timeWifiMulticast, whichRealtime)); 
+//        }
+//
+//        if (timeWifiLocked > 0)
+//        {
+//        	myUsages.add(new Misc("Wifi Locked", timeWifiLocked, whichRealtime)); 
+//        }
+//
+//        if (timeWifiScan > 0)
+//        {
+//        	myUsages.add(new Misc("Wifi Scan", timeWifiScan, whichRealtime)); 
+//        }
+//
+//        if (timeAudioOn > 0)
+//        {
+//        	myUsages.add(new Misc("Video On", timeAudioOn, whichRealtime)); 
+//        }
+//
+//        if (timeVideoOn > 0)
+//        {
+//        	myUsages.add(new Misc("Video On", timeVideoOn, whichRealtime)); 
+//        }
+
+        // sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myUsages);
+
+		for (int i = 0; i < myUsages.size(); i++)
+		{
+			Misc usage = myUsages.get(i); 
+			if ( (!bFilter) || (usage.getTimeOn() > 0) )
+			{
+				if (iStatType == STATS_CUSTOM)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					usage.substractFromRef(m_refOther);
+					if ( (!bFilter) || (usage.getTimeOn() > 0) )
+					{
+						myStats.add((StatElement) usage);
+					}
+				}
+				else
+				{
+					// case b)
+					// nothing special
+					myStats.add((StatElement) usage);
+				}
+			}
+		}
+		return myStats;
+	}
+
+	/**
+	 * Returns true if a custom ref was stored
+	 * @return true is a custom ref exists
+	 */
+	public boolean hasCustomRef()
+	{
+		return m_refOther != null;
+	}
+	
+	/**
+	 * Saves all data to a point in time defined by user
+	 * This data will be used in a custom "since..." stat type
+	 */
+	public void setCustomReference(int iSort)
+	{
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
+		
+		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
+		
+		try
+    	{			
+			m_refOther 					= null;
+			m_refWakelocks 				= null;
+			m_refKernelWakelocks 		= null;
+			m_refProcesses 				= null;
+			m_refNetwork 				= null;			
+    	
+			// create a copy of each list for further reference
+			m_refOther 					= getOtherUsageStatList(
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			m_refWakelocks 				= getWakelockStatList(
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
+			m_refKernelWakelocks 		= getNativeKernelWakelockStatList(
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
+			m_refProcesses 				= getProcessStatList(
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iSort);
+			m_refNetwork 				= getNetworkUsageStatList(
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			m_refBatteryRealtime 		= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+    	}
+    	catch (Exception e)
+    	{
+    		Log.e(TAG, "Exception: " + e.getMessage());
+    		Toast.makeText(m_context, "an error occured while creating the custom reference", Toast.LENGTH_SHORT).show();
+    		m_refOther 					= null;
+			m_refWakelocks 				= null;
+			m_refKernelWakelocks 		= null;
+			m_refProcesses 				= null;
+			m_refNetwork 				= null;
+			
+			m_refBatteryRealtime 		= 0;
+    	}			
+	}
+
+	/**
+	 * Restores state from a bundle
+	 * @param savedInstanceState a bundle
+	 */
+	public void restoreFromBundle(Bundle savedInstanceState)
+	{
+		m_refWakelocks 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
+		m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativekernelwakelockstate");
+		m_refProcesses 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
+		m_refOther 				= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
+		m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
+
+	}
+	
+	/**
+	 * Writes states to a bundle to be temporarily persisted
+	 * @param savedInstanceState a bundle
+	 */
+	public void writeToBundle(Bundle savedInstanceState)
+	{
+    	if (hasCustomRef())
+    	{		
+    		savedInstanceState.putSerializable("wakelockstate", m_refWakelocks);
+    		savedInstanceState.putSerializable("nativekernelwakelockstate", m_refKernelWakelocks);
+    		savedInstanceState.putSerializable("processstate", m_refProcesses);
+    		savedInstanceState.putSerializable("otherstate", m_refOther);
+    		savedInstanceState.putSerializable("networkstate", m_refNetwork);
+    		savedInstanceState.putSerializable("batteryrealtime", m_refBatteryRealtime);	
+        }
+
+	}
+	
+	/**
+	 * Returns the battery realtime since a given reference
+	 * @param iStatType the reference
+	 * @return the battery realtime
+	 */
+	public  long getBatteryRealtime(int iStatType)
+	{
+        BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+        long whichRealtime = 0;
+		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+		if (iStatType == StatsProvider.STATS_CUSTOM)
+		{
+			whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			whichRealtime -= m_refBatteryRealtime;	
+		}
+		else
+		{
+			whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, iStatType) / 1000;
+		}
+		return whichRealtime;
+	}
+
+
+	/** 
+	 * Dumps relevant data to an output file
+	 * 
+	 */
+	public void writeDumpToFile(int iStat, int iStatType, int iSort)
+	{
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
+		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
+		
+		if (!DataStorage.isExternalStorageWritable())
+		{
+			Log.e(TAG, "External storage can not be written");
+    		Toast.makeText(m_context, "External Storage can not be written", Toast.LENGTH_SHORT).show();
+		}
+		try
+    	{		
+			// open file for writing
+			File root = Environment.getExternalStorageDirectory();
+			
+			// check if file can be written
+		    if (root.canWrite())
+		    {
+		    	String strFilename = "BetterBatteryStats" + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
+		    	File dumpFile = new File(root, strFilename);
+		        FileWriter fw = new FileWriter(dumpFile);
+		        BufferedWriter out = new BufferedWriter(fw);
+			  
+				// write header
+		        out.write("===================\n");
+				out.write("General Information\n");
+				out.write("===================\n");
+				PackageInfo pinfo = m_context.getPackageManager().getPackageInfo(m_context.getPackageName(), 0);
+				out.write("BetterBatteryStats version: " + pinfo.versionName + "\n");
+				out.write("Creation Date: " + DateUtils.now() + "\n");
+				out.write("Statistic Type: (" + iStatType + ") " + statTypeToLabel(iStatType) + "\n");
+				out.write("Since " + DateUtils.formatDuration(getBatteryRealtime(iStatType)) + "\n");
+				out.write("VERSION.RELEASE: " + Build.VERSION.RELEASE+"\n");
+				out.write("BRAND: "+Build.BRAND+"\n");
+				out.write("DEVICE: "+Build.DEVICE+"\n");
+				out.write("MANUFACTURER: "+Build.MANUFACTURER+"\n");
+				out.write("MODEL: "+Build.MODEL+"\n");
+				// write timing info
+				out.write("===========\n");
+				out.write("Other Usage\n");
+				out.write("===========\n");
+				dumpList(getOtherUsageStatList(bFilterStats, iStatType), out);
+				// write wakelock info
+				out.write("=========\n");
+				out.write("Wakelocks\n");
+				out.write("=========\n");
+				dumpList(getWakelockStatList(bFilterStats, iStatType, iPctType, iSort), out);
+				// write kernel wakelock info
+				out.write("================\n");
+				out.write("Kernel Wakelocks\n");
+				out.write("================\n");
+				dumpList(getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort), out);
+				// write process info
+				out.write("=========\n");
+				out.write("Processes\n");
+				out.write("=========\n");
+				dumpList(getProcessStatList(bFilterStats, iStatType, iSort), out);
+				// write alarms info
+				out.write("=========\n");
+				out.write("Alarms\n");
+				out.write("=========\n");
+				dumpList(getAlarmsStatList(bFilterStats), out);
+
+				// write network info
+				//out.write("=======\n");
+				//out.write("Network\n");
+				//out.write("=======\n");
+				//dumpList(getNetworkUsageStatList(bFilterStats, m_iStatType), out);
+		
+				out.write("========\n");
+				out.write("Services\n");
+				out.write("========\n");
+				out.write("Active since: The time when the service was first made active, either by someone starting or binding to it.\n");
+				out.write("Last activity: The time when there was last activity in the service (either explicit requests to start it or clients binding to it)\n");
+				out.write("See http://developer.android.com/reference/android/app/ActivityManager.RunningServiceInfo.html\n");
+				ActivityManager am = (ActivityManager)m_context.getSystemService(m_context.ACTIVITY_SERVICE);
+				List<ActivityManager.RunningServiceInfo> rs = am.getRunningServices(50);
+				         
+				for (int i=0; i < rs.size(); i++) {
+				  ActivityManager.RunningServiceInfo  rsi = rs.get(i);
+				  out.write(rsi.process + " (" + rsi.service.getClassName() + ")\n");
+				  out.write("  Active since: " + DateUtils.formatDuration(rsi.activeSince) + "\n");
+				  out.write("  Last activity: " + DateUtils.formatDuration(rsi.lastActivityTime) + "\n");
+				  out.write("  Crash count:" + rsi.crashCount + "\n");
+				}
+				
+				// see http://androidsnippets.com/show-all-running-services
+				// close file
+				out.close();
+		    }
+		    else
+		    {
+	    		Log.i(TAG, "Write error. " + Environment.getExternalStorageDirectory() + " couldn't be written");
+	    		Toast.makeText(m_context, "No dump created. " + Environment.getExternalStorageDirectory() + " is probably unmounted.", Toast.LENGTH_SHORT).show();		    	
+		    }
+    	}
+    	catch (Exception e)
+    	{
+    		Log.e(TAG, "Exception: " + e.getMessage());
+    		Toast.makeText(m_context, "an error occured while dumping the statistics", Toast.LENGTH_SHORT).show();
+    	}		
+	}
+	
+	/**
+	 * Dump the elements on one list
+	 * @param myList a list of StatElement
+	 */
+	private void dumpList(List<StatElement> myList, BufferedWriter out) throws IOException
+	{
+		if (myList != null)
+		{
+			for (int i = 0; i < myList.size(); i++)
+			{
+				out.write(myList.get(i).getDumpData(m_context) + "\n");
+				
+				
+			}
+		}
+	}
+	
+	/**
+	 * translate the stat type (see arrays.xml) to the corresponding label
+	 * @param position the spinner position
+	 * @return the stat type
+	 */
+	private String statTypeToLabel(int statType)
+	{
+		String strRet = "";
+		switch (statType)
+		{
+			case 0:
+				strRet = "Since Charged";
+				break;
+			case 1:
+				strRet = "Since Unplugged";
+				break;
+			case 2:
+				strRet = "Custom Reference";
+				break;	
+		}
+		return strRet;
+	}
+
+
+}
