@@ -60,6 +60,7 @@ import android.widget.Toast;
 
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Wakelocks;
@@ -1305,6 +1306,38 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		return myStats;
 	}
 
+	/**
+	 * Get the Alarm Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Other usages sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	ArrayList<StatElement> getAlarmsStatList(boolean bFilter) throws Exception
+	{
+		ArrayList<StatElement> myRet = new ArrayList<StatElement>();
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		try
+		{
+			ArrayList<Alarm> myAlarms = AlarmsDumpsys.getAlarms();
+			Collections.sort(myAlarms);
+	
+			for (int i = 0; i < myAlarms.size(); i++)
+			{
+				Alarm usage = myAlarms.get(i); 
+				if ( (!bFilter) || (usage.getWakeups() > 0) )
+				{
+						myRet.add(usage);
+				}
+			}
+	
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, "An exception occured: " + e.getMessage());
+		}
+		return myRet;
+	}
+
 	private long getBatteryRealtime(int iStatType)
 	{
         BatteryStatsProxy mStats = new BatteryStatsProxy(this);
@@ -1384,6 +1417,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				out.write("Processes\n");
 				out.write("=========\n");
 				dumpList(getProcessStatList(bFilterStats, m_iStatType), out);
+				// write alarms info
+				out.write("=========\n");
+				out.write("Alarms\n");
+				out.write("=========\n");
+				dumpList(getAlarmsStatList(bFilterStats), out);
+
 				// write network info
 				//out.write("=======\n");
 				//out.write("Network\n");
