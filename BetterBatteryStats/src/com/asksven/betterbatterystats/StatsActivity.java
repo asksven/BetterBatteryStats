@@ -503,7 +503,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			}
 	
 			// warn the user if custom ref was chosen without having selected a ref first
-			if ( (m_iStatType == StatsProvider.STATS_CUSTOM) && (StatsProvider.getInstance(this).hasCustomRef()))
+			if ( (m_iStatType == StatsProvider.STATS_CUSTOM) && (!StatsProvider.getInstance(this).hasCustomRef()))
 			{
 				Toast.makeText(this, "Warning: there is no custom reference set.", Toast.LENGTH_SHORT).show();
 			}
