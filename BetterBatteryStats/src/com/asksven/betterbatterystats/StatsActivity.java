@@ -123,6 +123,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);
 		
+		// Check if the stats are accessible and warn if not
+		BatteryStatsProxy stats = new BatteryStatsProxy(this);
+		if (stats == null)
+		{
+			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. Known reasons: MIUI settings allow to turn them off, making MIUI incompatible with android standards", Toast.LENGTH_SHORT).show();			
+		}
+		
+		
 		// check if we have a new release
 		// if yes show release notes
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
