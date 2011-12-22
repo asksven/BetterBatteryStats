@@ -19,6 +19,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -70,14 +71,10 @@ public class StatsProvider
 	
 	/** the logger tag */
 	static String TAG = "StatsProvider"; 
+	
+	/** the storage for references */
+	static References m_myRefs = null;
 
-	/** storage of custom references */
-    private ArrayList<StatElement> m_refWakelocks 		= null;
-    private ArrayList<StatElement> m_refKernelWakelocks = null;
-    private ArrayList<StatElement> m_refProcesses 		= null;
-    private ArrayList<StatElement> m_refNetwork	 		= null;
-    private ArrayList<StatElement> m_refOther	 		= null;
-    private long m_refBatteryRealtime = 0;
 
 
 	/**
@@ -98,6 +95,7 @@ public class StatsProvider
 		{
 			m_statsProvider = new StatsProvider();
 			m_context = ctx;
+			m_myRefs = new References();
 		}
 		
 		return m_statsProvider;
@@ -215,7 +213,7 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					ps.substractFromRef(m_refProcesses);
+					ps.substractFromRef(m_myRefs.m_refProcesses);
 					
 					// we must recheck if the delta process is still above threshold
 					if ( (!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0) )
@@ -300,7 +298,7 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					wl.substractFromRef(m_refWakelocks);
+					wl.substractFromRef(m_myRefs.m_refWakelocks);
 					
 					// we must recheck if the delta process is still above threshold
 					if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
@@ -389,7 +387,7 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					wl.substractFromRef(m_refKernelWakelocks);
+					wl.substractFromRef(m_myRefs.m_refKernelWakelocks);
 
 
 					// we must recheck if the delta process is still above threshold
@@ -469,7 +467,7 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					wl.substractFromRef(m_refKernelWakelocks);
+					wl.substractFromRef(m_myRefs.m_refKernelWakelocks);
 
 
 					// we must recheck if the delta process is still above threshold
@@ -560,7 +558,7 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					usage.substractFromRef(m_refNetwork);
+					usage.substractFromRef(m_myRefs.m_refNetwork);
 					
 					// we must recheck if the delta process is still above threshold
 					if ( (!bFilter) || ((usage.getBytesReceived() + usage.getBytesSent()) > 0) )
@@ -717,7 +715,7 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					usage.substractFromRef(m_refOther);
+					usage.substractFromRef(m_myRefs.m_refOther);
 					if ( (!bFilter) || (usage.getTimeOn() > 0) )
 					{
 						myStats.add((StatElement) usage);
@@ -740,7 +738,7 @@ public class StatsProvider
 	 */
 	public boolean hasCustomRef()
 	{
-		return m_refOther != null;
+		return m_myRefs.m_refOther != null;
 	}
 	
 	/**
@@ -756,36 +754,38 @@ public class StatsProvider
 		
 		try
     	{			
-			m_refOther 					= null;
-			m_refWakelocks 				= null;
-			m_refKernelWakelocks 		= null;
-			m_refProcesses 				= null;
-			m_refNetwork 				= null;			
+			m_myRefs.m_refOther 			= null;
+			m_myRefs.m_refWakelocks 		= null;
+			m_myRefs.m_refKernelWakelocks 	= null;
+			m_myRefs.m_refProcesses 		= null;
+			m_myRefs.m_refNetwork 			= null;			
     	
 			// create a copy of each list for further reference
-			m_refOther 					= getOtherUsageStatList(
+			m_myRefs.m_refOther 			= getOtherUsageStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_refWakelocks 				= getWakelockStatList(
+			m_myRefs.m_refWakelocks 		= getWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
-			m_refKernelWakelocks 		= getNativeKernelWakelockStatList(
+			m_myRefs.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
-			m_refProcesses 				= getProcessStatList(
+			m_myRefs.m_refProcesses 		= getProcessStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iSort);
-			m_refNetwork 				= getNetworkUsageStatList(
+			m_myRefs.m_refNetwork 			= getNetworkUsageStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_refBatteryRealtime 		= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+			m_myRefs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+			
+			serializeToFile();
     	}
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
     		Toast.makeText(m_context, "an error occured while creating the custom reference", Toast.LENGTH_SHORT).show();
-    		m_refOther 					= null;
-			m_refWakelocks 				= null;
-			m_refKernelWakelocks 		= null;
-			m_refProcesses 				= null;
-			m_refNetwork 				= null;
+    		m_myRefs.m_refOther 			= null;
+    		m_myRefs.m_refWakelocks 		= null;
+    		m_myRefs.m_refKernelWakelocks 	= null;
+    		m_myRefs.m_refProcesses 		= null;
+    		m_myRefs.m_refNetwork 			= null;
 			
-			m_refBatteryRealtime 		= 0;
+    		m_myRefs.m_refBatteryRealtime 	= 0;
     	}			
 	}
 
@@ -795,11 +795,11 @@ public class StatsProvider
 	 */
 	public void restoreFromBundle(Bundle savedInstanceState)
 	{
-		m_refWakelocks 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
-		m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativekernelwakelockstate");
-		m_refProcesses 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
-		m_refOther 				= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
-		m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
+		m_myRefs.m_refWakelocks 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
+		m_myRefs.m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativekernelwakelockstate");
+		m_myRefs.m_refProcesses 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
+		m_myRefs.m_refOther 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
+		m_myRefs.m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
 
 	}
 	
@@ -811,16 +811,29 @@ public class StatsProvider
 	{
     	if (hasCustomRef())
     	{		
-    		savedInstanceState.putSerializable("wakelockstate", m_refWakelocks);
-    		savedInstanceState.putSerializable("nativekernelwakelockstate", m_refKernelWakelocks);
-    		savedInstanceState.putSerializable("processstate", m_refProcesses);
-    		savedInstanceState.putSerializable("otherstate", m_refOther);
-    		savedInstanceState.putSerializable("networkstate", m_refNetwork);
-    		savedInstanceState.putSerializable("batteryrealtime", m_refBatteryRealtime);	
+    		savedInstanceState.putSerializable("wakelockstate", m_myRefs.m_refWakelocks);
+    		savedInstanceState.putSerializable("nativekernelwakelockstate", m_myRefs.m_refKernelWakelocks);
+    		savedInstanceState.putSerializable("processstate", m_myRefs.m_refProcesses);
+    		savedInstanceState.putSerializable("otherstate", m_myRefs.m_refOther);
+    		savedInstanceState.putSerializable("networkstate", m_myRefs.m_refNetwork);
+    		savedInstanceState.putSerializable("batteryrealtime", m_myRefs.m_refBatteryRealtime);	
         }
 
 	}
-	
+
+	public void serializeToFile()
+	{
+		if (hasCustomRef())
+		{
+			DataStorage.objectToFile(m_context, "custom_ref", m_myRefs);
+		}
+	}
+
+	public void deserializeFromFile()
+	{
+		m_myRefs = (References) DataStorage.fileToObject(m_context, "custom_ref");
+	}
+
 	/**
 	 * Returns the battery realtime since a given reference
 	 * @param iStatType the reference
@@ -829,12 +842,19 @@ public class StatsProvider
 	public  long getBatteryRealtime(int iStatType)
 	{
         BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+        
+        if (mStats == null)
+        {
+        	// an error has occured
+        	return -1;
+        }
+        
         long whichRealtime = 0;
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
 		if (iStatType == StatsProvider.STATS_CUSTOM)
 		{
 			whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-			whichRealtime -= m_refBatteryRealtime;	
+			whichRealtime -= m_myRefs.m_refBatteryRealtime;	
 		}
 		else
 		{
