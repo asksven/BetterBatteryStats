@@ -51,7 +51,8 @@ public class BroadcastHandler extends BroadcastReceiver
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_BOOT_COMPLETED");
-			// todo: delete whatever references we have saved here
+			// delete whatever references we have saved here
+			StatsProvider.getInstance(context).deletedSerializedRefs();
 		}
 
 

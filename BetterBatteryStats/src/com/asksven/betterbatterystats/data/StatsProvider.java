@@ -988,6 +988,14 @@ public class StatsProvider
 
 	}
 
+	public void deletedSerializedRefs()
+	{
+		References myEmptyRef = new References();
+		DataStorage.objectToFile(m_context, "custom_ref", myEmptyRef);
+		DataStorage.objectToFile(m_context, "since_charged_ref", myEmptyRef);
+		DataStorage.objectToFile(m_context, "since_unplugged_ref", myEmptyRef);
+	}
+
 	/**
 	 * Returns the battery realtime since a given reference
 	 * @param iStatType the reference
