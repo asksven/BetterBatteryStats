@@ -97,7 +97,14 @@
 	            android:defaultValue="0" 
 	            android:entries="@array/orderbyLabels"
 	            android:entryValues="@array/orderbyValues"
-	        />     		   
+	        />
+		    <CheckBoxPreference 
+				android:key="use_analytics"
+				android:summary="Allow Google Analytics tracking"
+				android:title="Google Analytics" 
+				android:defaultValue="true"
+		    />
+		   		   
 		</PreferenceScreen>
 	</PreferenceCategory>
 </PreferenceScreen>
