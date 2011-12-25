@@ -133,13 +133,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 		// Check if the stats are accessible and warn if not
 		BatteryStatsProxy stats = new BatteryStatsProxy(this);
-		if (stats == null)
+		
+		if (stats.initFailed())
 		{
 			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. Known reasons: MIUI settings allow to turn them off, making MIUI incompatible with android standards", Toast.LENGTH_SHORT).show();			
 		}
 		
-		
+		///////////////////////////////////////////////
 		// check if we have a new release
+		///////////////////////////////////////////////
 		// if yes show release notes
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String strLastRelease	= sharedPrefs.getString("last_release", "0");
@@ -166,7 +168,42 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        editor.putString("last_release", strCurrentRelease);
 	        editor.commit();
     	}
-		// retrieve default selections for spinners
+		///////////////////////////////////////////////
+		// check if we have shown the opt-out from amalytics
+		///////////////////////////////////////////////
+		boolean bWarningShown	= sharedPrefs.getBoolean("analytics_opt_out", false);
+		
+		if (!bWarningShown)
+		{
+			// prepare the alert box
+            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+ 
+            // set the message to display
+            alertbox.setMessage("BetterBatteryStats makes use of Google Analytics to collect usage statitics. If you disagree or do not want to participate you can opt-out by disabling \"Google Analytics\" in the \"Advanced Preferences\"");
+ 
+            // add a neutral button to the alert box and assign a click listener
+            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
+            {
+ 
+                // click listener on the alert box
+                public void onClick(DialogInterface arg0, int arg1)
+                {
+        	        // opt out info was displayed
+            		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
+        	        SharedPreferences.Editor editor = prefs.edit();
+        	        editor.putBoolean("analytics_opt_out", true);
+        	        editor.commit();
+
+                }
+            });
+ 
+            // show it
+            alertbox.show();
+
+		}
+		///////////////////////////////////////////////
+    	// retrieve default selections for spinners
+		///////////////////////////////////////////////
     	
     	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
 		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "0"));
@@ -224,8 +261,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// setSelection MUST be called after setAdapter
 		spinnerStat.setSelection(m_iStat);
 		spinnerStat.setOnItemSelectedListener(this);
-
+		
+		///////////////////////////////////////////////
 		// Spinner for Selecting the Stat type
+		///////////////////////////////////////////////
 		Spinner spinnerStatType = (Spinner) findViewById(R.id.spinnerStatType);
 		
 		ArrayAdapter spinnerAdapter = null;
@@ -252,7 +291,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 		this.setListViewAdapter();
 
+		///////////////////////////////////////////////
 		// sorting
+		///////////////////////////////////////////////
 		String strOrderBy = sharedPrefs.getString("default_orderby", "0");
 		try
 		{
@@ -580,6 +621,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 //        if ( m_iStat != 3 )
 //        {
         	tvSince.setText("Since " + DateUtils.formatDuration(
+        			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
+        	Log.i(TAG, "Since " + DateUtils.formatDuration(
         			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
 //        }
 //        else
