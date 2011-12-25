@@ -37,6 +37,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
@@ -114,6 +115,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 * the selected sorting
 	 */
 	private int m_iSorting = 0;
+	
+	BatteryChangedHandler m_batteryHandler = null;
 	/**
 	 * @see android.app.Activity#onCreate(Bundle@SuppressWarnings("rawtypes")
 	 */
@@ -121,8 +124,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.stats);
+		setContentView(R.layout.stats);				
 		
+		// register battery changed events
+		m_batteryHandler = new BatteryChangedHandler();
+        this.registerReceiver(m_batteryHandler, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
 		// Check if the stats are accessible and warn if not
 		BatteryStatsProxy stats = new BatteryStatsProxy(this);
 		if (stats == null)
@@ -168,11 +175,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			// recover any saved state
 			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
 			{
-				StatsProvider.getInstance(this).restoreFromBundle(savedInstanceState);
+//				StatsProvider.getInstance(this).restoreFromBundle(savedInstanceState);
+				
 				m_iStat 				= (Integer) savedInstanceState.getSerializable("stat");
 				m_iStatType 			= (Integer) savedInstanceState.getSerializable("stattype");
 	 			
 			}
+			
+			// restore any available custom reference
+			StatsProvider.getInstance(this).deserializeFromFile();
 		}
 		catch (Exception e)
 		{
@@ -268,6 +279,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	protected void onPause()
 	{
 		super.onPause();
+//		this.unregisterReceiver(m_batteryHandler);
+
 	}
 
 	/**
@@ -326,7 +339,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	savedInstanceState.putSerializable("stattype", m_iStatType); 
     	savedInstanceState.putSerializable("stat", m_iStat);
 		
-    	StatsProvider.getInstance(this).writeToBundle(savedInstanceState);
+    	//StatsProvider.getInstance(this).writeToBundle(savedInstanceState);
     }
         
 	/**
@@ -442,6 +455,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	doRefresh();
             	break;	
 
+            case R.id.test:
+            	// Test
+            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
+            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
+            	doRefresh();
+            	break;	
+
             case R.id.about:
             	// About
             	Intent intentAbout = new Intent(this, AboutActivity.class);
@@ -520,8 +540,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				return;
 			}
-			// check if Kernel Wakelocks: if so disable stat type except the prefs say otherwise
-			if ( m_iStat == 3) // array.xml
+			// check if Kernel Wakelocks: if so disable stat type
+			if (false && ( m_iStat == 3)) // array.xml
 			{
 				((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.INVISIBLE);
 				((Spinner) findViewById(R.id.spinnerStatType)).setEnabled(false);
@@ -544,15 +564,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 		long timeSinceBoot = SystemClock.elapsedRealtime();
 
-        if ( m_iStat != 3 )
-        {
+//        if ( m_iStat != 3 )
+//        {
         	tvSince.setText("Since " + DateUtils.formatDuration(
         			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
-        }
-        else
-        {
-        	tvSince.setText("Since boot " + DateUtils.formatDuration(timeSinceBoot));
-        }
+//        }
+//        else
+//        {
+//        	tvSince.setText("Since boot " + DateUtils.formatDuration(timeSinceBoot));
+//        }
 		
 		// @todo fix this: this method is called twice
 		//m_listViewAdapter.notifyDataSetChanged();

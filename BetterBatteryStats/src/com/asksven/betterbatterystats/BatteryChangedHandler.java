@@ -15,6 +15,8 @@
  */
 package com.asksven.betterbatterystats;
 
+import com.asksven.betterbatterystats.data.StatsProvider;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -39,14 +41,33 @@ public class BatteryChangedHandler extends BroadcastReceiver
 
         if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED))
 		{
-			Log.i(TAG, "Received Broadcast ACTION_BATTERY_CHANGED");
-			
-			int status = intent.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN);
-            
-			if (status == BatteryManager.BATTERY_STATUS_FULL)
-            {
-                // save the references for "since charged" 
-            }
+        	try
+        	{
+        		
+				Log.i(TAG, "Received Broadcast ACTION_BATTERY_CHANGED");
+				
+				int status = intent.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN);
+	            
+				if (status == BatteryManager.BATTERY_STATUS_FULL)
+	            {
+	                // save the references for "since charged" 
+					try
+					{
+						Log.i(TAG, "Received Broadcast BATTERY_STATUS_FULL, serializing 'since charged'");
+						StatsProvider.getInstance(context).setReferenceSinceCharged(0);
+					}
+					catch (Exception e)
+					{
+						Log.e(TAG, "An error occured: " + e.getMessage());
+					}
+
+	            }
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An error occured: " + e.getMessage());
+			}
+
 		}
 	}
 }

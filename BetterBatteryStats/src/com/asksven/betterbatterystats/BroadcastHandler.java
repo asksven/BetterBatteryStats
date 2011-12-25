@@ -19,6 +19,8 @@ package com.asksven.betterbatterystats;
 
 import java.util.logging.Logger;
 
+import com.asksven.betterbatterystats.data.StatsProvider;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -52,34 +54,51 @@ public class BroadcastHandler extends BroadcastReceiver
 			// todo: delete whatever references we have saved here
 		}
 
-        if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED))
-		{
-			Log.i(TAG, "Received Broadcast ACTION_POWER_CONNECTED, registering ACTION_BATTER_CHANGED");
-			// egister the receiver for BATTERY_CHANGED to be informed when battery reaches full charge
-			m_batteryHandler = new BatteryChangedHandler();
-            context.registerReceiver(m_batteryHandler, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-
-		}
 
         if (intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED))
 		{
-			Log.i(TAG, "Received Broadcast ACTION_POWER_DISCONNECTED");
+			Log.i(TAG, "Received Broadcast ACTION_POWER_DISCONNECTED, seralizing 'since unplugged'");
 			// todo: store the "since unplugged" refs here
-			
-			// unregister the receiver for BATTERY_CHANGED as the battery is not charging anymore
-			context.unregisterReceiver(m_batteryHandler);
+			try
+			{
+				StatsProvider.getInstance(context).setReferenceSinceUnplugged(0);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An error occured: " + e.getMessage());
+			}
+
 		}
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_OFF");
+			
 			// todo: store the "since screen off" refs here
+			try
+			{
+				
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An error occured: " + e.getMessage());
+			}
+
 		}
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_ON");
 			// todo: evaluate what hapened while screen was off here
+			try
+			{
+				
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An error occured: " + e.getMessage());
+			}
+
 		}
 
 	}
