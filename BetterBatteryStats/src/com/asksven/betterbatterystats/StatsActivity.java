@@ -76,6 +76,7 @@ import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.system.AndroidVersion;
 import android.view.View;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
@@ -246,6 +247,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// setSelection MUST be called after setAdapter
 		spinnerStatType.setSelection(positionFromStatType(m_iStatType));
 		spinnerStatType.setOnItemSelectedListener(this);
+		
+		
 
 		this.setListViewAdapter();
 
@@ -261,6 +264,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_iSorting = 0;
 			
 		}
+		GoogleAnalytics.getInstance(this).trackStats(GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting); 
 
 	}
     
@@ -418,16 +422,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         {  
 	        case R.id.preferences:  
 	        	Intent intentPrefs = new Intent(this, PreferencesActivity.class);
+	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_PREFERENCES);
 	            this.startActivity(intentPrefs);
 	        	break;	
 
 	        case R.id.graph:  
 	        	Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
+	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_BATTERY_GRAPH);
 	            this.startActivity(intentGraph);
 	        	break;	
 
 	        case R.id.alarms:  
 	        	Intent intentAlarms = new Intent(this, AlarmsActivity.class);
+	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_ALARMS);
 	            this.startActivity(intentAlarms);
 	        	break;	
 
@@ -437,11 +444,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	break;
             case R.id.dump:
             	// Dump to File
+            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
             	new WriteDumpFile().execute("");
             	//this.writeDumpToFile();
             	break;
             case R.id.custom_ref:
             	// Set custom reference
+            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_SET_CUSTOM_REF);
             	new SetCustomRef().execute(this);
             	break;
             case R.id.by_time_desc:
@@ -465,11 +474,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             case R.id.about:
             	// About
             	Intent intentAbout = new Intent(this, AboutActivity.class);
+            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_ABOUT);       	
                 this.startActivity(intentAbout);
             	break;
             case R.id.getting_started:
             	// Help
             	Intent intentHelp = new Intent(this, HelpActivity.class);
+            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_HELP);
             	intentHelp.putExtra("filename", "help.html");
                 this.startActivity(intentHelp);
             	break;	
@@ -477,6 +488,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             case R.id.howto:
             	// How To
             	Intent intentHowTo = new Intent(this, HelpActivity.class);
+            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_HOWTO);
             	intentHowTo.putExtra("filename", "howto.html");
                 this.startActivity(intentHowTo);
             	break;	
@@ -484,6 +496,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             case R.id.releasenotes:
             	// Release notes
             	Intent intentReleaseNotes = new Intent(this, HelpActivity.class);
+            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_README);
             	intentReleaseNotes.putExtra("filename", "readme.html");
                 this.startActivity(intentReleaseNotes);
             	break;	
@@ -578,6 +591,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		//m_listViewAdapter.notifyDataSetChanged();
         if (bChanged)
         {
+        	GoogleAnalytics.getInstance(this).trackStats(GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
         	new LoadStatData().execute(this);
         }
 	}
