@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="11" android:versionName="1.4.2.0"
+<manifest android:versionCode="12" android:versionName="1.5.0.0_RC1"
     package="com.asksven.betterbatterystats" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="9"/>
+
     <supports-screens android:anyDensity="true"
         android:largeScreens="true" android:normalScreens="true"
         android:resizeable="true" android:smallScreens="true"/>
+
     <application android:icon="@drawable/icon_notext" android:label="BetterBatteryStats">
         <activity android:label="BetterBatteryStats" android:name="com.asksven.betterbatterystats.StatsActivity">
             <intent-filter>
@@ -25,10 +27,33 @@
             android:configChanges="orientation"/>
         <activity android:name="com.asksven.betterbatterystats.ZoomScrollGraphActivity"/>
         <activity android:name="org.achartengine.GraphicalActivity" />
+        
+        <receiver android:name=".BroadcastHandler">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.ACTION_SCREEN_OFF"/>
+                <action android:name="android.intent.action.ACTION_SCREEN_ON"/>
+            </intent-filter>    
+        </receiver>
+        
     </application>
     <uses-permission android:name="android.permission.BATTERY_STATS"/>
     <!--  required for writing dump files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!--  required for accessing the knowledge base -->
+    <!--  required for accessing the knowledge base, required for analytics -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--  required for analytics -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+   	<!--  store kernel wakelock ref boot -->
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<!--  detect when battery is charged -->
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+	<!-- detect  when screen is turned on/off-->
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<!-- detect unplug actions -->
+	<uses-permission android:name="android.permission.DEVICE_POWER" />
+    
+	
 </manifest>
