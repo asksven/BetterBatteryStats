@@ -798,7 +798,7 @@ public class StatsProvider
 	 */
 	public boolean hasCustomRef()
 	{
-		return m_myRefs.m_refOther != null;
+		return ( (m_myRefs != null) && (m_myRefs.m_refOther != null) );
 	}
 	
 	/**
@@ -1013,7 +1013,7 @@ public class StatsProvider
         
         long whichRealtime = 0;
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
-		if (iStatType == StatsProvider.STATS_CUSTOM)
+		if ( (iStatType == StatsProvider.STATS_CUSTOM) && (m_myRefs != null) )
 		{
 			whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 			whichRealtime -= m_myRefs.m_refBatteryRealtime;	
