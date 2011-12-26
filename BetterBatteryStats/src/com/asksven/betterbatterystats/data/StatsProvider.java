@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -1174,5 +1175,75 @@ public class StatsProvider
 		return strRet;
 	}
 
+	/**
+	 * translate the stat type (see arrays.xml) to the corresponding label
+	 * @param position the spinner position
+	 * @return the stat type
+	 */
+	public String statTypeToUrl(int statType)
+	{
+		String strRet = statTypeToLabel(statType);
+		
+		// remove spaces
+		  StringTokenizer st = new StringTokenizer(strRet," ",false);
+		  
+		  String strCleaned = "";
+		  while (st.hasMoreElements())
+		  {
+			  strCleaned += st.nextElement();
+		  }
+		  return strCleaned;
+	}
+
+	/**
+	 * translate the stat (see arrays.xml) to the corresponding label
+	 * @param position the spinner position
+	 * @return the stat
+	 */
+	private String statToLabel(int iStat)
+	{
+		String strRet = "";
+		switch (iStat)
+		{
+			// constants are related to arrays.xml string-array name="stats"
+			case 0:
+				strRet = "Process";
+				break;
+				
+			case 1:
+				strRet = "Partial Wakelocks";
+				break;
+				
+			case 2:
+				strRet = "Other";
+				break;
+					
+			case 3:
+				strRet = "Kernel Wakelocks";
+				break;
+		}
+		
+		return strRet;
+	}
+	
+	/**
+	 * translate the stat (see arrays.xml) to the corresponding label
+	 * @param position the spinner position
+	 * @return the stat
+	 */
+	public String statToUrl(int stat)
+	{
+		String strRet = statToLabel(stat);
+		
+		// remove spaces
+		  StringTokenizer st = new StringTokenizer(strRet," ",false);
+		  
+		  String strCleaned = "";
+		  while (st.hasMoreElements())
+		  {
+			  strCleaned += st.nextElement();
+		  }
+		  return strCleaned;
+	}
 
 }

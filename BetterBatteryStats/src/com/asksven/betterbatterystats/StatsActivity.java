@@ -310,7 +310,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_iSorting = 0;
 			
 		}
-		GoogleAnalytics.getInstance(this).trackStats(GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting); 
+		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting); 
 
 	}
     
@@ -510,12 +510,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	doRefresh();
             	break;	
 
-            case R.id.test:
-            	// Test
-            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
-            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
-            	doRefresh();
-            	break;	
+//            case R.id.test:
+//            	// Test
+//            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
+//            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
+//            	doRefresh();
+//            	break;	
 
             case R.id.about:
             	// About
@@ -639,7 +639,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		//m_listViewAdapter.notifyDataSetChanged();
         if (bChanged)
         {
-        	GoogleAnalytics.getInstance(this).trackStats(GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
+        	GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
         	new LoadStatData().execute(this);
         }
 	}
