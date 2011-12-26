@@ -70,6 +70,7 @@ public class GoogleAnalytics
 
 				// Start the tracker in manual dispatch mode...
 				m_tracker.startNewSession("TRACKING_CODE_HERE", 20, context);
+				
 			}
 		    
 		}
@@ -84,11 +85,14 @@ public class GoogleAnalytics
 		}
 	}
 
-	public void trackStats(String page, int stat, int statType, int sort)
+	public void trackStats(Context context, String page, int stat, int statType, int sort)
 	{
 		if ((m_tracker != null) && m_bActive )
 		{
-			m_tracker.trackPageView(page + "Stat" + stat + "Type" + statType + "Sort" + sort);
+			m_tracker.trackPageView(page 
+					+ StatsProvider.getInstance(context).statToUrl(stat)
+					+ StatsProvider.getInstance(context).statTypeToUrl(statType)
+					+ "Sort" + sort);
 		}
 	}
 
