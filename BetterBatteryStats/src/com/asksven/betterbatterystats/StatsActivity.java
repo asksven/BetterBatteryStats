@@ -172,11 +172,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	{
     		// can't do this at the same time as the popup dialog would be masked by the readme
 			///////////////////////////////////////////////
-			// check if we have shown the opt-out from amalytics
+			// check if we have shown the opt-out from analytics
 			///////////////////////////////////////////////
 			boolean bWarningShown	= sharedPrefs.getBoolean("analytics_opt_out", false);
-			
-			if (!bWarningShown)
+			boolean bAnalyticsEnabled = sharedPrefs.getBoolean("use_analytics", true);
+			if (bAnalyticsEnabled && !bWarningShown)
 			{
 				// prepare the alert box
 	            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
