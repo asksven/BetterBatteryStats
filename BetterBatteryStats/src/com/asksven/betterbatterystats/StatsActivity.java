@@ -168,39 +168,44 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        editor.putString("last_release", strCurrentRelease);
 	        editor.commit();
     	}
-		///////////////////////////////////////////////
-		// check if we have shown the opt-out from amalytics
-		///////////////////////////////////////////////
-		boolean bWarningShown	= sharedPrefs.getBoolean("analytics_opt_out", false);
-		
-		if (!bWarningShown)
-		{
-			// prepare the alert box
-            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
- 
-            // set the message to display
-            alertbox.setMessage("BetterBatteryStats makes use of Google Analytics to collect usage statitics. If you disagree or do not want to participate you can opt-out by disabling \"Google Analytics\" in the \"Advanced Preferences\"");
- 
-            // add a neutral button to the alert box and assign a click listener
-            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
-            {
- 
-                // click listener on the alert box
-                public void onClick(DialogInterface arg0, int arg1)
-                {
-        	        // opt out info was displayed
-            		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
-        	        SharedPreferences.Editor editor = prefs.edit();
-        	        editor.putBoolean("analytics_opt_out", true);
-        	        editor.commit();
-
-                }
-            });
- 
-            // show it
-            alertbox.show();
-
-		}
+    	else
+    	{
+    		// can't do this at the same time as the popup dialog would be masked by the readme
+			///////////////////////////////////////////////
+			// check if we have shown the opt-out from amalytics
+			///////////////////////////////////////////////
+			boolean bWarningShown	= sharedPrefs.getBoolean("analytics_opt_out", false);
+			
+			if (!bWarningShown)
+			{
+				// prepare the alert box
+	            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+	 
+	            // set the message to display
+	            alertbox.setMessage("BetterBatteryStats makes use of Google Analytics to collect usage statitics. If you disagree or do not want to participate you can opt-out by disabling \"Google Analytics\" in the \"Advanced Preferences\"");
+	 
+	            // add a neutral button to the alert box and assign a click listener
+	            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
+	            {
+	 
+	                // click listener on the alert box
+	                public void onClick(DialogInterface arg0, int arg1)
+	                {
+	        	        // opt out info was displayed
+	            		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
+	        	        SharedPreferences.Editor editor = prefs.edit();
+	        	        editor.putBoolean("analytics_opt_out", true);
+	        	        editor.commit();
+	
+	                }
+	            });
+	 
+	            // show it
+	            alertbox.show();
+	
+			}
+    	}
+    	
 		///////////////////////////////////////////////
     	// retrieve default selections for spinners
 		///////////////////////////////////////////////
