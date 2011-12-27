@@ -833,12 +833,19 @@ public class StatsProvider
 		
 		try
     	{			
-			m_myRefs.m_refOther 			= null;
-			m_myRefs.m_refWakelocks 		= null;
-			m_myRefs.m_refKernelWakelocks 	= null;
-			m_myRefs.m_refProcesses 		= null;
-			m_myRefs.m_refNetwork 			= null;			
-    	
+			if (m_myRefs != null)
+			{
+				m_myRefs.m_refOther 			= null;
+				m_myRefs.m_refWakelocks 		= null;
+				m_myRefs.m_refKernelWakelocks 	= null;
+				m_myRefs.m_refProcesses 		= null;
+				m_myRefs.m_refNetwork 			= null;			
+			}
+			else
+			{
+				m_myRefs = new References();
+			}
+		
 			// create a copy of each list for further reference
 			m_myRefs.m_refOther 			= getOtherUsageStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
@@ -857,7 +864,7 @@ public class StatsProvider
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
-    		Toast.makeText(m_context, "an error occured while creating the custom reference", Toast.LENGTH_SHORT).show();
+    		//Toast.makeText(m_context, "an error occured while creating the custom reference", Toast.LENGTH_SHORT).show();
     		m_myRefs.m_refOther 			= null;
     		m_myRefs.m_refWakelocks 		= null;
     		m_myRefs.m_refKernelWakelocks 	= null;
