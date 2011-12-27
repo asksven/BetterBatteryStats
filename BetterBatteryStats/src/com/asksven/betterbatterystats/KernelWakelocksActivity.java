@@ -39,15 +39,16 @@ import android.widget.Toast;
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.RootDetection;
+import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
-public class AlarmsActivity extends ListActivity
+public class KernelWakelocksActivity extends ListActivity
 {
 	/**
 	 * The logging TAG
 	 */
-	private static final String TAG = "AlarmsActivity";
+	private static final String TAG = "KernelWakelocksActivity";
 	
 	/**
 	 * a progess dialog to be used for long running tasks
@@ -57,7 +58,7 @@ public class AlarmsActivity extends ListActivity
 	/**
 	 * The ArrayAdpater for rendering the ListView
 	 */
-	private AlarmsAdapter m_listViewAdapter;
+	private StatsAdapter m_listViewAdapter;
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle@SuppressWarnings("rawtypes")
@@ -74,14 +75,7 @@ public class AlarmsActivity extends ListActivity
 	protected void onResume()
 	{
 		super.onResume();
-		if (RootDetection.hasSuRights())
-		{
-			new LoadStatData().execute(this);
-		}
-		else
-		{
-			Toast.makeText(this, "Your phone must be rooted and BetterBatteryStats granted 'su' rights in order to view alarms", Toast.LENGTH_SHORT).show();
-		}
+		new LoadStatData().execute(this);
 	}
 
     /** 
@@ -92,7 +86,7 @@ public class AlarmsActivity extends ListActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {  
     	MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.alarms_menu, menu);
+        inflater.inflate(R.menu.kernelwakelocks_menu, menu);
         return true;
     }  
 
@@ -127,24 +121,39 @@ public class AlarmsActivity extends ListActivity
 
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 	// for more details
-	private class LoadStatData extends AsyncTask<Context, Integer, AlarmsAdapter>
+	private class LoadStatData extends AsyncTask<Context, Integer, StatsAdapter>
 	{
 		@Override
-	    protected AlarmsAdapter doInBackground(Context... params)
+	    protected StatsAdapter doInBackground(Context... params)
 	    {
+			int iSort;
 			//super.doInBackground(params);
-			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(AlarmsActivity.this);
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(KernelWakelocksActivity.this);
+			String strOrderBy = sharedPrefs.getString("default_orderby", "0");
 			boolean bFilter = sharedPrefs.getBoolean("filter_data", true);
+			int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
+			
 
 			try
 			{
-				m_listViewAdapter = new AlarmsAdapter(AlarmsActivity.this,
-						StatsProvider.getInstance(AlarmsActivity.this).getAlarmsStatList(bFilter));
+				iSort = Integer.valueOf(strOrderBy);
+			}
+			catch(Exception e)
+			{
+				// handle error here
+				iSort = 0;
+				
+			}
+
+			try
+			{
+				m_listViewAdapter = new StatsAdapter(KernelWakelocksActivity.this, 
+						StatsProvider.getInstance(KernelWakelocksActivity.this).getNativeKernelWakelockStatList(bFilter, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort));
 			}
 			catch (Exception e)
 			{
-				Log.e(TAG, "Loading of alarm stats failed");
 				m_listViewAdapter = null;
+				Log.e(TAG, "An error occured while loading kernel wakelocks");
 			}
 	    	//StatsActivity.this.setListAdapter(m_listViewAdapter);
 	        // getStatList();
@@ -152,7 +161,7 @@ public class AlarmsActivity extends ListActivity
 	    }
 		
 		@Override
-		protected void onPostExecute(AlarmsAdapter o)
+		protected void onPostExecute(StatsAdapter o)
 	    {
 			super.onPostExecute(o);
 	        // update hourglass
@@ -161,7 +170,7 @@ public class AlarmsActivity extends ListActivity
 	    		m_progressDialog.hide();
 	    		m_progressDialog = null;
 	    	}
-	    	AlarmsActivity.this.setListAdapter(o);
+	    	KernelWakelocksActivity.this.setListAdapter(o);
 	    }
 	    @Override
 	    protected void onPreExecute()
@@ -170,7 +179,7 @@ public class AlarmsActivity extends ListActivity
 	    	// @todo this code is only there because onItemSelected is called twice
 	    	if (m_progressDialog == null)
 	    	{
-		    	m_progressDialog = new ProgressDialog(AlarmsActivity.this);
+		    	m_progressDialog = new ProgressDialog(KernelWakelocksActivity.this);
 		    	m_progressDialog.setMessage("Computing...");
 		    	m_progressDialog.setIndeterminate(true);
 		    	m_progressDialog.setCancelable(false);
@@ -179,35 +188,4 @@ public class AlarmsActivity extends ListActivity
 	    }
 	}
 	
-	/**
-	 * Get the Stat to be displayed
-	 * @return a List of StatElements sorted (descending)
-	 */
-	private ArrayList<Alarm> getAlarms()
-	{
-		ArrayList<Alarm> myRet = new ArrayList<Alarm>();
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
-
-		try
-		{
-			ArrayList<Alarm> myAlarms = AlarmsDumpsys.getAlarms();
-			Collections.sort(myAlarms);
-
-			for (int i = 0; i < myAlarms.size(); i++)
-			{
-				Alarm usage = myAlarms.get(i); 
-				if ( (!bFilterStats) || (usage.getWakeups() > 0) )
-				{
-						myRet.add(usage);
-				}
-			}
-
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An exception occured: " + e.getMessage());
-		}
-		return myRet;
-	}
 }

@@ -30,16 +30,17 @@ import android.widget.TextView;
 
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.Alarm.AlarmItem;
+import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.R;
 
 public class AlarmsAdapter extends BaseAdapter
 {
     private Context context;
 
-    private List<Alarm> m_listData;
+    private List<StatElement> m_listData;
     
 
-    public AlarmsAdapter(Context context, List<Alarm> listData)
+    public AlarmsAdapter(Context context, List<StatElement> listData)
     {
         this.context = context;
         this.m_listData = listData;        
@@ -67,7 +68,7 @@ public class AlarmsAdapter extends BaseAdapter
 
     public View getView(int position, View convertView, ViewGroup viewGroup)
     {
-    	Alarm entry = m_listData.get(position);
+    	Alarm entry = (Alarm) m_listData.get(position);
         if (convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater) context

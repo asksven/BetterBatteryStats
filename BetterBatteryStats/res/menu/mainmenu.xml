@@ -40,7 +40,10 @@
 	        	android:title="History" />
 	       	<item android:id="@+id/alarms"
 	        	android:title="Alarms" />
-	        
+
+	       	<item android:id="@+id/rawkwl"
+	        	android:title="Raw kernel wakelocks" />
+	       		        
 	    </menu>
 	</item>
     <item android:id="@+id/help_group"

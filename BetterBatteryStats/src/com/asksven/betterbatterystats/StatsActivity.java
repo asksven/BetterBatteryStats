@@ -484,6 +484,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	            this.startActivity(intentAlarms);
 	        	break;	
 
+	        case R.id.rawkwl:  
+	        	Intent intentKwl = new Intent(this, KernelWakelocksActivity.class);
+	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_KWL);
+	            this.startActivity(intentKwl);
+	        	break;	
+
 	        case R.id.refresh:
             	// Refresh
 	        	doRefresh();

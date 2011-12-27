@@ -37,6 +37,7 @@ public class GoogleAnalytics
 	
 	public static final String ACTIVITY_ABOUT = "/AboutActivity";
 	public static final String ACTIVITY_ALARMS = "/AlarmsActivity";
+	public static final String ACTIVITY_KWL = "/RawKwlActivity";
 	public static final String ACTIVITY_BATTERY_GRAPH = "/BatteryGraphActivity";
 	public static final String ACTIVITY_BATTERY_GRAPH2 = "/BatteryGraph2Activity";
 	public static final String ACTIVITY_BATTERY_GRAPH_SERIES = "/BatteryGraphSeriesActivity";

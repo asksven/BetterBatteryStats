@@ -21,6 +21,8 @@
             android:configChanges="orientation"/>
         <activity android:name="com.asksven.betterbatterystats.AlarmsActivity"
             android:configChanges="orientation"/>
+        <activity android:name="com.asksven.betterbatterystats.KernelWakelocksActivity"
+            android:configChanges="orientation"/>
         <activity android:name="com.asksven.betterbatterystats.BatteryGraphActivity"
             android:configChanges="orientation"/>
         <activity android:name="com.asksven.betterbatterystats.BatteryGraph2Activity"
