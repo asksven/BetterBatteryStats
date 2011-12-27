@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.R;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -51,6 +50,9 @@ public class BroadcastHandler extends BroadcastReceiver
  
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
 		{
+        	// start the service
+        	context.startService(new Intent(context, BetterBatteryStatsService.class));
+        	
 			Log.i(TAG, "Received Broadcast ACTION_BOOT_COMPLETED");
 			// delete whatever references we have saved here
 			StatsProvider.getInstance(context).deletedSerializedRefs();

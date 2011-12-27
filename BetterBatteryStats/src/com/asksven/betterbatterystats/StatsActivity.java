@@ -20,34 +20,21 @@ package com.asksven.betterbatterystats;
  *
  */
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,23 +48,13 @@ import android.widget.Toast;
 
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.kernelutils.Alarm;
-import com.asksven.android.common.kernelutils.AlarmsDumpsys;
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
-import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
-import com.asksven.android.common.privateapiproxies.KernelWakelock;
-import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.NetworkUsage;
-import com.asksven.android.common.privateapiproxies.Process;
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.system.AndroidVersion;
-import android.view.View;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.StatsProvider;
+
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
 {    
@@ -117,7 +94,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 */
 	private int m_iSorting = 0;
 	
-	BatteryChangedHandler m_batteryHandler = null;
 	/**
 	 * @see android.app.Activity#onCreate(Bundle@SuppressWarnings("rawtypes")
 	 */
@@ -127,13 +103,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);				
 		
-		// register battery changed events
-		m_batteryHandler = new BatteryChangedHandler();
-        this.registerReceiver(m_batteryHandler, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+		// start the service if not running
+		if( !isMyServiceRunning() )
+		{
+			Intent i = new Intent();
+			i.setClassName( "com.asksven.betterlatitude", BetterBatteryStatsService.SERVICE_NAME );
+			startService( i );
+			Log.i(TAG, "starting serivice");
+		}
+
 
 		// Check if the stats are accessible and warn if not
 		BatteryStatsProxy stats = new BatteryStatsProxy(this);
-		
+	
 		if (stats.initFailed())
 		{
 			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. Known reasons: MIUI settings allow to turn them off, making MIUI incompatible with android standards", Toast.LENGTH_SHORT).show();			
@@ -853,5 +835,21 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	}
 
 
-	
+	/** 
+	 * Test if the service is running
+	 * @return
+	 */
+	boolean isMyServiceRunning()
+	{
+	    ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+	    {
+	        if (BetterBatteryStatsService.SERVICE_NAME.equals(service.service.getClassName()))
+	        {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+
 }
