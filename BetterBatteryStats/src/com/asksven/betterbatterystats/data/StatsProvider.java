@@ -505,35 +505,59 @@ public class StatsProvider
 						//   if a process is in the reference return the delta
 						//	 a process can not have disapeared in btwn so we don't need
 						//	 to test the reverse case
-						wl.substractFromRef(m_myRefs.m_refKernelWakelocks);
-	
-	
-						// we must recheck if the delta process is still above threshold
-						if ( (!bFilter) || ((wl.getDuration()) > 0) )
+						if (m_myRefs != null)
 						{
-							myRetKernelWakelocks.add( wl);
+							wl.substractFromRef(m_myRefs.m_refKernelWakelocks);
+		
+		
+							// we must recheck if the delta process is still above threshold
+							if ( (!bFilter) || ((wl.getDuration()) > 0) )
+							{
+								myRetKernelWakelocks.add( wl);
+							}
+						}
+						else
+						{
+							myRetKernelWakelocks.clear();
+							myRetKernelWakelocks.add(new NativeKernelWakelock("No custom reference set", 1, 1, 1, 1, 1, 1, 1, 1, 1));
 						}
 						break;
 					case STATS_UNPLUGGED:
-						wl.substractFromRef(m_myRefSinceUnplugged.m_refKernelWakelocks);
-						
-						
-						// we must recheck if the delta process is still above threshold
-						if ( (!bFilter) || ((wl.getDuration()) > 0) )
+						if (m_myRefSinceUnplugged != null)
 						{
-							myRetKernelWakelocks.add( wl);
+							wl.substractFromRef(m_myRefSinceUnplugged.m_refKernelWakelocks);
+							
+							
+							// we must recheck if the delta process is still above threshold
+							if ( (!bFilter) || ((wl.getDuration()) > 0) )
+							{
+								myRetKernelWakelocks.add( wl);
+							}
+						}
+						else
+						{
+							myRetKernelWakelocks.clear();
+							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since unplugged set yet", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+
 						}
 						break;
 
 					case STATS_CHARGED:
-						wl.substractFromRef(m_myRefSinceCharged.m_refKernelWakelocks);
-												
-						// we must recheck if the delta process is still above threshold
-						if ( (!bFilter) || ((wl.getDuration()) > 0) )
+						if (m_myRefSinceCharged != null)
 						{
-							myRetKernelWakelocks.add( wl);
+							wl.substractFromRef(m_myRefSinceCharged.m_refKernelWakelocks);
+													
+							// we must recheck if the delta process is still above threshold
+							if ( (!bFilter) || ((wl.getDuration()) > 0) )
+							{
+								myRetKernelWakelocks.add( wl);
+							}
 						}
-
+						else
+						{
+							myRetKernelWakelocks.clear();
+							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since charged yet", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+						}
 						break;
 					case BatteryStatsTypes.STATS_CURRENT:
 						// we must recheck if the delta process is still above threshold
@@ -1156,7 +1180,7 @@ public class StatsProvider
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
-    		Toast.makeText(m_context, "an error occured while dumping the statistics", Toast.LENGTH_SHORT).show();
+//    		Toast.makeText(m_context, "an error occured while dumping the statistics", Toast.LENGTH_SHORT).show();
     	}		
 	}
 	
