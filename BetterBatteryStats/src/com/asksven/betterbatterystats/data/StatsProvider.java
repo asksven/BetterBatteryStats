@@ -458,20 +458,20 @@ public class StatsProvider
 		String strRef = "";
 		switch (iStatType)
 		{
-			case STATS_CUSTOM:									
-				if (m_myRefSinceUnplugged.m_refKernelWakelocks != null)
+			case STATS_UNPLUGGED:									
+				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refKernelWakelocks != null) )
 				{
 					strRef = m_myRefSinceUnplugged.m_refKernelWakelocks.toString();
 				}
 				break;
 			case STATS_CHARGED:
-				if (m_myRefSinceCharged.m_refKernelWakelocks != null)
+				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refKernelWakelocks != null) )
 				{
 					strRef = m_myRefSinceCharged.m_refKernelWakelocks.toString();
 				}
 				break;
-			case STATS_UNPLUGGED:
-				if (m_myRefs.m_refKernelWakelocks != null)
+			case STATS_CUSTOM:
+				if ( (m_myRefs != null) && (m_myRefs.m_refKernelWakelocks != null))
 				{
 					strRef = m_myRefs.m_refKernelWakelocks.toString();
 				}
@@ -802,6 +802,24 @@ public class StatsProvider
 		return ( (m_myRefs != null) && (m_myRefs.m_refOther != null) );
 	}
 	
+	/**
+	 * Returns true if a since charged ref was stored
+	 * @return true is a since charged ref exists
+	 */
+	public boolean hasSinceChargedRef()
+	{
+		return ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refKernelWakelocks != null) );
+	}
+
+	/**
+	 * Returns true if a since unplugged ref was stored
+	 * @return true is a since unplugged ref exists
+	 */
+	public boolean hasSinceUnpluggedRef()
+	{
+		return ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refKernelWakelocks != null) );
+	}
+
 	/**
 	 * Saves all data to a point in time defined by user
 	 * This data will be used in a custom "since..." stat type

@@ -586,6 +586,21 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				Toast.makeText(this, "Warning: there is no custom reference set.", Toast.LENGTH_SHORT).show();
 			}
+			// warn the user if custom ref was chosen without a ref being present yet
+			if ( (m_iStat == 3)
+					&& (m_iStatType == StatsProvider.STATS_CHARGED) 
+					&& (!StatsProvider.getInstance(this).hasSinceChargedRef()))
+			{
+				Toast.makeText(this, "Warning: there is no reference for kernel wakelocks since charged yet.", Toast.LENGTH_SHORT).show();
+			}
+
+			if ( (m_iStat == 3)
+					&& (m_iStatType == StatsProvider.STATS_UNPLUGGED) 
+					&& (!StatsProvider.getInstance(this).hasSinceUnpluggedRef()))
+			{
+				Toast.makeText(this, "Warning: there is no reference for kernel wakelocks since unplugged yet.", Toast.LENGTH_SHORT).show();
+			}
+
 		}
 		else if (parent == (Spinner) findViewById(R.id.spinnerStat))
 		{
