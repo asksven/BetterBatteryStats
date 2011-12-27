@@ -20,6 +20,7 @@ package com.asksven.betterbatterystats;
 import java.util.logging.Logger;
 
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.R;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
