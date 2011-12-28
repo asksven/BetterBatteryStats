@@ -73,7 +73,10 @@ public class StatsProvider
 	public final static int STATS_CUSTOM 	= 4;
 	
 	/** the logger tag */
-	static String TAG = "StatsProvider"; 
+	static String TAG = "StatsProvider";
+	
+	/** the text when no custom reference is set */
+	static String NO_CUST_REF = "No custom reference was set";
 	
 	/** the storage for references */
 	static References m_myRefs 					= null;
@@ -218,13 +221,23 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					ps.substractFromRef(m_myRefs.m_refProcesses);
-					
-					// we must recheck if the delta process is still above threshold
-					if ( (!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0) )
+					if (m_myRefs != null)
 					{
-						myRetProcesses.add(ps);
+						ps.substractFromRef(m_myRefs.m_refProcesses);
+						
+						// we must recheck if the delta process is still above threshold
+						if ( (!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0) )
+						{
+							myRetProcesses.add(ps);
+						}
+
 					}
+					else
+					{
+						myRetProcesses.clear();
+						myRetProcesses.add(new Process(NO_CUST_REF, 1, 1, 1));
+					}
+					
 				}
 				else
 				{
@@ -303,12 +316,20 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					wl.substractFromRef(m_myRefs.m_refWakelocks);
-					
-					// we must recheck if the delta process is still above threshold
-					if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+					if (m_myRefs != null)
 					{
-						myRetWakelocks.add( wl);
+						wl.substractFromRef(m_myRefs.m_refWakelocks);
+						
+						// we must recheck if the delta process is still above threshold
+						if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+						{
+							myRetWakelocks.add( wl);
+						}
+					}
+					else
+					{
+						myRetWakelocks.clear();
+						myRetWakelocks.add(new Wakelock(1, NO_CUST_REF, 1, 1, 1));
 					}
 				}
 				else
@@ -519,7 +540,7 @@ public class StatsProvider
 						else
 						{
 							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock("No custom reference set", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+							myRetKernelWakelocks.add(new NativeKernelWakelock(NO_CUST_REF, 1, 1, 1, 1, 1, 1, 1, 1, 1));
 						}
 						break;
 					case STATS_UNPLUGGED:
@@ -800,10 +821,18 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					usage.substractFromRef(m_myRefs.m_refOther);
-					if ( (!bFilter) || (usage.getTimeOn() > 0) )
+					if (m_myRefs != null)
 					{
-						myStats.add((StatElement) usage);
+						usage.substractFromRef(m_myRefs.m_refOther);
+						if ( (!bFilter) || (usage.getTimeOn() > 0) )
+						{
+							myStats.add((StatElement) usage);
+						}
+					}
+					else
+					{
+						myStats.clear();
+						myStats.add(new Misc(NO_CUST_REF, 1, 1)); 
 					}
 				}
 				else
