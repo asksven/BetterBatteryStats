@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="12" android:versionName="1.5.0.0_RC2"
+<manifest android:versionCode="12" android:versionName="1.5.0.0_RC3"
     package="com.asksven.betterbatterystats" xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="9"/>
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10"/>
 
     <supports-screens android:anyDensity="true"
         android:largeScreens="true" android:normalScreens="true"
@@ -29,6 +29,8 @@
             android:configChanges="orientation"/>
         <activity android:name="com.asksven.betterbatterystats.ZoomScrollGraphActivity"/>
         <activity android:name="org.achartengine.GraphicalActivity" />
+        
+        <service android:name="com.asksven.betterbatterystats.BetterBatteryStatsService"/>
         
         <receiver android:name="com.asksven.betterbatterystats.BroadcastHandler">
             <intent-filter>
