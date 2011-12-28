@@ -470,7 +470,7 @@ public class BatteryGraphActivity extends Activity
 			File root = Environment.getExternalStorageDirectory();
 		    if (root.canWrite())
 		    {
-		    	String strFilename = "BetterBatteryStats_History" + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
+		    	String strFilename = "BetterBatteryStats_History-" + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
 		    	File dumpFile = new File(root, strFilename);
 		        FileWriter fw = new FileWriter(dumpFile);
 		        BufferedWriter out = new BufferedWriter(fw);

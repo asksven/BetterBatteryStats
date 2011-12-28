@@ -1128,7 +1128,7 @@ public class StatsProvider
 			// check if file can be written
 		    if (root.canWrite())
 		    {
-		    	String strFilename = "BetterBatteryStats" + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
+		    	String strFilename = "BetterBatteryStats-" + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
 		    	File dumpFile = new File(root, strFilename);
 		        FileWriter fw = new FileWriter(dumpFile);
 		        BufferedWriter out = new BufferedWriter(fw);
