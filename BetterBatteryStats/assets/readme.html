@@ -24,6 +24,22 @@
 	
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content"> 
+<h2>v1.5.0.0RC3 2011-12-28</h2>
+<p>
+<ul>
+	<li>Fixed graphs for Ice Cream Samdwich</li>
+	<li>Dumpfiles are now named with timestamp to avoid overwriting</li>
+	<li>Alarms have been added to dump (for rooted devices)</li>
+	<li>Kernel wakelocks now have references (since unlugged, since charged, custom)</li>
+	<li>Use of <b>Google Analytics</b> to track screen accesses, displayed statitics and stat types. The results help me putting the right priorities in future developments. <b>Opting-out from analytics</b> can be done in "Advances Preferences"</li>
+	<li>"Actions" menu renamed to "More"</li>
+	<li>Added raw Kernel Wakelocks to "More" menu</li>
+	<li>Bugfix: alarms were truncated when upper-case or numbers in the name</li>
+	<li>Bugfix: notify with error message when dumps could not be written due to unmounted sdcard</li>
+	<li>Bugfix: retrieval of online knowledge base was blocking refresh under bad netowrk conditions</li>
+	<li>Bugfix: proper error handling if the battery service could not be attached to (typical MIUI problem)</li>
+</ul>
+
 <h2>v1.4.2.0 2011-11-20</h2>
 <p>
 <ul>
