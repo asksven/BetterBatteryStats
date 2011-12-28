@@ -107,9 +107,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		if( !isMyServiceRunning() )
 		{
 			Intent i = new Intent();
-			i.setClassName( "com.asksven.betterlatitude", BetterBatteryStatsService.SERVICE_NAME );
+			String strPackName = this.getClass().getPackage().getName();
+			String strAppPackage = getPackageName();
+			i.setClassName( strAppPackage, strPackName + "." + BetterBatteryStatsService.SERVICE_NAME );
 			startService( i );
-			Log.i(TAG, "starting serivice");
+			if( !isMyServiceRunning() )
+			{
+				Log.e(TAG, "Service start failed");
+			}
+			else
+			{
+				Log.i(TAG, "Service started");
+			}
+			
 		}
 
 
@@ -842,9 +852,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	boolean isMyServiceRunning()
 	{
 	    ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+	    String myServiceName = this.getClass().getPackage().getName() + "." + BetterBatteryStatsService.SERVICE_NAME;
 	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
 	    {
-	        if (BetterBatteryStatsService.SERVICE_NAME.equals(service.service.getClassName()))
+	    	String strCurr = service.service.getClassName();
+	        if (myServiceName.equals(strCurr))
 	        {
 	            return true;
 	        }

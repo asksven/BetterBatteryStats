@@ -22,6 +22,7 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import com.asksven.betterbatterystats.R;
 
 
 /**
@@ -38,7 +39,7 @@ public class BetterBatteryStatsService extends Service
 {
 		
 	private static final String TAG = "BetterBatteryStatsService";
-	public static String SERVICE_NAME = "com.asksven.betterbatteryStats.BetterBatteryStatsService";
+	public static String SERVICE_NAME = "BetterBatteryStatsService";
 
 	BatteryChangedHandler m_batteryHandler = null;
 
