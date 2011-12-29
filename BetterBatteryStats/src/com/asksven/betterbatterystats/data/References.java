@@ -21,20 +21,20 @@ import java.util.ArrayList;
 import com.asksven.android.common.privateapiproxies.StatElement;
 
 /**
+ * A serializable value holder for stat references 
  * @author sven
  *
  */
 class References implements Serializable
 {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
+	
 	/** storage of custom references */
     protected ArrayList<StatElement> m_refWakelocks 		= null;
-    protected ArrayList<StatElement> m_refKernelWakelocks = null;
+    protected ArrayList<StatElement> m_refKernelWakelocks 	= null;
     protected ArrayList<StatElement> m_refProcesses 		= null;
     protected ArrayList<StatElement> m_refNetwork	 		= null;
-    protected ArrayList<StatElement> m_refOther	 		= null;
-    protected long m_refBatteryRealtime = 0;
+    protected ArrayList<StatElement> m_refOther	 			= null;
+    protected long m_refBatteryRealtime 					= 0;
 }

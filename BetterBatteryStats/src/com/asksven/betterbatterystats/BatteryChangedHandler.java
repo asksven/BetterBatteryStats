@@ -26,6 +26,7 @@ import android.os.BatteryManager;
 import android.util.Log;
 
 /**
+ * A handler for BATTERY_CHANGED broadcasts. This handler is registered by code
  * @author sven
  *
  */
