@@ -66,6 +66,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -258,8 +259,20 @@ public class BatteryGraphActivity extends Activity
     private void seriesSetup()
     {
         // SERIES #1:
+        // will not contain points with the same battery level value
+        ArrayList<HistoryItem> shortHistory = new ArrayList<HistoryItem>(m_histList.size());
+        Iterator<HistoryItem> historyIterator = m_histList.iterator();
+        shortHistory.add(historyIterator.next());
+        HistoryItem lastShortHistoryItem = shortHistory.get(0);
+        while (historyIterator.hasNext()) {
+            HistoryItem item = historyIterator.next();
+            if (item.getBatteryLevelInt() != lastShortHistoryItem.getBatteryLevelInt()) {
+                shortHistory.add(item);
+                lastShortHistoryItem = shortHistory.get(shortHistory.size() - 1);
+            }
+        }
         BatteryGraphSeries mySerie = new BatteryGraphSeries(
-        		m_histList,
+        		shortHistory,
         		BatteryGraphSeries.SERIE_CHARGE,
         		"Charge");
         
