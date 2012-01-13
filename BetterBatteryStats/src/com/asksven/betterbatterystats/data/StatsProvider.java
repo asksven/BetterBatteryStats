@@ -168,6 +168,12 @@ public class StatsProvider
 						myRet.add(usage);
 				}
 			}
+			
+			if (myAlarms.size() == 0)
+			{
+				Alarm dummy = new Alarm("Alarm dump require root");
+				myRet.add(dummy);
+			}
 	
 		}
 		catch (Exception e)

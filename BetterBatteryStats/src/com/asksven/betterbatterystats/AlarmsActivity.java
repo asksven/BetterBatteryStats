@@ -74,14 +74,14 @@ public class AlarmsActivity extends ListActivity
 	protected void onResume()
 	{
 		super.onResume();
-		if (RootDetection.hasSuRights())
-		{
+//		if (RootDetection.hasSuRights())
+//		{
 			new LoadStatData().execute(this);
-		}
-		else
-		{
-			Toast.makeText(this, "Your phone must be rooted and BetterBatteryStats granted 'su' rights in order to view alarms", Toast.LENGTH_SHORT).show();
-		}
+//		}
+//		else
+//		{
+//			Toast.makeText(this, "Your phone must be rooted and BetterBatteryStats granted 'su' rights in order to view alarms", Toast.LENGTH_SHORT).show();
+//		}
 	}
 
     /** 
