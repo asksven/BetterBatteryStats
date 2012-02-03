@@ -3,7 +3,8 @@
     <item android:id="@+id/preferences"
           android:title="Preferences" />
     <item android:id="@+id/refresh"    
-          android:title="Refresh" />
+          android:title="Refresh"
+          showAsAction="ifRoom"/>
 <!-- 
     <item android:id="@+id/test"    
           android:title="Test" />
