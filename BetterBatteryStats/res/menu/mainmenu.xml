@@ -38,8 +38,8 @@
 -->	        	
 	        <item android:id="@+id/graph"
 	        	android:title="History" />
-	       	<item android:id="@+id/alarms"
-	        	android:title="Alarms" />
+	       	<item android:id="@+id/rawalarms"
+	        	android:title="Raw alarms" />
 
 	       	<item android:id="@+id/rawkwl"
 	        	android:title="Raw kernel wakelocks" />

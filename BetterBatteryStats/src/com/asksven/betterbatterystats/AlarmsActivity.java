@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2011-2012 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,6 +39,7 @@ import android.widget.Toast;
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.RootDetection;
+import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
@@ -139,7 +140,7 @@ public class AlarmsActivity extends ListActivity
 			try
 			{
 				m_listViewAdapter = new AlarmsAdapter(AlarmsActivity.this,
-						StatsProvider.getInstance(AlarmsActivity.this).getAlarmsStatList(bFilter));
+						StatsProvider.getInstance(AlarmsActivity.this).getAlarmsStatList(bFilter, BatteryStatsTypes.STATS_CURRENT));
 			}
 			catch (Exception e)
 			{
@@ -179,35 +180,35 @@ public class AlarmsActivity extends ListActivity
 	    }
 	}
 	
-	/**
-	 * Get the Stat to be displayed
-	 * @return a List of StatElements sorted (descending)
-	 */
-	private ArrayList<Alarm> getAlarms()
-	{
-		ArrayList<Alarm> myRet = new ArrayList<Alarm>();
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
-
-		try
-		{
-			ArrayList<Alarm> myAlarms = AlarmsDumpsys.getAlarms();
-			Collections.sort(myAlarms);
-
-			for (int i = 0; i < myAlarms.size(); i++)
-			{
-				Alarm usage = myAlarms.get(i); 
-				if ( (!bFilterStats) || (usage.getWakeups() > 0) )
-				{
-						myRet.add(usage);
-				}
-			}
-
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An exception occured: " + e.getMessage());
-		}
-		return myRet;
-	}
+//	/**
+//	 * Get the Stat to be displayed
+//	 * @return a List of StatElements sorted (descending)
+//	 */
+//	private ArrayList<Alarm> getAlarms()
+//	{
+//		ArrayList<Alarm> myRet = new ArrayList<Alarm>();
+//		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+//		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+//
+//		try
+//		{
+//			ArrayList<Alarm> myAlarms = AlarmsDumpsys.getAlarms();
+//			Collections.sort(myAlarms);
+//
+//			for (int i = 0; i < myAlarms.size(); i++)
+//			{
+//				Alarm usage = myAlarms.get(i); 
+//				if ( (!bFilterStats) || (usage.getWakeups() > 0) )
+//				{
+//						myRet.add(usage);
+//				}
+//			}
+//
+//		}
+//		catch (Exception e)
+//		{
+//			Log.e(TAG, "An exception occured: " + e.getMessage());
+//		}
+//		return myRet;
+//	}
 }
