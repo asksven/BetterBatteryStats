@@ -162,37 +162,37 @@ public class StatsProvider
 
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-//		String strCurrent = myAlarms.toString();
-//		String strRef = "";
-//		switch (iStatType)
-//		{
-//			case STATS_UNPLUGGED:									
-//				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refAlarms != null) )
-//				{
-//					strRef = m_myRefSinceUnplugged.m_refAlarms.toString();
-//				}
-//				break;
-//			case STATS_CHARGED:
-//				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refAlarms != null) )
-//				{
-//					strRef = m_myRefSinceCharged.m_refAlarms.toString();
-//				}
-//				break;
-//			case STATS_CUSTOM:
-//				if ( (m_myRefs != null) && (m_myRefs.m_refAlarms != null))
-//				{
-//					strRef = m_myRefs.m_refAlarms.toString();
-//				}
-//				break;
-//			case BatteryStatsTypes.STATS_CURRENT:
-//				strRef = "no reference to substract";
-//				break;
-//			default:
-//				Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
-//				break;
-//		}
+		String strCurrent = myAlarms.toString();
+		String strRef = "";
+		switch (iStatType)
+		{
+			case STATS_UNPLUGGED:									
+				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refAlarms != null) )
+				{
+					strRef = m_myRefSinceUnplugged.m_refAlarms.toString();
+				}
+				break;
+			case STATS_CHARGED:
+				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refAlarms != null) )
+				{
+					strRef = m_myRefSinceCharged.m_refAlarms.toString();
+				}
+				break;
+			case STATS_CUSTOM:
+				if ( (m_myRefs != null) && (m_myRefs.m_refAlarms != null))
+				{
+					strRef = m_myRefs.m_refAlarms.toString();
+				}
+				break;
+			case BatteryStatsTypes.STATS_CURRENT:
+				strRef = "no reference to substract";
+				break;
+			default:
+				Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
+				break;
+		}
 		
-//		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
 		
 		for (int i = 0; i < myAlarms.size(); i++)
 		{

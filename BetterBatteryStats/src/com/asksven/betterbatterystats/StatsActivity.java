@@ -464,12 +464,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	doRefresh();
             	break;	
 
-//            case R.id.test:
-//            	// Test
-//            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
-//            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
-//            	doRefresh();
-//            	break;	
+            case R.id.test:
+            	// Test
+            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
+            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
+            	doRefresh();
+            	break;	
 
             case R.id.about:
             	// About

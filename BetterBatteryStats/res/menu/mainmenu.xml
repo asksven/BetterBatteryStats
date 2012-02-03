@@ -23,10 +23,10 @@
     <item android:id="@+id/more_group"
           android:title="More">            
 	    <menu>
-<!-- 	        
+ 	        
 	    	<item android:id="@+id/test"
 	        	android:title="Test" />
- -->	        
+	        
 	    	<item android:id="@+id/dump"
 	        	android:title="Dump to File" />
 	        <item android:id="@+id/custom_ref"
