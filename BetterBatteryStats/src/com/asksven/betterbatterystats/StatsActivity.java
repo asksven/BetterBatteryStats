@@ -151,7 +151,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	if (!strLastRelease.equals(strCurrentRelease))
     	{
     		// show the readme
-	    	Intent intentReleaseNotes = new Intent(this, HelpActivity.class);
+	    	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
 	    	intentReleaseNotes.putExtra("filename", "readme.html");
 	        this.startActivity(intentReleaseNotes);
 	        
@@ -464,12 +464,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	doRefresh();
             	break;	
 
-            case R.id.test:
-            	// Test
-            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
-            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
-            	doRefresh();
-            	break;	
+//            case R.id.test:
+//            	// Test
+//            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
+//            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
+//            	doRefresh();
+//            	break;	
 
             case R.id.about:
             	// About
@@ -495,7 +495,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
             case R.id.releasenotes:
             	// Release notes
-            	Intent intentReleaseNotes = new Intent(this, HelpActivity.class);
+            	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
             	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_README);
             	intentReleaseNotes.putExtra("filename", "readme.html");
                 this.startActivity(intentReleaseNotes);
