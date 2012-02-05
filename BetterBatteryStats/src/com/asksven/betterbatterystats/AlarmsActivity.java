@@ -58,7 +58,7 @@ public class AlarmsActivity extends ListActivity
 	/**
 	 * The ArrayAdpater for rendering the ListView
 	 */
-	private AlarmsAdapter m_listViewAdapter;
+	private StatsAdapter m_listViewAdapter;
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle@SuppressWarnings("rawtypes")
@@ -128,10 +128,10 @@ public class AlarmsActivity extends ListActivity
 
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 	// for more details
-	private class LoadStatData extends AsyncTask<Context, Integer, AlarmsAdapter>
+	private class LoadStatData extends AsyncTask<Context, Integer, StatsAdapter>
 	{
 		@Override
-	    protected AlarmsAdapter doInBackground(Context... params)
+	    protected StatsAdapter doInBackground(Context... params)
 	    {
 			//super.doInBackground(params);
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(AlarmsActivity.this);
@@ -139,7 +139,7 @@ public class AlarmsActivity extends ListActivity
 
 			try
 			{
-				m_listViewAdapter = new AlarmsAdapter(AlarmsActivity.this,
+				m_listViewAdapter = new StatsAdapter(AlarmsActivity.this,
 						StatsProvider.getInstance(AlarmsActivity.this).getAlarmsStatList(bFilter, BatteryStatsTypes.STATS_CURRENT));
 			}
 			catch (Exception e)
@@ -153,7 +153,7 @@ public class AlarmsActivity extends ListActivity
 	    }
 		
 		@Override
-		protected void onPostExecute(AlarmsAdapter o)
+		protected void onPostExecute(StatsAdapter o)
 	    {
 			super.onPostExecute(o);
 	        // update hourglass

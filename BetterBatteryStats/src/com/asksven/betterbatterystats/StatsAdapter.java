@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.Alarm.AlarmItem;
+import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
@@ -150,7 +151,7 @@ public class StatsAdapter extends BaseAdapter
         }
         
         // add on click listener for the list entry if details are availble
-        if (entry instanceof Alarm)
+        if ( (entry instanceof Alarm) || (entry instanceof NativeKernelWakelock) )
         {
         	convertView.setOnClickListener(new OnItemClickListener(position));
         }
@@ -250,6 +251,33 @@ public class StatsAdapter extends BaseAdapter
 	        	text.setText(strText);
 	        	dialog.show();
 	        }
+        	if (entry instanceof NativeKernelWakelock)
+        	{
+        		NativeKernelWakelock kernelWakelockEntry = (NativeKernelWakelock) getItem(m_iPosition);
+                
+            	Dialog dialog = new Dialog(context);
+
+            	dialog.setContentView(R.layout.alarms_dialog);
+            	dialog.setTitle("Details");
+
+            	TextView title = (TextView) dialog.findViewById(R.id.title);
+            	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
+            	TextView text = (TextView) dialog.findViewById(R.id.text);
+            	title.setText(kernelWakelockEntry.getName());
+            	subtitle.setText(kernelWakelockEntry.getData());
+            	
+            	String strText = "";
+            	strText += "Count: " + kernelWakelockEntry.getCount() + "\n";
+            	strText += "Expire Count: " + kernelWakelockEntry.getExpireCount() + "\n";
+            	strText += "Wake Count: " + kernelWakelockEntry.getWakeCount() + "\n";
+            	strText += "Total Time: "+ kernelWakelockEntry.getTtlTime() + "\n";
+            	strText += "Sleep Time: " + kernelWakelockEntry.getSleepTime() + "\n";
+            	strText += "Max Time: " + kernelWakelockEntry.getMaxTime() + "\n";
+
+            	text.setText(strText);
+            	dialog.show();
+
+        	}
         }
     }
 
