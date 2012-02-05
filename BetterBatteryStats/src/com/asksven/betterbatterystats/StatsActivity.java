@@ -124,7 +124,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 
 		// Check if the stats are accessible and warn if not
-		BatteryStatsProxy stats = new BatteryStatsProxy(this);
+		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
 	
 		if (stats.initFailed())
 		{

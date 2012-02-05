@@ -297,7 +297,7 @@ public class StatsProvider
 	 */
 	public ArrayList<StatElement> getProcessStatList(boolean bFilter, int iStatType, int iSort) throws Exception
 	{
-		BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<Process> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
@@ -393,7 +393,7 @@ public class StatsProvider
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
-		BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 		
 		ArrayList<Wakelock> myWakelocks = null;
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
@@ -650,7 +650,7 @@ public class StatsProvider
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
-		BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		ArrayList<NetworkUsage> myUsages = null;
 		
@@ -714,7 +714,7 @@ public class StatsProvider
 	 */
 	public ArrayList<StatElement> getOtherUsageStatList(boolean bFilter, int iStatType) throws Exception
 	{
-		BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
@@ -1119,7 +1119,7 @@ public class StatsProvider
 	 */
 	public  long getBatteryRealtime(int iStatType)
 	{
-        BatteryStatsProxy mStats = new BatteryStatsProxy(m_context);
+        BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
         
         if (mStats == null)
         {
