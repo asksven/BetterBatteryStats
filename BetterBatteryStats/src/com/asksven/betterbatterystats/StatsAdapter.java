@@ -15,8 +15,10 @@
  */
 package com.asksven.betterbatterystats;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,6 +34,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.asksven.android.common.kernelutils.Alarm;
+import com.asksven.android.common.kernelutils.Alarm.AlarmItem;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
@@ -138,19 +142,30 @@ public class StatsAdapter extends BaseAdapter
         	buttonBar.setHeight(20);
         }
         
-        // add on click listener only if KB is enabled
+        // add on click listener for the icon only if KB is enabled
         if (bShowKb)
         {
 	        // set a click listener for the list
-	        convertView.setOnClickListener(new OnItemClickListener(position));
+	        iconKb.setOnClickListener(new OnIconClickListener(position));
+        }
+        
+        // add on click listener for the list entry if details are availble
+        if (entry instanceof Alarm)
+        {
+        	convertView.setOnClickListener(new OnItemClickListener(position));
         }
         return convertView;
     }
     
-    private class OnItemClickListener implements OnClickListener
+    /**
+     * Handler for on click of the KB icon
+     * @author sven
+     *
+     */
+    private class OnIconClickListener implements OnClickListener
     {           
         private int m_iPosition;
-        OnItemClickListener(int position)
+        OnIconClickListener(int position)
         {
                 m_iPosition = position;
         }
@@ -190,6 +205,54 @@ public class StatsAdapter extends BaseAdapter
         }
     }
     
+    /**
+     * Handler for the on click of the list item
+     * @author sven
+     *
+     */
+    private class OnItemClickListener implements OnClickListener
+    {           
+        private int m_iPosition;
+        OnItemClickListener(int position)
+        {
+                m_iPosition = position;
+        }
+        
+        @Override
+        public void onClick(View arg0)
+        {
+        	StatElement entry = (StatElement) getItem(m_iPosition);
+
+        	if (entry instanceof Alarm)
+        	{
+	        	Alarm alarmEntry = (Alarm) getItem(m_iPosition);
+	            
+	        	Dialog dialog = new Dialog(context);
+	
+	        	dialog.setContentView(R.layout.alarms_dialog);
+	        	dialog.setTitle("Details");
+	
+	        	TextView title = (TextView) dialog.findViewById(R.id.title);
+	        	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
+	        	TextView text = (TextView) dialog.findViewById(R.id.text);
+	        	title.setText(entry.getName());
+	        	subtitle.setText(entry.getData());
+	        	
+	        	String strText = "";
+	        	ArrayList<AlarmItem> myItems = alarmEntry.getItems();
+	        	if (myItems != null)
+	        	{
+	        		for (int i=0; i<myItems.size(); i++)
+	        		{
+	        			strText = strText + myItems.get(i).getData() + "\n";
+	        		}
+	        	}
+	        	text.setText(strText);
+	        	dialog.show();
+	        }
+        }
+    }
+
     private class ReadKb extends AsyncTask
 	{
 		@Override
