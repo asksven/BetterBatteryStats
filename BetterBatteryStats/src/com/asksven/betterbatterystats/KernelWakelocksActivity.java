@@ -39,6 +39,7 @@ import android.widget.Toast;
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.RootDetection;
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -111,10 +112,12 @@ public class KernelWakelocksActivity extends ListActivity
 	
 	private void doRefresh()
 	{
-    	new LoadStatData().execute(this);
+		BatteryStatsProxy.getInstance(this).invalidate();
+    	//new LoadStatData().execute(this);
 		// Display the reference of the stat
 		
 //    	this.setListViewAdapter();
+    	
     	m_listViewAdapter.notifyDataSetChanged();
 
 	}

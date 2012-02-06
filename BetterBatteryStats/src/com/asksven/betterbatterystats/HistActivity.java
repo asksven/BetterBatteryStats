@@ -113,6 +113,7 @@ public class HistActivity extends ListActivity
 		// Display the reference of the stat
 		
 //    	this.setListViewAdapter();
+		BatteryStatsProxy.getInstance(this).invalidate();
     	m_listViewAdapter.notifyDataSetChanged();
 
 	}

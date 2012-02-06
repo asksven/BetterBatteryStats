@@ -167,6 +167,7 @@ public class BatteryGraphActivity extends Activity
             	new WriteDumpFile().execute("");
             	break;
 			case R.id.refresh:
+				BatteryStatsProxy.getInstance(this).invalidate();
 				m_histList = this.getHistList();
 		        refreshPlot(m_plotCharge);
 		        refreshPlot(m_plotWakelock);

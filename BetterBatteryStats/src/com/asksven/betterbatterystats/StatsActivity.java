@@ -603,6 +603,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	
 	private void doRefresh()
 	{
+		BatteryStatsProxy.getInstance(this).invalidate();
 		new LoadStatData().execute(this);
 
 		// Display the reference of the stat
