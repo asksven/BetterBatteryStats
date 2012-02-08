@@ -313,7 +313,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onResume();
 		
 		// refresh 
-		doRefresh();
+		//doRefresh();
 	}
 
 	/* Remove the locationlistener updates when Activity is paused */
