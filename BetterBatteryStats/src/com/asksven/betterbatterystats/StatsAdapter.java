@@ -245,7 +245,10 @@ public class StatsAdapter extends BaseAdapter
 	        	{
 	        		for (int i=0; i<myItems.size(); i++)
 	        		{
-	        			strText = strText + myItems.get(i).getData() + "\n";
+	        			if (myItems.get(i).getCount() > 0)
+	        			{
+	        				strText = strText + myItems.get(i).getData() + "\n";
+	        			}
 	        		}
 	        	}
 	        	text.setText(strText);
