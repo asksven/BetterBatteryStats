@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.BatteryManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -65,7 +66,28 @@ public class BroadcastHandler extends BroadcastReceiver
 			// todo: store the "since unplugged" refs here
 			try
 			{
+				// Store the "since unplugged ref
 				StatsProvider.getInstance(context).setReferenceSinceUnplugged(0);
+				
+				// check the battery level and if 100% the store "since charged" ref
+				Intent batteryIntent = context.getApplicationContext().registerReceiver(null,
+	                    new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+				int status = batteryIntent.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN);
+	            
+				if (status == BatteryManager.BATTERY_STATUS_FULL)
+	            {
+	                // save the references for "since charged" 
+					try
+					{
+						Log.i(TAG, "Received Broadcast BATTERY_STATUS_FULL, serializing 'since charged'");
+						StatsProvider.getInstance(context).setReferenceSinceCharged(0);
+					}
+					catch (Exception e)
+					{
+						Log.e(TAG, "An error occured: " + e.getMessage());
+					}
+
+	            }
 			}
 			catch (Exception e)
 			{

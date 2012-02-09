@@ -63,8 +63,8 @@ public class BetterBatteryStatsService extends Service
     	super.onCreate();
     	
 		// register battery changed events
-		m_batteryHandler = new BatteryChangedHandler();
-        this.registerReceiver(m_batteryHandler, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+//		m_batteryHandler = new BatteryChangedHandler();
+//        this.registerReceiver(m_batteryHandler, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
    }
     
@@ -87,7 +87,7 @@ public class BetterBatteryStatsService extends Service
     public void onDestroy()
     {        
     	// unregister the receiver
-    	this.unregisterReceiver(m_batteryHandler);
+//    	this.unregisterReceiver(m_batteryHandler);
 
     }
 
