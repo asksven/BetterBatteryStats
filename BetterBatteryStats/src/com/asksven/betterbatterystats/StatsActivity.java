@@ -103,24 +103,24 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);				
 		
-		// start the service if not running
-		if( !isMyServiceRunning() )
-		{
-			Intent i = new Intent();
-			String strPackName = this.getClass().getPackage().getName();
-			String strAppPackage = getPackageName();
-			i.setClassName( strAppPackage, strPackName + "." + BetterBatteryStatsService.SERVICE_NAME );
-			startService( i );
-			if( !isMyServiceRunning() )
-			{
-				Log.e(TAG, "Service start failed");
-			}
-			else
-			{
-				Log.i(TAG, "Service started");
-			}
-			
-		}
+//		// start the service if not running
+//		if( !isMyServiceRunning() )
+//		{
+//			Intent i = new Intent();
+//			String strPackName = this.getClass().getPackage().getName();
+//			String strAppPackage = getPackageName();
+//			i.setClassName( strAppPackage, strPackName + "." + BetterBatteryStatsService.SERVICE_NAME );
+//			startService( i );
+//			if( !isMyServiceRunning() )
+//			{
+//				Log.e(TAG, "Service start failed");
+//			}
+//			else
+//			{
+//				Log.i(TAG, "Service started");
+//			}
+//			
+//		}
 
 
 		// Check if the stats are accessible and warn if not
@@ -782,23 +782,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	}
 
 
-	/** 
-	 * Test if the service is running
-	 * @return
-	 */
-	boolean isMyServiceRunning()
-	{
-	    ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-	    String myServiceName = this.getClass().getPackage().getName() + "." + BetterBatteryStatsService.SERVICE_NAME;
-	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
-	    {
-	    	String strCurr = service.service.getClassName();
-	        if (myServiceName.equals(strCurr))
-	        {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
+//	/** 
+//	 * Test if the service is running
+//	 * @return
+//	 */
+//	boolean isMyServiceRunning()
+//	{
+//	    ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+//	    String myServiceName = this.getClass().getPackage().getName() + "." + BetterBatteryStatsService.SERVICE_NAME;
+//	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+//	    {
+//	    	String strCurr = service.service.getClassName();
+//	        if (myServiceName.equals(strCurr))
+//	        {
+//	            return true;
+//	        }
+//	    }
+//	    return false;
+//	}
 
 }

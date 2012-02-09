@@ -51,8 +51,10 @@
         <activity android:name="com.asksven.betterbatterystats.ZoomScrollGraphActivity"/>
         <activity android:name="org.achartengine.GraphicalActivity" android:theme="@style/Theme.asksven"/>
         
+<!-- 
         <service android:name="com.asksven.betterbatterystats.BetterBatteryStatsService"/>
-        
+ -->
+         
         <receiver android:name="com.asksven.betterbatterystats.BroadcastHandler">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
