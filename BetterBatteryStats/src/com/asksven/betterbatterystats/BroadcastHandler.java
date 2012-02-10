@@ -78,12 +78,13 @@ public class BroadcastHandler extends BroadcastReceiver
 				double level = -1;
 				if (rawlevel >= 0 && scale > 0)
 				{
+					// normalize level to [0..1]
 				    level = rawlevel / scale;
 				}
 
 				Log.i(TAG, "Bettery level on uplug is " + level );
 
-				if (level == 100)
+				if (level == 1)
 				{
 					try
 					{
