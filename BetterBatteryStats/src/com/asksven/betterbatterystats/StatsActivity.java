@@ -240,12 +240,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         	tvSince.setText("Since " + DateUtils.formatDuration(StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
         }
         
-        if (sharedPrefs.getBoolean("hide_since", true))
-        {
-        	FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
-        	myLayout.setVisibility(View.GONE);
-        }
-		
+    	FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
+    	myLayout.setVisibility(View.GONE);
 
 		// Spinner for selecting the stat
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);
@@ -589,7 +585,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         if (bChanged)
         {
         	GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
-        	new LoadStatData().execute(this);
+        	//new LoadStatData().execute(this);
+        	// as the source changed fetch the data
+        	doRefresh();
         }
 	}
 
@@ -614,14 +612,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         		StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
     	
         FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
-		if (sharedPrefs.getBoolean("hide_since", true))
-        {
-        	myLayout.setVisibility(View.GONE);
-        }
-		else
-		{
-			myLayout.setVisibility(View.VISIBLE);
-		}
+		myLayout.setVisibility(View.VISIBLE);
 		
 //    	this.setListViewAdapter();
 
