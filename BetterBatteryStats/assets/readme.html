@@ -24,12 +24,13 @@
 	
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content"> 
-<h2>v1.6.1.0 2012-02-09</h2>
+<h2>v1.6.1.0 2012-02-10</h2>
 <p>
 <ul>
 	<li>Fixed graphs on ICS</li>
 	<li>Moved to hollow style, increased spinner height for better usability on ICS</li>
 	<li>Fixed bug causing "since charged" reference to be called continuously after reaching 100%</li>
+	<li>Removed pref to hide "since..." from display to make screenshots more readable
 	<li>Removed Service due to alternate design of handling the battery charged event</li>
 	<li>Removed auto-refresh to improve overall performance</li> 
 	<li>Alarms with references and moved to main view (!!!be aware that this causes more frequent calls to 'su' as alarm dump requires root access)</li>
