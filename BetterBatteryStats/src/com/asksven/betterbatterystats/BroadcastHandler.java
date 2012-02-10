@@ -72,22 +72,30 @@ public class BroadcastHandler extends BroadcastReceiver
 				// check the battery level and if 100% the store "since charged" ref
 				Intent batteryIntent = context.getApplicationContext().registerReceiver(null,
 	                    new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-				int status = batteryIntent.getIntExtra("status", BatteryManager.BATTERY_STATUS_UNKNOWN);
-	            
-				if (status == BatteryManager.BATTERY_STATUS_FULL)
-	            {
-	                // save the references for "since charged" 
+
+				int rawlevel = batteryIntent.getIntExtra("level", -1);
+				double scale = batteryIntent.getIntExtra("scale", -1);
+				double level = -1;
+				if (rawlevel >= 0 && scale > 0)
+				{
+				    level = rawlevel / scale;
+				}
+
+				Log.i(TAG, "Bettery level on uplug is " + level );
+
+				if (level == 100)
+				{
 					try
 					{
-						Log.i(TAG, "Received Broadcast BATTERY_STATUS_FULL, serializing 'since charged'");
+						Log.i(TAG, "Level was 100% at unlug, serializing 'since charged'");
 						StatsProvider.getInstance(context).setReferenceSinceCharged(0);
 					}
 					catch (Exception e)
 					{
 						Log.e(TAG, "An error occured: " + e.getMessage());
 					}
-
-	            }
+					
+				}
 			}
 			catch (Exception e)
 			{
