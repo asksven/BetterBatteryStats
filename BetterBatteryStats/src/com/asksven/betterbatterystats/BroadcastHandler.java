@@ -88,7 +88,7 @@ public class BroadcastHandler extends BroadcastReceiver
 				{
 					try
 					{
-						Log.i(TAG, "Level was 100% at unlug, serializing 'since charged'");
+						Log.i(TAG, "Level was 100% at unplug, serializing 'since charged'");
 						StatsProvider.getInstance(context).setReferenceSinceCharged(0);
 					}
 					catch (Exception e)
