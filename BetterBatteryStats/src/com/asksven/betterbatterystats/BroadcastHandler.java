@@ -39,7 +39,6 @@ import android.util.Log;
 public class BroadcastHandler extends BroadcastReceiver
 {	
 	private static final String TAG = "BroadcastHandler";
-	private BatteryChangedHandler m_batteryHandler = null;
 	
 	/* (non-Javadoc)
 	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
