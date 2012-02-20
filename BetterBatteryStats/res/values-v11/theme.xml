@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="Theme.asksven" parent="android:Theme.Holo"/>
+    <style name="Theme.asksven.NoTitleBar" parent="android:Theme.Holo.NoActionBar"/>
+    <style name="Theme.asksven.Fullscreen" parent="android:Theme.Holo.NoActionBar.Fullscreen"/>
+</resources>

@@ -168,6 +168,7 @@ public class BatteryGraphActivity extends Activity
             	new WriteDumpFile().execute("");
             	break;
 			case R.id.refresh:
+				BatteryStatsProxy.getInstance(this).invalidate();
 				m_histList = this.getHistList();
 		        refreshPlot(m_plotCharge);
 		        refreshPlot(m_plotWakelock);
@@ -370,7 +371,7 @@ public class BatteryGraphActivity extends Activity
 		ArrayList<HistoryItem> myRet = new ArrayList<HistoryItem>();
 		
 		
-		BatteryStatsProxy mStats = new BatteryStatsProxy(this);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(this);
 		try
 		{
 			myRet = mStats.getHistory(this);

@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import com.androidplot.xy.*;
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.betterbatterystats.R;
  
@@ -125,6 +126,7 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
         {  
 
 			case R.id.refresh:
+				BatteryStatsProxy.getInstance(this).invalidate();
 				m_histList = getHistList();
 				refreshPlot(m_plotBt);
 				refreshPlot(m_plotCharging);

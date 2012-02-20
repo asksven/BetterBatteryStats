@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2011-2012 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ class References implements Serializable
 	/** storage of custom references */
     protected ArrayList<StatElement> m_refWakelocks 		= null;
     protected ArrayList<StatElement> m_refKernelWakelocks 	= null;
+    protected ArrayList<StatElement> m_refAlarms		 	= null;
     protected ArrayList<StatElement> m_refProcesses 		= null;
     protected ArrayList<StatElement> m_refNetwork	 		= null;
     protected ArrayList<StatElement> m_refOther	 			= null;

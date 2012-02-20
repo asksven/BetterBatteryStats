@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2011-2012 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,28 +103,28 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);				
 		
-		// start the service if not running
-		if( !isMyServiceRunning() )
-		{
-			Intent i = new Intent();
-			String strPackName = this.getClass().getPackage().getName();
-			String strAppPackage = getPackageName();
-			i.setClassName( strAppPackage, strPackName + "." + BetterBatteryStatsService.SERVICE_NAME );
-			startService( i );
-			if( !isMyServiceRunning() )
-			{
-				Log.e(TAG, "Service start failed");
-			}
-			else
-			{
-				Log.i(TAG, "Service started");
-			}
-			
-		}
+//		// start the service if not running
+//		if( !isMyServiceRunning() )
+//		{
+//			Intent i = new Intent();
+//			String strPackName = this.getClass().getPackage().getName();
+//			String strAppPackage = getPackageName();
+//			i.setClassName( strAppPackage, strPackName + "." + BetterBatteryStatsService.SERVICE_NAME );
+//			startService( i );
+//			if( !isMyServiceRunning() )
+//			{
+//				Log.e(TAG, "Service start failed");
+//			}
+//			else
+//			{
+//				Log.i(TAG, "Service started");
+//			}
+//			
+//		}
 
 
 		// Check if the stats are accessible and warn if not
-		BatteryStatsProxy stats = new BatteryStatsProxy(this);
+		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
 	
 		if (stats.initFailed())
 		{
@@ -151,7 +151,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	if (!strLastRelease.equals(strCurrentRelease))
     	{
     		// show the readme
-	    	Intent intentReleaseNotes = new Intent(this, HelpActivity.class);
+	    	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
 	    	intentReleaseNotes.putExtra("filename", "readme.html");
 	        this.startActivity(intentReleaseNotes);
 	        
@@ -240,12 +240,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         	tvSince.setText("Since " + DateUtils.formatDuration(StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
         }
         
-        if (sharedPrefs.getBoolean("hide_since", true))
-        {
-        	FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
-        	myLayout.setVisibility(View.GONE);
-        }
-		
+    	FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
+    	myLayout.setVisibility(View.GONE);
 
 		// Spinner for selecting the stat
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);
@@ -313,7 +309,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onResume();
 		
 		// refresh 
-		doRefresh();
+		//doRefresh();
 	}
 
 	/* Remove the locationlistener updates when Activity is paused */
@@ -325,50 +321,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 	}
 
-//	/**
-//	 * Handle the "back" button to make sure the user wants to
-//	 * quit the application and lose any custom ref 
-//	 */
-//	@Override 
-//    public boolean onKeyDown(int keyCode, KeyEvent event)
-//	{ 
-//        // if "back" was pressed. If a custom ref was saved ask if app should
-//		// still be closed
-//        if (keyCode == KeyEvent.KEYCODE_BACK) 
-//        { 
-//        	// do we have a custom ref
-//        	if (StatsProvider.getInstance(this).hasCustomRef())
-//        	{
-//        		DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
-//        		{
-//        		    @Override
-//        		    public void onClick(DialogInterface dialog, int which)
-//        		    {
-//        		        switch (which)
-//        		        {
-//        		        case DialogInterface.BUTTON_POSITIVE:
-//        		            //Yes button clicked
-//        		        	finish();
-//        		            break;
-//
-//        		        case DialogInterface.BUTTON_NEGATIVE:
-//        		            //No button clicked
-//        		            break;
-//        		        }
-//        		    }
-//        		};
-//        		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        		builder.setMessage("By closing the custom reference will be lost. Are you sure?").setPositiveButton("Yes", dialogClickListener)
-//        		    .setNegativeButton("No", dialogClickListener).show();
-//        		return true;
-//        	}
-//        	else
-//        	{
-//        		return super.onKeyDown(keyCode, event);
-//        	}
-//        } 
-//        return super.onKeyDown(keyCode, event); 
-//    } 	
     /**
      * Save state, the application is going to get moved out of memory
      * @see http://stackoverflow.com/questions/151777/how-do-i-save-an-android-applications-state
@@ -470,7 +422,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	            this.startActivity(intentGraph);
 	        	break;	
 
-	        case R.id.alarms:  
+	        case R.id.rawalarms:  
 	        	Intent intentAlarms = new Intent(this, AlarmsActivity.class);
 	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_ALARMS);
 	            this.startActivity(intentAlarms);
@@ -539,7 +491,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
             case R.id.releasenotes:
             	// Release notes
-            	Intent intentReleaseNotes = new Intent(this, HelpActivity.class);
+            	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
             	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_README);
             	intentReleaseNotes.putExtra("filename", "readme.html");
                 this.startActivity(intentReleaseNotes);
@@ -612,19 +564,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				return;
 			}
-			// check if Kernel Wakelocks: if so disable stat type
-			if (false && ( m_iStat == 3)) // array.xml
-			{
-				((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.INVISIBLE);
-				((Spinner) findViewById(R.id.spinnerStatType)).setEnabled(false);
-				m_iStatType = BatteryStatsTypes.STATS_SINCE_CHARGED;
-//				((Spinner) findViewById(R.id.spinnerStatType)).setSelection(positionFromStatType(m_iStatType));
-			}
-			else
-			{
-				((Spinner) findViewById(R.id.spinnerStatType)).setVisibility(View.VISIBLE);
-				((Spinner) findViewById(R.id.spinnerStatType)).setEnabled(true);
-			}
 		}
 		else
 		{
@@ -636,24 +575,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 		long timeSinceBoot = SystemClock.elapsedRealtime();
 
-//        if ( m_iStat != 3 )
-//        {
-        	tvSince.setText("Since " + DateUtils.formatDuration(
-        			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
-        	Log.i(TAG, "Since " + DateUtils.formatDuration(
-        			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
-//        }
-//        else
-//        {
-//        	tvSince.setText("Since boot " + DateUtils.formatDuration(timeSinceBoot));
-//        }
+    	tvSince.setText("Since " + DateUtils.formatDuration(
+    			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
+    	Log.i(TAG, "Since " + DateUtils.formatDuration(
+    			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
 		
 		// @todo fix this: this method is called twice
 		//m_listViewAdapter.notifyDataSetChanged();
         if (bChanged)
         {
         	GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
-        	new LoadStatData().execute(this);
+        	//new LoadStatData().execute(this);
+        	// as the source changed fetch the data
+        	doRefresh();
         }
 	}
 
@@ -667,6 +601,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	
 	private void doRefresh()
 	{
+		BatteryStatsProxy.getInstance(this).invalidate();
 		new LoadStatData().execute(this);
 
 		// Display the reference of the stat
@@ -677,14 +612,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         		StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
     	
         FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
-		if (sharedPrefs.getBoolean("hide_since", true))
-        {
-        	myLayout.setVisibility(View.GONE);
-        }
-		else
-		{
-			myLayout.setVisibility(View.VISIBLE);
-		}
+		myLayout.setVisibility(View.VISIBLE);
 		
 //    	this.setListViewAdapter();
 
@@ -845,23 +773,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	}
 
 
-	/** 
-	 * Test if the service is running
-	 * @return
-	 */
-	boolean isMyServiceRunning()
-	{
-	    ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-	    String myServiceName = this.getClass().getPackage().getName() + "." + BetterBatteryStatsService.SERVICE_NAME;
-	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
-	    {
-	    	String strCurr = service.service.getClassName();
-	        if (myServiceName.equals(strCurr))
-	        {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
+//	/** 
+//	 * Test if the service is running
+//	 * @return
+//	 */
+//	boolean isMyServiceRunning()
+//	{
+//	    ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+//	    String myServiceName = this.getClass().getPackage().getName() + "." + BetterBatteryStatsService.SERVICE_NAME;
+//	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+//	    {
+//	    	String strCurr = service.service.getClassName();
+//	        if (myServiceName.equals(strCurr))
+//	        {
+//	            return true;
+//	        }
+//	    }
+//	    return false;
+//	}
 
 }

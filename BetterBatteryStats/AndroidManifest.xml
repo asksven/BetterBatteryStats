@@ -1,49 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="12" android:versionName="1.5.0.0"
+<manifest android:versionCode="14" android:versionName="1.6.1.0"
     package="com.asksven.betterbatterystats" xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10"/>
-
-    <supports-screens android:anyDensity="true"
-        android:largeScreens="true" android:normalScreens="true"
-        android:resizeable="true" android:smallScreens="true"/>
-
-    <application android:icon="@drawable/icon_notext" android:label="BetterBatteryStats">
-        <activity android:label="BetterBatteryStats" android:name="com.asksven.betterbatterystats.StatsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name="com.asksven.betterbatterystats.AboutActivity"/>
-        <activity android:name="com.asksven.betterbatterystats.PreferencesActivity"/>
-        <activity android:name="com.asksven.betterbatterystats.HelpActivity"/>
-        <activity android:name="com.asksven.betterbatterystats.HistActivity"
-            android:configChanges="orientation"/>
-        <activity android:name="com.asksven.betterbatterystats.AlarmsActivity"
-            android:configChanges="orientation"/>
-        <activity android:name="com.asksven.betterbatterystats.KernelWakelocksActivity"
-            android:configChanges="orientation"/>
-        <activity android:name="com.asksven.betterbatterystats.BatteryGraphActivity"
-            android:configChanges="orientation"/>
-        <activity android:name="com.asksven.betterbatterystats.BatteryGraph2Activity"
-            android:configChanges="orientation"/>
-        <activity android:name="com.asksven.betterbatterystats.ZoomScrollGraphActivity"/>
-        <activity android:name="org.achartengine.GraphicalActivity" />
-        
-        <service android:name="com.asksven.betterbatterystats.BetterBatteryStatsService"/>
-        
-        <receiver android:name="com.asksven.betterbatterystats.BroadcastHandler">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-                <action android:name="android.intent.action.ACTION_SCREEN_OFF"/>
-                <action android:name="android.intent.action.ACTION_SCREEN_ON"/>
-            </intent-filter>    
-        </receiver>
-        
-    </application>
-    <uses-permission android:name="android.permission.BATTERY_STATS"/>
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14"/>
+    
+  	<uses-permission android:name="android.permission.BATTERY_STATS"/>
     <!--  required for writing dump files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!--  required for accessing the knowledge base, required for analytics -->
@@ -58,6 +18,48 @@
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<!-- detect unplug actions -->
 	<uses-permission android:name="android.permission.DEVICE_POWER" />
-    
+   
+
+    <supports-screens android:anyDensity="true"
+        android:largeScreens="true" android:normalScreens="true"
+        android:resizeable="true" android:smallScreens="true"/>
+
+    <application android:icon="@drawable/icon_notext" android:label="BetterBatteryStats">
+        <activity
+            android:label="BetterBatteryStats"
+            android:name="com.asksven.betterbatterystats.StatsActivity"
+            android:theme="@style/Theme.asksven"> 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="com.asksven.betterbatterystats.AboutActivity" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.PreferencesActivity" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.HelpActivity" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.ReadmeActivity" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.HistActivity"
+            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.AlarmsActivity"
+            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.KernelWakelocksActivity"
+            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.BatteryGraphActivity"
+            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.BatteryGraph2Activity"
+            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.ZoomScrollGraphActivity"/>
+        <activity android:name="org.achartengine.GraphicalActivity" android:theme="@style/Theme.asksven"/>
+                 
+        <receiver android:name="com.asksven.betterbatterystats.BroadcastHandler">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.ACTION_SCREEN_OFF"/>
+                <action android:name="android.intent.action.ACTION_SCREEN_ON"/>
+            </intent-filter>    
+        </receiver>        
+    </application>
 	
 </manifest>

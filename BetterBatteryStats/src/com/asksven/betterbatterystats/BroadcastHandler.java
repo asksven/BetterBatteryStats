@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.BatteryManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -38,7 +39,6 @@ import android.util.Log;
 public class BroadcastHandler extends BroadcastReceiver
 {	
 	private static final String TAG = "BroadcastHandler";
-	private BatteryChangedHandler m_batteryHandler = null;
 	
 	/* (non-Javadoc)
 	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
@@ -48,15 +48,15 @@ public class BroadcastHandler extends BroadcastReceiver
 	{
 
  
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
-		{
-        	// start the service
-        	context.startService(new Intent(context, BetterBatteryStatsService.class));
-        	
-			Log.i(TAG, "Received Broadcast ACTION_BOOT_COMPLETED");
-			// delete whatever references we have saved here
-			StatsProvider.getInstance(context).deletedSerializedRefs();
-		}
+//        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
+//		{
+//        	// start the service
+//        	context.startService(new Intent(context, BetterBatteryStatsService.class));
+//        	
+//			Log.i(TAG, "Received Broadcast ACTION_BOOT_COMPLETED");
+//			// delete whatever references we have saved here
+//			StatsProvider.getInstance(context).deletedSerializedRefs();
+//		}
 
 
         if (intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED))
@@ -65,7 +65,37 @@ public class BroadcastHandler extends BroadcastReceiver
 			// todo: store the "since unplugged" refs here
 			try
 			{
+				// Store the "since unplugged ref
 				StatsProvider.getInstance(context).setReferenceSinceUnplugged(0);
+				
+				// check the battery level and if 100% the store "since charged" ref
+				Intent batteryIntent = context.getApplicationContext().registerReceiver(null,
+	                    new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+				int rawlevel = batteryIntent.getIntExtra("level", -1);
+				double scale = batteryIntent.getIntExtra("scale", -1);
+				double level = -1;
+				if (rawlevel >= 0 && scale > 0)
+				{
+					// normalize level to [0..1]
+				    level = rawlevel / scale;
+				}
+
+				Log.i(TAG, "Bettery level on uplug is " + level );
+
+				if (level == 1)
+				{
+					try
+					{
+						Log.i(TAG, "Level was 100% at unplug, serializing 'since charged'");
+						StatsProvider.getInstance(context).setReferenceSinceCharged(0);
+					}
+					catch (Exception e)
+					{
+						Log.e(TAG, "An error occured: " + e.getMessage());
+					}
+					
+				}
 			}
 			catch (Exception e)
 			{

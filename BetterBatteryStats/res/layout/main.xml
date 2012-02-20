@@ -11,6 +11,14 @@
     <TextView 
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
+    	android:id="@+id/textViewEdition" 
+    	android:textAppearance="?android:attr/textAppearanceSmall" 
+    	android:text="xda_edtion?"
+    	android:layout_gravity="center"/>
+    
+    <TextView 
+    	android:layout_width="wrap_content" 
+    	android:layout_height="wrap_content" 
     	android:id="@+id/textViewVersion" 
     	android:textAppearance="?android:attr/textAppearanceSmall" 
     	android:text="V0.1.0.0"
@@ -22,6 +30,7 @@
     	android:textAppearance="?android:attr/textAppearanceMedium" 
     	android:text="By asksven"
     	android:layout_gravity="center"/>
+<!-- 
     <TextView 
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
@@ -36,6 +45,7 @@
     	android:textAppearance="?android:attr/textAppearanceSmall" 
     	android:text="or @asksven on twitter"
     	android:layout_gravity="center"/>
+ -->    	
 	<TextView 
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
@@ -48,6 +58,28 @@
     	android:layout_height="wrap_content"
     	android:id="@+id/imageView1"
     	android:src="@drawable/icon_text"
-    	android:layout_gravity="center" android:layout_marginTop="20dip"/>		
+    	android:layout_gravity="center" android:layout_marginTop="20dip"/>
+
+    <Button
+        android:id="@+id/buttonTwitter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Follow me on Twitter" />
+
+        <Button
+        android:id="@+id/buttonRate"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"        
+        android:text="Rate / Review on Android Market" />
     			
 </LinearLayout>

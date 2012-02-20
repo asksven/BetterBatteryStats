@@ -24,83 +24,19 @@
 	
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content"> 
-<h2>v1.5.0.0 2011-12-29</h2>
+<h2>v1.6.1.0 2012-02-10</h2>
 <p>
 <ul>
-	<li>Fixed graphs for Ice Cream Samdwich</li>
-	<li>Dumpfiles are now named with timestamp to avoid overwriting</li>
-	<li>Alarms have been added to dump (for rooted devices)</li>
-	<li>Kernel wakelocks now have references (since unlugged, since charged, custom)</li>
-	<li>Use of <b>Google Analytics</b> to track screen accesses, displayed statitics and stat types. The results help me putting the right priorities in future developments. <b>Opting-out from analytics</b> can be done in "Advances Preferences"</li>
-	<li>"Actions" menu renamed to "More"</li>
-	<li>Added raw Kernel Wakelocks to "More" menu</li>
-	<li>Bugfix: alarms were truncated when upper-case or numbers in the name</li>
-	<li>Bugfix: notify with error message when dumps could not be written due to unmounted sdcard</li>
-	<li>Bugfix: retrieval of online knowledge base was blocking refresh under bad netowrk conditions</li>
-	<li>Bugfix: proper error handling if the battery service could not be attached to (typical MIUI problem)</li>
-</ul>
-
-<h2>v1.4.2.0 2011-11-20</h2>
-<p>
-<ul>
-	<li>Various fixes for kernel wakelocks and alarms</li>
-</ul>
-
-<h2>v1.4.0.0 2011-11-18</h2>
-<p>
-<ul>
-	<li>Added alarms</li>
-	<li>Added handling for plain kernel wakelocks</li>
-	<li>Fixed Wifi locked / scan showing wrong data in "other"</li>
-</ul>
-
-<h2>v1.3.2.0 2011-11-15</h2>
-<p>
-<ul>
-	<li>Fixed bug with not always showing kernel wakelocks</li>
-	<li>Fixed BT / GPS serieson graph</li>
-	<li>Fixed Wifi locked / scan showing wrong data in "other"</li>
-	<li>Fixed access to knowledge-base</li>
-	<li>Added kernel wakelocks to KB</li>
-</ul>
-<h2>v1.3.0.0 2011-11-05</h2>
-<p>
-<ul>
-	<li>Added kernel wakelock stats</li>
-	<li>Added dump to file for history</li>
-	<li>Added more graphs</li>
-	<li>Added zoom / navigation on data series</li>
-</ul>
-
-<h2>v1.2.1.0 2011-10-31</h2>
-<p>
-<ul>
-	<li>Fixed FC on froyo calling battery graph</li>
-</ul>
-
-<h2>v1.2.0.0 2011-10-29</h2>
-<p>
-<ul>
-	<li>Added battery graph</li>
-	<li>Fixed FC on honeycomb calling preferences</li>
-</ul>
-
-<h2>v1.1.0.0 2011-09-18</h2>
-<p>
-<ul>
-	<li>Added sorting option by time / count</li>
-	<li>Added support of proper Froyo stats</li>
-	<li>Added access to online Knowledge Base</li>
-</ul>
-
-<h2>v1.0.0.0 2011-08-29</h2>
-<p>
-<ul>
-	<li>Added groupings to unclutter the menu</li>
-	<li>Added in-app and online help (see menu "Help")</li>
-	<li>Added in-app and online how to (see menu "Help")</li>
-	<li>Added these release notes to be displayed once for each new version</li>
-	<li>Fixed the app manifest for Android market to show it for other screen sizes/densities too</li>
+	<li>Fixed graphs on ICS</li>
+	<li>Moved to hollow style, increased spinner height for better usability on ICS</li>
+	<li>Fixed bug causing "since charged" reference to be called continuously after reaching 100%</li>
+	<li>Removed pref to hide "since..." from display to make screenshots more readable
+	<li>Removed Service due to alternate design of handling the battery charged event</li>
+	<li>Removed auto-refresh to improve overall performance</li> 
+	<li>Alarms with references and moved to main view (!!!be aware that this causes more frequent calls to 'su' as alarm dump requires root access)</li>
+	<li>Added follow-me and rate buttons to readme</li>
+	<li>Battery Service proxy is now a singleton for a better stability on MIUI</li>
+	<li>Click on Alarms / Kernel wakelocks shows details dialog</li>
 </ul>
 </p>
 </div> 
