@@ -791,10 +791,10 @@ public class StatsProvider
         	myUsages.add(new Misc("Wifi On", timeWifiOn, whichRealtime));
         }
         
-//        if (timeWifiRunning > 0)
-//        {
-//        	myUsages.add(new Misc("Wifi Running", timeWifiRunning, whichRealtime));
-//        }
+        if (timeWifiRunning > 0)
+        {
+        	myUsages.add(new Misc("Wifi Running", timeWifiRunning, whichRealtime));
+        }
         
         if (timeBluetoothOn > 0)
         {
