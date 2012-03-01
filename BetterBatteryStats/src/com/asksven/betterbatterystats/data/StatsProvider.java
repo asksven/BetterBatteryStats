@@ -1185,54 +1185,80 @@ public class StatsProvider
 				out.write("MANUFACTURER: "+Build.MANUFACTURER+"\n");
 				out.write("MODEL: "+Build.MODEL+"\n");
 				// write timing info
-				out.write("===========\n");
-				out.write("Other Usage\n");
-				out.write("===========\n");
-				dumpList(getOtherUsageStatList(bFilterStats, iStatType), out);
-				// write wakelock info
-				out.write("=========\n");
-				out.write("Wakelocks\n");
-				out.write("=========\n");
-				dumpList(getWakelockStatList(bFilterStats, iStatType, iPctType, iSort), out);
-				// write kernel wakelock info
-				out.write("================\n");
-				out.write("Kernel Wakelocks\n");
-				out.write("================\n");
-				dumpList(getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort), out);
-				// write process info
-				out.write("=========\n");
-				out.write("Processes\n");
-				out.write("=========\n");
-				dumpList(getProcessStatList(bFilterStats, iStatType, iSort), out);
-				// write alarms info
-				out.write("======================\n");
-				out.write("Alarms (requires root)\n");
-				out.write("======================\n");
-				dumpList(getAlarmsStatList(bFilterStats, iStatType), out);
+				boolean bDumpChapter = sharedPrefs.getBoolean("show_other", true);
+				if (bDumpChapter)
+				{
+					out.write("===========\n");
+					out.write("Other Usage\n");
+					out.write("===========\n");
+					dumpList(getOtherUsageStatList(bFilterStats, iStatType), out);
+				}
+
+				bDumpChapter = sharedPrefs.getBoolean("show_pwl", true);
+				if (bDumpChapter)
+				{
+					// write wakelock info
+					out.write("=========\n");
+					out.write("Wakelocks\n");
+					out.write("=========\n");
+					dumpList(getWakelockStatList(bFilterStats, iStatType, iPctType, iSort), out);
+				}
+				
+				bDumpChapter = sharedPrefs.getBoolean("show_kwl", true);
+				if (bDumpChapter)
+				{
+					// write kernel wakelock info
+					out.write("================\n");
+					out.write("Kernel Wakelocks\n");
+					out.write("================\n");
+					dumpList(getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort), out);
+				}
+				
+				bDumpChapter = sharedPrefs.getBoolean("show_proc", true);
+				if (bDumpChapter)
+				{
+					// write process info
+					out.write("=========\n");
+					out.write("Processes\n");
+					out.write("=========\n");
+					dumpList(getProcessStatList(bFilterStats, iStatType, iSort), out);
+				}
+				
+				bDumpChapter = sharedPrefs.getBoolean("show_alarm", true);
+				if (bDumpChapter)
+				{
+					// write alarms info
+					out.write("======================\n");
+					out.write("Alarms (requires root)\n");
+					out.write("======================\n");
+					dumpList(getAlarmsStatList(bFilterStats, iStatType), out);
+				}
 
 				// write network info
 				//out.write("=======\n");
 				//out.write("Network\n");
 				//out.write("=======\n");
 				//dumpList(getNetworkUsageStatList(bFilterStats, m_iStatType), out);
-		
-				out.write("========\n");
-				out.write("Services\n");
-				out.write("========\n");
-				out.write("Active since: The time when the service was first made active, either by someone starting or binding to it.\n");
-				out.write("Last activity: The time when there was last activity in the service (either explicit requests to start it or clients binding to it)\n");
-				out.write("See http://developer.android.com/reference/android/app/ActivityManager.RunningServiceInfo.html\n");
-				ActivityManager am = (ActivityManager)m_context.getSystemService(m_context.ACTIVITY_SERVICE);
-				List<ActivityManager.RunningServiceInfo> rs = am.getRunningServices(50);
-				         
-				for (int i=0; i < rs.size(); i++) {
-				  ActivityManager.RunningServiceInfo  rsi = rs.get(i);
-				  out.write(rsi.process + " (" + rsi.service.getClassName() + ")\n");
-				  out.write("  Active since: " + DateUtils.formatDuration(rsi.activeSince) + "\n");
-				  out.write("  Last activity: " + DateUtils.formatDuration(rsi.lastActivityTime) + "\n");
-				  out.write("  Crash count:" + rsi.crashCount + "\n");
-				}
-				
+				bDumpChapter = sharedPrefs.getBoolean("show_serv", true);
+				if (bDumpChapter)
+				{
+					out.write("========\n");
+					out.write("Services\n");
+					out.write("========\n");
+					out.write("Active since: The time when the service was first made active, either by someone starting or binding to it.\n");
+					out.write("Last activity: The time when there was last activity in the service (either explicit requests to start it or clients binding to it)\n");
+					out.write("See http://developer.android.com/reference/android/app/ActivityManager.RunningServiceInfo.html\n");
+					ActivityManager am = (ActivityManager)m_context.getSystemService(m_context.ACTIVITY_SERVICE);
+					List<ActivityManager.RunningServiceInfo> rs = am.getRunningServices(50);
+					         
+					for (int i=0; i < rs.size(); i++) {
+					  ActivityManager.RunningServiceInfo  rsi = rs.get(i);
+					  out.write(rsi.process + " (" + rsi.service.getClassName() + ")\n");
+					  out.write("  Active since: " + DateUtils.formatDuration(rsi.activeSince) + "\n");
+					  out.write("  Last activity: " + DateUtils.formatDuration(rsi.lastActivityTime) + "\n");
+					  out.write("  Crash count:" + rsi.crashCount + "\n");
+					}
+				}				
 				// see http://androidsnippets.com/show-all-running-services
 				// close file
 				out.close();
