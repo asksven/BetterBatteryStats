@@ -101,4 +101,45 @@
 		   		   
 		</PreferenceScreen>
 	</PreferenceCategory>
+    <PreferenceCategory android:title="Dumpfile">
+	    <PreferenceScreen android:title="Dumpfile Settings">	
+		    <CheckBoxPreference 
+				android:key="show_other"
+				android:summary="Dump Other Stats"
+				android:title="Other Stats" 
+				android:defaultValue="true"
+				android:enabled="false"/>
+		    <CheckBoxPreference 
+				android:key="show_pwl"
+				android:summary="Dump Partial Wakelocks Stats"
+				android:title="Partial Wakelocks Stats" 
+				android:defaultValue="true"
+				android:enabled="false"/>
+		    <CheckBoxPreference 
+				android:key="show_kwl"
+				android:summary="Dump Kernel Wakelocks Stats"
+				android:title="Kernel Wakelocks Stats"
+				android:defaultValue="true"
+				android:enabled="false"/>
+		    <CheckBoxPreference 
+				android:key="show_proc"
+				android:summary="Dump Process Stats"
+				android:title="Process Stats" 
+				android:defaultValue="false"
+				android:enabled="true"/>
+		    <CheckBoxPreference 
+				android:key="show_serv"
+				android:summary="Dump Service Stats"
+				android:title="Service Stats" 
+				android:defaultValue="false"
+				android:enabled="true"/>
+		    <CheckBoxPreference 
+				android:key="show_alarm"
+				android:summary="Dump Alarm Stats"
+				android:title="Alarm Stats" 
+				android:defaultValue="true"
+				android:enabled="true"/>    		    		   		   
+		</PreferenceScreen>
+	</PreferenceCategory>
+    
 </PreferenceScreen>
