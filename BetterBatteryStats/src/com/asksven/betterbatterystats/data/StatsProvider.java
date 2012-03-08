@@ -40,6 +40,7 @@ import android.widget.Toast;
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.kernelutils.RootDetection;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
@@ -1184,6 +1185,14 @@ public class StatsProvider
 				out.write("DEVICE: "+Build.DEVICE+"\n");
 				out.write("MANUFACTURER: "+Build.MANUFACTURER+"\n");
 				out.write("MODEL: "+Build.MODEL+"\n");
+				out.write("RADIO: "+Build.RADIO+"\n");
+				out.write("BOOTLOADER: "+Build.BOOTLOADER+"\n");
+				out.write("FINGERPRINT: "+Build.FINGERPRINT+"\n");
+				out.write("HARDWARE: "+Build.HARDWARE+"\n");
+				out.write("ID: "+Build.ID+"\n");
+				out.write("Rooted: "+ RootDetection.hasSuRights() + "\n");
+				
+				
 				// write timing info
 				boolean bDumpChapter = sharedPrefs.getBoolean("show_other", true);
 				if (bDumpChapter)
@@ -1214,7 +1223,7 @@ public class StatsProvider
 					dumpList(getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort), out);
 				}
 				
-				bDumpChapter = sharedPrefs.getBoolean("show_proc", true);
+				bDumpChapter = sharedPrefs.getBoolean("show_proc", false);
 				if (bDumpChapter)
 				{
 					// write process info
@@ -1239,7 +1248,7 @@ public class StatsProvider
 				//out.write("Network\n");
 				//out.write("=======\n");
 				//dumpList(getNetworkUsageStatList(bFilterStats, m_iStatType), out);
-				bDumpChapter = sharedPrefs.getBoolean("show_serv", true);
+				bDumpChapter = sharedPrefs.getBoolean("show_serv", false);
 				if (bDumpChapter)
 				{
 					out.write("========\n");
