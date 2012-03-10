@@ -24,19 +24,16 @@
 	
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content"> 
-<h2>v1.6.1.0 2012-02-10</h2>
+<h2>v1.7.0.0RC1 2012-03-10</h2>
 <p>
 <ul>
-	<li>Fixed graphs on ICS</li>
-	<li>Moved to hollow style, increased spinner height for better usability on ICS</li>
-	<li>Fixed bug causing "since charged" reference to be called continuously after reaching 100%</li>
-	<li>Removed pref to hide "since..." from display to make screenshots more readable
-	<li>Removed Service due to alternate design of handling the battery charged event</li>
-	<li>Removed auto-refresh to improve overall performance</li> 
-	<li>Alarms with references and moved to main view (!!!be aware that this causes more frequent calls to 'su' as alarm dump requires root access)</li>
-	<li>Added follow-me and rate buttons to readme</li>
-	<li>Battery Service proxy is now a singleton for a better stability on MIUI</li>
-	<li>Click on Alarms / Kernel wakelocks shows details dialog</li>
+	<li>Moving app to SD enabled</li>
+	<li>Fixed last alarm from dump being skipped</li>
+	<li>Added Wifi running stat to ""other"</li>
+	<li>Alarm dump now shows alarm details</li>
+	<li>Preferences for turning dumpfile chapters on/off</li>
+	<li>Added more info about device / root state to dump</li>
+	<li>Default stat/stat type are now "Other"/"Since charged"</li>
 </ul>
 </p>
 </div> 
