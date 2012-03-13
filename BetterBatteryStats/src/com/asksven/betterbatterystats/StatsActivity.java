@@ -202,8 +202,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	// retrieve default selections for spinners
 		///////////////////////////////////////////////
     	
-    	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
-		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "0"));
+    	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "2"));
+		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "1"));
 		
 		try
 		{
