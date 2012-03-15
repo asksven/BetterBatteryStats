@@ -29,7 +29,7 @@ import com.androidplot.xy.LineAndPointRenderer;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.SimpleXYSeries.ArrayFormat;
 import com.androidplot.xy.XYPlot;
-import com.asksven.betterbatterystats_xdaedition.R;
+import com.asksven.betterbatterystats.R;
  
 import java.text.DecimalFormat;
 import java.util.Timer;

@@ -16,7 +16,7 @@
 package com.asksven.betterbatterystats.widgets;
 
 import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats_xdaedition.R;
+import com.asksven.betterbatterystats.R;
 
 import android.content.Context;
 import android.content.SharedPreferences;
