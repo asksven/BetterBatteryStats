@@ -22,7 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
-import com.asksven.betterbatterystats_xdaedition.R;
+import com.asksven.betterbatterystats.R;
 
 /**
  * Combined temperature demo chart.

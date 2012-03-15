@@ -41,7 +41,7 @@ import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.RootDetection;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
-import com.asksven.betterbatterystats_xdaedition.R;
+import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
 public class KernelWakelocksActivity extends ListActivity
