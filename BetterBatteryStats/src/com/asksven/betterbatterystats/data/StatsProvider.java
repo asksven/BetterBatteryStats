@@ -746,7 +746,7 @@ public class StatsProvider
 	        timeScreenOn 		= mStats.getScreenOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        timePhoneOn 		= mStats.getPhoneOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        timeWifiOn 			= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeWifiRunning		= mStats.getWifiRunningTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeWifiRunning		= mStats.getGlobalWifiRunningTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        timeWifiMulticast	= mStats.getWifiMulticastTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        timeWifiLocked		= mStats.getFullWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        timeWifiScan		= mStats.getScanWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
@@ -762,7 +762,7 @@ public class StatsProvider
 	        timeScreenOn 		= mStats.getScreenOnTime(batteryRealtime, iStatType) / 1000;
 	        timePhoneOn 		= mStats.getPhoneOnTime(batteryRealtime, iStatType) / 1000;
 	        timeWifiOn 			= mStats.getWifiOnTime(batteryRealtime, iStatType) / 1000;
-	        timeWifiRunning 	= mStats.getWifiRunningTime(m_context, batteryRealtime, iStatType) / 1000;
+	        timeWifiRunning 	= mStats.getGlobalWifiRunningTime(batteryRealtime, iStatType) / 1000;
 	        timeWifiMulticast	= mStats.getWifiMulticastTime(m_context, batteryRealtime, iStatType) / 1000;
 	        timeWifiLocked		= mStats.getFullWifiLockTime(m_context, batteryRealtime, iStatType) / 1000;
 	        timeWifiScan		= mStats.getScanWifiLockTime(m_context, batteryRealtime, iStatType) / 1000;
