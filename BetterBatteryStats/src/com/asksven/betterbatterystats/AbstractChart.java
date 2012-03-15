@@ -20,7 +20,7 @@ package com.asksven.betterbatterystats;
  *
  */
 
-import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats_xdaedition.R;
 import java.util.Date;
 import java.util.List;
 

@@ -18,7 +18,7 @@ package com.asksven.betterbatterystats;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats_xdaedition.R;
 
 /**
  * Activity for managing preferences using Android's preferences framework

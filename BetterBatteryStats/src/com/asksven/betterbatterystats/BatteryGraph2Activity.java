@@ -25,7 +25,7 @@ import android.view.MenuItem;
 import com.androidplot.xy.*;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
-import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats_xdaedition.R;
  
 import java.util.ArrayList;
 

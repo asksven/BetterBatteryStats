@@ -25,7 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.asksven.android.common.privateapiproxies.HistoryItem;
-import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats_xdaedition.R;
 
 public class HistAdapter extends BaseAdapter
 {

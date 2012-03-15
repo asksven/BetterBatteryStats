@@ -53,7 +53,7 @@ import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.ZoomScrollGraphActivity.Viewport;
-import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats_xdaedition.R;
  
 import java.io.BufferedWriter;
 import java.io.File;

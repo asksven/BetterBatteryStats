@@ -41,7 +41,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.SampleKbData;
-import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats_xdaedition.R;
 
 public class KbReader
 {
