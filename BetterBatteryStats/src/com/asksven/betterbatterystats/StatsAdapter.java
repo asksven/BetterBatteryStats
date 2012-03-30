@@ -40,6 +40,7 @@ import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
+import com.asksven.betterbatterystats.data.KbReader;
 import com.asksven.betterbatterystats.widgets.GraphableButton;
 import com.asksven.betterbatterystats.R;
 

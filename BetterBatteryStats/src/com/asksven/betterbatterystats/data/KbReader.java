@@ -24,6 +24,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -35,6 +39,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.asksven.betterbatterystats.StatsActivity;
 import com.google.gson.Gson;
 
 public class KbReader
@@ -42,6 +47,8 @@ public class KbReader
 	private static final String URL = "http://asksven.github.com/BetterBatteryStats-Knowledge-Base/kb_v1.0.json";
     private static KbData m_kb = null;
     private static boolean m_bNoConnection = false;
+    
+    private static long MAX_CACHE_AGE_MILLIS = 1000 * 60 * 1440; // 24 hours
     
     private static final String TAG = "KbReader";
     
@@ -53,43 +60,72 @@ public class KbReader
     	}
     	else
     	{
-    		// make sure we don't obcess
-    		if (m_bNoConnection)
-    		{
-    			return null;
-    		}
-    		
-	    	KbData data = null;
 	     	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		  	 
-	    	String strUrlMod = sharedPrefs.getString("kb_url_appender", "");
-  	      	
-	    	try
-	    	{
-	    		InputStream source = retrieveStream(URL + strUrlMod);
-	    		
-	    		if (source == null)
+
+    		// first check if cache is present and not outdated
+    		KbDbHelper myDB = new KbDbHelper(ctx);
+    		
+    		List<KbEntry> myEntries = myDB.fetchAllRows();
+    		
+			// if cache exists and is not outdaten use it
+			long cachedMillis = sharedPrefs.getLong("cache_updated", 0);
+			long dateMillis = Calendar.getInstance().getTimeInMillis();
+			boolean useCaching = sharedPrefs.getBoolean("cache_kb", true);
+
+			// if cache is not empty, cache not older than 24 hours and caching is on
+			if ((myEntries != null) && (myEntries.size() > 0) && (useCaching) && ((dateMillis - cachedMillis) < MAX_CACHE_AGE_MILLIS)) 
+			{
+				m_kb = new KbData();
+				m_kb.setEntries(myEntries);
+			}
+			// retrieve data and update cache
+			else
+			{
+	    		// make sure we don't obcess
+	    		if (m_bNoConnection)
 	    		{
-	    			m_bNoConnection = true;
 	    			return null;
 	    		}
-	    		Gson gson = new Gson();
+	    		
+		    	KbData data = null;
+			  	 
+		    	String strUrlMod = sharedPrefs.getString("kb_url_appender", "");
+	  	      	
+		    	try
+		    	{
+		    		InputStream source = retrieveStream(URL + strUrlMod);
+		    		
+		    		if (source == null)
+		    		{
+		    			m_bNoConnection = true;
+		    			return null;
+		    		}
+		    		Gson gson = new Gson();
 
-	    		Reader reader = new InputStreamReader(source);
-	    		
-	    		// Now do the magic.
-	    		data = gson.fromJson(reader,
-	    				KbData.class);
-	    		
-		        // testing with static data
-		        //data = new Gson().fromJson(SampleKbData.json, KbData.class);
-		
-	    	}
-	    	catch (Exception e)
-	    	{
-	    		e.printStackTrace();
-	    	}
-	    	m_kb = data;
+		    		Reader reader = new InputStreamReader(source);
+		    		
+		    		// Now do the magic.
+		    		data = gson.fromJson(reader,
+		    				KbData.class);
+		    		
+			        // testing with static data
+			        //data = new Gson().fromJson(SampleKbData.json, KbData.class);
+			
+		    	}
+		    	catch (Exception e)
+		    	{
+		    		e.printStackTrace();
+		    	}
+		    	m_kb = data;
+		    	myDB.save(m_kb); 
+		    	// update cache update timestamp
+        		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+    	        SharedPreferences.Editor editor = prefs.edit();
+    	        editor.putLong("cache_updated", dateMillis);
+    	        editor.commit();
+
+
+			}
     	}
     	return m_kb;
     }
