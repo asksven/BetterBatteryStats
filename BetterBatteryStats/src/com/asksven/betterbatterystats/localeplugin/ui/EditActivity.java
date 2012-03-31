@@ -183,7 +183,7 @@ public final class EditActivity extends Activity
             resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, resultBundle);
             
             // add text for display in tasker
-            resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, "Stat Type: " +StatsProvider.statTypeToLabel(StatsActivity.statTypeFromPosition(position)));
+            resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_STRING_BLURB, "Stat Type: " + StatsProvider.statTypeToLabel(StatsProvider.statTypeFromPosition(position)));
 
             setResult(RESULT_OK, resultIntent);
         }

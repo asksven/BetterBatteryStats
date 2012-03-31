@@ -51,6 +51,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.betterbatterystats.R;
 
 /**
  * Singleton provider for all the statistics
@@ -124,15 +125,15 @@ public class StatsProvider
 			switch (iStat)
 			{
 				// constants are related to arrays.xml string-array name="stats"
-				case 0:
+				case 4:
 					return getProcessStatList(bFilterStats, iStatType, iSort);
 				case 1:
 					return getWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
-				case 2:
+				case 0:
 					return getOtherUsageStatList(bFilterStats, iStatType);	
-				case 3:
+				case 2:
 					return getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
-				case 4:
+				case 3:
 					return getAlarmsStatList(bFilterStats, iStatType);
 			}
 			
@@ -1353,30 +1354,33 @@ public class StatsProvider
 	private String statToLabel(int iStat)
 	{
 		String strRet = "";
-		switch (iStat)
-		{
-			// constants are related to arrays.xml string-array name="stats"
-			case 0:
-				strRet = "Process";
-				break;
-				
-			case 1:
-				strRet = "Partial Wakelocks";
-				break;
-				
-			case 2:
-				strRet = "Other";
-				break;
-					
-			case 3:
-				strRet = "Kernel Wakelocks";
-				break;
-
-			case 4:
-				strRet = "Alarms";
-				break;
-
-		}
+		String[] statsArray = m_context.getResources().getStringArray(R.array.stats); 
+		strRet = statsArray[iStat];
+		
+//		switch (iStat)
+//		{
+//			// constants are related to arrays.xml string-array name="stats"
+//			case 0:
+//				strRet = "Process";
+//				break;
+//				
+//			case 1:
+//				strRet = "Partial Wakelocks";
+//				break;
+//				
+//			case 2:
+//				strRet = "Other";
+//				break;
+//					
+//			case 3:
+//				strRet = "Kernel Wakelocks";
+//				break;
+//
+//			case 4:
+//				strRet = "Alarms";
+//				break;
+//
+//		}
 		
 		return strRet;
 	}
@@ -1401,6 +1405,53 @@ public class StatsProvider
 		  return strCleaned;
 	}
 	
+	/**
+	 * translate the spinner position (see arrays.xml) to the stat type
+	 * @param position the spinner position
+	 * @return the stat type
+	 */
+	public static int statTypeFromPosition(int position)
+	{
+		int iRet = 0;
+		switch (position)
+		{
+			case 0:
+				iRet = 0;
+				break;
+			case 1:
+				iRet = 3;
+				break;
+			case 2:
+				iRet = 4;
+				break;
+				
+		}
+		return iRet;
+	}
 	
+	/**
+	 * translate the stat type to the spinner position (see arrays.xml)
+	 * @param iStatType the stat type
+	 * @return the spinner position
+	 */
+	public int positionFromStatType(int iStatType)
+	{
+		int iRet = 0;
+		switch (iStatType)
+		{
+			case 0:
+				iRet = 0;
+				break;
+			case 1:
+				iRet = 1;
+				break;
+			case 2:
+				iRet = 2;
+				break;
+				
+		}
+		return iRet;
+	}
+
 
 }

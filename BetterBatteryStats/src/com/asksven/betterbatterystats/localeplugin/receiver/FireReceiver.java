@@ -76,7 +76,7 @@ public final class FireReceiver extends BroadcastReceiver
 
         // TODO add processing code here
         boolean saveRef = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF);
-        int statType = StatsActivity.statTypeFromPosition(bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION));
+        int statType = StatsProvider.statTypeFromPosition(bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION));
         
         StatsProvider.getInstance(context).writeDumpToFile(statType, 0);
         

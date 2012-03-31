@@ -257,7 +257,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    
 		spinnerStatType.setAdapter(spinnerAdapter);
 		// setSelection MUST be called after setAdapter
-		spinnerStatType.setSelection(positionFromStatType(m_iStatType));
+		spinnerStatType.setSelection(StatsProvider.getInstance(this).positionFromStatType(m_iStatType));
 		spinnerStatType.setOnItemSelectedListener(this);
 		
 		
@@ -498,7 +498,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		if (parent == (Spinner) findViewById(R.id.spinnerStatType))
 		{
 			// The Spinner does not show all available stats so it must be translated
-			int iNewStatType = statTypeFromPosition(position);
+			int iNewStatType = StatsProvider.getInstance(this).statTypeFromPosition(position);
 			
 			// detect if something changed
 			if (m_iStatType != iNewStatType)
@@ -704,51 +704,4 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	
 	
 	
-	/**
-	 * translate the spinner position (see arrays.xml) to the stat type
-	 * @param position the spinner position
-	 * @return the stat type
-	 */
-	public static int statTypeFromPosition(int position)
-	{
-		int iRet = 0;
-		switch (position)
-		{
-			case 0:
-				iRet = 0;
-				break;
-			case 1:
-				iRet = 3;
-				break;
-			case 2:
-				iRet = 4;
-				break;
-				
-		}
-		return iRet;
-	}
-	
-	/**
-	 * translate the stat type to the spinner position (see arrays.xml)
-	 * @param iStatType the stat type
-	 * @return the spinner position
-	 */
-	private int positionFromStatType(int iStatType)
-	{
-		int iRet = 0;
-		switch (iStatType)
-		{
-			case 0:
-				iRet = 0;
-				break;
-			case 1:
-				iRet = 1;
-				break;
-			case 2:
-				iRet = 2;
-				break;
-				
-		}
-		return iRet;
-	}
 }
