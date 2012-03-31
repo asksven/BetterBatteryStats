@@ -602,7 +602,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		@Override
 	    protected Object doInBackground(Object... params)
 	    {
-			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(m_iStat, m_iStatType, m_iSorting);
+			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(m_iStatType, m_iSorting);
 	    	return true;
 	    }
 
@@ -709,7 +709,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 * @param position the spinner position
 	 * @return the stat type
 	 */
-	private int statTypeFromPosition(int position)
+	public static int statTypeFromPosition(int position)
 	{
 		int iRet = 0;
 		switch (position)

@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<resources/>
+<resources>
+    <string name="plugin_name">Better Battery Stats</string>
+    <string name="message_hint">Scheduled Toast</string>
+    <string name="message_hint_saveref">Save a Reference</string>
+    <string name="message_hint_sinceref">Dump Since last Reference</string>
+    <string name="message_hint_stat_type">Stat Type</string>
+</resources>

@@ -1147,7 +1147,7 @@ public class StatsProvider
 	 * Dumps relevant data to an output file
 	 * 
 	 */
-	public void writeDumpToFile(int iStat, int iStatType, int iSort)
+	public void writeDumpToFile(int iStatType, int iSort)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
@@ -1307,7 +1307,7 @@ public class StatsProvider
 	 * @param position the spinner position
 	 * @return the stat type
 	 */
-	private String statTypeToLabel(int statType)
+	public static String statTypeToLabel(int statType)
 	{
 		String strRet = "";
 		switch (statType)
@@ -1400,5 +1400,7 @@ public class StatsProvider
 		  }
 		  return strCleaned;
 	}
+	
+	
 
 }
