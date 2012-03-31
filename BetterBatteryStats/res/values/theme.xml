@@ -2,6 +2,7 @@
 
 <resources>
     <style name="Theme.asksven" parent="android:Theme.Black"/>
+    <style name="Theme.asksven.light" parent="android:Theme.Light"/>
     <style name="Theme.asksven.NoTitleBar" parent="android:Theme.Black.NoTitleBar"/>
     <style name="Theme.asksven.Fullscreen" parent="android:Theme.Black.NoTitleBar.Fullscreen"/>
 </resources>

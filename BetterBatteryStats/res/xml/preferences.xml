@@ -70,7 +70,13 @@
 				android:title="Append to Service URL" 
 				android:defaultValue=""
 			/>
-
+		    <CheckBoxPreference 
+				android:key="cache_kb"
+				android:summary="Cache the knowledge base locally"
+				android:title="Cache KB" 
+				android:defaultValue="true"
+		    />
+		    
 		</PreferenceScreen>
 	</PreferenceCategory>
     
@@ -141,5 +147,16 @@
 				android:enabled="true"/>    		    		   		   
 		</PreferenceScreen>
 	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="Widget">    	        
+	    <ListPreference 
+	            android:key="widget_default_stat_type"
+	            android:title="Widget Default stat type"
+	            android:summary="Set the stat type to be shown in the widget"
+	            android:defaultValue="1" 
+	            android:entries="@array/statTypeLabels"
+	            android:entryValues="@array/statTypeValues"
+	        />
+    </PreferenceCategory>
     
 </PreferenceScreen>

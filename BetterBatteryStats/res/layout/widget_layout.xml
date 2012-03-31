@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dip"
+    android:background="@drawable/widget_shape"
+    android:orientation="vertical">
+
+    
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout">
+        
+		    <TextView
+		        android:id="@+id/static1"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dip"
+		        android:text="Since:" />
+		        
+			<TextView
+		        android:id="@+id/since"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="value"
+		        android:layout_toRightOf="@id/static1"
+		        android:layout_alignTop="@id/static1"
+		        android:layout_marginLeft="5dip"/>
+		    <TextView
+		        android:id="@+id/static2"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Awake:"
+		        android:layout_below="@id/since"
+		        android:layout_marginLeft="10dip"/>
+		    <TextView
+		        android:id="@+id/awake"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="value"
+		        android:layout_toRightOf="@id/static2"
+		        android:layout_alignTop="@id/static2"
+		        android:layout_marginLeft="5dip"/>
+		    
+		    <TextView
+		        android:id="@+id/static3"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Screen on:"
+		        android:layout_below="@id/awake"
+		        android:layout_marginLeft="10dip"/>
+		    <TextView
+		        android:id="@+id/screen_on"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="value"
+		       	android:layout_toRightOf="@id/static3"
+		        android:layout_alignTop="@id/static3"
+		        android:layout_marginLeft="5dip"/>
+<!-- 		    <TextView -->
+<!-- 		        android:id="@+id/update" -->
+<!-- 		        style="@android:style/TextAppearance.Small" -->
+<!-- 		        android:layout_width="wrap_content" -->
+<!-- 		        android:layout_height="wrap_content" -->
+<!-- 		       android:text="Static Text" -->
+<!-- 		       android:layout_below="@id/screen_on"/> -->
+		    <TextView
+		        android:id="@+id/static4"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="P. Wakelocks:"
+		        android:layout_below="@id/screen_on"
+		        android:layout_marginLeft="10dip"/>		        
+    
+		    <TextView
+		        android:id="@+id/wl"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="value"
+		        android:layout_toRightOf="@id/static4"
+		        android:layout_alignTop="@id/static4"
+		        android:layout_marginLeft="5dip"/>
+		    <TextView
+		        android:id="@+id/static5"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="K. Wakelocks:"
+		        android:layout_below="@id/wl"
+		        android:layout_marginLeft="10dip"/>
+    
+		    <TextView
+		        android:id="@+id/kwl"
+		        style="@android:style/TextAppearance.Small"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="value"
+		        android:layout_toRightOf="@id/static5"
+		        android:layout_alignTop="@id/static5"
+		        android:layout_marginLeft="5dip"/>
+		        
+		    
+<!-- 		</TableRow> -->
+<!-- 		<TableRow>	 -->
+<!-- 		    <TextView -->
+<!-- 		        android:id="@+id/static2" -->
+<!-- 		        style="@android:style/TextAppearance.Medium" -->
+<!-- 		        android:layout_width="match_parent" -->
+<!-- 		        android:layout_height="wrap_content" -->
+<!-- 		        android:text="2:"/> -->
+<!-- 		    <TextView -->
+<!-- 		        android:id="@+id/kwl2" -->
+<!-- 		        style="@android:style/TextAppearance.Medium" -->
+<!-- 		        android:layout_width="match_parent" -->
+<!-- 		        android:layout_height="wrap_content" -->
+<!-- 		        android:text="value" /> -->
+		    
+<!-- 		</TableRow> -->
+	</RelativeLayout>		
+    
+</LinearLayout>

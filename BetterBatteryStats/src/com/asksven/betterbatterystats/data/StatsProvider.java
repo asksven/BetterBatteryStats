@@ -870,6 +870,45 @@ public class StatsProvider
 		return myStats;
 	}
 
+	public StatElement getElementByKey(ArrayList<StatElement> myList, String key)
+	{
+		StatElement ret = null;
+		
+		if (myList == null)
+		{
+			return null;
+		}
+		
+		for (int i=0; i < myList.size(); i++)
+		{
+			StatElement item = myList.get(i); 
+	
+			if (item.getName().equals(key))
+			{
+				ret = item;
+				break;
+			}
+		}
+		return ret;
+	}
+	
+	public long sum (ArrayList<StatElement> myList)
+	{
+		long ret = 0;
+		
+		if (myList == null)
+		{
+			return 0;
+		}
+		
+		for (int i=0; i < myList.size(); i++)
+		{
+			StatElement item = myList.get(i); 
+			ret += item.getValues()[0];
+		}
+		return ret;
+		
+	}
 	/**
 	 * Returns true if a custom ref was stored
 	 * @return true is a custom ref exists
