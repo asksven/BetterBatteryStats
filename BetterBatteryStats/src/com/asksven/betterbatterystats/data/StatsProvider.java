@@ -898,6 +898,12 @@ public class StatsProvider
 		
 		if (myList == null)
 		{
+			Log.d(TAG, "sum was called with a null list");
+			return 0;
+		}
+		if (myList.size() == 0)
+		{
+			Log.d(TAG, "sum was called with an empty list");
 			return 0;
 		}
 		
@@ -1349,16 +1355,17 @@ public class StatsProvider
 	 */
 	public static String statTypeToLabel(int statType)
 	{
+		
 		String strRet = "";
 		switch (statType)
 		{
 			case 0:
 				strRet = "Since Charged";
 				break;
-			case 1:
+			case 3:
 				strRet = "Since Unplugged";
 				break;
-			case 2:
+			case 4:
 				strRet = "Custom Reference";
 				break;	
 		}
@@ -1455,13 +1462,13 @@ public class StatsProvider
 		switch (position)
 		{
 			case 0:
-				iRet = 0;
+				iRet = STATS_CHARGED;
 				break;
 			case 1:
-				iRet = 3;
+				iRet = STATS_UNPLUGGED;
 				break;
 			case 2:
-				iRet = 4;
+				iRet = STATS_CUSTOM;
 				break;
 				
 		}

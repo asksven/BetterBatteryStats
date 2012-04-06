@@ -18,10 +18,16 @@ package com.asksven.betterbatterystats;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.achartengine.chart.TimeChart;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
+
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.widgets.WidgetBars;
+import com.asksven.betterbatterystats.widgets.WidgetBattery;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -29,8 +35,11 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.text.method.TimeKeyListener;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -38,9 +47,9 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class UpdateWidgetService extends Service
+public class UpdateSmallWidgetService extends Service
 {
-	private static final String TAG = "UpdateWidgetService";
+	private static final String TAG = "UpdateSmallWidgetService";
 
 	@Override
 	public void onStart(Intent intent, int startId)
@@ -54,7 +63,7 @@ public class UpdateWidgetService extends Service
 		int[] allWidgetIds = intent
 				.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 
-		ComponentName thisWidget = new ComponentName(getApplicationContext(), WidgetProvider.class);
+		ComponentName thisWidget = new ComponentName(getApplicationContext(), SmallWidgetProvider.class);
 		
 		int[] allWidgetIds2 = appWidgetManager.getAppWidgetIds(thisWidget);
 		
@@ -68,56 +77,54 @@ public class UpdateWidgetService extends Service
  
 			RemoteViews remoteViews = new RemoteViews(this
 					.getApplicationContext().getPackageName(),
-					R.layout.widget_layout);
-			Log.w("WidgetExample", String.valueOf(number));
+					R.layout.small_widget_layout);
 			
+
 			// retrieve stats
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			int statType	= StatsProvider.statTypeFromPosition(Integer.valueOf(sharedPrefs.getString("widget_default_stat_type", "1")));
+			int statType	= StatsProvider.statTypeFromPosition(
+					Integer.valueOf(sharedPrefs.getString("small_widget_default_stat_type", "1")));
 			
 			long timeAwake 		= 0;
 			long timeScreenOn 	= 0;
-			long timeSince 		= 0;
-			long sumPWakelocks	= 0;
-			long sumKWakelocks	= 0;
 			
+			StatsProvider stats = StatsProvider.getInstance(this);
 			try
 			{
-				StatsProvider stats = StatsProvider.getInstance(this);
+				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType);
 				timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
 				timeScreenOn = ((Misc) stats.getElementByKey(otherStats, "Screen On")).getTimeOn();
-				timeSince = stats.getBatteryRealtime(statType);
-				ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0);
-				sumPWakelocks = stats.sum(pWakelockStats);
-
-				ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, statType, 0, 0);
-				sumKWakelocks = stats.sum(kWakelockStats);
-
-	
 			}
 			catch (Exception e)
 			{
 				Log.e(TAG,"An error occured: " + e.getMessage());
 				
 			}
+			finally
+			{
+				Log.d(TAG, "Awake: " + DateUtils.formatDuration(timeAwake));
+				Log.d(TAG, "Screen on: " + DateUtils.formatDuration(timeScreenOn));
+			}
 
-			
 			// Set the text
-			remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
-			remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
-			remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
-			remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
-			remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
-
+//			remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
+//			remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
 			
+			WidgetBattery graph = new WidgetBattery();
+			ArrayList<Long> serie = new ArrayList<Long>();
+			graph.setAwake(timeAwake);
+			graph.setScreenOn(timeScreenOn);
+			
+			
+			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap());
 
 //			remoteViews.setTextViewText(R.id.update,
 //					"Random: " + String.valueOf(number));
 
 			// Register an onClickListener
 			Intent clickIntent = new Intent(this.getApplicationContext(),
-					WidgetProvider.class);
+					SmallWidgetProvider.class);
 
 			clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
 			clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,

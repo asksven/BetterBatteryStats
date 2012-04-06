@@ -94,7 +94,7 @@
             </intent-filter>    
         </receiver>        
         
-        <receiver android:name="WidgetProvider" >
+        <receiver android:name=".LargeWidgetProvider" android:label="Better Battery Stats Large">
             <intent-filter >
                 <action 
                     android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -102,10 +102,23 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/large_widget_info" />
+        </receiver>
+
+        <receiver android:name=".SmallWidgetProvider" android:label="Better Battery Stats Small">
+            <intent-filter >
+                <action 
+                    android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/small_widget_info" />
         </receiver>
         
-        <service android:name=".UpdateWidgetService"></service>
+        <service android:name=".UpdateLargeWidgetService"></service>
+        <service android:name=".UpdateSmallWidgetService"></service>
+        
     </application>
 	
 </manifest>

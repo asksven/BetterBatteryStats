@@ -148,15 +148,30 @@
 		</PreferenceScreen>
 	</PreferenceCategory>
 	
-	<PreferenceCategory android:title="Widget">    	        
-	    <ListPreference 
-	            android:key="widget_default_stat_type"
-	            android:title="Widget Default stat type"
-	            android:summary="Set the stat type to be shown in the widget"
-	            android:defaultValue="1" 
-	            android:entries="@array/statTypeLabels"
-	            android:entryValues="@array/statTypeValues"
-	        />
+	<PreferenceCategory android:title="Widget">  
+	    <PreferenceScreen android:title="Widget Settings">  
+	        <PreferenceCategory android:title="Large Widget">	        
+		    <ListPreference 
+		            android:key="large_widget_default_stat_type"
+		            android:title="Stat type"
+		            android:summary="Set the stat type to be shown in the widget"
+		            android:defaultValue="1" 
+		            android:entries="@array/statTypeLabels"
+		            android:entryValues="@array/statTypeValues"
+		        />
+		    </PreferenceCategory>
+	        <PreferenceCategory android:title="Small Widget">	        
+		    <ListPreference 
+		            android:key="small_widget_default_stat_type"
+		            android:title="Stat type"
+		            android:summary="Set the stat type to be shown in the widget"
+		            android:defaultValue="1" 
+		            android:entries="@array/statTypeLabels"
+		            android:entryValues="@array/statTypeValues"
+		        />
+		    </PreferenceCategory>
+	        
+		</PreferenceScreen>
     </PreferenceCategory>
     
 </PreferenceScreen>

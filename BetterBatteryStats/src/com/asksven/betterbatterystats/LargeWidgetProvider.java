@@ -30,10 +30,10 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class WidgetProvider extends AppWidgetProvider
+public class LargeWidgetProvider extends AppWidgetProvider
 {
 
-	private static final String TAG = "WidgetProvider";
+	private static final String TAG = "LargeWidgetProvider";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
@@ -41,12 +41,12 @@ public class WidgetProvider extends AppWidgetProvider
 
 		Log.w(TAG, "onUpdate method called");
 		// Get all ids
-		ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
+		ComponentName thisWidget = new ComponentName(context, LargeWidgetProvider.class);
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 
 		// Build the intent to call the service
 		Intent intent = new Intent(context.getApplicationContext(),
-				UpdateWidgetService.class);
+				UpdateLargeWidgetService.class);
 		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
 
 		// Update the widgets via the service
