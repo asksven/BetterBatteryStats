@@ -40,6 +40,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.method.TimeKeyListener;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 
 /**
@@ -78,9 +79,13 @@ public class UpdateLargeWidgetService extends Service
 					.getApplicationContext().getPackageName(),
 					R.layout.large_widget_layout);
 			
-
-			// retrieve stats
+			// we change the bg color of the layout based on alpha from prefs
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			int opacity	= sharedPrefs.getInt("small_widget_opacity", 80);
+			opacity = (255 * opacity) / 100; 
+			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
+			
+			// retrieve stats
 			int statType	= StatsProvider.statTypeFromPosition(
 					Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "1")));
 			
@@ -137,7 +142,7 @@ public class UpdateLargeWidgetService extends Service
 			serie.add(sumPWakelocks);
 			
 			
-			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(serie));
+			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this, serie));
 
 //			remoteViews.setTextViewText(R.id.update,
 //					"Random: " + String.valueOf(number));

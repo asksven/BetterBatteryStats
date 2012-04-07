@@ -112,12 +112,11 @@ public class UpdateSmallWidgetService extends Service
 //			remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
 			
 			WidgetBattery graph = new WidgetBattery();
-			ArrayList<Long> serie = new ArrayList<Long>();
 			graph.setAwake(timeAwake);
 			graph.setScreenOn(timeScreenOn);
 			
 			
-			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap());
+			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this));
 
 //			remoteViews.setTextViewText(R.id.update,
 //					"Random: " + String.valueOf(number));

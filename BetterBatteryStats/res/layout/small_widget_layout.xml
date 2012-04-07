@@ -44,7 +44,7 @@
 			    android:layout_height="match_parent"
 			    android:contentDescription="blah"
 			    android:layout_toRightOf="@id/static2"
-			    android:src="@drawable/icon_kb"/>
+			    android:src="@drawable/icon_notext"/>
 
 	</RelativeLayout>    
 </LinearLayout>

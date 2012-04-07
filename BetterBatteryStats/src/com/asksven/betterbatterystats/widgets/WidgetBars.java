@@ -17,10 +17,13 @@ package com.asksven.betterbatterystats.widgets;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -35,43 +38,62 @@ public class WidgetBars
 	static final int BITMAP_HEIGHT = 70;
 	
 	
-    static Paint[] sPaint = new Paint[5];
-    static
+    static Paint[] m_paint = new Paint[5];
+	static Paint m_paintBackground = new Paint();
+
+    
+    void initPaints(Context ctx)
     {
-        sPaint[0] = new Paint();
-        sPaint[0].setStyle(Paint.Style.FILL);
-        sPaint[0].setColor(Color.BLUE);
-        sPaint[0].setStrokeWidth(STROKE_WIDTH);
-        sPaint[0].setStyle(Paint.Style.STROKE);
-        
-        sPaint[1] = new Paint();
-        sPaint[1].setStyle(Paint.Style.FILL);
-        sPaint[1].setColor(Color.YELLOW);
-        sPaint[1].setStrokeWidth(STROKE_WIDTH);
-        sPaint[1].setStyle(Paint.Style.STROKE);
-        
-        sPaint[2] = new Paint();
-        sPaint[2].setStyle(Paint.Style.FILL);
-        sPaint[2].setColor(Color.GREEN);
-        sPaint[2].setStrokeWidth(STROKE_WIDTH);
-        sPaint[2].setStyle(Paint.Style.STROKE);
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		int opacity	= sharedPrefs.getInt("small_widget_opacity", 80);
+		opacity = (255 * opacity) / 100; 
 
-        sPaint[3] = new Paint();
-        sPaint[3].setStyle(Paint.Style.FILL);
-        sPaint[3].setColor(Color.RED);
-        sPaint[3].setStrokeWidth(STROKE_WIDTH);
-        sPaint[3].setStyle(Paint.Style.STROKE);
+    	m_paintBackground.setStyle(Paint.Style.FILL);
+    	m_paintBackground.setColor(Color.BLACK);
+    	m_paintBackground.setStrokeWidth(STROKE_WIDTH);
+    	m_paintBackground.setAlpha(opacity);
 
-        sPaint[4] = new Paint();
-        sPaint[4].setStyle(Paint.Style.FILL);
-        sPaint[4].setColor(Color.MAGENTA);
-        sPaint[4].setStrokeWidth(STROKE_WIDTH);
-        sPaint[4].setStyle(Paint.Style.STROKE);
+    	m_paint[0] = new Paint();
+    	m_paint[0].setStyle(Paint.Style.FILL);
+    	m_paint[0].setColor(Color.BLUE);
+    	m_paint[0].setStrokeWidth(STROKE_WIDTH);
+    	m_paint[0].setStyle(Paint.Style.STROKE);
+    	m_paint[0].setAlpha(opacity);
+        
+    	m_paint[1] = new Paint();
+    	m_paint[1].setStyle(Paint.Style.FILL);
+    	m_paint[1].setColor(Color.YELLOW);
+    	m_paint[1].setStrokeWidth(STROKE_WIDTH);
+    	m_paint[1].setStyle(Paint.Style.STROKE);
+    	m_paint[1].setAlpha(opacity);
+        
+    	m_paint[2] = new Paint();
+    	m_paint[2].setStyle(Paint.Style.FILL);
+    	m_paint[2].setColor(Color.GREEN);
+    	m_paint[2].setStrokeWidth(STROKE_WIDTH);
+    	m_paint[2].setStyle(Paint.Style.STROKE);
+    	m_paint[2].setAlpha(opacity);
+
+    	m_paint[3] = new Paint();
+    	m_paint[3].setStyle(Paint.Style.FILL);
+    	m_paint[3].setColor(Color.RED);
+    	m_paint[3].setStrokeWidth(STROKE_WIDTH);
+    	m_paint[3].setStyle(Paint.Style.STROKE);
+    	m_paint[3].setAlpha(opacity);
+
+    	m_paint[4] = new Paint();
+    	m_paint[4].setStyle(Paint.Style.FILL);
+    	m_paint[4].setColor(Color.MAGENTA);
+    	m_paint[4].setStrokeWidth(STROKE_WIDTH);
+    	m_paint[4].setStyle(Paint.Style.STROKE);
+    	m_paint[4].setAlpha(opacity);
 
     }
 
-    public Bitmap getBitmap(ArrayList<Long> values)
+    public Bitmap getBitmap(Context ctx, ArrayList<Long> values)
     {
+    	this.initPaints(ctx);
+
     	long max = 0;
     	for (int i=0; i < values.size(); i++)
     	{
@@ -87,12 +109,6 @@ public class WidgetBars
 
         canvas.drawColor(Color.TRANSPARENT);
 
-        Paint paint = new Paint();
-
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        
-        paint.setColor(Color.RED);
-        paint.setStrokeWidth(10);
         
     	for (int i=0; i < values.size(); i++)
     	{
@@ -100,14 +116,8 @@ public class WidgetBars
     		int len = (int) (BITMAP_WIDTH*ratio);
     		Log.d(TAG, "Drawing line for value " + len + ",ratio is " + ratio +  ", value is " + values.get(i));
     		int pos = i*10+10;
-    		canvas.drawLine(0, pos, len, pos, sPaint[i]);
+    		canvas.drawLine(0, pos, len, pos, m_paint[i]);
     	}
-    	
-//    	canvas.drawLine(0, 1, (128), 1, paint);
-//    	canvas.drawLine(0, 11, (64), 11, paint);
-//    	canvas.drawLine(0, 21, (32), 21, paint);
-//    	canvas.drawLine(0, 31, (16), 31, paint);
-    	
     	
     	
         return bitmap;

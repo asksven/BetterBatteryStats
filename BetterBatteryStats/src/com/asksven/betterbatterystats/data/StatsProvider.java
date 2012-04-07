@@ -777,8 +777,9 @@ public class StatsProvider
 		
 		// deep sleep times are independent of stat type
         timeDeepSleep		= (SystemClock.elapsedRealtime() - SystemClock.uptimeMillis());
+        long timeElapsed    = SystemClock.elapsedRealtime();
         
-        Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, whichRealtime);
+        Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, timeElapsed);
 
         // special processing for deep sleep: we must calculate times for stat types != CUSTOM
         if (iStatType == STATS_CHARGED)

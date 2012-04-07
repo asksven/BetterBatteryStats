@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:robobunny="http://robobunny.com">
 	<PreferenceCategory android:title="Display">
 
 		<CheckBoxPreference 
@@ -159,16 +160,36 @@
 		            android:entries="@array/statTypeLabels"
 		            android:entryValues="@array/statTypeValues"
 		        />
+				<com.asksven.betterbatterystats.contrib.SeekBarPreference
+				    android:key="large_widget_opacity"
+				    android:title="Opacity"
+				    android:summary="Adjust the widget opacity"
+				    android:defaultValue="80"
+				    android:max="100"
+				    robobunny:min="10"
+				    robobunny:interval="10"
+				    robobunny:unitsLeft=""
+				    robobunny:unitsRight="%"/>		    
 		    </PreferenceCategory>
 	        <PreferenceCategory android:title="Small Widget">	        
-		    <ListPreference 
-		            android:key="small_widget_default_stat_type"
-		            android:title="Stat type"
-		            android:summary="Set the stat type to be shown in the widget"
-		            android:defaultValue="1" 
-		            android:entries="@array/statTypeLabels"
-		            android:entryValues="@array/statTypeValues"
-		        />
+			    <ListPreference 
+			            android:key="small_widget_default_stat_type"
+			            android:title="Stat type"
+			            android:summary="Set the stat type to be shown in the widget"
+			            android:defaultValue="1" 
+			            android:entries="@array/statTypeLabels"
+			            android:entryValues="@array/statTypeValues"
+			        />
+				<com.asksven.betterbatterystats.contrib.SeekBarPreference
+				    android:key="small_widget_opacity"
+				    android:title="Opacity"
+				    android:summary="Adjust the widget opacity"
+				    android:defaultValue="80"
+				    android:max="100"
+				    robobunny:min="10"
+				    robobunny:interval="10"
+				    robobunny:unitsLeft=""
+				    robobunny:unitsRight="%"/>
 		    </PreferenceCategory>
 	        
 		</PreferenceScreen>
