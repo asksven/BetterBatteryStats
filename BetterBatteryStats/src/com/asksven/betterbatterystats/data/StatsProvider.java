@@ -738,6 +738,7 @@ public class StatsProvider
         long timeAudioOn		= 0;
         long timeVideoOn		= 0;
         long timeBluetoothOn	= 0;
+        long timeDeepSleep		= 0;
         
 		// if we are using custom ref. always retrieve "stats current"
 		if (iStatType == STATS_CUSTOM)
@@ -755,6 +756,7 @@ public class StatsProvider
 	        timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 
 	        timeBluetoothOn 	= mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        
 		}
 		else
 		{
@@ -772,6 +774,41 @@ public class StatsProvider
 
 	        timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, iStatType) / 1000;
 		}
+		
+		// deep sleep times are independent of stat type
+        timeDeepSleep		= (SystemClock.elapsedRealtime() - SystemClock.uptimeMillis());
+        
+        Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, whichRealtime);
+
+        // special processing for deep sleep: we must calculate times for stat types != CUSTOM
+        if (iStatType == STATS_CHARGED)
+        {
+			if (m_myRefSinceCharged != null)
+			{
+				deepSleepUsage.substractFromRef(m_myRefSinceCharged.m_refOther);
+				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
+				{
+					myUsages.add(deepSleepUsage);
+				}
+			}	
+        }
+        else if (iStatType == STATS_UNPLUGGED)
+        {
+			if (m_myRefSinceUnplugged != null)
+			{
+				deepSleepUsage.substractFromRef(m_myRefSinceUnplugged.m_refOther);
+				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
+				{
+					myUsages.add(deepSleepUsage);
+				}
+			}
+        }
+        else
+        {
+        	myUsages.add(deepSleepUsage);
+        }
+                	
+		
 
 		if (timeBatteryUp > 0)
 		{
@@ -865,6 +902,7 @@ public class StatsProvider
 					// nothing special
 					myStats.add((StatElement) usage);
 				}
+				
 			}
 		}
 		return myStats;
@@ -1026,8 +1064,11 @@ public class StatsProvider
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
 			m_myRefSinceCharged.m_refAlarms				= getAlarmsStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			m_myRefSinceCharged.m_refOther			 	= getOtherUsageStatList(
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+
 			m_myRefSinceCharged.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
-			
+
 			serializeSinceChargedRefToFile();
     	}
     	catch (Exception e)
@@ -1042,6 +1083,7 @@ public class StatsProvider
     		m_myRefSinceCharged.m_refNetwork 			= null;
 			
     		m_myRefSinceCharged.m_refBatteryRealtime 	= 0;
+
     	}			
 	}
 
@@ -1070,8 +1112,12 @@ public class StatsProvider
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
 			m_myRefSinceUnplugged.m_refAlarms = getAlarmsStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			m_myRefSinceUnplugged.m_refOther		 	= getOtherUsageStatList(
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 					
 			m_myRefSinceUnplugged.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+			
+
 			
 			serializeSinceUnpluggedRefToFile();
     	}
@@ -1087,6 +1133,7 @@ public class StatsProvider
     		m_myRefSinceUnplugged.m_refNetwork 			= null;
 			
     		m_myRefSinceUnplugged.m_refBatteryRealtime 	= 0;
+
     	}			
 	}
 
@@ -1102,6 +1149,7 @@ public class StatsProvider
 		m_myRefs.m_refProcesses 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
 		m_myRefs.m_refOther 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
 		m_myRefs.m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
+
 
 	}
 	
@@ -1119,7 +1167,8 @@ public class StatsProvider
     		savedInstanceState.putSerializable("processstate", m_myRefs.m_refProcesses);
     		savedInstanceState.putSerializable("otherstate", m_myRefs.m_refOther);
     		savedInstanceState.putSerializable("networkstate", m_myRefs.m_refNetwork);
-    		savedInstanceState.putSerializable("batteryrealtime", m_myRefs.m_refBatteryRealtime);	
+    		savedInstanceState.putSerializable("batteryrealtime", m_myRefs.m_refBatteryRealtime);
+    		
         }
 
 	}

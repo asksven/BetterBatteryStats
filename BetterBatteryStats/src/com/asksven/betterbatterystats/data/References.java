@@ -37,5 +37,5 @@ class References implements Serializable
     protected ArrayList<StatElement> m_refProcesses 		= null;
     protected ArrayList<StatElement> m_refNetwork	 		= null;
     protected ArrayList<StatElement> m_refOther	 			= null;
-    protected long m_refBatteryRealtime 					= 0;
+    protected long m_refBatteryRealtime 					= 0;    
 }
