@@ -1,0 +1,87 @@
+<mockup version="1.0" skin="sketch" measuredW="534" measuredH="463" mockupW="221" mockupH="360">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="313" y="103" w="221" h="326" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1"/>
+    <control controlID="1" controlTypeID="com.balsamiq.mockups::Component" x="313" y="104" w="221" h="20" measuredW="221" measuredH="20" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>$ACCOUNT/assets/Android%20Controls.bmml#Status%20Bar</src>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Component" x="313" y="124" w="221" h="20" measuredW="221" measuredH="20" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="56" x="5" y="0" w="101" h="20">
+          <text>BetterBatteryStats</text>
+        </override>
+        <override controlID="55" x="0" y="1" w="221" h="19"/>
+        <override controlID="-1"/>
+        <src>$ACCOUNT/assets/Android%20Controls.bmml#Screen%20Label%20%2F%20Title%20Bar</src>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Component" x="313" y="144" w="221" h="22" measuredW="221" measuredH="22" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <override controlID="56" x="5" y="0" w="67" h="22">
+          <text>ActionBar</text>
+        </override>
+        <override controlID="55" x="0" y="0" w="221" h="22">
+          <color>2848996</color>
+        </override>
+        <override controlID="-1"/>
+        <src>$ACCOUNT/assets/Android%20Controls.bmml#Screen%20Label%20%2F%20Title%20Bar</src>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::Canvas" x="313" y="166" w="221" h="96" measuredW="100" measuredH="70" zOrder="4" locked="false" isInGroup="-1"/>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::Canvas" x="313" y="256" w="221" h="207" measuredW="100" measuredH="70" zOrder="5" locked="false" isInGroup="-1"/>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Image" x="347" y="175" w="-1" h="-1" measuredW="77" measuredH="79" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::Image" x="324" y="175" w="17" h="79" measuredW="77" measuredH="79" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::TextArea" x="431" y="178" w="94" h="73" measuredW="200" measuredH="140" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>8</size>
+        <text>Deep%20sleep%09xx%3Axx%0AAwake%20%09%09xx%3Axx%0AScreen%20on%09xx%3Axx%0AScreen%20off%09xx%3Axx</text>
+      </controlProperties>
+    </control>
+    <control controlID="13" controlTypeID="com.balsamiq.mockups::TextArea" x="313" y="256" w="221" h="56" measuredW="200" measuredH="140" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Other</text>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::TextArea" x="313" y="304" w="221" h="56" measuredW="200" measuredH="140" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Kernel%20Wakelocks</text>
+      </controlProperties>
+    </control>
+    <control controlID="15" controlTypeID="com.balsamiq.mockups::TextArea" x="313" y="358" w="221" h="56" measuredW="200" measuredH="140" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Partial%20Wakelocks</text>
+      </controlProperties>
+    </control>
+    <control controlID="16" controlTypeID="com.balsamiq.mockups::TextArea" x="313" y="407" w="221" h="56" measuredW="200" measuredH="140" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Alarms</text>
+      </controlProperties>
+    </control>
+    <control controlID="17" controlTypeID="com.balsamiq.mockups::ComboBox" x="313" y="144" w="-1" h="-1" measuredW="86" measuredH="23" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>StatType</text>
+      </controlProperties>
+    </control>
+    <control controlID="18" controlTypeID="com.balsamiq.mockups::RoundButton" x="488" y="144" w="22" h="22" measuredW="32" measuredH="32" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>star</shape>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="19" controlTypeID="com.balsamiq.mockups::RoundButton" x="510" y="144" w="22" h="22" measuredW="32" measuredH="32" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <shape>star</shape>
+        <text/>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>

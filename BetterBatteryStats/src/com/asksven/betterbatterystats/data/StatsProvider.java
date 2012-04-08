@@ -726,19 +726,29 @@ public class StatsProvider
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
         long batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
 
-        long whichRealtime 		= 0;
-        long timeBatteryUp 		= 0;
-        long timeScreenOn		= 0;
-        long timePhoneOn		= 0;
-        long timeWifiOn			= 0;
-        long timeWifiRunning	= 0;
-        long timeWifiMulticast	= 0;
-        long timeWifiLocked		= 0;
-        long timeWifiScan		= 0;
-        long timeAudioOn		= 0;
-        long timeVideoOn		= 0;
-        long timeBluetoothOn	= 0;
-        long timeDeepSleep		= 0;
+        long whichRealtime 			= 0;
+        long timeBatteryUp 			= 0;
+        long timeScreenOn			= 0;
+        long timePhoneOn			= 0;
+        long timeWifiOn				= 0;
+        long timeWifiRunning		= 0;
+        long timeWifiMulticast		= 0;
+        long timeWifiLocked			= 0;
+        long timeWifiScan			= 0;
+        long timeAudioOn			= 0;
+        long timeVideoOn			= 0;
+        long timeBluetoothOn		= 0;
+        long timeDeepSleep			= 0;
+        long timeNoDataConnection	= 0;
+        long timeSignalNone			= 0;
+        long timeSignalPoor			= 0;
+        long timeSignalModerate		= 0;
+        long timeSignalGood			= 0;
+        long timeSignalGreat		= 0;
+        
+        
+        
+        
         
 		// if we are using custom ref. always retrieve "stats current"
 		if (iStatType == STATS_CUSTOM)
@@ -754,9 +764,13 @@ public class StatsProvider
 	        timeWifiScan		= mStats.getScanWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-
 	        timeBluetoothOn 	= mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        
+	        timeNoDataConnection= mStats.getPhoneDataConnectionTime(BatteryStatsTypes.DATA_CONNECTION_NONE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeSignalNone		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeSignalPoor		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_POOR, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeSignalModerate	= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeSignalGood		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GOOD, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        timeSignalGreat		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GREAT, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;	        	        
 		}
 		else
 		{
@@ -771,8 +785,13 @@ public class StatsProvider
 	        timeWifiScan		= mStats.getScanWifiLockTime(m_context, batteryRealtime, iStatType) / 1000;
 	        timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, iStatType) / 1000;
 	        timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, iStatType) / 1000;
-
-	        timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, iStatType) / 1000;
+	        timeBluetoothOn 	= mStats.getBluetoothOnTime(batteryRealtime, iStatType) / 1000;
+	        timeNoDataConnection= mStats.getPhoneDataConnectionTime(BatteryStatsTypes.DATA_CONNECTION_NONE, batteryRealtime, iStatType) / 1000;
+	        timeSignalNone		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN, batteryRealtime, iStatType) / 1000;
+	        timeSignalPoor		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_POOR, batteryRealtime, iStatType) / 1000;
+	        timeSignalModerate	= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE, batteryRealtime, iStatType) / 1000;
+	        timeSignalGood		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GOOD, batteryRealtime, iStatType) / 1000;
+	        timeSignalGreat		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GREAT, batteryRealtime, iStatType) / 1000;	        
 		}
 		
 		// deep sleep times are independent of stat type
@@ -839,6 +858,36 @@ public class StatsProvider
         if (timeBluetoothOn > 0)
         {
         	myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, whichRealtime)); 
+        }
+        
+        if (timeNoDataConnection > 0)
+        {
+        	myUsages.add(new Misc("No Data Connection", timeNoDataConnection, whichRealtime));
+        }
+
+        if (timeSignalNone > 0)
+        {
+        	myUsages.add(new Misc("No Signal", timeSignalNone, whichRealtime));
+        }
+
+        if (timeSignalPoor > 0)
+        {
+        	myUsages.add(new Misc("Poor Signal", timeSignalPoor, whichRealtime));
+        }
+
+        if (timeSignalModerate > 0)
+        {
+        	myUsages.add(new Misc("Moderate Signal", timeSignalModerate, whichRealtime));
+        }
+
+        if (timeSignalGood > 0)
+        {
+        	myUsages.add(new Misc("Good Signal", timeSignalGood, whichRealtime));
+        }
+
+        if (timeSignalGreat > 0)
+        {
+        	myUsages.add(new Misc("Great Signal", timeSignalGreat, whichRealtime));
         }
 
 //        if (timeWifiMulticast > 0)
