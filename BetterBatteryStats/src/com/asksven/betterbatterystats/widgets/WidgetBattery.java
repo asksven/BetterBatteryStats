@@ -34,8 +34,9 @@ import android.util.Log;
  */
 public class WidgetBattery
 {
-	long m_awake 	= 0;
-	long m_screenOn = 0;
+	long m_awake 		= 0;
+	long m_screenOn 	= 0;
+	long m_deepSleep 	= 0;
 	
 	static final String TAG = "WidgetBattery";
 	static final float STROKE_WIDTH 		= 1;
@@ -48,7 +49,8 @@ public class WidgetBattery
 	
 	static Paint m_paintBackground = new Paint();
     static Paint m_paintContour = new Paint();
-    static Paint m_paintScreenOn = new Paint();
+    static Paint m_paintAwake = new Paint();
+    static Paint m_paintDeepSleep = new Paint();
     static Paint m_paintScreenOffAwake = new Paint();
 
     void initPaints(Context ctx)
@@ -67,10 +69,15 @@ public class WidgetBattery
     	m_paintContour.setStrokeWidth(STROKE_WIDTH);
     	m_paintContour.setStyle(Paint.Style.STROKE);
         
-    	m_paintScreenOn.setColor(Color.GREEN);
-    	m_paintScreenOn.setStrokeWidth(STROKE_WIDTH);
-    	m_paintScreenOn.setStyle(Paint.Style.FILL);
-    	m_paintScreenOn.setAlpha(opacity);
+    	m_paintAwake.setColor(Color.YELLOW);
+    	m_paintAwake.setStrokeWidth(STROKE_WIDTH);
+    	m_paintAwake.setStyle(Paint.Style.FILL);
+    	m_paintAwake.setAlpha(opacity);
+
+    	m_paintDeepSleep.setColor(Color.GREEN);
+    	m_paintDeepSleep.setStrokeWidth(STROKE_WIDTH);
+    	m_paintDeepSleep.setStyle(Paint.Style.FILL);
+    	m_paintDeepSleep.setAlpha(opacity);
 
     	m_paintScreenOffAwake.setColor(Color.RED);
     	m_paintScreenOffAwake.setStrokeWidth(STROKE_WIDTH);
@@ -87,6 +94,11 @@ public class WidgetBattery
     {
     	m_screenOn = screenOn;
     }
+    public void setDeepSleep(long deepSleep)
+    {
+    	m_deepSleep = deepSleep;
+    }
+
     public Bitmap getBitmap(Context ctx)
     {
     	this.initPaints(ctx);
@@ -106,15 +118,31 @@ public class WidgetBattery
     	
     	// draw the gauges
     	float pctAwake = (float) ((float)m_screenOn / (float)m_awake);
+    	
+    	
     	if (pctAwake > 1f)
     	{
     		pctAwake = 1f;
     	}
+    	pctAwake = 1 - pctAwake;
 
-    	canvas.drawRect(left+1, top+1, right, bottom, m_paintScreenOn);
+
+    	// draw battery
+//    	canvas.drawRect(left+1, top+1, right, bottom, m_paintScreenOn);
     	
     	float topRed = bottom - ((bottom - top) * pctAwake);
     	canvas.drawRect(left+1, topRed, right, bottom, m_paintScreenOffAwake);
+
+    	// draw deep sleep / awake
+    	right = left - 3;
+    	left = right - 3;
+    	
+    	pctAwake = (float) ((float)m_awake / ((float)m_awake + (float) m_deepSleep));
+
+    	canvas.drawRect(left, top, right, bottom+1, m_paintDeepSleep);
+    	
+    	topRed = bottom - ((bottom - top) * pctAwake);
+    	canvas.drawRect(left, topRed, right, bottom+1, m_paintAwake);
 
     	return bitmap;
     }
