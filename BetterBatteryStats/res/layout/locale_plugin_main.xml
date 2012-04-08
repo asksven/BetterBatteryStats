@@ -28,7 +28,19 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 	    android:editable="true"/>
-	
+
+	<TextView
+	    android:text="@string/message_hint_savestat"
+	    android:id="@+id/TextView03"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"/>
+	<CheckBox
+	    android:text=""
+	    android:id="@+id/CheckBoxSaveStat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+	    android:editable="true"/>
+		
 	<TextView
 	    android:text="@string/message_hint_stat_type"
 	    android:id="@+id/TextView03"

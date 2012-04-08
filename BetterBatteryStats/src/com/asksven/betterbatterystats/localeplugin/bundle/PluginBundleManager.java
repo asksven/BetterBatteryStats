@@ -46,6 +46,7 @@ public final class PluginBundleManager
      * String message to display in a Toast message.
      */
     public static final String BUNDLE_EXTRA_BOOL_SAVE_REF 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_REF"; //$NON-NLS-1$
+    public static final String BUNDLE_EXTRA_BOOL_SAVE_STAT 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_STAT"; //$NON-NLS-1$
     public static final String BUNDLE_EXTRA_INT_POSITION 	= "com.asksven.commandcenter.localeplugin.extra.INT_POSITION"; //$NON-NLS-1$
 
     
@@ -88,6 +89,15 @@ public final class PluginBundleManager
             return false;
         }
 
+        if (!bundle.containsKey(BUNDLE_EXTRA_BOOL_SAVE_STAT))
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_BOOL_SAVE_STAT)); //$NON-NLS-1$
+            }
+            return false;
+        }
+        
         if (!bundle.containsKey(BUNDLE_EXTRA_INT_POSITION))
         {
             if (Constants.IS_LOGGABLE)
@@ -111,7 +121,7 @@ public final class PluginBundleManager
          * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
          * is the wrong number).
          */
-        if (3 != bundle.keySet().size())
+        if (4 != bundle.keySet().size())
         {
             if (Constants.IS_LOGGABLE)
             {

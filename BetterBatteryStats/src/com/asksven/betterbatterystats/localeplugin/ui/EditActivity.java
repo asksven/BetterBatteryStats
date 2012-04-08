@@ -132,9 +132,12 @@ public final class EditActivity extends Activity
             	// PluginBundleManager.isBundleValid must be changed if elements are added to the bundle
             	// 
                 ((CheckBox) findViewById(R.id.CheckBoxSaveRef)).setChecked(forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF));
+                ((CheckBox) findViewById(R.id.CheckBoxSaveStat)).setChecked(forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT));
+
                 ((Spinner) findViewById(R.id.spinnerStatType)).setSelection(forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION));
                 Log.i(TAG, "Retrieved from Bundle: " 
                 		+", " + forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF)
+                		+", " + forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT)
                 		+ ", " + forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION));
             }
         }
@@ -159,6 +162,7 @@ public final class EditActivity extends Activity
         else
         {
             final boolean saveRef = ((CheckBox) findViewById(R.id.CheckBoxSaveRef)).isChecked();
+            final boolean saveStat = ((CheckBox) findViewById(R.id.CheckBoxSaveStat)).isChecked();
             final int position = ((Spinner) findViewById(R.id.spinnerStatType)).getSelectedItemPosition();
 
             /*
@@ -176,6 +180,7 @@ public final class EditActivity extends Activity
             final Bundle resultBundle = new Bundle();
             resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VERSION_CODE, Constants.getVersionCode(this));
             resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF, saveRef);
+            resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT, saveStat);            
             resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION, position);
             
             Log.i(TAG, "Saved Bundle: " + saveRef + ", " + position);

@@ -74,11 +74,15 @@ public final class FireReceiver extends BroadcastReceiver
 
         final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE);
 
-        // TODO add processing code here
         boolean saveRef = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF);
+        boolean saveStat = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT);
+
         int statType = StatsProvider.statTypeFromPosition(bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION));
         
-        StatsProvider.getInstance(context).writeDumpToFile(statType, 0);
+        if (saveStat)
+        {
+        	StatsProvider.getInstance(context).writeDumpToFile(statType, 0);
+        }
         
         if (saveRef)
         {
