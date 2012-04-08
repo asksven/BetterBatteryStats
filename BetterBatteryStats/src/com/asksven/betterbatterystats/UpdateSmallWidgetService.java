@@ -87,6 +87,7 @@ public class UpdateSmallWidgetService extends Service
 			
 			long timeAwake 		= 0;
 			long timeScreenOn 	= 0;
+			long timeDeepSleep 	= 0;
 			
 			StatsProvider stats = StatsProvider.getInstance(this);
 			try
@@ -95,6 +96,7 @@ public class UpdateSmallWidgetService extends Service
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType);
 				timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
 				timeScreenOn = ((Misc) stats.getElementByKey(otherStats, "Screen On")).getTimeOn();
+				timeDeepSleep = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep")).getTimeOn();
 			}
 			catch (Exception e)
 			{
@@ -114,6 +116,9 @@ public class UpdateSmallWidgetService extends Service
 			WidgetBattery graph = new WidgetBattery();
 			graph.setAwake(timeAwake);
 			graph.setScreenOn(timeScreenOn);
+			graph.setDeepSleep(timeDeepSleep);
+			
+			
 			
 			
 			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this));
