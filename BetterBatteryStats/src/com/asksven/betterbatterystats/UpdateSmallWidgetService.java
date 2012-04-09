@@ -25,6 +25,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.widgets.WidgetBattery;
@@ -54,9 +55,6 @@ public class UpdateSmallWidgetService extends Service
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
-		Log.i(TAG, "Called");
-		// Create some random data
-
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this
 				.getApplicationContext());
 
@@ -67,13 +65,8 @@ public class UpdateSmallWidgetService extends Service
 		
 		int[] allWidgetIds2 = appWidgetManager.getAppWidgetIds(thisWidget);
 		
-		Log.w(TAG, "From Intent" + String.valueOf(allWidgetIds.length));
-		Log.w(TAG, "Direct" + String.valueOf(allWidgetIds2.length));
-
 		for (int widgetId : allWidgetIds)
 		{
-			// Create some random data
-			int number = (new Random().nextInt(100));
  
 			RemoteViews remoteViews = new RemoteViews(this
 					.getApplicationContext().getPackageName(),
@@ -94,24 +87,49 @@ public class UpdateSmallWidgetService extends Service
 			{
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType);
-				timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
-				timeScreenOn = ((Misc) stats.getElementByKey(otherStats, "Screen On")).getTimeOn();
-				timeDeepSleep = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep")).getTimeOn();
+
+				Misc timeAwakeStat = (Misc) stats.getElementByKey(otherStats, "Awake");
+				if (timeAwakeStat != null)
+				{
+					timeAwake = timeAwakeStat.getTimeOn();
+				}
+				else
+				{
+					timeAwake = 0;
+				}
+				
+				Misc timeScreenOnStat = (Misc) stats.getElementByKey(otherStats, "Screen On");
+				if (timeScreenOnStat != null)
+				{
+					timeScreenOn = timeScreenOnStat.getTimeOn();
+				}
+				else
+				{
+					timeScreenOn = 0;
+				}
+
+				Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));
+				if (deepSleepStat != null)
+				{
+					timeDeepSleep = deepSleepStat.getTimeOn();
+				}
+				else
+				{
+					timeDeepSleep = 0;
+				}
 			}
 			catch (Exception e)
 			{
 				Log.e(TAG,"An error occured: " + e.getMessage());
+				GenericLogger.stackTrace(TAG, e.getStackTrace());
 				
 			}
 			finally
 			{
 				Log.d(TAG, "Awake: " + DateUtils.formatDuration(timeAwake));
 				Log.d(TAG, "Screen on: " + DateUtils.formatDuration(timeScreenOn));
+				Log.d(TAG, "Deep sleep: " + DateUtils.formatDuration(timeDeepSleep));
 			}
-
-			// Set the text
-//			remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
-//			remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
 			
 			WidgetBattery graph = new WidgetBattery();
 			graph.setAwake(timeAwake);
@@ -122,9 +140,6 @@ public class UpdateSmallWidgetService extends Service
 			
 			
 			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this));
-
-//			remoteViews.setTextViewText(R.id.update,
-//					"Random: " + String.valueOf(number));
 
 			// Register an onClickListener
 			Intent clickIntent = new Intent(this.getApplicationContext(),

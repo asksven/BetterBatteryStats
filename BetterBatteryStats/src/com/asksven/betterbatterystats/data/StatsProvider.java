@@ -194,7 +194,7 @@ public class StatsProvider
 				break;
 		}
 		
-		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+//		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
 		
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
@@ -284,7 +284,7 @@ public class StatsProvider
 			myStats.add((StatElement) myRetAlarms.get(i));
 		}
 		
-		Log.i(TAG, "Result " + myStats.toString());
+//		Log.i(TAG, "Result " + myStats.toString());
 		
 		return myStats;
 
@@ -529,7 +529,7 @@ public class StatsProvider
 				break;
 		}
 		
-		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+//		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
 		
 		for (int i = 0; i < myKernelWakelocks.size(); i++)
 		{
@@ -636,7 +636,7 @@ public class StatsProvider
 			myStats.add((StatElement) myRetKernelWakelocks.get(i));
 		}
 		
-		Log.i(TAG, "Result " + myStats.toString());
+//		Log.i(TAG, "Result " + myStats.toString());
 		
 		return myStats;
 	}
@@ -867,7 +867,7 @@ public class StatsProvider
 
         if (timeSignalNone > 0)
         {
-        	myUsages.add(new Misc("No Signal", timeSignalNone, whichRealtime));
+        	myUsages.add(new Misc("No or Unknown Signal", timeSignalNone, whichRealtime));
         }
 
         if (timeSignalPoor > 0)
@@ -964,6 +964,7 @@ public class StatsProvider
 		
 		if (myList == null)
 		{
+			Log.e(TAG, "getElementByKey failed: null list");
 			return null;
 		}
 		
@@ -976,6 +977,11 @@ public class StatsProvider
 				ret = item;
 				break;
 			}
+		}
+		
+		if (ret == null)
+		{
+			Log.e(TAG, "getElementByKey failed: " + key + " was not found");
 		}
 		return ret;
 	}

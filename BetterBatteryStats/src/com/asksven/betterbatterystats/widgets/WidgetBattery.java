@@ -42,9 +42,10 @@ public class WidgetBattery
 	static final float STROKE_WIDTH 		= 1;
 	static final int BITMAP_WIDTH 			= 40;
 	static final int BITMAP_HEIGHT 			= 40;
-	static final int BATTERY_WIDTH 			= BITMAP_WIDTH - 20;
+	static final int BATTERY_WIDTH 			= BITMAP_WIDTH - 25;
 	static final int BATTERY_HEIGHT 		= BITMAP_HEIGHT - 10;
 	static final int BATTERY_MARGIN_BOTTOM 	= 5;
+	static final int BAR_WIDTH				= 5;
 
 	
 	static Paint m_paintBackground = new Paint();
@@ -109,9 +110,9 @@ public class WidgetBattery
         canvas.drawPaint(m_paintBackground); //drawColor(Color.TRANSPARENT);
     	
     	// draw the battery container
-    	float left = BITMAP_WIDTH/2 - BATTERY_WIDTH / 2;
+    	float left = BITMAP_WIDTH/2 - BATTERY_WIDTH / 2 + BAR_WIDTH;
     	float top = BITMAP_HEIGHT - BATTERY_MARGIN_BOTTOM - BATTERY_HEIGHT;
-    	float right = BITMAP_WIDTH/2 + BATTERY_WIDTH / 2;
+    	float right = BITMAP_WIDTH/2 + BATTERY_WIDTH / 2 + BAR_WIDTH;
     	float bottom = BITMAP_HEIGHT - BATTERY_MARGIN_BOTTOM;
     	canvas.drawRect(left, top, right, bottom, m_paintContour);
     	canvas.drawRect(left + 5, top - 3, right - 5, top, m_paintContour);
@@ -135,7 +136,7 @@ public class WidgetBattery
 
     	// draw deep sleep / awake
     	right = left - 3;
-    	left = right - 3;
+    	left = right - BAR_WIDTH;
     	
     	pctAwake = (float) ((float)m_awake / ((float)m_awake + (float) m_deepSleep));
 
