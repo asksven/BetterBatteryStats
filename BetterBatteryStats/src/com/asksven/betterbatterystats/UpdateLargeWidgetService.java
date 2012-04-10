@@ -71,17 +71,14 @@ public class UpdateLargeWidgetService extends Service
 		Log.w(TAG, "Direct" + String.valueOf(allWidgetIds2.length));
 
 		for (int widgetId : allWidgetIds)
-		{
-			// Create some random data
-			int number = (new Random().nextInt(100));
- 
+		{ 
 			RemoteViews remoteViews = new RemoteViews(this
 					.getApplicationContext().getPackageName(),
 					R.layout.large_widget_layout);
 			
 			// we change the bg color of the layout based on alpha from prefs
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			int opacity	= sharedPrefs.getInt("small_widget_opacity", 80);
+			int opacity	= sharedPrefs.getInt("large_widget_opacity", 80);
 			opacity = (255 * opacity) / 100; 
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 			
@@ -143,9 +140,6 @@ public class UpdateLargeWidgetService extends Service
 			
 			
 			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this, serie));
-
-//			remoteViews.setTextViewText(R.id.update,
-//					"Random: " + String.valueOf(number));
 
 			// Register an onClickListener
 			Intent clickIntent = new Intent(this.getApplicationContext(),

@@ -581,6 +581,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	
 	private void doRefresh()
 	{
+		// restore any available custom reference
+		StatsProvider.getInstance(this).deserializeFromFile();
+
 		BatteryStatsProxy.getInstance(this).invalidate();
 		new LoadStatData().execute(this);
 

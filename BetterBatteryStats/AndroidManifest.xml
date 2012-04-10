@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="16" android:versionName="1.7.1.0"
+<manifest android:versionCode="17" android:versionName="1.8.0.0RC1"
     package="com.asksven.betterbatterystats"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto">
@@ -93,7 +93,7 @@
             </intent-filter>    
         </receiver>        
         
-        <receiver android:name=".LargeWidgetProvider" android:label="Better Battery Stats Large">
+        <receiver android:name=".LargeWidgetProvider" android:label="BBS 2 x 2 Widget">
             <intent-filter >
                 <action 
                     android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -104,7 +104,7 @@
                 android:resource="@xml/large_widget_info" />
         </receiver>
 
-        <receiver android:name=".SmallWidgetProvider" android:label="Better Battery Stats Small">
+        <receiver android:name=".SmallWidgetProvider" android:label="BBS 1 x 1 Widget">
             <intent-filter >
                 <action 
                     android:name="android.appwidget.action.APPWIDGET_UPDATE" />
