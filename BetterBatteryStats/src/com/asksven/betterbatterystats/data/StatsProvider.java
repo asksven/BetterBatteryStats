@@ -51,6 +51,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -1003,8 +1004,17 @@ public class StatsProvider
 		
 		for (int i=0; i < myList.size(); i++)
 		{
-			StatElement item = myList.get(i); 
-			ret += item.getValues()[0];
+			// make sure nothing goes wrong
+			try
+			{
+				StatElement item = myList.get(i); 
+				ret += item.getValues()[0];
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An error occcured " + e.getMessage());
+				GenericLogger.stackTrace(TAG, e.getStackTrace());
+			}
 		}
 		return ret;
 		
