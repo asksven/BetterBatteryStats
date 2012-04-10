@@ -1351,7 +1351,7 @@ public class StatsProvider
 				out.write("FINGERPRINT: "+Build.FINGERPRINT+"\n");
 				out.write("HARDWARE: "+Build.HARDWARE+"\n");
 				out.write("ID: "+Build.ID+"\n");
-				out.write("Rooted: "+ RootDetection.hasSuRights() + "\n");
+				out.write("Rooted: "+ RootDetection.hasSuRights("dumpsys alarm") + "\n");
 				
 				
 				// write timing info
