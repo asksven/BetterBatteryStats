@@ -41,6 +41,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
 import com.asksven.betterbatterystats.data.KbReader;
+import com.asksven.betterbatterystats.widgets.GraphableBars;
 import com.asksven.betterbatterystats.widgets.GraphableButton;
 import com.asksven.betterbatterystats.R;
 
@@ -130,18 +131,27 @@ public class StatsAdapter extends BaseAdapter
         
         LinearLayout myLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutBar);
 		
-        GraphableButton buttonBar = (GraphableButton) convertView.findViewById(R.id.ButtonBar);
+        GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
         if (sharedPrefs.getBoolean("hide_bars", false))
         {
-        	myLayout.setVisibility(View.INVISIBLE);
-        	buttonBar.setHeight(0);
+        	myLayout.setVisibility(View.GONE);
         	
         }
         else
         {
         	myLayout.setVisibility(View.VISIBLE);
+        	int iHeight = 10;
+        	try
+    		{
+    			iHeight = Integer.valueOf(sharedPrefs.getString("graph_bar_height", "10"));
+    		}
+    		catch (Exception e)
+    		{
+    			iHeight = 10;
+    		}    		
+
+   			buttonBar.setMinimumHeight(iHeight);
         	buttonBar.setValues(entry.getValues(), m_maxValue);
-        	buttonBar.setHeight(20);
         }
         
         // add on click listener for the icon only if KB is enabled
