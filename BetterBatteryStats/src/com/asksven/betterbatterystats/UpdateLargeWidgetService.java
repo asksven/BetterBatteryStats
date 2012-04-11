@@ -25,6 +25,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
@@ -79,7 +80,7 @@ public class UpdateLargeWidgetService extends Service
 			
 			// we change the bg color of the layout based on alpha from prefs
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 80);
+			int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 20);
 			opacity = (255 * opacity) / 100; 
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 			
@@ -107,11 +108,28 @@ public class UpdateLargeWidgetService extends Service
 				ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, statType, 0, 0);
 				sumKWakelocks = stats.sum(kWakelockStats);
 
-	
+				// Set the text
+				remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
+				remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
+				remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
+				remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
+				remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
+				remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
+				
+				WidgetBars graph = new WidgetBars();
+				ArrayList<Long> serie = new ArrayList<Long>();
+				serie.add(timeSince);
+				serie.add(timeAwake);
+				serie.add(timeScreenOn);
+				serie.add(sumKWakelocks);
+				serie.add(sumPWakelocks);
+				
+				remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this, serie));
 			}
 			catch (Exception e)
 			{
 				Log.e(TAG,"An error occured: " + e.getMessage());
+				GenericLogger.stackTrace(TAG, e.getStackTrace());
 				
 			}
 			finally
@@ -121,40 +139,21 @@ public class UpdateLargeWidgetService extends Service
 				Log.d(TAG, "Screen on: " + DateUtils.formatDuration(timeScreenOn));
 				Log.d(TAG, "P. Wl.: " + DateUtils.formatDuration(sumPWakelocks));
 				Log.d(TAG, "K. Wl.: " + DateUtils.formatDuration(sumKWakelocks));
+
+				// Register an onClickListener
+				Intent clickIntent = new Intent(this.getApplicationContext(),
+						LargeWidgetProvider.class);
+	
+				clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+				clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
+						allWidgetIds);
+	
+				PendingIntent pendingIntent = PendingIntent.getBroadcast(
+						getApplicationContext(), 0, clickIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+				remoteViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
+				appWidgetManager.updateAppWidget(widgetId, remoteViews);
 			}
-
-			// Set the text
-			remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
-			remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
-			remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
-			remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
-			remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
-			remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
-			
-			WidgetBars graph = new WidgetBars();
-			ArrayList<Long> serie = new ArrayList<Long>();
-			serie.add(timeSince);
-			serie.add(timeAwake);
-			serie.add(timeScreenOn);
-			serie.add(sumKWakelocks);
-			serie.add(sumPWakelocks);
-			
-			
-			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this, serie));
-
-			// Register an onClickListener
-			Intent clickIntent = new Intent(this.getApplicationContext(),
-					LargeWidgetProvider.class);
-
-			clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-			clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
-					allWidgetIds);
-
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(
-					getApplicationContext(), 0, clickIntent,
-					PendingIntent.FLAG_UPDATE_CURRENT);
-			remoteViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
-			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 		stopSelf();
 

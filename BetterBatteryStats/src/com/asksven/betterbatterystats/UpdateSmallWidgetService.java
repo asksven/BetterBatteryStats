@@ -72,10 +72,9 @@ public class UpdateSmallWidgetService extends Service
 			RemoteViews remoteViews = new RemoteViews(this
 					.getApplicationContext().getPackageName(),
 					R.layout.small_widget_layout);
-			
 			// we change the bg color of the layout based on alpha from prefs
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			int opacity	= sharedPrefs.getInt("small_widget_bg_opacity", 80);
+			int opacity	= sharedPrefs.getInt("small_widget_bg_opacity", 20);
 			opacity = (255 * opacity) / 100; 
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 
@@ -86,10 +85,12 @@ public class UpdateSmallWidgetService extends Service
 			long timeAwake 		= 0;
 			long timeScreenOn 	= 0;
 			long timeDeepSleep 	= 0;
-			
-			StatsProvider stats = StatsProvider.getInstance(this);
+
 			try
 			{
+				
+				
+				StatsProvider stats = StatsProvider.getInstance(this);
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType);
 
@@ -134,31 +135,28 @@ public class UpdateSmallWidgetService extends Service
 				Log.d(TAG, "Awake: " + DateUtils.formatDuration(timeAwake));
 				Log.d(TAG, "Screen on: " + DateUtils.formatDuration(timeScreenOn));
 				Log.d(TAG, "Deep sleep: " + DateUtils.formatDuration(timeDeepSleep));
+
+				WidgetBattery graph = new WidgetBattery();
+				graph.setAwake(timeAwake);
+				graph.setScreenOn(timeScreenOn);
+				graph.setDeepSleep(timeDeepSleep);
+	
+				remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this));
+	
+				// Register an onClickListener
+				Intent clickIntent = new Intent(this.getApplicationContext(),
+						SmallWidgetProvider.class);
+	
+				clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+				clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
+						allWidgetIds);
+	
+				PendingIntent pendingIntent = PendingIntent.getBroadcast(
+						getApplicationContext(), 0, clickIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+				remoteViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
+				appWidgetManager.updateAppWidget(widgetId, remoteViews);
 			}
-			
-			WidgetBattery graph = new WidgetBattery();
-			graph.setAwake(timeAwake);
-			graph.setScreenOn(timeScreenOn);
-			graph.setDeepSleep(timeDeepSleep);
-			
-			
-			
-			
-			remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this));
-
-			// Register an onClickListener
-			Intent clickIntent = new Intent(this.getApplicationContext(),
-					SmallWidgetProvider.class);
-
-			clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-			clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
-					allWidgetIds);
-
-			PendingIntent pendingIntent = PendingIntent.getBroadcast(
-					getApplicationContext(), 0, clickIntent,
-					PendingIntent.FLAG_UPDATE_CURRENT);
-			remoteViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
-			appWidgetManager.updateAppWidget(widgetId, remoteViews);
 		}
 		stopSelf();
 
