@@ -87,7 +87,7 @@
 	            android:key="graph_bar_height"
 	            android:title="Height for graph bars"
 	            android:summary="If you are using non-default densities you can change the bar height here"
-	            android:defaultValue="0" 
+	            android:defaultValue="10" 
 	            android:entries="@array/graphBarHeigthLabels"
 	            android:entryValues="@array/graphBarHeigthValues"
 	        />
