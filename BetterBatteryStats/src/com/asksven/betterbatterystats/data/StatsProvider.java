@@ -1432,6 +1432,8 @@ public class StatsProvider
 				// see http://androidsnippets.com/show-all-running-services
 				// close file
 				out.close();
+				Toast.makeText(m_context, "Dump witten: " + strFilename, Toast.LENGTH_SHORT).show();
+				
 		    }
 		    else
 		    {
