@@ -27,6 +27,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
+import com.asksven.betterbatterystats.R;
 
 import android.app.PendingIntent;
 import android.app.Service;

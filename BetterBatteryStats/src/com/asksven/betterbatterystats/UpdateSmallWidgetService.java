@@ -29,6 +29,7 @@ import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.widgets.WidgetBattery;
+import com.asksven.betterbatterystats.R;
 
 import android.app.PendingIntent;
 import android.app.Service;

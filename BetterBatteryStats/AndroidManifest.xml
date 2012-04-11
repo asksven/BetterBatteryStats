@@ -93,7 +93,7 @@
             </intent-filter>    
         </receiver>        
         
-        <receiver android:name=".LargeWidgetProvider" android:label="BBS 2 x 2 Widget">
+        <receiver android:name="com.asksven.betterbatterystats.LargeWidgetProvider" android:label="BBS 2 x 2 Widget">
             <intent-filter >
                 <action 
                     android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -104,7 +104,7 @@
                 android:resource="@xml/large_widget_info" />
         </receiver>
 
-        <receiver android:name=".SmallWidgetProvider" android:label="BBS 1 x 1 Widget">
+        <receiver android:name="com.asksven.betterbatterystats.SmallWidgetProvider" android:label="BBS 1 x 1 Widget">
             <intent-filter >
                 <action 
                     android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -115,8 +115,8 @@
                 android:resource="@xml/small_widget_info" />
         </receiver>
         
-        <service android:name=".UpdateLargeWidgetService"></service>
-        <service android:name=".UpdateSmallWidgetService"></service>
+        <service android:name="com.asksven.betterbatterystats.UpdateLargeWidgetService"></service>
+        <service android:name="com.asksven.betterbatterystats.UpdateSmallWidgetService"></service>
         
     </application>
 	

@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
+import com.asksven.betterbatterystats.R;
 
 /**
  * @author sven
