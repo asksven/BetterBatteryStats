@@ -73,9 +73,13 @@ public class UpdateSmallWidgetService extends Service
 					.getApplicationContext().getPackageName(),
 					R.layout.small_widget_layout);
 			
+			// we change the bg color of the layout based on alpha from prefs
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			int opacity	= sharedPrefs.getInt("small_widget_bg_opacity", 80);
+			opacity = (255 * opacity) / 100; 
+			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 
 			// retrieve stats
-			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 			int statType	= StatsProvider.statTypeFromPosition(
 					Integer.valueOf(sharedPrefs.getString("small_widget_default_stat_type", "1")));
 			

@@ -169,7 +169,18 @@
 				    robobunny:min="10"
 				    robobunny:interval="10"
 				    robobunny:unitsLeft=""
+				    robobunny:unitsRight="%"/>
+				<com.asksven.betterbatterystats.contrib.SeekBarPreference
+				    android:key="large_widget_bg_opacity"
+				    android:title="Background Opacity"
+				    android:summary="Adjust the background opacity"
+				    android:defaultValue="20"
+				    android:max="100"
+				    robobunny:min="0"
+				    robobunny:interval="10"
+				    robobunny:unitsLeft=""
 				    robobunny:unitsRight="%"/>		    
+						    
 		    </PreferenceCategory>
 	        <PreferenceCategory android:title="Small Widget">	        
 			    <ListPreference 
@@ -190,6 +201,17 @@
 				    robobunny:interval="10"
 				    robobunny:unitsLeft=""
 				    robobunny:unitsRight="%"/>
+				<com.asksven.betterbatterystats.contrib.SeekBarPreference
+				    android:key="small_widget_bg_opacity"
+				    android:title="Background Opacity"
+				    android:summary="Adjust the background opacity"
+				    android:defaultValue="20"
+				    android:max="100"
+				    robobunny:min="0"
+				    robobunny:interval="10"
+				    robobunny:unitsLeft=""
+				    robobunny:unitsRight="%"/>		    
+				
 		    </PreferenceCategory>
 	        
 		</PreferenceScreen>
