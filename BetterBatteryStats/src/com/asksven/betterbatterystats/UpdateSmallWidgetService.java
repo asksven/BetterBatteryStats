@@ -22,6 +22,7 @@ import org.achartengine.chart.TimeChart;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
@@ -88,9 +89,9 @@ public class UpdateSmallWidgetService extends Service
 
 			try
 			{
-				
-				
 				StatsProvider stats = StatsProvider.getInstance(this);
+				// make sure to flush cache
+				BatteryStatsProxy.getInstance(this).invalidate();
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType);
 

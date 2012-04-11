@@ -22,6 +22,7 @@ import org.achartengine.chart.TimeChart;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
@@ -95,6 +96,9 @@ public class UpdateLargeWidgetService extends Service
 			long sumKWakelocks	= 0;
 			
 			StatsProvider stats = StatsProvider.getInstance(this);
+			// make sure to flush cache
+			BatteryStatsProxy.getInstance(this).invalidate();
+
 			try
 			{
 				
