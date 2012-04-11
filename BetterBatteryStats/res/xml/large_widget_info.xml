@@ -4,7 +4,7 @@
     android:initialLayout="@layout/large_widget_layout"
     android:minHeight="110dp"
     android:minWidth="110dp"
-    android:updatePeriodMillis="300000"
+    android:updatePeriodMillis="0"
     android:previewImage="@drawable/icon_widget_large">
 
 <!-- <appwidget-provider  -->
