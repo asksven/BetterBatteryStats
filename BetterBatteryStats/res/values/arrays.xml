@@ -66,7 +66,7 @@
 	<string-array name="graphBarHeigthLabels">
 		<item name="0">4</item>
 		<item name="1">8</item>
-		<item name="2">10 *</item>
+		<item name="2">*10</item>
 		<item name="2">12</item>
 		
 	</string-array>
@@ -76,7 +76,22 @@
 		<item name="2">10</item>
 		<item name="3">12</item>
 	</string-array>
-    <string-array name="orderbyLabels">
+
+	<string-array name="widgetUpdateFreqLabels">
+		<item name="0">5 Min.</item>
+		<item name="1">15 Min.</item>
+		<item name="2">*30 Min.</item>
+		<item name="2">60 Min.</item>
+		
+	</string-array>
+	<string-array name="widgetUpdateFreqValues">
+		<item name="0">5</item>
+		<item name="1">15</item>
+		<item name="2">30</item>
+		<item name="3">60</item>
+	</string-array>
+	
+	<string-array name="orderbyLabels">
         <item name="0">By time (DESC)</item>
         <item name="1">By count (DESC)</item>
     </string-array>

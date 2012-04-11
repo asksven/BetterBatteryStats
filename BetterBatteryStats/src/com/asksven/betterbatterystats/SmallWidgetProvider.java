@@ -15,14 +15,19 @@
  */
 package com.asksven.betterbatterystats;
 
+import java.util.Calendar;
 import java.util.Random;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import com.asksven.betterbatterystats.R;
@@ -52,5 +57,51 @@ public class SmallWidgetProvider extends AppWidgetProvider
 
 		// Update the widgets via the service
 		context.startService(intent);
+		
+		// set the alarm for next round
+		//prepare Alarm Service to trigger Widget
+		intent = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+				1234568, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		int freqMinutes = Integer.valueOf(sharedPrefs.getString("widget_refresh_freq", "30"));
+//		freqMinutes = 1;
+		AlarmManager alarmManager = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(System.currentTimeMillis());
+		calendar.add(Calendar.MINUTE, freqMinutes);
+
+		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+				pendingIntent);
 	}
+
+	@Override
+	public void onReceive(Context context, Intent intent)
+	{
+		super.onReceive(context, intent);
+
+		if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
+		{
+			Log.d(TAG, "Alarm called: updating");
+			Bundle extras = intent.getExtras();
+			if (extras != null)
+			{
+				AppWidgetManager appWidgetManager = AppWidgetManager
+						.getInstance(context);
+				ComponentName thisAppWidget = new ComponentName(
+						context.getPackageName(),
+						SmallWidgetProvider.class.getName());
+				int[] appWidgetIds = appWidgetManager
+						.getAppWidgetIds(thisAppWidget);
+
+				onUpdate(context, appWidgetManager, appWidgetIds);
+			}
+		}
+	}
+
+	
+	
 }

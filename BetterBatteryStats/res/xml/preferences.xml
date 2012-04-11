@@ -151,6 +151,15 @@
 	
 	<PreferenceCategory android:title="Widget">  
 	    <PreferenceScreen android:title="Widget Settings">  
+	    <ListPreference 
+	            android:key="widget_refresh_freq"
+	            android:title="Refresh Frequency"
+	            android:summary="Set how often the Widgets will update"
+	            android:defaultValue="30"
+	            android:entries="@array/widgetUpdateFreqLabels"
+	            android:entryValues="@array/widgetUpdateFreqValues"
+	        />
+	        	        
 	        <PreferenceCategory android:title="Large Widget">	        
 		    <ListPreference 
 		            android:key="large_widget_default_stat_type"
