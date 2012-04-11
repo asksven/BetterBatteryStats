@@ -79,6 +79,8 @@ public class LargeWidgetProvider extends AppWidgetProvider
 
 		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
 				pendingIntent);
+		
+
 	}
 	
 	@Override

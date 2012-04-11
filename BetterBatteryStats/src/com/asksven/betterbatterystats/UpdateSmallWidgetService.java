@@ -145,17 +145,12 @@ public class UpdateSmallWidgetService extends Service
 				remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this));
 	
 				// Register an onClickListener
-				Intent clickIntent = new Intent(this.getApplicationContext(),
-						SmallWidgetProvider.class);
-	
-				clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-				clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
-						allWidgetIds);
-	
-				PendingIntent pendingIntent = PendingIntent.getBroadcast(
-						getApplicationContext(), 0, clickIntent,
-						PendingIntent.FLAG_UPDATE_CURRENT);
-				remoteViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
+				Intent launchActivity = new Intent(this.getApplicationContext(),StatsActivity.class);
+				PendingIntent clickPI = PendingIntent.getActivity(
+						this.getApplicationContext(), 0,
+						launchActivity, 0);
+				remoteViews.setOnClickPendingIntent(R.id.layout, clickPI);
+
 				appWidgetManager.updateAppWidget(widgetId, remoteViews);
 			}
 		}
