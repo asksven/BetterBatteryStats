@@ -93,7 +93,7 @@
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="Kern. Wl.:"
+		        android:text="Kern. WL.:"
 		        android:layout_below="@id/screen_on"		        
 		        android:layout_marginLeft="5dip"/>
     
@@ -114,7 +114,7 @@
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="Part. Wl.:"
+		        android:text="Part. WL.:"
 		        android:layout_below="@id/kwl"
 		        android:layout_marginLeft="5dip"/>		        
     
