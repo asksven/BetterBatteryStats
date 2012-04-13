@@ -16,6 +16,9 @@
 
 package com.asksven.betterbatterystats;
 
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import com.asksven.betterbatterystats.R;
@@ -43,4 +46,22 @@ public class PreferencesActivity extends PreferenceActivity
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
 	}
+	
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		// refresh widgets
+		Intent intent = new Intent(this.getApplicationContext(),
+				LargeWidgetProvider.class);
+		intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+		this.sendBroadcast(intent);
+
+		intent = new Intent(this.getApplicationContext(),
+				SmallWidgetProvider.class);
+		intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+		this.sendBroadcast(intent);
+
+	}
+
 }

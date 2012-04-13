@@ -91,20 +91,24 @@ public class LargeWidgetProvider extends AppWidgetProvider
 		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
 		{
-			Log.d(TAG, "Alarm called: updating");
-			Bundle extras = intent.getExtras();
-			if (extras != null)
+			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
 			{
-				AppWidgetManager appWidgetManager = AppWidgetManager
-						.getInstance(context);
-				ComponentName thisAppWidget = new ComponentName(
-						context.getPackageName(),
-						LargeWidgetProvider.class.getName());
-				int[] appWidgetIds = appWidgetManager
-						.getAppWidgetIds(thisAppWidget);
-
-				onUpdate(context, appWidgetManager, appWidgetIds);
+				Log.d(TAG, "Alarm called: updating");
 			}
+			else
+			{
+				Log.d(TAG, "APPWIDGET_UPDATE called: updating");
+			}
+
+			AppWidgetManager appWidgetManager = AppWidgetManager
+					.getInstance(context);
+			ComponentName thisAppWidget = new ComponentName(
+					context.getPackageName(),
+					LargeWidgetProvider.class.getName());
+			int[] appWidgetIds = appWidgetManager
+					.getAppWidgetIds(thisAppWidget);
+
+			onUpdate(context, appWidgetManager, appWidgetIds);
 		}
 	}
 	

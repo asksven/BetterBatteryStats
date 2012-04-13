@@ -95,19 +95,16 @@ public class SmallWidgetProvider extends AppWidgetProvider
 			{
 				Log.d(TAG, "APPWIDGET_UPDATE called: updating");
 			}
-			Bundle extras = intent.getExtras();
-			if (extras != null)
-			{
-				AppWidgetManager appWidgetManager = AppWidgetManager
-						.getInstance(context);
-				ComponentName thisAppWidget = new ComponentName(
-						context.getPackageName(),
-						SmallWidgetProvider.class.getName());
-				int[] appWidgetIds = appWidgetManager
-						.getAppWidgetIds(thisAppWidget);
 
-				onUpdate(context, appWidgetManager, appWidgetIds);
-			}
+			AppWidgetManager appWidgetManager = AppWidgetManager
+					.getInstance(context);
+			ComponentName thisAppWidget = new ComponentName(
+					context.getPackageName(),
+					SmallWidgetProvider.class.getName());
+			int[] appWidgetIds = appWidgetManager
+					.getAppWidgetIds(thisAppWidget);
+
+			onUpdate(context, appWidgetManager, appWidgetIds);
 		}
 	}
 
