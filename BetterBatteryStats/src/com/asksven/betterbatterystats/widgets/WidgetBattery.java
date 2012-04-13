@@ -57,13 +57,16 @@ public class WidgetBattery
     void initPaints(Context ctx)
     {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		int opacity	= sharedPrefs.getInt("large_widget_opacity", 80);
+		int opacity	= sharedPrefs.getInt("small_widget_opacity", 80);
 		opacity = (255 * opacity) / 100; 
+
+		int opacity_bg	= sharedPrefs.getInt("small_widget_bg_opacity", 20);
+		opacity_bg = (255 * opacity_bg) / 100; 
 
     	m_paintBackground.setStyle(Paint.Style.FILL);
     	m_paintBackground.setColor(Color.BLACK);
     	m_paintBackground.setStrokeWidth(STROKE_WIDTH);
-    	m_paintBackground.setAlpha(opacity);
+    	m_paintBackground.setAlpha(opacity_bg);
 
     	m_paintContour.setStyle(Paint.Style.FILL);
     	m_paintContour.setColor(Color.WHITE);
@@ -107,7 +110,8 @@ public class WidgetBattery
         Bitmap bitmap = Bitmap.createBitmap(BITMAP_WIDTH, BITMAP_HEIGHT, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
-        canvas.drawPaint(m_paintBackground); //drawColor(Color.TRANSPARENT);
+//        canvas.drawPaint(m_paintBackground); //
+//        drawColor(Color.TRANSPARENT);
     	
     	// draw the battery container
     	float left = BITMAP_WIDTH/2 - BATTERY_WIDTH / 2 + BAR_WIDTH;

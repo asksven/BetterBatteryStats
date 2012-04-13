@@ -83,9 +83,18 @@ public class SmallWidgetProvider extends AppWidgetProvider
 	{
 		super.onReceive(context, intent);
 
-		if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
+		if ( (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction())) || 
+					intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
+
 		{
-			Log.d(TAG, "Alarm called: updating");
+			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
+			{
+				Log.d(TAG, "Alarm called: updating");
+			}
+			else
+			{
+				Log.d(TAG, "APPWIDGET_UPDATE called: updating");
+			}
 			Bundle extras = intent.getExtras();
 			if (extras != null)
 			{
