@@ -159,19 +159,20 @@ public class UpdateLargeWidgetService extends Service
 				Log.d(TAG, "P. Wl.: " + DateUtils.formatDuration(sumPWakelocks));
 				Log.d(TAG, "K. Wl.: " + DateUtils.formatDuration(sumKWakelocks));
 
-				// Register an onClickListener
-//				Intent clickIntent = new Intent(this.getApplicationContext(),
-//						LargeWidgetProvider.class);
-//	
-//				clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-//				clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
-//						allWidgetIds);
-//	
-//				PendingIntent pendingIntent = PendingIntent.getBroadcast(
-//						getApplicationContext(), 0, clickIntent,
-//						PendingIntent.FLAG_UPDATE_CURRENT);
-//				remoteViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
+				// Register an onClickListener for the graph -> refresh
+				Intent clickIntent = new Intent(this.getApplicationContext(),
+						LargeWidgetProvider.class);
+	
+				clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+				clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
+						allWidgetIds);
+	
+				PendingIntent pendingIntent = PendingIntent.getBroadcast(
+						getApplicationContext(), 0, clickIntent,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+				remoteViews.setOnClickPendingIntent(R.id.stat_type, pendingIntent);
 				
+				// Register an onClickListener for the widget -> call main activity
 				Intent launchActivity = new Intent(this.getApplicationContext(),StatsActivity.class);
 				PendingIntent clickPI = PendingIntent.getActivity(
 						this.getApplicationContext(), 0,

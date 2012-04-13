@@ -7,20 +7,19 @@
     android:background="@drawable/small_widget_shape"
     android:orientation="vertical">
 
-<!--     <TextView -->
-<!--         android:id="@+id/title" -->
-<!--         style="@style/Theme.asksven.TextAppearance.Tiny.Bold" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_marginLeft="5dip" -->
-<!--         android:text="BetterBatteryStats" -->
-<!--         android:gravity="center"/> -->
+    <TextView
+        android:id="@+id/stat_type"
+        style="@style/Theme.asksven.TextAppearance.Tiny.Bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:text="StatType"
+        android:gravity="center"/>
     
     <RelativeLayout
-        android:id="@+id/layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
+        android:id="@+id/layout">
 
 <!--             <TextView -->
 <!-- 		        android:id="@+id/static1" -->
@@ -47,13 +46,5 @@
 			    android:layout_toRightOf="@id/static2"
 			    android:src="@drawable/icon_notext"/>
 
-		    <TextView
-		        android:id="@+id/error"
-		        style="@style/Theme.asksven.TextAppearance.Tiny"
-		        android:layout_width="match_parent"
-		        android:layout_height="match_parent"
-		        android:text="no ref available"
-		        android:visibility="gone" />
-			
 	</RelativeLayout>    
 </LinearLayout>

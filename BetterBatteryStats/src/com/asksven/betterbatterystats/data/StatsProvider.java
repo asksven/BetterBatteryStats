@@ -1488,6 +1488,31 @@ public class StatsProvider
 		}
 		return strRet;
 	}
+	
+	/**
+	 * translate the stat type (see arrays.xml) to the corresponding short label
+	 * @param position the spinner position
+	 * @return the stat type
+	 */
+	public static String statTypeToLabelShort(int statType)
+	{
+		
+		String strRet = "";
+		switch (statType)
+		{
+			case 0:
+				strRet = "Charged";
+				break;
+			case 3:
+				strRet = "Unpl.";
+				break;
+			case 4:
+				strRet = "Custom";
+				break;	
+		}
+		return strRet;
+	}
+	
 
 	/**
 	 * translate the stat type (see arrays.xml) to the corresponding label
