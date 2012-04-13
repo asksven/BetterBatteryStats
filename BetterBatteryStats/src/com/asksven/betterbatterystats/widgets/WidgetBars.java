@@ -33,7 +33,9 @@ import android.util.Log;
 public class WidgetBars
 {
 	static final String TAG = "WidgetBars";
-	static final float STROKE_WIDTH = 5;
+	static final float STROKE_WIDTH = 1;
+	static final int BAR_WIDTH = 6;
+	
 	static final int BITMAP_WIDTH = 256;
 	static final int BITMAP_HEIGHT = 70;
 	
@@ -57,35 +59,35 @@ public class WidgetBars
     	m_paint[0].setStyle(Paint.Style.FILL);
     	m_paint[0].setColor(Color.BLUE);
     	m_paint[0].setStrokeWidth(STROKE_WIDTH);
-    	m_paint[0].setStyle(Paint.Style.STROKE);
+//    	m_paint[0].setStyle(Paint.Style.STROKE);
     	m_paint[0].setAlpha(opacity);
         
     	m_paint[1] = new Paint();
     	m_paint[1].setStyle(Paint.Style.FILL);
     	m_paint[1].setColor(Color.YELLOW);
     	m_paint[1].setStrokeWidth(STROKE_WIDTH);
-    	m_paint[1].setStyle(Paint.Style.STROKE);
+//    	m_paint[1].setStyle(Paint.Style.STROKE);
     	m_paint[1].setAlpha(opacity);
         
     	m_paint[2] = new Paint();
     	m_paint[2].setStyle(Paint.Style.FILL);
     	m_paint[2].setColor(Color.GREEN);
     	m_paint[2].setStrokeWidth(STROKE_WIDTH);
-    	m_paint[2].setStyle(Paint.Style.STROKE);
+//    	m_paint[2].setStyle(Paint.Style.STROKE);
     	m_paint[2].setAlpha(opacity);
 
     	m_paint[3] = new Paint();
     	m_paint[3].setStyle(Paint.Style.FILL);
     	m_paint[3].setColor(Color.RED);
     	m_paint[3].setStrokeWidth(STROKE_WIDTH);
-    	m_paint[3].setStyle(Paint.Style.STROKE);
+//    	m_paint[3].setStyle(Paint.Style.STROKE);
     	m_paint[3].setAlpha(opacity);
 
     	m_paint[4] = new Paint();
     	m_paint[4].setStyle(Paint.Style.FILL);
     	m_paint[4].setColor(Color.MAGENTA);
     	m_paint[4].setStrokeWidth(STROKE_WIDTH);
-    	m_paint[4].setStyle(Paint.Style.STROKE);
+//    	m_paint[4].setStyle(Paint.Style.STROKE);
     	m_paint[4].setAlpha(opacity);
 
     }
@@ -116,7 +118,8 @@ public class WidgetBars
     		int len = (int) (BITMAP_WIDTH*ratio);
     		Log.d(TAG, "Drawing line for value " + len + ",ratio is " + ratio +  ", value is " + values.get(i));
     		int pos = i*10+10;
-    		canvas.drawLine(0, pos, len, pos, m_paint[i]);
+//    		canvas.drawLine(0, pos, len, pos, m_paint[i]);
+    		canvas.drawRect(0, pos, len, pos + BAR_WIDTH, m_paint[i]);
     	}
     	
     	
