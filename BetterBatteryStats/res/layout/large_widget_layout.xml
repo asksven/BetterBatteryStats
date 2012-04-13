@@ -8,15 +8,6 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title"
-        style="@style/Theme.asksven.TextAppearance.Tiny.Bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dip"
-        android:text="BetterBatteryStats"
-        android:gravity="center"/>
-
-    <TextView
         android:id="@+id/stat_type"
         style="@style/Theme.asksven.TextAppearance.Tiny.Bold"
         android:layout_width="match_parent"
