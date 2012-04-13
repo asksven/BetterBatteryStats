@@ -27,9 +27,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -70,11 +73,8 @@ public class SmallWidgetProvider extends AppWidgetProvider
 //		freqMinutes = 1;
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
-		calendar.add(Calendar.MINUTE, freqMinutes);
 
-		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+		alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
 				pendingIntent);
 	}
 
@@ -83,7 +83,8 @@ public class SmallWidgetProvider extends AppWidgetProvider
 	{
 		super.onReceive(context, intent);
 
-		if ( (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction())) || 
+		if ( (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction())) ||
+				(LargeWidgetProvider.WIDGET_PREFS_REFRESH.equals(intent.getAction())) ||
 					intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
 
 		{
@@ -91,10 +92,15 @@ public class SmallWidgetProvider extends AppWidgetProvider
 			{
 				Log.d(TAG, "Alarm called: updating");
 			}
+			else if (LargeWidgetProvider.WIDGET_PREFS_REFRESH.equals(intent.getAction()))
+			{
+				Log.d(TAG, "WIDGET_PREFS_REFRESH called: updating");
+			}
 			else
 			{
 				Log.d(TAG, "APPWIDGET_UPDATE called: updating");
 			}
+				
 
 			AppWidgetManager appWidgetManager = AppWidgetManager
 					.getInstance(context);

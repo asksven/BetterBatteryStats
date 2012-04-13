@@ -200,6 +200,13 @@
 			            android:entries="@array/statTypeLabels"
 			            android:entryValues="@array/statTypeValues"
 			        />
+			    <CheckBoxPreference 
+			            android:key="small_widget_refresh_on_tap"
+			            android:title="Refresh on tap"
+			            android:summary="Tapping the widget refreshes it"
+						android:defaultValue="true"
+						android:enabled="true"/>    		    		   		   
+			    			    
 				<com.asksven.betterbatterystats.contrib.SeekBarPreference
 				    android:key="small_widget_opacity"
 				    android:title="Opacity"

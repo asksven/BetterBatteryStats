@@ -27,11 +27,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -43,6 +45,7 @@ public class LargeWidgetProvider extends AppWidgetProvider
 
 	private static final String TAG = "LargeWidgetProvider";
 	public static final String WIDGET_UPDATE = "BBS_WIDGET_UPDATE";
+	public static final String WIDGET_PREFS_REFRESH = "BBS_WIDGET_PREFS_REFRESH";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
@@ -73,11 +76,8 @@ public class LargeWidgetProvider extends AppWidgetProvider
 //		freqMinutes = 1;
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(System.currentTimeMillis());
-		calendar.add(Calendar.MINUTE, freqMinutes);
 
-		alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+		alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
 				pendingIntent);
 		
 

@@ -158,6 +158,9 @@ public class UpdateSmallWidgetService extends Service
 	
 				remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this));
 	
+				// tap behavior depends on preferences
+				boolean refreshOnTap = sharedPrefs.getBoolean("small_widget_refresh_on_tap", true);
+
 				// Register an onClickListener for the graph -> refresh
 				Intent clickIntent = new Intent(this.getApplicationContext(),
 						SmallWidgetProvider.class);
@@ -169,15 +172,23 @@ public class UpdateSmallWidgetService extends Service
 				PendingIntent pendingIntent = PendingIntent.getBroadcast(
 						getApplicationContext(), 0, clickIntent,
 						PendingIntent.FLAG_UPDATE_CURRENT);
-				remoteViews.setOnClickPendingIntent(R.id.stat_type, pendingIntent);
-				
-				// Register an onClickListener for the widget -> call main activity
-				Intent launchActivity = new Intent(this.getApplicationContext(),StatsActivity.class);
-				PendingIntent clickPI = PendingIntent.getActivity(
-						this.getApplicationContext(), 0,
-						launchActivity, 0);
-				remoteViews.setOnClickPendingIntent(R.id.layout, clickPI);
+				if (refreshOnTap)
+				{
+					remoteViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
+					
+				}
+				else
+				{
+					remoteViews.setOnClickPendingIntent(R.id.stat_type, pendingIntent);
 
+					// Register an onClickListener for the widget -> call main activity
+					Intent launchActivity = new Intent(this.getApplicationContext(),StatsActivity.class);
+					PendingIntent clickPI = PendingIntent.getActivity(
+							this.getApplicationContext(), 0,
+							launchActivity, 0);
+					remoteViews.setOnClickPendingIntent(R.id.layout, clickPI);
+				}
+				
 				appWidgetManager.updateAppWidget(widgetId, remoteViews);
 			}
 		}
