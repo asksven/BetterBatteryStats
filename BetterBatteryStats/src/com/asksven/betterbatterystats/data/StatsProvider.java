@@ -800,6 +800,7 @@ public class StatsProvider
         long timeElapsed    = SystemClock.elapsedRealtime();
         
         Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, timeElapsed);
+        Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
 
         // special processing for deep sleep: we must calculate times for stat types != CUSTOM
         if (iStatType == STATS_CHARGED)
