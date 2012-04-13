@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="lib" path="libs/libGoogleAnalytics.jar"/>
-	<classpathentry kind="lib" path="libs/achartengine-0.7.0.jar"/>
 	<classpathentry kind="lib" path="libs/Androidplot-core-0.4.4-release.jar"/>
 	<classpathentry kind="lib" path="libs/EasyTracker.jar"/>
 	<classpathentry kind="lib" path="libs/gson-1.7.1.jar"/>

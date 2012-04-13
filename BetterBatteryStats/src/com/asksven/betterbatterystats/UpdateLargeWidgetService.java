@@ -103,32 +103,47 @@ public class UpdateLargeWidgetService extends Service
 			{
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType);
-				timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
-				timeScreenOn = ((Misc) stats.getElementByKey(otherStats, "Screen On")).getTimeOn();
-				timeSince = stats.getBatteryRealtime(statType);
-				ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0);
-				sumPWakelocks = stats.sum(pWakelockStats);
-
-				ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, statType, 0, 0);
-				sumKWakelocks = stats.sum(kWakelockStats);
-
-				// Set the text
-				remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
-				remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
-				remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
-				remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
-				remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
-				remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
-				
-				WidgetBars graph = new WidgetBars();
-				ArrayList<Long> serie = new ArrayList<Long>();
-				serie.add(timeSince);
-				serie.add(timeAwake);
-				serie.add(timeScreenOn);
-				serie.add(sumKWakelocks);
-				serie.add(sumPWakelocks);
-				
-				remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this, serie));
+				if ( (otherStats != null) && ( otherStats.size() > 1) )
+				{
+					timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
+					timeScreenOn = ((Misc) stats.getElementByKey(otherStats, "Screen On")).getTimeOn();
+					timeSince = stats.getBatteryRealtime(statType);
+					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0);
+					sumPWakelocks = stats.sum(pWakelockStats);
+	
+					ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, statType, 0, 0);
+					sumKWakelocks = stats.sum(kWakelockStats);
+	
+					// Set the text
+					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
+					remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
+					remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
+					remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
+					remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
+					remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
+					
+					WidgetBars graph = new WidgetBars();
+					ArrayList<Long> serie = new ArrayList<Long>();
+					serie.add(timeSince);
+					serie.add(timeAwake);
+					serie.add(timeScreenOn);
+					serie.add(sumKWakelocks);
+					serie.add(sumPWakelocks);
+					
+					remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this, serie));
+				}
+				else
+				{
+					// no stat available
+					// Set the text
+					String notAvailable = "n/a";
+					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
+					remoteViews.setTextViewText(R.id.since, notAvailable);
+					remoteViews.setTextViewText(R.id.awake, notAvailable);
+					remoteViews.setTextViewText(R.id.screen_on, notAvailable);
+					remoteViews.setTextViewText(R.id.wl, notAvailable);
+					remoteViews.setTextViewText(R.id.kwl, notAvailable);
+				}
 			}
 			catch (Exception e)
 			{

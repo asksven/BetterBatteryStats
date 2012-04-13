@@ -17,9 +17,10 @@
 <!--         android:gravity="center"/> -->
     
     <RelativeLayout
+        android:id="@+id/layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout">
+        android:gravity="center_horizontal" >
 
 <!--             <TextView -->
 <!-- 		        android:id="@+id/static1" -->
@@ -46,5 +47,13 @@
 			    android:layout_toRightOf="@id/static2"
 			    android:src="@drawable/icon_notext"/>
 
+		    <TextView
+		        android:id="@+id/error"
+		        style="@style/Theme.asksven.TextAppearance.Tiny"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:text="no ref available"
+		        android:visibility="gone" />
+			
 	</RelativeLayout>    
 </LinearLayout>

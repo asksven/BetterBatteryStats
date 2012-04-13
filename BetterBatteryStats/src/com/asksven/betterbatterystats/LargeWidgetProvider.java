@@ -88,7 +88,8 @@ public class LargeWidgetProvider extends AppWidgetProvider
 	{
 		super.onReceive(context, intent);
 
-		if (WIDGET_UPDATE.equals(intent.getAction()))
+		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
+				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
 		{
 			Log.d(TAG, "Alarm called: updating");
 			Bundle extras = intent.getExtras();

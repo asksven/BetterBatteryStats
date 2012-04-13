@@ -44,6 +44,8 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.method.TimeKeyListener;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 
 /**
@@ -94,42 +96,51 @@ public class UpdateSmallWidgetService extends Service
 				BatteryStatsProxy.getInstance(this).invalidate();
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType);
+				if ( (otherStats != null) && ( otherStats.size() > 1) )
+				{
 
-				Misc timeAwakeStat = (Misc) stats.getElementByKey(otherStats, "Awake");
-				if (timeAwakeStat != null)
-				{
-					timeAwake = timeAwakeStat.getTimeOn();
+					Misc timeAwakeStat = (Misc) stats.getElementByKey(otherStats, "Awake");
+					if (timeAwakeStat != null)
+					{
+						timeAwake = timeAwakeStat.getTimeOn();
+					}
+					else
+					{
+						timeAwake = 0;
+					}
+					
+					Misc timeScreenOnStat = (Misc) stats.getElementByKey(otherStats, "Screen On");
+					if (timeScreenOnStat != null)
+					{
+						timeScreenOn = timeScreenOnStat.getTimeOn();
+					}
+					else
+					{
+						timeScreenOn = 0;
+					}
+	
+					Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));
+					if (deepSleepStat != null)
+					{
+						timeDeepSleep = deepSleepStat.getTimeOn();
+					}
+					else
+					{
+						timeDeepSleep = 0;
+					}
 				}
 				else
 				{
-					timeAwake = 0;
-				}
-				
-				Misc timeScreenOnStat = (Misc) stats.getElementByKey(otherStats, "Screen On");
-				if (timeScreenOnStat != null)
-				{
-					timeScreenOn = timeScreenOnStat.getTimeOn();
-				}
-				else
-				{
-					timeScreenOn = 0;
-				}
-
-				Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));
-				if (deepSleepStat != null)
-				{
-					timeDeepSleep = deepSleepStat.getTimeOn();
-				}
-				else
-				{
-					timeDeepSleep = 0;
+					// no proper reference found
+			        remoteViews.setInt(R.id.graph, "setVisibility", View.GONE);
+			        remoteViews.setInt(R.id.error, "setVisibility", View.VISIBLE);	
+					
 				}
 			}
 			catch (Exception e)
 			{
 				Log.e(TAG,"An error occured: " + e.getMessage());
 				GenericLogger.stackTrace(TAG, e.getStackTrace());
-				
 			}
 			finally
 			{
