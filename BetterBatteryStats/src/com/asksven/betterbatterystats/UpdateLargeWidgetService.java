@@ -37,6 +37,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.IBinder;
@@ -180,10 +181,15 @@ public class UpdateLargeWidgetService extends Service
 				remoteViews.setOnClickPendingIntent(R.id.stat_type, pendingIntent);
 				
 				// Register an onClickListener for the widget -> call main activity
-				Intent launchActivity = new Intent(this.getApplicationContext(),StatsActivity.class);
+				Intent i = new Intent(Intent.ACTION_MAIN);
+				PackageManager manager = getPackageManager();
+				i = manager.getLaunchIntentForPackage(getPackageName());
+				i.addCategory(Intent.CATEGORY_LAUNCHER);
+			    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
 				PendingIntent clickPI = PendingIntent.getActivity(
 						this.getApplicationContext(), 0,
-						launchActivity, 0);
+						i, 0);
 				remoteViews.setOnClickPendingIntent(R.id.layout, clickPI);
 
 				appWidgetManager.updateAppWidget(widgetId, remoteViews);
