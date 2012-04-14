@@ -73,6 +73,16 @@ public class UpdateLargeWidgetService extends Service
 		Log.w(TAG, "From Intent" + String.valueOf(allWidgetIds.length));
 		Log.w(TAG, "Direct" + String.valueOf(allWidgetIds2.length));
 
+		StatsProvider stats = StatsProvider.getInstance(this);
+		// make sure to flush cache
+		BatteryStatsProxy.getInstance(this).invalidate();
+		
+		if (!stats.hasCustomRef())
+		{
+			// restore any available custom reference
+			StatsProvider.getInstance(this).deserializeFromFile();
+		}
+
 		for (int widgetId : allWidgetIds)
 		{ 
 			RemoteViews remoteViews = new RemoteViews(this
@@ -95,9 +105,6 @@ public class UpdateLargeWidgetService extends Service
 			long sumPWakelocks	= 0;
 			long sumKWakelocks	= 0;
 			
-			StatsProvider stats = StatsProvider.getInstance(this);
-			// make sure to flush cache
-			BatteryStatsProxy.getInstance(this).invalidate();
 
 			try
 			{

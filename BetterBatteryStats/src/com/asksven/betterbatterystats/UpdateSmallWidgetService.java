@@ -69,6 +69,17 @@ public class UpdateSmallWidgetService extends Service
 		
 		int[] allWidgetIds2 = appWidgetManager.getAppWidgetIds(thisWidget);
 		
+		StatsProvider stats = StatsProvider.getInstance(this);
+		// make sure to flush cache
+		BatteryStatsProxy.getInstance(this).invalidate();
+		
+		if (!stats.hasCustomRef())
+		{
+			// restore any available custom reference
+			StatsProvider.getInstance(this).deserializeFromFile();
+		}
+
+
 		for (int widgetId : allWidgetIds)
 		{
  
@@ -94,9 +105,6 @@ public class UpdateSmallWidgetService extends Service
 
 			try
 			{
-				StatsProvider stats = StatsProvider.getInstance(this);
-				// make sure to flush cache
-				BatteryStatsProxy.getInstance(this).invalidate();
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType);
 				if ( (otherStats != null) && ( otherStats.size() > 1) )

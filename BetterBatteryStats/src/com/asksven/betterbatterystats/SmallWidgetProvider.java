@@ -82,7 +82,6 @@ public class SmallWidgetProvider extends AppWidgetProvider
 	public void onReceive(Context context, Intent intent)
 	{
 		super.onReceive(context, intent);
-
 		if ( (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction())) ||
 				(LargeWidgetProvider.WIDGET_PREFS_REFRESH.equals(intent.getAction())) ||
 					intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
