@@ -47,7 +47,7 @@ public class LargeWidgetProvider extends AppWidgetProvider
 	private static final String TAG = "LargeWidgetProvider";
 	public static final String WIDGET_UPDATE = "BBS_WIDGET_UPDATE";
 	public static final String WIDGET_PREFS_REFRESH = "BBS_WIDGET_PREFS_REFRESH";
-	public static final String WIDGET_LOG = "/sdcard/bbs_widget_log";
+	public static final String WIDGET_LOG = "bbs_widget_log";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
