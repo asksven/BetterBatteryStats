@@ -21,7 +21,11 @@ import java.util.logging.Logger;
 
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.R;
+
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -96,6 +100,10 @@ public class BroadcastHandler extends BroadcastReceiver
 					}
 					
 				}
+				// Build the intent to call the service
+				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+				context.sendBroadcast(intentRefreshWidgets);
+
 			}
 			catch (Exception e)
 			{
