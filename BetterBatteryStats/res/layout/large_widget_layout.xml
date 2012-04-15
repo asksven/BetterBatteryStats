@@ -139,7 +139,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="50dp"
 	    android:contentDescription="blah"
-	    android:src="@drawable/icon_notext" >
+	    android:src="@drawable/icon_transparent" >
 
     </ImageView>
 <!--     <ImageView -->
