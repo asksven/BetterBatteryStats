@@ -127,7 +127,7 @@ public class UpdateLargeWidgetService extends Service
 					remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
 					remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
 					remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
-					if ( (sumPWakelocks == 0) && (pWakelockStats.size()==0) )
+					if ( (sumPWakelocks == 1) && (pWakelockStats.size()==1) )
 					{
 						// there was no reference
 						remoteViews.setTextViewText(R.id.kwl, "n/a");
@@ -137,7 +137,7 @@ public class UpdateLargeWidgetService extends Service
 						remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
 					}
 					
-					if ( (sumKWakelocks == 0) && (kWakelockStats.size()==0) )
+					if ( (sumKWakelocks == 1) && (kWakelockStats.size()==1) )
 					{
 						// there was no reference
 						remoteViews.setTextViewText(R.id.kwl, "n/a");
