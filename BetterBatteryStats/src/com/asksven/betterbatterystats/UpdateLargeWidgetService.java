@@ -127,8 +127,25 @@ public class UpdateLargeWidgetService extends Service
 					remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
 					remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
 					remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
-					remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
-					remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
+					if ( (sumPWakelocks == 0) && (pWakelockStats.size()==0) )
+					{
+						// there was no reference
+						remoteViews.setTextViewText(R.id.kwl, "n/a");
+					}
+					else
+					{
+						remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
+					}
+					
+					if ( (sumKWakelocks == 0) && (kWakelockStats.size()==0) )
+					{
+						// there was no reference
+						remoteViews.setTextViewText(R.id.kwl, "n/a");
+					}
+					else
+					{
+						remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
+					}
 					
 					WidgetBars graph = new WidgetBars();
 					ArrayList<Long> serie = new ArrayList<Long>();
