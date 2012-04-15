@@ -33,6 +33,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -94,6 +95,7 @@ public class SmallWidgetProvider extends AppWidgetProvider
 			else if (LargeWidgetProvider.WIDGET_PREFS_REFRESH.equals(intent.getAction()))
 			{
 				Log.d(TAG, "WIDGET_PREFS_REFRESH called: updating");
+				GenericLogger.i(LargeWidgetProvider.WIDGET_LOG, TAG, "SmallWidgetProvider: Alarm to refresh widget was called");
 			}
 			else
 			{

@@ -34,6 +34,7 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -46,6 +47,7 @@ public class LargeWidgetProvider extends AppWidgetProvider
 	private static final String TAG = "LargeWidgetProvider";
 	public static final String WIDGET_UPDATE = "BBS_WIDGET_UPDATE";
 	public static final String WIDGET_PREFS_REFRESH = "BBS_WIDGET_PREFS_REFRESH";
+	public static final String WIDGET_LOG = "/sdcard/bbs_widget_log";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
@@ -94,6 +96,7 @@ public class LargeWidgetProvider extends AppWidgetProvider
 			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
 			{
 				Log.d(TAG, "Alarm called: updating");
+				GenericLogger.i(WIDGET_LOG, TAG, "LargeWidgetProvider: Alarm to refresh widget was called");
 			}
 			else
 			{
@@ -111,5 +114,6 @@ public class LargeWidgetProvider extends AppWidgetProvider
 			onUpdate(context, appWidgetManager, appWidgetIds);
 		}
 	}
+	
 	
 }
