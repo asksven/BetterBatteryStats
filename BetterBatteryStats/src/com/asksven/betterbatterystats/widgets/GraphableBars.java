@@ -21,6 +21,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -44,6 +45,7 @@ public class GraphableBars extends ImageView
     }
     
     double[] mValues;
+    String m_name;
     
     public GraphableBars(Context context, AttributeSet attrs)
     {
@@ -56,8 +58,18 @@ public class GraphableBars extends ImageView
         mValues = values.clone();
         for (int i = 0; i < values.length; i++)
         {
-            mValues[i] /= maxValue;
+//            Log.d(TAG, ">>> " + m_name + " calculating bar width: " + mValues[i] + " / " + maxValue);             
+            mValues[i] = (double) ((float)mValues[i] / (float)maxValue);
+//            Log.d(TAG, ">>> = " + mValues[i]);
+            
         }
+        // we must force onDraw by invalidating the View (see http://wing-linux.sourceforge.net/guide/topics/graphics/index.html)
+        this.invalidate();
+    }
+    
+    public void setName(String name)
+    {
+    	m_name = name;
     }
     
     @Override
@@ -75,7 +87,7 @@ public class GraphableBars extends ImageView
         for (int i = 0; i < mValues.length; i++)
         {
             int endx = xmin + (int) (mValues[i] * (xmax - xmin));
-//            Log.d(TAG, "onDraw: canvas (" + startx + ", " + ymin + ", " + endx + ", " + ymax +")");
+//            Log.d(TAG, ">>>> " + m_name + " onDraw: canvas (" + startx + ", " + ymin + ", " + endx + ", " + ymax +")");
             canvas.drawRect(startx, ymin, endx, ymax, sPaint[i]);
             startx = endx;
         }

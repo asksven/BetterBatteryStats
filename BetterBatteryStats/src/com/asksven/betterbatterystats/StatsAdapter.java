@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +51,7 @@ public class StatsAdapter extends BaseAdapter
     private Context context;
 
     private List<StatElement> m_listData;
+    private static final String TAG = "StatsAdapter";
 
     private double m_maxValue = 0;
     
@@ -77,6 +79,7 @@ public class StatsAdapter extends BaseAdapter
         	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
             m_maxValue = Math.max(m_maxValue, g.getMaxValue());
         }
+        
     }
 
     public int getCount()
@@ -151,7 +154,17 @@ public class StatsAdapter extends BaseAdapter
     		}    		
 
    			buttonBar.setMinimumHeight(iHeight);
+   			buttonBar.setName(entry.getName());
         	buttonBar.setValues(entry.getValues(), m_maxValue);
+        	
+//        	Log.d(TAG, ">> Bar for " + entry.getName());
+//        	double[] vals = entry.getValues();
+//        	for (int i=0; i < vals.length; i++)
+//        	{
+//        		Log.d(TAG, ">> " + i + "th value: " + vals[i]);
+//        	}
+//        	Log.d(TAG, ">> max: " + m_maxValue);
+        	
         }
         
         // add on click listener for the icon only if KB is enabled
