@@ -74,7 +74,7 @@ public class SmallWidgetProvider extends AppWidgetProvider
 //		freqMinutes = 1;
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
-
+		alarmManager.cancel(pendingIntent);
 		alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
 				pendingIntent);
 	}
