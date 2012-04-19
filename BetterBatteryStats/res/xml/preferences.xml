@@ -149,7 +149,7 @@
 		</PreferenceScreen>
 	</PreferenceCategory>
 	
-	<PreferenceCategory android:title="Widget">  
+	<PreferenceCategory android:title="Widgets">  
 	    <PreferenceScreen android:title="Widget Settings">  
 	    <ListPreference 
 	            android:key="widget_refresh_freq"
@@ -160,7 +160,7 @@
 	            android:entryValues="@array/widgetUpdateFreqValues"
 	        />
 	        	        
-	        <PreferenceCategory android:title="Large Widget">	        
+	        <PreferenceCategory android:title="2x2 ad 2x1 Widgets">	        
 		    <ListPreference 
 		            android:key="large_widget_default_stat_type"
 		            android:title="Stat type"
@@ -169,6 +169,15 @@
 		            android:entries="@array/statTypeLabels"
 		            android:entryValues="@array/statTypeValues"
 		        />
+		    <ListPreference 
+		            android:key="large_widget_font_size"
+		            android:title="Font Size"
+		            android:summary="Set the font size to be used in the widget"
+		            android:defaultValue="10" 
+		            android:entries="@array/widgetFontSizeLabels"
+		            android:entryValues="@array/widgetFontSizeValues"
+		        />
+		    		    
 				<com.asksven.betterbatterystats.contrib.SeekBarPreference
 				    android:key="large_widget_opacity"
 				    android:title="Opacity"
@@ -191,7 +200,7 @@
 				    robobunny:unitsRight="%"/>		    
 						    
 		    </PreferenceCategory>
-	        <PreferenceCategory android:title="Small Widget">	        
+	        <PreferenceCategory android:title="1x1 Widget">	        
 			    <ListPreference 
 			            android:key="small_widget_default_stat_type"
 			            android:title="Stat type"

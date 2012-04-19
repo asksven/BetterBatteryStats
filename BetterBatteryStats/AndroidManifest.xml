@@ -136,6 +136,7 @@
         </receiver>
         
         <service android:name="com.asksven.betterbatterystats.UpdateLargeWidgetService"></service>
+        <service android:name="com.asksven.betterbatterystats.UpdateMediumWidgetService"></service>
         <service android:name="com.asksven.betterbatterystats.UpdateSmallWidgetService"></service>
         
     </application>

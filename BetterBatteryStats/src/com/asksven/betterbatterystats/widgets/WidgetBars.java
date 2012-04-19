@@ -40,7 +40,7 @@ public class WidgetBars
 	static final int BITMAP_HEIGHT = 70;
 	
 	
-    static Paint[] m_paint = new Paint[5];
+    static Paint[] m_paint = new Paint[6];
 	static Paint m_paintBackground = new Paint();
 
     
@@ -89,6 +89,13 @@ public class WidgetBars
     	m_paint[4].setStrokeWidth(STROKE_WIDTH);
 //    	m_paint[4].setStyle(Paint.Style.STROKE);
     	m_paint[4].setAlpha(opacity);
+
+    	m_paint[5] = new Paint();
+    	m_paint[5].setStyle(Paint.Style.FILL);
+    	m_paint[5].setColor(Color.CYAN);
+    	m_paint[5].setStrokeWidth(STROKE_WIDTH);
+//    	m_paint[5].setStyle(Paint.Style.STROKE);
+    	m_paint[5].setAlpha(opacity);
 
     }
 

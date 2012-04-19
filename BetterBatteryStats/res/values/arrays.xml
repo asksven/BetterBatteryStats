@@ -101,4 +101,20 @@
         <item name="1">1</item>
     </string-array>
 
+    <string-array name="widgetFontSizeLabels">
+        <item name="0">X-Large (16)</item>
+        <item name="1">Large (14)</item>
+        <item name="2">Normal (12)</item>
+        <item name="3">*Small (10)</item>
+        <item name="4">Tiny (8)</item>
+    </string-array>
+
+    <string-array name="widgetFontSizeValues">
+        <item name="0">16</item>
+        <item name="1">14</item>
+        <item name="2">12</item>
+        <item name="3">10</item>
+        <item name="3">8</item>
+    </string-array>
+    
 </resources>

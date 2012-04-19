@@ -21,22 +21,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/layout">
 
-            <TextView
-		        android:id="@+id/static1"
-		        style="@style/Theme.asksven.TextAppearance.Tiny"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="5dip"
-		        android:text="Since:" />
-        
 		    <TextView
-		        android:id="@+id/static1"
+		        android:id="@+id/staticSince"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="5dip"
 		        android:text="Since:" />
-		        
 			<TextView
 		        android:id="@+id/since"
 		        android:layout_alignParentRight="true"
@@ -45,11 +36,11 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
-		        android:layout_toRightOf="@id/static1"
-		        android:layout_alignTop="@id/static1"
+		        android:layout_toRightOf="@id/staticSince"
+		        android:layout_alignTop="@id/staticSince"
 		        android:layout_marginLeft="5dip"/>
 		    <TextView
-		        android:id="@+id/static2"
+		        android:id="@+id/staticAwake"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
@@ -64,17 +55,36 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
-		        android:layout_toRightOf="@id/static2"
-		        android:layout_alignTop="@id/static2"
+		        android:layout_toRightOf="@id/staticAwake"
+		        android:layout_alignTop="@id/staticAwake"
 		        android:layout_marginLeft="5dip"/>
-		    
 		    <TextView
-		        android:id="@+id/static3"
+		        android:id="@+id/staticDeepSleep"
+		        style="@style/Theme.asksven.TextAppearance.Tiny"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="Deep Sleep:"
+		        android:layout_below="@id/awake"
+		        android:layout_marginLeft="5dip"/>
+		    <TextView
+		        android:id="@+id/deep_sleep"
+		        android:layout_alignParentRight="true"
+		        android:gravity="right"
+		        style="@style/Theme.asksven.TextAppearance.Tiny"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="value"
+		        android:layout_toRightOf="@id/staticDeepSleep"
+		        android:layout_alignTop="@id/staticDeepSleep"
+		        android:layout_marginLeft="5dip"/>
+		    		    
+		    <TextView
+		        android:id="@+id/staticScreenOn"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="Screen on:"
-		        android:layout_below="@id/awake"
+		        android:layout_below="@id/deep_sleep"
 		        android:layout_marginLeft="5dip"/>
 		    <TextView
 		        android:id="@+id/screen_on"
@@ -84,16 +94,16 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
-		       	android:layout_toRightOf="@id/static3"
-		        android:layout_alignTop="@id/static3"
+		       	android:layout_toRightOf="@id/staticScreenOn"
+		        android:layout_alignTop="@id/staticScreenOn"
 		        android:layout_marginLeft="5dip"/>
 
 		    <TextView
-		        android:id="@+id/static5"
+		        android:id="@+id/staticKWL"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="Kern. WL.:"
+		        android:text="KWL:"
 		        android:layout_below="@id/screen_on"		        
 		        android:layout_marginLeft="5dip"/>
     
@@ -105,16 +115,16 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
-		        android:layout_toRightOf="@id/static5"
-		        android:layout_alignTop="@id/static5"
+		        android:layout_toRightOf="@id/staticKWL"
+		        android:layout_alignTop="@id/staticKWL"
 		        android:layout_marginLeft="5dip"/>
 
 		    <TextView
-		        android:id="@+id/static4"
+		        android:id="@+id/staticPWL"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="Part. WL.:"
+		        android:text="PWL:"
 		        android:layout_below="@id/kwl"
 		        android:layout_marginLeft="5dip"/>		        
     
@@ -126,8 +136,8 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
-		        android:layout_toRightOf="@id/static4"
-		        android:layout_alignTop="@id/static4"
+		        android:layout_toRightOf="@id/staticPWL"
+		        android:layout_alignTop="@id/staticPWL"
 		        android:layout_marginLeft="5dip"/>
 	</RelativeLayout>
 </LinearLayout>

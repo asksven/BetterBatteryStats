@@ -43,7 +43,6 @@
 			    android:layout_width="match_parent"
 			    android:layout_height="match_parent"
 			    android:contentDescription="blah"
-			    android:layout_toRightOf="@id/static2"
 			    android:src="@drawable/icon_transparent"/>
 
 	</RelativeLayout>    

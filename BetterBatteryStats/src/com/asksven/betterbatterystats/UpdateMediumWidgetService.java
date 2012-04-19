@@ -95,13 +95,14 @@ public class UpdateMediumWidgetService extends Service
 			int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 20);
 			opacity = (255 * opacity) / 100; 
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
-			remoteViews.setInt(R.id.layout, "setTextSize", 14);
+
 			
 			// retrieve stats
 			int statType	= StatsProvider.statTypeFromPosition(
 					Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "1")));
 			
 			long timeAwake 		= 0;
+			long timeDeepSleep	= 0;
 			long timeScreenOn 	= 0;
 			long timeSince 		= 0;
 			long sumPWakelocks	= 0;
@@ -122,12 +123,40 @@ public class UpdateMediumWidgetService extends Service
 					ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, statType, 0, 0);
 					sumKWakelocks = stats.sum(kWakelockStats);
 	
+					Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));
+					if (deepSleepStat != null)
+					{
+						timeDeepSleep = deepSleepStat.getTimeOn();
+					}
+					else
+					{
+						timeDeepSleep = 0;
+					}
+
 					// Set the text
 					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
 					remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
 					remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
+					remoteViews.setTextViewText(R.id.deep_sleep, DateUtils.formatDuration(timeDeepSleep));
 					remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
-					
+
+					// and the font size
+					float fontSize	= Float.valueOf(sharedPrefs.getString("large_widget_font_size", "10"));
+					remoteViews.setFloat(R.id.staticSince, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticAwake, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticDeepSleep, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticScreenOn, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticKWL, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticPWL, "setTextSize", fontSize);
+
+					remoteViews.setFloat(R.id.stat_type, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.since, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.awake, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.deep_sleep, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.screen_on, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.kwl, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.wl, "setTextSize", fontSize);
+
 					if ( (sumPWakelocks == 1) && (pWakelockStats.size()==1) )
 					{
 						// there was no reference
@@ -157,6 +186,7 @@ public class UpdateMediumWidgetService extends Service
 					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
 					remoteViews.setTextViewText(R.id.since, notAvailable);
 					remoteViews.setTextViewText(R.id.awake, notAvailable);
+					remoteViews.setTextViewText(R.id.deep_sleep, notAvailable);
 					remoteViews.setTextViewText(R.id.screen_on, notAvailable);
 					remoteViews.setTextViewText(R.id.wl, notAvailable);
 					remoteViews.setTextViewText(R.id.kwl, notAvailable);
@@ -172,9 +202,10 @@ public class UpdateMediumWidgetService extends Service
 			{
 				Log.d(TAG, "Since: " + DateUtils.formatDuration(timeSince));
 				Log.d(TAG, "Awake: " + DateUtils.formatDuration(timeAwake));
+				Log.d(TAG, "Deep Sleep: " + DateUtils.formatDuration(timeDeepSleep));
 				Log.d(TAG, "Screen on: " + DateUtils.formatDuration(timeScreenOn));
-				Log.d(TAG, "P. Wl.: " + DateUtils.formatDuration(sumPWakelocks));
-				Log.d(TAG, "K. Wl.: " + DateUtils.formatDuration(sumKWakelocks));
+				Log.d(TAG, "PWL: " + DateUtils.formatDuration(sumPWakelocks));
+				Log.d(TAG, "KWL: " + DateUtils.formatDuration(sumKWakelocks));
 
 				// Register an onClickListener for the graph -> refresh
 				Intent clickIntent = new Intent(this.getApplicationContext(),

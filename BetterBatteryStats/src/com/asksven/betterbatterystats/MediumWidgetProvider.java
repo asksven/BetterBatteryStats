@@ -41,7 +41,7 @@ import com.asksven.betterbatterystats.R;
  * @author sven
  *
  */
-public class MediumWidgetProvider extends LargeWidgetProvider
+public class MediumWidgetProvider extends AppWidgetProvider
 {
 
 	private static final String TAG = "MediumWidgetProvider";
@@ -65,7 +65,7 @@ public class MediumWidgetProvider extends LargeWidgetProvider
 		
 		// set the alarm for next round
 		//prepare Alarm Service to trigger Widget
-		intent = new Intent(MediumWidgetProvider.WIDGET_UPDATE);
+		intent = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
 				1234567, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -81,4 +81,34 @@ public class MediumWidgetProvider extends LargeWidgetProvider
 		
 
 	}	
+	@Override
+	public void onReceive(Context context, Intent intent)
+	{
+		super.onReceive(context, intent);
+
+		if ( (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction())) ||
+				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
+		{
+			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
+			{
+				Log.d(TAG, "Alarm called: updating");
+				GenericLogger.i(LargeWidgetProvider.WIDGET_LOG, TAG, "LargeWidgetProvider: Alarm to refresh widget was called");
+			}
+			else
+			{
+				Log.d(TAG, "APPWIDGET_UPDATE called: updating");
+			}
+
+			AppWidgetManager appWidgetManager = AppWidgetManager
+					.getInstance(context);
+			ComponentName thisAppWidget = new ComponentName(
+					context.getPackageName(),
+					MediumWidgetProvider.class.getName());
+			int[] appWidgetIds = appWidgetManager
+					.getAppWidgetIds(thisAppWidget);
+
+			onUpdate(context, appWidgetManager, appWidgetIds);
+		}
+	}
+
 }

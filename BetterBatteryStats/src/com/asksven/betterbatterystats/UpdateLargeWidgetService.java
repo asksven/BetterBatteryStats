@@ -101,6 +101,7 @@ public class UpdateLargeWidgetService extends Service
 					Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "1")));
 			
 			long timeAwake 		= 0;
+			long timeDeepSleep	= 0;
 			long timeScreenOn 	= 0;
 			long timeSince 		= 0;
 			long sumPWakelocks	= 0;
@@ -122,11 +123,40 @@ public class UpdateLargeWidgetService extends Service
 					ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, statType, 0, 0);
 					sumKWakelocks = stats.sum(kWakelockStats);
 	
+					Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));
+					if (deepSleepStat != null)
+					{
+						timeDeepSleep = deepSleepStat.getTimeOn();
+					}
+					else
+					{
+						timeDeepSleep = 0;
+					}
+
 					// Set the text
 					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
 					remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
 					remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
+					remoteViews.setTextViewText(R.id.deep_sleep, DateUtils.formatDuration(timeDeepSleep));					
 					remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
+					
+					// and the font size
+					float fontSize	= Float.valueOf(sharedPrefs.getString("large_widget_font_size", "10"));
+					remoteViews.setFloat(R.id.staticSince, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticAwake, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticDeepSleep, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticScreenOn, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticKWL, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.staticPWL, "setTextSize", fontSize);
+
+					remoteViews.setFloat(R.id.stat_type, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.since, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.awake, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.deep_sleep, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.screen_on, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.kwl, "setTextSize", fontSize);
+					remoteViews.setFloat(R.id.wl, "setTextSize", fontSize);
+
 					if ( (sumPWakelocks == 1) && (pWakelockStats.size()==1) )
 					{
 						// there was no reference
@@ -151,6 +181,7 @@ public class UpdateLargeWidgetService extends Service
 					ArrayList<Long> serie = new ArrayList<Long>();
 					serie.add(timeSince);
 					serie.add(timeAwake);
+					serie.add(timeDeepSleep);
 					serie.add(timeScreenOn);
 					serie.add(sumKWakelocks);
 					serie.add(sumPWakelocks);
