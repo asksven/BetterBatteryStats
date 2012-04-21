@@ -200,12 +200,8 @@ public class StatsProvider
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
 			Alarm alarm = myAlarms.get(i);
-			if ( (!bFilter) || ((alarm.getWakeups()) > 0) )
-			{	
-				// native kernel wakelocks are parsed from /proc/wakelocks
-				// and do not know any references "since charged" and "since unplugged"
-				// those are implemented using special references
-				
+			if ( true ) //(!bFilter) || ((alarm.getWakeups()) > 0) )
+			{					
 				switch (iStatType)
 				{
 					case STATS_CUSTOM:					
@@ -280,12 +276,12 @@ public class StatsProvider
 			}
 		}
 		
+		Collections.sort(myRetAlarms);
+		
 		for (int i=0; i < myRetAlarms.size(); i++)
 		{
 			myStats.add((StatElement) myRetAlarms.get(i));
 		}
-		
-//		Log.i(TAG, "Result " + myStats.toString());
 		
 		return myStats;
 
