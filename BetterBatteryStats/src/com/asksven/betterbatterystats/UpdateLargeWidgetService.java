@@ -27,6 +27,7 @@ import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
+import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
@@ -99,7 +100,8 @@ public class UpdateLargeWidgetService extends Service
 			// retrieve stats
 			int statType	= StatsProvider.statTypeFromPosition(
 					Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "1")));
-			
+			boolean showPct	= sharedPrefs.getBoolean("large_widget_show_pct", false);
+
 			long timeAwake 		= 0;
 			long timeDeepSleep	= 0;
 			long timeScreenOn 	= 0;
@@ -136,9 +138,20 @@ public class UpdateLargeWidgetService extends Service
 					// Set the text
 					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
 					remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
-					remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
-					remoteViews.setTextViewText(R.id.deep_sleep, DateUtils.formatDuration(timeDeepSleep));					
-					remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
+					
+					if (showPct)
+					{
+						remoteViews.setTextViewText(R.id.awake, StringUtils.formatRatio(timeAwake, timeSince));
+						remoteViews.setTextViewText(R.id.deep_sleep, StringUtils.formatRatio(timeDeepSleep, timeSince));
+						remoteViews.setTextViewText(R.id.screen_on, StringUtils.formatRatio(timeScreenOn, timeSince));
+					}
+					else
+					{
+						remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
+						remoteViews.setTextViewText(R.id.deep_sleep, DateUtils.formatDuration(timeDeepSleep));
+						remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
+					}
+
 					
 					// and the font size
 					float fontSize	= Float.valueOf(sharedPrefs.getString("large_widget_font_size", "10"));
@@ -160,11 +173,18 @@ public class UpdateLargeWidgetService extends Service
 					if ( (sumPWakelocks == 1) && (pWakelockStats.size()==1) )
 					{
 						// there was no reference
-						remoteViews.setTextViewText(R.id.kwl, "n/a");
+						remoteViews.setTextViewText(R.id.wl, "n/a");
 					}
 					else
 					{
-						remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
+						if (showPct)
+						{
+							remoteViews.setTextViewText(R.id.wl, StringUtils.formatRatio(sumPWakelocks, timeSince));
+						}
+						else
+						{
+							remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
+						}
 					}
 					
 					if ( (sumKWakelocks == 1) && (kWakelockStats.size()==1) )
@@ -174,7 +194,14 @@ public class UpdateLargeWidgetService extends Service
 					}
 					else
 					{
-						remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
+						if (showPct)
+						{
+							remoteViews.setTextViewText(R.id.wl, StringUtils.formatRatio(sumKWakelocks, timeSince));
+						}
+						else
+						{
+							remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
+						}
 					}
 					
 					WidgetBars graph = new WidgetBars();

@@ -15,73 +15,34 @@
  */
 package com.asksven.betterbatterystats;
 
-import java.util.Calendar;
-import java.util.Random;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.RemoteViews;
-import android.widget.Toast;
-
-import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
-import com.asksven.betterbatterystats.R;
 
 /**
  * @author sven
  *
  */
-public class LargeWidgetProvider extends AppWidgetProvider
+public class LargeWidgetProvider extends BbsWidgetProvider
 {
 
 	private static final String TAG = "LargeWidgetProvider";
-	public static final String WIDGET_UPDATE = "BBS_WIDGET_UPDATE";
-	public static final String WIDGET_PREFS_REFRESH = "BBS_WIDGET_PREFS_REFRESH";
-	public static final String WIDGET_LOG = "bbs_widget_log";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
 
 		Log.w(TAG, "onUpdate method called");
-		// Get all ids
-		ComponentName thisWidget = new ComponentName(context, LargeWidgetProvider.class);
-		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-
-		// Build the intent to call the service
-		Intent intent = new Intent(context.getApplicationContext(),
-				UpdateLargeWidgetService.class);
-		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
 
 		// Update the widgets via the service
-		context.startService(intent);
+		startService(context, this.getClass(), appWidgetManager, UpdateSmallWidgetService.class);
 		
-		// set the alarm for next round
-		//prepare Alarm Service to trigger Widget
-		intent = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-				1234567, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		int freqMinutes = Integer.valueOf(sharedPrefs.getString("widget_refresh_freq", "30"));
-//		freqMinutes = 1;
-		AlarmManager alarmManager = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.cancel(pendingIntent);
-		alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
-				pendingIntent);
+		setAlarm(context);
 		
+		super.onUpdate(context, appWidgetManager, appWidgetIds);
 
 	}
 	
@@ -107,11 +68,14 @@ public class LargeWidgetProvider extends AppWidgetProvider
 					.getInstance(context);
 			ComponentName thisAppWidget = new ComponentName(
 					context.getPackageName(),
-					LargeWidgetProvider.class.getName());
+					this.getClass().getName());
 			int[] appWidgetIds = appWidgetManager
 					.getAppWidgetIds(thisAppWidget);
 
-			onUpdate(context, appWidgetManager, appWidgetIds);
+			if (appWidgetIds.length > 0)
+			{
+				onUpdate(context, appWidgetManager, appWidgetIds);
+			}
 		}
 	}
 	

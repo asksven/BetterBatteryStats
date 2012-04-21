@@ -54,12 +54,17 @@ public class PreferencesActivity extends PreferenceActivity
 		// refresh widgets
 		Intent intent = new Intent(this.getApplicationContext(),
 				LargeWidgetProvider.class);
-		intent.setAction(LargeWidgetProvider.WIDGET_PREFS_REFRESH);
+		intent.setAction(BbsWidgetProvider.WIDGET_PREFS_REFRESH);
+		this.sendBroadcast(intent);
+
+		intent = new Intent(this.getApplicationContext(),
+				MediumWidgetProvider.class);
+		intent.setAction(BbsWidgetProvider.WIDGET_PREFS_REFRESH);
 		this.sendBroadcast(intent);
 
 		intent = new Intent(this.getApplicationContext(),
 				SmallWidgetProvider.class);
-		intent.setAction(LargeWidgetProvider.WIDGET_PREFS_REFRESH);
+		intent.setAction(BbsWidgetProvider.WIDGET_PREFS_REFRESH);
 		this.sendBroadcast(intent);
 
 	}

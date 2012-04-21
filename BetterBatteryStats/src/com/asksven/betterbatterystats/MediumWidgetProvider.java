@@ -15,33 +15,18 @@
  */
 package com.asksven.betterbatterystats;
 
-import java.util.Calendar;
-import java.util.Random;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.RemoteViews;
-import android.widget.Toast;
-
-import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
-import com.asksven.betterbatterystats.R;
 
 /**
  * @author sven
  *
  */
-public class MediumWidgetProvider extends AppWidgetProvider
+public class MediumWidgetProvider extends BbsWidgetProvider
 {
 
 	private static final String TAG = "MediumWidgetProvider";
@@ -51,45 +36,24 @@ public class MediumWidgetProvider extends AppWidgetProvider
 	{
 
 		Log.w(TAG, "onUpdate method called");
-		// Get all ids
-		ComponentName thisWidget = new ComponentName(context, MediumWidgetProvider.class);
-		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-
-		// Build the intent to call the service
-		Intent intent = new Intent(context.getApplicationContext(),
-				UpdateMediumWidgetService.class);
-		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
 
 		// Update the widgets via the service
-		context.startService(intent);
+		startService(context, this.getClass(), appWidgetManager, UpdateSmallWidgetService.class);
 		
-		// set the alarm for next round
-		//prepare Alarm Service to trigger Widget
-		intent = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-				1234567, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		int freqMinutes = Integer.valueOf(sharedPrefs.getString("widget_refresh_freq", "30"));
-//		freqMinutes = 1;
-		AlarmManager alarmManager = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.cancel(pendingIntent);
-		alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
-				pendingIntent);
+		setAlarm(context);
 		
-
+		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}	
+	
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
 		super.onReceive(context, intent);
 
-		if ( (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction())) ||
+		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
 		{
-			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
+			if (WIDGET_UPDATE.equals(intent.getAction()))
 			{
 				Log.d(TAG, "Alarm called: updating");
 				GenericLogger.i(LargeWidgetProvider.WIDGET_LOG, TAG, "LargeWidgetProvider: Alarm to refresh widget was called");
@@ -103,12 +67,45 @@ public class MediumWidgetProvider extends AppWidgetProvider
 					.getInstance(context);
 			ComponentName thisAppWidget = new ComponentName(
 					context.getPackageName(),
-					MediumWidgetProvider.class.getName());
+					this.getClass().getName());
 			int[] appWidgetIds = appWidgetManager
 					.getAppWidgetIds(thisAppWidget);
-
-			onUpdate(context, appWidgetManager, appWidgetIds);
+			if (appWidgetIds.length > 0)
+			{
+				onUpdate(context, appWidgetManager, appWidgetIds);
+			}
 		}
 	}
+	
+	@Override
+	public void onDeleted(Context context, int[] appWidgetIds)
+	{
+		// called when widgets are deleted
+		// see that you get an array of widgetIds which are deleted
+		// so handle the delete of multiple widgets in an iteration
+		super.onDeleted(context, appWidgetIds);
+	}
 
+	@Override
+	public void onDisabled(Context context)
+	{
+		super.onDisabled(context);
+		// runs when all of the instances of the widget are deleted from
+		// the home screen
+		
+		// remove the alarms
+		removeAlarm(context);
+
+	}
+
+	@Override
+	public void onEnabled(Context context)
+	{
+		super.onEnabled(context);
+		// runs when all of the first instance of the widget are placed
+		// on the home screen
+		setAlarm(context);
+	}
+	
+	
 }

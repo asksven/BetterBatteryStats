@@ -15,32 +15,18 @@
  */
 package com.asksven.betterbatterystats;
 
-import java.util.Calendar;
-import java.util.Random;
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.RemoteViews;
-
-import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
-import com.asksven.betterbatterystats.R;
 
 /**
  * @author sven
  *
  */
-public class SmallWidgetProvider extends AppWidgetProvider
+public class SmallWidgetProvider extends BbsWidgetProvider
 {
 
 	private static final String TAG = "SmallWidgetProvider";
@@ -50,45 +36,25 @@ public class SmallWidgetProvider extends AppWidgetProvider
 	{
 
 		Log.w(TAG, "onUpdate method called");
-		// Get all ids
-		ComponentName thisWidget = new ComponentName(context, SmallWidgetProvider.class);
-		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-
-		// Build the intent to call the service
-		Intent intent = new Intent(context.getApplicationContext(),
-				UpdateSmallWidgetService.class);
-		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
 
 		// Update the widgets via the service
-		context.startService(intent);
+		startService(context, this.getClass(), appWidgetManager, UpdateSmallWidgetService.class);
 		
-		// set the alarm for next round
-		//prepare Alarm Service to trigger Widget
-		intent = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-				1234568, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		int freqMinutes = Integer.valueOf(sharedPrefs.getString("widget_refresh_freq", "30"));
-//		freqMinutes = 1;
-		AlarmManager alarmManager = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.cancel(pendingIntent);
-		alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
-				pendingIntent);
+		setAlarm(context);
+		
+		super.onUpdate(context, appWidgetManager, appWidgetIds);
 	}
 
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
 		super.onReceive(context, intent);
-		if ( (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction())) ||
+		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
 				(LargeWidgetProvider.WIDGET_PREFS_REFRESH.equals(intent.getAction())) ||
 					intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
 
 		{
-			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
+			if (WIDGET_UPDATE.equals(intent.getAction()))
 			{
 				Log.d(TAG, "Alarm called: updating");
 			}
@@ -107,11 +73,14 @@ public class SmallWidgetProvider extends AppWidgetProvider
 					.getInstance(context);
 			ComponentName thisAppWidget = new ComponentName(
 					context.getPackageName(),
-					SmallWidgetProvider.class.getName());
+					this.getClass().getName());
 			int[] appWidgetIds = appWidgetManager
 					.getAppWidgetIds(thisAppWidget);
 
-			onUpdate(context, appWidgetManager, appWidgetIds);
+			if (appWidgetIds.length > 0)
+			{
+				onUpdate(context, appWidgetManager, appWidgetIds);
+			}
 		}
 	}
 
