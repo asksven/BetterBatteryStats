@@ -65,10 +65,6 @@ public class UpdateSmallWidgetService extends Service
 
 		int[] allWidgetIds = intent
 				.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
-
-		ComponentName thisWidget = new ComponentName(getApplicationContext(), SmallWidgetProvider.class);
-		
-		int[] allWidgetIds2 = appWidgetManager.getAppWidgetIds(thisWidget);
 		
 		StatsProvider stats = StatsProvider.getInstance(this);
 		// make sure to flush cache
@@ -96,11 +92,16 @@ public class UpdateSmallWidgetService extends Service
 			// retrieve stats
 			int statType	= StatsProvider.statTypeFromPosition(
 					Integer.valueOf(sharedPrefs.getString("small_widget_default_stat_type", "1")));
-			
+			boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
+
 			long timeAwake 		= 0;
 			long timeScreenOn 	= 0;
 			long timeDeepSleep 	= 0;
 			
+			if (!showTitle)
+			{
+				remoteViews.setInt(R.id.stat_type, "setVisibility", View.GONE);
+			}
 			remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabelShort(statType));
 			
 

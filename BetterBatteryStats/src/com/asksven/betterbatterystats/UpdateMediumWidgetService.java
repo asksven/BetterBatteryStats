@@ -45,6 +45,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.method.TimeKeyListener;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 
@@ -98,6 +99,8 @@ public class UpdateMediumWidgetService extends Service
 					Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "1")));
 
 			boolean showPct	= sharedPrefs.getBoolean("large_widget_show_pct", false);
+			boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
+
 
 			long timeAwake 		= 0;
 			long timeDeepSleep	= 0;
@@ -129,6 +132,11 @@ public class UpdateMediumWidgetService extends Service
 					else
 					{
 						timeDeepSleep = 0;
+					}
+
+					if (!showTitle)
+					{
+						remoteViews.setInt(R.id.stat_type, "setVisibility", View.GONE);
 					}
 
 					// Set the text
@@ -191,7 +199,7 @@ public class UpdateMediumWidgetService extends Service
 					{
 						if (showPct)
 						{
-							remoteViews.setTextViewText(R.id.wl, StringUtils.formatRatio(sumKWakelocks, timeSince));
+							remoteViews.setTextViewText(R.id.kwl, StringUtils.formatRatio(sumKWakelocks, timeSince));
 						}
 						else
 						{

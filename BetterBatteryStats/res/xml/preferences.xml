@@ -151,33 +151,45 @@
 	
 	<PreferenceCategory android:title="Widgets">  
 	    <PreferenceScreen android:title="Widget Settings">  
-	    <ListPreference 
-	            android:key="widget_refresh_freq"
-	            android:title="Refresh Frequency"
-	            android:summary="Set how often the Widgets will update"
-	            android:defaultValue="30"
-	            android:entries="@array/widgetUpdateFreqLabels"
-	            android:entryValues="@array/widgetUpdateFreqValues"
-	        />
-	        	        
+		    <ListPreference 
+		            android:key="widget_refresh_freq"
+		            android:title="Refresh Frequency"
+		            android:summary="Set how often the Widgets will update"
+		            android:defaultValue="30"
+		            android:entries="@array/widgetUpdateFreqLabels"
+		            android:entryValues="@array/widgetUpdateFreqValues"
+		        />
+		    <CheckBoxPreference 
+		            android:key="widget_show_stat_type"
+		            android:title="Show Title"
+		            android:summary="Show Stat Type"
+					android:defaultValue="true"
+					android:enabled="true"/>    		    		   		   
+		    	        	        
 	        <PreferenceCategory android:title="2x2 ad 2x1 Widgets">	        
-		    <ListPreference 
-		            android:key="large_widget_default_stat_type"
-		            android:title="Stat type"
-		            android:summary="Set the stat type to be shown in the widget"
-		            android:defaultValue="1" 
-		            android:entries="@array/statTypeLabels"
-		            android:entryValues="@array/statTypeValues"
-		        />
-		    <ListPreference 
-		            android:key="large_widget_font_size"
-		            android:title="Font Size"
-		            android:summary="Set the font size to be used in the widget"
-		            android:defaultValue="10" 
-		            android:entries="@array/widgetFontSizeLabels"
-		            android:entryValues="@array/widgetFontSizeValues"
-		        />
-		    		    
+			    <ListPreference 
+			            android:key="large_widget_default_stat_type"
+			            android:title="Stat type"
+			            android:summary="Set the stat type to be shown in the widget"
+			            android:defaultValue="1" 
+			            android:entries="@array/statTypeLabels"
+			            android:entryValues="@array/statTypeValues"
+			        />
+			    <ListPreference 
+			            android:key="large_widget_font_size"
+			            android:title="Font Size"
+			            android:summary="Set the font size to be used in the widget"
+			            android:defaultValue="10" 
+			            android:entries="@array/widgetFontSizeLabels"
+			            android:entryValues="@array/widgetFontSizeValues"
+			        />
+			    <CheckBoxPreference 
+			            android:key="large_widget_show_pct"
+			            android:title="Show %"
+			            android:summary="Show durations in % of total time"
+						android:defaultValue="false"
+						android:enabled="true"/>    		    		   		   
+		    		    		    
 				<com.asksven.betterbatterystats.contrib.SeekBarPreference
 				    android:key="large_widget_opacity"
 				    android:title="Opacity"

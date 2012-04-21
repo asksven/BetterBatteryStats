@@ -38,7 +38,7 @@ public class MediumWidgetProvider extends BbsWidgetProvider
 		Log.w(TAG, "onUpdate method called");
 
 		// Update the widgets via the service
-		startService(context, this.getClass(), appWidgetManager, UpdateSmallWidgetService.class);
+		startService(context, this.getClass(), appWidgetManager, UpdateMediumWidgetService.class);
 		
 		setAlarm(context);
 		
