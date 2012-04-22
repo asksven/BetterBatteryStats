@@ -1348,6 +1348,10 @@ public class StatsProvider
 				out.write("FINGERPRINT: "+Build.FINGERPRINT+"\n");
 				out.write("HARDWARE: "+Build.HARDWARE+"\n");
 				out.write("ID: "+Build.ID+"\n");
+				out.write("TAGS: "+Build.TAGS+"\n");
+				out.write("USER: "+Build.USER+"\n");
+				out.write("PRODUCT: "+Build.PRODUCT+"\n");
+				out.write("RADIO: "+Build.getRadioVersion()+"\n");
 				out.write("Rooted: "+ RootDetection.hasSuRights("dumpsys alarm") + "\n");
 				
 				
