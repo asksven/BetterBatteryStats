@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import com.asksven.android.common.utils.GenericLogger;
+import com.asksven.betterbatterystats.R;
 
 /**
  * @author sven
