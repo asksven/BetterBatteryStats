@@ -1351,7 +1351,20 @@ public class StatsProvider
 				out.write("TAGS: "+Build.TAGS+"\n");
 				out.write("USER: "+Build.USER+"\n");
 				out.write("PRODUCT: "+Build.PRODUCT+"\n");
-				out.write("RADIO: "+Build.getRadioVersion()+"\n");
+				String radio = "";
+				
+				try
+				{
+					// from API14
+					radio = Build.getRadioVersion();
+				}
+				catch (NoSuchMethodError e)
+				{
+					// whatever was before
+					radio = Build.RADIO;
+				}
+				
+				out.write("RADIO: "+ radio + "\n");
 				out.write("Rooted: "+ RootDetection.hasSuRights("dumpsys alarm") + "\n");
 				
 				
