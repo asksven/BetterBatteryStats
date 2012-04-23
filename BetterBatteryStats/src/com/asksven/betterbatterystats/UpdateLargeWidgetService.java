@@ -261,7 +261,7 @@ public class UpdateLargeWidgetService extends Service
 				PendingIntent pendingIntent = PendingIntent.getBroadcast(
 						getApplicationContext(), 0, clickIntent,
 						PendingIntent.FLAG_UPDATE_CURRENT);
-				remoteViews.setOnClickPendingIntent(R.id.stat_type, pendingIntent);
+				remoteViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
 				
 				// Register an onClickListener for the widget -> call main activity
 				Intent i = new Intent(Intent.ACTION_MAIN);
@@ -273,7 +273,7 @@ public class UpdateLargeWidgetService extends Service
 				PendingIntent clickPI = PendingIntent.getActivity(
 						this.getApplicationContext(), 0,
 						i, 0);
-				remoteViews.setOnClickPendingIntent(R.id.layout, clickPI);
+				remoteViews.setOnClickPendingIntent(R.id.graph, clickPI);
 
 				appWidgetManager.updateAppWidget(widgetId, remoteViews);
 			}

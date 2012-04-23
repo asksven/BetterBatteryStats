@@ -98,7 +98,7 @@
 		       	android:layout_toRightOf="@id/staticScreenOn"
 		        android:layout_alignTop="@id/staticScreenOn"
 		        android:layout_marginLeft="5dip"/>
-
+		    
 		    <TextView
 		        android:id="@+id/staticKWL"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"

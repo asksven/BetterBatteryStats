@@ -77,7 +77,12 @@
 		        android:layout_toRightOf="@id/staticAwake"
 		        android:layout_alignTop="@id/staticAwake"
 		        android:layout_marginLeft="5dip"/>
-		    		    
+	</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout2">
+		    		    		    
 		    <TextView
 		        android:id="@+id/staticScreenOn"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
