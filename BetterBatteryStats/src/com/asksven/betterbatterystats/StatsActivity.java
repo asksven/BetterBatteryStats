@@ -297,6 +297,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	protected void onPause()
 	{
 		super.onPause();
+		// make sure to dispose any running dialog
+		if (m_progressDialog != null)
+		{
+			m_progressDialog.dismiss();
+			m_progressDialog = null;
+		}
 //		this.unregisterReceiver(m_batteryHandler);
 
 	}
