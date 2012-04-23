@@ -89,7 +89,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="Screen on:"
-		        android:layout_below="@id/deep_sleep"
+		        android:layout_below="@id/awake"
 		        android:layout_marginLeft="5dip"/>
 		    <TextView
 		        android:id="@+id/screen_on"
