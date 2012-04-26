@@ -52,15 +52,15 @@ public class BroadcastHandler extends BroadcastReceiver
 	{
 
  
-//        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
-//		{
-//        	// start the service
+        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
+		{
+        	// start the service
 //        	context.startService(new Intent(context, BetterBatteryStatsService.class));
-//        	
-//			Log.i(TAG, "Received Broadcast ACTION_BOOT_COMPLETED");
-//			// delete whatever references we have saved here
-//			StatsProvider.getInstance(context).deletedSerializedRefs();
-//		}
+        	
+			Log.i(TAG, "Received Broadcast ACTION_BOOT_COMPLETED");
+			// delete whatever references we have saved here
+			StatsProvider.getInstance(context).deletedSerializedRefs();
+		}
 
 
         if (intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED))
