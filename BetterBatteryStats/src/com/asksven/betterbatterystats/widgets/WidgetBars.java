@@ -64,21 +64,21 @@ public class WidgetBars
         
     	m_paint[1] = new Paint();
     	m_paint[1].setStyle(Paint.Style.FILL);
-    	m_paint[1].setColor(Color.YELLOW);
+    	m_paint[1].setColor(Color.GREEN);
     	m_paint[1].setStrokeWidth(STROKE_WIDTH);
 //    	m_paint[1].setStyle(Paint.Style.STROKE);
     	m_paint[1].setAlpha(opacity);
         
     	m_paint[2] = new Paint();
     	m_paint[2].setStyle(Paint.Style.FILL);
-    	m_paint[2].setColor(Color.GREEN);
+    	m_paint[2].setColor(Color.YELLOW);
     	m_paint[2].setStrokeWidth(STROKE_WIDTH);
 //    	m_paint[2].setStyle(Paint.Style.STROKE);
     	m_paint[2].setAlpha(opacity);
 
     	m_paint[3] = new Paint();
     	m_paint[3].setStyle(Paint.Style.FILL);
-    	m_paint[3].setColor(Color.RED);
+    	m_paint[3].setColor(Color.WHITE);
     	m_paint[3].setStrokeWidth(STROKE_WIDTH);
 //    	m_paint[3].setStyle(Paint.Style.STROKE);
     	m_paint[3].setAlpha(opacity);
