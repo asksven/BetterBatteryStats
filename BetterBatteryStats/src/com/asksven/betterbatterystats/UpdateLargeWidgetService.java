@@ -215,8 +215,8 @@ public class UpdateLargeWidgetService extends Service
 					WidgetBars graph = new WidgetBars();
 					ArrayList<Long> serie = new ArrayList<Long>();
 					serie.add(timeSince);
-					serie.add(timeAwake);
 					serie.add(timeDeepSleep);
+					serie.add(timeAwake);
 					serie.add(timeScreenOn);
 					serie.add(sumKWakelocks);
 					serie.add(sumPWakelocks);
