@@ -29,12 +29,13 @@
 <h2>Views</h2>
 <p>These are the four statistics:
 <ul>
-	<li>Other: shows total times the different part of the phone have been on (display, wifi, bluetooth)</li>
-	<li>Partial wakelocks: shows the total time and the count of partial wakelocks by application</li>
+	<li>Other: shows sleep, awake and screen on as well as other important times</li>
 	<li>Kernel Wakelocks: shows the total time and the count of kernel wakelocks</li>
+	<li>Partial wakelocks: shows the total time and the count of partial wakelocks</li>
+	<li>Alarms: shows the wakeups caused by applications or services</li>
 	<li>Processes: shows the cpu time (user and system) processes have consumed</li>
 </ul></p>
-<p>and these are the possible timespans (except for kernel wakelocks that always are "since boot"):
+<p>and these are the possible timespans:
 <ul>
 	<li>Since changed: all statitics give details since the phone was 100% charged</li>
 	<li>Since unplugged: all statitics give details since the phone was unplugged from A/C or USB</li>
@@ -49,6 +50,7 @@ Group of different indicators about what is consuming the battery. This statisti
 A usual profile would show low "Screen on" times compared the "Awake" meaning that partial wakelocks are resonsible for the battery drain as those preventing the phone from going to deep sleep.
 </p>
 <ul>
+	<li>Deep Sleep: the total time the phone was sleeping</li>
 	<li>Awake: the total time the phone was not in deep-sleep</li>
 	<li>Screen On: the total time the phone was awake and the display was on</li>
 	<li>Phone On: the total time the phone was in a call</li>
@@ -71,6 +73,10 @@ For example let's assume the phone takes 1/2 second to wake up and sleep again. 
 <p>
 Like for partial wakelocks as well long running wakelocks as wakelocks with a high count (large number of wakeups) should be taken into acount.
 </p>
+<h3>Alarms</h3>
+<p>
+Alarms are events created by applications that may cause wakeups.
+</p>
 <h3>Processes</h3>
 <p>
 The list shows the processes and their CPU consumption during the timespan. CPU consumption is expressed in user CPU and system CPU and both times are shown in the total and in the bar graph with different colors.
@@ -81,12 +87,13 @@ The list shows the processes and their CPU consumption during the timespan. CPU 
 	<li>Preferences</li>
 	<li>Refresh</li>
 	<li>Order By/li>
-	<li>Actions</li>
+	<li>More</li>
 	<ul>
 		<li>Dump to file: writes the statistics to /sdcard/BetterBatteryStats.log</li>
 		<li>Set Custom Reference: set a custom begin mark for a statitic</li>
 		<li>History: shows different graphs like battery usage or wakeups (starting from android 2.3)</li>
-		<li>Alarms: a tool for analysing partial wakelocks caused by AlarmManager</li>
+		<li>Raw Alarms: shows the alarms since boot</li>
+		<li>Raw Kernel Wakelocks: shows the alarms since boot</li>
 	</ul>
 	<li>Help: access to this help was well as the how-to</li>
 </ul>

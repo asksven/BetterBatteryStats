@@ -23,31 +23,44 @@
 <div class="row">
  
 	
-<h2>BetterBatteryStats<span>How To</span></h2> 
+<h2>BetterBatteryStats How To</h2> 
 <div id="content"> 
 This document provides an insight about how to use BetterBatteryStats to reduce the battery drain in a systematic manner.
-<p id="intro">The process to follow is pretty simple and follows this simple flowchart:</p>
-<img src="howto.png" alt="flowchart"/><br/><br/><br/>
-<h2>Determine awake vs. screen on ratio</h2>
+<p>First you must select a reference (most of the time "since unplugged" is the best way to start).</p>
+<h1>Go to the [Other] view</h1>
+<h2>Check the deep sleep, awake and screen on times</h2>
 <p>
-The awake vs. screen on ratio tells you how much time your phone has spent with the display being off but not being in the optimal deep-sleep mode. During this time the reason why your phone is not going to deep-sleep or is being woken up from deep-sleep is caused by background processes (services, apps reacting on different events, kernel). These use partial wakelocks or kernel wakelocks to prevent your phone from reaching its optimal state of deep-sleep. The good news is we can change this to some extent and by doing so improve the battery life dramatically.
+The <i>deep sleep vs. awake ratio</i> tells you how much time your phone has spent in the most power saving mode: ideally the ratio would be near 100%
+</p>
+<p>
+The <i>screen on vs. awake ratio</i> tells you how much time your phone was in use vs. how long it has been awake. Ideally this ratio is 100%, meaning that the phone was only awake when in use.
+</p>
+<p>
+<b>Pro tip:</b> the 1x1 widget shows both ratios and gives the best overview on how optimal your phones runs</p>
+<h2>Check the [Kernel wakelocks]</h2>
+<p>
+The list shows you what kernel wakelocks occured: a symbol on the right shows that there is a knowledge-base article on that specific wakelock
+ In the first step we want to check for high times (minutes or more), once there are no hot spots left we want to look at the high counts.
 </p>
 
-<h2>Check partial wakelocks</h2>
+<h3>The PowerManagerService wakelock</h3>
 <p>
-Go to the "Partial wakelocks" statistic and check the list. The wakelocks are sorted by time in descending order. In the first step we want to check for high times (minutes or more), once there are no hot spots left we want to look at the high counts.
+This wakelock shows as a sum of the partial wakelocks on many phones. If this wakelock is #1 go to the <i>Partial Wakelocks</i> to find out more.
 </p>
-
-<h2>Check for kernel wakelocks</h2>
 <p>
-Besides applications causing awake times by holding partial wakelocks certain events at kernel level can cause awake by holding kernel wakelocks (in response to events like incoming network traffic or in response to services requested by applications (e.g. data traffic). 
+If the PowerManagerService is not the highest wakelock check the online knowledge-base or use google search to find more information about the wakelock and its potential causes. 
 </p>
-<H2>Deinstall or freeze</H2>
+<h2>Check the [Partial wakelocks]</h2>
 <p>
-Once a cause for partial wakelocks has been spotted you have to ask yourself if you even use that app. If not disable/deinstall/freeze it.
-Go back to the start and take another reading to see the effect of the action.
+The list shows you what partial wakelocks occured and for most of them what application caused them. See "What's next" for more details on how to reduce them.
 </p>
-<h2>Check / change settings</h2>
+<h3>The AlarmManager wakelock</h3>
+<p>
+High times or count on the <i>AlarmManager</i> wakelock is a sign that either many wakeups were caused by alarms or that apps have added/modified alarms intensively. A detailed overview can be found under [Alarms].
+</p>
+<h2>What's next?</h2>
+<p>Some but not all wakelocks can be traced back to a specific app. In that case there are following options:     
+<h3>Check / change settings</h3>
 <p>
 Sometimes we really want the app / functionality causing the wakelocks and the good news is there is still hope. Many apps have settings that condition their behaviour so these should be checked:
 <ul>
@@ -55,28 +68,20 @@ Sometimes we really want the app / functionality causing the wakelocks and the g
 	<li>quantity: check for optional services like e.g. cloud backup, full sync etc. and ask yourself if you really need all that stuff</li>
 </ul>
 
-<h2>Optimize screen-on drain</h2>
+<h3>Deinstall or freeze</h3>
 <p>
-If you awake time is not less than the screen on time there are two aspects to consider:
+Once a cause for partial wakelocks has been spotted you have to ask yourself if you even use that app. If not disable/deinstall/freeze it.
+Go back to the start and take another reading to see the effect of the action.
+</p>
+<p>In some cases it is not possible to attribute a wakelock to an app. In such cases use the knowledge-base and google search to find more information about potential causes.</p>
+<h2>Common tips</h2>
+Following tips can help you reducing some causes of awake:
 <ul>
-	<li>What is preventing the phone from sleeping is you interacting with your phone</li>
-	<li>There still may be too many things happening in the backgroud that would prevent you phone from sleeping if you weren't using it</li>	
-</ul>
-So even if partial wakelocks are not the root cause of you drain we still recommend checking them and make sure there is nothing unwanted happening in the background.
-<br/>
-Following tips can help you lower the drain when screen is on:
-<ul>
-	<li>Don't use auto brightness but keep it as low as possible</li>
-	<li>If the minimum brightness is still too high consider using a 3rd party tool like screen filter</li>
-	<li>Don't use animated wallpapers</li>
-	<li>Lower your auto-off timeout to turn off the screen faster if unused</li>
-	<li>Check the refresh settings of your widgets</li>
-	<li>Use Wifi instead of 3G data</li>
-	<li>Check for rogue apps in terms of CPU consumption (process view)</li>
-	<li>Turn your GPS off (automatic is not was good as off)</li>
+	<li>Turn your GPS off when not required to avoid apps using that expensive location source</li>
 	<li>When you are finished using an app close it with the "back" button. This will terminate it and avoid background management</li>
 	<li>Don't use any auto killer apps. If there are apps you don't want to be started or cached freeze them or configure their auto-start properly</li>
 	<li>Don't use and power saving tools like Juice Defender or Green Power: most apps do not behave properly when they can't use the data connection and will generate overhead by trying</li>
+	<li>If you don't need Wifi turn it off: in some cases Wifi is known to cause wakeups and an overhead in e.g. location services</li>
 </ul>
 </p>
 <h2>Enjoy your successes</h2>
