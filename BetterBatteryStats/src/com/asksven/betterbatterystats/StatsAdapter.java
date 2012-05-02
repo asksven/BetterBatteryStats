@@ -152,6 +152,10 @@ public class StatsAdapter extends BaseAdapter
     		{
     			iHeight = 10;
     		}    		
+        	if (iHeight == 0)
+        	{
+        		iHeight = 10;
+        	}
 
    			buttonBar.setMinimumHeight(iHeight);
    			buttonBar.setName(entry.getName());
