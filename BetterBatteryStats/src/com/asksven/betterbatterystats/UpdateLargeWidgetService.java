@@ -145,7 +145,7 @@ public class UpdateLargeWidgetService extends Service
 
 					// Set the text
 					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
-					remoteViews.setTextViewText(R.id.since, DateUtils.formatDuration(timeSince));
+					remoteViews.setTextViewText(R.id.since, DateUtils.formatDurationShort(timeSince));
 					
 					if (showPct)
 					{
@@ -155,9 +155,9 @@ public class UpdateLargeWidgetService extends Service
 					}
 					else
 					{
-						remoteViews.setTextViewText(R.id.awake, DateUtils.formatDuration(timeAwake));
-						remoteViews.setTextViewText(R.id.deep_sleep, DateUtils.formatDuration(timeDeepSleep));
-						remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDuration(timeScreenOn));
+						remoteViews.setTextViewText(R.id.awake, DateUtils.formatDurationShort(timeAwake));
+						remoteViews.setTextViewText(R.id.deep_sleep, DateUtils.formatDurationShort(timeDeepSleep));
+						remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDurationShort(timeScreenOn));
 					}
 
 					
@@ -191,7 +191,7 @@ public class UpdateLargeWidgetService extends Service
 						}
 						else
 						{
-							remoteViews.setTextViewText(R.id.wl, DateUtils.formatDuration(sumPWakelocks));
+							remoteViews.setTextViewText(R.id.wl, DateUtils.formatDurationShort(sumPWakelocks));
 						}
 					}
 					
@@ -208,7 +208,7 @@ public class UpdateLargeWidgetService extends Service
 						}
 						else
 						{
-							remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDuration(sumKWakelocks));
+							remoteViews.setTextViewText(R.id.kwl, DateUtils.formatDurationShort(sumKWakelocks));
 						}
 					}
 					
@@ -244,11 +244,11 @@ public class UpdateLargeWidgetService extends Service
 			}
 			finally
 			{
-				Log.d(TAG, "Since: " + DateUtils.formatDuration(timeSince));
-				Log.d(TAG, "Awake: " + DateUtils.formatDuration(timeAwake));
-				Log.d(TAG, "Screen on: " + DateUtils.formatDuration(timeScreenOn));
-				Log.d(TAG, "P. Wl.: " + DateUtils.formatDuration(sumPWakelocks));
-				Log.d(TAG, "K. Wl.: " + DateUtils.formatDuration(sumKWakelocks));
+				Log.d(TAG, "Since: " + DateUtils.formatDurationShort(timeSince));
+				Log.d(TAG, "Awake: " + DateUtils.formatDurationShort(timeAwake));
+				Log.d(TAG, "Screen on: " + DateUtils.formatDurationShort(timeScreenOn));
+				Log.d(TAG, "P. Wl.: " + DateUtils.formatDurationShort(sumPWakelocks));
+				Log.d(TAG, "K. Wl.: " + DateUtils.formatDurationShort(sumKWakelocks));
 
 				// Register an onClickListener for the graph -> refresh
 				Intent clickIntent = new Intent(this.getApplicationContext(),
