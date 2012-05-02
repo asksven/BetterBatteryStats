@@ -84,8 +84,6 @@ public class StatsProvider
 	static References m_myRefSinceUnplugged 	= null;
 	static References m_myRefSinceCharged 		= null;
 
-
-
 	/**
 	 * The constructor (hidden)
 	 */
@@ -131,7 +129,7 @@ public class StatsProvider
 				case 1:
 					return getWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
 				case 0:
-					return getOtherUsageStatList(bFilterStats, iStatType);	
+					return getOtherUsageStatList(bFilterStats, iStatType, true);	
 				case 2:
 					return getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
 				case 3:
@@ -711,10 +709,12 @@ public class StatsProvider
 	 * @return a List of Other usages sorted by duration (descending)
 	 * @throws Exception if the API call failed
 	 */
-	public ArrayList<StatElement> getOtherUsageStatList(boolean bFilter, int iStatType) throws Exception
+	public ArrayList<StatElement> getOtherUsageStatList(boolean bFilter, int iStatType, boolean bFilterView) throws Exception
 	{
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
+		
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
 		// List to store the other usages to
@@ -843,62 +843,66 @@ public class StatsProvider
         	myUsages.add(new Misc("Phone On", timePhoneOn, whichRealtime));
         }
         
-        if (timeWifiOn > 0)
+        if ( (timeWifiOn > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_wifi", true)) )
         {
         	myUsages.add(new Misc("Wifi On", timeWifiOn, whichRealtime));
         }
         
-        if (timeWifiRunning > 0)
+        if ( (timeWifiRunning > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_wifi", true)) )
+
         {
         	myUsages.add(new Misc("Wifi Running", timeWifiRunning, whichRealtime));
         }
         
-        if (timeBluetoothOn > 0)
+        if ( (timeBluetoothOn > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_bt", true)) )
+
         {
         	myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, whichRealtime)); 
         }
         
-        if (timeNoDataConnection > 0)
+        if ( (timeNoDataConnection > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_connection", true)) )
+
         {
         	myUsages.add(new Misc("No Data Connection", timeNoDataConnection, whichRealtime));
         }
 
-        if (timeSignalNone > 0)
+        if ( (timeSignalNone > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_signal", true)) )
+
         {
         	myUsages.add(new Misc("No or Unknown Signal", timeSignalNone, whichRealtime));
         }
 
-        if (timeSignalPoor > 0)
+        if ( (timeSignalPoor > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_signal", true)) )
         {
         	myUsages.add(new Misc("Poor Signal", timeSignalPoor, whichRealtime));
         }
 
-        if (timeSignalModerate > 0)
+        if ( (timeSignalModerate > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_signal", true)) )
         {
         	myUsages.add(new Misc("Moderate Signal", timeSignalModerate, whichRealtime));
         }
 
-        if (timeSignalGood > 0)
+        if ( (timeSignalGood > 0) &&  (!bFilterView || sharedPrefs.getBoolean("show_other_signal", true)) )
         {
         	myUsages.add(new Misc("Good Signal", timeSignalGood, whichRealtime));
         }
 
-        if (timeSignalGreat > 0)
+        if ( (timeSignalGreat > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_signal", true)) )
         {
         	myUsages.add(new Misc("Great Signal", timeSignalGreat, whichRealtime));
         }
 
-//        if (timeWifiMulticast > 0)
+//        if ( (timeWifiMulticast > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_wifi", true)) )
 //        {
 //        	myUsages.add(new Misc("Wifi Multicast On", timeWifiMulticast, whichRealtime)); 
 //        }
 //
-//        if (timeWifiLocked > 0)
+//        if ( (timeWifiLocked > 0) && (!bFilterView ||(!bFilterView || sharedPrefs.getBoolean("show_other_wifi", true)) )
 //        {
 //        	myUsages.add(new Misc("Wifi Locked", timeWifiLocked, whichRealtime)); 
 //        }
 //
-//        if (timeWifiScan > 0)
+//        if ( (timeWifiScan > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_wifi", true)) )
 //        {
 //        	myUsages.add(new Misc("Wifi Scan", timeWifiScan, whichRealtime)); 
 //        }
@@ -1072,7 +1076,7 @@ public class StatsProvider
 		
 			// create a copy of each list for further reference
 			m_myRefs.m_refOther 			= getOtherUsageStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
 			m_myRefs.m_refWakelocks 		= getWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
 			m_myRefs.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
@@ -1128,7 +1132,7 @@ public class StatsProvider
 			m_myRefSinceCharged.m_refAlarms				= getAlarmsStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_myRefSinceCharged.m_refOther			 	= getOtherUsageStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
 
 			m_myRefSinceCharged.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 
@@ -1176,7 +1180,7 @@ public class StatsProvider
 			m_myRefSinceUnplugged.m_refAlarms = getAlarmsStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_myRefSinceUnplugged.m_refOther		 	= getOtherUsageStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
 					
 			m_myRefSinceUnplugged.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 			
@@ -1374,7 +1378,7 @@ public class StatsProvider
 					out.write("===========\n");
 					out.write("Other Usage\n");
 					out.write("===========\n");
-					dumpList(getOtherUsageStatList(bFilterStats, iStatType), out);
+					dumpList(getOtherUsageStatList(bFilterStats, iStatType, false), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_pwl", true);

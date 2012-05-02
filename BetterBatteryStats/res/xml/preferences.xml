@@ -148,7 +148,32 @@
 				android:enabled="true"/>    		    		   		   
 		</PreferenceScreen>
 	</PreferenceCategory>
-	
+
+    <PreferenceCategory android:title="Views">
+	    <PreferenceScreen android:title="Customize Views">	
+		    <CheckBoxPreference 
+				android:key="show_other_wifi"
+				android:summary="Show Wifi values"
+				android:title="Show Wifi" 
+				android:defaultValue="true"/>
+		    <CheckBoxPreference 
+				android:key="show_other_signal"
+				android:summary="Show signal values"
+				android:title="Show signal" 
+				android:defaultValue="true"/>
+		    <CheckBoxPreference 
+				android:key="show_other_connection"
+				android:summary="Show connection values"
+				android:title="Show connection"
+				android:defaultValue="true"/>
+		    <CheckBoxPreference 
+				android:key="show_other_bt"
+				android:summary="Show Bluetooth values"
+				android:title="Show Bluetooth" 
+				android:defaultValue="true"/>
+		</PreferenceScreen>
+	</PreferenceCategory>
+    	
 	<PreferenceCategory android:title="Widgets">  
 	    <PreferenceScreen android:title="Widget Settings">  
 		    <ListPreference 

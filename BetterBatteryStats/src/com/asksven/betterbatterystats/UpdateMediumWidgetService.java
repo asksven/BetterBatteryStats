@@ -112,7 +112,7 @@ public class UpdateMediumWidgetService extends Service
 			try
 			{
 				
-				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType);
+				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false);
 				if ( (otherStats != null) && ( otherStats.size() > 1) )
 				{
 					timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
