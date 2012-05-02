@@ -1343,7 +1343,6 @@ public class StatsProvider
 				out.write("DEVICE: "+Build.DEVICE+"\n");
 				out.write("MANUFACTURER: "+Build.MANUFACTURER+"\n");
 				out.write("MODEL: "+Build.MODEL+"\n");
-				out.write("RADIO: "+Build.RADIO+"\n");
 				out.write("BOOTLOADER: "+Build.BOOTLOADER+"\n");
 				out.write("FINGERPRINT: "+Build.FINGERPRINT+"\n");
 				out.write("HARDWARE: "+Build.HARDWARE+"\n");
