@@ -148,7 +148,7 @@
 				android:enabled="true"/>    		    		   		   
 		</PreferenceScreen>
 	</PreferenceCategory>
-
+<!-- 
     <PreferenceCategory android:title="Views">
 	    <PreferenceScreen android:title="Customize Views">	
 		    <CheckBoxPreference 
@@ -173,7 +173,7 @@
 				android:defaultValue="true"/>
 		</PreferenceScreen>
 	</PreferenceCategory>
-    	
+ -->    	
 	<PreferenceCategory android:title="Widgets">  
 	    <PreferenceScreen android:title="Widget Settings">  
 		    <ListPreference 
