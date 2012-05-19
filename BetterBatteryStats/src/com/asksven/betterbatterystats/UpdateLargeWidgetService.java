@@ -101,6 +101,7 @@ public class UpdateLargeWidgetService extends Service
 			// retrieve stats
 			int statType	= StatsProvider.statTypeFromPosition(
 					Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "1")));
+			
 			boolean showPct	= sharedPrefs.getBoolean("large_widget_show_pct", false);
 			boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
 
@@ -269,6 +270,9 @@ public class UpdateLargeWidgetService extends Service
 				i = manager.getLaunchIntentForPackage(getPackageName());
 				i.addCategory(Intent.CATEGORY_LAUNCHER);
 			    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				int stat = Integer.valueOf(sharedPrefs.getString("widget_default_stat", "2"));
+				i.putExtra(StatsActivity.STAT, stat);
+				i.putExtra(StatsActivity.STAT_TYPE, statType);
 
 				PendingIntent clickPI = PendingIntent.getActivity(
 						this.getApplicationContext(), 0,

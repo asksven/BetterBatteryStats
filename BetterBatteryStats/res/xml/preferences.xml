@@ -183,6 +183,15 @@
 		            android:entries="@array/widgetUpdateFreqLabels"
 		            android:entryValues="@array/widgetUpdateFreqValues"
 		        />
+		    <ListPreference 
+	            android:key="widget_default_stat"
+	            android:title="Default stat to open"
+	            android:summary="Set the stat to be called from widget"
+	            android:defaultValue="2" 
+	            android:entries="@array/statLabels"
+	            android:entryValues="@array/statValues"
+	        />
+		    
 		    <CheckBoxPreference 
 		            android:key="widget_show_stat_type"
 		            android:title="Show Title"

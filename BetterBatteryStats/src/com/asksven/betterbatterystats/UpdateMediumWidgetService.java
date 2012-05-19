@@ -256,6 +256,10 @@ public class UpdateMediumWidgetService extends Service
 				i = manager.getLaunchIntentForPackage(getPackageName());
 				i.addCategory(Intent.CATEGORY_LAUNCHER);
 			    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				int stat = Integer.valueOf(sharedPrefs.getString("widget_default_stat", "2"));
+				i.putExtra(StatsActivity.STAT, stat);
+				i.putExtra(StatsActivity.STAT_TYPE, statType);
+
 
 				PendingIntent clickPI = PendingIntent.getActivity(
 						this.getApplicationContext(), 0,

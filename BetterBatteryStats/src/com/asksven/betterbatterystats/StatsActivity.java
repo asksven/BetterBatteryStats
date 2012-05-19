@@ -58,6 +58,9 @@ import com.asksven.betterbatterystats.data.StatsProvider;
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
 {    
+	public static String STAT 		= "STAT";
+	public static String STAT_TYPE 	= "STAT_TYPE";
+	
 	/**
 	 * The logging TAG
 	 */
@@ -106,6 +109,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// Check if the stats are accessible and warn if not
 		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
 	
+		
 		if (stats.initFailed())
 		{
 			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. Known reasons: MIUI settings allow to turn them off, making MIUI incompatible with android standards", Toast.LENGTH_SHORT).show();			
@@ -180,6 +184,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	
 		///////////////////////////////////////////////
     	// retrieve default selections for spinners
+    	// if none were passed
 		///////////////////////////////////////////////
     	
     	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "2"));
@@ -211,6 +216,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
     		
     		Toast.makeText(this, "Wakelock Stats: an error occured while recovering the previous state", Toast.LENGTH_SHORT).show();
+		}
+
+		// Override if some values were passed to the intent
+		Bundle extras = getIntent().getExtras();
+		if (extras != null)
+		{
+			m_iStat = extras.getInt(StatsActivity.STAT);
+			m_iStatType = extras.getInt(StatsActivity.STAT_TYPE);
 		}
 
 		// Display the reference of the stat
