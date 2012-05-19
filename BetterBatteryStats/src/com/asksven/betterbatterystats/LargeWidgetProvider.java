@@ -58,7 +58,7 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
 			{
 				Log.d(TAG, "Alarm called: updating");
-				GenericLogger.i(WIDGET_LOG, TAG, "LargeWidgetProvider: Alarm to refresh widget was called");
+//				GenericLogger.i(WIDGET_LOG, TAG, "LargeWidgetProvider: Alarm to refresh widget was called");
 			}
 			else
 			{
