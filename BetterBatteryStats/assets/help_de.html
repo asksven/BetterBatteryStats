@@ -1,0 +1,116 @@
+<!doctype html>
+<!-- see http://cssgrid.net/ -->
+<html lang="en">
+<head>
+    <title>Help</title>    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!-- The 1140px Grid - http://cssgrid.net/ -->
+	<link rel="stylesheet" href="css/1140.css" type="text/css" media="screen" />
+	
+	<!-- Your styles -->
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+	
+	<!--css3-mediaqueries-js - http://code.google.com/p/css3-mediaqueries-js/ - Enables media queries in some unsupported browsers-->
+	<script type="text/javascript" src="js/css3-mediaqueries.js"></script>
+     
+</head> 
+<body> 
+ 
+<div class="container">
+<div class="row">
+	
+<h2>BetterBatteryStats<span>Help</span></h2> 
+<div id="content"> 
+
+<p id="intro">Hier findest Du Details dar&uuml;ber wie die Ansichten und Optionen von BetterBatteryStatistics organisiert sind.
+Mehr dar&uuml;findest Du in der how-to Dokumentation.</p>
+<h2>Ansichten</h2>
+<p>Es gibt f&uuml;nf Ansichten:
+<ul>
+	<li>Other: die deep-sleep-, Wach- und Bildschirm an Zeiten so wie andere wichtige Infos</li>
+	<li>Kernel Wakelocks: Zeiten und Anzahl von Kernel Wakelocks</li>
+	<li>Partial wakelocks: Zeiten und Anzahl von Partial Wakelocks</li>
+	<li>Alarms: Details über Applikationen und Services die das Handy zum Aufwachen brachten</li>
+	<li>Processes: cpu Zeit (user and system) auf Prozess-Ebene</li>
+</ul></p>
+<p>und drei m&ouml;glichen Intervalle:
+<ul>
+	<li>Since changed: Details seit dem das Handy vollst&auml;ndig aufgeladen war</li>
+	<li>Since unplugged: Details seit dem das Handy vom Ladeger&auml;t oder USB-Kabel genommen wurde</li>
+	<li>Since custom reference: Details seit einer Benutzerdefinierten Referenz (siehe "Actions" Men&uuml;)</li>
+</ul></p>
+
+<h3>Other</h3>
+<p>
+&Uuml;bersicht der wichtigen Zeiten und Indikatoren &uuml;ber die Aktivit&auml;t des Ger&auml;ts. 
+Diese Ansicht sollte immer der Startpunkt einer Analyse sein.
+</p>
+<p>
+Typischerweise sollte "Screen on" mit "Awake" vergleichbar sein. Dies bedeutet, dass das Handy im Schlafzustand keine wesentliche Aktivit&auml;ten aufweist.</p>
+<ul>
+	<li>Deep Sleep: die Zeit in der das Handy im Schlafzustand war</li>
+	<li>Awake: die Zeit in der das Handy nicht im Schlafzustand war</li>
+	<li>Screen On: die Zeit in der das Display an war</li>
+	<li>Phone On: die Zeit in der ein Anruf aktiv war</li>
+	<li>Wifi On: die Zeit in der Wifi an war</li>
+	<li>Wifi running: die Zeit in der Wifi verbunden war</li>
+	<li>Bluetooth On: die Zeit in der Bluetooth an war</li>
+</ul>
+<br/>
+<h3>Partial Wakelocks</h3>
+<p>
+Diese Liste zeigt die Zeiten und Anzahl von Wakelocks die durch Anwendungen zu verantworten sind. Der Anteil in % wird je Wakelock ausgewiesen.
+Die Berechnung des Anteils wird je nach Option gegen die Gesamtzeit, die Wach-Zeit oder die Wach-Zeit - Zeit mit Bildschirm, je nach Einstellung.
+Uuml;blicherweise ist der Anteil, errechnet gegen die Wach-Zeit am repr&auml;santivsten. 
+Der Balken zeigt der errechnete Anteil.
+</p>
+<p>
+Auch wenn die Zeit gering erscheint ist es wichtig die Anzahl zu &uuml;berpr&uuml;fen. Eine hohe Anzahl kann auch mit einer kurzen Zeit in Summe eine hohe Auswirkung haben: jedes Aufwachen ist mit Zeit zum aufwachen und zum wieder einschlafen verbunden. Diese Zeiten werden dem Wakelock nicht angerechnet.
+ 
+</p>
+<h3>Kernel Wakelocks</h3>
+<p>
+Analog der Partial Wakelocks werden hier Wakelocks gelistet die vom Kernel verantwortet sind.
+</p>
+<h3>Alarms</h3>
+<p>
+Alarms sind Ereignisse die zu einem Aufwachen des Handys f&uuml;hren k&ouml;nnen.
+</p>
+<h3>Processen</h3>
+<p>
+Die Liste zeigt die Prozesse und deren CPU-Verbrauch. Der CPU-Verbrauch ist in Sekunden ausgedr&uuml;ckt (User und System).
+</p>
+<h2>Menu</h2>
+<p>
+<ul>
+	<li>Preferences: Einstellungen</li>
+	<li>Refresh</li>
+	<li>Order By: Sortierung</li>
+	<li>More</li>
+	<ul>
+		<li>Dump to file: schreibt eine Datei mit den wesentlichen Informationen nach /sdcard/BetterBatteryStats.log</li>
+		<li>Set Custom Reference: Legt eine benutzerdefinierte Referenz an</li>
+		<li>History: Grafische Darstellung der Statistiken</li>
+		<li>Raw Alarms: Alarms seit Boot</li>
+		<li>Raw Kernel Wakelocks: Kernel Wakelocks seit Boot</li>
+	</ul>
+	<li>Help: Zugriff auf die Online-Dokumentation</li>
+</ul>
+</p>
+</div> 
+
+<br />	
+	<nav class=""> 
+		<ul> 
+<!-- 			<li><a href="help_de.html">Einstieg</a></li>  --> 
+			<li><a href="howto_de.html">How To...</a></li> 
+			<li><a href="wakelocks_de.html">Wakelocks</a></li>
+		</ul> 
+	</nav> 
+</div>
+</div>
+</body>
+</HTML>

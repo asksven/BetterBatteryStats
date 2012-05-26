@@ -1,0 +1,98 @@
+<!doctype html>
+<!-- see http://cssgrid.net/ -->
+<html lang="en">
+<head>
+    <title>Help</title>    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    
+   	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	<!-- The 1140px Grid - http://cssgrid.net/ -->
+	<link rel="stylesheet" href="css/1140.css" type="text/css" media="screen" />
+	
+	<!-- Your styles -->
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+	
+	<!--css3-mediaqueries-js - http://code.google.com/p/css3-mediaqueries-js/ - Enables media queries in some unsupported browsers-->
+	<script type="text/javascript" src="js/css3-mediaqueries.js"></script>
+     
+</head> 
+ 
+<body> 
+<div class="container">
+<div class="row">
+ 
+	
+<h2>BetterBatteryStats How To</h2> 
+<div id="content"> 
+Einblick in die Art und Weise wie BetterBatteryStats genutzt werden kann um Akku-Verbraucher systematisch zu identifizieren.
+<p>Als erstes muss eine Referenz gew&auml;hlt werden (&uuml;blicherweise ist "since unplugged" die beste Wahl).</p>
+<h1>Gehe zur [Other] Ansicht</h1>
+<h2>Pr&uuml;fe die deep sleep, awake und screen on Zeiten</h2>
+<p>
+Der Anteil von deep sleep zur Gesamtzeit sagt aus wie lange das Handy im strohmschondenden Schlafmodus verbracht hat: idealerweise sollte die deep sleep Zeit vergleichbar mit der Gesamtzeit sein.
+</p>
+<p>
+Der Anteil von screen on zu awake sagt aus wie viel Zeit das Handy in Nutzung war und wie lange es in Summe wach war: idealerweise sollten diese Zeiten identisch sein.
+</p>
+<p>
+<b>Tip:</b> das 1x1 Widget zeigt diese Anteile grafisch und gibt so der ideale Einstieg</p>
+<h2>Pr&uuml;fe die [Kernel wakelocks]</h2>
+<p>
+Diese Liste zeigt welche Wakelocks vom Kernel verantwortet waren: ist ein Symbol rechts angezeigt so gibt es in der Knowledge-Base eine ausf&uuml;hrliche Dokumentation dazu.
+ Im ersten Schritt sind hohe Zeiten zu &uuml;berpr&uuml;fen (Minuten oder mehr). Wenn keine Ausreisser mehr vorhanden sind geht es mit den Wakelocks mit hoher Anzahl weiter.
+</p>
+
+<h3>Das PowerManagerService wakelock</h3>
+<p>
+Auf viele Ger&auml;te wird PowerManagerService als Summe f&uuml;r alle Partial Wakelocks angezeigt. Ist also dieser an erster Stelle so geht es gleich bei den Partial Wakelocks weiter.
+</p>
+<p>
+Sollte PowerManagerService nicht an erster Stelle sein kann die online Knowledge-Base oder Google Search genutzt werden um mehr Infos zu erlangen. 
+</p>
+<h2>Pr&uuml;fe die [Partial wakelocks]</h2>
+<p>
+Die Liste der Wakelocks die durch Anwendungen direkt oder inderekt zu verantworten sind.  
+</p>
+<h3>Das AlarmManager wakelock</h3>
+<p>
+Hohe Zeiten oder Anzahlen bei <i>AlarmManager</i> ist ein Zeichen daf&uuml;r, dass entweder das Handy sehr oft aufwachen musste oder, dass eine App h&auml;ufig Alarm Eintr&auml;ge angelegt und/oder entfernt hat. Details dazu sind in der Ansicht [Alarms] zu finden.
+</p>
+<h2>Und nun?</h2>
+<p>Einige aber nicht alle Wakelocks k&ouml;nnen einer App direkt zugeordnet werden. In dem Fall ist das Vorgehen einfach:     
+<h3>Pr&uuml;fen / &Auml;ndern der Einstellungen</h3>
+<h3>Deinstallieren oder einfrieren</h3>
+
+<p>Ein Wakelock kann aber nicht immer einer App zuzuordnen. In den F&auml;llen ist die Knowledge-Base und Google Search gute Informationsquellen.</p>
+<h2>Allgemeine Tips</h2>
+<ul>
+	<li>GPS sollte aus bleiben wenn nicht genutzt um zu vermeiden, dass andere Apps diesen teuern Location-Dienst nutzen</li>
+	<li>Apps mit dem  "zur&uuml;ck Button schliessen: somit wird sie aus dem Speicher entfernt</li>
+	<li>Keine Task Killer nutzen: ungew&uuml; Apps sollte deinstalliert under eingefroren werden</li>
+	<li>Keine Power Saver wie Juice Defender oder Green Power nutzen: eine App kann nicht richtig laufen wenn die Datenverbindung ihr entzogen wird und erzeugen somit Overhead</li>
+	<li>Wifi sollte ausgeschaltet werden wenn nicht genutzt: Wifi ist u.a. in Verbindung mit Google Maps</li>
+</ul>
+</p>
+<h2>Geniessen</h2>
+<p>
+Eine wichtige Regel bei Optimierung ist immer die Ergebnisse einer Aktion zu &uuml;berpr&uuml;fen:
+<ul>
+	<li>nicht zu viele &Auml;nderung auf einmal: nachdem ein Ausreisser beseitigt wurde ist oft das Gesamtbild ein komplett anderes</li>
+	<li>Kernel, ROM oder modem während einer Optimierung ist kontraproduktiv, kann seiteneffekte einf&uuml;hren und die Interpretation einer Messung unm&ouml;glich machen</li>
+	<li>Bedingungen beachten: unerkl&auml;rbare Ergebnisse k&ouml;nnen auf ver&auml;nderte Bedingungen zur&uuml;ckzuf&uuml;hren (Netzabdeckung, Cloud Dienste). Im Zweifel sollte die Messung wiederholt werden</li> 
+	<li>Nicht Verbeissen: Du willst Dein Handy geniessen und Optimieren sollte nur ein Mittel zum Zweck sein. Geniesse gute Ergebnisse und komme zu BBS zur&uuml;ck wenn sich die Acculaufzeit negativ ver&auml;ndert.</li>
+</ul>
+</div> 
+<br />	
+	<nav class=""> 
+		<ul> 
+			<li><a href="help_de.html">Einstieg</a></li> 
+<!-- 			<li><a href="howto_de.html">How To...</a></li>  --> 
+			<li><a href="wakelocks_de.html">Wakelocks</a></li>
+		</ul> 
+	</nav> 
+</div>
+</div>
+</body>
+
+</HTML>
