@@ -89,9 +89,9 @@ public class UpdateMediumWidgetService extends Service
 			
 			// we change the bg color of the layout based on alpha from prefs
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 20);
-			opacity = (255 * opacity) / 100; 
-			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
+			//int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 20);
+			//opacity = (255 * opacity) / 100; 
+			//remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 
 			
 			// retrieve stats
@@ -261,10 +261,9 @@ public class UpdateMediumWidgetService extends Service
 				i.putExtra(StatsActivity.STAT_TYPE, statType);
 
 
-				PendingIntent clickPI = PendingIntent.getActivity(
-						this.getApplicationContext(), 0,
-						i, 0);
-				remoteViews.setOnClickPendingIntent(R.id.layout2, clickPI);
+				//PendingIntent clickPI = PendingIntent.getActivity(
+				//		this.getApplicationContext(), 0, i, 0);
+				//remoteViews.setOnClickPendingIntent(R.id.layout2, clickPI);
 
 				appWidgetManager.updateAppWidget(widgetId, remoteViews);
 			}

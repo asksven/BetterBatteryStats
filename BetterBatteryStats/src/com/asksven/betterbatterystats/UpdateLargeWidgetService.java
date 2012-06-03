@@ -48,6 +48,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
+import android.widget.RemoteViews.RemoteView;
 
 /**
  * @author sven
@@ -94,9 +95,9 @@ public class UpdateLargeWidgetService extends Service
 			
 			// we change the bg color of the layout based on alpha from prefs
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 20);
-			opacity = (255 * opacity) / 100; 
-			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
+			//int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 20);
+			//opacity = (255 * opacity) / 100; 
+			//remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 			
 			// retrieve stats
 			int statType	= StatsProvider.statTypeFromPosition(
@@ -221,6 +222,8 @@ public class UpdateLargeWidgetService extends Service
 					serie.add(timeScreenOn);
 					serie.add(sumKWakelocks);
 					serie.add(sumPWakelocks);
+					
+					
 					
 					remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this, serie));
 				}
