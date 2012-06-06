@@ -48,6 +48,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
+import android.widget.RemoteViews.RemoteView;
 
 /**
  * @author sven
@@ -94,9 +95,9 @@ public class UpdateLargeWidgetService extends Service
 			
 			// we change the bg color of the layout based on alpha from prefs
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 20);
-			opacity = (255 * opacity) / 100; 
-			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
+			//int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 20);
+			//opacity = (255 * opacity) / 100; 
+			//remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 			
 			// retrieve stats
 			int statType	= StatsProvider.statTypeFromPosition(
@@ -129,24 +130,14 @@ public class UpdateLargeWidgetService extends Service
 					sumKWakelocks = stats.sum(kWakelockStats);
 	
 					Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));
-					if (deepSleepStat != null)
-					{
-						timeDeepSleep = deepSleepStat.getTimeOn();
-					}
-					else
-					{
-						timeDeepSleep = 0;
-					}
 					
-					if (!showTitle)
-					{
-						remoteViews.setInt(R.id.stat_type, "setVisibility", View.GONE);
-					}
-
+					timeDeepSleep = deepSleepStat == null? 0 : deepSleepStat.getTimeOn();
+					
+					if (!showTitle) remoteViews.setInt(R.id.stat_type, "setVisibility", View.GONE);
 
 					// Set the text
 					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
-					remoteViews.setTextViewText(R.id.since, DateUtils.formatDurationShort(timeSince));
+					remoteViews.setTextViewText(R.id.since, DateUtils.formatDurationShort(timeSince).trim());
 					
 					if (showPct)
 					{
@@ -164,21 +155,14 @@ public class UpdateLargeWidgetService extends Service
 					
 					// and the font size
 					float fontSize	= Float.valueOf(sharedPrefs.getString("large_widget_font_size", "10"));
-					remoteViews.setFloat(R.id.staticSince, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.staticAwake, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.staticDeepSleep, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.staticScreenOn, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.staticKWL, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.staticPWL, "setTextSize", fontSize);
-
-					remoteViews.setFloat(R.id.stat_type, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.since, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.awake, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.deep_sleep, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.screen_on, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.kwl, "setTextSize", fontSize);
-					remoteViews.setFloat(R.id.wl, "setTextSize", fontSize);
-
+					
+					int[] textViews = { R.id.staticSince, R.id.staticAwake, R.id.staticDeepSleep, 
+							R.id.staticScreenOn, R.id.staticKWL, R.id.staticPWL, R.id.stat_type,
+							R.id.since, R.id.awake, R.id.deep_sleep, R.id.screen_on, R.id.kwl, 
+							R.id.wl };
+					
+					for(int id : textViews) remoteViews.setFloat(id, "setTextSize", fontSize);
+					
 					if ( (sumPWakelocks == 1) && (pWakelockStats.size()==1) )
 					{
 						// there was no reference
@@ -214,13 +198,14 @@ public class UpdateLargeWidgetService extends Service
 					}
 					
 					WidgetBars graph = new WidgetBars();
+					
 					ArrayList<Long> serie = new ArrayList<Long>();
 					serie.add(timeSince);
 					serie.add(timeDeepSleep);
 					serie.add(timeAwake);
 					serie.add(timeScreenOn);
 					serie.add(sumKWakelocks);
-					serie.add(sumPWakelocks);
+					serie.add(sumPWakelocks);					
 					
 					remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this, serie));
 				}

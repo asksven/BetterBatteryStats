@@ -1494,13 +1494,13 @@ public class StatsProvider
 		switch (statType)
 		{
 			case 0:
-				strRet = "Since Charged";
+				strRet = "SINCE CHARGED";
 				break;
 			case 3:
-				strRet = "Since Unplugged";
+				strRet = "SINCE UNPLUGGED";
 				break;
 			case 4:
-				strRet = "Custom Reference";
+				strRet = "CUSTOM REFERENCE";
 				break;	
 		}
 		return strRet;
@@ -1518,13 +1518,13 @@ public class StatsProvider
 		switch (statType)
 		{
 			case 0:
-				strRet = "Charged";
+				strRet = "CHARGED";
 				break;
 			case 3:
-				strRet = "Unpl.";
+				strRet = "UNPL";
 				break;
 			case 4:
-				strRet = "Custom";
+				strRet = "CUSTOM";
 				break;	
 		}
 		return strRet;

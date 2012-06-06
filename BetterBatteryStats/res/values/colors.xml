@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="since">#FF3192AD</color>
+    <color name="deepSleep">#FF74DD72</color>
+    <color name="awake">#FFE3E55A</color>
+    <color name="screenOn">#FFD95454</color>
+    <color name="kWl">#FFAE58CB</color>
+    <color name="pWl">#FFFFFFFF</color>
+</resources>

@@ -27,7 +27,7 @@
 
     <application android:icon="@drawable/icon_notext" android:label="BetterBatteryStats">
         <activity
-            android:label="BetterBatteryStats"
+            android:label="BB Stats"
             android:name="com.asksven.betterbatterystats.StatsActivity"
             android:theme="@style/Theme.asksven"> 
             <intent-filter>

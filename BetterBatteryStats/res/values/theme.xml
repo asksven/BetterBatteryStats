@@ -11,5 +11,8 @@
     <style name="Theme.asksven.TextAppearance.Tiny.Bold" parent="Theme.asksven.TextAppearance.Tiny.Bold">
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="Theme.asksven.TextAppearance.Tiny.WhiteBold" parent="Theme.asksven.TextAppearance.Tiny.Bold">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
     
 </resources>
