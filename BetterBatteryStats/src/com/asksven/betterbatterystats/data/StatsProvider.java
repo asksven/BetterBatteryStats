@@ -29,8 +29,11 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -893,6 +896,7 @@ public class StatsProvider
         {
         	myUsages.add(new Misc("Great Signal", timeSignalGreat, whichRealtime));
         }
+        
 
 //        if ( (timeWifiMulticast > 0) && (!bFilterView || sharedPrefs.getBoolean("show_other_wifi", true)) )
 //        {
@@ -960,6 +964,84 @@ public class StatsProvider
 			}
 		}
 		return myStats;
+	}
+
+	/**
+	 * Get the battery level lost since a given ref
+	 * @param iStatType the reference
+	 * @return the lost battery level
+	 */
+	public int getBatteryLevelStat(int iStatType)
+	{
+		// deep sleep times are independent of stat type
+        int level		= getBatteryLevel();
+        
+        Log.d(TAG, "Current Battery Level:" + level);
+
+        if (iStatType == STATS_CHARGED)
+        {
+			if (m_myRefSinceCharged != null)
+			{
+				level -= m_myRefSinceCharged.m_refBatteryLevel;
+			}	
+        }
+        else if (iStatType == STATS_UNPLUGGED)
+        {
+			if (m_myRefSinceUnplugged != null)
+			{
+				level -= m_myRefSinceUnplugged.m_refBatteryLevel;
+			}
+        }
+
+        else if (iStatType == STATS_CUSTOM)
+		{
+			if (m_myRefs != null)
+			{
+				level -= m_myRefs.m_refBatteryLevel;
+			}
+		}
+        Log.d(TAG, "Battery Level since " + iStatType + ":" + level);
+
+		return level;
+	}
+	
+	/**
+	 * Get the battery voltage lost since a given ref
+	 * @param iStatType the reference
+	 * @return the lost battery level
+	 */
+	public int getBatteryVoltageStat(int iStatType)
+	{
+		// deep sleep times are independent of stat type
+        int voltage		= getBatteryVoltage();
+        
+        Log.d(TAG, "Current Battery Voltage:" + voltage);
+
+        if (iStatType == STATS_CHARGED)
+        {
+			if (m_myRefSinceCharged != null)
+			{
+				voltage -= m_myRefSinceCharged.m_refBatteryVoltage;
+			}	
+        }
+        else if (iStatType == STATS_UNPLUGGED)
+        {
+			if (m_myRefSinceUnplugged != null)
+			{
+				voltage -= m_myRefSinceUnplugged.m_refBatteryVoltage;
+			}
+        }
+
+        else if (iStatType == STATS_CUSTOM)
+		{
+			if (m_myRefs != null)
+			{
+				voltage -= m_myRefs.m_refBatteryVoltage;
+			}
+		}
+        Log.d(TAG, "Battery Voltage since " + iStatType + ":" + voltage);
+
+		return voltage;
 	}
 
 	public StatElement getElementByKey(ArrayList<StatElement> myList, String key)
@@ -1091,6 +1173,10 @@ public class StatsProvider
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_myRefs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 			
+			m_myRefs.m_refBatteryLevel		= getBatteryLevel();
+			m_myRefs.m_refBatteryVoltage	= getBatteryVoltage();
+
+			
 			serializeCustomRefToFile();
     	}
     	catch (Exception e)
@@ -1105,6 +1191,9 @@ public class StatsProvider
     		m_myRefs.m_refNetwork 			= null;
 			
     		m_myRefs.m_refBatteryRealtime 	= 0;
+			m_myRefs.m_refBatteryLevel		= 0;
+			m_myRefs.m_refBatteryVoltage	= 0;
+
     	}			
 	}
 
@@ -1138,6 +1227,9 @@ public class StatsProvider
 
 			m_myRefSinceCharged.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 
+			m_myRefSinceCharged.m_refBatteryLevel		= getBatteryLevel();
+			m_myRefSinceCharged.m_refBatteryVoltage		= getBatteryVoltage();
+
 			serializeSinceChargedRefToFile();
     	}
     	catch (Exception e)
@@ -1152,6 +1244,9 @@ public class StatsProvider
     		m_myRefSinceCharged.m_refNetwork 			= null;
 			
     		m_myRefSinceCharged.m_refBatteryRealtime 	= 0;
+
+			m_myRefSinceCharged.m_refBatteryLevel		= 0;
+			m_myRefSinceCharged.m_refBatteryVoltage		= 0;
 
     	}			
 	}
@@ -1186,6 +1281,9 @@ public class StatsProvider
 					
 			m_myRefSinceUnplugged.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 			
+			m_myRefSinceUnplugged.m_refBatteryLevel		= getBatteryLevel();
+			m_myRefSinceUnplugged.m_refBatteryVoltage	= getBatteryVoltage();
+
 
 			
 			serializeSinceUnpluggedRefToFile();
@@ -1202,6 +1300,8 @@ public class StatsProvider
     		m_myRefSinceUnplugged.m_refNetwork 			= null;
 			
     		m_myRefSinceUnplugged.m_refBatteryRealtime 	= 0;
+			m_myRefSinceUnplugged.m_refBatteryLevel		= 0;
+			m_myRefSinceUnplugged.m_refBatteryVoltage	= 0;
 
     	}			
 	}
@@ -1218,6 +1318,9 @@ public class StatsProvider
 		m_myRefs.m_refProcesses 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
 		m_myRefs.m_refOther 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
 		m_myRefs.m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
+		m_myRefs.m_refBatteryLevel		= (Integer) savedInstanceState.getSerializable("batterylevel");
+		m_myRefs.m_refBatteryVoltage	= (Integer) savedInstanceState.getSerializable("batteryvoltage");
+
 
 
 	}
@@ -1237,7 +1340,8 @@ public class StatsProvider
     		savedInstanceState.putSerializable("otherstate", m_myRefs.m_refOther);
     		savedInstanceState.putSerializable("networkstate", m_myRefs.m_refNetwork);
     		savedInstanceState.putSerializable("batteryrealtime", m_myRefs.m_refBatteryRealtime);
-    		
+    		savedInstanceState.putSerializable("batterylevel", m_myRefs.m_refBatteryLevel);
+    		savedInstanceState.putSerializable("batteryvoltage", m_myRefs.m_refBatteryVoltage);
         }
 
 	}
@@ -1379,6 +1483,12 @@ public class StatsProvider
 				
 				out.write("RADIO: "+ radio + "\n");
 				out.write("Rooted: "+ RootDetection.hasSuRights("dumpsys alarm") + "\n");
+				
+				out.write("============\n");
+				out.write("Battery Info\n");
+				out.write("============\n");
+				out.write("Level lost [%]: " + getBatteryLevelStat(iStatType));
+				out.write("Voltage lost [mV]: " + getBatteryVoltageStat(iStatType));
 				
 				
 				// write timing info
@@ -1667,6 +1777,38 @@ public class StatsProvider
 		}
 		return iRet;
 	}
+	
+	/** 
+	 * Returns the current battery level as an int [0..100] or -1 if invalid
+	 */
+	int getBatteryLevel()
+	{
+		// check the battery level and if 100% the store "since charged" ref
+		Intent batteryIntent = m_context.getApplicationContext().registerReceiver(null,
+                new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
+		int rawlevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+		double scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+		double level = -1;
+		if (rawlevel >= 0 && scale > 0)
+		{
+			// normalize level to [0..1]
+		    level = rawlevel / scale;
+		}
+		return (int) (level * 100);
+	}
+	
+	/** 
+	 * Returns the current battery voltage as a double [0..1] or -1 if invalid
+	 */
+	int getBatteryVoltage()
+	{
+		// check the battery level and if 100% the store "since charged" ref
+		Intent batteryIntent = m_context.getApplicationContext().registerReceiver(null,
+                new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+		int voltage = batteryIntent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, -1);
+		return voltage;
+	}
 
 }

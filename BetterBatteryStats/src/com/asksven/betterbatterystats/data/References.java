@@ -28,7 +28,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 class References implements Serializable
 {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	
 	/** storage of custom references */
     protected ArrayList<StatElement> m_refWakelocks 		= null;
@@ -37,5 +37,7 @@ class References implements Serializable
     protected ArrayList<StatElement> m_refProcesses 		= null;
     protected ArrayList<StatElement> m_refNetwork	 		= null;
     protected ArrayList<StatElement> m_refOther	 			= null;
-    protected long m_refBatteryRealtime 					= 0;    
+    protected long m_refBatteryRealtime 					= 0;  
+    protected int m_refBatteryLevel							= 0;
+    protected int m_refBatteryVoltage						= 0;
 }
