@@ -25,6 +25,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -1309,6 +1311,8 @@ public class StatsProvider
 	 * Dumps relevant data to an output file
 	 * 
 	 */
+
+	@SuppressLint("NewApi")
 	public void writeDumpToFile(int iStatType, int iSort)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
@@ -1347,23 +1351,29 @@ public class StatsProvider
 				out.write("DEVICE: "+Build.DEVICE+"\n");
 				out.write("MANUFACTURER: "+Build.MANUFACTURER+"\n");
 				out.write("MODEL: "+Build.MODEL+"\n");
-				out.write("BOOTLOADER: "+Build.BOOTLOADER+"\n");
+				
+
+				if (Build.VERSION.SDK_INT >= 8)
+				{
+					
+					out.write("BOOTLOADER: "+Build.BOOTLOADER+"\n");
+					out.write("HARDWARE: "+Build.HARDWARE+"\n");
+				}
 				out.write("FINGERPRINT: "+Build.FINGERPRINT+"\n");
-				out.write("HARDWARE: "+Build.HARDWARE+"\n");
 				out.write("ID: "+Build.ID+"\n");
 				out.write("TAGS: "+Build.TAGS+"\n");
 				out.write("USER: "+Build.USER+"\n");
 				out.write("PRODUCT: "+Build.PRODUCT+"\n");
 				String radio = "";
 				
-				try
-				{
-					// from API14
+				// from API14
+				if (Build.VERSION.SDK_INT >= 14)
+				{	
 					radio = Build.getRadioVersion();
 				}
-				catch (NoSuchMethodError e)
+			
+				else if (Build.VERSION.SDK_INT >= 8)
 				{
-					// whatever was before
 					radio = Build.RADIO;
 				}
 				

@@ -257,7 +257,7 @@
 			    <CheckBoxPreference 
 			            android:key="small_widget_refresh_on_tap"
 			            android:title="Refresh on tap"
-			            android:summary="Tapping the widget refreshes it"
+			            android:summary="Tapping the widget refreshes it (if disabled tapping opens the app)"
 						android:defaultValue="true"
 						android:enabled="true"/>    		    		   		   
 			    			    

@@ -19,6 +19,7 @@
 
 package com.asksven.betterbatterystats.localeplugin.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -219,7 +220,8 @@ public final class EditActivity extends Activity
              */
             new Runnable()
             {
-                public void run()
+                @SuppressLint("NewApi")
+				public void run()
                 {
                     getActionBar().setSubtitle(BreadCrumber.generateBreadcrumb(getApplicationContext(), getIntent(), getString(R.string.plugin_name)));
                 }
@@ -237,7 +239,8 @@ public final class EditActivity extends Activity
              */
             new Runnable()
             {
-                public void run()
+                @SuppressLint("NewApi") 
+				public void run()
                 {
                     getActionBar().setDisplayHomeAsUpEnabled(true);
 
