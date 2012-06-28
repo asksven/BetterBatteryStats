@@ -33,6 +33,7 @@ class References implements Serializable
 	/** storage of custom references */
     protected ArrayList<StatElement> m_refWakelocks 		= null;
     protected ArrayList<StatElement> m_refKernelWakelocks 	= null;
+    protected ArrayList<StatElement> m_refNetworkStats	 	= null;
     protected ArrayList<StatElement> m_refAlarms		 	= null;
     protected ArrayList<StatElement> m_refProcesses 		= null;
     protected ArrayList<StatElement> m_refNetwork	 		= null;

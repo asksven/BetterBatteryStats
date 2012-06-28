@@ -7,6 +7,7 @@
         <item>Kernel Wakelock</item>
         <item>Alarms</item>
         <item>Process</item>
+        <item>Network</item>
     </string-array>
     <!-- Values for the statistic type. -->
     <string-array name="stat_types" translatable="false">
@@ -27,6 +28,7 @@
         <item name="3">Kernel Wakelock</item>
         <item name="4">Alarms</item>
         <item name="0">Process</item>
+        <item name="5">Network</item>
 <!-- removed because of issue #1        <item name="3">Network usage</item> -->
     </string-array>
 
@@ -36,6 +38,7 @@
         <item name="2">2</item>
         <item name="3">3</item>
         <item name="4">4</item>
+        <item name="5">5</item>
 <!-- removed because of issue #1        <item name="3">3</item> -->
     </string-array>
 

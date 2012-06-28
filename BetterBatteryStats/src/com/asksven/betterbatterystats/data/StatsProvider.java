@@ -45,6 +45,7 @@ import android.widget.Toast;
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.RootDetection;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -139,6 +140,9 @@ public class StatsProvider
 					return getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
 				case 3:
 					return getAlarmsStatList(bFilterStats, iStatType);
+				case 5:
+					return getNativeNetworkUsageStatList(bFilterStats, iStatType);
+	
 			}
 			
     	}
@@ -709,6 +713,152 @@ public class StatsProvider
 	}
 
 	/**
+	 * Get the Kernel Wakelock Stat to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Wakelocks sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	public ArrayList<StatElement> getNativeNetworkUsageStatList(boolean bFilter, int iStatType) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		ArrayList<NetworkUsage> myNetworkStats = Netstats.parseNetstats();
+
+		ArrayList<NetworkUsage> myRetNetworkStats = new ArrayList<NetworkUsage>();
+		// if we are using custom ref. always retrieve "stats current"
+
+
+		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		Collections.sort(myNetworkStats);
+
+		String strCurrent = myNetworkStats.toString();
+		String strRef = "";
+		switch (iStatType)
+		{
+			case STATS_UNPLUGGED:									
+				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refNetworkStats != null) )
+				{
+					strRef = m_myRefSinceUnplugged.m_refNetworkStats.toString();
+				}
+				break;
+			case STATS_CHARGED:
+				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refNetworkStats != null) )
+				{
+					strRef = m_myRefSinceCharged.m_refNetworkStats.toString();
+				}
+				break;
+			case STATS_CUSTOM:
+				if ( (m_myRefs != null) && (m_myRefs.m_refNetworkStats != null))
+				{
+					strRef = m_myRefs.m_refNetworkStats.toString();
+				}
+				break;
+			case BatteryStatsTypes.STATS_CURRENT:
+				strRef = "no reference to substract";
+				break;
+			default:
+				Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
+				break;
+		}
+		
+//		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+		
+		for (int i = 0; i < myNetworkStats.size(); i++)
+		{
+			NetworkUsage netStat = myNetworkStats.get(i);
+			if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
+			{	
+				// network stats are parsed from /proc/net
+				// and do not know any references "since charged" and "since unplugged"
+				// those are implemented using special references
+				
+				switch (iStatType)
+				{
+					case STATS_CUSTOM:					
+						// case a)
+						// we need t return a delta containing
+						//   if a process is in the new list but not in the custom ref
+						//	   the full time is returned
+						//   if a process is in the reference return the delta
+						//	 a process can not have disapeared in btwn so we don't need
+						//	 to test the reverse case
+						if (m_myRefs != null)
+						{
+							netStat.substractFromRef(m_myRefs.m_refNetworkStats);
+		
+		
+							// we must recheck if the delta process is still above threshold
+							if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
+							{
+								myRetNetworkStats.add( netStat);
+							}
+						}
+						else
+						{
+							myRetNetworkStats.clear();
+							myRetNetworkStats.add(new NetworkUsage(NO_CUST_REF, -1, 1, 0));
+						}
+						break;
+					case STATS_UNPLUGGED:
+						if (m_myRefSinceUnplugged != null)
+						{
+							netStat.substractFromRef(m_myRefSinceUnplugged.m_refNetworkStats);
+							
+							
+							// we must recheck if the delta process is still above threshold
+							if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
+							{
+								myRetNetworkStats.add( netStat);
+							}
+						}
+						else
+						{
+							myRetNetworkStats.clear();
+							myRetNetworkStats.add(new NetworkUsage("No reference since unplugged set yet", -1, 1, 0));
+
+						}
+						break;
+
+					case STATS_CHARGED:
+						if (m_myRefSinceCharged != null)
+						{
+							netStat.substractFromRef(m_myRefSinceCharged.m_refNetworkStats);
+													
+							// we must recheck if the delta process is still above threshold
+							if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
+							{
+								myRetNetworkStats.add( netStat);
+							}
+						}
+						else
+						{
+							myRetNetworkStats.clear();
+							myRetNetworkStats.add(new NetworkUsage("No reference since charged yet", -1, 1, 0));
+						}
+						break;
+					case BatteryStatsTypes.STATS_CURRENT:
+						// we must recheck if the delta process is still above threshold
+						myRetNetworkStats.add( netStat);
+						break;
+						
+				}
+
+			}
+		}
+
+		Collections.sort(myRetNetworkStats);
+		
+		
+		for (int i=0; i < myRetNetworkStats.size(); i++)
+		{
+			myStats.add((StatElement) myRetNetworkStats.get(i));
+		}
+		
+//		Log.i(TAG, "Result " + myStats.toString());
+		
+		return myStats;
+	}
+
+	/**
 	 * Get the Other Usage Stat to be displayed
 	 * @param bFilter defines if zero-values should be filtered out
 	 * @return a List of Other usages sorted by duration (descending)
@@ -1149,6 +1299,7 @@ public class StatsProvider
 				m_myRefs.m_refOther 			= null;
 				m_myRefs.m_refWakelocks 		= null;
 				m_myRefs.m_refKernelWakelocks 	= null;
+				m_myRefs.m_refNetworkStats		= null;
 				m_myRefs.m_refAlarms		 	= null;
 				m_myRefs.m_refProcesses 		= null;
 				m_myRefs.m_refNetwork 			= null;			
@@ -1161,16 +1312,22 @@ public class StatsProvider
 			// create a copy of each list for further reference
 			m_myRefs.m_refOther 			= getOtherUsageStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
+			
 			m_myRefs.m_refWakelocks 		= getWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
+			
 			m_myRefs.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
-			m_myRefs.m_refAlarms			= getAlarmsStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_myRefs.m_refProcesses 		= getProcessStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iSort);
+			
+			m_myRefs.m_refNetworkStats		= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			
+			m_myRefs.m_refAlarms			= getAlarmsStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			
+			m_myRefs.m_refProcesses 		= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iSort);
+			
 			m_myRefs.m_refNetwork 			= getNetworkUsageStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			
 			m_myRefs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 			
 			m_myRefs.m_refBatteryLevel		= getBatteryLevel();
@@ -1186,6 +1343,8 @@ public class StatsProvider
     		m_myRefs.m_refOther 			= null;
     		m_myRefs.m_refWakelocks 		= null;
     		m_myRefs.m_refKernelWakelocks 	= null;
+    		m_myRefs.m_refNetworkStats		= null;
+    		
     		m_myRefs.m_refAlarms			= null;
     		m_myRefs.m_refProcesses 		= null;
     		m_myRefs.m_refNetwork 			= null;
@@ -1214,12 +1373,16 @@ public class StatsProvider
 			m_myRefSinceCharged.m_refOther 				= null;
 			m_myRefSinceCharged.m_refWakelocks 			= null;
 			m_myRefSinceCharged.m_refKernelWakelocks 	= null;
+			m_myRefSinceCharged.m_refNetworkStats		= null;
 			m_myRefSinceCharged.m_refAlarms				= null;
 			m_myRefSinceCharged.m_refProcesses 			= null;
 			m_myRefSinceCharged.m_refNetwork 			= null;			
     	
 			m_myRefSinceCharged.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
+			
+			m_myRefSinceCharged.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+
 			m_myRefSinceCharged.m_refAlarms				= getAlarmsStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_myRefSinceCharged.m_refOther			 	= getOtherUsageStatList(
@@ -1239,6 +1402,7 @@ public class StatsProvider
     		m_myRefSinceCharged.m_refOther 				= null;
     		m_myRefSinceCharged.m_refWakelocks 			= null;
     		m_myRefSinceCharged.m_refKernelWakelocks 	= null;
+    		m_myRefSinceCharged.m_refNetworkStats		= null;
     		m_myRefSinceCharged.m_refAlarms				= null;
     		m_myRefSinceCharged.m_refProcesses 			= null;
     		m_myRefSinceCharged.m_refNetwork 			= null;
@@ -1268,12 +1432,16 @@ public class StatsProvider
 			m_myRefSinceUnplugged.m_refOther 			= null;
 			m_myRefSinceUnplugged.m_refWakelocks 		= null;
 			m_myRefSinceUnplugged.m_refKernelWakelocks 	= null;
+			m_myRefSinceUnplugged.m_refNetworkStats		= null;
+
 			m_myRefSinceUnplugged.m_refAlarms			= null;
 			m_myRefSinceUnplugged.m_refProcesses 		= null;
 			m_myRefSinceUnplugged.m_refNetwork 			= null;			
     	
 			m_myRefSinceUnplugged.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
+			m_myRefSinceUnplugged.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+
 			m_myRefSinceUnplugged.m_refAlarms = getAlarmsStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			m_myRefSinceUnplugged.m_refOther		 	= getOtherUsageStatList(
@@ -1295,6 +1463,7 @@ public class StatsProvider
     		m_myRefSinceUnplugged.m_refOther 			= null;
     		m_myRefSinceUnplugged.m_refWakelocks 		= null;
     		m_myRefSinceUnplugged.m_refKernelWakelocks 	= null;
+			m_myRefSinceUnplugged.m_refNetworkStats		= null;
     		m_myRefSinceUnplugged.m_refAlarms			= null;
     		m_myRefSinceUnplugged.m_refProcesses 		= null;
     		m_myRefSinceUnplugged.m_refNetwork 			= null;
@@ -1314,6 +1483,8 @@ public class StatsProvider
 	{
 		m_myRefs.m_refWakelocks 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
 		m_myRefs.m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativekernelwakelockstate");
+		m_myRefs.m_refNetworkStats 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativenetworkstate");
+
 		m_myRefs.m_refAlarms		 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("alarmstate");
 		m_myRefs.m_refProcesses 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
 		m_myRefs.m_refOther 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
@@ -1335,6 +1506,7 @@ public class StatsProvider
     	{		
     		savedInstanceState.putSerializable("wakelockstate", m_myRefs.m_refWakelocks);
     		savedInstanceState.putSerializable("nativekernelwakelockstate", m_myRefs.m_refKernelWakelocks);
+    		savedInstanceState.putSerializable("nativenetworkstate", m_myRefs.m_refNetworkStats);
     		savedInstanceState.putSerializable("alarmstate", m_myRefs.m_refAlarms);
     		savedInstanceState.putSerializable("processstate", m_myRefs.m_refProcesses);
     		savedInstanceState.putSerializable("otherstate", m_myRefs.m_refOther);

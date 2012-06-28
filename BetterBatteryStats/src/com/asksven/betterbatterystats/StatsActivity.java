@@ -48,6 +48,7 @@ import android.widget.Toast;
 
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.system.AndroidVersion;
@@ -293,6 +294,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting); 
 
+		
 	}
     
 	/* Request updates at startup */
@@ -459,12 +461,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	doRefresh();
             	break;	
 
-//            case R.id.test:
-//            	// Test
+            case R.id.test:
+            	// Test
+//            	BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(this);
+//            	mStats.getNetworkStatsByUid(m_iStatType);
 //            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
 //            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
 //            	doRefresh();
-//            	break;	
+            	
+            	break;	
 
             case R.id.about:
             	// About
@@ -572,7 +577,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-		long timeSinceBoot = SystemClock.elapsedRealtime();
 
     	tvSince.setText("Since " + DateUtils.formatDuration(
     			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
@@ -605,9 +609,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 		BatteryStatsProxy.getInstance(this).invalidate();
 		new LoadStatData().execute(this);
-
-		// Display the reference of the stat
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
         tvSince.setText("Since " + DateUtils.formatDuration(

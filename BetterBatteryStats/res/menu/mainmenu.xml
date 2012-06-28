@@ -5,10 +5,10 @@
     <item android:id="@+id/refresh"    
           android:title="Refresh"
           showAsAction="ifRoom"/>
-<!-- 
+
     <item android:id="@+id/test"    
           android:title="Test" />
- -->    
+    
     <!-- Sorting group -->
     <item android:id="@+id/sorting_group"
           android:title="Order by...">            
