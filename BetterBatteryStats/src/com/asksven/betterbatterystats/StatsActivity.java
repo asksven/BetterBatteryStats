@@ -234,9 +234,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         	tvSince.setText("Since " + DateUtils.formatDuration(StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
         }
         
-    	FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
-    	myLayout.setVisibility(View.GONE);
-
 		// Spinner for selecting the stat
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);
 		
