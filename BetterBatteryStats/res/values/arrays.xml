@@ -14,11 +14,13 @@
         <item>Since charged</item>
         <item>Since unplugged</item>
         <item>Since Custom Ref.</item>
+        <item>Since Screen off</item>
     </string-array>
     <string-array name="stat_types_froyo" translatable="false">
         <item>Total</item>
         <item>Since unplugged</item>
         <item>Since Custom Ref.</item>
+        <item>Since Screen off</item>
     </string-array>
     
     <!--  Values for the preferences -->
@@ -46,12 +48,14 @@
         <item name="0">Since charged</item>
         <item name="1">Since unplugged</item>
         <item name="2">Since Custom Ref.</item>
+        <item name="3">Since Screen off</item>
     </string-array>
 
     <string-array name="statTypeValues">
         <item name="0">0</item>
         <item name="1">1</item>
         <item name="2">2</item>
+        <item name="3">3</item>
     </string-array>
 
     <string-array name="wlRefLabels">

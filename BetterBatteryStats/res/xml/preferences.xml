@@ -145,7 +145,14 @@
 				android:summary="Dump Alarm Stats"
 				android:title="Alarm Stats" 
 				android:defaultValue="true"
+				android:enabled="true"/>
+		    <CheckBoxPreference 
+				android:key="show_network"
+				android:summary="Dump Network Stats"
+				android:title="Network Stats" 
+				android:defaultValue="true"
 				android:enabled="true"/>    		    		   		   
+		    		    		   		   
 		</PreferenceScreen>
 	</PreferenceCategory>
     <PreferenceCategory android:title="Views">
@@ -296,4 +303,12 @@
 		</PreferenceScreen>
     </PreferenceCategory>
     
+	<PreferenceCategory android:title="Active monitoring">
+	    <CheckBoxPreference 
+				android:key="ref_for_screen_off"
+				android:summary="Provides info about what happened when screen was off"
+				android:title="Screen off" 
+				android:defaultValue="true"/>
+	    
+	</PreferenceCategory>
 </PreferenceScreen>

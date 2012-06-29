@@ -28,9 +28,14 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 class References implements Serializable
 {
 	
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 3L;
 	
+	protected static final String CUSTOM_REF_FILENAME 			= "custom_ref";
+	protected static final String SINCE_UNPLUGGED_REF_FILENAME 	= "since_unplugged_ref";
+	protected static final String SINCE_CHARGED_REF_FILENAME 	= "since_charged_ref";
+	protected static final String SINCE_SCREEN_OFF_REF_FILENAME	= "since_screen_off";
 	/** storage of custom references */
+	protected String m_fileName								= "";
     protected ArrayList<StatElement> m_refWakelocks 		= null;
     protected ArrayList<StatElement> m_refKernelWakelocks 	= null;
     protected ArrayList<StatElement> m_refNetworkStats	 	= null;
@@ -41,4 +46,15 @@ class References implements Serializable
     protected long m_refBatteryRealtime 					= 0;  
     protected int m_refBatteryLevel							= 0;
     protected int m_refBatteryVoltage						= 0;
+    
+    private References()
+    {
+    	
+    }
+
+    public References(String fileName)
+    {
+    	m_fileName = fileName;
+    }
+
 }

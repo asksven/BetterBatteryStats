@@ -119,6 +119,15 @@ public class BroadcastHandler extends BroadcastReceiver
 			// todo: store the "since screen off" refs here
 			try
 			{
+				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+				
+				boolean bRefForScreenOff = sharedPrefs.getBoolean("ref_for_screen_off", false);
+
+				if (bRefForScreenOff)
+				{
+					// Store the "since screen off" ref
+					StatsProvider.getInstance(context).setReferenceSinceScreenOff(0);
+				}
 				
 			}
 			catch (Exception e)

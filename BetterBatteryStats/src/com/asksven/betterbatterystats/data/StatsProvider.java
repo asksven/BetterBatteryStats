@@ -75,9 +75,10 @@ public class StatsProvider
 	
 	/** constant for custom stats */
     // dependent on arrays.xml
-	public final static int STATS_CHARGED = 0;
-	public final static int STATS_UNPLUGGED = 3;
-	public final static int STATS_CUSTOM 	= 4;
+	public final static int STATS_CHARGED 		= 0;
+	public final static int STATS_UNPLUGGED 	= 3;
+	public final static int STATS_CUSTOM 		= 4;
+	public final static int STATS_SCREEN_OFF	= 5;
 	
 	/** the logger tag */
 	static String TAG = "StatsProvider";
@@ -86,9 +87,10 @@ public class StatsProvider
 	static String NO_CUST_REF = "No custom reference was set";
 	
 	/** the storage for references */
-	static References m_myRefs 					= null;
-	static References m_myRefSinceUnplugged 	= null;
-	static References m_myRefSinceCharged 		= null;
+	static References m_myRefs 					= new References(References.CUSTOM_REF_FILENAME);
+	static References m_myRefSinceUnplugged 	= new References(References.SINCE_UNPLUGGED_REF_FILENAME);
+	static References m_myRefSinceCharged 		= new References(References.SINCE_CHARGED_REF_FILENAME);
+	static References m_myRefSinceScreenOff		= new References(References.SINCE_SCREEN_OFF_REF_FILENAME);
 
 	/**
 	 * The constructor (hidden)
@@ -108,7 +110,7 @@ public class StatsProvider
 		{
 			m_statsProvider = new StatsProvider();
 			m_context = ctx;
-			m_myRefs = new References();
+
 		}
 		
 		return m_statsProvider;
@@ -194,6 +196,12 @@ public class StatsProvider
 					strRef = m_myRefs.m_refAlarms.toString();
 				}
 				break;
+			case STATS_SCREEN_OFF:
+				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refAlarms != null))
+				{
+					strRef = m_myRefSinceScreenOff.m_refAlarms.toString();
+				}
+				break;
 			case BatteryStatsTypes.STATS_CURRENT:
 				strRef = "no reference to substract";
 				break;
@@ -273,6 +281,24 @@ public class StatsProvider
 							myRetAlarms.add(new Alarm("No reference since charged yet"));
 						}
 						break;
+					case STATS_SCREEN_OFF:
+						if (m_myRefSinceScreenOff != null)
+						{
+							alarm.substractFromRef(m_myRefSinceScreenOff.m_refAlarms);
+													
+							// we must recheck if the delta process is still above threshold
+							if ( (!bFilter) || ((alarm.getWakeups()) > 0) )
+							{
+								myRetAlarms.add(alarm);
+							}
+						}
+						else
+						{
+							myRetAlarms.clear();
+							myRetAlarms.add(new Alarm("No reference since screen off yet"));
+						}
+						break;
+
 					case BatteryStatsTypes.STATS_CURRENT:
 						// we must recheck if the delta process is still above threshold
 						myRetAlarms.add(alarm);
@@ -519,6 +545,12 @@ public class StatsProvider
 					strRef = m_myRefSinceCharged.m_refKernelWakelocks.toString();
 				}
 				break;
+			case STATS_SCREEN_OFF:
+				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refKernelWakelocks != null) )
+				{
+					strRef = m_myRefSinceScreenOff.m_refKernelWakelocks.toString();
+				}
+				break;
 			case STATS_CUSTOM:
 				if ( (m_myRefs != null) && (m_myRefs.m_refKernelWakelocks != null))
 				{
@@ -606,6 +638,23 @@ public class StatsProvider
 						{
 							myRetKernelWakelocks.clear();
 							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since charged yet", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+						}
+						break;
+					case STATS_SCREEN_OFF:
+						if (m_myRefSinceScreenOff != null)
+						{
+							wl.substractFromRef(m_myRefSinceScreenOff.m_refKernelWakelocks);
+													
+							// we must recheck if the delta process is still above threshold
+							if ( (!bFilter) || ((wl.getDuration()) > 0) )
+							{
+								myRetKernelWakelocks.add( wl);
+							}
+						}
+						else
+						{
+							myRetKernelWakelocks.clear();
+							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since screen off yet", 1, 1, 1, 1, 1, 1, 1, 1, 1));
 						}
 						break;
 					case BatteryStatsTypes.STATS_CURRENT:
@@ -746,6 +795,12 @@ public class StatsProvider
 					strRef = m_myRefSinceCharged.m_refNetworkStats.toString();
 				}
 				break;
+			case STATS_SCREEN_OFF:
+				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refNetworkStats != null) )
+				{
+					strRef = m_myRefSinceScreenOff.m_refNetworkStats.toString();
+				}
+				break;
 			case STATS_CUSTOM:
 				if ( (m_myRefs != null) && (m_myRefs.m_refNetworkStats != null))
 				{
@@ -835,6 +890,24 @@ public class StatsProvider
 							myRetNetworkStats.add(new NetworkUsage("No reference since charged yet", -1, 1, 0));
 						}
 						break;
+					case STATS_SCREEN_OFF:
+						if (m_myRefSinceScreenOff != null)
+						{
+							netStat.substractFromRef(m_myRefSinceScreenOff.m_refNetworkStats);
+													
+							// we must recheck if the delta process is still above threshold
+							if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
+							{
+								myRetNetworkStats.add( netStat);
+							}
+						}
+						else
+						{
+							myRetNetworkStats.clear();
+							myRetNetworkStats.add(new NetworkUsage("No reference since screen off yet", -1, 1, 0));
+						}
+						break;
+
 					case BatteryStatsTypes.STATS_CURRENT:
 						// we must recheck if the delta process is still above threshold
 						myRetNetworkStats.add( netStat);
@@ -959,6 +1032,17 @@ public class StatsProvider
 			if (m_myRefSinceCharged != null)
 			{
 				deepSleepUsage.substractFromRef(m_myRefSinceCharged.m_refOther);
+				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
+				{
+					myUsages.add(deepSleepUsage);
+				}
+			}	
+        }
+        if (iStatType == STATS_SCREEN_OFF)
+        {
+			if (m_myRefSinceScreenOff != null)
+			{
+				deepSleepUsage.substractFromRef(m_myRefSinceScreenOff.m_refOther);
 				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
 				{
 					myUsages.add(deepSleepUsage);
@@ -1142,7 +1226,13 @@ public class StatsProvider
 				level -= m_myRefSinceUnplugged.m_refBatteryLevel;
 			}
         }
-
+        else if (iStatType == STATS_SCREEN_OFF)
+        {
+			if (m_myRefSinceScreenOff != null)
+			{
+				level -= m_myRefSinceScreenOff.m_refBatteryLevel;
+			}
+        }
         else if (iStatType == STATS_CUSTOM)
 		{
 			if (m_myRefs != null)
@@ -1181,7 +1271,13 @@ public class StatsProvider
 				voltage -= m_myRefSinceUnplugged.m_refBatteryVoltage;
 			}
         }
-
+        else if (iStatType == STATS_SCREEN_OFF)
+        {
+			if (m_myRefSinceScreenOff != null)
+			{
+				voltage -= m_myRefSinceScreenOff.m_refBatteryVoltage;
+			}
+        }
         else if (iStatType == STATS_CUSTOM)
 		{
 			if (m_myRefs != null)
@@ -1254,6 +1350,16 @@ public class StatsProvider
 		return ret;
 		
 	}
+
+	/**
+	 * Returns true if a ref "since screen off" was stored
+	 * @return true is a custom ref exists
+	 */
+	public boolean hasScreenOffRef()
+	{
+		return ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refOther != null) );
+	}
+
 	/**
 	 * Returns true if a custom ref was stored
 	 * @return true is a custom ref exists
@@ -1287,73 +1393,25 @@ public class StatsProvider
 	 */
 	public void setCustomReference(int iSort)
 	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
-		
-		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
-		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
-		
-		try
-    	{			
-			if (m_myRefs != null)
-			{
-				m_myRefs.m_refOther 			= null;
-				m_myRefs.m_refWakelocks 		= null;
-				m_myRefs.m_refKernelWakelocks 	= null;
-				m_myRefs.m_refNetworkStats		= null;
-				m_myRefs.m_refAlarms		 	= null;
-				m_myRefs.m_refProcesses 		= null;
-				m_myRefs.m_refNetwork 			= null;			
-			}
-			else
-			{
-				m_myRefs = new References();
-			}
-		
-			// create a copy of each list for further reference
-			m_myRefs.m_refOther 			= getOtherUsageStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
-			
-			m_myRefs.m_refWakelocks 		= getWakelockStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
-			
-			m_myRefs.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
-			
-			m_myRefs.m_refNetworkStats		= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			
-			m_myRefs.m_refAlarms			= getAlarmsStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			
-			m_myRefs.m_refProcesses 		= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iSort);
-			
-			m_myRefs.m_refNetwork 			= getNetworkUsageStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			
-			m_myRefs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
-			
-			m_myRefs.m_refBatteryLevel		= getBatteryLevel();
-			m_myRefs.m_refBatteryVoltage	= getBatteryVoltage();
+		if (m_myRefs == null)
+		{
+			m_myRefs		= new References(References.CUSTOM_REF_FILENAME);
+		}
 
-			
-			serializeCustomRefToFile();
-    	}
-    	catch (Exception e)
-    	{
-    		Log.e(TAG, "Exception: " + e.getMessage());
-    		//Toast.makeText(m_context, "an error occured while creating the custom reference", Toast.LENGTH_SHORT).show();
-    		m_myRefs.m_refOther 			= null;
-    		m_myRefs.m_refWakelocks 		= null;
-    		m_myRefs.m_refKernelWakelocks 	= null;
-    		m_myRefs.m_refNetworkStats		= null;
-    		
-    		m_myRefs.m_refAlarms			= null;
-    		m_myRefs.m_refProcesses 		= null;
-    		m_myRefs.m_refNetwork 			= null;
-			
-    		m_myRefs.m_refBatteryRealtime 	= 0;
-			m_myRefs.m_refBatteryLevel		= 0;
-			m_myRefs.m_refBatteryVoltage	= 0;
+		setReference(iSort, m_myRefs);
+	}
 
-    	}			
+	/**
+	 * Saves all data to a point in time when the screen goes off
+	 * This data will be used in a custom "since..." stat type
+	 */
+	public void setReferenceSinceScreenOff(int iSort)
+	{
+		if (m_myRefSinceScreenOff == null)
+		{
+			m_myRefSinceScreenOff		= new References(References.SINCE_SCREEN_OFF_REF_FILENAME);
+		}
+		setReference(iSort, m_myRefSinceScreenOff);
 	}
 
 	/**
@@ -1362,57 +1420,12 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceCharged(int iSort)
 	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
-		
-		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
-		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
-		
-		try
-    	{			
-			m_myRefSinceCharged = new References();
-			m_myRefSinceCharged.m_refOther 				= null;
-			m_myRefSinceCharged.m_refWakelocks 			= null;
-			m_myRefSinceCharged.m_refKernelWakelocks 	= null;
-			m_myRefSinceCharged.m_refNetworkStats		= null;
-			m_myRefSinceCharged.m_refAlarms				= null;
-			m_myRefSinceCharged.m_refProcesses 			= null;
-			m_myRefSinceCharged.m_refNetwork 			= null;			
-    	
-			m_myRefSinceCharged.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
-			
-			m_myRefSinceCharged.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+		if (m_myRefSinceCharged == null)
+		{
+			m_myRefSinceCharged		= new References(References.SINCE_CHARGED_REF_FILENAME);
+		}
 
-			m_myRefSinceCharged.m_refAlarms				= getAlarmsStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_myRefSinceCharged.m_refOther			 	= getOtherUsageStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
-
-			m_myRefSinceCharged.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
-
-			m_myRefSinceCharged.m_refBatteryLevel		= getBatteryLevel();
-			m_myRefSinceCharged.m_refBatteryVoltage		= getBatteryVoltage();
-
-			serializeSinceChargedRefToFile();
-    	}
-    	catch (Exception e)
-    	{
-    		Log.e(TAG, "Exception: " + e.getMessage());
-    		Toast.makeText(m_context, "an error occured while creating the custom reference", Toast.LENGTH_SHORT).show();
-    		m_myRefSinceCharged.m_refOther 				= null;
-    		m_myRefSinceCharged.m_refWakelocks 			= null;
-    		m_myRefSinceCharged.m_refKernelWakelocks 	= null;
-    		m_myRefSinceCharged.m_refNetworkStats		= null;
-    		m_myRefSinceCharged.m_refAlarms				= null;
-    		m_myRefSinceCharged.m_refProcesses 			= null;
-    		m_myRefSinceCharged.m_refNetwork 			= null;
-			
-    		m_myRefSinceCharged.m_refBatteryRealtime 	= 0;
-
-			m_myRefSinceCharged.m_refBatteryLevel		= 0;
-			m_myRefSinceCharged.m_refBatteryVoltage		= 0;
-
-    	}			
+		setReference(iSort, m_myRefSinceCharged);
 	}
 
 	/**
@@ -1421,6 +1434,20 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceUnplugged(int iSort)
 	{
+		if (m_myRefSinceUnplugged == null)
+		{
+			m_myRefSinceUnplugged		= new References(References.SINCE_UNPLUGGED_REF_FILENAME);
+		}
+
+		setReference(iSort, m_myRefSinceUnplugged);
+	}
+
+	/**
+	 * Saves data when the phone is unpluggediSort
+	 * This data will be used in the "since unplugged" stat type
+	 */
+	public References setReference(int iSort, References refs)
+	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
 		
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
@@ -1428,51 +1455,52 @@ public class StatsProvider
 		
 		try
     	{	
-			m_myRefSinceUnplugged = new References();
-			m_myRefSinceUnplugged.m_refOther 			= null;
-			m_myRefSinceUnplugged.m_refWakelocks 		= null;
-			m_myRefSinceUnplugged.m_refKernelWakelocks 	= null;
-			m_myRefSinceUnplugged.m_refNetworkStats		= null;
+			refs.m_refOther 			= null;
+			refs.m_refWakelocks 		= null;
+			refs.m_refKernelWakelocks 	= null;
+			refs.m_refNetworkStats		= null;
 
-			m_myRefSinceUnplugged.m_refAlarms			= null;
-			m_myRefSinceUnplugged.m_refProcesses 		= null;
-			m_myRefSinceUnplugged.m_refNetwork 			= null;			
+			refs.m_refAlarms			= null;
+			refs.m_refProcesses 		= null;
+			refs.m_refNetwork 			= null;			
     	
-			m_myRefSinceUnplugged.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
+			refs.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
-			m_myRefSinceUnplugged.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			refs.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 
-			m_myRefSinceUnplugged.m_refAlarms = getAlarmsStatList(
+			refs.m_refAlarms = getAlarmsStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-			m_myRefSinceUnplugged.m_refOther		 	= getOtherUsageStatList(
+			refs.m_refOther		 	= getOtherUsageStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
 					
-			m_myRefSinceUnplugged.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+			refs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 			
-			m_myRefSinceUnplugged.m_refBatteryLevel		= getBatteryLevel();
-			m_myRefSinceUnplugged.m_refBatteryVoltage	= getBatteryVoltage();
+			refs.m_refBatteryLevel		= getBatteryLevel();
+			refs.m_refBatteryVoltage	= getBatteryVoltage();
 
 
 			
-			serializeSinceUnpluggedRefToFile();
+			serializeRefToFile(refs);
     	}
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
-    		Toast.makeText(m_context, "an error occured while creating the custom reference", Toast.LENGTH_SHORT).show();
-    		m_myRefSinceUnplugged.m_refOther 			= null;
-    		m_myRefSinceUnplugged.m_refWakelocks 		= null;
-    		m_myRefSinceUnplugged.m_refKernelWakelocks 	= null;
-			m_myRefSinceUnplugged.m_refNetworkStats		= null;
-    		m_myRefSinceUnplugged.m_refAlarms			= null;
-    		m_myRefSinceUnplugged.m_refProcesses 		= null;
-    		m_myRefSinceUnplugged.m_refNetwork 			= null;
+//    		Toast.makeText(m_context, "an error occured while creating the reference", Toast.LENGTH_SHORT).show();
+    		refs.m_refOther 			= null;
+    		refs.m_refWakelocks 		= null;
+    		refs.m_refKernelWakelocks 	= null;
+    		refs.m_refNetworkStats		= null;
+    		refs.m_refAlarms			= null;
+    		refs.m_refProcesses 		= null;
+    		refs.m_refNetwork 			= null;
 			
-    		m_myRefSinceUnplugged.m_refBatteryRealtime 	= 0;
-			m_myRefSinceUnplugged.m_refBatteryLevel		= 0;
-			m_myRefSinceUnplugged.m_refBatteryVoltage	= 0;
+    		refs.m_refBatteryRealtime 	= 0;
+    		refs.m_refBatteryLevel		= 0;
+    		refs.m_refBatteryVoltage	= 0;
 
-    	}			
+    	}
+		
+		return refs;
 	}
 
 	/**
@@ -1518,39 +1546,27 @@ public class StatsProvider
 
 	}
 
-	public void serializeCustomRefToFile()
+	public void serializeRefToFile(References refs)
 	{
-		if (hasCustomRef())
-		{
-			DataStorage.objectToFile(m_context, "custom_ref", m_myRefs);
-		}
-	}
-	
-	public void serializeSinceChargedRefToFile()
-	{
-		DataStorage.objectToFile(m_context, "since_charged_ref", m_myRefSinceCharged);
-	}
-
-	public void serializeSinceUnpluggedRefToFile()
-	{
-	
-		DataStorage.objectToFile(m_context, "since_unplugged_ref", m_myRefSinceUnplugged);
+		DataStorage.objectToFile(m_context, refs.m_fileName, refs);
 	}
 
 	public void deserializeFromFile()
 	{
-		m_myRefs = (References) DataStorage.fileToObject(m_context, "custom_ref");
-		m_myRefSinceCharged = (References) DataStorage.fileToObject(m_context, "since_charged_ref");
-		m_myRefSinceUnplugged = (References) DataStorage.fileToObject(m_context, "since_unplugged_ref");
+		m_myRefs = (References) DataStorage.fileToObject(m_context, References.CUSTOM_REF_FILENAME);
+		m_myRefSinceCharged = (References) DataStorage.fileToObject(m_context, References.SINCE_CHARGED_REF_FILENAME);
+		m_myRefSinceScreenOff = (References) DataStorage.fileToObject(m_context, References.SINCE_SCREEN_OFF_REF_FILENAME);
+		m_myRefSinceUnplugged = (References) DataStorage.fileToObject(m_context, References.SINCE_UNPLUGGED_REF_FILENAME);
 
 	}
 
 	public void deletedSerializedRefs()
 	{
-		References myEmptyRef = new References();
-		DataStorage.objectToFile(m_context, "custom_ref", myEmptyRef);
-		DataStorage.objectToFile(m_context, "since_charged_ref", myEmptyRef);
-		DataStorage.objectToFile(m_context, "since_unplugged_ref", myEmptyRef);
+		References myEmptyRef = new References("void");
+		DataStorage.objectToFile(m_context, References.CUSTOM_REF_FILENAME, myEmptyRef);
+		DataStorage.objectToFile(m_context, References.SINCE_CHARGED_REF_FILENAME, myEmptyRef);
+		DataStorage.objectToFile(m_context, References.SINCE_SCREEN_OFF_REF_FILENAME, myEmptyRef);
+		DataStorage.objectToFile(m_context, References.SINCE_UNPLUGGED_REF_FILENAME, myEmptyRef);
 	}
 
 	/**
@@ -1713,11 +1729,16 @@ public class StatsProvider
 					dumpList(getAlarmsStatList(bFilterStats, iStatType), out);
 				}
 
-				// write network info
-				//out.write("=======\n");
-				//out.write("Network\n");
-				//out.write("=======\n");
-				//dumpList(getNetworkUsageStatList(bFilterStats, m_iStatType), out);
+				bDumpChapter = sharedPrefs.getBoolean("show_network", true);
+				if (bDumpChapter)
+				{
+					// write alarms info
+					out.write("======================\n");
+					out.write("Network (requires root)\n");
+					out.write("======================\n");
+					dumpList(getNativeNetworkUsageStatList(bFilterStats, iStatType), out);
+				}
+
 				bDumpChapter = sharedPrefs.getBoolean("show_serv", false);
 				if (bDumpChapter)
 				{
@@ -1793,7 +1814,11 @@ public class StatsProvider
 				break;
 			case 4:
 				strRet = "Custom Reference";
+				break;
+			case 5:
+				strRet = "Since Screen off";
 				break;	
+	
 		}
 		return strRet;
 	}
@@ -1817,7 +1842,11 @@ public class StatsProvider
 				break;
 			case 4:
 				strRet = "Custom";
+				break;
+			case 5:
+				strRet = "Scr. off";
 				break;	
+	
 		}
 		return strRet;
 	}
@@ -1853,31 +1882,6 @@ public class StatsProvider
 		String strRet = "";
 		String[] statsArray = m_context.getResources().getStringArray(R.array.stats); 
 		strRet = statsArray[iStat];
-		
-//		switch (iStat)
-//		{
-//			// constants are related to arrays.xml string-array name="stats"
-//			case 0:
-//				strRet = "Process";
-//				break;
-//				
-//			case 1:
-//				strRet = "Partial Wakelocks";
-//				break;
-//				
-//			case 2:
-//				strRet = "Other";
-//				break;
-//					
-//			case 3:
-//				strRet = "Kernel Wakelocks";
-//				break;
-//
-//			case 4:
-//				strRet = "Alarms";
-//				break;
-//
-//		}
 		
 		return strRet;
 	}
@@ -1921,6 +1925,9 @@ public class StatsProvider
 			case 2:
 				iRet = STATS_CUSTOM;
 				break;
+			case 3:
+				iRet = STATS_SCREEN_OFF;
+				break;
 				
 		}
 		return iRet;
@@ -1944,6 +1951,9 @@ public class StatsProvider
 				break;
 			case 2:
 				iRet = 2;
+				break;
+			case 3:
+				iRet = 3;
 				break;
 				
 		}
