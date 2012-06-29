@@ -198,7 +198,16 @@
 		            android:summary="Show Stat Type"
 					android:defaultValue="true"
 					android:enabled="true"/>    		    		   		   
-		    	        	        
+
+			    <ListPreference 
+			            android:key="widget_fallback_stat_type"
+			            android:title="Fallback stat type"
+			            android:summary="Set the fallback stat type to be shown in the widget if the primary one has no reference"
+			            android:defaultValue="1" 
+			            android:entries="@array/statTypeLabels"
+			            android:entryValues="@array/statTypeValues"
+			        />
+		    		    		    	        	        
 	        <PreferenceCategory android:title="2x2 ad 2x1 Widgets">	        
 			    <ListPreference 
 			            android:key="large_widget_default_stat_type"
