@@ -152,7 +152,13 @@
 				android:title="Network Stats" 
 				android:defaultValue="true"
 				android:enabled="true"/>    		    		   		   
-		    		    		   		   
+		    <CheckBoxPreference 
+				android:key="show_cpustates"
+				android:summary="Dump CPU States"
+				android:title="CPU States" 
+				android:defaultValue="true"
+				android:enabled="true"/>    		    		   		   
+		    		    		    		   		   
 		</PreferenceScreen>
 	</PreferenceCategory>
     <PreferenceCategory android:title="Views">

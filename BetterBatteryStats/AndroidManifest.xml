@@ -20,6 +20,8 @@
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<!-- detect unplug actions -->
 	<uses-permission android:name="android.permission.DEVICE_POWER" />
+	<!-- retrieve ps list (running tasks) -->
+	<uses-permission android:name="android.permission.GET_TASKS" />
 
     <supports-screens android:anyDensity="true"
         android:largeScreens="true" android:normalScreens="true"

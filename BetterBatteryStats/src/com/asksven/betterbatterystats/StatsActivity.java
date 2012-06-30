@@ -20,6 +20,8 @@ package com.asksven.betterbatterystats;
  *
  */
 
+import java.util.List;
+
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -48,6 +50,8 @@ import android.widget.Toast;
 
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.kernelutils.CpuStates;
+import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
@@ -465,7 +469,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 //            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
 //            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
 //            	doRefresh();
-            	
             	break;	
 
             case R.id.about:

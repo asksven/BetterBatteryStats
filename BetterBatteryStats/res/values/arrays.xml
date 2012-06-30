@@ -8,6 +8,7 @@
         <item>Alarms</item>
         <item>Process</item>
         <item>Network</item>
+        <item>CPU States</item>
     </string-array>
     <!-- Values for the statistic type. -->
     <string-array name="stat_types" translatable="false">
@@ -31,7 +32,7 @@
         <item name="4">Alarms</item>
         <item name="0">Process</item>
         <item name="5">Network</item>
-<!-- removed because of issue #1        <item name="3">Network usage</item> -->
+        <item name="6">CPU States</item>
     </string-array>
 
     <string-array name="statValues">
@@ -41,6 +42,7 @@
         <item name="3">3</item>
         <item name="4">4</item>
         <item name="5">5</item>
+        <item name="6">6</item>
 <!-- removed because of issue #1        <item name="3">3</item> -->
     </string-array>
 

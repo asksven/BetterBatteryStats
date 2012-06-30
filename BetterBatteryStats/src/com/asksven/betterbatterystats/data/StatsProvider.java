@@ -44,9 +44,11 @@ import android.widget.Toast;
 
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
+import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.RootDetection;
+import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
@@ -144,6 +146,8 @@ public class StatsProvider
 					return getAlarmsStatList(bFilterStats, iStatType);
 				case 5:
 					return getNativeNetworkUsageStatList(bFilterStats, iStatType);
+				case 6:
+					return getCpuStateList(iStatType);
 	
 			}
 			
@@ -932,6 +936,86 @@ public class StatsProvider
 	}
 
 	/**
+	 * Get the CPU states to be displayed
+	 * @param bFilter defines if zero-values should be filtered out
+	 * @return a List of Other usages sorted by duration (descending)
+	 * @throws Exception if the API call failed
+	 */
+	public ArrayList<StatElement> getCpuStateList(int iStatType) throws Exception
+
+	{
+		// List to store the other usages to
+		ArrayList<State> myStates = CpuStates.getTimesInStates();
+
+		ArrayList<StatElement> myStats = new ArrayList<StatElement> ();
+		
+		for (int i = 0; i < myStates.size(); i++)
+		{
+			State state = myStates.get(i); 
+			if (iStatType == STATS_CUSTOM)
+			{
+				if (m_myRefs != null)
+				{
+					state.substractFromRef(m_myRefs.m_refCpuStates);
+					myStats.add(state);
+				}	
+				else
+				{
+					myStats.clear();
+					myStats.add(new State(1, 1)); 
+				}
+	        }
+	        else if (iStatType == STATS_CHARGED)
+	        {
+				if (m_myRefSinceCharged != null)
+				{
+					state.substractFromRef(m_myRefSinceCharged.m_refCpuStates);
+					myStats.add(state);
+				}	
+				else
+				{
+					myStats.clear();
+					myStats.add(new State(1, 1)); 
+				}
+	        }
+	        else if (iStatType == STATS_SCREEN_OFF)
+	        {
+				if (m_myRefSinceScreenOff != null)
+				{
+					state.substractFromRef(m_myRefSinceScreenOff.m_refCpuStates);
+					myStats.add(state);
+				}
+				else
+				{
+					myStats.clear();
+					myStats.add(new State(1, 1)); 
+				}
+	
+	        }
+	        else if (iStatType == STATS_UNPLUGGED)
+	        {
+				if (m_myRefSinceUnplugged != null)
+				{
+					state.substractFromRef(m_myRefSinceUnplugged.m_refCpuStates);
+					myStats.add(state);
+				}
+				else
+				{
+					myStats.clear();
+					myStats.add(new State(1, 1)); 
+				}
+	
+	        }
+	        else
+	        {
+	        	myStats.add(state);
+	        }
+		}
+    	return myStats;
+
+	}
+
+	/**
 	 * Get the Other Usage Stat to be displayed
 	 * @param bFilter defines if zero-values should be filtered out
 	 * @return a List of Other usages sorted by duration (descending)
@@ -1462,7 +1546,8 @@ public class StatsProvider
 
 			refs.m_refAlarms			= null;
 			refs.m_refProcesses 		= null;
-			refs.m_refNetwork 			= null;			
+			refs.m_refNetwork 			= null;
+			refs.m_refCpuStates			= null;
     	
 			refs.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
@@ -1472,6 +1557,7 @@ public class StatsProvider
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			refs.m_refOther		 	= getOtherUsageStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
+			refs.m_refCpuStates		 	= getCpuStateList(BatteryStatsTypes.STATS_CURRENT);
 					
 			refs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 			
@@ -1493,6 +1579,7 @@ public class StatsProvider
     		refs.m_refAlarms			= null;
     		refs.m_refProcesses 		= null;
     		refs.m_refNetwork 			= null;
+    		refs.m_refCpuStates			= null;
 			
     		refs.m_refBatteryRealtime 	= 0;
     		refs.m_refBatteryLevel		= 0;
@@ -1512,16 +1599,13 @@ public class StatsProvider
 		m_myRefs.m_refWakelocks 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
 		m_myRefs.m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativekernelwakelockstate");
 		m_myRefs.m_refNetworkStats 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativenetworkstate");
-
+		m_myRefs.m_refCpuStates 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("cpustatesstate");
 		m_myRefs.m_refAlarms		 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("alarmstate");
 		m_myRefs.m_refProcesses 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
 		m_myRefs.m_refOther 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
 		m_myRefs.m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
 		m_myRefs.m_refBatteryLevel		= (Integer) savedInstanceState.getSerializable("batterylevel");
 		m_myRefs.m_refBatteryVoltage	= (Integer) savedInstanceState.getSerializable("batteryvoltage");
-
-
-
 	}
 	
 	/**
@@ -1539,6 +1623,7 @@ public class StatsProvider
     		savedInstanceState.putSerializable("processstate", m_myRefs.m_refProcesses);
     		savedInstanceState.putSerializable("otherstate", m_myRefs.m_refOther);
     		savedInstanceState.putSerializable("networkstate", m_myRefs.m_refNetwork);
+    		savedInstanceState.putSerializable("cpustatesstate", m_myRefs.m_refCpuStates);
     		savedInstanceState.putSerializable("batteryrealtime", m_myRefs.m_refBatteryRealtime);
     		savedInstanceState.putSerializable("batterylevel", m_myRefs.m_refBatteryLevel);
     		savedInstanceState.putSerializable("batteryvoltage", m_myRefs.m_refBatteryVoltage);
@@ -1737,6 +1822,16 @@ public class StatsProvider
 					out.write("Network (requires root)\n");
 					out.write("======================\n");
 					dumpList(getNativeNetworkUsageStatList(bFilterStats, iStatType), out);
+				}
+
+				bDumpChapter = sharedPrefs.getBoolean("show_cpustates", true);
+				if (bDumpChapter)
+				{
+					// write alarms info
+					out.write("==========\n");
+					out.write("CPU States\n");
+					out.write("==========\n");
+					dumpList(getCpuStateList(iStatType), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_serv", false);
