@@ -90,8 +90,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-                <action android:name="android.intent.action.ACTION_SCREEN_OFF"/>
-                <action android:name="android.intent.action.ACTION_SCREEN_ON"/>
             </intent-filter>    
         </receiver>        
         
@@ -140,6 +138,7 @@
         <service android:name="com.asksven.betterbatterystats.UpdateLargeWidgetService"></service>
         <service android:name="com.asksven.betterbatterystats.UpdateMediumWidgetService"></service>
         <service android:name="com.asksven.betterbatterystats.UpdateSmallWidgetService"></service>
+        <service android:name="com.asksven.betterbatterystats.EventWatcherService"/>
         
     </application>
 	

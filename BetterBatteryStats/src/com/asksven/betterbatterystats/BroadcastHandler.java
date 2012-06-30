@@ -112,45 +112,6 @@ public class BroadcastHandler extends BroadcastReceiver
 
 		}
 
-        if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF))
-		{
-			Log.i(TAG, "Received Broadcast ACTION_SCREEN_OFF");
-			
-			// todo: store the "since screen off" refs here
-			try
-			{
-				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-				
-				boolean bRefForScreenOff = sharedPrefs.getBoolean("ref_for_screen_off", false);
-
-				if (bRefForScreenOff)
-				{
-					// Store the "since screen off" ref
-					StatsProvider.getInstance(context).setReferenceSinceScreenOff(0);
-				}
-				
-			}
-			catch (Exception e)
-			{
-				Log.e(TAG, "An error occured: " + e.getMessage());
-			}
-
-		}
-
-        if (intent.getAction().equals(Intent.ACTION_SCREEN_ON))
-		{
-			Log.i(TAG, "Received Broadcast ACTION_SCREEN_ON");
-			// todo: evaluate what hapened while screen was off here
-			try
-			{
-				
-			}
-			catch (Exception e)
-			{
-				Log.e(TAG, "An error occured: " + e.getMessage());
-			}
-
-		}
 
 	}
 }
