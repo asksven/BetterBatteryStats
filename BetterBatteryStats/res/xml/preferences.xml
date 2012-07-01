@@ -314,7 +314,7 @@
 				android:key="ref_for_screen_off"
 				android:summary="Provides info about what happened when screen was off"
 				android:title="Screen off" 
-				android:defaultValue="true"/>
+				android:defaultValue="false"/>
 	    
 	</PreferenceCategory>
 </PreferenceScreen>

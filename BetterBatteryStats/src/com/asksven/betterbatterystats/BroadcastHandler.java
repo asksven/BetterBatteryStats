@@ -50,6 +50,7 @@ public class BroadcastHandler extends BroadcastReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
  
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED))
@@ -60,6 +61,15 @@ public class BroadcastHandler extends BroadcastReceiver
 			Log.i(TAG, "Received Broadcast ACTION_BOOT_COMPLETED");
 			// delete whatever references we have saved here
 			StatsProvider.getInstance(context).deletedSerializedRefs();
+			
+			boolean activeMonitoring	= sharedPrefs.getBoolean("ref_for_screen_off", false);
+			if (activeMonitoring)
+			{
+				// start the service
+				Intent i = new Intent(context, EventWatcherService.class);
+		        context.startService(i);
+			}
+
 		}
 
 

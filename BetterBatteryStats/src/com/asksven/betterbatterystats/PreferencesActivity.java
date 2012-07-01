@@ -19,8 +19,11 @@ package com.asksven.betterbatterystats;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
+
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -51,6 +54,7 @@ public class PreferencesActivity extends PreferenceActivity
 	protected void onPause()
 	{
 		super.onPause();
+		
 		// refresh widgets
 		Intent intent = new Intent(this.getApplicationContext(),
 				LargeWidgetProvider.class);
@@ -66,6 +70,30 @@ public class PreferencesActivity extends PreferenceActivity
 				SmallWidgetProvider.class);
 		intent.setAction(BbsWidgetProvider.WIDGET_PREFS_REFRESH);
 		this.sendBroadcast(intent);
+		
+		// check the state of the service and start / stop ot depending on prefs
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+		boolean serviceShouldBeRunning = sharedPrefs.getBoolean("ref_for_screen_off", false);
+	
+		if (serviceShouldBeRunning)
+		{
+			if (!EventWatcherService.isServiceRunning(this))
+			{
+				Intent i = new Intent(this, EventWatcherService.class);
+		        this.startService(i);
+			}
+				
+		}
+		else
+		{
+			if (EventWatcherService.isServiceRunning(this))
+			{
+				Intent i = new Intent(this, EventWatcherService.class);
+		        this.stopService(i);
+			}
+			
+		}
 
 	}
 

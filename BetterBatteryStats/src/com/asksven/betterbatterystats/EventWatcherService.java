@@ -15,8 +15,11 @@
  */
 package com.asksven.betterbatterystats;
 
+import android.app.ActivityManager;
 import android.app.Service;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
@@ -31,6 +34,8 @@ public class EventWatcherService extends Service
 {
 	
 	static final String TAG = "EventWatcherService";
+	public static String SERVICE_NAME = "com.asksven.betterbatterystats.EventWatcherService";
+
 
 	// This is the object that receives interactions from clients.  See
     // RemoteService for a more complete example.
@@ -66,5 +71,19 @@ public class EventWatcherService extends Service
         BroadcastReceiver mReceiver = new ScreenEventHandler();
         registerReceiver(mReceiver, filter);
     }
+    
+	public static boolean isServiceRunning(Context context)
+	{
+	    ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+	    {
+	        if (EventWatcherService.SERVICE_NAME.equals(service.service.getClassName()))
+	        {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+
 
 }
