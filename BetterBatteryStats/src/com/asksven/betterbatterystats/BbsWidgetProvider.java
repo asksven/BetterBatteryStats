@@ -47,8 +47,6 @@ public class BbsWidgetProvider extends AppWidgetProvider
 	private static final String TAG = "BbsWidgetProvider";
 	public static final String WIDGET_UPDATE = "BBS_WIDGET_UPDATE";
 	public static final String WIDGET_PREFS_REFRESH = "BBS_WIDGET_PREFS_REFRESH";
-	public static final String WIDGET_LOG = "bbs_widget_log";
-
 	
 	protected void setAlarm(Context context)
 	{
@@ -94,35 +92,6 @@ public class BbsWidgetProvider extends AppWidgetProvider
 		// Update the widgets via the service
 		context.startService(intent);
 
-	}
-	@Override
-	public void onReceive(Context context, Intent intent)
-	{
-		super.onReceive(context, intent);
-
-		if ( (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction())) ||
-				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
-		{
-			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
-			{
-				Log.d(TAG, "Alarm called: updating");
-				GenericLogger.i(LargeWidgetProvider.WIDGET_LOG, TAG, "LargeWidgetProvider: Alarm to refresh widget was called");
-			}
-			else
-			{
-				Log.d(TAG, "APPWIDGET_UPDATE called: updating");
-			}
-
-			AppWidgetManager appWidgetManager = AppWidgetManager
-					.getInstance(context);
-			ComponentName thisAppWidget = new ComponentName(
-					context.getPackageName(),
-					BbsWidgetProvider.class.getName());
-			int[] appWidgetIds = appWidgetManager
-					.getAppWidgetIds(thisAppWidget);
-
-			onUpdate(context, appWidgetManager, appWidgetIds);
-		}
 	}
 	
 	@Override

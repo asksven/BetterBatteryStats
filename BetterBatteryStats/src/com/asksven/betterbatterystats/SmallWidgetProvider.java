@@ -36,7 +36,7 @@ public class SmallWidgetProvider extends BbsWidgetProvider
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
 
-		Log.w(TAG, "onUpdate method called");
+		Log.i(TAG, "onUpdate method called, setting alarm");
 
 		// Update the widgets via the service
 		startService(context, this.getClass(), appWidgetManager, UpdateSmallWidgetService.class);

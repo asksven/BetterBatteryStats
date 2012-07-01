@@ -36,7 +36,7 @@ public class MediumWidgetProvider extends BbsWidgetProvider
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
 
-		Log.w(TAG, "onUpdate method called");
+		Log.i(TAG, "onUpdate method called, setting alarm");
 
 		// Update the widgets via the service
 		startService(context, this.getClass(), appWidgetManager, UpdateMediumWidgetService.class);
@@ -78,35 +78,35 @@ public class MediumWidgetProvider extends BbsWidgetProvider
 		}
 	}
 	
-	@Override
-	public void onDeleted(Context context, int[] appWidgetIds)
-	{
-		// called when widgets are deleted
-		// see that you get an array of widgetIds which are deleted
-		// so handle the delete of multiple widgets in an iteration
-		super.onDeleted(context, appWidgetIds);
-	}
-
-	@Override
-	public void onDisabled(Context context)
-	{
-		super.onDisabled(context);
-		// runs when all of the instances of the widget are deleted from
-		// the home screen
-		
-		// remove the alarms
-		removeAlarm(context);
-
-	}
-
-	@Override
-	public void onEnabled(Context context)
-	{
-		super.onEnabled(context);
-		// runs when all of the first instance of the widget are placed
-		// on the home screen
-		setAlarm(context);
-	}
+//	@Override
+//	public void onDeleted(Context context, int[] appWidgetIds)
+//	{
+//		// called when widgets are deleted
+//		// see that you get an array of widgetIds which are deleted
+//		// so handle the delete of multiple widgets in an iteration
+//		super.onDeleted(context, appWidgetIds);
+//	}
+//
+//	@Override
+//	public void onDisabled(Context context)
+//	{
+//		super.onDisabled(context);
+//		// runs when all of the instances of the widget are deleted from
+//		// the home screen
+//		
+//		// remove the alarms
+//		removeAlarm(context);
+//
+//	}
+//
+//	@Override
+//	public void onEnabled(Context context)
+//	{
+//		super.onEnabled(context);
+//		// runs when all of the first instance of the widget are placed
+//		// on the home screen
+//		setAlarm(context);
+//	}
 	
 	
 }
