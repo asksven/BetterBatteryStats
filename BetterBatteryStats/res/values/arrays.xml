@@ -3,36 +3,37 @@
 	<!-- Values for the statistic. -->
     <string-array name="stats" translatable="false">
         <item>Other</item>
-        <item>Partial Wakelocks</item>
         <item>Kernel Wakelock</item>
+        <item>Partial Wakelocks</item>
         <item>Alarms</item>
-        <item>Process</item>
         <item>Network</item>
         <item>CPU States</item>
+        <item>Process</item>
+        
     </string-array>
     <!-- Values for the statistic type. -->
     <string-array name="stat_types" translatable="false">
         <item>Since charged</item>
         <item>Since unplugged</item>
         <item>Since Custom Ref.</item>
-        <item>Since Screen off</item>
+        <item>Since Screen Off</item>
     </string-array>
     <string-array name="stat_types_froyo" translatable="false">
         <item>Total</item>
         <item>Since unplugged</item>
         <item>Since Custom Ref.</item>
-        <item>Since Screen off</item>
+        <item>Since Screen Off</item>
     </string-array>
     
     <!--  Values for the preferences -->
     <string-array name="statLabels">
         <item name="2">Other</item>
-        <item name="1">Partial Wakelocks</item>
         <item name="3">Kernel Wakelock</item>
+        <item name="1">Partial Wakelocks</item>
         <item name="4">Alarms</item>
-        <item name="0">Process</item>
         <item name="5">Network</item>
         <item name="6">CPU States</item>
+        <item name="0">Process</item>
     </string-array>
 
     <string-array name="statValues">
@@ -43,14 +44,13 @@
         <item name="4">4</item>
         <item name="5">5</item>
         <item name="6">6</item>
-<!-- removed because of issue #1        <item name="3">3</item> -->
     </string-array>
 
     <string-array name="statTypeLabels">
         <item name="0">Since charged</item>
         <item name="1">Since unplugged</item>
         <item name="2">Since Custom Ref.</item>
-        <item name="3">Since Screen off</item>
+        <item name="3">Since Screen Off</item>
     </string-array>
 
     <string-array name="statTypeValues">
