@@ -22,8 +22,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -71,6 +73,20 @@ public class EventWatcherService extends Service
         BroadcastReceiver mReceiver = new ScreenEventHandler();
         registerReceiver(mReceiver, filter);
     }
+    
+    /** 
+     * Called when service is started
+     */
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
+        Log.i(getClass().getSimpleName(), "Received start id " + startId + ": " + intent);
+
+        // We want this service to continue running until it is explicitly
+        // stopped, so return sticky.
+        
+        return Service.START_STICKY;
+    }
+
     
 	public static boolean isServiceRunning(Context context)
 	{
