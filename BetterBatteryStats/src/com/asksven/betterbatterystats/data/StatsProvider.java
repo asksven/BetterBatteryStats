@@ -1060,7 +1060,7 @@ public class StatsProvider
         
         
 		// if we are using custom ref. always retrieve "stats current"
-		if (iStatType == STATS_CUSTOM)
+		if ( (iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF)) 
 		{
 	        whichRealtime 		= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
 	        timeBatteryUp 		= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, BatteryStatsTypes.STATS_CURRENT) / 1000;
@@ -1122,17 +1122,17 @@ public class StatsProvider
 				}
 			}	
         }
-        if (iStatType == STATS_SCREEN_OFF)
-        {
-			if (m_myRefSinceScreenOff != null)
-			{
-				deepSleepUsage.substractFromRef(m_myRefSinceScreenOff.m_refOther);
-				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
-				{
-					myUsages.add(deepSleepUsage);
-				}
-			}	
-        }
+//        if (iStatType == STATS_SCREEN_OFF)
+//        {
+//			if (m_myRefSinceScreenOff != null)
+//			{
+//				deepSleepUsage.substractFromRef(m_myRefSinceScreenOff.m_refOther);
+//				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
+//				{
+//					myUsages.add(deepSleepUsage);
+//				}
+//			}	
+//        }
         else if (iStatType == STATS_UNPLUGGED)
         {
 			if (m_myRefSinceUnplugged != null)
@@ -1272,6 +1272,30 @@ public class StatsProvider
 						myStats.add(new Misc(NO_CUST_REF, 1, 1)); 
 					}
 				}
+				else if (iStatType == STATS_SCREEN_OFF)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					if (m_myRefSinceScreenOff != null)
+					{
+						usage.substractFromRef(m_myRefSinceScreenOff.m_refOther);
+						if ( (!bFilter) || (usage.getTimeOn() > 0) )
+						{
+							myStats.add((StatElement) usage);
+						}
+					}
+					else
+					{
+						myStats.clear();
+						myStats.add(new Misc(NO_CUST_REF, 1, 1)); 
+					}
+				}
+
 				else
 				{
 					// case b)
@@ -1619,29 +1643,48 @@ public class StatsProvider
 	public void serializeRefToFile(References refs)
 	{
 		DataStorage.objectToFile(m_context, refs.m_fileName, refs);
+		Log.i(TAG, "Saved ref " + refs.m_fileName);
 	}
 
 	public void deserializeFromFile()
 	{
 		m_myRefs = (References) DataStorage.fileToObject(m_context, References.CUSTOM_REF_FILENAME);
+		if (m_myRefs != null)
+		{
+			Log.i(TAG, "Retrieved ref " + m_myRefs.m_fileName + " created at " + m_myRefs.m_creationDate);
+		}
+		
 		m_myRefSinceCharged = (References) DataStorage.fileToObject(m_context, References.SINCE_CHARGED_REF_FILENAME);
+		if (m_myRefSinceCharged != null)
+		{
+			Log.i(TAG, "Retrieved ref " + m_myRefSinceCharged.m_fileName + " created at " + m_myRefSinceCharged.m_creationDate);
+		}
+		
 		m_myRefSinceScreenOff = (References) DataStorage.fileToObject(m_context, References.SINCE_SCREEN_OFF_REF_FILENAME);
+		if (m_myRefSinceScreenOff != null)
+		{
+			Log.i(TAG, "Retrieved ref " + m_myRefSinceScreenOff.m_fileName + " created at " + m_myRefSinceScreenOff.m_creationDate);
+		}
+		
 		m_myRefSinceUnplugged = (References) DataStorage.fileToObject(m_context, References.SINCE_UNPLUGGED_REF_FILENAME);
-
+		if (m_myRefSinceUnplugged != null)
+		{
+			Log.i(TAG, "Retrieved ref " + m_myRefSinceUnplugged.m_fileName + " created at " + m_myRefSinceUnplugged.m_creationDate);
+		}
 	}
 
 	public void deletedSerializedRefs()
 	{
-		References myEmptyRef = new References("References.CUSTOM_REF_FILENAME");
+		References myEmptyRef = new References(References.CUSTOM_REF_FILENAME);
 		DataStorage.objectToFile(m_context, References.CUSTOM_REF_FILENAME, myEmptyRef);
 		
-		myEmptyRef = new References("References.SINCE_CHARGED_REF_FILENAME");
+		myEmptyRef = new References(References.SINCE_CHARGED_REF_FILENAME);
 		DataStorage.objectToFile(m_context, References.SINCE_CHARGED_REF_FILENAME, myEmptyRef);
 		
-		myEmptyRef = new References("References.SINCE_SCREEN_OFF_REF_FILENAME");
+		myEmptyRef = new References(References.SINCE_SCREEN_OFF_REF_FILENAME);
 		DataStorage.objectToFile(m_context, References.SINCE_SCREEN_OFF_REF_FILENAME, myEmptyRef);
 		
-		myEmptyRef = new References("References.SINCE_UNPLUGGED_REF_FILENAME");
+		myEmptyRef = new References(References.SINCE_UNPLUGGED_REF_FILENAME);
 		DataStorage.objectToFile(m_context, References.SINCE_UNPLUGGED_REF_FILENAME, myEmptyRef);
 	}
 
@@ -1667,6 +1710,12 @@ public class StatsProvider
 			whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 			whichRealtime -= m_myRefs.m_refBatteryRealtime;	
 		}
+		else if ( (iStatType == StatsProvider.STATS_SCREEN_OFF) && (m_myRefSinceScreenOff != null) )
+		{
+			whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			whichRealtime -= m_myRefSinceScreenOff.m_refBatteryRealtime;	
+		}
+
 		else
 		{
 			whichRealtime 	= mStats.computeBatteryRealtime(rawRealtime, iStatType) / 1000;
