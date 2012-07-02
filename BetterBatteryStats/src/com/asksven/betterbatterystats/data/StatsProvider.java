@@ -1477,12 +1477,8 @@ public class StatsProvider
 	 */
 	public void setCustomReference(int iSort)
 	{
-		if (m_myRefs == null)
-		{
-			m_myRefs		= new References(References.CUSTOM_REF_FILENAME);
-		}
-
-		setReference(iSort, m_myRefs);
+		m_myRefs = new References(References.CUSTOM_REF_FILENAME);
+		m_myRefs = setReference(iSort, m_myRefs);
 	}
 
 	/**
@@ -1491,11 +1487,8 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceScreenOff(int iSort)
 	{
-		if (m_myRefSinceScreenOff == null)
-		{
-			m_myRefSinceScreenOff		= new References(References.SINCE_SCREEN_OFF_REF_FILENAME);
-		}
-		setReference(iSort, m_myRefSinceScreenOff);
+		m_myRefSinceScreenOff = new References(References.SINCE_SCREEN_OFF_REF_FILENAME);
+		m_myRefSinceScreenOff = setReference(iSort, m_myRefSinceScreenOff);
 	}
 
 	/**
@@ -1504,12 +1497,8 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceCharged(int iSort)
 	{
-		if (m_myRefSinceCharged == null)
-		{
-			m_myRefSinceCharged		= new References(References.SINCE_CHARGED_REF_FILENAME);
-		}
-
-		setReference(iSort, m_myRefSinceCharged);
+		m_myRefSinceCharged = new References(References.SINCE_CHARGED_REF_FILENAME);
+		m_myRefSinceCharged = setReference(iSort, m_myRefSinceCharged);
 	}
 
 	/**
@@ -1518,12 +1507,8 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceUnplugged(int iSort)
 	{
-		if (m_myRefSinceUnplugged == null)
-		{
-			m_myRefSinceUnplugged		= new References(References.SINCE_UNPLUGGED_REF_FILENAME);
-		}
-
-		setReference(iSort, m_myRefSinceUnplugged);
+		m_myRefSinceUnplugged = new References(References.SINCE_UNPLUGGED_REF_FILENAME);
+		m_myRefSinceUnplugged = setReference(iSort, m_myRefSinceUnplugged);
 	}
 
 	/**
@@ -1647,10 +1632,16 @@ public class StatsProvider
 
 	public void deletedSerializedRefs()
 	{
-		References myEmptyRef = new References("void");
+		References myEmptyRef = new References("References.CUSTOM_REF_FILENAME");
 		DataStorage.objectToFile(m_context, References.CUSTOM_REF_FILENAME, myEmptyRef);
+		
+		myEmptyRef = new References("References.SINCE_CHARGED_REF_FILENAME");
 		DataStorage.objectToFile(m_context, References.SINCE_CHARGED_REF_FILENAME, myEmptyRef);
+		
+		myEmptyRef = new References("References.SINCE_SCREEN_OFF_REF_FILENAME");
 		DataStorage.objectToFile(m_context, References.SINCE_SCREEN_OFF_REF_FILENAME, myEmptyRef);
+		
+		myEmptyRef = new References("References.SINCE_UNPLUGGED_REF_FILENAME");
 		DataStorage.objectToFile(m_context, References.SINCE_UNPLUGGED_REF_FILENAME, myEmptyRef);
 	}
 
