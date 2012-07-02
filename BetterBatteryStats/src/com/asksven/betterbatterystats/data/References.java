@@ -17,8 +17,13 @@ package com.asksven.betterbatterystats.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import android.util.Log;
 
 import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.utils.DateUtils;
 
 /**
  * A serializable value holder for stat references 
@@ -30,12 +35,15 @@ class References implements Serializable
 	
 	private static final long serialVersionUID = 3L;
 	
+	private transient static final String TAG = "References";
+	
 	protected static final String CUSTOM_REF_FILENAME 			= "custom_ref";
 	protected static final String SINCE_UNPLUGGED_REF_FILENAME 	= "since_unplugged_ref";
 	protected static final String SINCE_CHARGED_REF_FILENAME 	= "since_charged_ref";
 	protected static final String SINCE_SCREEN_OFF_REF_FILENAME	= "since_screen_off";
 	/** storage of custom references */
 	protected String m_fileName								= "";
+	protected Date m_creationDate							= null;
     protected ArrayList<StatElement> m_refWakelocks 		= null;
     protected ArrayList<StatElement> m_refKernelWakelocks 	= null;
     protected ArrayList<StatElement> m_refNetworkStats	 	= null;
@@ -56,6 +64,8 @@ class References implements Serializable
     public References(String fileName)
     {
     	m_fileName = fileName;
+    	m_creationDate = Calendar.getInstance().getTime();
+    	Log.i(TAG, "Create ref " + m_fileName + " at " + DateUtils.format(m_creationDate));
     }
 
 }
