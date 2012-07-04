@@ -1,351 +1,328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:robobunny="http://robobunny.com">
-	<PreferenceCategory android:title="Display">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:robobunny="http://robobunny.com" >
 
-		<CheckBoxPreference 
-			android:key="filter_data"
-			android:summary="Enable or disable the filtering of data to non-zero values"
-			android:title="Filter stats" 
-			android:defaultValue="true"
-	    />    
-	
-	    <CheckBoxPreference 
-			android:key="hide_bars"
-			android:summary="Hide or show the graph bars"
-			android:title="Hide graph bars" 
-			android:defaultValue="false"
-	    />
- 
-	</PreferenceCategory>
-
-	<PreferenceCategory android:title="Defaults">    
-	    <ListPreference 
-	            android:key="default_stat"
-	            android:title="Default stat"
-	            android:summary="Set the stat to be shown upon starting the app"
-	            android:defaultValue="2" 
-	            android:entries="@array/statLabels"
-	            android:entryValues="@array/statValues"
-	        />
-	        
-	    <ListPreference 
-	            android:key="default_stat_type"
-	            android:title="Default stat type"
-	            android:summary="Set the stat type to be shown upon starting the app"
-	            android:defaultValue="1" 
-	            android:entries="@array/statTypeLabels"
-	            android:entryValues="@array/statTypeValues"
-	        />
+    <PreferenceCategory android:title="Display" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="filter_data"
+            android:summary="Enable or disable the filtering of data to non-zero values"
+            android:title="Filter stats" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="hide_bars"
+            android:summary="Hide or show the graph bars"
+            android:title="Hide graph bars" />
     </PreferenceCategory>
-     
-    <PreferenceCategory android:title="Wakelock">    
-	    <ListPreference 
-	            android:key="default_wl_ref"
-	            android:title="Wakelock pct of"
-	            android:summary="Wakelock expressed as pct of time..."
-	            android:defaultValue="0" 
-	            android:entries="@array/wlRefLabels"
-	            android:entryValues="@array/wlRefValues"/>
+    <PreferenceCategory android:title="Defaults" >
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/statLabels"
+            android:entryValues="@array/statValues"
+            android:key="default_stat"
+            android:summary="Set the stat to be shown upon starting the app"
+            android:title="Default stat" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/statTypeLabels"
+            android:entryValues="@array/statTypeValues"
+            android:key="default_stat_type"
+            android:summary="Set the stat type to be shown upon starting the app"
+            android:title="Default stat type" />
     </PreferenceCategory>
-    
-
-    <PreferenceCategory android:title="Knowledge Base">
-	    <PreferenceScreen android:title="Knowledge Base Preferences">	
-		    <CheckBoxPreference 
-				android:key="enable_kb"
-				android:summary="Enable the display of the knowledge base"
-				android:title="Enable KB" 
-				android:defaultValue="true"
-		    />
-		    <CheckBoxPreference 
-				android:key="kb_ext_browser"
-				android:summary="Use default browser to display the knowledge base"
-				android:title="Use default browser" 
-				android:defaultValue="true"
-		    />
-		    <EditTextPreference
-		    	android:key="kb_url_appender"
-		    	android:summary="Append a string to the service URL to use a test URL"
-				android:title="Append to Service URL" 
-				android:defaultValue=""
-			/>
-		    <CheckBoxPreference 
-				android:key="cache_kb"
-				android:summary="Cache the knowledge base locally"
-				android:title="Cache KB" 
-				android:defaultValue="true"
-		    />
-		    
-		</PreferenceScreen>
-	</PreferenceCategory>
-    
-    <PreferenceCategory android:title="Advanced">
-	    <PreferenceScreen android:title="Advanced Preferences">	
-			<ListPreference 
-	            android:key="graph_bar_height"
-	            android:title="Height for graph bars"
-	            android:summary="If you are using non-default densities you can change the bar height here"
-	            android:defaultValue="10" 
-	            android:entries="@array/graphBarHeigthLabels"
-	            android:entryValues="@array/graphBarHeigthValues"
-	        />
-		   <ListPreference 
-	            android:key="default_orderby"
-	            android:title="Default order by"
-	            android:summary="Set the default sorting"
-	            android:defaultValue="0" 
-	            android:entries="@array/orderbyLabels"
-	            android:entryValues="@array/orderbyValues"
-	        />
-		    <CheckBoxPreference 
-				android:key="use_analytics"
-				android:summary="Allow Google Analytics tracking"
-				android:title="Google Analytics" 
-				android:defaultValue="true"
-		    />
-		   		   
-		</PreferenceScreen>
-	</PreferenceCategory>
-    <PreferenceCategory android:title="Dumpfile">
-	    <PreferenceScreen android:title="Dumpfile Settings">	
-		    <CheckBoxPreference 
-				android:key="show_other"
-				android:summary="Dump Other Stats"
-				android:title="Other Stats" 
-				android:defaultValue="true"
-				android:enabled="false"/>
-		    <CheckBoxPreference 
-				android:key="show_pwl"
-				android:summary="Dump Partial Wakelocks Stats"
-				android:title="Partial Wakelocks Stats" 
-				android:defaultValue="true"
-				android:enabled="false"/>
-		    <CheckBoxPreference 
-				android:key="show_kwl"
-				android:summary="Dump Kernel Wakelocks Stats"
-				android:title="Kernel Wakelocks Stats"
-				android:defaultValue="true"
-				android:enabled="false"/>
-		    <CheckBoxPreference 
-				android:key="show_proc"
-				android:summary="Dump Process Stats"
-				android:title="Process Stats" 
-				android:defaultValue="false"
-				android:enabled="true"/>
-		    <CheckBoxPreference 
-				android:key="show_serv"
-				android:summary="Dump Service Stats"
-				android:title="Service Stats" 
-				android:defaultValue="false"
-				android:enabled="true"/>
-		    <CheckBoxPreference 
-				android:key="show_alarm"
-				android:summary="Dump Alarm Stats"
-				android:title="Alarm Stats" 
-				android:defaultValue="true"
-				android:enabled="true"/>
-		    <CheckBoxPreference 
-				android:key="show_network"
-				android:summary="Dump Network Stats"
-				android:title="Network Stats" 
-				android:defaultValue="true"
-				android:enabled="true"/>    		    		   		   
-		    <CheckBoxPreference 
-				android:key="show_cpustates"
-				android:summary="Dump CPU States"
-				android:title="CPU States" 
-				android:defaultValue="true"
-				android:enabled="true"/>    		    		   		   
-		    		    		    		   		   
-		</PreferenceScreen>
-	</PreferenceCategory>
-    <PreferenceCategory android:title="Views">
-	    <PreferenceScreen android:title="Customize Views">	
-		    <CheckBoxPreference 
-				android:key="show_other_wifi"
-				android:summary="Show Wifi values"
-				android:title="Show Wifi" 
-				android:defaultValue="true"/>
-		    <CheckBoxPreference 
-				android:key="show_other_signal"
-				android:summary="Show signal values"
-				android:title="Show signal" 
-				android:defaultValue="true"/>
-		    <CheckBoxPreference 
-				android:key="show_other_connection"
-				android:summary="Show connection values"
-				android:title="Show connection"
-				android:defaultValue="true"/>
-		    <CheckBoxPreference 
-				android:key="show_other_bt"
-				android:summary="Show Bluetooth values"
-				android:title="Show Bluetooth" 
-				android:defaultValue="true"/>
-		</PreferenceScreen>
-	</PreferenceCategory>
- 
-	<PreferenceCategory android:title="Widgets">  
-	    <PreferenceScreen android:title="Widget Settings">  
-		    <ListPreference 
-		            android:key="widget_refresh_freq"
-		            android:title="Refresh Frequency"
-		            android:summary="Set how often the Widgets will update"
-		            android:defaultValue="30"
-		            android:entries="@array/widgetUpdateFreqLabels"
-		            android:entryValues="@array/widgetUpdateFreqValues"
-		        />
-		    <ListPreference 
-	            android:key="widget_default_stat"
-	            android:title="Default stat to open"
-	            android:summary="Set the stat to be called from widget"
-	            android:defaultValue="2" 
-	            android:entries="@array/statLabels"
-	            android:entryValues="@array/statValues"
-	        />
-		    
-		    <CheckBoxPreference 
-		            android:key="widget_show_stat_type"
-		            android:title="Show Title"
-		            android:summary="Show Stat Type"
-					android:defaultValue="true"
-					android:enabled="true"/>    		    		   		   
-
-			    <ListPreference 
-			            android:key="widget_fallback_stat_type"
-			            android:title="Fallback stat type"
-			            android:summary="Set the fallback stat type to be shown in the widget if the primary one has no reference"
-			            android:defaultValue="1" 
-			            android:entries="@array/statTypeLabels"
-			            android:entryValues="@array/statTypeValues"
-			        />
-		    		    		    	        	        
-	        <PreferenceCategory android:title="2x2 ad 2x1 Widgets">	        
-			    <ListPreference 
-			            android:key="large_widget_default_stat_type"
-			            android:title="Stat type"
-			            android:summary="Set the stat type to be shown in the widget"
-			            android:defaultValue="1" 
-			            android:entries="@array/statTypeLabels"
-			            android:entryValues="@array/statTypeValues"
-			        />
-			    <ListPreference 
-			            android:key="large_widget_font_size"
-			            android:title="Font Size"
-			            android:summary="Set the font size to be used in the widget"
-			            android:defaultValue="10" 
-			            android:entries="@array/widgetFontSizeLabels"
-			            android:entryValues="@array/widgetFontSizeValues"
-			        />
-			    <CheckBoxPreference 
-			            android:key="large_widget_show_pct"
-			            android:title="Show %"
-			            android:summary="Show durations in % of total time"
-						android:defaultValue="false"
-						android:enabled="true"/>    		    		   		   
-		    		    		    
-				<com.asksven.betterbatterystats.contrib.SeekBarPreference
-				    android:key="large_widget_opacity"
-				    android:title="Opacity"
-				    android:summary="Adjust the widget opacity"
-				    android:defaultValue="80"
-				    android:max="100"
-				    robobunny:min="10"
-				    robobunny:interval="10"
-				    robobunny:unitsLeft=""
-				    robobunny:unitsRight="%"/>
-				<com.asksven.betterbatterystats.contrib.SeekBarPreference
-				    android:key="large_widget_bg_opacity"
-				    android:title="Background Opacity"
-				    android:summary="Adjust the background opacity"
-				    android:defaultValue="20"
-				    android:max="100"
-				    robobunny:min="0"
-				    robobunny:interval="10"
-				    robobunny:unitsLeft=""
-				    robobunny:unitsRight="%"/>		    
-						    
-		    </PreferenceCategory>
-	        <PreferenceCategory android:title="1x1 Widget">	        
-			    <ListPreference 
-			            android:key="small_widget_default_stat_type"
-			            android:title="Stat type"
-			            android:summary="Set the stat type to be shown in the widget"
-			            android:defaultValue="1" 
-			            android:entries="@array/statTypeLabels"
-			            android:entryValues="@array/statTypeValues"
-			        />
-			    <CheckBoxPreference 
-			            android:key="small_widget_refresh_on_tap"
-			            android:title="Refresh on tap"
-			            android:summary="Tapping the widget refreshes it (if disabled tapping opens the app)"
-						android:defaultValue="true"
-						android:enabled="true"/>    		    		   		   
-			    			    
-				<com.asksven.betterbatterystats.contrib.SeekBarPreference
-				    android:key="small_widget_opacity"
-				    android:title="Opacity"
-				    android:summary="Adjust the widget opacity"
-				    android:defaultValue="80"
-				    android:max="100"
-				    robobunny:min="10"
-				    robobunny:interval="10"
-				    robobunny:unitsLeft=""
-				    robobunny:unitsRight="%"/>
-				<com.asksven.betterbatterystats.contrib.SeekBarPreference
-				    android:key="small_widget_bg_opacity"
-				    android:title="Background Opacity"
-				    android:summary="Adjust the background opacity"
-				    android:defaultValue="20"
-				    android:max="100"
-				    robobunny:min="0"
-				    robobunny:interval="10"
-				    robobunny:unitsLeft=""
-				    robobunny:unitsRight="%"/>		    
-				
-		    </PreferenceCategory>
-	        
-		</PreferenceScreen>
+    <PreferenceCategory android:title="Wakelock" >
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/wlRefLabels"
+            android:entryValues="@array/wlRefValues"
+            android:key="default_wl_ref"
+            android:summary="Wakelock expressed as pct of time..."
+            android:title="Wakelock pct of" />
     </PreferenceCategory>
-    
-	<PreferenceCategory android:title="Watchdogs">
-	    <PreferenceScreen android:title="Watchdog Settings">
-		    <CheckBoxPreference 
-					android:key="ref_for_screen_off"
-					android:summary="Saves a reference when screen goes off"
-					android:title="Screen Off" 
-					android:defaultValue="false"/>
-		    <CheckBoxPreference 
-					android:key="watchdog_issue_warnings"
-					android:summary="Issue warnings depending on what happened while screen was off"
-					android:title="Issue Warnings" 
-					android:defaultValue="false"/>
-		    
-		    <PreferenceCategory android:title="Warnings"
-		       	android:dependency="watchdog_issue_warnings">
-			    <com.asksven.betterbatterystats.contrib.SeekBarPreference
-					    android:key="watchdog_awake_threshold"
-					    android:title="Awake threshold"
-					    android:summary="Threshold for warning (awake / total)"
-					    android:defaultValue="30"
-					    android:max="100"
-					    robobunny:min="10"
-					    robobunny:interval="10"
-					    robobunny:unitsLeft=""
-					    robobunny:unitsRight="%"/>
-			    <com.asksven.betterbatterystats.contrib.SeekBarPreference
-					    android:key="watchdog_duration_threshold"
-					    android:title="Duration threshold [Min.]"
-					    android:summary="Screen Off duration to trigger"
-					    android:defaultValue="10"
-					    android:max="30"
-					    robobunny:min="0"
-					    robobunny:interval="1"
-					    robobunny:unitsLeft=""
-					    robobunny:unitsRight="Min."/>
-			    
-			</PreferenceCategory>		    
-		</PreferenceScreen>	    
-	</PreferenceCategory>
+    <PreferenceCategory android:title="Knowledge Base" >
+        <PreferenceScreen android:title="Knowledge Base Preferences" >
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="enable_kb"
+                android:summary="Enable the display of the knowledge base"
+                android:title="Enable KB" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="kb_ext_browser"
+                android:summary="Use default browser to display the knowledge base"
+                android:title="Use default browser" />
+
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="kb_url_appender"
+                android:summary="Append a string to the service URL to use a test URL"
+                android:title="Append to Service URL" />
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="cache_kb"
+                android:summary="Cache the knowledge base locally"
+                android:title="Cache KB" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Advanced" >
+        <PreferenceScreen android:title="Advanced Preferences" >
+            <ListPreference
+                android:defaultValue="10"
+                android:entries="@array/graphBarHeigthLabels"
+                android:entryValues="@array/graphBarHeigthValues"
+                android:key="graph_bar_height"
+                android:summary="If you are using non-default densities you can change the bar height here"
+                android:title="Height for graph bars" />
+            <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/orderbyLabels"
+                android:entryValues="@array/orderbyValues"
+                android:key="default_orderby"
+                android:summary="Set the default sorting"
+                android:title="Default order by" />
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="use_analytics"
+                android:summary="Allow Google Analytics tracking"
+                android:title="Google Analytics" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Dumpfile" >
+        <PreferenceScreen android:title="Dumpfile Settings" >
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:enabled="false"
+                android:key="show_other"
+                android:summary="Dump Other Stats"
+                android:title="Other Stats" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:enabled="false"
+                android:key="show_pwl"
+                android:summary="Dump Partial Wakelocks Stats"
+                android:title="Partial Wakelocks Stats" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:enabled="false"
+                android:key="show_kwl"
+                android:summary="Dump Kernel Wakelocks Stats"
+                android:title="Kernel Wakelocks Stats" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:enabled="true"
+                android:key="show_proc"
+                android:summary="Dump Process Stats"
+                android:title="Process Stats" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:enabled="true"
+                android:key="show_serv"
+                android:summary="Dump Service Stats"
+                android:title="Service Stats" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:enabled="true"
+                android:key="show_alarm"
+                android:summary="Dump Alarm Stats"
+                android:title="Alarm Stats" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:enabled="true"
+                android:key="show_network"
+                android:summary="Dump Network Stats"
+                android:title="Network Stats" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:enabled="true"
+                android:key="show_cpustates"
+                android:summary="Dump CPU States"
+                android:title="CPU States" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Views" >
+        <PreferenceScreen android:title="Customize Views" >
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_other_wifi"
+                android:summary="Show Wifi values"
+                android:title="Show Wifi" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_other_signal"
+                android:summary="Show signal values"
+                android:title="Show signal" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_other_connection"
+                android:summary="Show connection values"
+                android:title="Show connection" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_other_bt"
+                android:summary="Show Bluetooth values"
+                android:title="Show Bluetooth" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Widgets" >
+        <PreferenceScreen android:title="Widget Settings" >
+            <ListPreference
+                android:defaultValue="30"
+                android:entries="@array/widgetUpdateFreqLabels"
+                android:entryValues="@array/widgetUpdateFreqValues"
+                android:key="widget_refresh_freq"
+                android:summary="Set how often the Widgets will update"
+                android:title="Refresh Frequency" />
+            <ListPreference
+                android:defaultValue="2"
+                android:entries="@array/statLabels"
+                android:entryValues="@array/statValues"
+                android:key="widget_default_stat"
+                android:summary="Set the stat to be called from widget"
+                android:title="Default stat to open" />
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:enabled="true"
+                android:key="widget_show_stat_type"
+                android:summary="Show Stat Type"
+                android:title="Show Title" />
+
+            <ListPreference
+                android:defaultValue="1"
+                android:entries="@array/statTypeLabels"
+                android:entryValues="@array/statTypeValues"
+                android:key="widget_fallback_stat_type"
+                android:summary="Set the fallback stat type to be shown in the widget if the primary one has no reference"
+                android:title="Fallback stat type" />
+
+            <PreferenceCategory android:title="2x2 ad 2x1 Widgets" >
+                <ListPreference
+                    android:defaultValue="1"
+                    android:entries="@array/statTypeLabels"
+                    android:entryValues="@array/statTypeValues"
+                    android:key="large_widget_default_stat_type"
+                    android:summary="Set the stat type to be shown in the widget"
+                    android:title="Stat type" />
+                <ListPreference
+                    android:defaultValue="10"
+                    android:entries="@array/widgetFontSizeLabels"
+                    android:entryValues="@array/widgetFontSizeValues"
+                    android:key="large_widget_font_size"
+                    android:summary="Set the font size to be used in the widget"
+                    android:title="Font Size" />
+
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:enabled="true"
+                    android:key="large_widget_show_pct"
+                    android:summary="Show durations in % of total time"
+                    android:title="Show %" />
+
+                <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                    android:defaultValue="80"
+                    android:key="large_widget_opacity"
+                    android:max="100"
+                    android:summary="Adjust the widget opacity"
+                    android:title="Opacity"
+                    robobunny:interval="10"
+                    robobunny:min="10"
+                    robobunny:unitsLeft=""
+                    robobunny:unitsRight="%" />
+                <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                    android:defaultValue="20"
+                    android:key="large_widget_bg_opacity"
+                    android:max="100"
+                    android:summary="Adjust the background opacity"
+                    android:title="Background Opacity"
+                    robobunny:interval="10"
+                    robobunny:min="0"
+                    robobunny:unitsLeft=""
+                    robobunny:unitsRight="%" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="1x1 Widget" >
+                <ListPreference
+                    android:defaultValue="1"
+                    android:entries="@array/statTypeLabels"
+                    android:entryValues="@array/statTypeValues"
+                    android:key="small_widget_default_stat_type"
+                    android:summary="Set the stat type to be shown in the widget"
+                    android:title="Stat type" />
+
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:enabled="true"
+                    android:key="small_widget_refresh_on_tap"
+                    android:summary="Tapping the widget refreshes it (if disabled tapping opens the app)"
+                    android:title="Refresh on tap" />
+
+                <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                    android:defaultValue="80"
+                    android:key="small_widget_opacity"
+                    android:max="100"
+                    android:summary="Adjust the widget opacity"
+                    android:title="Opacity"
+                    robobunny:interval="10"
+                    robobunny:min="10"
+                    robobunny:unitsLeft=""
+                    robobunny:unitsRight="%" />
+                <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                    android:defaultValue="20"
+                    android:key="small_widget_bg_opacity"
+                    android:max="100"
+                    android:summary="Adjust the background opacity"
+                    android:title="Background Opacity"
+                    robobunny:interval="10"
+                    robobunny:min="0"
+                    robobunny:unitsLeft=""
+                    robobunny:unitsRight="%" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Watchdogs" >
+        <PreferenceScreen android:title="Watchdog Settings" >
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="ref_for_screen_off"
+                android:summary="Saves a reference when screen goes off"
+                android:title="Screen Off" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="ref_for_screen_off"
+                android:key="watchdog_issue_warnings"
+                android:summary="Notify warnings depending on what happened while screen was off"
+                android:title="Notify" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="ref_for_screen_off"
+                android:key="watchdog_show_toasts"
+                android:summary="Show watchdog related activities as toasts"
+                android:title="Display Toasts" />
+
+            <PreferenceCategory android:title="Warnings" android:key="warnings" >
+                <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                    android:defaultValue="30"
+                    android:key="watchdog_awake_threshold"
+                    android:max="100"
+                    android:summary="Threshold for warning (awake / total)"
+                    android:title="Awake threshold"
+                    robobunny:interval="10"
+                    robobunny:min="10"
+                    robobunny:unitsLeft=""
+                    robobunny:unitsRight="%" />
+                <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                    android:defaultValue="10"
+                    android:key="watchdog_duration_threshold"
+                    android:max="30"
+                    android:summary="Screen Off duration to trigger"
+                    android:title="Duration threshold [Min.]"
+                    robobunny:interval="1"
+                    robobunny:min="0"
+                    robobunny:unitsLeft=""
+                    robobunny:unitsRight="Min." />
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+
 </PreferenceScreen>
