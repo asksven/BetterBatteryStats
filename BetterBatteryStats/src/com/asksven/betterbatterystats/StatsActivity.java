@@ -25,7 +25,9 @@ import java.util.List;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -63,8 +65,9 @@ import com.asksven.betterbatterystats.data.StatsProvider;
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
 {    
-	public static String STAT 		= "STAT";
-	public static String STAT_TYPE 	= "STAT_TYPE";
+	public static String STAT 				= "STAT";
+	public static String STAT_TYPE 			= "STAT_TYPE";
+	public static String FROM_NOTIFICATION 	= "FROM_NOTIFICATION";
 	
 	/**
 	 * The logging TAG
@@ -223,12 +226,21 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		Toast.makeText(this, "Wakelock Stats: an error occured while recovering the previous state", Toast.LENGTH_SHORT).show();
 		}
 
-		// Override if some values were passed to the intent
+		// Handle the case the Activity was called from an intent with paramaters
 		Bundle extras = getIntent().getExtras();
 		if (extras != null)
 		{
+			// Override if some values were passed to the intent
 			m_iStat = extras.getInt(StatsActivity.STAT);
 			m_iStatType = extras.getInt(StatsActivity.STAT_TYPE);
+			boolean bCalledFromNotification = extras.getBoolean(StatsActivity.FROM_NOTIFICATION, false);
+			
+			// Clear the notifications that was clicked to call the activity
+			if (bCalledFromNotification)
+			{
+		    	NotificationManager nM = (NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE);
+		    	nM.cancel(EventWatcherService.NOTFICATION_ID);
+			}
 		}
 
 		// Display the reference of the stat
