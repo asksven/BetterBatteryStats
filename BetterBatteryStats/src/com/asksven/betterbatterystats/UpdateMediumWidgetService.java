@@ -75,7 +75,7 @@ public class UpdateMediumWidgetService extends Service
 		// make sure to flush cache
 		BatteryStatsProxy.getInstance(this).invalidate();
 		
-		if (!stats.hasCustomRef())
+		if (!stats.hasSinceUnpluggedRef())
 		{
 			// restore any available custom reference
 			StatsProvider.getInstance(this).deserializeFromFile();
