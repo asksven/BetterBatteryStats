@@ -117,7 +117,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 		if (stats.initFailed())
 		{
-			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. Known reasons: MIUI settings allow to turn them off, making MIUI incompatible with android standards", Toast.LENGTH_SHORT).show();			
+			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. If this error persists after a reboot please contact the dev and provide your ROM/Kernel versions.", Toast.LENGTH_SHORT).show();			
 		}
 		
 		///////////////////////////////////////////////
@@ -208,7 +208,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			}
 			
 			// restore any available custom reference
-			StatsProvider.getInstance(this).deserializeFromFile();
+//			StatsProvider.getInstance(this).deserializeFromFile();
 		}
 		catch (Exception e)
 		{
@@ -293,9 +293,18 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_iSorting = 0;
 			
 		}
-		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting); 
-
+		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
 		
+		boolean serviceShouldBeRunning = sharedPrefs.getBoolean("ref_for_screen_off", false);		
+		if (serviceShouldBeRunning)
+		{
+			if (!EventWatcherService.isServiceRunning(this))
+			{
+				Intent i = new Intent(this, EventWatcherService.class);
+		        this.startService(i);
+			}
+				
+		}
 	}
     
 	/* Request updates at startup */
@@ -604,8 +613,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	
 	private void doRefresh()
 	{
-		// restore any available custom reference
-		StatsProvider.getInstance(this).deserializeFromFile();
+		// restore any available references if required
+		if (!StatsProvider.getInstance(this).hasSinceChargedRef())
+		{
+			StatsProvider.getInstance(this).deserializeFromFile();
+		}
 
 		BatteryStatsProxy.getInstance(this).invalidate();
 		new LoadStatData().execute(this);
@@ -613,10 +625,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
         tvSince.setText("Since " + DateUtils.formatDuration(
         		StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
-    	
-        FrameLayout myLayout = (FrameLayout) findViewById(R.id.FrameLayoutSince);
-		myLayout.setVisibility(View.VISIBLE);
-		
+    			
 //    	this.setListViewAdapter();
 
 	}
