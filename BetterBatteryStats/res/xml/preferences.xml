@@ -309,12 +309,43 @@
 		</PreferenceScreen>
     </PreferenceCategory>
     
-	<PreferenceCategory android:title="Active monitoring">
-	    <CheckBoxPreference 
-				android:key="ref_for_screen_off"
-				android:summary="Provides info about what happened when screen was off"
-				android:title="Screen off" 
-				android:defaultValue="false"/>
-	    
+	<PreferenceCategory android:title="Watchdogs">
+	    <PreferenceScreen android:title="Watchdog Settings">
+		    <CheckBoxPreference 
+					android:key="ref_for_screen_off"
+					android:summary="Saves a reference when screen goes off"
+					android:title="Screen Off" 
+					android:defaultValue="false"/>
+		    <CheckBoxPreference 
+					android:key="watchdog_issue_warnings"
+					android:summary="Issue warnings depending on what happened while screen was off"
+					android:title="Issue Warnings" 
+					android:defaultValue="false"/>
+		    
+		    <PreferenceCategory android:title="Warnings"
+		       	android:dependency="watchdog_issue_warnings">
+			    <com.asksven.betterbatterystats.contrib.SeekBarPreference
+					    android:key="watchdog_awake_threshold"
+					    android:title="Awake threshold"
+					    android:summary="Threshold for warning (awake / total)"
+					    android:defaultValue="30"
+					    android:max="100"
+					    robobunny:min="10"
+					    robobunny:interval="10"
+					    robobunny:unitsLeft=""
+					    robobunny:unitsRight="%"/>
+			    <com.asksven.betterbatterystats.contrib.SeekBarPreference
+					    android:key="watchdog_duration_threshold"
+					    android:title="Duration threshold [Min.]"
+					    android:summary="Screen Off duration to trigger"
+					    android:defaultValue="10"
+					    android:max="30"
+					    robobunny:min="0"
+					    robobunny:interval="1"
+					    robobunny:unitsLeft=""
+					    robobunny:unitsRight="Min."/>
+			    
+			</PreferenceCategory>		    
+		</PreferenceScreen>	    
 	</PreferenceCategory>
 </PreferenceScreen>

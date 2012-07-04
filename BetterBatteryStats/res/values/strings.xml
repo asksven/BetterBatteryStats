@@ -6,4 +6,5 @@
     <string name="message_hint_savestat">Save a Dumpfile</string>
     <string name="message_hint_sinceref">Dump Since last Reference</string>
     <string name="message_hint_stat_type">Stat Type</string>
+    <string name="app_name">BetterBatteryStats</string>
 </resources>
