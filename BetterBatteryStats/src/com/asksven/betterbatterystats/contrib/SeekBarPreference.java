@@ -219,4 +219,10 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		
 	}
 	
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		mSeekBar.setEnabled(enabled);
+	}
+	
 }
