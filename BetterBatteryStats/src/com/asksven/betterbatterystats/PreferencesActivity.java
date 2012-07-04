@@ -20,6 +20,7 @@ import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -38,8 +39,9 @@ import com.asksven.betterbatterystats.R;
  * @author sven
  *
  */
-public class PreferencesActivity extends PreferenceActivity
+public class PreferencesActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener
 {
+	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
 	 */
@@ -48,6 +50,9 @@ public class PreferencesActivity extends PreferenceActivity
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.registerOnSharedPreferenceChangeListener(this);
 	}
 	
 	@Override
@@ -71,29 +76,32 @@ public class PreferencesActivity extends PreferenceActivity
 		intent.setAction(BbsWidgetProvider.WIDGET_PREFS_REFRESH);
 		this.sendBroadcast(intent);
 		
-		// check the state of the service and start / stop ot depending on prefs
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-		boolean serviceShouldBeRunning = sharedPrefs.getBoolean("ref_for_screen_off", false);
-	
-		if (serviceShouldBeRunning)
-		{
-			if (!EventWatcherService.isServiceRunning(this))
-			{
-				Intent i = new Intent(this, EventWatcherService.class);
-		        this.startService(i);
-			}
-				
-		}
-		else
-		{
-			if (EventWatcherService.isServiceRunning(this))
-			{
-				Intent i = new Intent(this, EventWatcherService.class);
-		        this.stopService(i);
-			}
-			
-		}
+	}
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
+	{
+        if (key.equals("ref_for_screen_off"))
+        {
+    		boolean serviceShouldBeRunning = sharedPreferences.getBoolean(key, false);
+    		
+    		if (serviceShouldBeRunning)
+    		{
+    			if (!EventWatcherService.isServiceRunning(this))
+    			{
+    				Intent i = new Intent(this, EventWatcherService.class);
+    				this.startService(i);
+    			}
+    				
+    		}
+    		else
+    		{
+    			if (EventWatcherService.isServiceRunning(this))
+    			{
+    				Intent i = new Intent(this, EventWatcherService.class);
+    		        this.stopService(i);
+    			}
+    			
+    		}
+        }
 
 	}
 
