@@ -22,7 +22,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 
 import com.asksven.betterbatterystats.R;
@@ -89,8 +91,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     			{
     				Intent i = new Intent(this, EventWatcherService.class);
     				this.startService(i);
-    			}
-    				
+    			}    				
     		}
     		else
     		{
@@ -98,9 +99,17 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     			{
     				Intent i = new Intent(this, EventWatcherService.class);
     		        this.stopService(i);
+
     			}
     			
     		}
+    		
+    		// enable / disable sliders
+			// enable sliders 
+    		findPreference("watchdog_awake_threshold").setEnabled(serviceShouldBeRunning);
+    		findPreference("watchdog_duration_threshold").setEnabled(serviceShouldBeRunning);
+    		
+
         }
 
 	}
