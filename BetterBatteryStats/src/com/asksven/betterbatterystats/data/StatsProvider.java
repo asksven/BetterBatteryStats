@@ -130,24 +130,23 @@ public class StatsProvider
 		
 		try
     	{			
-
+			// constants are related to arrays.xml string-array name="stats"
 			switch (iStat)
 			{
-				// constants are related to arrays.xml string-array name="stats"
-				case 4:
-					return getProcessStatList(bFilterStats, iStatType, iSort);
-				case 1:
-					return getWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
 				case 0:
-					return getOtherUsageStatList(bFilterStats, iStatType, true);	
-				case 2:
+					return getOtherUsageStatList(bFilterStats, iStatType, true);
+				case 1:
 					return getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
+				case 2:
+					return getWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
 				case 3:
-					return getAlarmsStatList(bFilterStats, iStatType);
-				case 5:
+					return getAlarmsStatList(bFilterStats, iStatType);	
+				case 4:
 					return getNativeNetworkUsageStatList(bFilterStats, iStatType);
-				case 6:
+				case 5:
 					return getCpuStateList(iStatType);
+				case 6:
+					return getProcessStatList(bFilterStats, iStatType, iSort);
 	
 			}
 			
