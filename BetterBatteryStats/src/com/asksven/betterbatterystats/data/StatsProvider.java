@@ -1323,28 +1323,28 @@ public class StatsProvider
         {
 			if (m_myRefSinceCharged != null)
 			{
-				level -= m_myRefSinceCharged.m_refBatteryLevel;
+				level = m_myRefSinceCharged.m_refBatteryLevel - level;
 			}	
         }
         else if (iStatType == STATS_UNPLUGGED)
         {
 			if (m_myRefSinceUnplugged != null)
 			{
-				level -= m_myRefSinceUnplugged.m_refBatteryLevel;
+				level = m_myRefSinceUnplugged.m_refBatteryLevel - level;
 			}
         }
         else if (iStatType == STATS_SCREEN_OFF)
         {
 			if (m_myRefSinceScreenOff != null)
 			{
-				level -= m_myRefSinceScreenOff.m_refBatteryLevel;
+				level = m_myRefSinceScreenOff.m_refBatteryLevel - level;
 			}
         }
         else if (iStatType == STATS_CUSTOM)
 		{
 			if (m_myRefs != null)
 			{
-				level -= m_myRefs.m_refBatteryLevel;
+				level = m_myRefs.m_refBatteryLevel - level;
 			}
 		}
         Log.d(TAG, "Battery Level since " + iStatType + ":" + level);
@@ -1368,28 +1368,28 @@ public class StatsProvider
         {
 			if (m_myRefSinceCharged != null)
 			{
-				voltage -= m_myRefSinceCharged.m_refBatteryVoltage;
+				voltage = m_myRefSinceCharged.m_refBatteryVoltage - voltage;
 			}	
         }
         else if (iStatType == STATS_UNPLUGGED)
         {
 			if (m_myRefSinceUnplugged != null)
 			{
-				voltage -= m_myRefSinceUnplugged.m_refBatteryVoltage;
+				voltage = m_myRefSinceUnplugged.m_refBatteryVoltage - voltage;
 			}
         }
         else if (iStatType == STATS_SCREEN_OFF)
         {
 			if (m_myRefSinceScreenOff != null)
 			{
-				voltage -= m_myRefSinceScreenOff.m_refBatteryVoltage;
+				voltage = m_myRefSinceScreenOff.m_refBatteryVoltage - voltage;
 			}
         }
         else if (iStatType == STATS_CUSTOM)
 		{
 			if (m_myRefs != null)
 			{
-				voltage -= m_myRefs.m_refBatteryVoltage;
+				voltage = m_myRefs.m_refBatteryVoltage - voltage;
 			}
 		}
         Log.d(TAG, "Battery Voltage since " + iStatType + ":" + voltage);
@@ -1799,8 +1799,8 @@ public class StatsProvider
 				out.write("============\n");
 				out.write("Battery Info\n");
 				out.write("============\n");
-				out.write("Level lost [%]: " + getBatteryLevelStat(iStatType));
-				out.write("Voltage lost [mV]: " + getBatteryVoltageStat(iStatType));
+				out.write("Level lost [%]: " + getBatteryLevelStat(iStatType) + "\n");
+				out.write("Voltage lost [mV]: " + getBatteryVoltageStat(iStatType) + "\n");
 				
 				
 				// write timing info
@@ -1893,16 +1893,15 @@ public class StatsProvider
 					  out.write("  Crash count:" + rsi.crashCount + "\n");
 					}
 				}				
-				// see http://androidsnippets.com/show-all-running-services
 				// close file
 				out.close();
-				Toast.makeText(m_context, "Dump witten: " + strFilename, Toast.LENGTH_SHORT).show();
+//				Toast.makeText(m_context, "Dump witten: " + strFilename, Toast.LENGTH_SHORT).show();
 				
 		    }
 		    else
 		    {
 	    		Log.i(TAG, "Write error. " + Environment.getExternalStorageDirectory() + " couldn't be written");
-	    		Toast.makeText(m_context, "No dump created. " + Environment.getExternalStorageDirectory() + " is probably unmounted.", Toast.LENGTH_SHORT).show();		    	
+//	    		Toast.makeText(m_context, "No dump created. " + Environment.getExternalStorageDirectory() + " is probably unmounted.", Toast.LENGTH_SHORT).show();		    	
 		    }
     	}
     	catch (Exception e)
