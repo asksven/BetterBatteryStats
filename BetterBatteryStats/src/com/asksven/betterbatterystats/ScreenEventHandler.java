@@ -24,6 +24,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.R;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;

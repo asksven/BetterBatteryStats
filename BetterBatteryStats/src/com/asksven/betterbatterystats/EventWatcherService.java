@@ -27,6 +27,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import com.asksven.betterbatterystats.R;
 
 /**
  * @author sven
