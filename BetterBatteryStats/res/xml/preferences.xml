@@ -288,6 +288,13 @@
                 android:summary="Saves a reference when screen goes off"
                 android:title="Screen Off" />
             <CheckBoxPreference
+                android:defaultValue="true"
+                android:dependency="ref_for_screen_off"
+                android:key="watchdog_on_unlock"
+                android:summary="Watchdog runs upon 'unlock' (else on 'screen on')"
+                android:title="Watchdog on unlock" />
+            
+            <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="ref_for_screen_off"
                 android:key="watchdog_issue_warnings"
