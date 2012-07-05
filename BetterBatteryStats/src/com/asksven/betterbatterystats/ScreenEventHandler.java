@@ -166,7 +166,7 @@ public class ScreenEventHandler extends BroadcastReceiver
 							{
 								if (bShowToast)
 								{
-									Toast.makeText(context, "BBS: Awake alert!", Toast.LENGTH_SHORT).show();
+									Toast.makeText(context, "BBS: Awake alert: " + awakePct + "% awake", Toast.LENGTH_SHORT).show();
 								}
 
 								// notify the user of the situation
