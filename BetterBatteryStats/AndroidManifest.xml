@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="20" android:versionName="1.9.0.0RC1"
+<manifest android:versionCode="20" android:versionName="1.9.0.1RC1"
     package="com.asksven.betterbatterystats"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto">
@@ -22,6 +22,8 @@
 	<uses-permission android:name="android.permission.DEVICE_POWER" />
 	<!-- retrieve ps list (running tasks) -->
 	<uses-permission android:name="android.permission.GET_TASKS" />
+	<!-- tentative to fix bug #173 -->
+	<uses-permission android:name="android.permission.BLUETOOTH" />
 
     <supports-screens android:anyDensity="true"
         android:largeScreens="true" android:normalScreens="true"
