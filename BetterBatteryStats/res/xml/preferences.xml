@@ -16,14 +16,14 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="Defaults" >
         <ListPreference
-            android:defaultValue="2"
+            android:defaultValue="0"
             android:entries="@array/statLabels"
             android:entryValues="@array/statValues"
             android:key="default_stat"
             android:summary="Set the stat to be shown upon starting the app"
             android:title="Default stat" />
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="3"
             android:entries="@array/statTypeLabels"
             android:entryValues="@array/statTypeValues"
             android:key="default_stat_type"
@@ -175,7 +175,7 @@
                 android:summary="Set how often the Widgets will update"
                 android:title="Refresh Frequency" />
             <ListPreference
-                android:defaultValue="2"
+                android:defaultValue="0"
                 android:entries="@array/statLabels"
                 android:entryValues="@array/statValues"
                 android:key="widget_default_stat"
@@ -199,7 +199,7 @@
 
             <PreferenceCategory android:title="2x2 ad 2x1 Widgets" >
                 <ListPreference
-                    android:defaultValue="1"
+                    android:defaultValue="3"
                     android:entries="@array/statTypeLabels"
                     android:entryValues="@array/statTypeValues"
                     android:key="large_widget_default_stat_type"
@@ -243,7 +243,7 @@
             </PreferenceCategory>
             <PreferenceCategory android:title="1x1 Widget" >
                 <ListPreference
-                    android:defaultValue="1"
+                    android:defaultValue="3"
                     android:entries="@array/statTypeLabels"
                     android:entryValues="@array/statTypeValues"
                     android:key="small_widget_default_stat_type"

@@ -338,7 +338,7 @@ public class StatsProvider
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 		
 		// if we are using custom ref. always retrieve "stats current"
-		if (iStatType == STATS_CUSTOM)
+		if ((iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF))
 		{
 			myProcesses = mStats.getProcessStats(m_context, BatteryStatsTypes.STATS_CURRENT);
 		}
@@ -433,7 +433,7 @@ public class StatsProvider
 		ArrayList<Wakelock> myWakelocks = null;
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 		// if we are using custom ref. always retrieve "stats current"
-		if (iStatType == STATS_CUSTOM)
+		if ((iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF))
 		{
 			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
 		}
@@ -714,7 +714,7 @@ public class StatsProvider
 		
 		
 		// if we are using custom ref. always retrieve "stats current"
-		if (iStatType == STATS_CUSTOM)
+		if ((iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF))
 		{
 			myUsages = mStats.getNetworkUsageStats(m_context, BatteryStatsTypes.STATS_CURRENT);
 		}

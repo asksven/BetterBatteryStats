@@ -97,7 +97,7 @@ public class UpdateMediumWidgetService extends Service
 
 			
 			// retrieve stats
-			int statType	= Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "1"));
+			int statType	= Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "3"));
 
 			boolean showPct	= sharedPrefs.getBoolean("large_widget_show_pct", false);
 			boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
@@ -118,7 +118,7 @@ public class UpdateMediumWidgetService extends Service
 				if ( (otherStats != null) || ( otherStats.size() == 1) )
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
-					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "1"));
+					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "3"));
 					otherStats = stats.getOtherUsageStatList(true, statType, false);
 				}
 
@@ -265,7 +265,7 @@ public class UpdateMediumWidgetService extends Service
 				i = manager.getLaunchIntentForPackage(getPackageName());
 				i.addCategory(Intent.CATEGORY_LAUNCHER);
 			    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				int stat = Integer.valueOf(sharedPrefs.getString("widget_default_stat", "2"));
+				int stat = Integer.valueOf(sharedPrefs.getString("widget_default_stat", "0"));
 				i.putExtra(StatsActivity.STAT, stat);
 				i.putExtra(StatsActivity.STAT_TYPE, statType);
 

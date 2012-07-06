@@ -127,19 +127,40 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// check if we have a new release
 		///////////////////////////////////////////////
 		// if yes show release notes
+		// migrate the default stat and stat type preferences for pre-1.9 releases if not migrated already
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String strLastRelease	= sharedPrefs.getString("last_release", "0");
+		boolean bMigratedDefaultsPre1_9	= sharedPrefs.getBoolean("migrated_defaults_pre1_9", false);
+		
+		// we migrate only if there was a release installed previously
+		if ( (!strLastRelease.equals("0")) && (!bMigratedDefaultsPre1_9) )
+		{
+	        SharedPreferences.Editor editor = sharedPrefs.edit();	        
+	        editor.putString("default_stat", "0");
+	        editor.putString("widget_default_stat", "0");
+	        editor.putString("default_stat_type", "3");
+	        editor.putString("widget_fallback_stat_type", "3");
+	        editor.putString("large_widget_default_stat_type", "3");
+	        editor.putString("small_widget_default_stat_type", "3");
+	        
+	        editor.putBoolean("migrated_defaults_pre1_9", true);
+			editor.commit();
+			Toast.makeText(this, "All default stat / stat types have been migrated.", Toast.LENGTH_SHORT).show();
+			
+			
+		}
 		String strCurrentRelease = "";
 		try
 		{
-		PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-		
-    	strCurrentRelease = Integer.toString(pinfo.versionCode);
+			PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			
+	    	strCurrentRelease = Integer.toString(pinfo.versionCode);
 		}
 		catch (Exception e)
 		{
 			// nop strCurrentRelease is set to ""
 		}
+		
     	if (!strLastRelease.equals(strCurrentRelease))
     	{
     		// show the readme
@@ -195,8 +216,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	// if none were passed
 		///////////////////////////////////////////////
     	
-    	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "2"));
-		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "1"));
+    	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
+		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "3"));
 		
 		try
 		{
@@ -215,8 +236,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		catch (Exception e)
 		{
-			m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "2"));
-			m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "1"));
+			m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
+			m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "3"));
 			
     		Log.e(TAG, "Exception: " + e.getMessage());
     		DataStorage.LogToFile(LOGFILE, "Exception in onCreate restoring Bundle");
