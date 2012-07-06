@@ -200,7 +200,7 @@ public class ScreenEventHandler extends BroadcastReceiver
 							i.putExtra(StatsActivity.STAT_TYPE, StatsProvider.STATS_SCREEN_OFF);
 							i.putExtra(StatsActivity.FROM_NOTIFICATION, true);
 
-					    	PendingIntent contentIntent = PendingIntent.getActivity(context, 0, i, 0);
+					    	PendingIntent contentIntent = PendingIntent.getActivity(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
 					    	notification.setLatestEventInfo(
 					    			context, context.getText(R.string.app_name), 

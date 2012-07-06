@@ -56,6 +56,8 @@ import android.widget.RemoteViews;
 public class UpdateLargeWidgetService extends Service
 {
 	private static final String TAG = "UpdateLargeWidgetService";
+	/** must be unique for each widget */
+	private static final int PI_CODE = 2;
 
 	@Override
 	public void onStart(Intent intent, int startId)
@@ -99,8 +101,7 @@ public class UpdateLargeWidgetService extends Service
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 			
 			// retrieve stats
-			int statType	= StatsProvider.statTypeFromPosition(
-					Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "1")));
+			int statType	= Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "1"));
 			
 			boolean showPct	= sharedPrefs.getBoolean("large_widget_show_pct", false);
 			boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
@@ -121,8 +122,7 @@ public class UpdateLargeWidgetService extends Service
 				if ( (otherStats != null) || ( otherStats.size() == 1) )
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
-					statType	= StatsProvider.statTypeFromPosition(
-							Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "1")));
+					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "1"));
 					otherStats = stats.getOtherUsageStatList(true, statType, false);
 				}
 				
@@ -284,8 +284,8 @@ public class UpdateLargeWidgetService extends Service
 				i.putExtra(StatsActivity.STAT_TYPE, statType);
 
 				PendingIntent clickPI = PendingIntent.getActivity(
-						this.getApplicationContext(), 0,
-						i, 0);
+						this.getApplicationContext(), PI_CODE,
+						i, PendingIntent.FLAG_UPDATE_CURRENT);
 				remoteViews.setOnClickPendingIntent(R.id.graph, clickPI);
 
 				appWidgetManager.updateAppWidget(widgetId, remoteViews);

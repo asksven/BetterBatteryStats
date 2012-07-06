@@ -2076,16 +2076,16 @@ public class StatsProvider
 		int iRet = 0;
 		switch (iStatType)
 		{
-			case 0:
+			case STATS_CHARGED:
 				iRet = 0;
 				break;
-			case 1:
+			case STATS_UNPLUGGED:
 				iRet = 1;
 				break;
-			case 2:
+			case STATS_CUSTOM:
 				iRet = 2;
 				break;
-			case 3:
+			case STATS_SCREEN_OFF:
 				iRet = 3;
 				break;
 				

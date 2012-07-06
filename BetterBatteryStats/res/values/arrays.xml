@@ -27,13 +27,13 @@
     
     <!--  Values for the preferences -->
     <string-array name="statLabels">
-        <item name="2">Other</item>
-        <item name="3">Kernel Wakelock</item>
-        <item name="1">Partial Wakelocks</item>
-        <item name="4">Alarms</item>
-        <item name="5">Network</item>
-        <item name="6">CPU States</item>
-        <item name="0">Process</item>
+        <item name="0">Other</item>
+        <item name="1">Kernel Wakelock</item>
+        <item name="2">Partial Wakelocks</item>
+        <item name="3">Alarms</item>
+        <item name="4">Network</item>
+        <item name="5">CPU States</item>
+        <item name="6">Process</item>
     </string-array>
 
     <string-array name="statValues">
@@ -55,9 +55,9 @@
 
     <string-array name="statTypeValues">
         <item name="0">0</item>
-        <item name="1">1</item>
-        <item name="2">2</item>
-        <item name="3">3</item>
+        <item name="1">3</item>
+        <item name="2">4</item>
+        <item name="3">5</item>
     </string-array>
 
     <string-array name="wlRefLabels">
