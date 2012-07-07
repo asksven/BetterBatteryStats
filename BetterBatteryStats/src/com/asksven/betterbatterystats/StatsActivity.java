@@ -131,6 +131,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String strLastRelease	= sharedPrefs.getString("last_release", "0");
 		boolean bMigratedDefaultsPre1_9	= sharedPrefs.getBoolean("migrated_defaults_pre1_9", false);
+		boolean bMigratedToRefs3	= sharedPrefs.getBoolean("migrated_to_refs3", false);
 		
 		// we migrate only if there was a release installed previously
 		if ( (!strLastRelease.equals("0")) && (!bMigratedDefaultsPre1_9) )
@@ -145,10 +146,18 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        
 	        editor.putBoolean("migrated_defaults_pre1_9", true);
 			editor.commit();
-			Toast.makeText(this, "All default stat / stat types have been migrated.", Toast.LENGTH_SHORT).show();
-			
-			
+			Toast.makeText(this, "All default stat / stat types have been migrated.", Toast.LENGTH_SHORT).show();			
 		}
+		if ( (!strLastRelease.equals("0")) && (!bMigratedToRefs3) )
+		{
+	        SharedPreferences.Editor editor = sharedPrefs.edit();	        
+	        StatsProvider.getInstance(this).deletedSerializedRefs();
+	        StatsProvider.getInstance(this).deserializeFromFile();
+	        editor.putBoolean("migrated_to_refs3", true);
+			editor.commit();
+			Toast.makeText(this, "All references where deleted. Please plug/unplug your device now", Toast.LENGTH_SHORT).show();			
+		}
+		
 		String strCurrentRelease = "";
 		try
 		{
