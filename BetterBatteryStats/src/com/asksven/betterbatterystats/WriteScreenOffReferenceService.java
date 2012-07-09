@@ -57,7 +57,7 @@ import android.widget.RemoteViews;
  */
 public class WriteScreenOffReferenceService extends Service
 {
-	private static final String TAG = "WriteUnpluggedReferenceService";
+	private static final String TAG = "WriteScreenOffReferenceService";
 
 	@Override
 	public void onStart(Intent intent, int startId)
