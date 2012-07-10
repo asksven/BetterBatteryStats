@@ -63,8 +63,11 @@ public class BbsWidgetProvider extends AppWidgetProvider
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.cancel(pendingIntent);
-		alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
-				pendingIntent);
+		if (freqMinutes != 0)
+		{
+			alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
+					pendingIntent);
+		}
 		
 	}
 	

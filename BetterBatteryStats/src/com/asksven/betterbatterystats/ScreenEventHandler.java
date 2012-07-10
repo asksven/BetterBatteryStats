@@ -74,6 +74,11 @@ public class ScreenEventHandler extends BroadcastReceiver
 				context.startService(serviceIntent);
 			}
 
+			// Build the intent to update widgets
+			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+			context.sendBroadcast(intentRefreshWidgets);
+
+
 			
 		}
         

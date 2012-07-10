@@ -80,49 +80,6 @@ public class BroadcastHandler extends BroadcastReceiver
 			// start service to persist reference
 			Intent serviceIntent = new Intent(context, WriteUnpluggedReferenceService.class);
 			context.startService(serviceIntent);
-
-//			try
-//			{
-//				// Store the "since unplugged ref
-//				StatsProvider.getInstance(context).setReferenceSinceUnplugged(0);
-//				
-//				// check the battery level and if 100% the store "since charged" ref
-//				Intent batteryIntent = context.getApplicationContext().registerReceiver(null,
-//	                    new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-//
-//				int rawlevel = batteryIntent.getIntExtra("level", -1);
-//				double scale = batteryIntent.getIntExtra("scale", -1);
-//				double level = -1;
-//				if (rawlevel >= 0 && scale > 0)
-//				{
-//					// normalize level to [0..1]
-//				    level = rawlevel / scale;
-//				}
-//
-//				Log.i(TAG, "Bettery level on uplug is " + level );
-//
-//				if (level == 1)
-//				{
-//					try
-//					{
-//						Log.i(TAG, "Level was 100% at unplug, serializing 'since charged'");
-//						StatsProvider.getInstance(context).setReferenceSinceCharged(0);
-//					}
-//					catch (Exception e)
-//					{
-//						Log.e(TAG, "An error occured: " + e.getMessage());
-//					}
-//					
-//				}
-//				// Build the intent to call the service
-//				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
-//				context.sendBroadcast(intentRefreshWidgets);
-//
-//			}
-//			catch (Exception e)
-//			{
-//				Log.e(TAG, "An error occured: " + e.getMessage());
-//			}
 		}
 
 

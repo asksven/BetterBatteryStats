@@ -172,7 +172,7 @@
                 android:entries="@array/widgetUpdateFreqLabels"
                 android:entryValues="@array/widgetUpdateFreqValues"
                 android:key="widget_refresh_freq"
-                android:summary="Set how often the Widgets will update"
+                android:summary="Set how often the Widgets will update (they always will when screen is turned on)"
                 android:title="Refresh Frequency" />
             <ListPreference
                 android:defaultValue="0"
