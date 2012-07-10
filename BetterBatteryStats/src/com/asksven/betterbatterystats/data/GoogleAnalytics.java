@@ -17,15 +17,12 @@ package com.asksven.betterbatterystats.data;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.preference.PreferenceManager;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats.R;
 import com.google.android.apps.analytics.GoogleAnalyticsTracker;
 
 /**
+ * A wrapper around google analytics
  * @author sven
  *
  */
@@ -35,9 +32,11 @@ public class GoogleAnalytics
 	private static GoogleAnalyticsTracker m_tracker = null;
 	private static boolean m_bActive = false;
 	
+	/** constants for the reported actions */
 	public static final String ACTIVITY_ABOUT = "/AboutActivity";
 	public static final String ACTIVITY_ALARMS = "/AlarmsActivity";
 	public static final String ACTIVITY_KWL = "/RawKwlActivity";
+	public static final String ACTIVITY_NET = "/RawNetActivity";
 	public static final String ACTIVITY_BATTERY_GRAPH = "/BatteryGraphActivity";
 	public static final String ACTIVITY_BATTERY_GRAPH2 = "/BatteryGraph2Activity";
 	public static final String ACTIVITY_BATTERY_GRAPH_SERIES = "/BatteryGraphSeriesActivity";
@@ -57,6 +56,11 @@ public class GoogleAnalytics
 		
 	}
 	
+	/**
+	 * Returns the singleton
+	 * @param context
+	 * @return a singleton instance
+	 */
 	public static GoogleAnalytics getInstance(Context context)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -72,12 +76,37 @@ public class GoogleAnalytics
 				// Start the tracker in manual dispatch mode...
 				m_tracker.startNewSession("TRACKING_CODE_HERE", 20, context);
 				
+				// set custom vars
+				// Scopes are encoded to integers:  Visitor=1, Session=2, Page=3
+				int versionFree = 0;
+				if (context.getPackageName().contains("xdaedition"))
+				{
+					versionFree = 1;
+				}
+				m_tracker.setCustomVar(1, "Version", "Paid", versionFree);
+
+				int versionCode = 0;
+				try
+				{
+					PackageInfo pinfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+					versionCode = pinfo.versionCode;
+				}
+				catch (Exception e)
+				{
+					
+				}
+				m_tracker.setCustomVar(1, "Version", "Number", versionCode);
+
 			}
 		    
 		}
 		return m_singleton;
 	}
 	
+	/**
+	 * Send a single Activity to tracking
+	 * @param page the name of an Activity
+	 */
 	public void trackPage(String page)
 	{
 		if ((m_tracker != null) && m_bActive )
@@ -86,6 +115,14 @@ public class GoogleAnalytics
 		}
 	}
 
+	/** 
+	 * Tracks the main screen including the parameters used for display
+	 * @param context
+	 * @param page
+	 * @param stat
+	 * @param statType
+	 * @param sort
+	 */
 	public void trackStats(Context context, String page, int stat, int statType, int sort)
 	{
 		if ((m_tracker != null) && m_bActive )
@@ -96,5 +133,5 @@ public class GoogleAnalytics
 					+ "Sort" + sort);
 		}
 	}
-
+	
 }
