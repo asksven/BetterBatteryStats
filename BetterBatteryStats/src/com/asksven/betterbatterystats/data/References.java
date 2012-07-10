@@ -67,5 +67,10 @@ class References implements Serializable
     	m_creationDate = Calendar.getInstance().getTime();
     	Log.i(TAG, "Create ref " + m_fileName + " at " + DateUtils.format(m_creationDate));
     }
+    
+    public String whoAmI()
+    {
+    	return "Reference " + m_fileName + " created " + DateUtils.format(m_creationDate);
+    }
 
 }

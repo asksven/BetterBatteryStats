@@ -179,30 +179,35 @@ public class StatsProvider
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		String strCurrent = myAlarms.toString();
 		String strRef = "";
+		String strRefDescr = "";
 		switch (iStatType)
 		{
 			case STATS_UNPLUGGED:									
 				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refAlarms != null) )
 				{
 					strRef = m_myRefSinceUnplugged.m_refAlarms.toString();
+					strRefDescr = m_myRefSinceUnplugged.whoAmI();
 				}
 				break;
 			case STATS_CHARGED:
 				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refAlarms != null) )
 				{
 					strRef = m_myRefSinceCharged.m_refAlarms.toString();
+					strRefDescr = m_myRefSinceUnplugged.whoAmI();
 				}
 				break;
 			case STATS_CUSTOM:
 				if ( (m_myRefs != null) && (m_myRefs.m_refAlarms != null))
 				{
 					strRef = m_myRefs.m_refAlarms.toString();
+					strRefDescr = m_myRefSinceUnplugged.whoAmI();
 				}
 				break;
 			case STATS_SCREEN_OFF:
 				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refAlarms != null))
 				{
 					strRef = m_myRefSinceScreenOff.m_refAlarms.toString();
+					strRefDescr = m_myRefSinceUnplugged.whoAmI();
 				}
 				break;
 			case BatteryStatsTypes.STATS_CURRENT:
@@ -213,7 +218,8 @@ public class StatsProvider
 				break;
 		}
 		
-//		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+		Log.i(TAG, "Reference used: " + strRefDescr);
+		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
 		
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
@@ -319,6 +325,8 @@ public class StatsProvider
 			myStats.add((StatElement) myRetAlarms.get(i));
 		}
 		
+		Log.i(TAG, "Result " + myStats.toString());
+
 		return myStats;
 
 	}
@@ -414,6 +422,8 @@ public class StatsProvider
 			myStats.add((StatElement) myRetProcesses.get(i));
 		}
 		
+		Log.i(TAG, "Result " + myStats.toString());
+
 		return myStats;
 		
 	}
@@ -433,14 +443,30 @@ public class StatsProvider
 		ArrayList<Wakelock> myWakelocks = null;
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 		// if we are using custom ref. always retrieve "stats current"
-		if ((iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF))
+		String strRef = "";
+		String strRefDescr = "";
+
+		if (iStatType == STATS_CUSTOM)
 		{
 			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
+			strRef = m_myRefs.m_refWakelocks.toString();
+			strRefDescr = m_myRefs.whoAmI();
 		}
+		else if (iStatType == STATS_SCREEN_OFF)
+		{
+			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
+			strRef = m_myRefSinceScreenOff.m_refWakelocks.toString();
+			strRefDescr = m_myRefSinceScreenOff.whoAmI();
+		}
+
 		else
 		{
 			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, iStatType, iPctType);
+			strRefDescr = "native stat " + iStatType;
 		}
+
+		Log.i(TAG, "Reference used: " + strRefDescr);
+		Log.i(TAG, "Substracting " + strRef + " from " + myWakelocks.toString());
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		Collections.sort(myWakelocks);
@@ -479,6 +505,32 @@ public class StatsProvider
 						myRetWakelocks.add(new Wakelock(1, NO_CUST_REF, 1, 1, 1));
 					}
 				}
+				else if (iStatType == STATS_SCREEN_OFF)
+				{
+					// case a)
+					// we need t return a delta containing
+					//   if a process is in the new list but not in the custom ref
+					//	   the full time is returned
+					//   if a process is in the reference return the delta
+					//	 a process can not have disapeared in btwn so we don't need
+					//	 to test the reverse case
+					if (m_myRefs != null)
+					{
+						wl.substractFromRef(m_myRefSinceScreenOff.m_refWakelocks);
+						
+						// we must recheck if the delta process is still above threshold
+						if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+						{
+							myRetWakelocks.add( wl);
+						}
+					}
+					else
+					{
+						myRetWakelocks.clear();
+						myRetWakelocks.add(new Wakelock(1, "No screen off ref available", 1, 1, 1));
+					}
+				}
+
 				else
 				{
 					// case b) nothing special
@@ -510,7 +562,8 @@ public class StatsProvider
 			myStats.add((StatElement) myRetWakelocks.get(i));
 		}
 
-		// @todo add sorting by settings here: Collections.sort......
+		Log.i(TAG, "Result " + myStats.toString());
+
 		return myStats;
 	}
 	
@@ -534,30 +587,35 @@ public class StatsProvider
 
 		String strCurrent = myKernelWakelocks.toString();
 		String strRef = "";
+		String strRefDescr = "";
 		switch (iStatType)
 		{
 			case STATS_UNPLUGGED:									
 				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refKernelWakelocks != null) )
 				{
 					strRef = m_myRefSinceUnplugged.m_refKernelWakelocks.toString();
+					strRefDescr = m_myRefSinceUnplugged.whoAmI();
 				}
 				break;
 			case STATS_CHARGED:
 				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refKernelWakelocks != null) )
 				{
 					strRef = m_myRefSinceCharged.m_refKernelWakelocks.toString();
+					strRefDescr = m_myRefSinceCharged.whoAmI();
 				}
 				break;
 			case STATS_SCREEN_OFF:
 				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refKernelWakelocks != null) )
 				{
 					strRef = m_myRefSinceScreenOff.m_refKernelWakelocks.toString();
+					strRefDescr = m_myRefSinceScreenOff.whoAmI();
 				}
 				break;
 			case STATS_CUSTOM:
 				if ( (m_myRefs != null) && (m_myRefs.m_refKernelWakelocks != null))
 				{
 					strRef = m_myRefs.m_refKernelWakelocks.toString();
+					strRefDescr = m_myRefs.whoAmI();
 				}
 				break;
 			case BatteryStatsTypes.STATS_CURRENT:
@@ -568,7 +626,9 @@ public class StatsProvider
 				break;
 		}
 		
-//		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+		
+		Log.i(TAG, "Reference used: " + strRefDescr);
+		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
 		
 		for (int i = 0; i < myKernelWakelocks.size(); i++)
 		{
@@ -692,77 +752,12 @@ public class StatsProvider
 			myStats.add((StatElement) myRetKernelWakelocks.get(i));
 		}
 		
-//		Log.i(TAG, "Result " + myStats.toString());
+		Log.i(TAG, "Result " + myStats.toString());
 		
 		return myStats;
 	}
 
 
-	/**
-	 * Get the Network Usage Stat to be displayed
-	 * @param bFilter defines if zero-values should be filtered out
-	 * @return a List of Network usages sorted by duration (descending)
-	 * @throws Exception if the API call failed
-	 */
-	public ArrayList<StatElement> getNetworkUsageStatList(boolean bFilter, int iStatType) throws Exception
-	{
-		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-		
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-
-		ArrayList<NetworkUsage> myUsages = null;
-		
-		
-		// if we are using custom ref. always retrieve "stats current"
-		if ((iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF))
-		{
-			myUsages = mStats.getNetworkUsageStats(m_context, BatteryStatsTypes.STATS_CURRENT);
-		}
-		else
-		{
-			myUsages = mStats.getNetworkUsageStats(m_context, iStatType);
-		}
-
-		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		Collections.sort(myUsages);
-		
-		for (int i = 0; i < myUsages.size(); i++)
-		{
-			NetworkUsage usage = myUsages.get(i); 
-			if ( (!bFilter) || ((usage.getBytesReceived() + usage.getBytesSent()) > 0) )
-			{
-				// we must distinguish two situations
-				// a) we use custom stat type
-				// b) we use regular stat type
-				
-				if (iStatType == STATS_CUSTOM)
-				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					usage.substractFromRef(m_myRefs.m_refNetwork);
-					
-					// we must recheck if the delta process is still above threshold
-					if ( (!bFilter) || ((usage.getBytesReceived() + usage.getBytesSent()) > 0) )
-					{
-						myStats.add((StatElement) usage);
-					}
-				}
-				else
-				{
-					// case b) nothing special
-					myStats.add((StatElement) usage);
-				}
-
-			}
-		}
-		
-		return myStats;
-	}
 
 	/**
 	 * Get the Kernel Wakelock Stat to be displayed
@@ -784,30 +779,36 @@ public class StatsProvider
 
 		String strCurrent = myNetworkStats.toString();
 		String strRef = "";
+		String strRefDescr = "";
+
 		switch (iStatType)
 		{
 			case STATS_UNPLUGGED:									
 				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refNetworkStats != null) )
 				{
 					strRef = m_myRefSinceUnplugged.m_refNetworkStats.toString();
+					strRefDescr = m_myRefSinceUnplugged.whoAmI();
 				}
 				break;
 			case STATS_CHARGED:
 				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refNetworkStats != null) )
 				{
 					strRef = m_myRefSinceCharged.m_refNetworkStats.toString();
+					strRefDescr = m_myRefSinceCharged.whoAmI();
 				}
 				break;
 			case STATS_SCREEN_OFF:
 				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refNetworkStats != null) )
 				{
 					strRef = m_myRefSinceScreenOff.m_refNetworkStats.toString();
+					strRefDescr = m_myRefSinceScreenOff.whoAmI();
 				}
 				break;
 			case STATS_CUSTOM:
 				if ( (m_myRefs != null) && (m_myRefs.m_refNetworkStats != null))
 				{
 					strRef = m_myRefs.m_refNetworkStats.toString();
+					strRefDescr = m_myRefs.whoAmI();
 				}
 				break;
 			case BatteryStatsTypes.STATS_CURRENT:
@@ -818,6 +819,7 @@ public class StatsProvider
 				break;
 		}
 		
+		Log.i(TAG, "Reference used: " + strRefDescr);
 		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
 		
 		for (int i = 0; i < myNetworkStats.size(); i++)
@@ -937,7 +939,7 @@ public class StatsProvider
 			myStats.add((StatElement) myRetNetworkStats.get(i));
 		}
 		
-//		Log.i(TAG, "Result " + myStats.toString());
+		Log.i(TAG, "Result " + myStats.toString());
 		
 		return myStats;
 	}
@@ -1567,6 +1569,9 @@ public class StatsProvider
     	
 			refs.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
+			refs.m_refWakelocks 	= getWakelockStatList(
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
+
 			refs.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 
 			refs.m_refAlarms = getAlarmsStatList(
