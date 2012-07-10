@@ -253,7 +253,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		DataStorage.LogToFile(LOGFILE, e.getMessage());
     		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
     		
-    		Toast.makeText(this, "Wakelock Stats: an error occured while recovering the previous state", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, "An error occured while recovering the previous state", Toast.LENGTH_SHORT).show();
 		}
 
 		// Handle the case the Activity was called from an intent with paramaters
@@ -597,6 +597,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				Toast.makeText(this, "Warning: there is no custom reference set.", Toast.LENGTH_SHORT).show();
 			}
+			
+			// warn the user if screen off ref was chosen and that ref does not exist
+			if ( (m_iStatType == StatsProvider.STATS_SCREEN_OFF) && (!StatsProvider.getInstance(this).hasScreenOffRef()))
+			{
+				Toast.makeText(this, "Warning: there is no reference since screen off.", Toast.LENGTH_SHORT).show();
+			}
+
 			// warn the user if custom ref was chosen without a ref being present yet
 			if ( (m_iStat == 3)
 					&& (m_iStatType == StatsProvider.STATS_CHARGED) 
