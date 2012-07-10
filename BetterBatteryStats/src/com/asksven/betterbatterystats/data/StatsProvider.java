@@ -818,7 +818,7 @@ public class StatsProvider
 				break;
 		}
 		
-//		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
 		
 		for (int i = 0; i < myNetworkStats.size(); i++)
 		{
@@ -921,11 +921,19 @@ public class StatsProvider
 			}
 		}
 
+		// recalculate the total
+		long total = 0;
+		for (int i=0; i < myRetNetworkStats.size(); i++)
+		{
+			total += myRetNetworkStats.get(i).getTotalBytes();
+		}
+		
 		Collections.sort(myRetNetworkStats);
 		
 		
 		for (int i=0; i < myRetNetworkStats.size(); i++)
 		{
+			myRetNetworkStats.get(i).setTotal(total);
 			myStats.add((StatElement) myRetNetworkStats.get(i));
 		}
 		
