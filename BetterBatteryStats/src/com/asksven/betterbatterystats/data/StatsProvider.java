@@ -523,7 +523,7 @@ public class StatsProvider
 	public ArrayList<StatElement> getNativeKernelWakelockStatList(boolean bFilter, int iStatType, int iPctType, int iSort) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-		ArrayList<NativeKernelWakelock> myKernelWakelocks = Wakelocks.parseProcWakelocks();
+		ArrayList<NativeKernelWakelock> myKernelWakelocks = Wakelocks.parseProcWakelocks(m_context);
 
 		ArrayList<NativeKernelWakelock> myRetKernelWakelocks = new ArrayList<NativeKernelWakelock>();
 		// if we are using custom ref. always retrieve "stats current"
