@@ -487,6 +487,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	            this.startActivity(intentKwl);
 	        	break;	
 
+	        case R.id.rawnetwork:  
+	        	Intent intentNet = new Intent(this, NetworkStatsActivity.class);
+	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_NET);
+	            this.startActivity(intentNet);
+	        	break;	
+
 	        case R.id.refresh:
             	// Refresh
 	        	doRefresh();
