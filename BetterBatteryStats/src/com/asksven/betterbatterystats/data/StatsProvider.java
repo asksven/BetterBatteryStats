@@ -663,7 +663,7 @@ public class StatsProvider
 						else
 						{
 							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock(NO_CUST_REF, 1, 1, 1, 1, 1, 1, 1, 1, 1));
+							myRetKernelWakelocks.add(new NativeKernelWakelock(NO_CUST_REF, "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
 						}
 						break;
 					case STATS_UNPLUGGED:
@@ -681,7 +681,7 @@ public class StatsProvider
 						else
 						{
 							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since unplugged set yet", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since unplugged set yet", "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
 
 						}
 						break;
@@ -700,7 +700,7 @@ public class StatsProvider
 						else
 						{
 							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since charged yet", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since charged yet", "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
 						}
 						break;
 					case STATS_SCREEN_OFF:
@@ -717,7 +717,7 @@ public class StatsProvider
 						else
 						{
 							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since screen off yet", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+							myRetKernelWakelocks.add(new NativeKernelWakelock("No reference since screen off yet", "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
 						}
 						break;
 					case BatteryStatsTypes.STATS_CURRENT:
@@ -1114,7 +1114,8 @@ public class StatsProvider
 		
 		// deep sleep times are independent of stat type
         timeDeepSleep		= (SystemClock.elapsedRealtime() - SystemClock.uptimeMillis());
-        long timeElapsed    = SystemClock.elapsedRealtime();
+        long timeElapsed    = mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
+        // SystemClock.elapsedRealtime();
         
         Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, timeElapsed);
         Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
