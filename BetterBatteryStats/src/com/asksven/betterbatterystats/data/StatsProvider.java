@@ -1781,6 +1781,7 @@ public class StatsProvider
 				out.write("DEVICE: "+Build.DEVICE+"\n");
 				out.write("MANUFACTURER: "+Build.MANUFACTURER+"\n");
 				out.write("MODEL: "+Build.MODEL+"\n");
+				out.write("OS.VERSION: "+System.getProperty("os.version"));
 				
 
 				if (Build.VERSION.SDK_INT >= 8)
