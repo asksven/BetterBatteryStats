@@ -217,9 +217,11 @@ public class StatsProvider
 				Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
 				break;
 		}
-		
+		Log.i(TAG, "Processing alarms");
+
 		Log.i(TAG, "Reference used: " + strRefDescr);
-		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+		Log.i(TAG, "Substracting " + strCurrent);
+		Log.i(TAG, "from " + strRef);
 		
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
@@ -465,8 +467,10 @@ public class StatsProvider
 			strRefDescr = "native stat " + iStatType;
 		}
 
+		Log.i(TAG, "Processing partial wakelocks");
 		Log.i(TAG, "Reference used: " + strRefDescr);
-		Log.i(TAG, "Substracting " + strRef + " from " + myWakelocks.toString());
+		Log.i(TAG, "Substracting " + myWakelocks.toString());
+		Log.i(TAG, "from " + strRef);
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		Collections.sort(myWakelocks);
@@ -626,9 +630,10 @@ public class StatsProvider
 				break;
 		}
 		
-		
+		Log.i(TAG, "Processing native kernel wakelocks");
 		Log.i(TAG, "Reference used: " + strRefDescr);
-		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+		Log.i(TAG, "Substracting " + strCurrent);
+		Log.i(TAG," from " +  strRef);
 		
 		for (int i = 0; i < myKernelWakelocks.size(); i++)
 		{
@@ -819,8 +824,10 @@ public class StatsProvider
 				break;
 		}
 		
+		Log.i(TAG, "Processing network stats");
 		Log.i(TAG, "Reference used: " + strRefDescr);
-		Log.i(TAG, "Substracting " + strRef + " from " + strCurrent);
+		Log.i(TAG, "Substracting " + strCurrent);
+		Log.i(TAG, " from " + strRef);
 		
 		for (int i = 0; i < myNetworkStats.size(); i++)
 		{
