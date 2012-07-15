@@ -64,7 +64,7 @@ public class WatchdogProcessingService extends Service
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
-		Log.i(TAG, "Called");
+		Log.i(TAG, "Called at " + DateUtils.now());
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		try

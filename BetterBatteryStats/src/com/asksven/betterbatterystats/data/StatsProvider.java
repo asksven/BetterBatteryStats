@@ -217,9 +217,11 @@ public class StatsProvider
 				Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
 				break;
 		}
-		Log.i(TAG, "Processing alarms");
+		Log.i(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
 
 		Log.i(TAG, "Reference used: " + strRefDescr);
+		Log.i(TAG, "It is now " + DateUtils.now());
+
 		Log.i(TAG, "Substracting " + strCurrent);
 		Log.i(TAG, "from " + strRef);
 		
@@ -467,8 +469,9 @@ public class StatsProvider
 			strRefDescr = "native stat " + iStatType;
 		}
 
-		Log.i(TAG, "Processing partial wakelocks");
+		Log.i(TAG, "Processing partial wakelocks since " + statTypeToLabel(iStatType));
 		Log.i(TAG, "Reference used: " + strRefDescr);
+		Log.i(TAG, "It is now " + DateUtils.now());
 		Log.i(TAG, "Substracting " + myWakelocks.toString());
 		Log.i(TAG, "from " + strRef);
 
@@ -630,8 +633,9 @@ public class StatsProvider
 				break;
 		}
 		
-		Log.i(TAG, "Processing native kernel wakelocks");
+		Log.i(TAG, "Processing native kernel wakelocks  since " + statTypeToLabel(iStatType));
 		Log.i(TAG, "Reference used: " + strRefDescr);
+		Log.i(TAG, "It is now " + DateUtils.now());
 		Log.i(TAG, "Substracting " + strCurrent);
 		Log.i(TAG," from " +  strRef);
 		
@@ -654,7 +658,7 @@ public class StatsProvider
 						//   if a process is in the reference return the delta
 						//	 a process can not have disapeared in btwn so we don't need
 						//	 to test the reverse case
-						if (m_myRefs != null)
+						if ( (m_myRefs != null) && (m_myRefs.m_refKernelWakelocks != null) )
 						{
 							wl.substractFromRef(m_myRefs.m_refKernelWakelocks);
 		
@@ -672,7 +676,7 @@ public class StatsProvider
 						}
 						break;
 					case STATS_UNPLUGGED:
-						if (m_myRefSinceUnplugged != null)
+						if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refKernelWakelocks != null) )
 						{
 							wl.substractFromRef(m_myRefSinceUnplugged.m_refKernelWakelocks);
 							
@@ -692,7 +696,7 @@ public class StatsProvider
 						break;
 
 					case STATS_CHARGED:
-						if (m_myRefSinceCharged != null)
+						if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refKernelWakelocks != null) )
 						{
 							wl.substractFromRef(m_myRefSinceCharged.m_refKernelWakelocks);
 													
@@ -709,7 +713,7 @@ public class StatsProvider
 						}
 						break;
 					case STATS_SCREEN_OFF:
-						if (m_myRefSinceScreenOff != null)
+						if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refKernelWakelocks != null))
 						{
 							wl.substractFromRef(m_myRefSinceScreenOff.m_refKernelWakelocks);
 													
@@ -824,8 +828,9 @@ public class StatsProvider
 				break;
 		}
 		
-		Log.i(TAG, "Processing network stats");
+		Log.i(TAG, "Processing network stats  since " + statTypeToLabel(iStatType));
 		Log.i(TAG, "Reference used: " + strRefDescr);
+		Log.i(TAG, "It is now " + DateUtils.now());
 		Log.i(TAG, "Substracting " + strCurrent);
 		Log.i(TAG, " from " + strRef);
 		
@@ -848,7 +853,7 @@ public class StatsProvider
 						//   if a process is in the reference return the delta
 						//	 a process can not have disapeared in btwn so we don't need
 						//	 to test the reverse case
-						if (m_myRefs != null)
+						if ( (m_myRefs != null) && (m_myRefs.m_refNetworkStats != null) )
 						{
 							netStat.substractFromRef(m_myRefs.m_refNetworkStats);
 		
@@ -866,7 +871,7 @@ public class StatsProvider
 						}
 						break;
 					case STATS_UNPLUGGED:
-						if (m_myRefSinceUnplugged != null)
+						if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refNetworkStats != null) )
 						{
 							netStat.substractFromRef(m_myRefSinceUnplugged.m_refNetworkStats);
 							
@@ -886,7 +891,7 @@ public class StatsProvider
 						break;
 
 					case STATS_CHARGED:
-						if (m_myRefSinceCharged != null)
+						if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refNetworkStats != null) )
 						{
 							netStat.substractFromRef(m_myRefSinceCharged.m_refNetworkStats);
 													
@@ -903,7 +908,7 @@ public class StatsProvider
 						}
 						break;
 					case STATS_SCREEN_OFF:
-						if (m_myRefSinceScreenOff != null)
+						if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refNetworkStats != null) )
 						{
 							netStat.substractFromRef(m_myRefSinceScreenOff.m_refNetworkStats);
 													
@@ -970,7 +975,7 @@ public class StatsProvider
 			State state = myStates.get(i); 
 			if (iStatType == STATS_CUSTOM)
 			{
-				if (m_myRefs != null)
+				if ( (m_myRefs != null) && (m_myRefs.m_refCpuStates != null) )
 				{
 					state.substractFromRef(m_myRefs.m_refCpuStates);
 					myStats.add(state);
@@ -983,7 +988,7 @@ public class StatsProvider
 	        }
 	        else if (iStatType == STATS_CHARGED)
 	        {
-				if (m_myRefSinceCharged != null)
+				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refCpuStates != null) )
 				{
 					state.substractFromRef(m_myRefSinceCharged.m_refCpuStates);
 					myStats.add(state);
@@ -996,7 +1001,7 @@ public class StatsProvider
 	        }
 	        else if (iStatType == STATS_SCREEN_OFF)
 	        {
-				if (m_myRefSinceScreenOff != null)
+				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refCpuStates != null) )
 				{
 					state.substractFromRef(m_myRefSinceScreenOff.m_refCpuStates);
 					myStats.add(state);
@@ -1010,7 +1015,7 @@ public class StatsProvider
 	        }
 	        else if (iStatType == STATS_UNPLUGGED)
 	        {
-				if (m_myRefSinceUnplugged != null)
+				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refCpuStates != null) )
 				{
 					state.substractFromRef(m_myRefSinceUnplugged.m_refCpuStates);
 					myStats.add(state);
@@ -1275,7 +1280,7 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					if (m_myRefs != null)
+					if ( (m_myRefs != null) && (m_myRefs.m_refOther != null) )
 					{
 						usage.substractFromRef(m_myRefs.m_refOther);
 						if ( (!bFilter) || (usage.getTimeOn() > 0) )
@@ -1298,7 +1303,7 @@ public class StatsProvider
 					//   if a process is in the reference return the delta
 					//	 a process can not have disapeared in btwn so we don't need
 					//	 to test the reverse case
-					if (m_myRefSinceScreenOff != null)
+					if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refOther != null) )
 					{
 						usage.substractFromRef(m_myRefSinceScreenOff.m_refOther);
 						if ( (!bFilter) || (usage.getTimeOn() > 0) )

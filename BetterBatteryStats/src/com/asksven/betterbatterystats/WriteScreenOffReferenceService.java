@@ -64,7 +64,7 @@ public class WriteScreenOffReferenceService extends Service
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		Log.i(TAG, "Called");
+		Log.i(TAG, "Called at " + DateUtils.now());
 		try
 		{
 			

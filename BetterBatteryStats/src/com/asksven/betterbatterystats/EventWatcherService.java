@@ -70,7 +70,8 @@ public class EventWatcherService extends Service
     {
         super.onCreate();
         // register receiver that handles screen on and screen off logic
-        IntentFilter filter = new IntentFilter(Intent.ACTION_USER_PRESENT); // ACTION_SCREEN_ON);
+        IntentFilter filter = new IntentFilter(Intent.ACTION_USER_PRESENT);
+        filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         BroadcastReceiver mReceiver = new ScreenEventHandler();
         registerReceiver(mReceiver, filter);

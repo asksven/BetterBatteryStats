@@ -61,7 +61,7 @@ public class WriteUnpluggedReferenceService extends Service
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
-		Log.i(TAG, "Called");
+		Log.i(TAG, "Called at " + DateUtils.now());
 		try
 		{
 			// Store the "since unplugged ref
