@@ -116,6 +116,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 		// Check if the stats are accessible and warn if not
 		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
+		
+		// restore any available references if required
+		if (!StatsProvider.getInstance(this).hasSinceChargedRef())
+		{
+			StatsProvider.getInstance(this).deserializeFromFile();
+		}
 	
 		
 		if (stats.initFailed())
@@ -313,13 +319,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    
 		spinnerStatType.setAdapter(spinnerAdapter);
+		this.setListViewAdapter();
 		// setSelection MUST be called after setAdapter
 		spinnerStatType.setSelection(StatsProvider.getInstance(this).positionFromStatType(m_iStatType));
 		spinnerStatType.setOnItemSelectedListener(this);
 		
 		
 
-		this.setListViewAdapter();
+
 
 		///////////////////////////////////////////////
 		// sorting
