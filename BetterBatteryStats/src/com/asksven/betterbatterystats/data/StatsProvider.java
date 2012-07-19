@@ -180,50 +180,53 @@ public class StatsProvider
 		String strCurrent = myAlarms.toString();
 		String strRef = "";
 		String strRefDescr = "";
-		switch (iStatType)
+		if (Log.isLoggable(TAG, Log.DEBUG))
 		{
-			case STATS_UNPLUGGED:									
-				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refAlarms != null) )
-				{
-					strRef = m_myRefSinceUnplugged.m_refAlarms.toString();
-					strRefDescr = m_myRefSinceUnplugged.whoAmI();
-				}
-				break;
-			case STATS_CHARGED:
-				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refAlarms != null) )
-				{
-					strRef = m_myRefSinceCharged.m_refAlarms.toString();
-					strRefDescr = m_myRefSinceUnplugged.whoAmI();
-				}
-				break;
-			case STATS_CUSTOM:
-				if ( (m_myRefs != null) && (m_myRefs.m_refAlarms != null))
-				{
-					strRef = m_myRefs.m_refAlarms.toString();
-					strRefDescr = m_myRefSinceUnplugged.whoAmI();
-				}
-				break;
-			case STATS_SCREEN_OFF:
-				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refAlarms != null))
-				{
-					strRef = m_myRefSinceScreenOff.m_refAlarms.toString();
-					strRefDescr = m_myRefSinceUnplugged.whoAmI();
-				}
-				break;
-			case BatteryStatsTypes.STATS_CURRENT:
-				strRef = "no reference to substract";
-				break;
-			default:
-				Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
-				break;
+			switch (iStatType)
+			{
+				case STATS_UNPLUGGED:									
+					if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refAlarms != null) )
+					{
+						strRef = m_myRefSinceUnplugged.m_refAlarms.toString();
+						strRefDescr = m_myRefSinceUnplugged.whoAmI();
+					}
+					break;
+				case STATS_CHARGED:
+					if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refAlarms != null) )
+					{
+						strRef = m_myRefSinceCharged.m_refAlarms.toString();
+						strRefDescr = m_myRefSinceUnplugged.whoAmI();
+					}
+					break;
+				case STATS_CUSTOM:
+					if ( (m_myRefs != null) && (m_myRefs.m_refAlarms != null))
+					{
+						strRef = m_myRefs.m_refAlarms.toString();
+						strRefDescr = m_myRefSinceUnplugged.whoAmI();
+					}
+					break;
+				case STATS_SCREEN_OFF:
+					if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refAlarms != null))
+					{
+						strRef = m_myRefSinceScreenOff.m_refAlarms.toString();
+						strRefDescr = m_myRefSinceUnplugged.whoAmI();
+					}
+					break;
+				case BatteryStatsTypes.STATS_CURRENT:
+					strRef = "no reference to substract";
+					break;
+				default:
+					Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
+					break;
+			}
+			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+	
+			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "It is now " + DateUtils.now());
+	
+			Log.d(TAG, "Substracting " + strCurrent);
+			Log.d(TAG, "from " + strRef);
 		}
-		Log.i(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
-
-		Log.i(TAG, "Reference used: " + strRefDescr);
-		Log.i(TAG, "It is now " + DateUtils.now());
-
-		Log.i(TAG, "Substracting " + strCurrent);
-		Log.i(TAG, "from " + strRef);
 		
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
@@ -329,7 +332,10 @@ public class StatsProvider
 			myStats.add((StatElement) myRetAlarms.get(i));
 		}
 		
-		Log.i(TAG, "Result " + myStats.toString());
+		if (Log.isLoggable(TAG, Log.DEBUG))
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
 
 		return myStats;
 
@@ -426,7 +432,10 @@ public class StatsProvider
 			myStats.add((StatElement) myRetProcesses.get(i));
 		}
 		
-		Log.i(TAG, "Result " + myStats.toString());
+		if (Log.isLoggable(TAG, Log.DEBUG))
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
 
 		return myStats;
 		
@@ -453,28 +462,39 @@ public class StatsProvider
 		if (iStatType == STATS_CUSTOM)
 		{
 			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
-			strRef = m_myRefs.m_refWakelocks.toString();
-			strRefDescr = m_myRefs.whoAmI();
+			if (Log.isLoggable(TAG, Log.DEBUG))
+			{
+				strRef = m_myRefs.m_refWakelocks.toString();
+				strRefDescr = m_myRefs.whoAmI();
+			}
 		}
 		else if (iStatType == STATS_SCREEN_OFF)
 		{
 			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
-			strRef = m_myRefSinceScreenOff.m_refWakelocks.toString();
-			strRefDescr = m_myRefSinceScreenOff.whoAmI();
+			if (Log.isLoggable(TAG, Log.DEBUG))
+			{
+				strRef = m_myRefSinceScreenOff.m_refWakelocks.toString();
+				strRefDescr = m_myRefSinceScreenOff.whoAmI();
+			}
 		}
 
 		else
 		{
 			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, iStatType, iPctType);
-			strRefDescr = "native stat " + iStatType;
+			if (Log.isLoggable(TAG, Log.DEBUG))
+			{
+				strRefDescr = "native stat " + iStatType;
+			}
 		}
 
-		Log.i(TAG, "Processing partial wakelocks since " + statTypeToLabel(iStatType));
-		Log.i(TAG, "Reference used: " + strRefDescr);
-		Log.i(TAG, "It is now " + DateUtils.now());
-		Log.i(TAG, "Substracting " + myWakelocks.toString());
-		Log.i(TAG, "from " + strRef);
-
+		if (Log.isLoggable(TAG, Log.DEBUG))
+		{
+			Log.d(TAG, "Processing partial wakelocks since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "It is now " + DateUtils.now());
+			Log.d(TAG, "Substracting " + myWakelocks.toString());
+			Log.d(TAG, "from " + strRef);
+		}
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		Collections.sort(myWakelocks);
 		
@@ -569,7 +589,10 @@ public class StatsProvider
 			myStats.add((StatElement) myRetWakelocks.get(i));
 		}
 
-		Log.i(TAG, "Result " + myStats.toString());
+		if (Log.isLoggable(TAG, Log.DEBUG))
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
 
 		return myStats;
 	}
@@ -595,50 +618,52 @@ public class StatsProvider
 		String strCurrent = myKernelWakelocks.toString();
 		String strRef = "";
 		String strRefDescr = "";
-		switch (iStatType)
+		if (Log.isLoggable(TAG, Log.DEBUG))
 		{
-			case STATS_UNPLUGGED:									
-				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refKernelWakelocks != null) )
-				{
-					strRef = m_myRefSinceUnplugged.m_refKernelWakelocks.toString();
-					strRefDescr = m_myRefSinceUnplugged.whoAmI();
-				}
-				break;
-			case STATS_CHARGED:
-				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refKernelWakelocks != null) )
-				{
-					strRef = m_myRefSinceCharged.m_refKernelWakelocks.toString();
-					strRefDescr = m_myRefSinceCharged.whoAmI();
-				}
-				break;
-			case STATS_SCREEN_OFF:
-				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refKernelWakelocks != null) )
-				{
-					strRef = m_myRefSinceScreenOff.m_refKernelWakelocks.toString();
-					strRefDescr = m_myRefSinceScreenOff.whoAmI();
-				}
-				break;
-			case STATS_CUSTOM:
-				if ( (m_myRefs != null) && (m_myRefs.m_refKernelWakelocks != null))
-				{
-					strRef = m_myRefs.m_refKernelWakelocks.toString();
-					strRefDescr = m_myRefs.whoAmI();
-				}
-				break;
-			case BatteryStatsTypes.STATS_CURRENT:
-				strRef = "no reference to substract";
-				break;
-			default:
-				Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
-				break;
-		}
-		
-		Log.i(TAG, "Processing native kernel wakelocks  since " + statTypeToLabel(iStatType));
-		Log.i(TAG, "Reference used: " + strRefDescr);
-		Log.i(TAG, "It is now " + DateUtils.now());
-		Log.i(TAG, "Substracting " + strCurrent);
-		Log.i(TAG," from " +  strRef);
-		
+			switch (iStatType)
+			{
+				case STATS_UNPLUGGED:									
+					if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refKernelWakelocks != null) )
+					{
+						strRef = m_myRefSinceUnplugged.m_refKernelWakelocks.toString();
+						strRefDescr = m_myRefSinceUnplugged.whoAmI();
+					}
+					break;
+				case STATS_CHARGED:
+					if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refKernelWakelocks != null) )
+					{
+						strRef = m_myRefSinceCharged.m_refKernelWakelocks.toString();
+						strRefDescr = m_myRefSinceCharged.whoAmI();
+					}
+					break;
+				case STATS_SCREEN_OFF:
+					if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refKernelWakelocks != null) )
+					{
+						strRef = m_myRefSinceScreenOff.m_refKernelWakelocks.toString();
+						strRefDescr = m_myRefSinceScreenOff.whoAmI();
+					}
+					break;
+				case STATS_CUSTOM:
+					if ( (m_myRefs != null) && (m_myRefs.m_refKernelWakelocks != null))
+					{
+						strRef = m_myRefs.m_refKernelWakelocks.toString();
+						strRefDescr = m_myRefs.whoAmI();
+					}
+					break;
+				case BatteryStatsTypes.STATS_CURRENT:
+					strRef = "no reference to substract";
+					break;
+				default:
+					Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
+					break;
+			}
+			
+			Log.d(TAG, "Processing native kernel wakelocks  since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "It is now " + DateUtils.now());
+			Log.d(TAG, "Substracting " + strCurrent);
+			Log.d(TAG," from " +  strRef);
+		}		
 		for (int i = 0; i < myKernelWakelocks.size(); i++)
 		{
 			NativeKernelWakelock wl = myKernelWakelocks.get(i);
@@ -761,7 +786,10 @@ public class StatsProvider
 			myStats.add((StatElement) myRetKernelWakelocks.get(i));
 		}
 		
-		Log.i(TAG, "Result " + myStats.toString());
+		if (Log.isLoggable(TAG, Log.DEBUG))
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
 		
 		return myStats;
 	}
@@ -786,53 +814,58 @@ public class StatsProvider
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		Collections.sort(myNetworkStats);
 
-		String strCurrent = myNetworkStats.toString();
-		String strRef = "";
-		String strRefDescr = "";
+		String strCurrent	= "";
+		String strRef 		= "";
+		String strRefDescr 	= "";
 
-		switch (iStatType)
+		if (Log.isLoggable(TAG, Log.DEBUG))
 		{
-			case STATS_UNPLUGGED:									
-				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refNetworkStats != null) )
-				{
-					strRef = m_myRefSinceUnplugged.m_refNetworkStats.toString();
-					strRefDescr = m_myRefSinceUnplugged.whoAmI();
-				}
-				break;
-			case STATS_CHARGED:
-				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refNetworkStats != null) )
-				{
-					strRef = m_myRefSinceCharged.m_refNetworkStats.toString();
-					strRefDescr = m_myRefSinceCharged.whoAmI();
-				}
-				break;
-			case STATS_SCREEN_OFF:
-				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refNetworkStats != null) )
-				{
-					strRef = m_myRefSinceScreenOff.m_refNetworkStats.toString();
-					strRefDescr = m_myRefSinceScreenOff.whoAmI();
-				}
-				break;
-			case STATS_CUSTOM:
-				if ( (m_myRefs != null) && (m_myRefs.m_refNetworkStats != null))
-				{
-					strRef = m_myRefs.m_refNetworkStats.toString();
-					strRefDescr = m_myRefs.whoAmI();
-				}
-				break;
-			case BatteryStatsTypes.STATS_CURRENT:
-				strRef = "no reference to substract";
-				break;
-			default:
-				Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
-				break;
+			strCurrent = myNetworkStats.toString();
+
+			switch (iStatType)
+			{
+				case STATS_UNPLUGGED:									
+					if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refNetworkStats != null) )
+					{
+						strRef = m_myRefSinceUnplugged.m_refNetworkStats.toString();
+						strRefDescr = m_myRefSinceUnplugged.whoAmI();
+					}
+					break;
+				case STATS_CHARGED:
+					if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refNetworkStats != null) )
+					{
+						strRef = m_myRefSinceCharged.m_refNetworkStats.toString();
+						strRefDescr = m_myRefSinceCharged.whoAmI();
+					}
+					break;
+				case STATS_SCREEN_OFF:
+					if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refNetworkStats != null) )
+					{
+						strRef = m_myRefSinceScreenOff.m_refNetworkStats.toString();
+						strRefDescr = m_myRefSinceScreenOff.whoAmI();
+					}
+					break;
+				case STATS_CUSTOM:
+					if ( (m_myRefs != null) && (m_myRefs.m_refNetworkStats != null))
+					{
+						strRef = m_myRefs.m_refNetworkStats.toString();
+						strRefDescr = m_myRefs.whoAmI();
+					}
+					break;
+				case BatteryStatsTypes.STATS_CURRENT:
+					strRef = "no reference to substract";
+					break;
+				default:
+					Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
+					break;
+			}
+			
+			Log.d(TAG, "Processing network stats  since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "It is now " + DateUtils.now());
+			Log.d(TAG, "Substracting " + strCurrent);
+			Log.d(TAG, " from " + strRef);
 		}
-		
-		Log.i(TAG, "Processing network stats  since " + statTypeToLabel(iStatType));
-		Log.i(TAG, "Reference used: " + strRefDescr);
-		Log.i(TAG, "It is now " + DateUtils.now());
-		Log.i(TAG, "Substracting " + strCurrent);
-		Log.i(TAG, " from " + strRef);
 		
 		for (int i = 0; i < myNetworkStats.size(); i++)
 		{
@@ -950,8 +983,11 @@ public class StatsProvider
 			myRetNetworkStats.get(i).setTotal(total);
 			myStats.add((StatElement) myRetNetworkStats.get(i));
 		}
-		
-		Log.i(TAG, "Result " + myStats.toString());
+
+		if (Log.isLoggable(TAG, Log.DEBUG))
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
 		
 		return myStats;
 	}
@@ -1853,10 +1889,20 @@ public class StatsProvider
 				bDumpChapter = sharedPrefs.getBoolean("show_kwl", true);
 				if (bDumpChapter)
 				{
-					// write kernel wakelock info
-					out.write("================\n");
-					out.write("Kernel Wakelocks\n");
-					out.write("================\n");
+					if (Wakelocks.isDiscreteKwlPatch())
+					{
+						// write kernel wakelock info
+						out.write("===================================\n");
+						out.write("Kernel Wakelocks (!!! discrete !!!)\n");
+						out.write("===================================\n");
+					}
+					else
+					{
+						// write kernel wakelock info
+						out.write("================\n");
+						out.write("Kernel Wakelocks\n");
+						out.write("================\n");
+					}
 					dumpList(getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort), out);
 				}
 				
