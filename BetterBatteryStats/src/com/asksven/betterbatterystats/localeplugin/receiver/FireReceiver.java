@@ -27,6 +27,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.asksven.betterbatterystats.StatsActivity;
+import com.asksven.betterbatterystats.WriteCustomReferenceService;
+import com.asksven.betterbatterystats.WriteDumpfileService;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.localeplugin.Constants;
 import com.asksven.betterbatterystats.localeplugin.bundle.BundleScrubber;
@@ -81,12 +83,19 @@ public final class FireReceiver extends BroadcastReceiver
         
         if (saveStat)
         {
-        	StatsProvider.getInstance(context).writeDumpToFile(statType, 0);
+        	//StatsProvider.getInstance(context).writeDumpToFile(statType, 0);
+			Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
+			serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE, statType);
+			context.startService(serviceIntent);
+
         }
         
         if (saveRef)
         {
-        	StatsProvider.getInstance(context).setCustomReference(0);
+//        	StatsProvider.getInstance(context).setCustomReference(0);
+			Intent serviceIntent = new Intent(context, WriteCustomReferenceService.class);
+			context.startService(serviceIntent);
+
         }
         
 
