@@ -24,85 +24,33 @@
 	
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content">
-<h2>v1.9.0.0RC9 2012-07-19</h2>
-<p>
-<ul>
-	<li>Fixed data on initial load sometimes being inconsistent (e.g. deep sleep > since...)</li>
-</ul>
-
-<h2>v1.9.0.0RC8 2012-07-16</h2>
-<p>
-<ul>
-	<li>Fixed data on initial load sometimes being inconsistent (e.g. deep sleep > since...)</li>
-</ul>
-
-<h2>v1.9.0.0RC7 2012-07-15</h2>
-<p>
-<ul>
-	<li>Added more logging</li>
-</ul>
-
-<h2>v1.9.0.0RC6 2012-07-14</h2>
-<p>
-<ul>
-	<li>Merge packages in eventX-YYYY kernel wakelocks instead of taking current list</li>
-	<li>Fixed missing CRLF in dumpfile</li>
-</ul>
-
-<h2>v1.9.0.0RC5 2012-07-12</h2>
-<p>
-<ul>
-	<li>Fixed bug introduced with package-listing for eventX-YYYY kernel wakelocks</li>
-	<li>Fixed intermittent inconsistency in the sum of percents "deep sleep" and "awake" in "other" stats</li>
-	<li>Add kernel version to dumpfile</li>
-</ul>
-
-<h2>v1.9.0.0RC4 2012-07-11</h2>
-<p>
-<ul>
-	<li>Fixed inconsistent behavior partial wakelocks (not showing the right data, depending on stats type)</li> 
-	<li>Fixed handling of 'eventX-YYYY' kernel wakelock (decodes the process name)</li>
-	<li>Fixed (again) an error in the calculated % in network stats (total volume was correct but sometimes the % was too small)</li>
-	<li>Added raw network stats</li>
-	<li>Widgets now are always refreshed upon screen on. Preferences allow to disable timed refresh</li>
-</ul>
-
-<h2>v1.9.0.0RC3 2012-07-09</h2>
-<p>
-<ul>
-	<li><B>References will be deleted on first start of the app</B></li>
-	<li>Fixed an error in the calculated % in network stats (total volume was correct but sometimes the % was too small)</li>
-	<li>Fixed error leading to and ANR when turning the screen on or after unplugging USB</li>
-	<li>Fixed error where "since unplugged" or "since screen off" references didn't seem to be saved</li>
-	<li>Fixed error where "Deep sleep" value in "Other" stats was wrong (too high)</li>
-</ul>
-</p>	
-<h2>v1.9.0.0RC2 2012-07-06</h2>
-<p>
-<ul>
-	<li><B>Default stats and stat types are being migrated to new default values if you come from a pre-1.9 release. Please go to the preferences to change them to suit your needs</B></li>
-	<li>Added perm android.permission.BLUETOOTH to solve the problem of unavailable 'batteryinfo' service on some ROM/Kernel combos</li>
-	<li>Fixed "since screen off" being always called when clicking widgets (<b>Please reset your default stat/stat type preferences!</b>)</li>
-	<li>Removed "test" menu</li>
-	<li>Fixed stats showing no data</li>
-</ul>
-</p>	
- 
-<h2>v1.9.0.0RC1 2012-07-05</h2>
+<h2>v1.9.0.0 2012-07-20</h2>
 <p>
 <ul>
 	<li>Added network usage stats</li>
 	<li>Added CPU states stats</li>
+	<li>Added handling of 'eventX-YYYY' kernel wakelock (decodes the process name)</li>
+	<li>Added watchdog for warning about high awake times during last screen off phase</li>
+	<li>Added "screen off" reference</li>
+	<li>Add kernel version to dumpfile</li>	
 	<li>"other" view can now be customized (cleaned up) by selecting the values that should be displayed (does not affect dump)</li>
 	<li>Removed widget logging to SD</li>
+	<li>Battery voltage and level frop added to dumpfile</li>
+	<li>Added hint when using "discrete" kernel wakelocks patch</li>	
+	<li>Added fallback stat type for widgets (in case the selected one has no reference)</li>	
 	<li>Fixed graph layouts for hires screens</li>
+	<li>Fixed dumpfile creation from tasker</li>
 	<li>Rewrote the how-to for more clarity</li>
 	<li>Fixed icon sizes</li>
-	<li>Added fallback stat type for widgets (in case the selected one has no reference)</li>
 	<li>Stat and stat type displayed when tapping the widgets can be defined in preferences</li>
-	<li>Battery voltage and level frop added to dumpfile</li>
 	<li>Fixed disappearing "since..." time</li>
 	<li>Changed stat order for more clarity</li>
+	<li>Fixed data on initial load sometimes being inconsistent (e.g. deep sleep > since...)</li>
+	<li>Fixed intermittent inconsistency in the sum of percents "deep sleep" and "awake" in "other" stats</li>
+	<li>Widgets now are always refreshed upon screen on. Preferences allow to disable timed refresh</li>
+	<li>Fixed error where "Deep sleep" value in "Other" stats was wrong (too high)</li>
+	<li><B>Default stats and stat types are being migrated to new default values if you come from a pre-1.9 release. Please go to the preferences to change them to suit your needs</B></li>
+	<li>Added perm android.permission.BLUETOOTH to solve the problem of unavailable 'batteryinfo' service on some ROM/Kernel combos</li>	
 </ul>
 </p>
 

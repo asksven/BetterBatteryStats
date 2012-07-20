@@ -33,13 +33,16 @@
 	<li>Kernel Wakelocks: shows the total time and the count of kernel wakelocks</li>
 	<li>Partial wakelocks: shows the total time and the count of partial wakelocks</li>
 	<li>Alarms: shows the wakeups caused by applications or services</li>
+	<li>Network: shows network stats</li>
+	<li>CPU states: shows CPU states and deep sleep</li>
 	<li>Processes: shows the cpu time (user and system) processes have consumed</li>
 </ul></p>
 <p>and these are the possible timespans:
 <ul>
-	<li>Since charged: all statitics give details since the phone was 100% charged</li>
-	<li>Since unplugged: all statitics give details since the phone was unplugged from A/C or USB</li>
-	<li>Since custom reference: all statitics give details since a custom reference was set (from the "Actions" menu)</li>
+	<li>Since charged: all statitics since the phone was 100% charged</li>
+	<li>Since unplugged: all statitics since the phone was unplugged from A/C or USB</li>
+	<li>Since custom reference: all statitics since a custom reference was set (from the "Actions" menu)</li>
+	<li>Since screen off: all statitics since the screen was turned off</li>
 </ul></p>
 
 <h3>Other</h3>
@@ -77,6 +80,15 @@ Like for partial wakelocks as well long running wakelocks as wakelocks with a hi
 <p>
 Alarms are events created by applications that may cause wakeups.
 </p>
+<h3>Network</h3>
+<p>
+Shows the transfered Bytes per application and per network interface.
+</p>
+<h3>CPU States</h3>
+<p>
+Shows the time spent in each CPU state (frequency) including the time spent in deep sleep.
+</p>
+
 <h3>Processes</h3>
 <p>
 The list shows the processes and their CPU consumption during the timespan. CPU consumption is expressed in user CPU and system CPU and both times are shown in the total and in the bar graph with different colors.
@@ -94,6 +106,8 @@ The list shows the processes and their CPU consumption during the timespan. CPU 
 		<li>History: shows different graphs like battery usage or wakeups (starting from android 2.3)</li>
 		<li>Raw Alarms: shows the alarms since boot</li>
 		<li>Raw Kernel Wakelocks: shows the alarms since boot</li>
+		<li>Raw network stats: the network stats since boot</li>
+		
 	</ul>
 	<li>Help: access to this help was well as the how-to</li>
 </ul>

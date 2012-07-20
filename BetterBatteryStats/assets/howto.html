@@ -47,6 +47,11 @@ The list shows you what kernel wakelocks occured: a symbol on the right shows th
 <p>
 This wakelock shows as a sum of the partial wakelocks on many phones. If this wakelock is #1 go to the <i>Partial Wakelocks</i> to find out more.
 </p>
+<h3>The multipdp / svnet-dormancy wakelock</h3>
+<p>
+This wakelock indicates a high network usage. If this wakelock is #1 go to the <i>Network Stats</i> to find out more.
+</p>
+
 <p>
 If the PowerManagerService is not the highest wakelock check the online knowledge-base or use google search to find more information about the wakelock and its potential causes. 
 </p>
@@ -58,6 +63,11 @@ The list shows you what partial wakelocks occured and for most of them what appl
 <p>
 High times or count on the <i>AlarmManager</i> wakelock is a sign that either many wakeups were caused by alarms or that apps have added/modified alarms intensively. A detailed overview can be found under [Alarms].
 </p>
+<h3>The Network Stats</h3>
+<p>
+Here you will find what apps / packages are responsible for high data transfers.
+</p>
+
 <h2>What's next?</h2>
 <p>Some but not all wakelocks can be traced back to a specific app. In that case there are following options:     
 <h3>Check / change settings</h3>

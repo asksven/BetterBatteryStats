@@ -50,6 +50,11 @@ Auf viele Ger&auml;te wird PowerManagerService als Summe f&uuml;r alle Partial W
 <p>
 Sollte PowerManagerService nicht an erster Stelle sein kann die online Knowledge-Base oder Google Search genutzt werden um mehr Infos zu erlangen. 
 </p>
+<h3>Das multipdp / svnet-dormancy wakelock</h3>
+<p>
+Dieses wakelock bedeutet eine hohe Datennetz-Nutzung. Ist also dieses an erster Stellen gehe zu dem <i>Network Stats</i> um herauszufinden welche App dies verursacht.
+</p>
+
 <h2>Pr&uuml;fe die [Partial wakelocks]</h2>
 <p>
 Die Liste der Wakelocks die durch Anwendungen direkt oder inderekt zu verantworten sind.  
@@ -58,6 +63,11 @@ Die Liste der Wakelocks die durch Anwendungen direkt oder inderekt zu verantwort
 <p>
 Hohe Zeiten oder Anzahlen bei <i>AlarmManager</i> ist ein Zeichen daf&uuml;r, dass entweder das Handy sehr oft aufwachen musste oder, dass eine App h&auml;ufig Alarm Eintr&auml;ge angelegt und/oder entfernt hat. Details dazu sind in der Ansicht [Alarms] zu finden.
 </p>
+<h3>Die Network Stats</h3>
+<p>
+Hier findest Du welche apps / packages f&uuml; hohe Datenmengen verantwortlich sind.
+</p>
+
 <h2>Und nun?</h2>
 <p>Einige aber nicht alle Wakelocks k&ouml;nnen einer App direkt zugeordnet werden. In dem Fall ist das Vorgehen einfach:     
 <h3>Pr&uuml;fen / &Auml;ndern der Einstellungen</h3>
