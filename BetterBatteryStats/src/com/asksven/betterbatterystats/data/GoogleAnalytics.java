@@ -95,7 +95,7 @@ public class GoogleAnalytics
 				{
 					
 				}
-				m_tracker.setCustomVar(1, "Version", "Number", versionCode);
+				m_tracker.setCustomVar(1, "Release", "Number", versionCode);
 
 			}
 		    
