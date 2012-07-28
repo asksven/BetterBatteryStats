@@ -70,7 +70,32 @@ class References implements Serializable
     
     public String whoAmI()
     {
-    	return "Reference " + m_fileName + " created " + DateUtils.format(m_creationDate);
+    	return "Reference " + m_fileName + " created " + DateUtils.format(m_creationDate) + " " + elements();
+    }
+    
+    private String elements()
+    {
+    	String wakelocks = (m_refWakelocks == null) ? "null" : m_refWakelocks.size() + " elements";
+        String kernelWakelocks = (m_refKernelWakelocks == null) ? "null" : m_refKernelWakelocks.size() + "elements";
+        String networkStats = (m_refNetworkStats == null) ? "null" : m_refNetworkStats.size() + " elements";
+        String alarms = (m_refAlarms == null) ? "null" : m_refAlarms.size() + " elements";
+        String processes = (m_refProcesses ==null) ? "null" : m_refAlarms + " elements";
+        String network = (m_refNetwork == null) ? "null" : m_refNetwork.size() + " elements";
+        String other = (m_refOther == null) ? "null" : m_refOther.size() + " elements";
+        String cpuStates = (m_refCpuStates == null) ? "null" : m_refCpuStates.size() + " elements";
+        
+        wakelocks = "Wl: " + wakelocks;
+        kernelWakelocks = "KWl: " + kernelWakelocks;
+        networkStats = "NetS: " + networkStats;
+        alarms = "Alrm: " + alarms;
+        processes = "Proc: " + processes;
+        network = "Net: " + network;
+        other = "Oth: " + other;
+        cpuStates = "CPU: " + cpuStates;
+        
+        return "(" + wakelocks + "; " + kernelWakelocks + "; " + networkStats + "; " + alarms + "; "
+        		+ processes + "; " + network + "; " + other + "; " + cpuStates + ")";
+
     }
 
 }
