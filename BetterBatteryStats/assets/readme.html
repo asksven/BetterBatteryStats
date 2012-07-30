@@ -24,34 +24,13 @@
 	
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content">
-<h2>v1.9.0.0 2012-07-20</h2>
+<h2>v1.9.1.0 2012-07-30</h2>
 <p>
 <ul>
-	<li>Added network usage stats</li>
-	<li>Added CPU states stats</li>
-	<li>Added handling of 'eventX-YYYY' kernel wakelock (decodes the process name)</li>
-	<li>Added watchdog for warning about high awake times during last screen off phase</li>
-	<li>Added "screen off" reference</li>
-	<li>Add kernel version to dumpfile</li>	
-	<li>"other" view can now be customized (cleaned up) by selecting the values that should be displayed (does not affect dump)</li>
-	<li>Removed widget logging to SD</li>
-	<li>Battery voltage and level frop added to dumpfile</li>
-	<li>Added hint when using "discrete" kernel wakelocks patch</li>	
-	<li>Added fallback stat type for widgets (in case the selected one has no reference)</li>	
-	<li>Fixed graph layouts for hires screens</li>
-	<li>Fixed dumpfile creation from tasker</li>
-	<li>Rewrote the how-to for more clarity</li>
-	<li>Fixed icon sizes</li>
-	<li>Stat and stat type displayed when tapping the widgets can be defined in preferences</li>
-	<li>Fixed disappearing "since..." time</li>
-	<li>Changed stat order for more clarity</li>
-	<li>Fixed data on initial load sometimes being inconsistent (e.g. deep sleep > since...)</li>
-	<li>Fixed intermittent inconsistency in the sum of percents "deep sleep" and "awake" in "other" stats</li>
-	<li>Widgets now are always refreshed upon screen on. Preferences allow to disable timed refresh</li>
-	<li>Fixed error where "Deep sleep" value in "Other" stats was wrong (too high)</li>
-	<li><B>Default stats and stat types are being migrated to new default values if you come from a pre-1.9 release. Please go to the preferences to change them to suit your needs</B></li>
-	<li>Added perm android.permission.BLUETOOTH to solve the problem of unavailable 'batteryinfo' service on some ROM/Kernel combos</li>	
-</ul>
+	<li>Added more logging</li>
+	<li>Fixed various error condition from Google Play logs</li>
+	<li>More compact CPU state view</li>
+	<li>Fixed creation of dumpfiles and custom refs from tasker</li>
 </p>
 
 </div> 
