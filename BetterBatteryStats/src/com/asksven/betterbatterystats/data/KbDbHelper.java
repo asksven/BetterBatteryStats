@@ -284,6 +284,11 @@ public class KbDbHelper
 	public void save(KbData items)
 	{
 		deleteAll();
+		if (items == null)
+		{
+			return;
+		}
+		
 		for (int i=0; i< items.getEntries().size(); i++)
 		{
 			// add
