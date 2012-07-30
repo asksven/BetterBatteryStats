@@ -42,7 +42,14 @@ public class HistAdapter extends BaseAdapter
 
     public int getCount()
     {
-        return m_listData.size();
+    	if (m_listData != null)
+    	{
+    		return m_listData.size();
+    	}
+    	else
+    	{
+    		return 0;
+    	}
     }
 
     public Object getItem(int position)
