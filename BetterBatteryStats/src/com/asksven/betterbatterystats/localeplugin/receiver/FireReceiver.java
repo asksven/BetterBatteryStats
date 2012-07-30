@@ -41,6 +41,8 @@ import com.asksven.betterbatterystats.localeplugin.ui.EditActivity;
 public final class FireReceiver extends BroadcastReceiver
 {
 
+	private static final String TAG = "FireReceiver";
+	
     /**
      * @param context {@inheritDoc}.
      * @param intent the incoming {@link com.twofortyfouram.locale.Intent#ACTION_FIRE_SETTING} Intent. This should contain the
@@ -81,8 +83,11 @@ public final class FireReceiver extends BroadcastReceiver
 
         int statType = StatsProvider.statTypeFromPosition(bundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION));
         
+        Log.i(TAG, "Retrieved Bundle: " + bundle.toString());
+
         if (saveStat)
         {
+        	Log.d(TAG, "Preparing to save a dumpfile");
         	//StatsProvider.getInstance(context).writeDumpToFile(statType, 0);
 			Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
 			serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE, statType);
@@ -92,6 +97,7 @@ public final class FireReceiver extends BroadcastReceiver
         
         if (saveRef)
         {
+        	Log.d(TAG, "Preparing to save a custom ref");
 //        	StatsProvider.getInstance(context).setCustomReference(0);
 			Intent serviceIntent = new Intent(context, WriteCustomReferenceService.class);
 			context.startService(serviceIntent);

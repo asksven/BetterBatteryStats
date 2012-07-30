@@ -139,7 +139,7 @@ public final class EditActivity extends Activity
                 Log.i(TAG, "Retrieved from Bundle: " 
                 		+", " + forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF)
                 		+", " + forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT)
-                		+ ", " + forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION));
+                		+ ", " + forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION));
             }
         }
         
@@ -184,7 +184,7 @@ public final class EditActivity extends Activity
             resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT, saveStat);            
             resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION, position);
             
-            Log.i(TAG, "Saved Bundle: " + saveRef + ", " + position);
+            Log.i(TAG, "Saved Bundle: " + resultBundle.toString());
 
             resultIntent.putExtra(com.twofortyfouram.locale.Intent.EXTRA_BUNDLE, resultBundle);
             
