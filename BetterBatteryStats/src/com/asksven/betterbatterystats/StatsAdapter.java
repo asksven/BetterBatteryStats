@@ -38,6 +38,7 @@ import android.widget.TextView;
 import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.Alarm.AlarmItem;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
@@ -133,6 +134,7 @@ public class StatsAdapter extends BaseAdapter
         tvData.setText(entry.getData());
         
         LinearLayout myLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutBar);
+        LinearLayout myFqnLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutFqn);
 		
         GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
         if (sharedPrefs.getBoolean("hide_bars", false))
@@ -176,6 +178,15 @@ public class StatsAdapter extends BaseAdapter
         {
 	        // set a click listener for the list
 	        iconKb.setOnClickListener(new OnIconClickListener(position));
+        }
+        // Hide fqn in stat is CPU state
+        if (entry instanceof State)
+        {
+        	myFqnLayout.setVisibility(View.GONE);
+        }
+        else
+        {
+        	myFqnLayout.setVisibility(View.VISIBLE);
         }
         
         // add on click listener for the list entry if details are availble

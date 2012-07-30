@@ -11,7 +11,7 @@
                 android:typeface="sans"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
-        <LinearLayout android:id="@+id/LinearLayout02"
+        <LinearLayout android:id="@+id/LinearLayoutFqn"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent">
                 <TextView android:layout_width="wrap_content"
