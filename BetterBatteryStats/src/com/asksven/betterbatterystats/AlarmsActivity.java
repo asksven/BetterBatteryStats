@@ -117,7 +117,10 @@ public class AlarmsActivity extends ListActivity
 		// Display the reference of the stat
 		
 //    	this.setListViewAdapter();
-    	m_listViewAdapter.notifyDataSetChanged();
+    	if (m_listViewAdapter != null)
+    	{
+    		m_listViewAdapter.notifyDataSetChanged();
+    	}
 
 	}
 
