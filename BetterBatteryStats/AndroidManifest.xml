@@ -24,6 +24,9 @@
 	<uses-permission android:name="android.permission.GET_TASKS" />
 	<!-- tentative to fix bug #173 -->
 	<uses-permission android:name="android.permission.BLUETOOTH" />
+	<!-- need to hold wakelocks for writing operations  -->
+<!-- 	<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission> -->
+	
 
     <supports-screens android:anyDensity="true"
         android:largeScreens="true" android:normalScreens="true"

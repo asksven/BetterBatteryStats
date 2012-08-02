@@ -77,6 +77,7 @@ public class WriteScreenOffReferenceService extends Service
 			if (bRefForScreenOff)
 			{
 				// Store the "since screen off" ref
+//				Globals.aquireWakelock(this);
 				StatsProvider.getInstance(this).setReferenceSinceScreenOff(0);
 				
 				long now = System.currentTimeMillis();
@@ -90,6 +91,10 @@ public class WriteScreenOffReferenceService extends Service
 		catch (Exception e)
 		{
 			Log.e(TAG, "An error occured: " + e.getMessage());
+		}
+		finally
+		{
+//			Globals.releaseWakelock();
 		}
 
 		

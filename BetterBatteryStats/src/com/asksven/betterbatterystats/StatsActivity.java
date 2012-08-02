@@ -112,8 +112,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.stats);				
-
+		setContentView(R.layout.stats);	
+		
 		// Check if the stats are accessible and warn if not
 		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
 		

@@ -1301,10 +1301,19 @@ public class StatsProvider
 
         // sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		Collections.sort(myUsages);
+		if (iStatType == STATS_SCREEN_OFF)
+		{
+			Log.d(TAG, "Processing other stats  since " + statTypeToLabel(iStatType));
+			String strRefDescr = m_myRefSinceScreenOff.whoAmI();
+			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "It is now " + DateUtils.now());
+		}
 
+		Log.d(TAG, "Processing " + myUsages.size() + " elements");
 		for (int i = 0; i < myUsages.size(); i++)
 		{
 			Misc usage = myUsages.get(i); 
+			Log.d(TAG, "Current value: " + usage.getName() + " " + usage.getData());
 			if ( (!bFilter) || (usage.getTimeOn() > 0) )
 			{
 				if (iStatType == STATS_CUSTOM)
@@ -1321,6 +1330,7 @@ public class StatsProvider
 						usage.substractFromRef(m_myRefs.m_refOther);
 						if ( (!bFilter) || (usage.getTimeOn() > 0) )
 						{
+							Log.d(TAG, "Result value: " + usage.getName() + " " + usage.getData());
 							myStats.add((StatElement) usage);
 						}
 					}
@@ -1344,6 +1354,7 @@ public class StatsProvider
 						usage.substractFromRef(m_myRefSinceScreenOff.m_refOther);
 						if ( (!bFilter) || (usage.getTimeOn() > 0) )
 						{
+							Log.d(TAG, "Result value: " + usage.getName() + " " +usage.getData());
 							myStats.add((StatElement) usage);
 						}
 					}
