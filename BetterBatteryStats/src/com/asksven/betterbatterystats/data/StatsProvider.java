@@ -1976,7 +1976,45 @@ public class StatsProvider
 					  out.write("  Last activity: " + DateUtils.formatDuration(rsi.lastActivityTime) + "\n");
 					  out.write("  Crash count:" + rsi.crashCount + "\n");
 					}
-				}				
+				}			
+				
+				// add chapter for reference info
+				out.write("==================\n");
+				out.write("Reference overview\n");
+				out.write("==================\n");
+				if (m_myRefs != null)
+				{
+					out.write("Custom: " + m_myRefs.whoAmI() + "\n");
+				}
+				else
+				{
+					out.write("Custom: " + "null" + "\n");
+				}
+				if (m_myRefSinceCharged != null)
+				{
+					out.write("Since charged: " + m_myRefSinceUnplugged.whoAmI() + "\n");
+				}
+				else
+				{
+					out.write("Since charged: " + "null" + "\n");
+				}
+				if (m_myRefSinceScreenOff != null)
+				{
+					out.write("Since screen off: " + m_myRefSinceScreenOff.whoAmI() + "\n");
+				}
+				else
+				{
+					out.write("Since screen off: " + "null" + "\n");
+				}
+				if (m_myRefSinceUnplugged != null)
+				{
+					out.write("Since unplugged: " + m_myRefSinceUnplugged.whoAmI() + "\n");
+				}
+				else
+				{
+					out.write("Since unplugged: " + "null" + "\n");
+				}
+
 				// close file
 				out.close();
 //				Toast.makeText(m_context, "Dump witten: " + strFilename, Toast.LENGTH_SHORT).show();
