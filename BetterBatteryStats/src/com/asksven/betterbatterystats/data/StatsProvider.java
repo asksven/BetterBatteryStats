@@ -1671,46 +1671,46 @@ public class StatsProvider
 		return refs;
 	}
 
-	/**
-	 * Restores state from a bundle
-	 * @param savedInstanceState a bundle
-	 */
-	public void restoreFromBundle(Bundle savedInstanceState)
-	{
-		m_myRefs.m_refWakelocks 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
-		m_myRefs.m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativekernelwakelockstate");
-		m_myRefs.m_refNetworkStats 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativenetworkstate");
-		m_myRefs.m_refCpuStates 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("cpustatesstate");
-		m_myRefs.m_refAlarms		 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("alarmstate");
-		m_myRefs.m_refProcesses 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
-		m_myRefs.m_refOther 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
-		m_myRefs.m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
-		m_myRefs.m_refBatteryLevel		= (Integer) savedInstanceState.getSerializable("batterylevel");
-		m_myRefs.m_refBatteryVoltage	= (Integer) savedInstanceState.getSerializable("batteryvoltage");
-	}
-	
-	/**
-	 * Writes states to a bundle to be temporarily persisted
-	 * @param savedInstanceState a bundle
-	 */
-	public void writeToBundle(Bundle savedInstanceState)
-	{
-    	if (hasCustomRef())
-    	{		
-    		savedInstanceState.putSerializable("wakelockstate", m_myRefs.m_refWakelocks);
-    		savedInstanceState.putSerializable("nativekernelwakelockstate", m_myRefs.m_refKernelWakelocks);
-    		savedInstanceState.putSerializable("nativenetworkstate", m_myRefs.m_refNetworkStats);
-    		savedInstanceState.putSerializable("alarmstate", m_myRefs.m_refAlarms);
-    		savedInstanceState.putSerializable("processstate", m_myRefs.m_refProcesses);
-    		savedInstanceState.putSerializable("otherstate", m_myRefs.m_refOther);
-    		savedInstanceState.putSerializable("networkstate", m_myRefs.m_refNetwork);
-    		savedInstanceState.putSerializable("cpustatesstate", m_myRefs.m_refCpuStates);
-    		savedInstanceState.putSerializable("batteryrealtime", m_myRefs.m_refBatteryRealtime);
-    		savedInstanceState.putSerializable("batterylevel", m_myRefs.m_refBatteryLevel);
-    		savedInstanceState.putSerializable("batteryvoltage", m_myRefs.m_refBatteryVoltage);
-        }
-
-	}
+//	/**
+//	 * Restores state from a bundle
+//	 * @param savedInstanceState a bundle
+//	 */
+//	public void restoreFromBundle(Bundle savedInstanceState)
+//	{
+//		m_myRefs.m_refWakelocks 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
+//		m_myRefs.m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativekernelwakelockstate");
+//		m_myRefs.m_refNetworkStats 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativenetworkstate");
+//		m_myRefs.m_refCpuStates 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("cpustatesstate");
+//		m_myRefs.m_refAlarms		 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("alarmstate");
+//		m_myRefs.m_refProcesses 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
+//		m_myRefs.m_refOther 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
+//		m_myRefs.m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
+//		m_myRefs.m_refBatteryLevel		= (Integer) savedInstanceState.getSerializable("batterylevel");
+//		m_myRefs.m_refBatteryVoltage	= (Integer) savedInstanceState.getSerializable("batteryvoltage");
+//	}
+//	
+//	/**
+//	 * Writes states to a bundle to be temporarily persisted
+//	 * @param savedInstanceState a bundle
+//	 */
+//	public void writeToBundle(Bundle savedInstanceState)
+//	{
+//    	if (hasCustomRef())
+//    	{		
+//    		savedInstanceState.putSerializable("wakelockstate", m_myRefs.m_refWakelocks);
+//    		savedInstanceState.putSerializable("nativekernelwakelockstate", m_myRefs.m_refKernelWakelocks);
+//    		savedInstanceState.putSerializable("nativenetworkstate", m_myRefs.m_refNetworkStats);
+//    		savedInstanceState.putSerializable("alarmstate", m_myRefs.m_refAlarms);
+//    		savedInstanceState.putSerializable("processstate", m_myRefs.m_refProcesses);
+//    		savedInstanceState.putSerializable("otherstate", m_myRefs.m_refOther);
+//    		savedInstanceState.putSerializable("networkstate", m_myRefs.m_refNetwork);
+//    		savedInstanceState.putSerializable("cpustatesstate", m_myRefs.m_refCpuStates);
+//    		savedInstanceState.putSerializable("batteryrealtime", m_myRefs.m_refBatteryRealtime);
+//    		savedInstanceState.putSerializable("batterylevel", m_myRefs.m_refBatteryLevel);
+//    		savedInstanceState.putSerializable("batteryvoltage", m_myRefs.m_refBatteryVoltage);
+//        }
+//
+//	}
 
 	public void serializeRefToFile(References refs)
 	{

@@ -80,7 +80,6 @@ class References implements Serializable
         String networkStats = (m_refNetworkStats == null) ? "null" : m_refNetworkStats.size() + " elements";
         String alarms = (m_refAlarms == null) ? "null" : m_refAlarms.size() + " elements";
         String processes = (m_refProcesses ==null) ? "null" : m_refAlarms + " elements";
-        String network = (m_refNetwork == null) ? "null" : m_refNetwork.size() + " elements";
         String other = (m_refOther == null) ? "null" : m_refOther.size() + " elements";
         String cpuStates = (m_refCpuStates == null) ? "null" : m_refCpuStates.size() + " elements";
         
@@ -89,12 +88,11 @@ class References implements Serializable
         networkStats = "NetS: " + networkStats;
         alarms = "Alrm: " + alarms;
         processes = "Proc: " + processes;
-        network = "Net: " + network;
         other = "Oth: " + other;
         cpuStates = "CPU: " + cpuStates;
         
         return "(" + wakelocks + "; " + kernelWakelocks + "; " + networkStats + "; " + alarms + "; "
-        		+ processes + "; " + network + "; " + other + "; " + cpuStates + ")";
+        		+ processes + "; " + other + "; " + cpuStates + ")";
 
     }
 
