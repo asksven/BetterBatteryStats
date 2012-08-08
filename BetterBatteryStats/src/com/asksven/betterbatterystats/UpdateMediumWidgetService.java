@@ -115,7 +115,7 @@ public class UpdateMediumWidgetService extends Service
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false);
 				
-				if ( (otherStats != null) || ( otherStats.size() == 1) )
+				if ( (otherStats == null) || ( otherStats.size() == 1) )
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
 					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "3"));
