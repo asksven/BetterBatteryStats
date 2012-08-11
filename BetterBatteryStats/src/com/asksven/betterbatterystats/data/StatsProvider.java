@@ -77,7 +77,7 @@ public class StatsProvider
 	
 	/** constant for custom stats */
     // dependent on arrays.xml
-	public final static int STATS_CHARGED 		= 0;
+	public final static int STATS_CHARGED 	= 0;
 	public final static int STATS_UNPLUGGED 	= 3;
 	public final static int STATS_CUSTOM 		= 4;
 	public final static int STATS_SCREEN_OFF	= 5;
