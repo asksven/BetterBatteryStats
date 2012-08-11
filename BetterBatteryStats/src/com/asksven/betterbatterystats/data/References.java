@@ -49,6 +49,8 @@ class References implements Serializable
     protected ArrayList<StatElement> m_refNetworkStats	 	= null;
     protected ArrayList<StatElement> m_refAlarms		 	= null;
     protected ArrayList<StatElement> m_refProcesses 		= null;
+    
+    /** @todo unused, delete in 2.0 */
     protected ArrayList<StatElement> m_refNetwork	 		= null;
     protected ArrayList<StatElement> m_refOther	 			= null;
     protected ArrayList<StatElement> m_refCpuStates		 	= null;

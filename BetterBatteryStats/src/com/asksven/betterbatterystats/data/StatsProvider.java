@@ -1112,10 +1112,6 @@ public class StatsProvider
         long timeSignalGood			= 0;
         long timeSignalGreat		= 0;
         
-        
-        
-        
-        
 		// if we are using custom ref. always retrieve "stats current"
 		if ( (iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF)) 
 		{
@@ -1624,7 +1620,6 @@ public class StatsProvider
 
 			refs.m_refAlarms			= null;
 			refs.m_refProcesses 		= null;
-			refs.m_refNetwork 			= null;
 			refs.m_refCpuStates			= null;
     	
 			refs.m_refKernelWakelocks 	= getNativeKernelWakelockStatList(
@@ -1652,14 +1647,12 @@ public class StatsProvider
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
-//    		Toast.makeText(m_context, "an error occured while creating the reference", Toast.LENGTH_SHORT).show();
     		refs.m_refOther 			= null;
     		refs.m_refWakelocks 		= null;
     		refs.m_refKernelWakelocks 	= null;
     		refs.m_refNetworkStats		= null;
     		refs.m_refAlarms			= null;
     		refs.m_refProcesses 		= null;
-    		refs.m_refNetwork 			= null;
     		refs.m_refCpuStates			= null;
 			
     		refs.m_refBatteryRealtime 	= 0;
@@ -1671,46 +1664,6 @@ public class StatsProvider
 		return refs;
 	}
 
-//	/**
-//	 * Restores state from a bundle
-//	 * @param savedInstanceState a bundle
-//	 */
-//	public void restoreFromBundle(Bundle savedInstanceState)
-//	{
-//		m_myRefs.m_refWakelocks 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("wakelockstate");
-//		m_myRefs.m_refKernelWakelocks 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativekernelwakelockstate");
-//		m_myRefs.m_refNetworkStats 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("nativenetworkstate");
-//		m_myRefs.m_refCpuStates 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("cpustatesstate");
-//		m_myRefs.m_refAlarms		 	= (ArrayList<StatElement>) savedInstanceState.getSerializable("alarmstate");
-//		m_myRefs.m_refProcesses 		= (ArrayList<StatElement>) savedInstanceState.getSerializable("processstate");
-//		m_myRefs.m_refOther 			= (ArrayList<StatElement>) savedInstanceState.getSerializable("otherstate");
-//		m_myRefs.m_refBatteryRealtime 	= (Long) savedInstanceState.getSerializable("batteryrealtime");
-//		m_myRefs.m_refBatteryLevel		= (Integer) savedInstanceState.getSerializable("batterylevel");
-//		m_myRefs.m_refBatteryVoltage	= (Integer) savedInstanceState.getSerializable("batteryvoltage");
-//	}
-//	
-//	/**
-//	 * Writes states to a bundle to be temporarily persisted
-//	 * @param savedInstanceState a bundle
-//	 */
-//	public void writeToBundle(Bundle savedInstanceState)
-//	{
-//    	if (hasCustomRef())
-//    	{		
-//    		savedInstanceState.putSerializable("wakelockstate", m_myRefs.m_refWakelocks);
-//    		savedInstanceState.putSerializable("nativekernelwakelockstate", m_myRefs.m_refKernelWakelocks);
-//    		savedInstanceState.putSerializable("nativenetworkstate", m_myRefs.m_refNetworkStats);
-//    		savedInstanceState.putSerializable("alarmstate", m_myRefs.m_refAlarms);
-//    		savedInstanceState.putSerializable("processstate", m_myRefs.m_refProcesses);
-//    		savedInstanceState.putSerializable("otherstate", m_myRefs.m_refOther);
-//    		savedInstanceState.putSerializable("networkstate", m_myRefs.m_refNetwork);
-//    		savedInstanceState.putSerializable("cpustatesstate", m_myRefs.m_refCpuStates);
-//    		savedInstanceState.putSerializable("batteryrealtime", m_myRefs.m_refBatteryRealtime);
-//    		savedInstanceState.putSerializable("batterylevel", m_myRefs.m_refBatteryLevel);
-//    		savedInstanceState.putSerializable("batteryvoltage", m_myRefs.m_refBatteryVoltage);
-//        }
-//
-//	}
 
 	public void serializeRefToFile(References refs)
 	{
@@ -1990,14 +1943,16 @@ public class StatsProvider
 				{
 					out.write("Custom: " + "null" + "\n");
 				}
+				
 				if (m_myRefSinceCharged != null)
 				{
-					out.write("Since charged: " + m_myRefSinceUnplugged.whoAmI() + "\n");
+					out.write("Since charged: " + m_myRefSinceCharged.whoAmI() + "\n");
 				}
 				else
 				{
 					out.write("Since charged: " + "null" + "\n");
 				}
+				
 				if (m_myRefSinceScreenOff != null)
 				{
 					out.write("Since screen off: " + m_myRefSinceScreenOff.whoAmI() + "\n");
@@ -2006,6 +1961,7 @@ public class StatsProvider
 				{
 					out.write("Since screen off: " + "null" + "\n");
 				}
+				
 				if (m_myRefSinceUnplugged != null)
 				{
 					out.write("Since unplugged: " + m_myRefSinceUnplugged.whoAmI() + "\n");
@@ -2023,13 +1979,11 @@ public class StatsProvider
 		    else
 		    {
 	    		Log.i(TAG, "Write error. " + Environment.getExternalStorageDirectory() + " couldn't be written");
-//	    		Toast.makeText(m_context, "No dump created. " + Environment.getExternalStorageDirectory() + " is probably unmounted.", Toast.LENGTH_SHORT).show();		    	
 		    }
     	}
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
-//    		Toast.makeText(m_context, "an error occured while dumping the statistics", Toast.LENGTH_SHORT).show();
     	}		
 	}
 	
