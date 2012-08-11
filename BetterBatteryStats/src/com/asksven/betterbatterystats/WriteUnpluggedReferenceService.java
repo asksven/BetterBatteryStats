@@ -65,6 +65,7 @@ public class WriteUnpluggedReferenceService extends Service
 		try
 		{
 			// Store the "since unplugged ref
+			Wakelock.aquireWakelock(this);
 			StatsProvider.getInstance(this).setReferenceSinceUnplugged(0);
 			
 			// check the battery level and if 100% the store "since charged" ref
@@ -104,7 +105,10 @@ public class WriteUnpluggedReferenceService extends Service
 		{
 			Log.e(TAG, "An error occured: " + e.getMessage());
 		}
-
+		finally
+		{
+			Wakelock.releaseWakelock();
+		}
 		
 		stopSelf();
 

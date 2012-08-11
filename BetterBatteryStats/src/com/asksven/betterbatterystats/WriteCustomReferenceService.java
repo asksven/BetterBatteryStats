@@ -64,6 +64,7 @@ public class WriteCustomReferenceService extends Service
 		Log.i(TAG, "Called at " + DateUtils.now());
 		try
 		{
+			Wakelock.aquireWakelock(this);
 			// Store the "since unplugged ref
 			StatsProvider.getInstance(this).setCustomReference(0);
 			
@@ -75,6 +76,10 @@ public class WriteCustomReferenceService extends Service
 		catch (Exception e)
 		{
 			Log.e(TAG, "An error occured: " + e.getMessage());
+		}
+		finally
+		{
+			Wakelock.releaseWakelock();
 		}
 
 		

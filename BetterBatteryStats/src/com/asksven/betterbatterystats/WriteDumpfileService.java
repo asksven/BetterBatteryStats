@@ -73,12 +73,17 @@ public class WriteDumpfileService extends Service
 		{
 			try
 			{
+				Wakelock.aquireWakelock(this);
 	        	StatsProvider.getInstance(this).writeDumpToFile(statType, 0);
 	
 			}
 			catch (Exception e)
 			{
 				Log.e(TAG, "An error occured: " + e.getMessage());
+			}
+			finally
+			{
+				Wakelock.releaseWakelock();
 			}
 		}
 		else
