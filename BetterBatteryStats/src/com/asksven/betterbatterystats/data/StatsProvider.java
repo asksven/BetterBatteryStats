@@ -1628,10 +1628,6 @@ public class StatsProvider
 			refs.m_refWakelocks 	= getWakelockStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
 
-			refs.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
-
-			refs.m_refAlarms = getAlarmsStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			refs.m_refOther		 	= getOtherUsageStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
 			refs.m_refCpuStates		 	= getCpuStateList(BatteryStatsTypes.STATS_CURRENT);
@@ -1640,8 +1636,16 @@ public class StatsProvider
 			
 			refs.m_refBatteryLevel		= getBatteryLevel();
 			refs.m_refBatteryVoltage	= getBatteryVoltage();
+			
+			// we write the part that does not require root access first to make sure there is a reference written.
+			
+			serializeRefToFile(refs);
 
+			// After that we go on and try to write the rest. If this part fails at least there will be a partial ref saved
+			refs.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 
+			refs.m_refAlarms = getAlarmsStatList(
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 			
 			serializeRefToFile(refs);
     	}
