@@ -6,10 +6,9 @@
           android:title="Refresh"
           showAsAction="ifRoom"/>
 
-    <!-- 
-    <item android:id="@+id/test"    
-          android:title="Test" />
-     -->
+    
+<!--     <item android:id="@+id/test"     -->
+<!--           android:title="Test" /> -->
      
     <!-- Sorting group -->
     <item android:id="@+id/sorting_group"
