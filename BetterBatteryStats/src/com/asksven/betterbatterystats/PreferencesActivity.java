@@ -27,6 +27,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 
+import com.asksven.andoid.common.CommonLogSettings;
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -111,7 +112,21 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     		
 
         }
-
+        
+        if (key.equals("debug_logging"))
+        {
+    		boolean enabled = sharedPreferences.getBoolean(key, false);
+    		if (enabled)
+    		{
+    			LogSettings.DEBUG=true;
+    			CommonLogSettings.DEBUG=true;
+    		}
+    		else
+    		{
+    			LogSettings.DEBUG=true;
+    			CommonLogSettings.DEBUG=true;
+    		}
+        }
 	}
 
 }

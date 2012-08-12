@@ -87,6 +87,13 @@
                 android:key="use_analytics"
                 android:summary="Allow Google Analytics tracking"
                 android:title="Google Analytics" />
+            
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="debug_logging"
+                android:summary="Add debug info to logcat"
+                android:title="Debug" />
+            
         </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="Dumpfile" >

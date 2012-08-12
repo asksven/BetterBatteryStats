@@ -50,6 +50,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.asksven.andoid.common.CommonLogSettings;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.kernelutils.CpuStates;
@@ -113,7 +114,20 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);	
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		
+		// set debugging
+		if (sharedPrefs.getBoolean("debug_logging", false))
+		{
+			LogSettings.DEBUG=true;
+			CommonLogSettings.DEBUG=true;
+		}
+		else
+		{
+			LogSettings.DEBUG=false;
+			CommonLogSettings.DEBUG=false;
+		}
+
 		// Check if the stats are accessible and warn if not
 		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
 		
@@ -134,7 +148,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		///////////////////////////////////////////////
 		// if yes show release notes
 		// migrate the default stat and stat type preferences for pre-1.9 releases if not migrated already
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String strLastRelease	= sharedPrefs.getString("last_release", "0");
 		boolean bMigratedDefaultsPre1_9	= sharedPrefs.getBoolean("migrated_defaults_pre1_9", false);
 		boolean bMigratedToRefs3	= sharedPrefs.getBoolean("migrated_to_refs3", false);
@@ -526,14 +539,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	doRefresh();
             	break;	
 
-//            case R.id.test:
+            case R.id.test:
 //            	// Test
-//            	BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(this);
-//            	mStats.getNetworkStatsByUid(m_iStatType);
-//            	StatsProvider.getInstance(this).setReferenceSinceCharged(m_iSorting);
-//            	StatsProvider.getInstance(this).setReferenceSinceUnplugged(m_iSorting);
-//            	doRefresh();
-//            	break;	
+    			// start service to persist reference
+    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
+    			this.startService(serviceIntent);
+    			break;	
 
             case R.id.about:
             	// About

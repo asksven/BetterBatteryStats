@@ -60,6 +60,7 @@ import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -180,7 +181,7 @@ public class StatsProvider
 		String strCurrent = myAlarms.toString();
 		String strRef = "";
 		String strRefDescr = "";
-		if (Log.isLoggable(TAG, Log.DEBUG))
+		if (LogSettings.DEBUG)
 		{
 			switch (iStatType)
 			{
@@ -332,7 +333,7 @@ public class StatsProvider
 			myStats.add((StatElement) myRetAlarms.get(i));
 		}
 		
-		if (Log.isLoggable(TAG, Log.DEBUG))
+		if (LogSettings.DEBUG)
 		{
 			Log.d(TAG, "Result " + myStats.toString());
 		}
@@ -432,7 +433,7 @@ public class StatsProvider
 			myStats.add((StatElement) myRetProcesses.get(i));
 		}
 		
-		if (Log.isLoggable(TAG, Log.DEBUG))
+		if (LogSettings.DEBUG)
 		{
 			Log.d(TAG, "Result " + myStats.toString());
 		}
@@ -462,7 +463,7 @@ public class StatsProvider
 		if (iStatType == STATS_CUSTOM)
 		{
 			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
-			if (Log.isLoggable(TAG, Log.DEBUG))
+			if (LogSettings.DEBUG)
 			{
 				strRef = m_myRefs.m_refWakelocks.toString();
 				strRefDescr = m_myRefs.whoAmI();
@@ -471,7 +472,7 @@ public class StatsProvider
 		else if (iStatType == STATS_SCREEN_OFF)
 		{
 			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
-			if (Log.isLoggable(TAG, Log.DEBUG))
+			if (LogSettings.DEBUG)
 			{
 				strRef = m_myRefSinceScreenOff.m_refWakelocks.toString();
 				strRefDescr = m_myRefSinceScreenOff.whoAmI();
@@ -481,13 +482,13 @@ public class StatsProvider
 		else
 		{
 			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, iStatType, iPctType);
-			if (Log.isLoggable(TAG, Log.DEBUG))
+			if (LogSettings.DEBUG)
 			{
 				strRefDescr = "native stat " + iStatType;
 			}
 		}
 
-		if (Log.isLoggable(TAG, Log.DEBUG))
+		if (LogSettings.DEBUG)
 		{
 			Log.d(TAG, "Processing partial wakelocks since " + statTypeToLabel(iStatType));
 			Log.d(TAG, "Reference used: " + strRefDescr);
@@ -589,7 +590,7 @@ public class StatsProvider
 			myStats.add((StatElement) myRetWakelocks.get(i));
 		}
 
-		if (Log.isLoggable(TAG, Log.DEBUG))
+		if (LogSettings.DEBUG)
 		{
 			Log.d(TAG, "Result " + myStats.toString());
 		}
@@ -618,7 +619,7 @@ public class StatsProvider
 		String strCurrent = myKernelWakelocks.toString();
 		String strRef = "";
 		String strRefDescr = "";
-		if (Log.isLoggable(TAG, Log.DEBUG))
+		if (LogSettings.DEBUG)
 		{
 			switch (iStatType)
 			{
@@ -786,7 +787,7 @@ public class StatsProvider
 			myStats.add((StatElement) myRetKernelWakelocks.get(i));
 		}
 		
-		if (Log.isLoggable(TAG, Log.DEBUG))
+		if (LogSettings.DEBUG)
 		{
 			Log.d(TAG, "Result " + myStats.toString());
 		}
@@ -818,7 +819,7 @@ public class StatsProvider
 		String strRef 		= "";
 		String strRefDescr 	= "";
 
-		if (Log.isLoggable(TAG, Log.DEBUG))
+		if (LogSettings.DEBUG)
 		{
 			strCurrent = myNetworkStats.toString();
 
@@ -984,7 +985,7 @@ public class StatsProvider
 			myStats.add((StatElement) myRetNetworkStats.get(i));
 		}
 
-		if (Log.isLoggable(TAG, Log.DEBUG))
+		if (LogSettings.DEBUG)
 		{
 			Log.d(TAG, "Result " + myStats.toString());
 		}
