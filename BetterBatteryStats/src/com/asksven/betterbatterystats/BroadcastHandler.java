@@ -62,6 +62,11 @@ public class BroadcastHandler extends BroadcastReceiver
 			// delete whatever references we have saved here
 			StatsProvider.getInstance(context).deletedSerializedRefs();
 			
+			// start service to persist boot reference
+			Intent serviceIntent = new Intent(context, WriteBootReferenceService.class);
+			context.startService(serviceIntent);
+
+			
 			boolean activeMonitoring	= sharedPrefs.getBoolean("ref_for_screen_off", false);
 			if (activeMonitoring)
 			{

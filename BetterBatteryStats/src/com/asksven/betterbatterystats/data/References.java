@@ -41,6 +41,8 @@ class References implements Serializable
 	protected static final String SINCE_UNPLUGGED_REF_FILENAME 	= "since_unplugged_ref";
 	protected static final String SINCE_CHARGED_REF_FILENAME 	= "since_charged_ref";
 	protected static final String SINCE_SCREEN_OFF_REF_FILENAME	= "since_screen_off";
+	protected static final String SINCE_BOOT_REF_FILENAME	= "since_boot";
+
 	/** storage of custom references */
 	protected String m_fileName								= "";
 	protected Date m_creationDate							= null;
