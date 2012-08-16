@@ -59,6 +59,12 @@
             android:key="default_wl_ref"
             android:summary="Wakelock expressed as pct of time..."
             android:title="Wakelock pct of" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="fallback_to_since_boot"
+            android:summary="Fall back to 'since boot' stat if default has no reference"
+            android:title="Fallback to Since Boot" />
+    
     </PreferenceCategory>
     <PreferenceCategory android:title="Settings" >
         <PreferenceScreen android:title="Knowledge Base" >
@@ -324,6 +330,12 @@
                 android:key="debug_logging"
                 android:summary="Add debug info to logcat"
                 android:title="Debug" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="root_features"
+                android:summary="Enable network stats and alarms"
+                android:title="Root features" />
+            
         </PreferenceScreen>
     </PreferenceCategory>
 

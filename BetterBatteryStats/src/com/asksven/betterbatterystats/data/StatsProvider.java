@@ -167,7 +167,24 @@ public class StatsProvider
 		return new ArrayList<StatElement>();
 	}
 
-	References getReference(int iStatType)
+	public boolean hasReference(int iStatType)
+	{
+		boolean ret = false;
+		References myCheckRef = getReference(iStatType);
+		
+		if ((myCheckRef != null) && (myCheckRef.m_refKernelWakelocks != null))
+		{
+			ret = true;
+		}
+		else
+		{
+			ret = false;
+		}
+		
+		return ret;
+	}
+	
+	static References getReference(int iStatType)
 	{
 		switch (iStatType)
 		{
