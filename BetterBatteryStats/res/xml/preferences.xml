@@ -13,6 +13,29 @@
             android:key="hide_bars"
             android:summary="Hide or show the graph bars"
             android:title="Hide graph bars" />
+
+        <PreferenceScreen android:title="Customize Views" >
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_other_wifi"
+                android:summary="Show Wifi values"
+                android:title="Show Wifi" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_other_signal"
+                android:summary="Show signal values"
+                android:title="Show signal" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_other_connection"
+                android:summary="Show connection values"
+                android:title="Show connection" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_other_bt"
+                android:summary="Show Bluetooth values"
+                android:title="Show Bluetooth" />
+        </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="Defaults" >
         <ListPreference
@@ -29,8 +52,6 @@
             android:key="default_stat_type"
             android:summary="Set the stat type to be shown upon starting the app"
             android:title="Default stat type" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Wakelock" >
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/wlRefLabels"
@@ -39,8 +60,8 @@
             android:summary="Wakelock expressed as pct of time..."
             android:title="Wakelock pct of" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Knowledge Base" >
-        <PreferenceScreen android:title="Knowledge Base Preferences" >
+    <PreferenceCategory android:title="Settings" >
+        <PreferenceScreen android:title="Knowledge Base" >
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="enable_kb"
@@ -64,40 +85,7 @@
                 android:summary="Cache the knowledge base locally"
                 android:title="Cache KB" />
         </PreferenceScreen>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Advanced" >
-        <PreferenceScreen android:title="Advanced Preferences" >
-            <ListPreference
-                android:defaultValue="10"
-                android:entries="@array/graphBarHeigthLabels"
-                android:entryValues="@array/graphBarHeigthValues"
-                android:key="graph_bar_height"
-                android:summary="If you are using non-default densities you can change the bar height here"
-                android:title="Height for graph bars" />
-            <ListPreference
-                android:defaultValue="0"
-                android:entries="@array/orderbyLabels"
-                android:entryValues="@array/orderbyValues"
-                android:key="default_orderby"
-                android:summary="Set the default sorting"
-                android:title="Default order by" />
-
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="use_analytics"
-                android:summary="Allow Google Analytics tracking"
-                android:title="Google Analytics" />
-            
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="debug_logging"
-                android:summary="Add debug info to logcat"
-                android:title="Debug" />
-            
-        </PreferenceScreen>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Dumpfile" >
-        <PreferenceScreen android:title="Dumpfile Settings" >
+        <PreferenceScreen android:title="Dumpfile" >
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:enabled="false"
@@ -147,33 +135,7 @@
                 android:summary="Dump CPU States"
                 android:title="CPU States" />
         </PreferenceScreen>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Views" >
-        <PreferenceScreen android:title="Customize Views" >
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="show_other_wifi"
-                android:summary="Show Wifi values"
-                android:title="Show Wifi" />
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="show_other_signal"
-                android:summary="Show signal values"
-                android:title="Show signal" />
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="show_other_connection"
-                android:summary="Show connection values"
-                android:title="Show connection" />
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="show_other_bt"
-                android:summary="Show Bluetooth values"
-                android:title="Show Bluetooth" />
-        </PreferenceScreen>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Widgets" >
-        <PreferenceScreen android:title="Widget Settings" >
+        <PreferenceScreen android:title="Widgets" >
             <ListPreference
                 android:defaultValue="30"
                 android:entries="@array/widgetUpdateFreqLabels"
@@ -286,9 +248,7 @@
                     robobunny:unitsRight="%" />
             </PreferenceCategory>
         </PreferenceScreen>
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Watchdogs" >
-        <PreferenceScreen android:title="Watchdog Settings" >
+        <PreferenceScreen android:title="Watchdog" >
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="ref_for_screen_off"
@@ -298,9 +258,8 @@
                 android:defaultValue="true"
                 android:dependency="ref_for_screen_off"
                 android:key="watchdog_on_unlock"
-                android:summary="Watchdog runs upon 'unlock' (else on 'screen on')"
+                android:summary="Watchdog runs upon &apos;unlock&apos; (else on &apos;screen on&apos;)"
                 android:title="Watchdog on unlock" />
-            
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:dependency="ref_for_screen_off"
@@ -314,7 +273,9 @@
                 android:summary="Show watchdog related activities as toasts"
                 android:title="Display Toasts" />
 
-            <PreferenceCategory android:title="Warnings" android:key="warnings" >
+            <PreferenceCategory
+                android:key="warnings"
+                android:title="Warnings" >
                 <com.asksven.betterbatterystats.contrib.SeekBarPreference
                     android:defaultValue="30"
                     android:key="watchdog_awake_threshold"
@@ -336,6 +297,33 @@
                     robobunny:unitsLeft=""
                     robobunny:unitsRight="Min." />
             </PreferenceCategory>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Advanced" >
+            <ListPreference
+                android:defaultValue="10"
+                android:entries="@array/graphBarHeigthLabels"
+                android:entryValues="@array/graphBarHeigthValues"
+                android:key="graph_bar_height"
+                android:summary="If you are using non-default densities you can change the bar height here"
+                android:title="Height for graph bars" />
+            <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/orderbyLabels"
+                android:entryValues="@array/orderbyValues"
+                android:key="default_orderby"
+                android:summary="Set the default sorting"
+                android:title="Default order by" />
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="use_analytics"
+                android:summary="Allow Google Analytics tracking"
+                android:title="Google Analytics" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="debug_logging"
+                android:summary="Add debug info to logcat"
+                android:title="Debug" />
         </PreferenceScreen>
     </PreferenceCategory>
 
