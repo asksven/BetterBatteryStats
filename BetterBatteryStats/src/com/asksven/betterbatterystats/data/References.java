@@ -39,9 +39,15 @@ class References implements Serializable
 	
 	protected static final String CUSTOM_REF_FILENAME 			= "custom_ref";
 	protected static final String SINCE_UNPLUGGED_REF_FILENAME 	= "since_unplugged_ref";
-	protected static final String SINCE_CHARGED_REF_FILENAME 	= "since_charged_ref";
+	protected static final String SINCE_CHARGED_REF_FILENAME 		= "since_charged_ref";
 	protected static final String SINCE_SCREEN_OFF_REF_FILENAME	= "since_screen_off";
-	protected static final String SINCE_BOOT_REF_FILENAME	= "since_boot";
+	protected static final String SINCE_BOOT_REF_FILENAME			= "since_boot";
+
+	protected static final String CUSTOM_REF_ERR 				= "No custom reference set yet";
+	protected static final String SINCE_UNPLUGGED_REF_ERR 	= "No reference since unplugged set yet";
+	protected static final String SINCE_CHARGED_REF_ERR 		= "No reference since charged set yet";
+	protected static final String SINCE_SCREEN_OFF_REF_ERR	= "No reference since screen off set yet";
+	protected static final String SINCE_BOOT_REF_ERR			= "No since boot reference set yet";
 
 	/** storage of custom references */
 	protected String m_fileName								= "";
@@ -72,6 +78,23 @@ class References implements Serializable
     	Log.i(TAG, "Create ref " + m_fileName + " at " + DateUtils.format(m_creationDate));
     }
     
+    public String getMissingRefError()
+    {
+    	if (m_fileName.equals(CUSTOM_REF_FILENAME))
+    		return CUSTOM_REF_ERR;
+    	else if (m_fileName.equals(SINCE_UNPLUGGED_REF_FILENAME))
+    		return SINCE_UNPLUGGED_REF_ERR;
+    	else if (m_fileName.equals(SINCE_CHARGED_REF_FILENAME))
+    		return SINCE_CHARGED_REF_ERR;
+    	else if (m_fileName.equals(SINCE_SCREEN_OFF_REF_FILENAME))
+    		return SINCE_SCREEN_OFF_REF_ERR;
+    	else if (m_fileName.equals(SINCE_BOOT_REF_FILENAME))
+    		return SINCE_BOOT_REF_ERR;
+    	else
+    		return "No reference found";
+    }
+        	
+        	
     public String whoAmI()
     {
     	return "Reference " + m_fileName + " created " + DateUtils.format(m_creationDate) + " " + elements();

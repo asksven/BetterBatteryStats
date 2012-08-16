@@ -167,6 +167,27 @@ public class StatsProvider
 		return new ArrayList<StatElement>();
 	}
 
+	References getReference(int iStatType)
+	{
+		switch (iStatType)
+		{
+			case STATS_UNPLUGGED:									
+				return m_myRefSinceUnplugged;
+			case STATS_CHARGED:
+				return m_myRefSinceCharged;
+			case STATS_CUSTOM:
+				return m_myRefs;
+			case STATS_SCREEN_OFF:
+				return m_myRefSinceScreenOff;
+			case STATS_BOOT:
+				return m_myRefSinceBoot;
+			default:
+				Log.e(TAG, "getReference was called with an unknown StatType " + iStatType + ". No reference found");
+				break;
+		}
+		return null;
+
+	}
 	/**
 	 * Get the Alarm Stat to be displayed
 	 * @param bFilter defines if zero-values should be filtered out
@@ -188,52 +209,26 @@ public class StatsProvider
 		String strCurrent = myAlarms.toString();
 		String strRef = "";
 		String strRefDescr = "";
+		
+		References myReference = getReference(iStatType);
+				
 		if (LogSettings.DEBUG)
 		{
-			switch (iStatType)
+			if (myReference != null)
 			{
-				case STATS_UNPLUGGED:									
-					if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refAlarms != null) )
-					{
-						strRef = m_myRefSinceUnplugged.m_refAlarms.toString();
-						strRefDescr = m_myRefSinceUnplugged.whoAmI();
-					}
-					break;
-				case STATS_CHARGED:
-					if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refAlarms != null) )
-					{
-						strRef = m_myRefSinceCharged.m_refAlarms.toString();
-						strRefDescr = m_myRefSinceUnplugged.whoAmI();
-					}
-					break;
-				case STATS_CUSTOM:
-					if ( (m_myRefs != null) && (m_myRefs.m_refAlarms != null))
-					{
-						strRef = m_myRefs.m_refAlarms.toString();
-						strRefDescr = m_myRefSinceUnplugged.whoAmI();
-					}
-					break;
-				case STATS_SCREEN_OFF:
-					if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refAlarms != null))
-					{
-						strRef = m_myRefSinceScreenOff.m_refAlarms.toString();
-						strRefDescr = m_myRefSinceUnplugged.whoAmI();
-					}
-					break;
-				case STATS_BOOT:
-					if ( (m_myRefSinceBoot != null) && (m_myRefSinceBoot.m_refAlarms != null))
-					{
-						strRef = m_myRefSinceBoot.m_refAlarms.toString();
-						strRefDescr = m_myRefSinceBoot.whoAmI();
-					}
-					break;
-	
-				case BatteryStatsTypes.STATS_CURRENT:
-					strRef = "no reference to substract";
-					break;
-				default:
-					Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
-					break;
+				strRefDescr = myReference.whoAmI();
+				if (myReference.m_refAlarms != null)
+				{
+					strRef = myReference.m_refAlarms.toString();
+				}
+				else
+				{
+					strRef = "Alarms is null";
+				}
+			}
+			else
+			{
+				strRefDescr = "Reference is null";
 			}
 			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
 	
@@ -247,114 +242,31 @@ public class StatsProvider
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
 			Alarm alarm = myAlarms.get(i);
-			if ( true ) //(!bFilter) || ((alarm.getWakeups()) > 0) )
-			{					
-				switch (iStatType)
+			if ((!bFilter) || ((alarm.getWakeups()) > 0) )
+			{
+				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
 				{
-					case STATS_CUSTOM:					
-						// case a)
-						// we need t return a delta containing
-						//   if a process is in the new list but not in the custom ref
-						//	   the full time is returned
-						//   if a process is in the reference return the delta
-						//	 a process can not have disapeared in btwn so we don't need
-						//	 to test the reverse case
-						if (m_myRefs != null)
-						{
-							alarm.substractFromRef(m_myRefs.m_refAlarms);
-		
-		
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((alarm.getWakeups()) > 0) )
-							{
-								myRetAlarms.add( alarm);
-							}
-						}
-						else
-						{
-							myRetAlarms.clear();
-							myRetAlarms.add(new Alarm(NO_CUST_REF));
-						}
-						break;
-					case STATS_UNPLUGGED:
-						if (m_myRefSinceUnplugged != null)
-						{
-							alarm.substractFromRef(m_myRefSinceUnplugged.m_refAlarms);
-							
-							
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((alarm.getWakeups()) > 0) )
-							{
-								myRetAlarms.add( alarm);
-							}
-						}
-						else
-						{
-							myRetAlarms.clear();
-							myRetAlarms.add(new Alarm(NO_SINCE_UNPLUGGED_REF));
-	
-						}
-						break;
-	
-					case STATS_CHARGED:
-						if (m_myRefSinceCharged != null)
-						{
-							alarm.substractFromRef(m_myRefSinceCharged.m_refAlarms);
-													
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((alarm.getWakeups()) > 0) )
-							{
-								myRetAlarms.add(alarm);
-							}
-						}
-						else
-						{
-							myRetAlarms.clear();
-							myRetAlarms.add(new Alarm(NO_SINCE_CHARGED_REF));
-						}
-						break;
-					case STATS_SCREEN_OFF:
-						if (m_myRefSinceScreenOff != null)
-						{
-							alarm.substractFromRef(m_myRefSinceScreenOff.m_refAlarms);
-													
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((alarm.getWakeups()) > 0) )
-							{
-								myRetAlarms.add(alarm);
-							}
-						}
-						else
-						{
-							myRetAlarms.clear();
-							myRetAlarms.add(new Alarm(NO_SCREEN_OFF_REF));
-						}
-						break;
-					case STATS_BOOT:
-						if (m_myRefSinceBoot != null)
-						{
-							alarm.substractFromRef(m_myRefSinceBoot.m_refAlarms);
-													
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((alarm.getWakeups()) > 0) )
-							{
-								myRetAlarms.add(alarm);
-							}
-						}
-						else
-						{
-							myRetAlarms.clear();
-							myRetAlarms.add(new Alarm(NO_BOOT_REF));
-						}
-						break;
-
-					case BatteryStatsTypes.STATS_CURRENT:
-						// we must recheck if the delta process is still above threshold
-						myRetAlarms.add(alarm);
-						break;
-						
+					myRetAlarms.add( alarm);
 				}
+				else
+				{		
+					if (myReference != null)
+					{
+						alarm.substractFromRef(myReference.m_refAlarms);
 	
+	
+						// we must recheck if the delta process is still above threshold
+						if ( (!bFilter) || ((alarm.getWakeups()) > 0) )
+						{
+							myRetAlarms.add( alarm);
+						}
+					}
+					else
+					{
+						myRetAlarms.clear();
+						myRetAlarms.add(new Alarm(myReference.getMissingRefError()));
+					}
+				}
 			}
 		}
 		
@@ -388,19 +300,41 @@ public class StatsProvider
 		ArrayList<Process> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 		
-		// if we are using custom ref. always retrieve "stats current"
-		if ((iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF) || (iStatType == STATS_BOOT))
-		{
-			myProcesses = mStats.getProcessStats(m_context, BatteryStatsTypes.STATS_CURRENT);
-		}
-		else
-		{
-			myProcesses = mStats.getProcessStats(m_context, iStatType);
-		}
+		myProcesses = mStats.getProcessStats(m_context, BatteryStatsTypes.STATS_CURRENT);
+
+		String strCurrent = myProcesses.toString();
+		String strRef = "";
+		String strRefDescr = "";
 		
-		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		//Collections.sort(myProcesses);
-		
+		References myReference = getReference(iStatType);
+				
+		if (LogSettings.DEBUG)
+		{
+			if (myReference != null)
+			{
+				strRefDescr = myReference.whoAmI();
+				if (myReference.m_refAlarms != null)
+				{
+					strRef = myReference.m_refAlarms.toString();
+				}
+				else
+				{
+					strRef = "Alarms is null";
+				}
+			}
+			else
+			{
+				strRefDescr = "Reference is null";
+			}
+			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+	
+			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "It is now " + DateUtils.now());
+	
+			Log.d(TAG, "Substracting " + strCurrent);
+			Log.d(TAG, "from " + strRef);
+		}
+
 		for (int i = 0; i < myProcesses.size(); i++)
 		{
 			Process ps = myProcesses.get(i);
@@ -409,19 +343,16 @@ public class StatsProvider
 				// we must distinguish two situations
 				// a) we use custom stat type
 				// b) we use regular stat type
-				
-				if (iStatType == STATS_CUSTOM)
+				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
 				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					if (m_myRefs != null)
+					myRetProcesses.add(ps);
+				}
+				else
+				{		
+
+					if (myReference != null)
 					{
-						ps.substractFromRef(m_myRefs.m_refProcesses);
+						ps.substractFromRef(myReference.m_refProcesses);
 						
 						// we must recheck if the delta process is still above threshold
 						if ( (!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0) )
@@ -434,65 +365,6 @@ public class StatsProvider
 						myRetProcesses.clear();
 						myRetProcesses.add(new Process(NO_CUST_REF, 1, 1, 1));
 					}
-
-				}
-				if (iStatType == STATS_SCREEN_OFF)
-				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					if (m_myRefSinceScreenOff != null)
-					{
-						ps.substractFromRef(m_myRefSinceScreenOff.m_refProcesses);
-						
-						// we must recheck if the delta process is still above threshold
-						if ( (!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0) )
-						{
-							myRetProcesses.add(ps);
-						}
-					}
-					else
-					{
-						myRetProcesses.clear();
-						myRetProcesses.add(new Process(NO_SCREEN_OFF_REF, 1, 1, 1));
-					}
-
-				}
-				if (iStatType == STATS_BOOT)
-				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					if (m_myRefSinceBoot != null)
-					{
-						ps.substractFromRef(m_myRefSinceBoot.m_refProcesses);
-						
-						// we must recheck if the delta process is still above threshold
-						if ( (!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0) )
-						{
-							myRetProcesses.add(ps);
-						}
-
-					}
-					else
-					{
-						myRetProcesses.clear();
-						myRetProcesses.add(new Process(NO_BOOT_REF, 1, 1, 1));
-					}
-					
-				}
-				else
-				{
-					// case b) nothing special
-					myRetProcesses.add(ps);
 				}
 			}
 		}
@@ -539,56 +411,43 @@ public class StatsProvider
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 		
 		ArrayList<Wakelock> myWakelocks = null;
+		myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
+
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
-		// if we are using custom ref. always retrieve "stats current"
+		
+		References myReference = getReference(iStatType);
+		String strCurrent = myWakelocks.toString();
+
 		String strRef = "";
 		String strRefDescr = "";
-
-		if (iStatType == STATS_CUSTOM)
-		{
-			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
-			if (LogSettings.DEBUG)
-			{
-				strRef = m_myRefs.m_refWakelocks.toString();
-				strRefDescr = m_myRefs.whoAmI();
-			}
-		}
-		else if (iStatType == STATS_SCREEN_OFF)
-		{
-			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
-			if (LogSettings.DEBUG)
-			{
-				strRef = m_myRefSinceScreenOff.m_refWakelocks.toString();
-				strRefDescr = m_myRefSinceScreenOff.whoAmI();
-			}
-		}
-		else if (iStatType == STATS_BOOT)
-		{
-			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, BatteryStatsTypes.STATS_CURRENT, iPctType);
-			if (LogSettings.DEBUG)
-			{
-				strRef = m_myRefSinceBoot.m_refWakelocks.toString();
-				strRefDescr = m_myRefSinceBoot.whoAmI();
-			}
-		}
-
-		else
-		{
-			myWakelocks = mStats.getWakelockStats(m_context, BatteryStatsTypes.WAKE_TYPE_PARTIAL, iStatType, iPctType);
-			if (LogSettings.DEBUG)
-			{
-				strRefDescr = "native stat " + iStatType;
-			}
-		}
-
+		
 		if (LogSettings.DEBUG)
 		{
-			Log.d(TAG, "Processing partial wakelocks since " + statTypeToLabel(iStatType));
+			if (myReference != null)
+			{
+				strRefDescr = myReference.whoAmI();
+				if (myReference.m_refAlarms != null)
+				{
+					strRef = myReference.m_refAlarms.toString();
+				}
+				else
+				{
+					strRef = "Alarms is null";
+				}
+			}
+			else
+			{
+				strRefDescr = "Reference is null";
+			}
+			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
-			Log.d(TAG, "Substracting " + myWakelocks.toString());
+	
+			Log.d(TAG, "Substracting " + strCurrent);
 			Log.d(TAG, "from " + strRef);
 		}
+
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		Collections.sort(myWakelocks);
 		
@@ -601,86 +460,27 @@ public class StatsProvider
 				// a) we use custom stat type
 				// b) we use regular stat type
 				
-				if (iStatType == STATS_CUSTOM)
+				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
 				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					if (m_myRefs != null)
-					{
-						wl.substractFromRef(m_myRefs.m_refWakelocks);
-						
-						// we must recheck if the delta process is still above threshold
-						if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
-						{
-							myRetWakelocks.add( wl);
-						}
-					}
-					else
-					{
-						myRetWakelocks.clear();
-						myRetWakelocks.add(new Wakelock(1, NO_CUST_REF, 1, 1, 1));
-					}
+					myRetWakelocks.add( wl);
 				}
-				else if (iStatType == STATS_SCREEN_OFF)
-				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					if (m_myRefSinceScreenOff != null)
-					{
-						wl.substractFromRef(m_myRefSinceScreenOff.m_refWakelocks);
-						
-						// we must recheck if the delta process is still above threshold
-						if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
-						{
-							myRetWakelocks.add( wl);
-						}
-					}
-					else
-					{
-						myRetWakelocks.clear();
-						myRetWakelocks.add(new Wakelock(1, NO_SCREEN_OFF_REF, 1, 1, 1));
-					}
-				}
-				else if (iStatType == STATS_BOOT)
-				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					if (m_myRefSinceBoot != null)
-					{
-						wl.substractFromRef(m_myRefSinceBoot.m_refWakelocks);
-						
-						// we must recheck if the delta process is still above threshold
-						if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
-						{
-							myRetWakelocks.add( wl);
-						}
-					}
-					else
-					{
-						myRetWakelocks.clear();
-						myRetWakelocks.add(new Wakelock(1, NO_BOOT_REF, 1, 1, 1));
-					}
-				}
-
 				else
 				{
-					// case b) nothing special
-					myRetWakelocks.add(wl);
+					if (myReference != null)
+					{
+						wl.substractFromRef(myReference.m_refWakelocks);
+						
+						// we must recheck if the delta process is still above threshold
+						if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
+						{
+							myRetWakelocks.add( wl);
+						}
+					}
+					else
+					{
+						myRetWakelocks.clear();
+						myRetWakelocks.add(new Wakelock(1, myReference.getMissingRefError(), 1, 1, 1));
+					}
 				}
 
 			}
@@ -737,175 +537,64 @@ public class StatsProvider
 		String strCurrent = myKernelWakelocks.toString();
 		String strRef = "";
 		String strRefDescr = "";
+		References myReference = getReference(iStatType);
+		
 		if (LogSettings.DEBUG)
 		{
-			switch (iStatType)
+			if (myReference != null)
 			{
-				case STATS_UNPLUGGED:									
-					if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refKernelWakelocks != null) )
-					{
-						strRef = m_myRefSinceUnplugged.m_refKernelWakelocks.toString();
-						strRefDescr = m_myRefSinceUnplugged.whoAmI();
-					}
-					break;
-				case STATS_CHARGED:
-					if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refKernelWakelocks != null) )
-					{
-						strRef = m_myRefSinceCharged.m_refKernelWakelocks.toString();
-						strRefDescr = m_myRefSinceCharged.whoAmI();
-					}
-					break;
-				case STATS_SCREEN_OFF:
-					if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refKernelWakelocks != null) )
-					{
-						strRef = m_myRefSinceScreenOff.m_refKernelWakelocks.toString();
-						strRefDescr = m_myRefSinceScreenOff.whoAmI();
-					}
-					break;
-				case STATS_BOOT:
-					if ( (m_myRefSinceBoot != null) && (m_myRefSinceBoot.m_refKernelWakelocks != null) )
-					{
-						strRef = m_myRefSinceBoot.m_refKernelWakelocks.toString();
-						strRefDescr = m_myRefSinceBoot.whoAmI();
-					}
-					break;
+				strRefDescr = myReference.whoAmI();
+				if (myReference.m_refKernelWakelocks != null)
+				{
+					strRef = myReference.m_refKernelWakelocks.toString();
+				}
+				else
+				{
+					strRef = "Alarms is null";
+				}
 
-				case STATS_CUSTOM:
-					if ( (m_myRefs != null) && (m_myRefs.m_refKernelWakelocks != null))
-					{
-						strRef = m_myRefs.m_refKernelWakelocks.toString();
-						strRefDescr = m_myRefs.whoAmI();
-					}
-					break;
-				case BatteryStatsTypes.STATS_CURRENT:
-					strRef = "no reference to substract";
-					break;
-				default:
-					Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
-					break;
 			}
-			
-			Log.d(TAG, "Processing native kernel wakelocks  since " + statTypeToLabel(iStatType));
+			else
+			{
+				strRefDescr = "Reference is null";
+			}
+			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
+	
 			Log.d(TAG, "Substracting " + strCurrent);
-			Log.d(TAG," from " +  strRef);
-		}		
+			Log.d(TAG, "from " + strRef);
+		}
+		
 		for (int i = 0; i < myKernelWakelocks.size(); i++)
 		{
 			NativeKernelWakelock wl = myKernelWakelocks.get(i);
 			if ( (!bFilter) || ((wl.getDuration()) > 0) )
 			{	
-				// native kernel wakelocks are parsed from /proc/wakelocks
-				// and do not know any references "since charged" and "since unplugged"
-				// those are implemented using special references
-				
-				switch (iStatType)
+				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
 				{
-					case STATS_CUSTOM:					
-						// case a)
-						// we need t return a delta containing
-						//   if a process is in the new list but not in the custom ref
-						//	   the full time is returned
-						//   if a process is in the reference return the delta
-						//	 a process can not have disapeared in btwn so we don't need
-						//	 to test the reverse case
-						if ( (m_myRefs != null) && (m_myRefs.m_refKernelWakelocks != null) )
-						{
-							wl.substractFromRef(m_myRefs.m_refKernelWakelocks);
-		
-		
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((wl.getDuration()) > 0) )
-							{
-								myRetKernelWakelocks.add( wl);
-							}
-						}
-						else
-						{
-							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock(NO_CUST_REF, "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
-						}
-						break;
-					case STATS_UNPLUGGED:
-						if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refKernelWakelocks != null) )
-						{
-							wl.substractFromRef(m_myRefSinceUnplugged.m_refKernelWakelocks);
-							
-							
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((wl.getDuration()) > 0) )
-							{
-								myRetKernelWakelocks.add( wl);
-							}
-						}
-						else
-						{
-							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock(NO_SINCE_CHARGED_REF, "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
-
-						}
-						break;
-
-					case STATS_CHARGED:
-						if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refKernelWakelocks != null) )
-						{
-							wl.substractFromRef(m_myRefSinceCharged.m_refKernelWakelocks);
-													
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((wl.getDuration()) > 0) )
-							{
-								myRetKernelWakelocks.add( wl);
-							}
-						}
-						else
-						{
-							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock(NO_SINCE_CHARGED_REF, "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
-						}
-						break;
-					case STATS_SCREEN_OFF:
-						if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refKernelWakelocks != null))
-						{
-							wl.substractFromRef(m_myRefSinceScreenOff.m_refKernelWakelocks);
-													
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((wl.getDuration()) > 0) )
-							{
-								myRetKernelWakelocks.add( wl);
-							}
-						}
-						else
-						{
-							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock(NO_SCREEN_OFF_REF, "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
-						}
-						break;
-					case STATS_BOOT:
-						if ( (m_myRefSinceBoot != null) && (m_myRefSinceBoot.m_refKernelWakelocks != null))
-						{
-							wl.substractFromRef(m_myRefSinceBoot.m_refKernelWakelocks);
-													
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((wl.getDuration()) > 0) )
-							{
-								myRetKernelWakelocks.add( wl);
-							}
-						}
-						else
-						{
-							myRetKernelWakelocks.clear();
-							myRetKernelWakelocks.add(new NativeKernelWakelock(NO_BOOT_REF, "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
-						}
-						break;
-
-					case BatteryStatsTypes.STATS_CURRENT:
-						// we must recheck if the delta process is still above threshold
-						myRetKernelWakelocks.add( wl);
-						break;
-						
+					myRetKernelWakelocks.add( wl);
 				}
-
+				else
+				{		
+					if ( (myReference != null) && (myReference.m_refKernelWakelocks != null) )
+					{
+						wl.substractFromRef(myReference.m_refKernelWakelocks);
+	
+	
+						// we must recheck if the delta process is still above threshold
+						if ( (!bFilter) || ((wl.getDuration()) > 0) )
+						{
+							myRetKernelWakelocks.add( wl);
+						}
+					}
+					else
+					{
+						myRetKernelWakelocks.clear();
+						myRetKernelWakelocks.add(new NativeKernelWakelock(myReference.getMissingRefError(), "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+					}
+			}
 			}
 		}
 
@@ -963,178 +652,64 @@ public class StatsProvider
 		String strRef 		= "";
 		String strRefDescr 	= "";
 
+		References myReference = getReference(iStatType);
+		
 		if (LogSettings.DEBUG)
 		{
-			strCurrent = myNetworkStats.toString();
-
-			switch (iStatType)
+			if (myReference != null)
 			{
-				case STATS_UNPLUGGED:									
-					if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refNetworkStats != null) )
-					{
-						strRef = m_myRefSinceUnplugged.m_refNetworkStats.toString();
-						strRefDescr = m_myRefSinceUnplugged.whoAmI();
-					}
-					break;
-				case STATS_CHARGED:
-					if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refNetworkStats != null) )
-					{
-						strRef = m_myRefSinceCharged.m_refNetworkStats.toString();
-						strRefDescr = m_myRefSinceCharged.whoAmI();
-					}
-					break;
-				case STATS_SCREEN_OFF:
-					if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refNetworkStats != null) )
-					{
-						strRef = m_myRefSinceScreenOff.m_refNetworkStats.toString();
-						strRefDescr = m_myRefSinceScreenOff.whoAmI();
-					}
-					break;
-				case STATS_CUSTOM:
-					if ( (m_myRefs != null) && (m_myRefs.m_refNetworkStats != null))
-					{
-						strRef = m_myRefs.m_refNetworkStats.toString();
-						strRefDescr = m_myRefs.whoAmI();
-					}
-					break;
-				case STATS_BOOT:
-					if ( (m_myRefSinceBoot != null) && (m_myRefSinceBoot.m_refNetworkStats != null))
-					{
-						strRef = m_myRefSinceBoot.m_refNetworkStats.toString();
-						strRefDescr = m_myRefSinceBoot.whoAmI();
-					}
-					break;
-	
-				case BatteryStatsTypes.STATS_CURRENT:
-					strRef = "no reference to substract";
-					break;
-				default:
-					Log.e(TAG, "Unknown StatType " + iStatType + ". No reference found");
-					break;
+				strRefDescr = myReference.whoAmI();
+				if (myReference.m_refNetworkStats != null)
+				{
+					strRef = myReference.m_refNetworkStats.toString();
+				}
+				else
+				{
+					strRef = "Alarms is null";
+				}
+
 			}
-			
-			Log.d(TAG, "Processing network stats  since " + statTypeToLabel(iStatType));
+			else
+			{
+				strRefDescr = "Reference is null";
+			}
+			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
+	
 			Log.d(TAG, "Substracting " + strCurrent);
-			Log.d(TAG, " from " + strRef);
+			Log.d(TAG, "from " + strRef);
 		}
 		
 		for (int i = 0; i < myNetworkStats.size(); i++)
 		{
 			NetworkUsage netStat = myNetworkStats.get(i);
 			if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
-			{	
-				// network stats are parsed from /proc/net
-				// and do not know any references "since charged" and "since unplugged"
-				// those are implemented using special references
-				
-				switch (iStatType)
+			{
+				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
 				{
-					case STATS_CUSTOM:					
-						// case a)
-						// we need t return a delta containing
-						//   if a process is in the new list but not in the custom ref
-						//	   the full time is returned
-						//   if a process is in the reference return the delta
-						//	 a process can not have disapeared in btwn so we don't need
-						//	 to test the reverse case
-						if ( (m_myRefs != null) && (m_myRefs.m_refNetworkStats != null) )
-						{
-							netStat.substractFromRef(m_myRefs.m_refNetworkStats);
-		
-		
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
-							{
-								myRetNetworkStats.add( netStat);
-							}
-						}
-						else
-						{
-							myRetNetworkStats.clear();
-							myRetNetworkStats.add(new NetworkUsage(NO_CUST_REF, -1, 1, 0));
-						}
-						break;
-					case STATS_UNPLUGGED:
-						if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refNetworkStats != null) )
-						{
-							netStat.substractFromRef(m_myRefSinceUnplugged.m_refNetworkStats);
-							
-							
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
-							{
-								myRetNetworkStats.add( netStat);
-							}
-						}
-						else
-						{
-							myRetNetworkStats.clear();
-							myRetNetworkStats.add(new NetworkUsage(NO_SINCE_UNPLUGGED_REF, -1, 1, 0));
-
-						}
-						break;
-
-					case STATS_CHARGED:
-						if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refNetworkStats != null) )
-						{
-							netStat.substractFromRef(m_myRefSinceCharged.m_refNetworkStats);
-													
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
-							{
-								myRetNetworkStats.add( netStat);
-							}
-						}
-						else
-						{
-							myRetNetworkStats.clear();
-							myRetNetworkStats.add(new NetworkUsage(NO_SINCE_CHARGED_REF, -1, 1, 0));
-						}
-						break;
-					case STATS_SCREEN_OFF:
-						if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refNetworkStats != null) )
-						{
-							netStat.substractFromRef(m_myRefSinceScreenOff.m_refNetworkStats);
-													
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
-							{
-								myRetNetworkStats.add( netStat);
-							}
-						}
-						else
-						{
-							myRetNetworkStats.clear();
-							myRetNetworkStats.add(new NetworkUsage(NO_SCREEN_OFF_REF, -1, 1, 0));
-						}
-						break;
-					case STATS_BOOT:
-						if ( (m_myRefSinceBoot != null) && (m_myRefSinceBoot.m_refNetworkStats != null) )
-						{
-							netStat.substractFromRef(m_myRefSinceBoot.m_refNetworkStats);
-													
-							// we must recheck if the delta process is still above threshold
-							if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
-							{
-								myRetNetworkStats.add( netStat);
-							}
-						}
-						else
-						{
-							myRetNetworkStats.clear();
-							myRetNetworkStats.add(new NetworkUsage(NO_BOOT_REF, -1, 1, 0));
-						}
-						break;
-
-					case BatteryStatsTypes.STATS_CURRENT:
-						// we must recheck if the delta process is still above threshold
-						myRetNetworkStats.add( netStat);
-						break;
-						
+					myRetNetworkStats.add( netStat);
 				}
-
+				else
+				{
+					if ( (myReference != null) && (myReference.m_refNetworkStats != null) )
+					{
+						netStat.substractFromRef(myReference.m_refNetworkStats);
+	
+	
+						// we must recheck if the delta process is still above threshold
+						if ( (!bFilter) || ((netStat.getTotalBytes()) > 0) )
+						{
+							myRetNetworkStats.add( netStat);
+						}
+					}
+					else
+					{
+						myRetNetworkStats.clear();
+						myRetNetworkStats.add(new NetworkUsage(myReference.getMissingRefError(), -1, 1, 0));
+					}
+			}
 			}
 		}
 
@@ -1176,14 +751,54 @@ public class StatsProvider
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement> ();
 		
+		String strCurrent = myStates.toString();
+		String strRef = "";
+		String strRefDescr = "";
+
+		References myReference = getReference(iStatType);
+		
+		if (LogSettings.DEBUG)
+		{
+			if (myReference != null)
+			{
+				strRefDescr = myReference.whoAmI();
+				if (myReference.m_refCpuStates != null)
+				{
+					strRef = myReference.m_refCpuStates.toString();
+				}
+				else
+				{
+					strRef = "CPU States is null";
+				}
+
+			}
+			else
+			{
+				strRefDescr = "Reference is null";
+			}
+			Log.d(TAG, "Processing CPU States since " + statTypeToLabel(iStatType));
+	
+			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "It is now " + DateUtils.now());
+	
+			Log.d(TAG, "Substracting " + strCurrent);
+			Log.d(TAG, "from " + strRef);
+		}
+
 		for (int i = 0; i < myStates.size(); i++)
 		{
-			State state = myStates.get(i); 
-			if (iStatType == STATS_CUSTOM)
+			State state = myStates.get(i);
+			
+			if (iStatType == BatteryStatsTypes.STATS_CURRENT)
 			{
-				if ( (m_myRefs != null) && (m_myRefs.m_refCpuStates != null) )
+				myStats.add(state);
+			}
+			else
+			{
+ 
+				if ( (myReference != null) && (myReference.m_refCpuStates != null) )
 				{
-					state.substractFromRef(m_myRefs.m_refCpuStates);
+					state.substractFromRef(myReference.m_refCpuStates);
 					myStats.add(state);
 				}	
 				else
@@ -1191,67 +806,7 @@ public class StatsProvider
 					myStats.clear();
 					myStats.add(new State(1, 1)); 
 				}
-	        }
-	        else if (iStatType == STATS_CHARGED)
-	        {
-				if ( (m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refCpuStates != null) )
-				{
-					state.substractFromRef(m_myRefSinceCharged.m_refCpuStates);
-					myStats.add(state);
-				}	
-				else
-				{
-					myStats.clear();
-					myStats.add(new State(1, 1)); 
-				}
-	        }
-	        else if (iStatType == STATS_SCREEN_OFF)
-	        {
-				if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refCpuStates != null) )
-				{
-					state.substractFromRef(m_myRefSinceScreenOff.m_refCpuStates);
-					myStats.add(state);
-				}
-				else
-				{
-					myStats.clear();
-					myStats.add(new State(1, 1)); 
-				}
-	
-	        }
-	        else if (iStatType == STATS_UNPLUGGED)
-	        {
-				if ( (m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refCpuStates != null) )
-				{
-					state.substractFromRef(m_myRefSinceUnplugged.m_refCpuStates);
-					myStats.add(state);
-				}
-				else
-				{
-					myStats.clear();
-					myStats.add(new State(1, 1)); 
-				}
-	
-	        }
-	        else if (iStatType == STATS_BOOT)
-	        {
-				if ( (m_myRefSinceBoot != null) && (m_myRefSinceBoot.m_refCpuStates != null) )
-				{
-					state.substractFromRef(m_myRefSinceBoot.m_refCpuStates);
-					myStats.add(state);
-				}
-				else
-				{
-					myStats.clear();
-					myStats.add(new State(1, 1)); 
-				}
-	
-	        }
-
-	        else
-	        {
-	        	myStats.add(state);
-	        }
+			}
 		}
     	return myStats;
 
@@ -1277,129 +832,50 @@ public class StatsProvider
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
         long batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
 
-        long whichRealtime 			= 0;
-        long timeBatteryUp 			= 0;
-        long timeScreenOn			= 0;
-        long timePhoneOn			= 0;
-        long timeWifiOn				= 0;
-        long timeWifiRunning		= 0;
-        long timeWifiMulticast		= 0;
-        long timeWifiLocked			= 0;
-        long timeWifiScan			= 0;
-        long timeAudioOn			= 0;
-        long timeVideoOn			= 0;
-        long timeBluetoothOn		= 0;
-        long timeDeepSleep			= 0;
-        long timeNoDataConnection	= 0;
-        long timeSignalNone			= 0;
-        long timeSignalPoor			= 0;
-        long timeSignalModerate		= 0;
-        long timeSignalGood			= 0;
-        long timeSignalGreat		= 0;
-        
 		// if we are using custom ref. always retrieve "stats current"
-		if ( (iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF) || (iStatType == STATS_BOOT)) 
-		{
-	        whichRealtime 		= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
-	        timeBatteryUp 		= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeScreenOn 		= mStats.getScreenOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timePhoneOn 		= mStats.getPhoneOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeWifiOn 			= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeWifiRunning		= mStats.getGlobalWifiRunningTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeWifiMulticast	= mStats.getWifiMulticastTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeWifiLocked		= mStats.getFullWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeWifiScan		= mStats.getScanWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeBluetoothOn 	= mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeNoDataConnection= mStats.getPhoneDataConnectionTime(BatteryStatsTypes.DATA_CONNECTION_NONE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeSignalNone		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeSignalPoor		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_POOR, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeSignalModerate	= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeSignalGood		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GOOD, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        timeSignalGreat		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GREAT, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;	        	        
-		}
-		else
-		{
-	        whichRealtime 		= mStats.computeBatteryRealtime(rawRealtime, iStatType)  / 1000;      
-	        timeBatteryUp 		= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, iStatType) / 1000;		
-	        timeScreenOn 		= mStats.getScreenOnTime(batteryRealtime, iStatType) / 1000;
-	        timePhoneOn 		= mStats.getPhoneOnTime(batteryRealtime, iStatType) / 1000;
-	        timeWifiOn 			= mStats.getWifiOnTime(batteryRealtime, iStatType) / 1000;
-	        timeWifiRunning 	= mStats.getGlobalWifiRunningTime(batteryRealtime, iStatType) / 1000;
-	        timeWifiMulticast	= mStats.getWifiMulticastTime(m_context, batteryRealtime, iStatType) / 1000;
-	        timeWifiLocked		= mStats.getFullWifiLockTime(m_context, batteryRealtime, iStatType) / 1000;
-	        timeWifiScan		= mStats.getScanWifiLockTime(m_context, batteryRealtime, iStatType) / 1000;
-	        timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, iStatType) / 1000;
-	        timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, iStatType) / 1000;
-	        timeBluetoothOn 	= mStats.getBluetoothOnTime(batteryRealtime, iStatType) / 1000;
-	        timeNoDataConnection= mStats.getPhoneDataConnectionTime(BatteryStatsTypes.DATA_CONNECTION_NONE, batteryRealtime, iStatType) / 1000;
-	        timeSignalNone		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN, batteryRealtime, iStatType) / 1000;
-	        timeSignalPoor		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_POOR, batteryRealtime, iStatType) / 1000;
-	        timeSignalModerate	= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE, batteryRealtime, iStatType) / 1000;
-	        timeSignalGood		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GOOD, batteryRealtime, iStatType) / 1000;
-	        timeSignalGreat		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GREAT, batteryRealtime, iStatType) / 1000;	        
-		}
+//		if ( (iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF) || (iStatType == STATS_BOOT)) 
+//		{
+	        long whichRealtime 			= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
+	        long timeBatteryUp 			= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeScreenOn 			= mStats.getScreenOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timePhoneOn 			= mStats.getPhoneOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeWifiOn				= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeWifiRunning		= mStats.getGlobalWifiRunningTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeWifiMulticast		= mStats.getWifiMulticastTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeWifiLocked			= mStats.getFullWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeWifiScan			= mStats.getScanWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeBluetoothOn 		= mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeNoDataConnection	= mStats.getPhoneDataConnectionTime(BatteryStatsTypes.DATA_CONNECTION_NONE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeSignalNone			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeSignalPoor			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_POOR, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeSignalModerate		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeSignalGood			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GOOD, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        long timeSignalGreat		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GREAT, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;	        	        
 		
 		// deep sleep times are independent of stat type
-        timeDeepSleep		= (SystemClock.elapsedRealtime() - SystemClock.uptimeMillis());
+        long timeDeepSleep	= (SystemClock.elapsedRealtime() - SystemClock.uptimeMillis());
         long timeElapsed    = mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
         // SystemClock.elapsedRealtime();
         
         Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, timeElapsed);
         Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
 
-        // special processing for deep sleep: we must calculate times for stat types != CUSTOM
-        if (iStatType == STATS_CHARGED)
-        {
-			if (m_myRefSinceCharged != null)
+		References myReference = getReference(iStatType);
+        
+		if (myReference != null)
+		{
+			if (myReference.m_refOther != null)
 			{
-				deepSleepUsage.substractFromRef(m_myRefSinceCharged.m_refOther);
-				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
-				{
-					myUsages.add(deepSleepUsage);
-				}
-			}	
-        }
-//        if (iStatType == STATS_SCREEN_OFF)
-//        {
-//			if (m_myRefSinceScreenOff != null)
-//			{
-//				deepSleepUsage.substractFromRef(m_myRefSinceScreenOff.m_refOther);
-//				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
-//				{
-//					myUsages.add(deepSleepUsage);
-//				}
-//			}	
-//        }
-        else if (iStatType == STATS_UNPLUGGED)
-        {
-			if (m_myRefSinceUnplugged != null)
-			{
-				deepSleepUsage.substractFromRef(m_myRefSinceUnplugged.m_refOther);
-				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
-				{
-					myUsages.add(deepSleepUsage);
-				}
+				deepSleepUsage.substractFromRef(myReference.m_refOther);
 			}
-        }
-        else if (iStatType == STATS_BOOT)
-        {
-			if (m_myRefSinceBoot != null)
-			{
-				deepSleepUsage.substractFromRef(m_myRefSinceBoot.m_refOther);
-				if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
-				{
-					myUsages.add(deepSleepUsage);
-				}
-			}
-        }
-        else
-        {
-        	myUsages.add(deepSleepUsage);
-        }
-                	
-		
+		}
+
+		if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
+		{
+			myUsages.add(deepSleepUsage);
+		}
 
 		if (timeBatteryUp > 0)
 		{
@@ -1491,35 +967,58 @@ public class StatsProvider
 //        	myUsages.add(new Misc("Video On", timeVideoOn, whichRealtime)); 
 //        }
 
+        
         // sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		Collections.sort(myUsages);
-		if (iStatType == STATS_SCREEN_OFF)
+		
+		String strCurrent = myUsages.toString();
+		String strRef = "";
+		String strRefDescr = "";
+
+		if (LogSettings.DEBUG)
 		{
-			Log.d(TAG, "Processing other stats  since " + statTypeToLabel(iStatType));
-			String strRefDescr = m_myRefSinceScreenOff.whoAmI();
+			if (myReference != null)
+			{
+				strRefDescr = myReference.whoAmI();
+				if (myReference.m_refOther != null)
+				{
+					strRef = myReference.m_refOther.toString();
+				}
+				else
+				{
+					strRef = "Other is null";
+				}
+
+			}
+			else
+			{
+				strRefDescr = "Reference is null";
+			}
+			Log.d(TAG, "Processing Other since " + statTypeToLabel(iStatType));
+	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
+	
+			Log.d(TAG, "Substracting " + strCurrent);
+			Log.d(TAG, "from " + strRef);
 		}
 
-		Log.d(TAG, "Processing " + myUsages.size() + " elements");
 		for (int i = 0; i < myUsages.size(); i++)
 		{
 			Misc usage = myUsages.get(i); 
 			Log.d(TAG, "Current value: " + usage.getName() + " " + usage.getData());
 			if ( (!bFilter) || (usage.getTimeOn() > 0) )
 			{
-				if (iStatType == STATS_CUSTOM)
+				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
 				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					if ( (m_myRefs != null) && (m_myRefs.m_refOther != null) )
+					myStats.add((StatElement) usage);
+				}
+				else
+				{
+
+					if ( (myReference != null) && (myReference.m_refOther != null) )
 					{
-						usage.substractFromRef(m_myRefs.m_refOther);
+						usage.substractFromRef(myReference.m_refOther);
 						if ( (!bFilter) || (usage.getTimeOn() > 0) )
 						{
 							Log.d(TAG, "Result value: " + usage.getName() + " " + usage.getData());
@@ -1529,65 +1028,9 @@ public class StatsProvider
 					else
 					{
 						myStats.clear();
-						myStats.add(new Misc(NO_CUST_REF, 1, 1)); 
+						myStats.add(new Misc(myReference.getMissingRefError(), 1, 1)); 
 					}
 				}
-				else if (iStatType == STATS_SCREEN_OFF)
-				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					if ( (m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refOther != null) )
-					{
-						usage.substractFromRef(m_myRefSinceScreenOff.m_refOther);
-						if ( (!bFilter) || (usage.getTimeOn() > 0) )
-						{
-							Log.d(TAG, "Result value: " + usage.getName() + " " +usage.getData());
-							myStats.add((StatElement) usage);
-						}
-					}
-					else
-					{
-						myStats.clear();
-						myStats.add(new Misc(NO_SCREEN_OFF_REF, 1, 1)); 
-					}
-				}
-				else if (iStatType == STATS_BOOT)
-				{
-					// case a)
-					// we need t return a delta containing
-					//   if a process is in the new list but not in the custom ref
-					//	   the full time is returned
-					//   if a process is in the reference return the delta
-					//	 a process can not have disapeared in btwn so we don't need
-					//	 to test the reverse case
-					if ( (m_myRefSinceBoot != null) && (m_myRefSinceBoot.m_refOther != null) )
-					{
-						usage.substractFromRef(m_myRefSinceBoot.m_refOther);
-						if ( (!bFilter) || (usage.getTimeOn() > 0) )
-						{
-							Log.d(TAG, "Result value: " + usage.getName() + " " +usage.getData());
-							myStats.add((StatElement) usage);
-						}
-					}
-					else
-					{
-						myStats.clear();
-						myStats.add(new Misc(NO_BOOT_REF, 1, 1)); 
-					}
-				}
-
-				else
-				{
-					// case b)
-					// nothing special
-					myStats.add((StatElement) usage);
-				}
-				
 			}
 		}
 		return myStats;
@@ -1604,42 +1047,11 @@ public class StatsProvider
         int level		= getBatteryLevel();
         
         Log.d(TAG, "Current Battery Level:" + level);
-
-        if (iStatType == STATS_CHARGED)
-        {
-			if (m_myRefSinceCharged != null)
-			{
-				level = m_myRefSinceCharged.m_refBatteryLevel - level;
-			}	
-        }
-        else if (iStatType == STATS_UNPLUGGED)
-        {
-			if (m_myRefSinceUnplugged != null)
-			{
-				level = m_myRefSinceUnplugged.m_refBatteryLevel - level;
-			}
-        }
-        else if (iStatType == STATS_SCREEN_OFF)
-        {
-			if (m_myRefSinceScreenOff != null)
-			{
-				level = m_myRefSinceScreenOff.m_refBatteryLevel - level;
-			}
-        }
-        else if (iStatType == STATS_CUSTOM)
+		References myReference = getReference(iStatType);
+		if (myReference != null)
 		{
-			if (m_myRefs != null)
-			{
-				level = m_myRefs.m_refBatteryLevel - level;
-			}
-		}
-        else if (iStatType == STATS_BOOT)
-		{
-			if (m_myRefSinceBoot != null)
-			{
-				level = m_myRefSinceBoot.m_refBatteryLevel - level;
-			}
-		}
+			level = myReference.m_refBatteryLevel - level;
+		}	
 
         Log.d(TAG, "Battery Level since " + iStatType + ":" + level);
 
@@ -1657,42 +1069,11 @@ public class StatsProvider
         int voltage		= getBatteryVoltage();
         
         Log.d(TAG, "Current Battery Voltage:" + voltage);
-
-        if (iStatType == STATS_CHARGED)
-        {
-			if (m_myRefSinceCharged != null)
-			{
-				voltage = m_myRefSinceCharged.m_refBatteryVoltage - voltage;
-			}	
-        }
-        else if (iStatType == STATS_UNPLUGGED)
-        {
-			if (m_myRefSinceUnplugged != null)
-			{
-				voltage = m_myRefSinceUnplugged.m_refBatteryVoltage - voltage;
-			}
-        }
-        else if (iStatType == STATS_SCREEN_OFF)
-        {
-			if (m_myRefSinceScreenOff != null)
-			{
-				voltage = m_myRefSinceScreenOff.m_refBatteryVoltage - voltage;
-			}
-        }
-        else if (iStatType == STATS_CUSTOM)
+		References myReference = getReference(iStatType);
+		if (myReference != null)
 		{
-			if (m_myRefs != null)
-			{
-				voltage = m_myRefs.m_refBatteryVoltage - voltage;
-			}
-		}
-        else if (iStatType == STATS_BOOT)
-		{
-			if (m_myRefSinceBoot != null)
-			{
-				voltage = m_myRefSinceBoot.m_refBatteryVoltage - voltage;
-			}
-		}
+			voltage = myReference.m_refBatteryVoltage - voltage;
+		}	
 
         Log.d(TAG, "Battery Voltage since " + iStatType + ":" + voltage);
 
@@ -1905,7 +1286,7 @@ public class StatsProvider
     	}
     	catch (Exception e)
     	{
-    		Log.e(TAG, "Exception: " + e.getMessage());
+    		Log.e(TAG, "Exception: " + e.getMessage(), e.fillInStackTrace());
     		refs.m_refOther 			= null;
     		refs.m_refWakelocks 		= null;
     		refs.m_refKernelWakelocks 	= null;
