@@ -1,71 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/preferences"
-          android:title="Preferences" />
-    <item android:id="@+id/refresh"    
-          android:title="Refresh"
-          showAsAction="ifRoom"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    
-<!--     <item android:id="@+id/test"     -->
-<!--           android:title="Test" /> -->
-     
-    <!-- Sorting group -->
-    <item android:id="@+id/sorting_group"
-          android:title="Order by...">            
-	    <menu>
-	    	<item android:id="@+id/by_time_desc"
-	        	android:title="By time (DESC)" />
-	        <item android:id="@+id/by_count_desc"
-	        	android:title="By count (DESC)" />	
-	    </menu>
-	</item>    
-    <!-- Actions group -->
-    <item android:id="@+id/more_group"
-          android:title="More">            
-	    <menu>
- 	        
-<!-- 	    	<item android:id="@+id/test" -->
-<!-- 	        	android:title="Test" /> -->
-	        
-	    	<item android:id="@+id/dump"
-	        	android:title="Dump to File" />
-	        <item android:id="@+id/custom_ref"
-	        	android:title="Set Custom Ref." />
-<!-- 	        <item android:id="@+id/history"
-	        	android:title="Battery History" />
- 	        	
-	        <item android:id="@+id/zoomscroll"
-	        	android:title="Zoom and scroll" />
--->	        	
-	        <item android:id="@+id/graph"
-	        	android:title="History" />
-	        
-	       	<item android:id="@+id/rawalarms"
-	        	android:title="Raw alarms" />
+    <item
+        android:id="@+id/preferences"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_menu_settings"
+        android:title="Settings"/>
+    <item
+        android:id="@+id/refresh"
+        android:icon="@drawable/ic_menu_refresh"
+        android:title="Refresh"
+        android:showAsAction="always"/>
 
-	       	<item android:id="@+id/rawkwl"
-	        	android:title="Raw kernel wakelocks" />
+    <item android:id="@+id/test"
+    	android:title="Test" />
 
-	       	<item android:id="@+id/rawnetwork"
-	        	android:title="Raw network stats" />
-	       		       		        
-	    </menu>
-	</item>
-    <item android:id="@+id/help_group"
-          android:title="Help">
-    	<menu>
-    		<item android:id="@+id/about"
-	        	android:title="About" />
-	        <item android:id="@+id/getting_started"
-	        	android:title="Getting started" />
-	        <item android:id="@+id/howto"
-	        	android:title="How to..." />
-	        <item android:id="@+id/releasenotes"
-	        	android:title="Release Notes" />	
-	        	
-	        	
-	        
-    	</menu>
-    </item>      
+     <item
+         android:id="@+id/dump"
+         showAsAction="ifRoom"
+         android:title="Dump to File"/>
+     <item
+         android:id="@+id/custom_ref"
+         android:title="Set Custom Ref."/>
+
+    <item
+        android:id="@+id/more_group"
+        android:title="More">
+        <menu>
+            <item
+                android:id="@+id/graph"
+                android:title="Graphs"/>
+		    <item
+		        android:id="@+id/raw_group"
+		        android:title="Raw Stats">
+		        <menu>
+            
+		            <item
+		                android:id="@+id/rawalarms"
+		                android:title="Raw alarms"/>
+		            <item
+		                android:id="@+id/rawkwl"
+		                android:title="Raw kernel wakelocks"/>
+		            <item
+		                android:id="@+id/rawnetwork"
+		                android:title="Raw network stats"/>
+		        </menu>
+		        </item>
+		    <item
+		        android:id="@+id/sorting_group"
+		        android:title="Order by...">
+		        <menu>
+		            <item
+		                android:id="@+id/by_time_desc"
+		                android:title="By time (DESC)"/>
+		            <item
+		                android:id="@+id/by_count_desc"
+		                android:title="By count (DESC)"/>
+		        </menu>
+		    </item>
+		            
+        </menu>
+    </item>
+    <item
+        android:id="@+id/help_group"
+        android:title="Help">
+        <menu>
+            <item
+                android:id="@+id/about"
+                android:title="About"/>
+            <item
+                android:id="@+id/getting_started"
+                android:title="Getting started"/>
+            <item
+                android:id="@+id/howto"
+                android:title="How to..."/>
+            <item
+                android:id="@+id/releasenotes"
+                android:title="Release Notes"/>
+        </menu>
+    </item>
+
 </menu>
