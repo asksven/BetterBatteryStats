@@ -611,37 +611,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				return;
 			}
-	
-			// warn the user if custom ref was chosen without having selected a ref first
-			if ( (m_iStatType == StatsProvider.STATS_CUSTOM) && (!StatsProvider.getInstance(this).hasCustomRef()))
-			{
-				Toast.makeText(this, "Warning: there is no custom reference set.", Toast.LENGTH_SHORT).show();
-			}
-			
-			// warn the user if screen off ref was chosen and that ref does not exist
-			if ( (m_iStatType == StatsProvider.STATS_SCREEN_OFF) && (!StatsProvider.getInstance(this).hasScreenOffRef()))
-			{
-				Toast.makeText(this, "Warning: there is no reference since screen off.", Toast.LENGTH_SHORT).show();
-			}
-
-			// warn the user if custom ref was chosen without a ref being present yet
-			if ( (m_iStat == 3)
-					&& (m_iStatType == StatsProvider.STATS_CHARGED) 
-					&& (!StatsProvider.getInstance(this).hasSinceChargedRef()))
-			{
-				Toast.makeText(this, "Warning: there is no reference for kernel wakelocks since charged yet.", Toast.LENGTH_SHORT).show();
-			}
-
-			if ( (m_iStat == 3)
-					&& (m_iStatType == StatsProvider.STATS_UNPLUGGED) 
-					&& (!StatsProvider.getInstance(this).hasSinceUnpluggedRef()))
-			{
-				Toast.makeText(this, "Warning: there is no reference for kernel wakelocks since unplugged yet.", Toast.LENGTH_SHORT).show();
-			}
-
 		}
 		else if (parent == (Spinner) findViewById(R.id.spinnerStat))
 		{
+			// inform the user when he tries to use functions requiring root and he doesn't have root enabled
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+			
+			if (!rootEnabled)
+			{
+				if ((m_iStat == 3) || (m_iStat == 4)) 
+				{
+					Toast.makeText(this,
+							"This function requires root access. Check \"Advanced\" preferences",
+							Toast.LENGTH_LONG).show();
+				}
+			}
+
 			int iNewStat = position;
 			if ( m_iStat != iNewStat )
 			{

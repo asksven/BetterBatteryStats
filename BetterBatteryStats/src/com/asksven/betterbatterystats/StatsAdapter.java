@@ -73,14 +73,16 @@ public class StatsAdapter extends BaseAdapter
         	new ReadKb().execute("");
         }
         
-        for (int i = 0; i < m_listData.size(); i++)
+        if (m_listData != null)
         {
-        	StatElement g = m_listData.get(i);
-        	double[] values = g.getValues();
-        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
-            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
+	        for (int i = 0; i < m_listData.size(); i++)
+	        {
+	        	StatElement g = m_listData.get(i);
+	        	double[] values = g.getValues();
+	        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
+	            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
+	        }
         }
-        
     }
 
     public int getCount()

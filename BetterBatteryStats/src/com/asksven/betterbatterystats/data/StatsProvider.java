@@ -62,6 +62,7 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.StatsActivity;
 
 /**
  * Singleton provider for all the statistics
@@ -215,12 +216,20 @@ public class StatsProvider
 	public ArrayList<StatElement> getAlarmsStatList(boolean bFilter, int iStatType) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		// stop straight away of root features are disabled
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
+		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+		if (!rootEnabled)
+		{
+			return myStats;
+		}
+
 		ArrayList<Alarm> myAlarms = AlarmsDumpsys.getAlarms();
 		Collections.sort(myAlarms);
 		
 		ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
 		// if we are using custom ref. always retrieve "stats current"
-
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		String strCurrent = myAlarms.toString();
@@ -656,11 +665,19 @@ public class StatsProvider
 	public ArrayList<StatElement> getNativeNetworkUsageStatList(boolean bFilter, int iStatType) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		
+		// stop straight away of root features are disabled
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
+		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+		if (!rootEnabled)
+		{
+			return myStats;
+		}
+
 		ArrayList<NetworkUsage> myNetworkStats = Netstats.parseNetstats();
 
 		ArrayList<NetworkUsage> myRetNetworkStats = new ArrayList<NetworkUsage>();
 		// if we are using custom ref. always retrieve "stats current"
-
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		Collections.sort(myNetworkStats);
