@@ -246,21 +246,25 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	
     	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
 		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "3"));
+
+		if (!StatsProvider.getInstance(this).hasReference(m_iStatType))
+		{
+			if (sharedPrefs.getBoolean("fallback_to_since_boot", false))
+			{
+				m_iStatType = StatsProvider.STATS_BOOT;
+	    		Toast.makeText(this, "Fallback to 'Since Boot'", Toast.LENGTH_SHORT).show();
+			}
+		}
 		
 		try
 		{
 			// recover any saved state
 			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
 			{
-//				StatsProvider.getInstance(this).restoreFromBundle(savedInstanceState);
-				
 				m_iStat 				= (Integer) savedInstanceState.getSerializable("stat");
 				m_iStatType 			= (Integer) savedInstanceState.getSerializable("stattype");
 	 			
-			}
-			
-			// restore any available custom reference
-//			StatsProvider.getInstance(this).deserializeFromFile();
+			}			
 		}
 		catch (Exception e)
 		{
@@ -539,10 +543,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	doRefresh();
             	break;	
 
-//            case R.id.test:
-//    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
-//    			this.startService(serviceIntent);
-//    			break;	
+            case R.id.test:
+    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
+    			this.startService(serviceIntent);
+    			break;	
 
             case R.id.about:
             	// About
