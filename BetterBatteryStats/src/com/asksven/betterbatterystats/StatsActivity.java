@@ -321,17 +321,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		Spinner spinnerStatType = (Spinner) findViewById(R.id.spinnerStatType);
 		
 		ArrayAdapter spinnerAdapter = null;
-		if (AndroidVersion.isFroyo())
-		{
-			spinnerAdapter = ArrayAdapter.createFromResource(
-	            this, R.array.stat_types_froyo, android.R.layout.simple_spinner_item);
-		}
-		else
-		{
-			spinnerAdapter = ArrayAdapter.createFromResource(
-		            this, R.array.stat_types, android.R.layout.simple_spinner_item);
+		spinnerAdapter = ArrayAdapter.createFromResource(
+	            this, R.array.stat_types, android.R.layout.simple_spinner_item);
 			
-		}
 		
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    
