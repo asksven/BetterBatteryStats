@@ -20,9 +20,6 @@ package com.asksven.betterbatterystats;
  * @author sven
  */
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -34,11 +31,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import com.asksven.android.common.kernelutils.Alarm;
-import com.asksven.android.common.kernelutils.AlarmsDumpsys;
-import com.asksven.android.common.kernelutils.RootDetection;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.betterbatterystats.R;
