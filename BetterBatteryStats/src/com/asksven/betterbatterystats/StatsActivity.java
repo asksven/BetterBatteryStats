@@ -614,20 +614,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		else if (parent == (Spinner) findViewById(R.id.spinnerStat))
 		{
-			// inform the user when he tries to use functions requiring root and he doesn't have root enabled
-			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-			
-			if (!rootEnabled)
-			{
-				if ((m_iStat == 3) || (m_iStat == 4)) 
-				{
-					Toast.makeText(this,
-							"This function requires root access. Check \"Advanced\" preferences",
-							Toast.LENGTH_LONG).show();
-				}
-			}
-
 			int iNewStat = position;
 			if ( m_iStat != iNewStat )
 			{
@@ -638,6 +624,21 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				return;
 			}
+
+			// inform the user when he tries to use functions requiring root and he doesn't have root enabled
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+			
+			if (!rootEnabled)
+			{
+				if ((m_iStat == 4) || (m_iStat == 3)) 
+				{
+					Toast.makeText(this,
+							"This function requires root access. Check \"Advanced\" preferences",
+							Toast.LENGTH_LONG).show();
+				}
+			}
+
 		}
 		else
 		{
