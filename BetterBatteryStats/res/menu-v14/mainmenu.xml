@@ -22,19 +22,7 @@
      <item
          android:id="@+id/custom_ref"
          android:title="Set Custom Ref."/>
-		    <item
-		        android:id="@+id/sorting_group"
-		        android:title="Order by...">
-		        <menu>
-		            <item
-		                android:id="@+id/by_time_desc"
-		                android:title="By time (DESC)"/>
-		            <item
-		                android:id="@+id/by_count_desc"
-		                android:title="By count (DESC)"/>
-		        </menu>
-		    </item>
-     
+
     <item
         android:id="@+id/more_group"
         android:title="More">
@@ -58,6 +46,18 @@
 		                android:title="Raw network stats"/>
 		        </menu>
 		        </item>
+		    <item
+		        android:id="@+id/sorting_group"
+		        android:title="Order by...">
+		        <menu>
+		            <item
+		                android:id="@+id/by_time_desc"
+		                android:title="By time (DESC)"/>
+		            <item
+		                android:id="@+id/by_count_desc"
+		                android:title="By count (DESC)"/>
+		        </menu>
+		    </item>
 		            
         </menu>
     </item>
