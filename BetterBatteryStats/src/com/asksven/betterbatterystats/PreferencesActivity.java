@@ -16,12 +16,15 @@
 
 package com.asksven.betterbatterystats;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
@@ -29,6 +32,7 @@ import android.preference.PreferenceManager;
 
 import com.asksven.andoid.common.CommonLogSettings;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.data.StatsProvider;
 
 /**
  * Activity for managing preferences using Android's preferences framework
@@ -125,6 +129,41 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     		{
     			LogSettings.DEBUG=true;
     			CommonLogSettings.DEBUG=true;
+    		}
+        }
+
+        if (key.equals("root_features"))
+        {
+    		boolean enabled = sharedPreferences.getBoolean(key, false);
+    		if (enabled)
+    		{
+		        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		        builder.setMessage("Enabling root features assumes that your phone is rooted.\n"
+		        		+ "Please make sure to grant su rights to Alarms and Network stats.\n"
+		        		+ "if those rights do not stick blame the su app, not BBS.\n"
+		        		+ "Continue?")
+		               .setCancelable(false)
+		               .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		               {
+		                   public void onClick(DialogInterface dialog, int id)
+		                   {		                        
+		                   }
+		               })
+		               .setNegativeButton("No", new DialogInterface.OnClickListener()
+		               {
+		                   public void onClick(DialogInterface dialog, int id)
+		                   {
+		                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity.this);
+			           	        SharedPreferences.Editor editor = sharedPrefs.edit();	        
+			        	        editor.putBoolean("root_features", false);
+			        			editor.commit();
+				    	        CheckBoxPreference checkboxPref = (CheckBoxPreference) getPreferenceManager().findPreference("root_features");
+				    	        checkboxPref.setChecked(false);
+
+		                        dialog.cancel();
+		                   }
+		               });
+		        builder.create().show();
     		}
         }
 	}
