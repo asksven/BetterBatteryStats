@@ -24,16 +24,21 @@
 	
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content">
-<h2>v1.9.2.1 2012-08-04</h2>
+<h2>v1.10.0.0b1 2012-08-17</h2>
 <p>
 <ul>
-	<li>Fixed concurrency problem leading to since unplugged reference to disapear</li>
-	<li>Added more logging</li>
-	<li>Fixed various error condition from Google Play logs</li>
-	<li>More compact CPU state view</li>
-	<li>Fixed creation of dumpfiles and custom refs from tasker</li>
-	<li>Added reference info to dumpfile</li>
+	<li>Stats requiring root (alarms/network) are <b>disabled</b> by default</li>
+	<li>Added "since boot" reference</li>
+	<li>If default stat type has no reference fall back to 'since boot' (is prefs are set that way)</li> 
+	<li>Make sure references are always written (even if su rights are not granted yet)</li>
+	<li>Simplified Preferences</li>
+	<li>Added proper handling of "deleted: " kernel wakelocks</li>
+	<li>Added a wakelock for write operations (dumpfile, references) to make sure those are never interrupted</li>
+	<li>Reorganized menu</li>
+	
+</ul>
 </p>
+
 
 </div> 
 

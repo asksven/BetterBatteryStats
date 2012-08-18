@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="22" android:versionName="1.9.2.1"
+<manifest android:versionCode="23" android:versionName="1.10.0.0b1"
     package="com.asksven.betterbatterystats"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto">
@@ -25,7 +25,7 @@
 	<!-- tentative to fix bug #173 -->
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<!-- need to hold wakelocks for writing operations  -->
-<!-- 	<uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission> -->
+ 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	
 
     <supports-screens android:anyDensity="true"
@@ -151,6 +151,7 @@
         <service android:name="com.asksven.betterbatterystats.WriteCustomReferenceService"/>
         <service android:name="com.asksven.betterbatterystats.WriteDumpfileService"/>
         <service android:name="com.asksven.betterbatterystats.WriteScreenOffReferenceService"/>
+        <service android:name="com.asksven.betterbatterystats.WriteBootReferenceService"/>
         <service android:name="com.asksven.betterbatterystats.WatchdogProcessingService"/>
         
     </application>
