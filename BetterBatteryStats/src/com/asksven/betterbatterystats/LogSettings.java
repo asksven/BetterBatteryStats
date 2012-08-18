@@ -15,6 +15,8 @@
  */
 package com.asksven.betterbatterystats;
 
+import com.asksven.betterbatterystats.R;
+
 /**
  * @author sven
  *
