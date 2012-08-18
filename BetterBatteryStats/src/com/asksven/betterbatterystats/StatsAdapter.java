@@ -22,6 +22,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -39,7 +40,11 @@ import com.asksven.android.common.kernelutils.Alarm;
 import com.asksven.android.common.kernelutils.Alarm.AlarmItem;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
+import com.asksven.android.common.privateapiproxies.KernelWakelock;
+import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
 import com.asksven.betterbatterystats.data.KbReader;
@@ -49,7 +54,7 @@ import com.asksven.betterbatterystats.R;
 
 public class StatsAdapter extends BaseAdapter
 {
-    private Context context;
+    private Context m_context;
 
     private List<StatElement> m_listData;
     private static final String TAG = "StatsAdapter";
@@ -61,10 +66,10 @@ public class StatsAdapter extends BaseAdapter
 
     public StatsAdapter(Context context, List<StatElement> listData)
     {
-        this.context = context;
+        this.m_context = context;
         this.m_listData = listData;
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.context);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
         boolean bKbEnabled = sharedPrefs.getBoolean("enable_kb", true);
         
         if (bKbEnabled)
@@ -105,7 +110,7 @@ public class StatsAdapter extends BaseAdapter
     	StatElement entry = m_listData.get(position);
         if (convertView == null)
         {
-            LayoutInflater inflater = (LayoutInflater) context
+            LayoutInflater inflater = (LayoutInflater) m_context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.stat_row, null);
         }
@@ -115,10 +120,10 @@ public class StatsAdapter extends BaseAdapter
        	KbEntry kbentry = null;
         if (m_kb != null)
         {
-        	 kbentry = m_kb.findByStatElement(entry.getName(), entry.getFqn(context));
+        	 kbentry = m_kb.findByStatElement(entry.getName(), entry.getFqn(m_context));
         }
         
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.context);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
         boolean bShowKb = sharedPrefs.getBoolean("enable_kb", true);
         ImageView iconKb = (ImageView) convertView.findViewById(R.id.imageKB);
         if ( (bShowKb) && (kbentry != null))
@@ -130,7 +135,7 @@ public class StatsAdapter extends BaseAdapter
         	iconKb.setVisibility(View.INVISIBLE);
         }
         TextView tvFqn = (TextView) convertView.findViewById(R.id.TextViewFqn);
-        tvFqn.setText(entry.getFqn(context));
+        tvFqn.setText(entry.getFqn(m_context));
 
         TextView tvData = (TextView) convertView.findViewById(R.id.TextViewData);
         tvData.setText(entry.getData());
@@ -139,6 +144,9 @@ public class StatsAdapter extends BaseAdapter
         LinearLayout myFqnLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutFqn);
 		
         GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
+        
+        ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
+        
         if (sharedPrefs.getBoolean("hide_bars", false))
         {
         	myLayout.setVisibility(View.GONE);
@@ -191,6 +199,18 @@ public class StatsAdapter extends BaseAdapter
         	myFqnLayout.setVisibility(View.VISIBLE);
         }
         
+        if ((entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc) || (entry instanceof NetworkUsage))
+        {
+
+        	iconView.setVisibility(View.GONE);
+
+        }
+        else
+        {
+        	iconView.setVisibility(View.VISIBLE); 
+        	iconView.setImageDrawable(entry.getIcon(m_context));
+        }
+        
         // add on click listener for the list entry if details are availble
         if ( (entry instanceof Alarm) || (entry instanceof NativeKernelWakelock) )
         {
@@ -222,10 +242,10 @@ public class StatsAdapter extends BaseAdapter
         	{
         		return;
         	}
-        	KbEntry kbentry = m_kb.findByStatElement(entry.getName(), entry.getFqn(StatsAdapter.this.context));
+        	KbEntry kbentry = m_kb.findByStatElement(entry.getName(), entry.getFqn(StatsAdapter.this.m_context));
   	      	if (kbentry != null)
   	      	{
-	  	      	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsAdapter.this.context);
+	  	      	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsAdapter.this.m_context);
 	  	      	
 	  	      	String url = kbentry.getUrl();
 	  	      	
@@ -234,14 +254,14 @@ public class StatsAdapter extends BaseAdapter
 					
 					Intent intent = new Intent("android.intent.action.VIEW",
 							Uri.parse(url)); 
-					StatsAdapter.this.context.startActivity(intent);
+					StatsAdapter.this.m_context.startActivity(intent);
 	  	        }
 	  	        else
 	  	        {
-		  	      	Intent intentKB = new Intent(StatsAdapter.this.context,
+		  	      	Intent intentKB = new Intent(StatsAdapter.this.m_context,
 		  	      			HelpActivity.class);
 		  	      	intentKB.putExtra("url", url);
-		  	        StatsAdapter.this.context.startActivity(intentKB);
+		  	        StatsAdapter.this.m_context.startActivity(intentKB);
 	  	        }           
   	      	}
         }
@@ -269,7 +289,7 @@ public class StatsAdapter extends BaseAdapter
         	{
 	        	Alarm alarmEntry = (Alarm) getItem(m_iPosition);
 	            
-	        	Dialog dialog = new Dialog(context);
+	        	Dialog dialog = new Dialog(m_context);
 	
 	        	dialog.setContentView(R.layout.alarms_dialog);
 	        	dialog.setTitle("Details");
@@ -299,7 +319,7 @@ public class StatsAdapter extends BaseAdapter
         	{
         		NativeKernelWakelock kernelWakelockEntry = (NativeKernelWakelock) getItem(m_iPosition);
                 
-            	Dialog dialog = new Dialog(context);
+            	Dialog dialog = new Dialog(m_context);
 
             	dialog.setContentView(R.layout.alarms_dialog);
             	dialog.setTitle("Details");
@@ -331,7 +351,7 @@ public class StatsAdapter extends BaseAdapter
 	    protected Object doInBackground(Object... params)
 	    {
 			// retrieve KB
-			StatsAdapter.this.m_kb = KbReader.read(StatsAdapter.this.context);
+			StatsAdapter.this.m_kb = KbReader.read(StatsAdapter.this.m_context);
 
 	    	return true;
 	    }
