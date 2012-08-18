@@ -543,10 +543,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	doRefresh();
             	break;	
 
-            case R.id.test:
-    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
-    			this.startService(serviceIntent);
-    			break;	
+//            case R.id.test:
+//    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
+//    			this.startService(serviceIntent);
+//    			break;	
 
             case R.id.about:
             	// About

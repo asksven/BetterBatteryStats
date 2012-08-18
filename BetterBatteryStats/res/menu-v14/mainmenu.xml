@@ -12,9 +12,10 @@
         android:title="Refresh"
         android:showAsAction="always"/>
 
+    <!-- 
     <item android:id="@+id/test"
     	android:title="Test" />
-
+ 	-->
      <item
          android:id="@+id/dump"
          showAsAction="ifRoom"
