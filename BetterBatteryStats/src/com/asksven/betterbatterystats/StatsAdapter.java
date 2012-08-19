@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2011-2012 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.provider.Settings;
 
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
@@ -166,16 +168,7 @@ public class StatsAdapter extends BaseAdapter
 
    			buttonBar.setMinimumHeight(iHeight);
    			buttonBar.setName(entry.getName());
-        	buttonBar.setValues(entry.getValues(), m_maxValue);
-        	
-//        	Log.d(TAG, ">> Bar for " + entry.getName());
-//        	double[] vals = entry.getValues();
-//        	for (int i=0; i < vals.length; i++)
-//        	{
-//        		Log.d(TAG, ">> " + i + "th value: " + vals[i]);
-//        	}
-//        	Log.d(TAG, ">> max: " + m_maxValue);
-        	
+        	buttonBar.setValues(entry.getValues(), m_maxValue);        	
         }
         
         // add on click listener for the icon only if KB is enabled
@@ -204,6 +197,9 @@ public class StatsAdapter extends BaseAdapter
         {
         	iconView.setVisibility(View.VISIBLE); 
         	iconView.setImageDrawable(entry.getIcon(m_context));
+	        // set a click listener for the list
+	        iconView.setOnClickListener(new OnPackageClickListener(position));
+
         }
         
         // add on click listener for the list entry if details are availble
@@ -259,6 +255,37 @@ public class StatsAdapter extends BaseAdapter
 		  	        StatsAdapter.this.m_context.startActivity(intentKB);
 	  	        }           
   	      	}
+        }
+    }
+
+    /**
+     * Handler for on click of the KB icon
+     * @author sven
+     *
+     */
+    private class OnPackageClickListener implements OnClickListener
+    {           
+        private int m_iPosition;
+        OnPackageClickListener(int position)
+        {
+                m_iPosition = position;
+        }
+        
+        @Override
+        public void onClick(View arg0)
+        {
+        	StatElement entry = (StatElement) getItem(m_iPosition);
+        	
+        	Context ctx = arg0.getContext();
+        	if (entry.getIcon(ctx) == null)
+        	{
+        		return;
+        	}
+        	
+//        	ctx.startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS));
+        	String packageName = entry.getPackageName();
+        	showInstalledAppDetails(ctx, packageName);
+        	
         }
     }
     
@@ -358,5 +385,34 @@ public class StatsAdapter extends BaseAdapter
 	        // update hourglass
 	    }
 	 }
+    
+    private static final String SCHEME = "package";
+    private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
+    private static final String APP_PKG_NAME_22 = "pkg";
+    private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
+    private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
+
+    public static void showInstalledAppDetails(Context context, String packageName)
+    {
+        Intent intent = new Intent();
+        final int apiLevel = Build.VERSION.SDK_INT;
+        if (apiLevel >= 9)
+        {
+        	// above 2.3
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts(SCHEME, packageName, null);
+            intent.setData(uri);
+        }
+        else
+        {
+        	// below 2.3
+            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22 : APP_PKG_NAME_21);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setClassName(APP_DETAILS_PACKAGE_NAME,
+                    APP_DETAILS_CLASS_NAME);
+            intent.putExtra(appPkgName, packageName);
+        }
+        context.startActivity(intent);
+    }
 }
 
