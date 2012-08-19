@@ -187,7 +187,8 @@ public class StatsAdapter extends BaseAdapter
         	myFqnLayout.setVisibility(View.VISIBLE);
         }
         
-        if ((entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc) || (entry instanceof NetworkUsage))
+        // show / hide package icons
+        if ((entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc))
         {
 
         	iconView.setVisibility(View.GONE);
