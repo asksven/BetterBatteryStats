@@ -44,6 +44,13 @@ public class GraphableBars extends ImageView
         sPaint[1].setColor(0xFFFF6060);
     }
     
+    static Paint sBackground = new Paint();
+    static
+    {
+        sBackground.setStyle(Paint.Style.FILL);
+        sBackground.setColor(0x778B7B8B);
+    }
+    
     double[] mValues;
     String m_name;
     
@@ -84,6 +91,10 @@ public class GraphableBars extends ImageView
 
         
         int startx = xmin;
+        
+        // draw bg
+        canvas.drawRect(getPaddingLeft(), 0, xmax, getHeight(), sBackground);
+        
         for (int i = 0; i < mValues.length; i++)
         {
             int endx = xmin + (int) (mValues[i] * (xmax - xmin));
