@@ -43,6 +43,7 @@ class References implements Serializable
 	protected static final String SINCE_SCREEN_OFF_REF_FILENAME	= "since_screen_off";
 	protected static final String SINCE_BOOT_REF_FILENAME			= "since_boot";
 
+	protected static final String NO_STATS_WHEN_CHARGING		= "Device is plugged in: no stats";
 	protected static final String GENERIC_REF_ERR 			= "No reference set yet";
 	protected static final String CUSTOM_REF_ERR 				= "No custom reference set yet";
 	protected static final String SINCE_UNPLUGGED_REF_ERR 	= "No reference since unplugged set yet";

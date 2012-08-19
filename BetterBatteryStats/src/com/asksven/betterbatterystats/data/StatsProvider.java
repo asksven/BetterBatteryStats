@@ -55,6 +55,7 @@ import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
+import com.asksven.android.common.utils.ChargerUtil;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
@@ -134,6 +135,12 @@ public class StatsProvider
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
 		
+		if (ChargerUtil.isConnected(m_context))
+		{
+			ArrayList<StatElement> myRet = new ArrayList<StatElement>();
+			myRet.add(new Misc(References.NO_STATS_WHEN_CHARGING, 0, 0));
+			return myRet;
+		}
 		try
     	{			
 			// constants are related to arrays.xml string-array name="stats"
