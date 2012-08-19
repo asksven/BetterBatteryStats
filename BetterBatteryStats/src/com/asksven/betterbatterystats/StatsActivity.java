@@ -328,7 +328,17 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    
 		spinnerStatType.setAdapter(spinnerAdapter);
-		this.setListViewAdapter();
+		try
+		{
+			this.setListViewAdapter();
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+			Toast.makeText(this,
+					"An unhandeled error occured. Please check your logcat",
+					Toast.LENGTH_LONG).show();
+		}
 		// setSelection MUST be called after setAdapter
 		spinnerStatType.setSelection(StatsProvider.getInstance(this).positionFromStatType(m_iStatType));
 		spinnerStatType.setOnItemSelectedListener(this);
@@ -410,7 +420,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 * (should be the case but notifyDataSetChanged doesn't work so
 	 * we recreate and set a new one)
 	 */
-	private void setListViewAdapter()
+	private void setListViewAdapter() throws Exception
 	{
 		// make sure we only instanciate when the reference does not exist
 		if (m_listViewAdapter == null)
@@ -708,9 +718,22 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    protected StatsAdapter doInBackground(Context... params)
 	    {
 			//super.doInBackground(params);
-			m_listViewAdapter = new StatsAdapter(
-					StatsActivity.this,
-					StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_iStatType, m_iSorting));
+			m_listViewAdapter = null;
+			try
+			{
+				m_listViewAdapter = new StatsAdapter(
+						StatsActivity.this,
+						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_iStatType, m_iSorting));
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+				Toast.makeText(params[0],
+						"An unhandeled error occured. Please check your logcat",
+						Toast.LENGTH_LONG).show();
+
+			}
+
 	    	//StatsActivity.this.setListAdapter(m_listViewAdapter);
 	        // getStatList();
 	        return m_listViewAdapter;

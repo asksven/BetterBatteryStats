@@ -128,7 +128,7 @@ public class StatsProvider
 	 * Get the Stat to be displayed
 	 * @return a List of StatElements sorted (descending)
 	 */
-	public ArrayList<StatElement> getStatList(int iStat, int iStatType, int iSort)
+	public ArrayList<StatElement> getStatList(int iStat, int iStatType, int iSort) throws Exception
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
@@ -160,6 +160,9 @@ public class StatsProvider
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
+    		Log.e(TAG, "Callstack: " + e.fillInStackTrace());
+    		throw new Exception();
+    		
     	}
 		
 		return new ArrayList<StatElement>();
@@ -289,7 +292,7 @@ public class StatsProvider
 					else
 					{
 						myRetAlarms.clear();
-						myRetAlarms.add(new Alarm(myReference.getMissingRefError()));
+						myRetAlarms.add(new Alarm(References.GENERIC_REF_ERR));							
 					}
 				}
 			}
@@ -388,7 +391,8 @@ public class StatsProvider
 					else
 					{
 						myRetProcesses.clear();
-						myRetProcesses.add(new Process(NO_CUST_REF, 1, 1, 1));
+						myRetProcesses.add(new Process(References.GENERIC_REF_ERR, 1, 1, 1));
+
 					}
 				}
 			}
@@ -451,20 +455,20 @@ public class StatsProvider
 			if (myReference != null)
 			{
 				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refAlarms != null)
+				if (myReference.m_refWakelocks != null)
 				{
-					strRef = myReference.m_refAlarms.toString();
+					strRef = myReference.m_refWakelocks.toString();
 				}
 				else
 				{
-					strRef = "Alarms is null";
+					strRef = "Wakelocks is null";
 				}
 			}
 			else
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Processing wakelocks since " + statTypeToLabel(iStatType));
 	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -504,7 +508,7 @@ public class StatsProvider
 					else
 					{
 						myRetWakelocks.clear();
-						myRetWakelocks.add(new Wakelock(1, myReference.getMissingRefError(), 1, 1, 1));
+						myRetWakelocks.add(new Wakelock(1, References.GENERIC_REF_ERR, 1, 1, 1));
 					}
 				}
 
@@ -617,7 +621,15 @@ public class StatsProvider
 					else
 					{
 						myRetKernelWakelocks.clear();
-						myRetKernelWakelocks.add(new NativeKernelWakelock(myReference.getMissingRefError(), "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+						if (myReference != null)
+						{
+							myRetKernelWakelocks.add(new NativeKernelWakelock(myReference.getMissingRefError(), "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+						}
+						else
+						{
+							myRetKernelWakelocks.add(new NativeKernelWakelock(References.GENERIC_REF_ERR, "", 1, 1, 1, 1, 1, 1, 1, 1, 1));
+								
+						}
 					}
 			}
 			}
@@ -740,7 +752,15 @@ public class StatsProvider
 					else
 					{
 						myRetNetworkStats.clear();
-						myRetNetworkStats.add(new NetworkUsage(myReference.getMissingRefError(), -1, 1, 0));
+						if (myReference != null)
+						{
+							myRetNetworkStats.add(new NetworkUsage(myReference.getMissingRefError(), -1, 1, 0));
+						}
+						else
+						{
+							myRetNetworkStats.add(new NetworkUsage(References.GENERIC_REF_ERR, -1, 1, 0));
+							
+						}
 					}
 			}
 			}
@@ -1061,7 +1081,14 @@ public class StatsProvider
 					else
 					{
 						myStats.clear();
-						myStats.add(new Misc(myReference.getMissingRefError(), 1, 1)); 
+						if (myReference != null)
+						{
+							myStats.add(new Misc(myReference.getMissingRefError(), 1, 1));
+						}
+						else
+						{
+							myStats.add(new Misc(References.GENERIC_REF_ERR, 1, 1));
+						}
 					}
 				}
 			}
@@ -1351,11 +1378,19 @@ public class StatsProvider
 		{
 			Log.i(TAG, "Retrieved ref " + m_myRefs.m_fileName + " created at " + m_myRefs.m_creationDate);
 		}
+		else
+		{
+			Log.i(TAG, "Reference " + References.CUSTOM_REF_FILENAME + " was not found");
+		}
 		
 		m_myRefSinceCharged = (References) DataStorage.fileToObject(m_context, References.SINCE_CHARGED_REF_FILENAME);
 		if (m_myRefSinceCharged != null)
 		{
 			Log.i(TAG, "Retrieved ref " + m_myRefSinceCharged.m_fileName + " created at " + m_myRefSinceCharged.m_creationDate);
+		}
+		else
+		{
+			Log.i(TAG, "Reference " + References.SINCE_CHARGED_REF_FILENAME + " was not found");
 		}
 		
 		m_myRefSinceScreenOff = (References) DataStorage.fileToObject(m_context, References.SINCE_SCREEN_OFF_REF_FILENAME);
@@ -1363,17 +1398,29 @@ public class StatsProvider
 		{
 			Log.i(TAG, "Retrieved ref " + m_myRefSinceScreenOff.m_fileName + " created at " + m_myRefSinceScreenOff.m_creationDate);
 		}
+		else
+		{
+			Log.i(TAG, "Reference " + References.SINCE_SCREEN_OFF_REF_FILENAME + " was not found");
+		}
 		
 		m_myRefSinceUnplugged = (References) DataStorage.fileToObject(m_context, References.SINCE_UNPLUGGED_REF_FILENAME);
 		if (m_myRefSinceUnplugged != null)
 		{
 			Log.i(TAG, "Retrieved ref " + m_myRefSinceUnplugged.m_fileName + " created at " + m_myRefSinceUnplugged.m_creationDate);
 		}
+		else
+		{
+			Log.i(TAG, "Reference " + References.SINCE_UNPLUGGED_REF_FILENAME + " was not found");
+		}
 		
 		m_myRefSinceBoot = (References) DataStorage.fileToObject(m_context, References.SINCE_BOOT_REF_FILENAME);
 		if (m_myRefSinceBoot != null)
 		{
 			Log.i(TAG, "Retrieved ref " + m_myRefSinceBoot.m_fileName + " created at " + m_myRefSinceBoot.m_creationDate);
+		}
+		else
+		{
+			Log.i(TAG, "Reference " + References.SINCE_BOOT_REF_FILENAME + " was not found");
 		}
 
 	}
