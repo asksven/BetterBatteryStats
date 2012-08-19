@@ -196,6 +196,8 @@ public class StatsProvider
 				return m_myRefSinceScreenOff;
 			case STATS_BOOT:
 				return m_myRefSinceBoot;
+			case BatteryStatsTypes.STATS_CURRENT:
+				return null;
 			default:
 				Log.e(TAG, "getReference was called with an unknown StatType " + iStatType + ". No reference found");
 				break;
