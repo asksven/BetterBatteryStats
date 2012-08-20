@@ -971,13 +971,13 @@ public class StatsProvider
 
 		References myReference = getReference(iStatType);
         
-		if (myReference != null)
-		{
-			if (myReference.m_refOther != null)
-			{
-				deepSleepUsage.substractFromRef(myReference.m_refOther);
-			}
-		}
+//		if (myReference != null)
+//		{
+//			if (myReference.m_refOther != null)
+//			{
+//				deepSleepUsage.substractFromRef(myReference.m_refOther);
+//			}
+//		}
 
 		if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
 		{
