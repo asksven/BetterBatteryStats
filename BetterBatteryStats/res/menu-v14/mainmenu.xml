@@ -45,6 +45,9 @@
 		            <item
 		                android:id="@+id/rawnetwork"
 		                android:title="Raw network stats"/>
+		            <item android:id="@+id/rawcpustates"
+	        			android:title="Raw CPU states" />
+		            
 		        </menu>
 		        </item>
 		    <item

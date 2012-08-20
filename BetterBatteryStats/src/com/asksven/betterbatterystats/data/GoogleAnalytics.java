@@ -37,6 +37,7 @@ public class GoogleAnalytics
 	public static final String ACTIVITY_ALARMS = "/AlarmsActivity";
 	public static final String ACTIVITY_KWL = "/RawKwlActivity";
 	public static final String ACTIVITY_NET = "/RawNetActivity";
+	public static final String ACTIVITY_CPU = "/RawCpuActivity";
 	public static final String ACTIVITY_BATTERY_GRAPH = "/BatteryGraphActivity";
 	public static final String ACTIVITY_BATTERY_GRAPH2 = "/BatteryGraph2Activity";
 	public static final String ACTIVITY_BATTERY_GRAPH_SERIES = "/BatteryGraphSeriesActivity";
@@ -75,6 +76,7 @@ public class GoogleAnalytics
 
 				// Start the tracker in manual dispatch mode...
 				m_tracker.startNewSession("TRACKING_CODE_HERE", 20, context);
+				
 				
 				// set custom vars
 				// Scopes are encoded to integers:  Visitor=1, Session=2, Page=3

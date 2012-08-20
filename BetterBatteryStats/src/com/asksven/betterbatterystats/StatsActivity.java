@@ -514,6 +514,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	            this.startActivity(intentNet);
 	        	break;	
 
+	        case R.id.rawcpustates:  
+	        	Intent intentCpu = new Intent(this, CpuStatesActivity.class);
+	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_CPU);
+	            this.startActivity(intentCpu);
+	        	break;	
+
 	        case R.id.refresh:
             	// Refresh
 	        	doRefresh();
