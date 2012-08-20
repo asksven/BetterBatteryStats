@@ -20,8 +20,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -173,6 +175,35 @@ public class StatsProvider
     	}
 		
 		return new ArrayList<StatElement>();
+	}
+
+	/**
+	 * Get the Stat to be displayed
+	 * @return a List of StatElements sorted (descending)
+	 */
+	public long getSince(int iStatType)
+	{
+		long ret = 0;
+		Date now = Calendar.getInstance().getTime();
+		
+		References myReference = getReference(iStatType);
+		
+		if (LogSettings.DEBUG)
+		{
+			if (myReference != null)
+			{
+				Log.d(TAG, "Reference create at: " + DateUtils.format(myReference.m_creationDate));
+				Log.d(TAG, "It is now " + DateUtils.now());
+				ret = now.getTime() - myReference.m_creationDate.getTime();
+				Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
+			}
+			else
+			{
+				ret = -1;
+			}
+		}
+		
+		return ret;
 	}
 
 	public boolean hasReference(int iStatType)
@@ -1530,7 +1561,7 @@ public class StatsProvider
 				out.write("BetterBatteryStats version: " + pinfo.versionName + "\n");
 				out.write("Creation Date: " + DateUtils.now() + "\n");
 				out.write("Statistic Type: (" + iStatType + ") " + statTypeToLabel(iStatType) + "\n");
-				out.write("Since " + DateUtils.formatDuration(getBatteryRealtime(iStatType)) + "\n");
+				out.write("Since " + DateUtils.formatDuration(getSince(iStatType)) + "\n");
 				out.write("VERSION.RELEASE: " + Build.VERSION.RELEASE+"\n");
 				out.write("BRAND: "+Build.BRAND+"\n");
 				out.write("DEVICE: "+Build.DEVICE+"\n");
