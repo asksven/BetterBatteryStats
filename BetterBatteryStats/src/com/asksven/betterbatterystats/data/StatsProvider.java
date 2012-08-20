@@ -1155,6 +1155,29 @@ public class StatsProvider
 
 		return level;
 	}
+
+	/**
+	 * Get the battery level lost since a given ref
+	 * @param iStatType the reference
+	 * @return the lost battery level
+	 */
+	public String getBatteryLevelFromTo(int iStatType)
+	{
+		// deep sleep times are independent of stat type
+        int levelTo		= getBatteryLevel();
+        int levelFrom 	= -1;
+        Log.d(TAG, "Current Battery Level:" + levelTo);
+		References myReference = getReference(iStatType);
+		if (myReference != null)
+		{
+			levelFrom = myReference.m_refBatteryLevel;
+		}	
+
+        Log.d(TAG, "Battery Level since " + iStatType + ":" + levelFrom);
+
+		return "(" + levelFrom + "-" + levelTo + ")";
+	}
+
 	
 	/**
 	 * Get the battery voltage lost since a given ref
@@ -1176,6 +1199,29 @@ public class StatsProvider
         Log.d(TAG, "Battery Voltage since " + iStatType + ":" + voltage);
 
 		return voltage;
+	}
+
+	/**
+	 * Get the battery voltage lost since a given ref
+	 * @param iStatType the reference
+	 * @return the lost battery level
+	 */
+	public String getBatteryVoltageFromTo(int iStatType)
+	{
+		// deep sleep times are independent of stat type
+        int voltageTo		= getBatteryVoltage();
+        int voltageFrom 	= -1;
+        
+        Log.d(TAG, "Current Battery Voltage:" + voltageTo);
+		References myReference = getReference(iStatType);
+		if (myReference != null)
+		{
+			voltageFrom = myReference.m_refBatteryVoltage;
+		}	
+
+        Log.d(TAG, "Battery Voltage since " + iStatType + ":" + voltageFrom);
+
+		return "(" + voltageFrom + "-" + voltageTo + ")";
 	}
 
 	public StatElement getElementByKey(ArrayList<StatElement> myList, String key)
@@ -1600,8 +1646,8 @@ public class StatsProvider
 				out.write("============\n");
 				out.write("Battery Info\n");
 				out.write("============\n");
-				out.write("Level lost [%]: " + getBatteryLevelStat(iStatType) + "\n");
-				out.write("Voltage lost [mV]: " + getBatteryVoltageStat(iStatType) + "\n");
+				out.write("Level lost [%]: " + getBatteryLevelStat(iStatType) + " " + getBatteryLevelFromTo(iStatType) + "\n");
+				out.write("Voltage lost [mV]: " + getBatteryVoltageStat(iStatType) + " " + getBatteryVoltageFromTo(iStatType) +"\n");
 				
 				
 				// write timing info
