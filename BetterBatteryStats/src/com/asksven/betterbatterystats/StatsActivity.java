@@ -56,6 +56,7 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Netstats;
+import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.system.AndroidVersion;
@@ -273,7 +274,20 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
         if (tvSince != null)
         {
-        	tvSince.setText("Since " + DateUtils.formatDuration(StatsProvider.getInstance(this).getSince(m_iStatType)));
+
+            long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType);
+            if (sinceMs != -1)
+            {
+    	        tvSince.setText("Since " + DateUtils.formatDuration(sinceMs));
+    	    	Log.i(TAG, "Since " + DateUtils.formatDuration(
+    	    			StatsProvider.getInstance(this).getSince(m_iStatType)));
+            }
+            else
+            {
+    	        tvSince.setText("Since: n/a ");
+    	    	Log.i(TAG, "Since: n/a ");
+            	
+            }
         }
         
 		// Spinner for selecting the stat
@@ -304,6 +318,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		try
 		{
 			this.setListViewAdapter();
+		}
+		catch (BatteryInfoUnavailableException e)
+		{
+			Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+			Toast.makeText(this,
+					"BatteryInfo Service could not be contacted.",
+					Toast.LENGTH_LONG).show();
+			
 		}
 		catch (Exception e)
 		{
@@ -623,12 +645,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-        tvSince.setText("Since " + DateUtils.formatDuration(StatsProvider.getInstance(this).getSince(m_iStatType)));
-//    	tvSince.setText("Since " + DateUtils.formatDuration(
-//    			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
-    	Log.i(TAG, "Since " + DateUtils.formatDuration(
-    			StatsProvider.getInstance(this).getSince(m_iStatType)));
-		
+        long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType);
+        if (sinceMs != -1)
+        {
+	        tvSince.setText("Since " + DateUtils.formatDuration(sinceMs));
+	    	Log.i(TAG, "Since " + DateUtils.formatDuration(
+	    			StatsProvider.getInstance(this).getSince(m_iStatType)));
+        }
+        else
+        {
+	        tvSince.setText("Since: n/a ");
+	    	Log.i(TAG, "Since: n/a ");
+        	
+        }
 		// @todo fix this: this method is called twice
 		//m_listViewAdapter.notifyDataSetChanged();
         if (bChanged)
@@ -660,8 +689,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		new LoadStatData().execute(this);
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-        tvSince.setText("Since " + DateUtils.formatDuration(
-        		StatsProvider.getInstance(this).getSince(m_iStatType)));
+        long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType);
+        if (sinceMs != -1)
+        {
+	        tvSince.setText("Since " + DateUtils.formatDuration(sinceMs));
+	    	Log.i(TAG, "Since " + DateUtils.formatDuration(
+	    			StatsProvider.getInstance(this).getSince(m_iStatType)));
+        }
+        else
+        {
+	        tvSince.setText("Since: n/a ");
+	    	Log.i(TAG, "Since: n/a ");
+        	
+        }
     			
 //    	this.setListViewAdapter();
 
@@ -687,6 +727,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	// for more details
 	private class LoadStatData extends AsyncTask<Context, Integer, StatsAdapter>
 	{
+		private Exception m_exception = null;
 		@Override
 	    protected StatsAdapter doInBackground(Context... params)
 	    {
@@ -698,12 +739,16 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 						StatsActivity.this,
 						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_iStatType, m_iSorting));
 			}
+			catch (BatteryInfoUnavailableException e)
+			{
+				Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+				m_exception = e;
+
+			}
 			catch (Exception e)
 			{
 				Log.e(TAG, e.getMessage(), e.fillInStackTrace());
-				Toast.makeText(params[0],
-						"An unhandeled error occured. Please check your logcat",
-						Toast.LENGTH_LONG).show();
+				m_exception = e;
 
 			}
 
@@ -721,6 +766,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    	{
 	    		m_progressDialog.hide();
 	    		m_progressDialog = null;
+	    	}
+	    	if (m_exception != null)
+	    	{
+	    		if (m_exception instanceof BatteryInfoUnavailableException)
+	    		{
+	    			Toast.makeText(StatsActivity.this,
+	    					"BatteryInfo Service could not be contacted.",
+	    					Toast.LENGTH_LONG).show();
+
+	    		}
+	    		else
+	    		{
+	    			Toast.makeText(StatsActivity.this,
+	    					"An unknown error occured while retrieving stats.",
+	    					Toast.LENGTH_LONG).show();
+	    			
+	    		}
 	    	}
 	    	StatsActivity.this.setListAdapter(o);
 	    }

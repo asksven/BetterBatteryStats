@@ -50,6 +50,7 @@ import com.asksven.android.common.kernelutils.RootDetection;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.privateapiproxies.Alarm;
+import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.Misc;
@@ -135,16 +136,18 @@ public class StatsProvider
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(m_context);
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+		boolean developerMode = sharedPrefs.getBoolean("developer", false);
+
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
 		
-		if (ChargerUtil.isConnected(m_context))
+		if ((!developerMode) && (ChargerUtil.isConnected(m_context)))
 		{
 			ArrayList<StatElement> myRet = new ArrayList<StatElement>();
 			myRet.add(new Misc(References.NO_STATS_WHEN_CHARGING, 0, 0));
 			return myRet;
 		}
-		try
-    	{			
+//		try
+//    	{			
 			// constants are related to arrays.xml string-array name="stats"
 			switch (iStat)
 			{
@@ -165,14 +168,18 @@ public class StatsProvider
 	
 			}
 			
-    	}
-    	catch (Exception e)
-    	{
-    		Log.e(TAG, "Exception: " + e.getMessage());
-    		Log.e(TAG, "Callstack: " + e.fillInStackTrace());
-    		throw new Exception();
-    		
-    	}
+//    	}
+//		catch (BatteryInfoUnavailableException e)
+//		{
+//			
+//		}
+//    	catch (Exception e)
+//    	{
+//    		Log.e(TAG, "Exception: " + e.getMessage());
+//    		Log.e(TAG, "Callstack: " + e.fillInStackTrace());
+//    		throw new Exception();
+//    		
+//    	}
 		
 		return new ArrayList<StatElement>();
 	}
@@ -194,8 +201,17 @@ public class StatsProvider
 			{
 				Log.d(TAG, "Reference create at: " + DateUtils.format(myReference.m_creationDate));
 				Log.d(TAG, "It is now " + DateUtils.now());
-				ret = now.getTime() - myReference.m_creationDate.getTime();
-				Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
+				if (myReference.m_creationDate.getTime() != 0)
+				{
+					ret = now.getTime() - myReference.m_creationDate.getTime();
+					Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
+				}
+				else
+				{
+					ret = -1;
+					Log.d(TAG, "Since: undefined, reference is empty");
+				}
+				
 			}
 			else
 			{
@@ -932,11 +948,11 @@ public class StatsProvider
 	        long timePhoneOn 			= mStats.getPhoneOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timeWifiOn				= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timeWifiRunning		= mStats.getGlobalWifiRunningTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeWifiMulticast		= mStats.getWifiMulticastTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeWifiLocked			= mStats.getFullWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeWifiScan			= mStats.getScanWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+//	        long timeWifiMulticast		= mStats.getWifiMulticastTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+//	        long timeWifiLocked			= mStats.getFullWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+//	        long timeWifiScan			= mStats.getScanWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+//	        long timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+//	        long timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timeBluetoothOn 		= mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timeNoDataConnection	= mStats.getPhoneDataConnectionTime(BatteryStatsTypes.DATA_CONNECTION_NONE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timeSignalNone			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
@@ -1512,18 +1528,23 @@ public class StatsProvider
 	public void deletedSerializedRefs()
 	{
 		References myEmptyRef = new References(References.CUSTOM_REF_FILENAME);
+		myEmptyRef.setEmpty();
 		DataStorage.objectToFile(m_context, References.CUSTOM_REF_FILENAME, myEmptyRef);
 		
 		myEmptyRef = new References(References.SINCE_CHARGED_REF_FILENAME);
+		myEmptyRef.setEmpty();
 		DataStorage.objectToFile(m_context, References.SINCE_CHARGED_REF_FILENAME, myEmptyRef);
 		
 		myEmptyRef = new References(References.SINCE_SCREEN_OFF_REF_FILENAME);
+		myEmptyRef.setEmpty();
 		DataStorage.objectToFile(m_context, References.SINCE_SCREEN_OFF_REF_FILENAME, myEmptyRef);
 		
 		myEmptyRef = new References(References.SINCE_UNPLUGGED_REF_FILENAME);
+		myEmptyRef.setEmpty();
 		DataStorage.objectToFile(m_context, References.SINCE_UNPLUGGED_REF_FILENAME, myEmptyRef);
 		
 		myEmptyRef = new References(References.SINCE_BOOT_REF_FILENAME);
+		myEmptyRef.setEmpty();
 		DataStorage.objectToFile(m_context, References.SINCE_BOOT_REF_FILENAME, myEmptyRef);
 
 	}
@@ -1533,7 +1554,7 @@ public class StatsProvider
 	 * @param iStatType the reference
 	 * @return the battery realtime
 	 */
-	public  long getBatteryRealtime(int iStatType)
+	public  long getBatteryRealtime(int iStatType) throws BatteryInfoUnavailableException
 	{
         BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
         

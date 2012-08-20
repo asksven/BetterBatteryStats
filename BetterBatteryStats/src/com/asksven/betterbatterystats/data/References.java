@@ -80,6 +80,11 @@ class References implements Serializable
     	Log.i(TAG, "Create ref " + m_fileName + " at " + DateUtils.format(m_creationDate));
     }
     
+    public void setEmpty()
+    {
+    	m_creationDate.setTime(0);
+    }
+    
     public String getMissingRefError()
     {
     	if (m_fileName.equals(CUSTOM_REF_FILENAME))
