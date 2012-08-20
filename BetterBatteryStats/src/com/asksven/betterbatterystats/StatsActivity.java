@@ -273,7 +273,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
         if (tvSince != null)
         {
-        	tvSince.setText("Since " + DateUtils.formatDuration(StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
+        	tvSince.setText("Since " + DateUtils.formatDuration(StatsProvider.getInstance(this).getSince(m_iStatType)));
         }
         
 		// Spinner for selecting the stat
@@ -623,11 +623,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-
-    	tvSince.setText("Since " + DateUtils.formatDuration(
-    			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
+        tvSince.setText("Since " + DateUtils.formatDuration(StatsProvider.getInstance(this).getSince(m_iStatType)));
+//    	tvSince.setText("Since " + DateUtils.formatDuration(
+//    			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
     	Log.i(TAG, "Since " + DateUtils.formatDuration(
-    			StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
+    			StatsProvider.getInstance(this).getSince(m_iStatType)));
 		
 		// @todo fix this: this method is called twice
 		//m_listViewAdapter.notifyDataSetChanged();
@@ -661,7 +661,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
         tvSince.setText("Since " + DateUtils.formatDuration(
-        		StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType)));
+        		StatsProvider.getInstance(this).getSince(m_iStatType)));
     			
 //    	this.setListViewAdapter();
 
