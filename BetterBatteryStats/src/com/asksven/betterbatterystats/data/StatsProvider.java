@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 asksven
+ * Copyright (C) 2011-2012<Re asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -332,7 +332,7 @@ public class StatsProvider
 				}
 				else
 				{		
-					if (myReference != null)
+					if ( (myReference != null) && (myReference.m_refAlarms != null) )
 					{
 						alarm.substractFromRef(myReference.m_refAlarms);
 	
@@ -346,7 +346,14 @@ public class StatsProvider
 					else
 					{
 						myRetAlarms.clear();
-						myRetAlarms.add(new Alarm(References.GENERIC_REF_ERR));							
+						if (myReference != null)
+						{
+							myRetAlarms.add(new Alarm(myReference.getMissingRefError()));
+						}
+						else
+						{
+							myRetAlarms.add(new Alarm(References.GENERIC_REF_ERR));		
+						}
 					}
 				}
 			}
@@ -432,7 +439,7 @@ public class StatsProvider
 				else
 				{		
 
-					if (myReference != null)
+					if ( (myReference != null) && (myReference.m_refProcesses != null) )
 					{
 						ps.substractFromRef(myReference.m_refProcesses);
 						
@@ -445,8 +452,14 @@ public class StatsProvider
 					else
 					{
 						myRetProcesses.clear();
-						myRetProcesses.add(new Process(References.GENERIC_REF_ERR, 1, 1, 1));
-
+						if (myReference != null)
+						{
+							myRetProcesses.add(new Process(myReference.getMissingRefError(), 1, 1, 1));
+						}
+						else
+						{
+							myRetProcesses.add(new Process(References.GENERIC_REF_ERR, 1, 1, 1));
+						}
 					}
 				}
 			}
@@ -549,7 +562,7 @@ public class StatsProvider
 				}
 				else
 				{
-					if (myReference != null)
+					if ( (myReference != null)  && (myReference.m_refWakelocks != null) ) 
 					{
 						wl.substractFromRef(myReference.m_refWakelocks);
 						
@@ -562,7 +575,14 @@ public class StatsProvider
 					else
 					{
 						myRetWakelocks.clear();
-						myRetWakelocks.add(new Wakelock(1, References.GENERIC_REF_ERR, 1, 1, 1));
+						if (myReference != null)
+						{
+							myRetWakelocks.add(new Wakelock(1, myReference.getMissingRefError(), 1, 1, 1));
+						}
+						else
+						{
+							myRetWakelocks.add(new Wakelock(1, References.GENERIC_REF_ERR, 1, 1, 1));
+						}
 					}
 				}
 
