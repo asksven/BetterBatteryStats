@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.asksven.android.common.privateapiproxies.StatElement;
@@ -52,8 +53,8 @@ class References implements Serializable
 	protected static final String SINCE_BOOT_REF_ERR			= "No since boot reference set yet";
 
 	/** storage of custom references */
-	protected String m_fileName								= "";
-	protected Date m_creationDate							= null;
+	protected String m_fileName							= "";
+	protected long m_creationTime							= 0;
     protected ArrayList<StatElement> m_refWakelocks 		= null;
     protected ArrayList<StatElement> m_refKernelWakelocks 	= null;
     protected ArrayList<StatElement> m_refNetworkStats	 	= null;
@@ -62,10 +63,10 @@ class References implements Serializable
     
     /** @todo unused, delete in 2.0 */
     protected ArrayList<StatElement> m_refNetwork	 		= null;
-    protected ArrayList<StatElement> m_refOther	 			= null;
-    protected ArrayList<StatElement> m_refCpuStates		 	= null;
+    protected ArrayList<StatElement> m_refOther	 		= null;
+    protected ArrayList<StatElement> m_refCpuStates		= null;
     protected long m_refBatteryRealtime 					= 0;  
-    protected int m_refBatteryLevel							= 0;
+    protected int m_refBatteryLevel						= 0;
     protected int m_refBatteryVoltage						= 0;
     
     private References()
@@ -76,14 +77,19 @@ class References implements Serializable
     public References(String fileName)
     {
     	m_fileName = fileName;
-    	m_creationDate = Calendar.getInstance().getTime();
-    	Log.i(TAG, "Create ref " + m_fileName + " at " + DateUtils.format(m_creationDate));
+    	m_creationTime = SystemClock.elapsedRealtime();
+    	Log.i(TAG, "Create ref " + m_fileName + " at " + DateUtils.formatDuration(m_creationTime));
     }
     
     public void setEmpty()
     {
-    	m_creationDate.setTime(0);
+    	m_creationTime = 0;
     }
+    public void setTimestamp()
+    {
+    	m_creationTime = SystemClock.elapsedRealtime();
+    }
+    
     
     public String getMissingRefError()
     {
@@ -104,7 +110,7 @@ class References implements Serializable
         	
     public String whoAmI()
     {
-    	return "Reference " + m_fileName + " created " + DateUtils.format(m_creationDate) + " " + elements();
+    	return "Reference " + m_fileName + " created " + DateUtils.formatDuration(m_creationTime) + " " + elements();
     }
     
     private String elements()

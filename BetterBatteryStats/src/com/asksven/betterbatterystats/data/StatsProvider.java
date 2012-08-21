@@ -191,7 +191,7 @@ public class StatsProvider
 	public long getSince(int iStatType)
 	{
 		long ret = 0;
-		Date now = Calendar.getInstance().getTime();
+		long now = SystemClock.elapsedRealtime();
 		
 		References myReference = getReference(iStatType);
 		
@@ -199,11 +199,11 @@ public class StatsProvider
 		{
 			if (myReference != null)
 			{
-				Log.d(TAG, "Reference create at: " + DateUtils.format(myReference.m_creationDate));
+				Log.d(TAG, "Reference create at: " + DateUtils.formatDuration(myReference.m_creationTime));
 				Log.d(TAG, "It is now " + DateUtils.now());
-				if (myReference.m_creationDate.getTime() != 0)
+				if (myReference.m_creationTime != 0)
 				{
-					ret = now.getTime() - myReference.m_creationDate.getTime();
+					ret = now - myReference.m_creationTime;
 					Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
 				}
 				else
@@ -942,8 +942,8 @@ public class StatsProvider
 		// if we are using custom ref. always retrieve "stats current"
 //		if ( (iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF) || (iStatType == STATS_BOOT)) 
 //		{
-	        long whichRealtime 			= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
-	        long timeBatteryUp 			= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, BatteryStatsTypes.STATS_CURRENT) / 1000;
+//	        long whichRealtime 			= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
+//	        long timeBatteryUp 			= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timeScreenOn 			= mStats.getScreenOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timePhoneOn 			= mStats.getPhoneOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timeWifiOn				= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
@@ -963,10 +963,11 @@ public class StatsProvider
 		
 		// deep sleep times are independent of stat type
         long timeDeepSleep	= (SystemClock.elapsedRealtime() - SystemClock.uptimeMillis());
-        long timeElapsed    = mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
+        long whichRealtime	= SystemClock.elapsedRealtime();
+        //long timeElapsed    = mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
         // SystemClock.elapsedRealtime();
         
-        Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, timeElapsed);
+        Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, whichRealtime);
         Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
 
 		References myReference = getReference(iStatType);
@@ -984,9 +985,9 @@ public class StatsProvider
 			myUsages.add(deepSleepUsage);
 		}
 
-		if (timeBatteryUp > 0)
+		if ((whichRealtime - timeDeepSleep) > 0)
 		{
-            myUsages.add(new Misc("Awake", timeBatteryUp, whichRealtime));
+            myUsages.add(new Misc("Awake", whichRealtime - timeDeepSleep, whichRealtime));
         }
         
         if (timeScreenOn > 0)
@@ -1432,8 +1433,10 @@ public class StatsProvider
 			refs.m_refBatteryLevel		= getBatteryLevel();
 			refs.m_refBatteryVoltage	= getBatteryVoltage();
 			
-			// we write the part that does not require root access first to make sure there is a reference written.
+			// update timestamp
+			refs.setTimestamp();
 			
+			// we write the part that does not require root access first to make sure there is a reference written.
 			serializeRefToFile(refs);
 
 			// After that we go on and try to write the rest. If this part fails at least there will be a partial ref saved
@@ -1441,6 +1444,9 @@ public class StatsProvider
 
 			refs.m_refAlarms = getAlarmsStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			
+			// update timestamp
+			refs.setTimestamp();
 			
 			serializeRefToFile(refs);
     	}
@@ -1476,7 +1482,7 @@ public class StatsProvider
 		m_myRefs = (References) DataStorage.fileToObject(m_context, References.CUSTOM_REF_FILENAME);
 		if (m_myRefs != null)
 		{
-			Log.i(TAG, "Retrieved ref " + m_myRefs.m_fileName + " created at " + m_myRefs.m_creationDate);
+			Log.i(TAG, "Retrieved ref: " + m_myRefs.whoAmI());
 		}
 		else
 		{
@@ -1486,7 +1492,7 @@ public class StatsProvider
 		m_myRefSinceCharged = (References) DataStorage.fileToObject(m_context, References.SINCE_CHARGED_REF_FILENAME);
 		if (m_myRefSinceCharged != null)
 		{
-			Log.i(TAG, "Retrieved ref " + m_myRefSinceCharged.m_fileName + " created at " + m_myRefSinceCharged.m_creationDate);
+			Log.i(TAG, "Retrieved ref: " + m_myRefSinceCharged.whoAmI());
 		}
 		else
 		{
@@ -1496,7 +1502,7 @@ public class StatsProvider
 		m_myRefSinceScreenOff = (References) DataStorage.fileToObject(m_context, References.SINCE_SCREEN_OFF_REF_FILENAME);
 		if (m_myRefSinceScreenOff != null)
 		{
-			Log.i(TAG, "Retrieved ref " + m_myRefSinceScreenOff.m_fileName + " created at " + m_myRefSinceScreenOff.m_creationDate);
+			Log.i(TAG, "Retrieved ref: " + m_myRefSinceScreenOff.whoAmI());
 		}
 		else
 		{
@@ -1506,7 +1512,7 @@ public class StatsProvider
 		m_myRefSinceUnplugged = (References) DataStorage.fileToObject(m_context, References.SINCE_UNPLUGGED_REF_FILENAME);
 		if (m_myRefSinceUnplugged != null)
 		{
-			Log.i(TAG, "Retrieved ref " + m_myRefSinceUnplugged.m_fileName + " created at " + m_myRefSinceUnplugged.m_creationDate);
+			Log.i(TAG, "Retrieved ref: " + m_myRefSinceUnplugged.whoAmI());
 		}
 		else
 		{
@@ -1516,7 +1522,7 @@ public class StatsProvider
 		m_myRefSinceBoot = (References) DataStorage.fileToObject(m_context, References.SINCE_BOOT_REF_FILENAME);
 		if (m_myRefSinceBoot != null)
 		{
-			Log.i(TAG, "Retrieved ref " + m_myRefSinceBoot.m_fileName + " created at " + m_myRefSinceBoot.m_creationDate);
+			Log.i(TAG, "Retrieved ref: " + m_myRefSinceBoot.whoAmI());
 		}
 		else
 		{
