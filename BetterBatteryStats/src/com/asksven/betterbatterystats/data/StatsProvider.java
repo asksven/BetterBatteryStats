@@ -1212,7 +1212,7 @@ public class StatsProvider
 
         Log.d(TAG, "Battery Level since " + iStatType + ":" + levelFrom);
 
-		return "(" + levelFrom + "-" + levelTo + ")";
+		return "Bat.:(" + levelFrom + "% to " + levelTo + "%)";
 	}
 
 	

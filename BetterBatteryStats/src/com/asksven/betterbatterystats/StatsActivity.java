@@ -278,7 +278,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType);
             if (sinceMs != -1)
             {
-    	        tvSince.setText("Since " + DateUtils.formatDuration(sinceMs));
+    	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
+    			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
+    	        if (bShowBatteryLevels)
+    	        {
+    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType);
+    	        }
+    	        tvSince.setText(sinceText);
     	    	Log.i(TAG, "Since " + DateUtils.formatDuration(
     	    			StatsProvider.getInstance(this).getSince(m_iStatType)));
             }
@@ -596,6 +602,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
 	{
 		// this method is fired even if nothing has changed so we nee to find that out
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
 		boolean bChanged = false;
 		
 		// id is in the order of the spinners, 0 is stat, 1 is stat_type
@@ -629,7 +637,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			}
 
 			// inform the user when he tries to use functions requiring root and he doesn't have root enabled
-			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 			
 			if (!rootEnabled)
@@ -654,7 +661,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType);
         if (sinceMs != -1)
         {
-	        tvSince.setText("Since " + DateUtils.formatDuration(sinceMs));
+	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
+			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
+	        if (bShowBatteryLevels)
+	        {
+	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType);
+	        }
+	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + DateUtils.formatDuration(
 	    			StatsProvider.getInstance(this).getSince(m_iStatType)));
         }
@@ -698,7 +711,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType);
         if (sinceMs != -1)
         {
-	        tvSince.setText("Since " + DateUtils.formatDuration(sinceMs));
+	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
+	        
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
+	        if (bShowBatteryLevels)
+	        {
+	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType);
+	        }
+	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + DateUtils.formatDuration(
 	    			StatsProvider.getInstance(this).getSince(m_iStatType)));
         }

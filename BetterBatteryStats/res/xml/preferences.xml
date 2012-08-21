@@ -13,7 +13,12 @@
             android:key="hide_bars"
             android:summary="Hide or show the graph bars"
             android:title="Hide graph bars" />
-
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="show_batt"
+            android:summary="Shows or hides battery llevels from/to in 'since' label"
+            android:title="How Battery Levels" />
+        
         <PreferenceScreen android:title="Customize Views" >
             <CheckBoxPreference
                 android:defaultValue="true"
