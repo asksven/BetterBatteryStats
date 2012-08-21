@@ -832,20 +832,20 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    	}
 	    	
 	    }
-	    @Override
-	    protected void onPreExecute()
-	    {
-	        // update hourglass
-	    	// @todo this code is only there because onItemSelected is called twice
-	    	if (m_progressDialog == null)
-	    	{
-		    	m_progressDialog = new ProgressDialog(StatsActivity.this);
-		    	m_progressDialog.setMessage("Saving...");
-		    	m_progressDialog.setIndeterminate(true);
-		    	m_progressDialog.setCancelable(false);
-		    	m_progressDialog.show();
-	    	}
-	    }
+//	    @Override
+//	    protected void onPreExecute()
+//	    {
+//	        // update hourglass
+//	    	// @todo this code is only there because onItemSelected is called twice
+//	    	if (m_progressDialog == null)
+//	    	{
+//		    	m_progressDialog = new ProgressDialog(StatsActivity.this.getApplicationContext());
+//		    	m_progressDialog.setMessage("Saving...");
+//		    	m_progressDialog.setIndeterminate(true);
+//		    	m_progressDialog.setCancelable(false);
+//		    	m_progressDialog.show();
+//	    	}
+//	    }
 	}
 
 	
