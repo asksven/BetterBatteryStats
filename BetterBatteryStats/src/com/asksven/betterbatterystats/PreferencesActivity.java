@@ -137,7 +137,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     		boolean enabled = sharedPreferences.getBoolean(key, false);
     		if (enabled)
     		{
-		        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 		        builder.setMessage("Enabling root features assumes that your phone is rooted.\n"
 		        		+ "Please make sure to grant su rights to Alarms and Network stats.\n"
 		        		+ "if those rights do not stick blame the su app, not BBS.\n"
