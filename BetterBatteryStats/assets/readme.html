@@ -24,10 +24,14 @@
 	
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content">
-<h2>v1.10.0.0b7 2012-08-20</h2>
+<h2>v1.10.0.0b7 2012-08-21</h2>
 <p>
 <ul>
 	<li>Added raw cpu states</li>	
+	<li>Fixed stats being displayed even if there is no reference (wakelocks, process, alarms)</li>
+	<li>Fixed "other" values being > 100 % (caused when timestamp of reference and sample time of stats is too far apart)</li>
+	<li>Fixed calculation of deep-sleep / awake not always being summed up the total "since" time</li>
+	
 </ul>
 </p>
 
