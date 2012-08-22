@@ -1201,18 +1201,18 @@ public class StatsProvider
 	public String getBatteryLevelFromTo(int iStatType)
 	{
 		// deep sleep times are independent of stat type
-        int levelTo		= getBatteryLevel();
-        int levelFrom 	= -1;
+        String levelTo		= String.valueOf(getBatteryLevel());
+        String levelFrom 	= "-";
         Log.d(TAG, "Current Battery Level:" + levelTo);
 		References myReference = getReference(iStatType);
 		if (myReference != null)
 		{
-			levelFrom = myReference.m_refBatteryLevel;
+			levelFrom = String.valueOf(myReference.m_refBatteryLevel);
 		}	
 
         Log.d(TAG, "Battery Level since " + iStatType + ":" + levelFrom);
 
-		return "Bat.:(" + levelFrom + "% to " + levelTo + "%)";
+		return "Bat.: " + getBatteryLevelStat(iStatType) + "% (" + levelFrom + "% to " + levelTo + "%)";
 	}
 
 	
