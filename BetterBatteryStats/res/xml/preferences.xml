@@ -16,8 +16,8 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="show_batt"
-            android:summary="Shows or hides battery llevels from/to in 'since' label"
-            android:title="How Battery Levels" />
+            android:summary="Shows or hides battery levels (drain, from/to) in 'since' label"
+            android:title="Show Battery Levels" />
         
         <PreferenceScreen android:title="Customize Views" >
             <CheckBoxPreference
