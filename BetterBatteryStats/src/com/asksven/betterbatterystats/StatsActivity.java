@@ -784,16 +784,28 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        return m_listViewAdapter;
 	    }
 		
-		@Override
+//		@Override
 		protected void onPostExecute(StatsAdapter o)
 	    {
-			super.onPostExecute(o);
+//			super.onPostExecute(o);
 	        // update hourglass
-	    	if (m_progressDialog != null)
-	    	{
-	    		m_progressDialog.hide();
-	    		m_progressDialog = null;
-	    	}
+			try
+			{
+		    	if (m_progressDialog != null)
+		    	{
+		    		m_progressDialog.dismiss(); //hide();
+		    		m_progressDialog = null;
+		    	}
+			}
+			catch (Exception e)
+			{
+				// nop
+			}
+			finally 
+			{
+				m_progressDialog = null;
+			}
+			
 	    	if (m_exception != null)
 	    	{
 	    		if (m_exception instanceof BatteryInfoUnavailableException)
@@ -813,18 +825,25 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    	}
 	    	StatsActivity.this.setListAdapter(o);
 	    }
-	    @Override
+//	    @Override
 	    protected void onPreExecute()
 	    {
 	        // update hourglass
 	    	// @todo this code is only there because onItemSelected is called twice
 	    	if (m_progressDialog == null)
 	    	{
-		    	m_progressDialog = new ProgressDialog(StatsActivity.this);
-		    	m_progressDialog.setMessage("Computing...");
-		    	m_progressDialog.setIndeterminate(true);
-		    	m_progressDialog.setCancelable(false);
-		    	m_progressDialog.show();
+	    		try
+	    		{
+			    	m_progressDialog = new ProgressDialog(StatsActivity.this);
+			    	m_progressDialog.setMessage("Computing...");
+			    	m_progressDialog.setIndeterminate(true);
+			    	m_progressDialog.setCancelable(false);
+			    	m_progressDialog.show();
+	    		}
+	    		catch (Exception e)
+	    		{
+	    			m_progressDialog = null;
+	    		}
 	    	}
 	    }
 	}
@@ -841,32 +860,49 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			return true;
 	    }
 		
-		@Override
+//		@Override
 		protected void onPostExecute(Boolean b)
 	    {
-			super.onPostExecute(b);
+//			super.onPostExecute(b);
 	        // update hourglass
-	    	if (m_progressDialog != null)
-	    	{
-	    		m_progressDialog.hide();
-	    		m_progressDialog = null;
-	    	}
-	    	
+			try
+			{
+		    	if (m_progressDialog != null)
+		    	{
+		    		m_progressDialog.dismiss(); // hide();
+		    	
+		    	}
+			}
+			catch (Exception e)
+			{
+				// nop
+			}
+			finally
+			{
+				m_progressDialog = null;
+			}
 	    }
 //	    @Override
-//	    protected void onPreExecute()
-//	    {
-//	        // update hourglass
-//	    	// @todo this code is only there because onItemSelected is called twice
-//	    	if (m_progressDialog == null)
-//	    	{
-//		    	m_progressDialog = new ProgressDialog(StatsActivity.this.getApplicationContext());
-//		    	m_progressDialog.setMessage("Saving...");
-//		    	m_progressDialog.setIndeterminate(true);
-//		    	m_progressDialog.setCancelable(false);
-//		    	m_progressDialog.show();
-//	    	}
-//	    }
+	    protected void onPreExecute()
+	    {
+	        // update hourglass
+	    	// @todo this code is only there because onItemSelected is called twice
+	    	if (m_progressDialog == null)
+	    	{
+	    		try
+	    		{
+			    	m_progressDialog = new ProgressDialog(StatsActivity.this);
+			    	m_progressDialog.setMessage("Saving...");
+			    	m_progressDialog.setIndeterminate(true);
+			    	m_progressDialog.setCancelable(false);
+			    	m_progressDialog.show();
+	    		}
+	    		catch (Exception e)
+	    		{
+	    			m_progressDialog = null;
+	    		}
+	    	}
+	    }
 	}
 
 	
