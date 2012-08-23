@@ -195,28 +195,25 @@ public class StatsProvider
 		
 		References myReference = getReference(iStatType);
 		
-		if (LogSettings.DEBUG)
+		if (myReference != null)
 		{
-			if (myReference != null)
+			Log.d(TAG, "Reference create at: " + DateUtils.formatDuration(myReference.m_creationTime));
+			Log.d(TAG, "It is now " + DateUtils.now());
+			if (myReference.m_creationTime != 0)
 			{
-				Log.d(TAG, "Reference create at: " + DateUtils.formatDuration(myReference.m_creationTime));
-				Log.d(TAG, "It is now " + DateUtils.now());
-				if (myReference.m_creationTime != 0)
-				{
-					ret = now - myReference.m_creationTime;
-					Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
-				}
-				else
-				{
-					ret = -1;
-					Log.d(TAG, "Since: undefined, reference is empty");
-				}
-				
+				ret = now - myReference.m_creationTime;
+				Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
 			}
 			else
 			{
 				ret = -1;
+				Log.d(TAG, "Since: undefined, reference is empty");
 			}
+			
+		}
+		else
+		{
+			ret = -1;
 		}
 		
 		return ret;
