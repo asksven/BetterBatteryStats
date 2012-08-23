@@ -337,7 +337,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 			Log.e(TAG, e.getMessage(), e.fillInStackTrace());
 			Toast.makeText(this,
-					"An unhandeled error occured. Please check your logcat",
+					"An unhandled error occured. Please check your logcat",
 					Toast.LENGTH_LONG).show();
 		}
 		// setSelection MUST be called after setAdapter
