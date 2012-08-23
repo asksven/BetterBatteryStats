@@ -1447,7 +1447,9 @@ public class StatsProvider
 			refs.m_refOther		 	= getOtherUsageStatList(
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
 			refs.m_refCpuStates		 	= getCpuStateList(BatteryStatsTypes.STATS_CURRENT);
-					
+
+			refs.m_refProcesses		 	= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iSort);
+
 			refs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 			
 			refs.m_refBatteryLevel		= getBatteryLevel();
