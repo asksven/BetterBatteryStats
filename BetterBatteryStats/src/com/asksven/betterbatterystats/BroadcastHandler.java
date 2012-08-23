@@ -80,7 +80,7 @@ public class BroadcastHandler extends BroadcastReceiver
 
         if (intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED))
 		{
-			Log.i(TAG, "Received Broadcast ACTION_POWER_DISCONNECTED, seralizing 'since unplugged'");
+			Log.i(TAG, "Received Broadcast ACTION_POWER_DISCONNECTED, serializing 'since unplugged'");
 			
 			// start service to persist reference
 			Intent serviceIntent = new Intent(context, WriteUnpluggedReferenceService.class);
