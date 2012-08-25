@@ -314,8 +314,8 @@ public class StatsProvider
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
 	
-			Log.d(TAG, "Substracting " + strCurrent);
-			Log.d(TAG, "from " + strRef);
+			Log.d(TAG, "Substracting " + strRef);
+			Log.d(TAG, "from " + strCurrent);
 		}
 		
 		for (int i = 0; i < myAlarms.size(); i++)
@@ -417,8 +417,8 @@ public class StatsProvider
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
 	
-			Log.d(TAG, "Substracting " + strCurrent);
-			Log.d(TAG, "from " + strRef);
+			Log.d(TAG, "Substracting " + strRef);
+			Log.d(TAG, "from " + strCurrent);
 		}
 
 		for (int i = 0; i < myProcesses.size(); i++)
@@ -537,8 +537,8 @@ public class StatsProvider
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
 	
-			Log.d(TAG, "Substracting " + strCurrent);
-			Log.d(TAG, "from " + strRef);
+			Log.d(TAG, "Substracting " + strRef);
+			Log.d(TAG, "from " + strCurrent);
 		}
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
@@ -663,8 +663,8 @@ public class StatsProvider
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
 	
-			Log.d(TAG, "Substracting " + strCurrent);
-			Log.d(TAG, "from " + strRef);
+			Log.d(TAG, "Substracting " + strRef);
+			Log.d(TAG, "from " + strCurrent);
 		}
 		
 		for (int i = 0; i < myKernelWakelocks.size(); i++)
@@ -794,8 +794,8 @@ public class StatsProvider
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
 	
-			Log.d(TAG, "Substracting " + strCurrent);
-			Log.d(TAG, "from " + strRef);
+			Log.d(TAG, "Substracting " + strRef);
+			Log.d(TAG, "from " + strCurrent);
 		}
 		
 		for (int i = 0; i < myNetworkStats.size(); i++)
@@ -905,8 +905,8 @@ public class StatsProvider
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
 	
-			Log.d(TAG, "Substracting " + strCurrent);
-			Log.d(TAG, "from " + strRef);
+			Log.d(TAG, "Substracting " + strRef);
+			Log.d(TAG, "from " + strCurrent);
 		}
 
 		for (int i = 0; i < myStates.size(); i++)
@@ -1124,8 +1124,8 @@ public class StatsProvider
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
 	
-			Log.d(TAG, "Substracting " + strCurrent);
-			Log.d(TAG, "from " + strRef);
+			Log.d(TAG, "Substracting " + strRef);
+			Log.d(TAG, "from " + strCurrent);
 		}
 
 		for (int i = 0; i < myUsages.size(); i++)
