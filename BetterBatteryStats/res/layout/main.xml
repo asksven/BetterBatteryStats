@@ -51,13 +51,13 @@
     	android:layout_height="wrap_content" 
     	android:id="@+id/textView1" 
     	android:textAppearance="?android:attr/textAppearanceSmall" 
-    	android:text="Graphics courtesy to @nobnut"
+    	android:text="Graphics courtesy to @cri"
     	android:layout_gravity="center"/>
     <ImageView 
     	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:id="@+id/imageView1"
-    	android:src="@drawable/icon_text"
+    	android:src="@drawable/icon_notext"
     	android:layout_gravity="center" android:layout_marginTop="20dip"/>
 
     <Button
