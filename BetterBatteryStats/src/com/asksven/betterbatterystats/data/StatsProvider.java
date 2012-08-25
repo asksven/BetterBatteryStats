@@ -309,7 +309,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType) + "(" + iStatType + ")");
 	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -405,14 +405,14 @@ public class StatsProvider
 				}
 				else
 				{
-					strRef = "Alarms is null";
+					strRef = "Process is null";
 				}
 			}
 			else
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Processing processes since " + statTypeToLabel(iStatType) + "(" + iStatType + ")");
 	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -532,7 +532,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing wakelocks since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Processing wakelocks since " + statTypeToLabel(iStatType) + "(" + iStatType + ")");
 	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -650,7 +650,7 @@ public class StatsProvider
 				}
 				else
 				{
-					strRef = "Alarms is null";
+					strRef = "kernel wakelocks is null";
 				}
 
 			}
@@ -658,7 +658,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Processing kernel wakelocks since " + statTypeToLabel(iStatType) + "(" + iStatType + ")");
 	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -781,7 +781,7 @@ public class StatsProvider
 				}
 				else
 				{
-					strRef = "Alarms is null";
+					strRef = "Network stats is null";
 				}
 
 			}
@@ -789,7 +789,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Processing network stats since " + statTypeToLabel(iStatType) + "(" + iStatType + ")");
 	
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -1905,6 +1905,9 @@ public class StatsProvider
 			case 6:
 				strRet = "Since Boot";
 				break;	
+			default:
+				Log.e(TAG, "No label was found for stat type " + statType);
+				break;
 	
 		}
 		return strRet;
@@ -1936,6 +1939,10 @@ public class StatsProvider
 			case 6:
 				strRet = "Boot";
 				break;	
+			default:
+				Log.e(TAG, "No label was found for stat type " + statType);
+				break;
+	
 	
 		}
 		return strRet;
@@ -2021,6 +2028,10 @@ public class StatsProvider
 			case 4:
 				iRet = STATS_BOOT;
 				break;
+			default:
+				Log.e(TAG, "No stat type was found for position " + position);
+				break;
+	
 				
 		}
 		return iRet;
@@ -2050,6 +2061,9 @@ public class StatsProvider
 				break;
 			case STATS_BOOT:
 				iRet = 4;
+				break;
+			default:
+				Log.e(TAG, "No position was found for stat type " + iStatType);
 				break;
 				
 		}
