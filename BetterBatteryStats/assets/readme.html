@@ -25,102 +25,26 @@
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content">
 
-<h2>v1.10.0.0RC3 2012-08-23</h2>
+<h2>v1.10.0.0 2012-08-25</h2>
 <p>
 <ul>
-	<li>References were missing process data</li>
-	<li>Disabling preferences "add debug to logcat" causes "since" to be shown as 0s</li>	
-</ul>
-</p>
-
-<h2>v1.10.0.0RC2 2012-08-22</h2>
-<p>
-<ul>
-	<li>Corrected a few typos</li>
-	<li>Another attempt to fix window leaked errors randomly occuring with progress dialogs</li>	
 	<li>Added battery drain to on screen battery info</li>	
-	<li>Another attempt to FC when enabling root features</li>	
-</ul>
-</p>
-<h2>v1.10.0.0RC1 2012-08-21</h2>
-<p>
-<ul>
-	<li>Battery from/to can be shown in "since" on screen (can be disabled by pref)</li>
 	<li>Fixed dumpfile creation from tasker</li>	
-	<li>Fixed FC when enabling root features</li>	
-	<li>Fixed (silent, not systematic) crash happening when saving a custom ref</li> 
-</ul>
-</p>
-
-<h2>v1.10.0.0b7 2012-08-21</h2>
-<p>
-<ul>
 	<li>Added raw cpu states</li>	
-	<li>Fixed stats being displayed even if there is no reference (wakelocks, process, alarms)</li>
-	<li>Fixed "other" values being > 100 % (caused when timestamp of reference and sample time of stats is too far apart)</li>
-	<li>Fixed calculation of deep-sleep / awake not always being summed up the total "since" time</li>
-	
-</ul>
-</p>
-
-<h2>v1.10.0.0b6 2012-08-20</h2>
-<p>
-<ul>
-	<li>Fixed double substraction of deep sleep values sometimes causing negative values</li>	
-</ul>
-</p>
-
-<h2>v1.10.0.0b5 2012-08-20</h2>
-<p>
-<ul>
-	<li>Added battery from/to values for level and voltage to dumpfile</li>	
-	<li>"Since" value is now consistent with references</li>
-	<li>Removed unneeded API calls</li>
-	<li>New error handling expose API errors to the user</li> 
-</ul>
-</p>
-
-<h2>v1.10.0.0b4 2012-08-18</h2>
-<p>
-<ul>
+	<li>Added battery from/to values for level and voltage to dumpfile and screen</li>
+	<li>Added "since boot" reference</li>
+	<li>If default stat type has no reference fall back to 'since boot' (is prefs are set that way)</li> 		
 	<li>Prevent (inconsitent) stats while plugged in</li>	
-	<li>Fixed potential cause for refs being deleted</li>
 	<li>Grey background for stats bars</li>
-	<li>Fixed missing deep sleep in b2</li> 
-</ul>
-</p>
-
-<h2>v1.10.0.0b3 2012-08-18</h2>
-<p>
-<ul>
 	<li>Added icons to stats having package info, clicking icon starts application settings</li>	
 	<li>Workaround to SuperUser obcessing about asking for rights</li>
-	<li>New error handling</li> 
-</ul>
-</p>
-
-<h2>v1.10.0.0b2 2012-08-17</h2>
-<p>
-<ul>
-	<li>Fixed FC on menu open (nested menus for SDK < 14)</li>
 	<li>Removed Froyo specific code as BBS does not depend on Android version for references anymore</li>
-	<li>Removed "test" menu</li>
-	
-</ul>
-</p>
-
-<h2>v1.10.0.0b1 2012-08-17</h2>
-<p>
-<ul>
 	<li>Stats requiring root (alarms/network) are <b>disabled</b> by default</li>
-	<li>Added "since boot" reference</li>
-	<li>If default stat type has no reference fall back to 'since boot' (is prefs are set that way)</li> 
 	<li>Make sure references are always written (even if su rights are not granted yet)</li>
 	<li>Simplified Preferences</li>
-	<li>Added proper handling of "deleted: " kernel wakelocks</li>
+	<li>Added proper handling of "deleted: " kernel wakelocks (Siyah)</li>
 	<li>Added a wakelock for write operations (dumpfile, references) to make sure those are never interrupted</li>
 	<li>Reorganized menu</li>
-	
 </ul>
 </p>
 
