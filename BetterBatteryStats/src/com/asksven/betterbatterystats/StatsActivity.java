@@ -327,7 +327,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		catch (BatteryInfoUnavailableException e)
 		{
-			Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+//			Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+			Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
 			Toast.makeText(this,
 					"BatteryInfo Service could not be contacted.",
 					Toast.LENGTH_LONG).show();
@@ -335,7 +336,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		catch (Exception e)
 		{
-			Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+			//Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+			Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
 			Toast.makeText(this,
 					"An unhandled error occured. Please check your logcat",
 					Toast.LENGTH_LONG).show();
@@ -768,13 +770,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			}
 			catch (BatteryInfoUnavailableException e)
 			{
-				Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+				//Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+				Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
 				m_exception = e;
 
 			}
 			catch (Exception e)
 			{
-				Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+				//Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+				Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
 				m_exception = e;
 
 			}

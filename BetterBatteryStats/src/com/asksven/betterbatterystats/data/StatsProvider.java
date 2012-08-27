@@ -19,6 +19,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -32,6 +33,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ReceiverCallNotAllowedException;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.BatteryManager;
@@ -382,6 +384,7 @@ public class StatsProvider
 	public ArrayList<StatElement> getProcessStatList(boolean bFilter, int iStatType, int iSort) throws Exception
 	{
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+		
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<Process> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
@@ -874,7 +877,12 @@ public class StatsProvider
 		ArrayList<State> myStates = CpuStates.getTimesInStates();
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement> ();
-		
+
+		if (myStates == null)
+		{
+			return myStats;
+		}
+
 		String strCurrent = myStates.toString();
 		String strRef = "";
 		String strRefDescr = "";
@@ -1449,8 +1457,20 @@ public class StatsProvider
 
 			refs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 			
-			refs.m_refBatteryLevel		= getBatteryLevel();
-			refs.m_refBatteryVoltage	= getBatteryVoltage();
+			try
+			{
+				refs.m_refBatteryLevel		= getBatteryLevel();
+				refs.m_refBatteryVoltage	= getBatteryVoltage();
+			}
+			catch (ReceiverCallNotAllowedException e)
+			{
+				Log.e("TAG", "An exception occured. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
+				refs.m_refBatteryLevel		= 0;
+				refs.m_refBatteryVoltage	= 0;
+			}
+
+			
 			
 			// update timestamp
 			refs.setTimestamp();
@@ -1470,8 +1490,11 @@ public class StatsProvider
 			serializeRefToFile(refs);
     	}
     	catch (Exception e)
-    	{
-    		Log.e(TAG, "Exception: " + e.getMessage(), e.fillInStackTrace());
+    	{	
+			Log.e("TAG", "An exception occured. Message: " + e.getMessage());
+//			Log.e(TAG, "Callstack", e.fillInStackTrace());
+			Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
+
     		refs.m_refOther 			= null;
     		refs.m_refWakelocks 		= null;
     		refs.m_refKernelWakelocks 	= null;
