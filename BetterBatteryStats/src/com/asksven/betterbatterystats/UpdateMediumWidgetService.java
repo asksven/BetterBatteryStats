@@ -113,13 +113,13 @@ public class UpdateMediumWidgetService extends Service
 			try
 			{
 				
-				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false);
+				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true);
 				
 				if ( (otherStats == null) || ( otherStats.size() == 1) )
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
 					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "3"));
-					otherStats = stats.getOtherUsageStatList(true, statType, false);
+					otherStats = stats.getOtherUsageStatList(true, statType, false, true);
 				}
 
 				if ( (otherStats != null) && ( otherStats.size() > 1) )

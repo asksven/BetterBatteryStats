@@ -154,7 +154,7 @@ public class StatsProvider
 			switch (iStat)
 			{
 				case 0:
-					return getOtherUsageStatList(bFilterStats, iStatType, true);
+					return getOtherUsageStatList(bFilterStats, iStatType, true, false);
 				case 1:
 					return getNativeKernelWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
 				case 2:
@@ -950,7 +950,7 @@ public class StatsProvider
 	 * @return a List of Other usages sorted by duration (descending)
 	 * @throws Exception if the API call failed
 	 */
-	public ArrayList<StatElement> getOtherUsageStatList(boolean bFilter, int iStatType, boolean bFilterView) throws Exception
+	public ArrayList<StatElement> getOtherUsageStatList(boolean bFilter, int iStatType, boolean bFilterView, boolean bWidget) throws Exception
 	{
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
@@ -964,27 +964,75 @@ public class StatsProvider
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
         long batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
 
-		// if we are using custom ref. always retrieve "stats current"
-//		if ( (iStatType == STATS_CUSTOM) || (iStatType == STATS_SCREEN_OFF) || (iStatType == STATS_BOOT)) 
-//		{
 //	        long whichRealtime 			= mStats.computeBatteryRealtime(rawRealtime, BatteryStatsTypes.STATS_CURRENT)  / 1000;      
 //	        long timeBatteryUp 			= mStats.computeBatteryUptime(SystemClock.uptimeMillis() * 1000, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timeScreenOn 			= mStats.getScreenOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 	        long timePhoneOn 			= mStats.getPhoneOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeWifiOn				= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeWifiRunning		= mStats.getGlobalWifiRunningTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-//	        long timeWifiMulticast		= mStats.getWifiMulticastTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-//	        long timeWifiLocked			= mStats.getFullWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-//	        long timeWifiScan			= mStats.getScanWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+
+	        long timeWifiOn				= 0;
+	        long timeWifiRunning		= 0;
+	        if (sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget)
+	        {
+	        	try
+	        	{
+			        timeWifiOn				= mStats.getWifiOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			        timeWifiRunning		= mStats.getGlobalWifiRunningTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	//		        long timeWifiMulticast		= mStats.getWifiMulticastTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	//		        long timeWifiLocked			= mStats.getFullWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	//		        long timeWifiScan			= mStats.getScanWifiLockTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        	}
+	        	catch (BatteryInfoUnavailableException e)
+	        	{
+	    	        timeWifiOn			= 0;
+	    	        timeWifiRunning		= 0;
+	    	        Log.e(TAG, "A batteryinfo error occured while retrieving Wifi data");
+	        	}
+	        }
 //	        long timeAudioOn			= mStats.getAudioTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 //	        long timeVideoOn			= mStats.getVideoTurnedOnTime(m_context, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeBluetoothOn 		= mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeNoDataConnection	= mStats.getPhoneDataConnectionTime(BatteryStatsTypes.DATA_CONNECTION_NONE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeSignalNone			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeSignalPoor			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_POOR, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeSignalModerate		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeSignalGood			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GOOD, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-	        long timeSignalGreat		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GREAT, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;	        	        
+	        long timeBluetoothOn = 0;
+	        if (sharedPrefs.getBoolean("show_other_bt", true) && !bWidget)
+	        {
+	        	try
+	        	{
+	        		timeBluetoothOn 		= mStats.getBluetoothOnTime(batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        	}
+	        	catch (BatteryInfoUnavailableException e)
+	        	{
+	        		timeBluetoothOn = 0;
+	    	        Log.e(TAG, "A batteryinfo error occured while retrieving BT data");
+	        	}
+	        	
+	        }
+
+	        long timeNoDataConnection	= 0;
+	        long timeSignalNone			= 0;
+	        long timeSignalPoor			= 0;
+	        long timeSignalModerate		= 0;
+	        long timeSignalGood			= 0;
+	        long timeSignalGreat		= 0;
+	        if (sharedPrefs.getBoolean("show_other_signal", true))
+	        {
+	        	try
+	        	{
+			        timeNoDataConnection	= mStats.getPhoneDataConnectionTime(BatteryStatsTypes.DATA_CONNECTION_NONE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			        timeSignalNone			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			        timeSignalPoor			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_POOR, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			        timeSignalModerate		= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			        timeSignalGood			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GOOD, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			        timeSignalGreat			= mStats.getPhoneSignalStrengthTime(BatteryStatsTypes.SIGNAL_STRENGTH_GREAT, batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+	        	}
+	        	catch (BatteryInfoUnavailableException e)
+	        	{
+	    	        timeNoDataConnection	= 0;
+	    	        timeSignalNone			= 0;
+	    	        timeSignalPoor			= 0;
+	    	        timeSignalModerate		= 0;
+	    	        timeSignalGood			= 0;
+	    	        timeSignalGreat			= 0;
+	    	        Log.e(TAG, "A batteryinfo error occured while retrieving Signal data");
+	        	}
+	        }
 		
 		// deep sleep times are independent of stat type
         long timeDeepSleep	= (SystemClock.elapsedRealtime() - SystemClock.uptimeMillis());
@@ -997,14 +1045,6 @@ public class StatsProvider
 
 		References myReference = getReference(iStatType);
         
-//		if (myReference != null)
-//		{
-//			if (myReference.m_refOther != null)
-//			{
-//				deepSleepUsage.substractFromRef(myReference.m_refOther);
-//			}
-//		}
-
 		if ( (!bFilter) || (deepSleepUsage.getTimeOn() > 0) )
 		{
 			myUsages.add(deepSleepUsage);
@@ -1450,7 +1490,7 @@ public class StatsProvider
 					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
 
 			refs.m_refOther		 	= getOtherUsageStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false);
+					bFilterStats, BatteryStatsTypes.STATS_CURRENT, false, false);
 			refs.m_refCpuStates		 	= getCpuStateList(BatteryStatsTypes.STATS_CURRENT);
 
 			refs.m_refProcesses		 	= getProcessStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT, iSort);
@@ -1726,7 +1766,7 @@ public class StatsProvider
 					out.write("===========\n");
 					out.write("Other Usage\n");
 					out.write("===========\n");
-					dumpList(getOtherUsageStatList(bFilterStats, iStatType, false), out);
+					dumpList(getOtherUsageStatList(bFilterStats, iStatType, false, false), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_pwl", true);
