@@ -119,7 +119,7 @@ class References implements Serializable
         String kernelWakelocks = (m_refKernelWakelocks == null) ? "null" : m_refKernelWakelocks.size() + "elements";
         String networkStats = (m_refNetworkStats == null) ? "null" : m_refNetworkStats.size() + " elements";
         String alarms = (m_refAlarms == null) ? "null" : m_refAlarms.size() + " elements";
-        String processes = (m_refProcesses ==null) ? "null" : m_refAlarms + " elements";
+        String processes = (m_refProcesses ==null) ? "null" : m_refProcesses.size() + " elements";
         String other = (m_refOther == null) ? "null" : m_refOther.size() + " elements";
         String cpuStates = (m_refCpuStates == null) ? "null" : m_refCpuStates.size() + " elements";
         
