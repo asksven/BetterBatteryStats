@@ -538,6 +538,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	new WriteDumpFile().execute("");
             	//this.writeDumpToFile();
             	break;
+            case R.id.logcat:
+            	// Dump to File
+            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
+            	new WriteLogcatFile().execute("");
+            	break;
+	
             case R.id.custom_ref:
             	// Set custom reference
             	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_SET_CUSTOM_REF);
@@ -741,6 +747,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    protected Object doInBackground(Object... params)
 	    {
 			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(m_iStatType, m_iSorting);
+	    	return true;
+	    }
+
+		@Override
+		protected void onPostExecute(Object o)
+	    {
+			super.onPostExecute(o);
+	        // update hourglass
+	    }
+	 }
+
+	private class WriteLogcatFile extends AsyncTask
+	{
+		@Override
+	    protected Object doInBackground(Object... params)
+	    {
+			StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile();
 	    	return true;
 	    }
 

@@ -23,7 +23,9 @@
      <item
          android:id="@+id/custom_ref"
          android:title="Set Custom Ref."/>
-
+   	<item android:id="@+id/logcat"
+       	android:title="Save Logcat" />
+   
     <item
         android:id="@+id/more_group"
         android:title="More">

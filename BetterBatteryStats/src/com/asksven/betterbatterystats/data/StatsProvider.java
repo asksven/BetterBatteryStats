@@ -44,6 +44,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
@@ -1945,7 +1946,36 @@ public class StatsProvider
     		Log.e(TAG, "Exception: " + e.getMessage());
     	}		
 	}
-	
+
+	public void writeLogcatToFile()
+	{
+		if (!DataStorage.isExternalStorageWritable())
+		{
+			Log.e(TAG, "External storage can not be written");
+    		Toast.makeText(m_context, "External Storage can not be written", Toast.LENGTH_SHORT).show();
+		}
+		try
+    	{		
+			// open file for writing
+			File root = Environment.getExternalStorageDirectory();
+			String path = root.getAbsolutePath();
+			// check if file can be written
+		    if (root.canWrite())
+		    {
+		    	String filename = "logcat-" + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
+		    	Util.run("logcat -d > " + path + "/" + filename);
+		    }
+		    else
+		    {
+	    		Log.i(TAG, "Write error. " + Environment.getExternalStorageDirectory() + " couldn't be written");
+		    }
+    	}
+    	catch (Exception e)
+    	{
+    		Log.e(TAG, "Exception: " + e.getMessage());
+    	}		
+	}
+
 	/**
 	 * Dump the elements on one list
 	 * @param myList a list of StatElement
