@@ -36,7 +36,7 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
 
-		Log.i(TAG, "onUpdate method called, setting alarm");
+		Log.i(TAG, "onUpdate method called, starting service and setting alarm");
 
 		// Update the widgets via the service
 		startService(context, this.getClass(), appWidgetManager, UpdateLargeWidgetService.class);
@@ -52,6 +52,8 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 	{
 		super.onReceive(context, intent);
 
+		Log.i(TAG, "onReceive method called");
+		
 		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
 		{
@@ -76,6 +78,10 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 			if (appWidgetIds.length > 0)
 			{
 				onUpdate(context, appWidgetManager, appWidgetIds);
+			}
+			else
+			{
+				Log.i(TAG, "No widget found to update");
 			}
 		}
 	}

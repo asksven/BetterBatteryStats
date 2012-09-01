@@ -36,7 +36,7 @@ public class MediumWidgetProvider extends BbsWidgetProvider
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
 
-		Log.i(TAG, "onUpdate method called, setting alarm");
+		Log.i(TAG, "onUpdate method called, starting service and setting alarm");
 
 		// Update the widgets via the service
 		startService(context, this.getClass(), appWidgetManager, UpdateMediumWidgetService.class);
@@ -51,13 +51,13 @@ public class MediumWidgetProvider extends BbsWidgetProvider
 	{
 		super.onReceive(context, intent);
 
+		Log.i(TAG, "onReceive method called");
 		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
 		{
 			if (WIDGET_UPDATE.equals(intent.getAction()))
 			{
 				Log.d(TAG, "Alarm called: updating");
-//				GenericLogger.i(LargeWidgetProvider.WIDGET_LOG, TAG, "LargeWidgetProvider: Alarm to refresh widget was called");
 			}
 			else
 			{
@@ -75,38 +75,12 @@ public class MediumWidgetProvider extends BbsWidgetProvider
 			{
 				onUpdate(context, appWidgetManager, appWidgetIds);
 			}
+			else
+			{
+				Log.i(TAG, "No widget found to update");
+			}
 		}
 	}
-	
-//	@Override
-//	public void onDeleted(Context context, int[] appWidgetIds)
-//	{
-//		// called when widgets are deleted
-//		// see that you get an array of widgetIds which are deleted
-//		// so handle the delete of multiple widgets in an iteration
-//		super.onDeleted(context, appWidgetIds);
-//	}
-//
-//	@Override
-//	public void onDisabled(Context context)
-//	{
-//		super.onDisabled(context);
-//		// runs when all of the instances of the widget are deleted from
-//		// the home screen
-//		
-//		// remove the alarms
-//		removeAlarm(context);
-//
-//	}
-//
-//	@Override
-//	public void onEnabled(Context context)
-//	{
-//		super.onEnabled(context);
-//		// runs when all of the first instance of the widget are placed
-//		// on the home screen
-//		setAlarm(context);
-//	}
 	
 	
 }

@@ -52,21 +52,26 @@ public class BbsWidgetProvider extends AppWidgetProvider
 	{
 		// set the alarm for next round
 		//prepare Alarm Service to trigger Widget
-		Intent intent = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+		Intent intent = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
 				1234567, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		int freqMinutes = Integer.valueOf(sharedPrefs.getString("widget_refresh_freq", "30"));
-//		freqMinutes = 1;
+		
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.cancel(pendingIntent);
 		if (freqMinutes != 0)
 		{
+			Log.i(TAG, "It is now " + DateUtils.now() + ", Scheduling alarm in " + freqMinutes + " minutes");
 			alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
 					pendingIntent);
+		}
+		else
+		{
+			Log.i(TAG, "No alarm scheduled, freq is 0");
 		}
 		
 	}
@@ -87,11 +92,11 @@ public class BbsWidgetProvider extends AppWidgetProvider
 		// Get all ids
 		ComponentName thisWidget = new ComponentName(context, callerClass);
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-
+		Log.i(TAG, "Starting Widget Service " + serviceClass.getName());
 		// Build the intent to call the service
 		Intent intent = new Intent(context.getApplicationContext(), serviceClass);
 		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
-
+		
 		// Update the widgets via the service
 		context.startService(intent);
 
