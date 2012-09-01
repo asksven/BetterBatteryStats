@@ -568,6 +568,10 @@ public class StatsProvider
 						// we must recheck if the delta process is still above threshold
 						if ( (!bFilter) || ((wl.getDuration()/1000) > 0) )
 						{
+							if (LogSettings.DEBUG)
+							{
+								Log.i(TAG, "Adding " + wl.toString());
+							}
 							myRetWakelocks.add( wl);
 						}
 					}
@@ -588,6 +592,7 @@ public class StatsProvider
 			}
 		}
 
+		Log.i(TAG, "Result has " + myRetWakelocks.size() + " entries");
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		switch (iSort)
 		{
