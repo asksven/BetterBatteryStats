@@ -545,7 +545,7 @@ public class StatsProvider
 		}
 
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		Collections.sort(myWakelocks);
+//		Collections.sort(myWakelocks);
 		
 		for (int i = 0; i < myWakelocks.size(); i++)
 		{
@@ -575,6 +575,13 @@ public class StatsProvider
 							}
 							myRetWakelocks.add( wl);
 						}
+						else
+						{
+							if (LogSettings.DEBUG)
+							{
+								Log.i(TAG, "Skipped " + wl.toString() + " because duration < 1s");
+							}
+						}
 					}
 					else
 					{
@@ -593,7 +600,10 @@ public class StatsProvider
 			}
 		}
 
-		Log.i(TAG, "Result has " + myRetWakelocks.size() + " entries");
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "Result has " + myRetWakelocks.size() + " entries");
+		}
 		// sort @see com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 		switch (iSort)
 		{
