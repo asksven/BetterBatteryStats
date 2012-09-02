@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest android:versionCode="26" android:versionName="1.10.3.0"
+<manifest android:versionCode="26" android:versionName="1.10.4.0"
     package="com.asksven.betterbatterystats"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto">
@@ -26,6 +26,8 @@
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<!-- need to hold wakelocks for writing operations  -->
  	<uses-permission android:name="android.permission.WAKE_LOCK" />
+ 	<!--  needed to read logcat -->
+ 	<uses-permission android:name="android.permission.READ_LOGS" />
 	
 
     <supports-screens android:anyDensity="true"
