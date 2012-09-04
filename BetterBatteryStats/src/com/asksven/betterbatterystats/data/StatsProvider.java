@@ -1533,16 +1533,21 @@ public class StatsProvider
 			// we write the part that does not require root access first to make sure there is a reference written.
 			serializeRefToFile(refs);
 
-			// After that we go on and try to write the rest. If this part fails at least there will be a partial ref saved
-			refs.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+			// only root features active
+			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+			if (rootEnabled)
+			{
+				// After that we go on and try to write the rest. If this part fails at least there will be a partial ref saved
+				refs.m_refNetworkStats 	= getNativeNetworkUsageStatList(bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+	
+				refs.m_refAlarms = getAlarmsStatList(
+						bFilterStats, BatteryStatsTypes.STATS_CURRENT);
 
-			refs.m_refAlarms = getAlarmsStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+				// update timestamp
+				refs.setTimestamp();
 			
-			// update timestamp
-			refs.setTimestamp();
-			
-			serializeRefToFile(refs);
+				serializeRefToFile(refs);
+			}
     	}
     	catch (Exception e)
     	{	
