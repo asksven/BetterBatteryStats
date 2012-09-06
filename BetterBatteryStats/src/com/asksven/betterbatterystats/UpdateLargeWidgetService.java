@@ -128,8 +128,17 @@ public class UpdateLargeWidgetService extends Service
 				
 				if ( (otherStats != null) && ( otherStats.size() > 1) )
 				{
-					timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
-					timeScreenOn = ((Misc) stats.getElementByKey(otherStats, "Screen On")).getTimeOn();
+					try
+					{
+						timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
+						timeScreenOn = ((Misc) stats.getElementByKey(otherStats, "Screen On")).getTimeOn();
+					}
+					catch (Exception e)
+					{
+						timeAwake 		= 0;
+						timeScreenOn 	= 0;
+					}
+					
 //					timeSince = stats.getBatteryRealtime(statType);
 					timeSince = stats.getSince(statType);
 					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0);
@@ -249,9 +258,7 @@ public class UpdateLargeWidgetService extends Service
 			}
 			catch (Exception e)
 			{
-				Log.e(TAG,"An error occured: " + e.getMessage());
-				GenericLogger.stackTrace(TAG, e.getStackTrace());
-				
+				Log.e(TAG, "Exception: "+Log.getStackTraceString(e));				
 			}
 			finally
 			{

@@ -162,8 +162,7 @@ public class UpdateSmallWidgetService extends Service
 			}
 			catch (Exception e)
 			{
-				Log.e(TAG,"An error occured: " + e.getMessage());
-				GenericLogger.stackTrace(TAG, e.getStackTrace());
+				Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
 			}
 			finally
 			{
