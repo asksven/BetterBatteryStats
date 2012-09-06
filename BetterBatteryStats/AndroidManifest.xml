@@ -5,7 +5,6 @@
     android:installLocation="internalOnly"
     package="com.asksven.betterbatterystats"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    
     <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="14"/>
     
   	<uses-permission android:name="android.permission.BATTERY_STATS"/>
@@ -100,12 +99,17 @@
             </intent-filter>
         </receiver>
         
-        <receiver android:name="com.asksven.betterbatterystats.BroadcastHandler">
+        <receiver android:name=".handlers.OnBootHandler">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>    
+        </receiver>        
+        <receiver android:name=".handlers.OnUnplugHandler">
+            <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
             </intent-filter>    
         </receiver>        
+
         
         <receiver android:name="com.asksven.betterbatterystats.LargeWidgetProvider" android:label="BBS 2 x 2 Widget">
             <intent-filter >
