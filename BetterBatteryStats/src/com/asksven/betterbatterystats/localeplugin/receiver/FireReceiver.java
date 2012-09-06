@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.WriteDumpfileService;
@@ -88,7 +89,10 @@ public final class FireReceiver extends BroadcastReceiver
         if (saveStat)
         {
         	Log.d(TAG, "Preparing to save a dumpfile");
-        	//StatsProvider.getInstance(context).writeDumpToFile(statType, 0);
+    		StatsProvider stats = StatsProvider.getInstance(context);
+    		// make sure to flush cache
+    		BatteryStatsProxy.getInstance(context).invalidate();
+
 			Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
 			serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE, statType);
 			context.startService(serviceIntent);
