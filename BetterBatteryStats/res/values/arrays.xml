@@ -84,19 +84,19 @@
 	</string-array>
 
 	<string-array name="widgetUpdateFreqLabels">
-	    <item name="4">None</item>
-		<item name="0">5 Min.</item>
-		<item name="1">15 Min.</item>
-		<item name="2">*30 Min.</item>
-		<item name="3">60 Min.</item>
+	    <item name="0">None</item>
+		<item name="1">5 Min.</item>
+		<item name="2">15 Min.</item>
+		<item name="3">*30 Min.</item>
+		<item name="4">60 Min.</item>
 		
 	</string-array>
 	<string-array name="widgetUpdateFreqValues">
-		<item name="0">5</item>
-		<item name="1">15</item>
-		<item name="2">30</item>
-		<item name="3">60</item>
-		<item name="4">0</item>
+		<item name="0">0</item>
+		<item name="1">5</item>
+		<item name="2">15</item>
+		<item name="3">30</item>
+		<item name="4">60</item>
 	</string-array>
 	
 	<string-array name="orderbyLabels">
