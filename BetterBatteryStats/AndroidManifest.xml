@@ -99,12 +99,12 @@
             </intent-filter>
         </receiver>
         
-        <receiver android:name=".handlers.OnBootHandler">
+        <receiver android:name="com.asksven.betterbatterystats.handlers.OnBootHandler">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>    
         </receiver>        
-        <receiver android:name=".handlers.OnUnplugHandler">
+        <receiver android:name="com.asksven.betterbatterystats.handlers.OnUnplugHandler">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
             </intent-filter>    
