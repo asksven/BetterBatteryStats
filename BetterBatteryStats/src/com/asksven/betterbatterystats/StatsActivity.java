@@ -275,7 +275,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         if (tvSince != null)
         {
 
-            long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType);
+            long sinceMs = getSince();
             if (sinceMs != -1)
             {
     	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
@@ -285,8 +285,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType);
     	        }
     	        tvSince.setText(sinceText);
-    	    	Log.i(TAG, "Since " + DateUtils.formatDuration(
-    	    			StatsProvider.getInstance(this).getSince(m_iStatType)));
+    	    	Log.i(TAG, "Since " + sinceText);
             }
             else
             {
@@ -666,7 +665,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-        long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType);
+        long sinceMs = getSince();
         if (sinceMs != -1)
         {
 	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
@@ -676,8 +675,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType);
 	        }
 	        tvSince.setText(sinceText);
-	    	Log.i(TAG, "Since " + DateUtils.formatDuration(
-	    			StatsProvider.getInstance(this).getSince(m_iStatType)));
+	    	Log.i(TAG, "Since " + sinceText);
         }
         else
         {
@@ -716,7 +714,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		new LoadStatData().execute(this);
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-        long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType);
+        long sinceMs = getSince();
         if (sinceMs != -1)
         {
 	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
@@ -728,8 +726,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType);
 	        }
 	        tvSince.setText(sinceText);
-	    	Log.i(TAG, "Since " + DateUtils.formatDuration(
-	    			StatsProvider.getInstance(this).getSince(m_iStatType)));
+	    	Log.i(TAG, "Since " + sinceText);
         }
         else
         {
@@ -932,7 +929,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    }
 	}
 
-	
+	private long getSince()
+	{
+		long ret = -1;
+		try
+		{
+			ret = StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType);
+		}
+		catch (BatteryInfoUnavailableException e)
+		{
+			Toast.makeText(StatsActivity.this,
+					"BatteryInfo Service could not be contacted.",
+					Toast.LENGTH_LONG).show();
+			ret = -1;
+		}
+		
+		return ret;
+	}
 
 
 	

@@ -139,8 +139,8 @@ public class UpdateLargeWidgetService extends Service
 						timeScreenOn 	= 0;
 					}
 					
-//					timeSince = stats.getBatteryRealtime(statType);
-					timeSince = stats.getSince(statType);
+					timeSince = stats.getBatteryRealtime(statType);
+//					timeSince = stats.getSince(statType);
 					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0);
 					sumPWakelocks = stats.sum(pWakelockStats);
 	
