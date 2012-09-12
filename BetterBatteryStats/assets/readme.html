@@ -36,52 +36,6 @@
 </ul>
 </p>
 
-<h2>v1.10.4.0 2012-09-02</h2>
-<p>
-<ul>
-	<li>Some tweaking in the widget code</li>
-	<li>Added an option to save logcat from BBS</li>
-	<li>Added perm to read logs</li>
-	<li>Better error handling to avoid other stats to fail in case of a batteryinfo error</li>
-	<li>Advanced setting to enable stats while charging</li>
-	<li>Reference summary in dumpfile shows data instead of count</li>
-	<li>Difference in "since" value between widget and app</li>
-	<li>Exception when asking for plugged state leads to unknown error</li>
-</ul>
-</p>
-
-<h2>v1.10.1.0 2012-08-28</h2>
-<p>
-<ul>
-	<li>Fixed error condition leading to references not being stored if cpu state file does not exist</li>
-	<li>Fixed error condition related to some ROMs/Android versions not supporting battery level retrieval</li>
-</ul>
-</p>
-
-<h2>v1.10.0.0 2012-08-25</h2>
-<p>
-<ul>
-	<li>Added battery drain to on screen battery info</li>	
-	<li>Fixed dumpfile creation from tasker</li>	
-	<li>Added raw cpu states</li>	
-	<li>Added battery from/to values for level and voltage to dumpfile and screen</li>
-	<li>Added "since boot" reference</li>
-	<li>If default stat type has no reference fall back to 'since boot' (is prefs are set that way)</li> 		
-	<li>Prevent (inconsitent) stats while plugged in</li>	
-	<li>Grey background for stats bars</li>
-	<li>Added icons to stats having package info, clicking icon starts application settings</li>	
-	<li>Workaround to SuperUser obcessing about asking for rights</li>
-	<li>Removed Froyo specific code as BBS does not depend on Android version for references anymore</li>
-	<li>Stats requiring root (alarms/network) are <b>disabled</b> by default</li>
-	<li>Make sure references are always written (even if su rights are not granted yet)</li>
-	<li>Simplified Preferences</li>
-	<li>Added proper handling of "deleted: " kernel wakelocks (Siyah)</li>
-	<li>Added a wakelock for write operations (dumpfile, references) to make sure those are never interrupted</li>
-	<li>Reorganized menu</li>
-</ul>
-</p>
-
-
 </div> 
 
 </div>
