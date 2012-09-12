@@ -33,23 +33,25 @@ public class GoogleAnalytics
 	private static boolean m_bActive = false;
 	
 	/** constants for the reported actions */
-	public static final String ACTIVITY_ABOUT = "/AboutActivity";
-	public static final String ACTIVITY_ALARMS = "/AlarmsActivity";
-	public static final String ACTIVITY_KWL = "/RawKwlActivity";
-	public static final String ACTIVITY_NET = "/RawNetActivity";
-	public static final String ACTIVITY_CPU = "/RawCpuActivity";
-	public static final String ACTIVITY_BATTERY_GRAPH = "/BatteryGraphActivity";
-	public static final String ACTIVITY_BATTERY_GRAPH2 = "/BatteryGraph2Activity";
-	public static final String ACTIVITY_BATTERY_GRAPH_SERIES = "/BatteryGraphSeriesActivity";
-	public static final String ACTIVITY_HELP = "/HelpActivity";
-	public static final String ACTIVITY_HOWTO = "/HowtoActivity";
-	public static final String ACTIVITY_README = "/ReadmeActivity";
-	public static final String ACTIVITY_HIST = "/HistActivity";
-	public static final String ACTIVITY_PREFERENCES = "/PreferencesActivity";
-	public static final String ACTIVITY_STATS = "/StatsActivity";
+	public static final String ACTIVITY_ABOUT					= "/AboutActivity";
+	public static final String ACTIVITY_ALARMS 					= "/AlarmsActivity";
+	public static final String ACTIVITY_KWL						= "/RawKwlActivity";
+	public static final String ACTIVITY_NET 					= "/RawNetActivity";
+	public static final String ACTIVITY_CPU 					= "/RawCpuActivity";
+	public static final String ACTIVITY_PERMS 					= "/PermissionsActivity";
+
+	public static final String ACTIVITY_BATTERY_GRAPH 			= "/BatteryGraphActivity";
+	public static final String ACTIVITY_BATTERY_GRAPH2 			= "/BatteryGraph2Activity";
+	public static final String ACTIVITY_BATTERY_GRAPH_SERIES 	= "/BatteryGraphSeriesActivity";
+	public static final String ACTIVITY_HELP 					= "/HelpActivity";
+	public static final String ACTIVITY_HOWTO 					= "/HowtoActivity";
+	public static final String ACTIVITY_README 					= "/ReadmeActivity";
+	public static final String ACTIVITY_HIST 					= "/HistActivity";
+	public static final String ACTIVITY_PREFERENCES 			= "/PreferencesActivity";
+	public static final String ACTIVITY_STATS 					= "/StatsActivity";
 	
-	public static final String ACTION_DUMP = "/ActionDump";
-	public static final String ACTION_SET_CUSTOM_REF = "/ActionSetCustmRef";
+	public static final String ACTION_DUMP 						= "/ActionDump";
+	public static final String ACTION_SET_CUSTOM_REF 			= "/ActionSetCustmRef";
 	
 
 	private GoogleAnalytics()
@@ -76,7 +78,6 @@ public class GoogleAnalytics
 
 				// Start the tracker in manual dispatch mode...
 				m_tracker.startNewSession("TRACKING_CODE_HERE", 20, context);
-				
 				
 				// set custom vars
 				// Scopes are encoded to integers:  Visitor=1, Session=2, Page=3
