@@ -527,6 +527,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	            this.startActivity(intentCpu);
 	        	break;	
 
+	        case R.id.permissions:  
+	        	Intent intentPerms = new Intent(this, PermissionsActivity.class);
+	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_PERMS);
+	            this.startActivity(intentPerms);
+	        	break;	
+	        	
 	        case R.id.refresh:
             	// Refresh
 	        	doRefresh();

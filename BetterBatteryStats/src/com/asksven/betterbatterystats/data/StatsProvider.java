@@ -19,15 +19,19 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -36,6 +40,9 @@ import android.content.IntentFilter;
 import android.content.ReceiverCallNotAllowedException;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.PermissionInfo;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Environment;
@@ -996,6 +1003,73 @@ public class StatsProvider
 					myStats.add(new State(1, 1));
 				}
 			}
+		}
+		return myStats;
+
+	}
+
+	/**
+	 * Get the permissions
+	 * 
+	 * @return a List of permissions
+	 */
+	public Map<String, Permission> getPermissionMap(Context context)
+	{
+		Map<String, Permission> myStats = new Hashtable<String, Permission>();
+		Class<Manifest.permission> perms = Manifest.permission.class;
+		Field[] fields = perms.getFields();
+		int size = fields.length;
+		PackageManager pm = context.getPackageManager();
+		for (int i = 0; i < size; i++)
+		{
+			try
+			{
+				Field field = fields[i];
+				PermissionInfo info = pm.getPermissionInfo(
+						field.get(field.getName()).toString(),
+						PackageManager.GET_PERMISSIONS);
+				Permission perm = new Permission();
+				perm.name = info.name;
+				final CharSequence chars = info.loadDescription(context
+						.getPackageManager());
+				perm.description = chars == null ? "no description" : chars
+						.toString();
+				perm.level = info.protectionLevel;
+				myStats.put(perm.name, perm);
+			} catch (Exception e)
+			{
+				Log.e(TAG, e.getMessage());
+			}
+		}
+		return myStats;
+
+	}
+
+	public ArrayList<String> getRequestedPermissionListForPackage(Context context, String packageName)
+	{
+		ArrayList<String> myStats = new ArrayList<String>();
+		
+		try
+		{
+			PackageInfo pkgInfo = context.getPackageManager().getPackageInfo(
+				    packageName, 
+				    PackageManager.GET_PERMISSIONS
+				  );
+			String[] requestedPermissions = pkgInfo.requestedPermissions;
+		    if (requestedPermissions == null)
+		    {
+		    	myStats.add("No requested permissions");
+		    }
+		    else
+		    {
+		    	for (int i = 0; i < requestedPermissions.length; i++)
+		    	{
+		    		myStats.add(requestedPermissions[i]);
+				}			    	
+		    }
+		} catch (Exception e)
+		{
+			Log.e(TAG, e.getMessage());
 		}
 		return myStats;
 
