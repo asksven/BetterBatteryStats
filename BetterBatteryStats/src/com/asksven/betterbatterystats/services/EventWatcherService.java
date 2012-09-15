@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.services;
 
 import android.app.ActivityManager;
 import android.app.Service;
@@ -28,6 +28,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.handlers.ScreenEventHandler;
 
 /**
  * @author sven

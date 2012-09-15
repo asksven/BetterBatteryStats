@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.services;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,9 +28,12 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.R.drawable;
+import com.asksven.betterbatterystats.R.string;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.StatsActivity;
 
 import android.app.Notification;
 import android.app.NotificationManager;

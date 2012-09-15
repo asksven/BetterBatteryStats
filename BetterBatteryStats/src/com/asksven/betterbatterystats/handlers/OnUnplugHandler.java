@@ -17,7 +17,7 @@
 package com.asksven.betterbatterystats.handlers;
 
 
-import com.asksven.betterbatterystats.WriteUnpluggedReferenceService;
+import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

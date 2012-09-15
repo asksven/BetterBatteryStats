@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.adapters;
 
 import java.util.List;
 import java.util.Map;
@@ -35,24 +35,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.R.id;
+import com.asksven.betterbatterystats.R.layout;
 import com.asksven.betterbatterystats.data.Permission;
 
-public class PermissionsAdapter extends BaseAdapter
+public class ServicesAdapter extends BaseAdapter
 {
     private Context m_context;
 
     private List<String> m_listData;
-    private Map<String, Permission> m_dictionary;
-    private static final String TAG = "PermissionsAdapter";
+    private static final String TAG = "ServicesAdapter";
 	int m_selectedPosition = 0;
 	boolean m_expanded = false;
 
 
-    public PermissionsAdapter(Context context, List<String> listData, Map<String, Permission> dictionary)
+    public ServicesAdapter(Context context, List<String> listData)
     {
         this.m_context = context;
         this.m_listData = listData;
-        this.m_dictionary = dictionary;
 
     }
 
@@ -90,56 +90,10 @@ public class PermissionsAdapter extends BaseAdapter
         {
             LayoutInflater inflater = (LayoutInflater) m_context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.perm_row, null);
+            convertView = inflater.inflate(R.layout.package_info_row, null);
         }
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
        	tvName.setText(entry);
-
-        Permission permData = m_dictionary.get(entry);
-        if (permData != null)
-        {
-	        TextView tvDescription = (TextView) convertView.findViewById(R.id.TextViewDescription);
-	        tvDescription.setText(permData.description);
-		        
-	        int color;
-	       	switch(permData.level)
-	       	{
-			case PermissionInfo.PROTECTION_DANGEROUS:
-				color = R.color.dangerous_color;
-				break;
-			case PermissionInfo.PROTECTION_SIGNATURE:
-			case PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM:
-				color = R.color.signature_color;
-				break;
-			default:
-				color = android.R.color.primary_text_light;
-				break;
-			}
-	    	LinearLayout nameLayout = (LinearLayout) convertView.findViewById(R.id.LayoutName);
-
-			nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
-
-        }
-        
-    	LinearLayout descriptionLayout = (LinearLayout) convertView.findViewById(R.id.LayoutDescription);
-
-       	if (m_selectedPosition == position)
-       	{
-       		if (m_expanded)
-       		{
-        		descriptionLayout.setVisibility(View.VISIBLE);
-       		}
-       		else
-       		{
-        		descriptionLayout.setVisibility(View.GONE);
-       		}
-       	}
-       	else
-       	{
-    		descriptionLayout.setVisibility(View.GONE);
-       	}
-
-
 
         return convertView;
     }

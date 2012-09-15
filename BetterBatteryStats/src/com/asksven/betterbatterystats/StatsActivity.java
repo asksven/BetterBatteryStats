@@ -61,8 +61,10 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.services.EventWatcherService;
 
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
@@ -528,7 +530,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        	break;	
 
 	        case R.id.permissions:  
-	        	Intent intentPerms = new Intent(this, PermissionsActivity.class);
+	        	Intent intentPerms = new Intent(this, PackageInfoActivity.class);
 	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_PERMS);
 	            this.startActivity(intentPerms);
 	        	break;	

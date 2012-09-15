@@ -34,6 +34,7 @@ import android.view.MenuItem;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
 public class AlarmsActivity extends ListActivity

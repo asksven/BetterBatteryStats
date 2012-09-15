@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.services;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,9 +28,13 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.R.id;
+import com.asksven.betterbatterystats.R.layout;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
+import com.asksven.betterbatterystats.LargeWidgetProvider;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.StatsActivity;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -53,11 +57,11 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class UpdateMediumWidgetService extends Service
+public class UpdateLargeWidgetService extends Service
 {
-	private static final String TAG = "UpdateMediumWidgetService";
+	private static final String TAG = "UpdateLargeWidgetService";
 	/** must be unique for each widget */
-	private static final int PI_CODE = 3;
+	private static final int PI_CODE = 2;
 
 	@Override
 	public void onStart(Intent intent, int startId)
@@ -70,8 +74,13 @@ public class UpdateMediumWidgetService extends Service
 
 		int[] allWidgetIds = intent
 				.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
-				
+
+		ComponentName thisWidget = new ComponentName(getApplicationContext(), LargeWidgetProvider.class);
+		
+		int[] allWidgetIds2 = appWidgetManager.getAppWidgetIds(thisWidget);
+		
 		Log.w(TAG, "From Intent" + String.valueOf(allWidgetIds.length));
+		Log.w(TAG, "Direct" + String.valueOf(allWidgetIds2.length));
 
 		StatsProvider stats = StatsProvider.getInstance(this);
 		// make sure to flush cache
@@ -87,21 +96,19 @@ public class UpdateMediumWidgetService extends Service
 		{ 
 			RemoteViews remoteViews = new RemoteViews(this
 					.getApplicationContext().getPackageName(),
-					R.layout.medium_widget_layout);
+					R.layout.large_widget_layout);
 			
 			// we change the bg color of the layout based on alpha from prefs
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 			int opacity	= sharedPrefs.getInt("large_widget_bg_opacity", 20);
 			opacity = (255 * opacity) / 100; 
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
-
 			
 			// retrieve stats
 			int statType	= Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "3"));
-
+			
 			boolean showPct	= sharedPrefs.getBoolean("large_widget_show_pct", false);
 			boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
-
 
 			long timeAwake 		= 0;
 			long timeDeepSleep	= 0;
@@ -110,18 +117,19 @@ public class UpdateMediumWidgetService extends Service
 			long sumPWakelocks	= 0;
 			long sumKWakelocks	= 0;
 			
+
 			try
 			{
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true);
-				
+
 				if ( (otherStats == null) || ( otherStats.size() == 1) )
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
 					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "3"));
 					otherStats = stats.getOtherUsageStatList(true, statType, false, true);
 				}
-
+				
 				if ( (otherStats != null) && ( otherStats.size() > 1) )
 				{
 					try
@@ -134,6 +142,7 @@ public class UpdateMediumWidgetService extends Service
 						timeAwake 		= 0;
 						timeScreenOn 	= 0;
 					}
+					
 					timeSince = stats.getBatteryRealtime(statType);
 //					timeSince = stats.getSince(statType);
 					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0);
@@ -151,11 +160,12 @@ public class UpdateMediumWidgetService extends Service
 					{
 						timeDeepSleep = 0;
 					}
-
+					
 					if (!showTitle)
 					{
 						remoteViews.setInt(R.id.stat_type, "setVisibility", View.GONE);
 					}
+
 
 					// Set the text
 					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
@@ -173,6 +183,7 @@ public class UpdateMediumWidgetService extends Service
 						remoteViews.setTextViewText(R.id.deep_sleep, DateUtils.formatDurationShort(timeDeepSleep));
 						remoteViews.setTextViewText(R.id.screen_on, DateUtils.formatDurationShort(timeScreenOn));
 					}
+
 					
 					// and the font size
 					float fontSize	= Float.valueOf(sharedPrefs.getString("large_widget_font_size", "10"));
@@ -225,6 +236,16 @@ public class UpdateMediumWidgetService extends Service
 						}
 					}
 					
+					WidgetBars graph = new WidgetBars();
+					ArrayList<Long> serie = new ArrayList<Long>();
+					serie.add(timeSince);
+					serie.add(timeDeepSleep);
+					serie.add(timeAwake);
+					serie.add(timeScreenOn);
+					serie.add(sumKWakelocks);
+					serie.add(sumPWakelocks);
+					
+					remoteViews.setImageViewBitmap(R.id.graph, graph.getBitmap(this, serie));
 				}
 				else
 				{
@@ -234,7 +255,6 @@ public class UpdateMediumWidgetService extends Service
 					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
 					remoteViews.setTextViewText(R.id.since, notAvailable);
 					remoteViews.setTextViewText(R.id.awake, notAvailable);
-					remoteViews.setTextViewText(R.id.deep_sleep, notAvailable);
 					remoteViews.setTextViewText(R.id.screen_on, notAvailable);
 					remoteViews.setTextViewText(R.id.wl, notAvailable);
 					remoteViews.setTextViewText(R.id.kwl, notAvailable);
@@ -242,20 +262,19 @@ public class UpdateMediumWidgetService extends Service
 			}
 			catch (Exception e)
 			{
-				Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
+				Log.e(TAG, "Exception: "+Log.getStackTraceString(e));				
 			}
 			finally
 			{
 				Log.d(TAG, "Since: " + DateUtils.formatDurationShort(timeSince));
 				Log.d(TAG, "Awake: " + DateUtils.formatDurationShort(timeAwake));
-				Log.d(TAG, "Deep Sleep: " + DateUtils.formatDurationShort(timeDeepSleep));
 				Log.d(TAG, "Screen on: " + DateUtils.formatDurationShort(timeScreenOn));
-				Log.d(TAG, "PWL: " + DateUtils.formatDurationShort(sumPWakelocks));
-				Log.d(TAG, "KWL: " + DateUtils.formatDurationShort(sumKWakelocks));
+				Log.d(TAG, "P. Wl.: " + DateUtils.formatDurationShort(sumPWakelocks));
+				Log.d(TAG, "K. Wl.: " + DateUtils.formatDurationShort(sumKWakelocks));
 
 				// Register an onClickListener for the graph -> refresh
 				Intent clickIntent = new Intent(this.getApplicationContext(),
-						MediumWidgetProvider.class);
+						LargeWidgetProvider.class);
 	
 				clickIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
 				clickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
@@ -276,11 +295,10 @@ public class UpdateMediumWidgetService extends Service
 				i.putExtra(StatsActivity.STAT, stat);
 				i.putExtra(StatsActivity.STAT_TYPE, statType);
 
-
 				PendingIntent clickPI = PendingIntent.getActivity(
 						this.getApplicationContext(), PI_CODE,
 						i, PendingIntent.FLAG_UPDATE_CURRENT);
-				remoteViews.setOnClickPendingIntent(R.id.layout2, clickPI);
+				remoteViews.setOnClickPendingIntent(R.id.graph, clickPI);
 
 				appWidgetManager.updateAppWidget(widgetId, remoteViews);
 			}

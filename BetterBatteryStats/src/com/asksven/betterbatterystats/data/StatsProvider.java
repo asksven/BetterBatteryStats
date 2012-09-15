@@ -43,6 +43,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.PermissionInfo;
+import android.content.pm.ServiceInfo;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Environment;
@@ -1045,6 +1046,12 @@ public class StatsProvider
 
 	}
 
+	/**
+	 * Returns the permissions <uses-permissions> requested by a package in its manifest
+	 * @param context
+	 * @param packageName 
+	 * @return the list of permissions
+	 */
 	public ArrayList<String> getRequestedPermissionListForPackage(Context context, String packageName)
 	{
 		ArrayList<String> myStats = new ArrayList<String>();
@@ -1065,6 +1072,42 @@ public class StatsProvider
 		    	for (int i = 0; i < requestedPermissions.length; i++)
 		    	{
 		    		myStats.add(requestedPermissions[i]);
+				}			    	
+		    }
+		} catch (Exception e)
+		{
+			Log.e(TAG, e.getMessage());
+		}
+		return myStats;
+
+	}
+
+	/**
+	 * Returns the services <service> defined by a package in its manifest
+	 * @param context
+	 * @param packageName 
+	 * @return the list of services
+	 */
+	public ArrayList<String> getServiceListForPackage(Context context, String packageName)
+	{
+		ArrayList<String> myStats = new ArrayList<String>();
+		
+		try
+		{
+			PackageInfo pkgInfo = context.getPackageManager().getPackageInfo(
+				    packageName, 
+				    PackageManager.GET_SERVICES
+				  );
+			ServiceInfo[] services = pkgInfo.services;
+		    if (services == null)
+		    {
+		    	myStats.add("None");
+		    }
+		    else
+		    {
+		    	for (int i = 0; i < services.length; i++)
+		    	{
+		    		myStats.add(services[i].name);
 				}			    	
 		    }
 		} catch (Exception e)

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="dangerous_color">#778c8cff</color>
+	<color name="signature_color">#77ffa4a4</color>
+</resources>

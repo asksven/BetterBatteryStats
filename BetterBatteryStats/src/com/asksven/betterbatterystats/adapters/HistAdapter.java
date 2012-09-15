@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.adapters;
 
 import java.util.List;
 
@@ -26,6 +26,8 @@ import android.widget.TextView;
 
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.R.id;
+import com.asksven.betterbatterystats.R.layout;
 
 public class HistAdapter extends BaseAdapter
 {

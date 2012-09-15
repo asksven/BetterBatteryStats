@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +43,15 @@ import com.asksven.android.common.privateapiproxies.Alarm.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.betterbatterystats.R.id;
+import com.asksven.betterbatterystats.R.layout;
+import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
 import com.asksven.betterbatterystats.data.KbReader;
 import com.asksven.betterbatterystats.widgets.GraphableBars;
+import com.asksven.betterbatterystats.HelpActivity;
+import com.asksven.betterbatterystats.PackageInfoActivity;
 import com.asksven.betterbatterystats.R;
 
 public class StatsAdapter extends BaseAdapter
@@ -285,7 +290,7 @@ public class StatsAdapter extends BaseAdapter
         	
 //        	ctx.startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS));
         	String packageName = entry.getPackageName();
-        	showInstalledAppDetails(ctx, packageName);
+        	showInstalledPackageDetails(ctx, packageName);
         	
         }
     }
@@ -387,33 +392,16 @@ public class StatsAdapter extends BaseAdapter
 	    }
 	 }
     
-    private static final String SCHEME = "package";
-    private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
-    private static final String APP_PKG_NAME_22 = "pkg";
-    private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
-    private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
 
-    public static void showInstalledAppDetails(Context context, String packageName)
+
+    public static void showInstalledPackageDetails(Context context, String packageName)
     {
-        Intent intent = new Intent();
-        final int apiLevel = Build.VERSION.SDK_INT;
-        if (apiLevel >= 9)
-        {
-        	// above 2.3
-            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            Uri uri = Uri.fromParts(SCHEME, packageName, null);
-            intent.setData(uri);
-        }
-        else
-        {
-        	// below 2.3
-            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22 : APP_PKG_NAME_21);
-            intent.setAction(Intent.ACTION_VIEW);
-            intent.setClassName(APP_DETAILS_PACKAGE_NAME,
-                    APP_DETAILS_CLASS_NAME);
-            intent.putExtra(appPkgName, packageName);
-        }
-        context.startActivity(intent);
+    	Intent intentPerms = new Intent(context, PackageInfoActivity.class);
+    	intentPerms.putExtra("package", packageName);
+    	GoogleAnalytics.getInstance(context).trackPage(GoogleAnalytics.ACTIVITY_PERMS);
+        context.startActivity(intentPerms);
     }
+
+    
 }
 

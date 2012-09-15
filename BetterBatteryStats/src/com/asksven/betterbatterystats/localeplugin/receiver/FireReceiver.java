@@ -28,13 +28,13 @@ import android.widget.Toast;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.betterbatterystats.StatsActivity;
-import com.asksven.betterbatterystats.WriteCustomReferenceService;
-import com.asksven.betterbatterystats.WriteDumpfileService;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.localeplugin.Constants;
 import com.asksven.betterbatterystats.localeplugin.bundle.BundleScrubber;
 import com.asksven.betterbatterystats.localeplugin.bundle.PluginBundleManager;
 import com.asksven.betterbatterystats.localeplugin.ui.EditActivity;
+import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
+import com.asksven.betterbatterystats.services.WriteDumpfileService;
 
 /**
  * This is the "fire" BroadcastReceiver for a Locale Plug-in setting.

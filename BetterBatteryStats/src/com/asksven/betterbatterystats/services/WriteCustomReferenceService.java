@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.services;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,9 +30,10 @@ import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
+import com.asksven.betterbatterystats.LargeWidgetProvider;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.Wakelock;
 
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -55,38 +56,24 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class WriteScreenOffReferenceService extends Service
+public class WriteCustomReferenceService extends Service
 {
-	private static final String TAG = "WriteScreenOffReferenceService";
+	private static final String TAG = "WriteCustomReferenceService";
 
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
 		Log.i(TAG, "Called at " + DateUtils.now());
 		try
 		{
+			Wakelock.aquireWakelock(this);
+			// Store the "since unplugged ref
+			StatsProvider.getInstance(this).setCustomReference(0);
 			
-			// Clear any notifications taht may still be shown as the reference in going to be overwritten
-	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
-	    	nM.cancel(EventWatcherService.NOTFICATION_ID);
+			// Build the intent to call the service
+			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+			this.sendBroadcast(intentRefreshWidgets);
 
-			boolean bRefForScreenOff = sharedPrefs.getBoolean("ref_for_screen_off", false);
-
-			if (bRefForScreenOff)
-			{
-				// Store the "since screen off" ref
-				Wakelock.aquireWakelock(this);
-				StatsProvider.getInstance(this).setReferenceSinceScreenOff(0);
-				
-				long now = System.currentTimeMillis();
-				// Save current time to prefs 
-		        SharedPreferences.Editor editor = sharedPrefs.edit();
-		        editor.putLong("screen_went_off_at", now);
-		        editor.commit();
-			}
-			
 		}
 		catch (Exception e)
 		{

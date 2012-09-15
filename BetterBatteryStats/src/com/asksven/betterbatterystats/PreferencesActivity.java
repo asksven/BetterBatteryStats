@@ -33,6 +33,7 @@ import android.preference.PreferenceManager;
 import com.asksven.andoid.common.CommonLogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.services.EventWatcherService;
 
 /**
  * Activity for managing preferences using Android's preferences framework

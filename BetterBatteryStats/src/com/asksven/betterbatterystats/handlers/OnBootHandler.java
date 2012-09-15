@@ -17,9 +17,10 @@
 package com.asksven.betterbatterystats.handlers;
 
 
-import com.asksven.betterbatterystats.EventWatcherService;
-import com.asksven.betterbatterystats.WriteBootReferenceService;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.services.EventWatcherService;
+import com.asksven.betterbatterystats.services.WriteBootReferenceService;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

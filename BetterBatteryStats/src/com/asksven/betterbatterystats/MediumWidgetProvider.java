@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.util.Log;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.services.UpdateMediumWidgetService;
 
 /**
  * @author sven
