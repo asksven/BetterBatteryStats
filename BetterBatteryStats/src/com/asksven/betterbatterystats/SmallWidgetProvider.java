@@ -20,6 +20,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.services.UpdateSmallWidgetService;
@@ -52,11 +54,13 @@ public class SmallWidgetProvider extends BbsWidgetProvider
 	{
 		super.onReceive(context, intent);
 		
-		Log.i(TAG, "onReceive method called");
+		Log.i(TAG, "onReceive method called, action = '" + intent.getAction() + "' at " + DateUtils.now());
 		
 		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
-					intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") )
-
+				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") ||
+				intent.getAction().equals("com.sec.android.widgetapp.APPWIDGET_RESIZE") ||
+				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE_OPTIONS")
+				)
 		{
 			if (WIDGET_UPDATE.equals(intent.getAction()))
 			{

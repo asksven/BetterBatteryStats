@@ -69,9 +69,10 @@ public class ScreenEventHandler extends BroadcastReceiver
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_ON");
+			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);		
 			boolean bRunOnUnlock = sharedPrefs.getBoolean("watchdog_on_unlock", false);
 			
-			if (!bRunOnUnlock)
+			if (watchdogActive && !bRunOnUnlock)
 			{
 				// start service to process watchdog
 				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
@@ -89,9 +90,10 @@ public class ScreenEventHandler extends BroadcastReceiver
         if (intent.getAction().equals(Intent.ACTION_USER_PRESENT))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_USER_PRESENT");
+			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);		
 			boolean bRunOnUnlock = sharedPrefs.getBoolean("watchdog_on_unlock", false);
 			
-			if (bRunOnUnlock)
+			if (watchdogActive && bRunOnUnlock)
 			{
 				// start service to process watchdog
 				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
