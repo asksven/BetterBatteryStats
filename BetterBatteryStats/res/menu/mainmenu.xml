@@ -56,8 +56,6 @@
 	       	<item android:id="@+id/rawcpustates"
 	        	android:title="Raw CPU states" />
 
-	       	<item android:id="@+id/permissions"
-	        	android:title="Permissions" />
 	       		       		       		       		        
 	    </menu>
 	</item>

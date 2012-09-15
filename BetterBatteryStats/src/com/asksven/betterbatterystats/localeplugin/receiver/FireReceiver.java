@@ -102,7 +102,6 @@ public final class FireReceiver extends BroadcastReceiver
         if (saveRef)
         {
         	Log.d(TAG, "Preparing to save a custom ref");
-//        	StatsProvider.getInstance(context).setCustomReference(0);
 			Intent serviceIntent = new Intent(context, WriteCustomReferenceService.class);
 			context.startService(serviceIntent);
 

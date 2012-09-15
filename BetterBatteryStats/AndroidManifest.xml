@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest 
-    android:versionCode="27"
-    android:versionName="1.10.5.0"
+    android:versionCode="28"
+    android:versionName="1.10.6.0"
     android:installLocation="internalOnly"
     package="com.asksven.betterbatterystats"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -59,6 +59,8 @@
         <activity android:name="com.asksven.betterbatterystats.NetworkStatsActivity"
             android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
         <activity android:name="com.asksven.betterbatterystats.CpuStatesActivity"
+            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.PackageInfoActivity"
             android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
         
         <activity android:name="com.asksven.betterbatterystats.BatteryGraphActivity"
@@ -153,16 +155,16 @@
                 android:resource="@xml/small_widget_info" />
         </receiver>
         
-        <service android:name="com.asksven.betterbatterystats.UpdateLargeWidgetService"></service>
-        <service android:name="com.asksven.betterbatterystats.UpdateMediumWidgetService"></service>
-        <service android:name="com.asksven.betterbatterystats.UpdateSmallWidgetService"></service>
-        <service android:name="com.asksven.betterbatterystats.EventWatcherService"/>
-        <service android:name="com.asksven.betterbatterystats.WriteUnpluggedReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.WriteCustomReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.WriteDumpfileService"/>
-        <service android:name="com.asksven.betterbatterystats.WriteScreenOffReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.WriteBootReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.WatchdogProcessingService"/>
+        <service android:name="com.asksven.betterbatterystats.services.UpdateLargeWidgetService"></service>
+        <service android:name="com.asksven.betterbatterystats.services.UpdateMediumWidgetService"></service>
+        <service android:name="com.asksven.betterbatterystats.services.UpdateSmallWidgetService"></service>
+        <service android:name="com.asksven.betterbatterystats.services.EventWatcherService"/>
+        <service android:name="com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService"/>
+        <service android:name="com.asksven.betterbatterystats.services.WriteCustomReferenceService"/>
+        <service android:name="com.asksven.betterbatterystats.services.WriteDumpfileService"/>
+        <service android:name="com.asksven.betterbatterystats.services.WriteScreenOffReferenceService"/>
+        <service android:name="com.asksven.betterbatterystats.services.WriteBootReferenceService"/>
+        <service android:name="com.asksven.betterbatterystats.services.WatchdogProcessingService"/>
         
     </application>
 	
