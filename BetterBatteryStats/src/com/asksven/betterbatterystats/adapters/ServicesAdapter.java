@@ -35,8 +35,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.R.id;
-import com.asksven.betterbatterystats.R.layout;
 import com.asksven.betterbatterystats.data.Permission;
 
 public class ServicesAdapter extends BaseAdapter

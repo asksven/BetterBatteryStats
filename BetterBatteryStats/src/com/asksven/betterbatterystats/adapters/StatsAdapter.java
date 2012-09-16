@@ -43,8 +43,6 @@ import com.asksven.android.common.privateapiproxies.Alarm.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.betterbatterystats.R.id;
-import com.asksven.betterbatterystats.R.layout;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;

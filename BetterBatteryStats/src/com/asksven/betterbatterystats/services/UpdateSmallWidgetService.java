@@ -27,8 +27,6 @@ import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
-import com.asksven.betterbatterystats.R.id;
-import com.asksven.betterbatterystats.R.layout;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.widgets.WidgetBattery;
