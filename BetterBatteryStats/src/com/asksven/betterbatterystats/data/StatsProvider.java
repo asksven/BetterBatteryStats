@@ -227,7 +227,7 @@ public class StatsProvider
 			Log.d(TAG, "It is now " + DateUtils.now());
 			if (myReference.m_creationTime != 0)
 			{
-				ret = now - myReference.m_creationTime;
+				ret = now - myReference.m_refBatteryRealtime;
 				Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
 			} else
 			{
@@ -1142,6 +1142,7 @@ public class StatsProvider
 		ArrayList<Misc> myUsages = new ArrayList<Misc>();
 
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+		
 		long batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
 
 		long whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
@@ -1149,6 +1150,7 @@ public class StatsProvider
 		long timeBatteryUp = mStats.computeBatteryUptime(
 				SystemClock.uptimeMillis() * 1000,
 				BatteryStatsTypes.STATS_CURRENT) / 1000;
+		
 		long timeScreenOn = mStats.getScreenOnTime(batteryRealtime,
 				BatteryStatsTypes.STATS_CURRENT) / 1000;
 		long timePhoneOn = mStats.getPhoneOnTime(batteryRealtime,
@@ -1259,7 +1261,7 @@ public class StatsProvider
 			myUsages.add(deepSleepUsage);
 		}
 
-		if ((whichRealtime - timeDeepSleep) > 0)
+		if (timeBatteryUp > 0)
 		{
 			myUsages.add(new Misc("Awake", timeBatteryUp, whichRealtime));
 		}
@@ -1420,7 +1422,8 @@ public class StatsProvider
 				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
 				{
 					myStats.add((StatElement) usage);
-				} else
+				}
+				else
 				{
 
 					if ((myReference != null)
@@ -1433,7 +1436,8 @@ public class StatsProvider
 									+ usage.getData());
 							myStats.add((StatElement) usage);
 						}
-					} else
+					}
+					else
 					{
 						myStats.clear();
 						if (myReference != null)
