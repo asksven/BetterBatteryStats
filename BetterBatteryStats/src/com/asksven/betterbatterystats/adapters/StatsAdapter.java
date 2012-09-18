@@ -49,7 +49,6 @@ import com.asksven.betterbatterystats.data.KbEntry;
 import com.asksven.betterbatterystats.data.KbReader;
 import com.asksven.betterbatterystats.widgets.GraphableBars;
 import com.asksven.betterbatterystats.HelpActivity;
-import com.asksven.betterbatterystats.PackageInfoActivity;
 import com.asksven.betterbatterystats.PackageInfoTabsPager;
 import com.asksven.betterbatterystats.R;
 
