@@ -64,7 +64,7 @@ public class UpdateLargeWidgetService extends Service
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
-		Log.i(TAG, "Called");
+		Log.d(TAG, "Service started");
 		// Create some random data
 
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this

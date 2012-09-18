@@ -38,7 +38,7 @@ public class EventWatcherService extends Service
 {
 	
 	static final String TAG = "EventWatcherService";
-	public static String SERVICE_NAME = "com.asksven.betterbatterystats.EventWatcherService";
+	public static String SERVICE_NAME = "com.asksven.betterbatterystats.services.EventWatcherService";
 	public static final int NOTFICATION_ID = 1002;
 
 

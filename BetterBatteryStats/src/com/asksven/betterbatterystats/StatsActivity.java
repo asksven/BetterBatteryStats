@@ -367,12 +367,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
 
-		// the service is always started as it handles the widget updates too
-		if (!EventWatcherService.isServiceRunning(this))
-		{
-			Intent i = new Intent(this, EventWatcherService.class);
-	        this.startService(i);
-		}
 				
 	}
     
@@ -381,6 +375,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	protected void onResume()
 	{
 		super.onResume();
+
+		// the service is always started as it handles the widget updates too
+		if (!EventWatcherService.isServiceRunning(this))
+		{
+			Intent i = new Intent(this, EventWatcherService.class);
+	        this.startService(i);
+		}
 		
 		// refresh 
 		//doRefresh();

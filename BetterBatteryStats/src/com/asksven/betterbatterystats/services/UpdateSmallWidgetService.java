@@ -64,6 +64,7 @@ public class UpdateSmallWidgetService extends Service
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
+		Log.d(TAG, "Service started");
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this
 				.getApplicationContext());
 
