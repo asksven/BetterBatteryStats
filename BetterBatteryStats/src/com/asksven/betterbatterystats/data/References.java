@@ -45,12 +45,12 @@ class References implements Serializable
 	protected static final String SINCE_BOOT_REF_FILENAME			= "since_boot";
 
 	protected static final String NO_STATS_WHEN_CHARGING		= "Device is plugged in: no stats";
-	protected static final String GENERIC_REF_ERR 			= "No reference set yet";
-	protected static final String CUSTOM_REF_ERR 				= "No custom reference set yet";
-	protected static final String SINCE_UNPLUGGED_REF_ERR 	= "No reference since unplugged set yet";
-	protected static final String SINCE_CHARGED_REF_ERR 		= "No reference since charged set yet";
-	protected static final String SINCE_SCREEN_OFF_REF_ERR	= "No reference since screen off set yet";
-	protected static final String SINCE_BOOT_REF_ERR			= "No since boot reference set yet";
+	protected static final String GENERIC_REF_ERR 				= "No reference set yet";
+	protected static final String CUSTOM_REF_ERR 				= "No custom reference was set. Please use the menu to do so";
+	protected static final String SINCE_UNPLUGGED_REF_ERR 		= "No reference since unplugged was saved yet, plug/unplug you phone";
+	protected static final String SINCE_CHARGED_REF_ERR 		= "No reference since charged was saved yet, it will the next time you charge to 100%";
+	protected static final String SINCE_SCREEN_OFF_REF_ERR		= "Screen off event was not registered yet. Make usre to activate the watchdog.";
+	protected static final String SINCE_BOOT_REF_ERR			= "Boot event was not registered yet, it will at next reboot";
 
 	/** storage of custom references */
 	protected String m_fileName							= "";
