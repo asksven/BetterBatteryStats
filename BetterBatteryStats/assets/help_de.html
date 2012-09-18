@@ -27,6 +27,19 @@
 
 <p id="intro">Hier findest Du Details dar&uuml;ber wie die Ansichten und Optionen von BetterBatteryStatistics organisiert sind.
 Mehr dar&uuml;findest Du in der how-to Dokumentation.</p>
+<h2>Referenzen</h2>
+<p>
+BetterBatteryStats sammelt keine daten im Hintergrund sondern nutzt sog. Referenzen um sich Daten zu merken. Diese Referenzen werden zu bestimmten Zeitpunkten bzw. zu bestimmten Ereignissen gespeichert:
+<ul>
+	<li><b>Boot</b>: wenn das Handy neu gestartet wird; l&ouml;scht alle anderen Referenzen</li>
+	<li><b>Unplug</b>: wenn das Handy vom Ladekabel abgesteckt wird</li>
+	<li><b>Charged</b>: wenn das Handy zu 100% geladen ist</li>
+	<li><b>Screen Off</b>: wenn der Bildschirm ausgeht</li>
+	<li><b>Custom</b>: wenn die entsprechende Option aus dem Men&uuml; gew&auml;hlt wird</li>
+</ul>
+<br/><br/>
+<b>So lange diese Ereignisse nicht eingetreten sind bzw. nach einem Neustart des Handys informiert eine Meldung, dass eine Referenz fehlt darüber, dass das entsprechende Ereignis noch nicht eigetreten ist. Dies ist kein Fehler sondern BBS wurde so konzipiert</b>	
+
 <h2>Ansichten</h2>
 <p>Es gibt f&uuml;nf Ansichten:
 <ul>
