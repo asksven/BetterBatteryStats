@@ -62,6 +62,8 @@
             android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
         <activity android:name="com.asksven.betterbatterystats.PackageInfoActivity"
             android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.PackageInfoTabsPager"
+            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
         
         <activity android:name="com.asksven.betterbatterystats.BatteryGraphActivity"
             android:configChanges="orientation" android:theme="@style/Theme.asksven"/>

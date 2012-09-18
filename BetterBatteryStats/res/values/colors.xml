@@ -2,4 +2,5 @@
 <resources>
 	<color name="dangerous_color">#778c8cff</color>
 	<color name="signature_color">#77ffa4a4</color>
+	<color name="divider_color">#7798fb98</color>
 </resources>

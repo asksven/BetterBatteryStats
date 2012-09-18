@@ -25,6 +25,29 @@
 <h2>BetterBatteryStats<span>Release Notes</span></h2> 
 <div id="content">
 
+<h2>What you should know about references</h2>
+<p>
+BetterBatteryStats does not collect data in the background but uses references saved at specific times (on specific events):
+<ul>
+	<li><b>Boot</b>: is saved when your phone boots, deletes all other refrences</li>
+	<li><b>Unplug</b>: is saved when you unplug your phone from the charger</li>
+	<li><b>Charged</b>: is saved when your phone gets charged to 100%</li>
+	<li><b>Screen Off</b>: is saved when the screen of your phone goes off</li>
+	<li><b>Custom</b>: is saved when you select the option to save a custom reference from the menu</li>
+</ul>
+<br/><br/>
+<b>As long as those events did not occur or after a reboot BBS will notify you about a missing reference. This is not a bug, it's the way BBS was designed</b>	
+<p>
+<h2>v1.11.0.0RC3 2012-09-19</h2>
+<p>
+<ul>
+	<li>A better fix for widgets being updated</li>
+	<li>Nicer implementation of package info using a tabbed pager (using ActionBarSherlock)</li>
+	<li>Changed in-app help and messages to make the conect of references clearer</li>
+	<li>More speaking "missing ref" texts</li>
+</ul>
+</p>
+
 <h2>v1.11.0.0RC2 2012-09-16</h2>
 <p>
 <ul>

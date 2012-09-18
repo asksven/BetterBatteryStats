@@ -101,11 +101,11 @@ public class StatsProvider
 	static String TAG = "StatsProvider";
 
 	/** the text when no reference is set */
-	static String NO_CUST_REF = "No custom reference was set";
-	static String NO_BOOT_REF = "Boot event was not registered yet";
+	static String NO_CUST_REF = "No custom reference was set. Please use the menu to do so";
+	static String NO_BOOT_REF = "Boot event was not registered yet, it will at next reboot";
 	static String NO_SCREEN_OFF_REF = "Screen off event was not registered yet";
-	static String NO_SINCE_UNPLUGGED_REF = "No reference since unplugged was saved yet";
-	static String NO_SINCE_CHARGED_REF = "No reference since charged was saved yet";
+	static String NO_SINCE_UNPLUGGED_REF = "No reference since unplugged was saved yet, plug/unplug you phone";
+	static String NO_SINCE_CHARGED_REF = "No reference since charged was saved yet, it will the next time you charge to 100%";
 
 	/** the storage for references */
 	static References m_myRefs = new References(References.CUSTOM_REF_FILENAME);
@@ -1147,9 +1147,11 @@ public class StatsProvider
 
 		long whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
 				BatteryStatsTypes.STATS_CURRENT) / 1000;
+		
 		long timeBatteryUp = mStats.computeBatteryUptime(
 				SystemClock.uptimeMillis() * 1000,
 				BatteryStatsTypes.STATS_CURRENT) / 1000;
+		Log.i(TAG, "whichRealtime = " + whichRealtime + " batteryRealtime = " + batteryRealtime + " timeBatteryUp=" + timeBatteryUp);
 		
 		long timeScreenOn = mStats.getScreenOnTime(batteryRealtime,
 				BatteryStatsTypes.STATS_CURRENT) / 1000;
