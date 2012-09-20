@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.asksven.betterbatterystats.R;
 
 public class PackageFragmentActivity extends SherlockFragmentActivity
 {

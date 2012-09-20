@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -33,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.provider.Settings;
 
@@ -211,6 +214,11 @@ public class StatsAdapter extends BaseAdapter
         {
         	convertView.setOnClickListener(new OnItemClickListener(position));
         }
+        
+//        // show / hide set dividers
+//        ListView myList = (ListView) convertView.getListView(); //findViewById(R.id.id.list);
+//        myList.setDivider(new ColorDrawable(0x99F10529));
+//        myList.setDividerHeight(1);
         return convertView;
     }
     

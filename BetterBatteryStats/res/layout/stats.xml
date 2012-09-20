@@ -25,13 +25,14 @@
 	        android:id="@+id/TextViewSince"
 	        android:textSize="13sp"/>
 	</FrameLayout>
+<!-- 	
 		<View android:id="@+id/view_separator" 
 		 android:layout_centerVertical ="true"
 		 android:layout_width = "fill_parent"
 		 android:layout_height="1dp"
 		 android:layout_alignParentTop="true"
 		 android:background="#7798fb98"/>
-			
+ -->			
 		
     <!-- Set height to 0, and let the weight param expand it -->
     <!-- Note the use of the default ID! This lets us use a 
@@ -40,9 +41,10 @@
     <ListView android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="1"
-        android:dividerHeight="1dp"
-        android:divider="#7798fb98"/> 
+        android:layout_weight="1"/>
+    
+    <!-- android:dividerHeight="1dp"
+        android:divider="#7798fb98" -->
     	 
 
 </LinearLayout>

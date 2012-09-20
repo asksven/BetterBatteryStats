@@ -1725,6 +1725,10 @@ public class StatsProvider
 	 */
 	public References setReference(int iSort, References refs)
 	{
+		
+		// we are going to retrieve a reference: make sure data does not come from the cache
+		BatteryStatsProxy.getInstance(m_context).invalidate();
+		
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 

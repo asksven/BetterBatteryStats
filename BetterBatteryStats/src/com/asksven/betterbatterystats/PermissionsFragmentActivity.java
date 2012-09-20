@@ -35,6 +35,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.asksven.betterbatterystats.adapters.PermissionsAdapter;
 import com.asksven.betterbatterystats.data.Permission;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.R;
 
 /**
  * Demonstration of the use of a CursorLoader to load and display contacts data

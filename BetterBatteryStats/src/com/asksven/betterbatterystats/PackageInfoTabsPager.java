@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.asksven.betterbatterystats.R;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI that
