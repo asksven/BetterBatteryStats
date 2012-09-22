@@ -15,32 +15,23 @@
  */
 package com.asksven.betterbatterystats;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-//import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
-
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.asksven.android.common.privateapiproxies.Alarm.AlarmItem;
 import com.asksven.betterbatterystats.adapters.PermissionsAdapter;
 import com.asksven.betterbatterystats.data.Permission;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -94,7 +85,8 @@ public class PermissionsFragmentActivity extends SherlockFragmentActivity
 		public void onActivityCreated(Bundle savedInstanceState)
 		{
 			super.onActivityCreated(savedInstanceState);
-
+			setHasOptionsMenu(true);
+			
 			Bundle b = getActivity().getIntent().getExtras();
 			m_packageName = b.getString("package");
 
@@ -121,11 +113,11 @@ public class PermissionsFragmentActivity extends SherlockFragmentActivity
 	     * 
 	     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	     */
-		public boolean onCreateOptionsMenu(Menu menu)
+		@Override
+		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
 	    {  
-	    	MenuInflater inflater = getActivity().getMenuInflater();
 	        inflater.inflate(R.menu.permissions_menu, menu);
-	        return true;
+
 	    }  
 
 	    // handle menu selected

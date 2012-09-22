@@ -24,7 +24,6 @@
         android:id="@+id/subtitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="?android:color/primary_text_light"
         android:text="Normal permissions"/>
     
 </LinearLayout>
