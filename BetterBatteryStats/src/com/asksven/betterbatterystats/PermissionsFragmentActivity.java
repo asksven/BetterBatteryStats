@@ -15,8 +15,10 @@
  */
 package com.asksven.betterbatterystats;
 
+import java.util.ArrayList;
 import java.util.Map;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,10 +30,17 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+//import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.MenuItem;
+import com.asksven.android.common.privateapiproxies.Alarm.AlarmItem;
 import com.asksven.betterbatterystats.adapters.PermissionsAdapter;
 import com.asksven.betterbatterystats.data.Permission;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -107,6 +116,42 @@ public class PermissionsFragmentActivity extends SherlockFragmentActivity
 			 m_listViewAdapter.toggleExpand();
 		}
 
+	    /** 
+	     * Add menu items
+	     * 
+	     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	     */
+		public boolean onCreateOptionsMenu(Menu menu)
+	    {  
+	    	MenuInflater inflater = getActivity().getMenuInflater();
+	        inflater.inflate(R.menu.permissions_menu, menu);
+	        return true;
+	    }  
+
+	    // handle menu selected
+		@Override
+	    public boolean onOptionsItemSelected(MenuItem item)
+	    {
+	        switch (item.getItemId())
+	        {  
+	        case R.id.legend:  
+		        	showLegend(getActivity());
+		        	break;	
+
+	        }  
+	        return false;  
+	    }
+
+		private void showLegend(Context context)
+		{
+	    	Dialog dialog = new Dialog(context);
+	    	
+	    	dialog.setContentView(R.layout.permissions_legend_dialog);
+	    	dialog.setTitle("Legend");
+	
+	    	dialog.show();
+		}
+
 		// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 		// for more details
 		private class LoadStatData extends AsyncTask<Context, Integer, PermissionsAdapter>
@@ -157,36 +202,6 @@ public class PermissionsFragmentActivity extends SherlockFragmentActivity
 			    	m_progressDialog.show();
 		    	}
 		    }
-		}
-		
-	    private static final String SCHEME = "package";
-	    private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
-	    private static final String APP_PKG_NAME_22 = "pkg";
-	    private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
-	    private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
-
-		
-	    public static void showInstalledAppDetails(Context context, String packageName)
-	    {
-	        Intent intent = new Intent();
-	        final int apiLevel = Build.VERSION.SDK_INT;
-	        if (apiLevel >= 9)
-	        {
-	        	// above 2.3
-	            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-	            Uri uri = Uri.fromParts(SCHEME, packageName, null);
-	            intent.setData(uri);
-	        }
-	        else
-	        {
-	        	// below 2.3
-	            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22 : APP_PKG_NAME_21);
-	            intent.setAction(Intent.ACTION_VIEW);
-	            intent.setClassName(APP_DETAILS_PACKAGE_NAME,
-	                    APP_DETAILS_CLASS_NAME);
-	            intent.putExtra(appPkgName, packageName);
-	        }
-	        context.startActivity(intent);
-	    }
+		}		
 	}
 }
