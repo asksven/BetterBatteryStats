@@ -1522,7 +1522,7 @@ public class StatsProvider
 		}
 		
 		return "Bat.: " + getBatteryLevelStat(iStatType) + "% (" + levelFrom
-				+ "% to " + levelTo + "%)" + " (" + drop_per_hour + ")";
+				+ "% to " + levelTo + "%)" + " [" + drop_per_hour + "]";
 	}
 
 	/**
