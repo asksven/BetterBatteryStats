@@ -72,6 +72,7 @@ import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
+import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 
@@ -1492,19 +1493,36 @@ public class StatsProvider
 	public String getBatteryLevelFromTo(int iStatType)
 	{
 		// deep sleep times are independent of stat type
-		String levelTo = String.valueOf(getBatteryLevel());
+		long lLevelTo = getBatteryLevel();
+		long lLevelFrom = 0;
+		long since = -1;
+		String levelTo = String.valueOf(lLevelTo);
+		
 		String levelFrom = "-";
 		Log.d(TAG, "Current Battery Level:" + levelTo);
 		References myReference = getReference(iStatType);
 		if (myReference != null)
 		{
-			levelFrom = String.valueOf(myReference.m_refBatteryLevel);
+			lLevelFrom = myReference.m_refBatteryLevel;
+			levelFrom = String.valueOf(lLevelFrom);
 		}
 
 		Log.d(TAG, "Battery Level since " + iStatType + ":" + levelFrom);
 
+		String drop_per_hour = "";
+		try
+		{
+			since = getSince(iStatType);
+			drop_per_hour = StringUtils.formatRatio(lLevelFrom - lLevelTo, since) + "/h";
+		}
+		catch (Exception e)
+		{
+			drop_per_hour = "";
+			Log.e(TAG, "Error retrieing since");
+		}
+		
 		return "Bat.: " + getBatteryLevelStat(iStatType) + "% (" + levelFrom
-				+ "% to " + levelTo + "%)";
+				+ "% to " + levelTo + "%)" + " (" + drop_per_hour + ")";
 	}
 
 	/**
