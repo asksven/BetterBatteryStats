@@ -20,15 +20,11 @@ package com.asksven.betterbatterystats;
  *
  */
 
-import java.util.List;
-
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.app.Service;
-import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,7 +32,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -45,7 +40,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,13 +47,8 @@ import android.widget.Toast;
 import com.asksven.andoid.common.CommonLogSettings;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.kernelutils.CpuStates;
-import com.asksven.android.common.kernelutils.State;
-import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
-import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
@@ -377,14 +366,17 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onResume();
 
 		// the service is always started as it handles the widget updates too
-		if (!EventWatcherService.isServiceRunning(this))
-		{
-			Intent i = new Intent(this, EventWatcherService.class);
-	        this.startService(i);
-		}
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean serviceShouldBeRunning = sharedPrefs.getBoolean("ref_for_screen_off", false);
 		
-		// refresh 
-		//doRefresh();
+		if (serviceShouldBeRunning)
+		{
+			if (!EventWatcherService.isServiceRunning(this))
+			{
+				Intent i = new Intent(this, EventWatcherService.class);
+				this.startService(i);
+			}    				
+		}
 	}
 
 	/* Remove the locationlistener updates when Activity is paused */
