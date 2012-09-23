@@ -1495,7 +1495,7 @@ public class StatsProvider
 		// deep sleep times are independent of stat type
 		long lLevelTo = getBatteryLevel();
 		long lLevelFrom = 0;
-		long since = -1;
+		long sinceH = -1;
 		String levelTo = String.valueOf(lLevelTo);
 		
 		String levelFrom = "-";
@@ -1512,13 +1512,15 @@ public class StatsProvider
 		String drop_per_hour = "";
 		try
 		{
-			since = getSince(iStatType);
-			drop_per_hour = StringUtils.formatRatio(lLevelFrom - lLevelTo, since) + "/h";
+			sinceH = getSince(iStatType);
+			// since is in ms but x 100 in order to respect proportions of formatRatio (we call it with % and it normally calculates % so there is a factor 100
+			sinceH = sinceH / 10 / 60 / 60;
+			drop_per_hour = StringUtils.formatRatio(lLevelFrom - lLevelTo, sinceH) + "/h";
 		}
 		catch (Exception e)
 		{
 			drop_per_hour = "";
-			Log.e(TAG, "Error retrieing since");
+			Log.e(TAG, "Error retrieving since");
 		}
 		
 		return "Bat.: " + getBatteryLevelStat(iStatType) + "% (" + levelFrom
