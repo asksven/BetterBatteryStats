@@ -86,12 +86,12 @@ public final class FireReceiver extends BroadcastReceiver
         
         Log.i(TAG, "Retrieved Bundle: " + bundle.toString());
 
+		// make sure to flush cache
+		BatteryStatsProxy.getInstance(context).invalidate();
+
         if (saveStat)
         {
         	Log.d(TAG, "Preparing to save a dumpfile");
-    		StatsProvider stats = StatsProvider.getInstance(context);
-    		// make sure to flush cache
-    		BatteryStatsProxy.getInstance(context).invalidate();
 
 			Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
 			serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE, statType);
