@@ -105,7 +105,6 @@ public class PermissionsFragmentActivity extends SherlockFragmentActivity
 		{
 			 // user clicked a list item, make it "selected"
 			 m_listViewAdapter.setSelectedPosition(position);
-			 m_listViewAdapter.toggleExpand();
 		}
 
 	    /** 

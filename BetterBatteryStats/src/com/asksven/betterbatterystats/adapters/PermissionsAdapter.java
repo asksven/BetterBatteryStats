@@ -59,11 +59,20 @@ public class PermissionsAdapter extends BaseAdapter
 
     public void setSelectedPosition(int position)
     {
+    	// behavior: one click on any item opens the drawer. Clicking on an open item again closes it
+    	if (m_selectedPosition == position)
+    	{
+    		toggleExpand();
+    	}
+    	else
+    	{
+    		m_expanded = true;
+    	}
     	m_selectedPosition = position;
     	notifyDataSetChanged();
     }
     
-    public void toggleExpand()
+    private void toggleExpand()
     {
     	m_expanded = !m_expanded;
     	notifyDataSetChanged();
