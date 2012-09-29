@@ -49,7 +49,7 @@ class References implements Serializable
 	protected static final String CUSTOM_REF_ERR 				= "No custom reference was set. Please use the menu to do so";
 	protected static final String SINCE_UNPLUGGED_REF_ERR 		= "No reference since unplugged was saved yet, plug/unplug you phone";
 	protected static final String SINCE_CHARGED_REF_ERR 		= "No reference since charged was saved yet, it will the next time you charge to 100%";
-	protected static final String SINCE_SCREEN_OFF_REF_ERR		= "Screen off event was not registered yet. Make usre to activate the watchdog.";
+	protected static final String SINCE_SCREEN_OFF_REF_ERR		= "Screen off event was not registered yet. Make sure to activate the watchdog.";
 	protected static final String SINCE_BOOT_REF_ERR			= "Boot event was not registered yet, it will at next reboot";
 
 	/** storage of custom references */
