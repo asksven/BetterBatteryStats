@@ -50,6 +50,7 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.adapters.SamplesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -336,6 +337,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		spinnerStatType.setSelection(StatsProvider.getInstance(this).positionFromStatType(m_iStatType));
 		spinnerStatType.setOnItemSelectedListener(this);
 		
+		///////////////////////////////////////////////
+		// Spinner for Selecting the end sample
+		///////////////////////////////////////////////
+		Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
+		
+		SamplesAdapter spinnerSampleAdapter = new SamplesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
+			
+		
+//		spinnerSampleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    
+		spinnerStatSampleEnd.setAdapter(spinnerSampleAdapter);
+		spinnerStatSampleEnd.setSelection(0);
+		spinnerStatSampleEnd.setOnItemSelectedListener(this);
 		
 
 

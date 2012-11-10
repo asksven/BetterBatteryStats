@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -109,15 +110,17 @@ public class StatsProvider
 	static String NO_SINCE_CHARGED_REF = "No reference since charged was saved yet, it will the next time you charge to 100%";
 
 	/** the storage for references */
-	static References m_myRefs = new References(References.CUSTOM_REF_FILENAME);
-	static References m_myRefSinceUnplugged = new References(
-			References.SINCE_UNPLUGGED_REF_FILENAME);
-	static References m_myRefSinceCharged = new References(
-			References.SINCE_CHARGED_REF_FILENAME);
-	static References m_myRefSinceScreenOff = new References(
-			References.SINCE_SCREEN_OFF_REF_FILENAME);
-	static References m_myRefSinceBoot = new References(
-			References.SINCE_BOOT_REF_FILENAME);
+//	static Reference m_myRefs = new Reference(Reference.CUSTOM_REF_FILENAME);
+//	static Reference m_myRefSinceUnplugged = new Reference(
+//			Reference.UNPLUGGED_REF_FILENAME);
+//	static Reference m_myRefSinceCharged = new Reference(
+//			Reference.CHARGED_REF_FILENAME);
+//	static Reference m_myRefSinceScreenOff = new Reference(
+//			Reference.SCREEN_OFF_REF_FILENAME);
+//	static Reference m_myRefSinceBoot = new Reference(
+//			Reference.BOOT_REF_FILENAME);
+	
+	static Map<String, Reference> m_refStore = new HashMap<String, Reference>();
 
 	/**
 	 * The constructor (hidden)
@@ -164,7 +167,7 @@ public class StatsProvider
 		if ((!developerMode) && (this.getIsCharging()))
 		{
 			ArrayList<StatElement> myRet = new ArrayList<StatElement>();
-			myRet.add(new Misc(References.NO_STATS_WHEN_CHARGING, 0, 0));
+			myRet.add(new Misc(Reference.NO_STATS_WHEN_CHARGING, 0, 0));
 			return myRet;
 		}
 		// try
@@ -217,7 +220,7 @@ public class StatsProvider
 		long ret = 0;
 		long now = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT); //SystemClock.elapsedRealtime();
 
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 
 		if (myReference != null)
 		{
@@ -247,7 +250,7 @@ public class StatsProvider
 	public boolean hasReference(int iStatType)
 	{
 		boolean ret = false;
-		References myCheckRef = getReference(iStatType);
+		Reference myCheckRef = getReference(iStatType);
 
 		if ((myCheckRef != null) && (myCheckRef.m_refKernelWakelocks != null))
 		{
@@ -260,20 +263,20 @@ public class StatsProvider
 		return ret;
 	}
 
-	static References getReference(int iStatType)
+	static Reference getReference(int iStatType)
 	{
 		switch (iStatType)
 		{
 		case STATS_UNPLUGGED:
-			return m_myRefSinceUnplugged;
+			return m_refStore.get(Reference.UNPLUGGED_REF_FILENAME);
 		case STATS_CHARGED:
-			return m_myRefSinceCharged;
+			return m_refStore.get(Reference.CHARGED_REF_FILENAME);
 		case STATS_CUSTOM:
-			return m_myRefs;
+			return m_refStore.get(Reference.CUSTOM_REF_FILENAME);
 		case STATS_SCREEN_OFF:
-			return m_myRefSinceScreenOff;
+			return m_refStore.get(Reference.SCREEN_OFF_REF_FILENAME);
 		case STATS_BOOT:
-			return m_myRefSinceBoot;
+			return m_refStore.get(Reference.BOOT_REF_FILENAME);
 		case BatteryStatsTypes.STATS_CURRENT:
 			return null;
 		default:
@@ -321,7 +324,7 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 
 		if (LogSettings.DEBUG)
 		{
@@ -380,7 +383,7 @@ public class StatsProvider
 						} else
 						{
 							myRetAlarms.add(new Alarm(
-									References.GENERIC_REF_ERR));
+									Reference.GENERIC_REF_ERR));
 						}
 					}
 				}
@@ -428,7 +431,7 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 
 		if (LogSettings.DEBUG)
 		{
@@ -492,7 +495,7 @@ public class StatsProvider
 						} else
 						{
 							myRetProcesses.add(new Process(
-									References.GENERIC_REF_ERR, 1, 1, 1));
+									Reference.GENERIC_REF_ERR, 1, 1, 1));
 						}
 					}
 				}
@@ -552,7 +555,7 @@ public class StatsProvider
 
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 		String strCurrent = myWakelocks.toString();
 
 		String strRef = "";
@@ -634,7 +637,7 @@ public class StatsProvider
 						} else
 						{
 							myRetWakelocks.add(new Wakelock(1,
-									References.GENERIC_REF_ERR, 1, 1, 1));
+									Reference.GENERIC_REF_ERR, 1, 1, 1));
 						}
 					}
 				}
@@ -702,7 +705,7 @@ public class StatsProvider
 		String strCurrent = myKernelWakelocks.toString();
 		String strRef = "";
 		String strRefDescr = "";
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 
 		if (LogSettings.DEBUG)
 		{
@@ -763,7 +766,7 @@ public class StatsProvider
 						} else
 						{
 							myRetKernelWakelocks.add(new NativeKernelWakelock(
-									References.GENERIC_REF_ERR, "", 1, 1, 1, 1,
+									Reference.GENERIC_REF_ERR, "", 1, 1, 1, 1,
 									1, 1, 1, 1, 1));
 
 						}
@@ -837,7 +840,7 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 
 		if (LogSettings.DEBUG)
 		{
@@ -897,7 +900,7 @@ public class StatsProvider
 						} else
 						{
 							myRetNetworkStats.add(new NetworkUsage(
-									References.GENERIC_REF_ERR, -1, 1, 0));
+									Reference.GENERIC_REF_ERR, -1, 1, 0));
 
 						}
 					}
@@ -955,7 +958,7 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 
 		if (LogSettings.DEBUG)
 		{
@@ -1257,7 +1260,7 @@ public class StatsProvider
 				whichRealtime);
 		Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
 
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 
 		if ((!bFilter) || (deepSleepUsage.getTimeOn() > 0))
 		{
@@ -1449,7 +1452,7 @@ public class StatsProvider
 									.getMissingRefError(), 1, 1));
 						} else
 						{
-							myStats.add(new Misc(References.GENERIC_REF_ERR, 1,
+							myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1,
 									1));
 						}
 					}
@@ -1472,7 +1475,7 @@ public class StatsProvider
 		int level = getBatteryLevel();
 
 		Log.d(TAG, "Current Battery Level:" + level);
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 		if (myReference != null)
 		{
 			level = myReference.m_refBatteryLevel - level;
@@ -1500,7 +1503,7 @@ public class StatsProvider
 		
 		String levelFrom = "-";
 		Log.d(TAG, "Current Battery Level:" + levelTo);
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 		if (myReference != null)
 		{
 			lLevelFrom = myReference.m_refBatteryLevel;
@@ -1540,7 +1543,7 @@ public class StatsProvider
 		int voltage = getBatteryVoltage();
 
 		Log.d(TAG, "Current Battery Voltage:" + voltage);
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 		if (myReference != null)
 		{
 			voltage = myReference.m_refBatteryVoltage - voltage;
@@ -1565,7 +1568,7 @@ public class StatsProvider
 		int voltageFrom = -1;
 
 		Log.d(TAG, "Current Battery Voltage:" + voltageTo);
-		References myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatType);
 		if (myReference != null)
 		{
 			voltageFrom = myReference.m_refBatteryVoltage;
@@ -1643,7 +1646,9 @@ public class StatsProvider
 	 */
 	public boolean hasScreenOffRef()
 	{
-		return ((m_myRefSinceScreenOff != null) && (m_myRefSinceScreenOff.m_refOther != null));
+		Reference thisRef = m_refStore.get(Reference.SCREEN_OFF_REF_FILENAME);
+
+		return ((thisRef != null) && (thisRef.m_refOther != null));
 	}
 
 	/**
@@ -1653,7 +1658,8 @@ public class StatsProvider
 	 */
 	public boolean hasCustomRef()
 	{
-		return ((m_myRefs != null) && (m_myRefs.m_refOther != null));
+		Reference thisRef = m_refStore.get(Reference.CUSTOM_REF_FILENAME);
+		return ((thisRef != null) && (thisRef.m_refOther != null));
 	}
 
 	/**
@@ -1663,7 +1669,9 @@ public class StatsProvider
 	 */
 	public boolean hasSinceChargedRef()
 	{
-		return ((m_myRefSinceCharged != null) && (m_myRefSinceCharged.m_refKernelWakelocks != null));
+		Reference thisRef = m_refStore.get(Reference.CHARGED_REF_FILENAME);
+
+		return ((thisRef != null) && (thisRef.m_refKernelWakelocks != null));
 	}
 
 	/**
@@ -1673,7 +1681,9 @@ public class StatsProvider
 	 */
 	public boolean hasSinceUnpluggedRef()
 	{
-		return ((m_myRefSinceUnplugged != null) && (m_myRefSinceUnplugged.m_refKernelWakelocks != null));
+		Reference thisRef = m_refStore.get(Reference.UNPLUGGED_REF_FILENAME);
+
+		return ((thisRef != null) && (thisRef.m_refKernelWakelocks != null));
 	}
 
 	/**
@@ -1683,7 +1693,9 @@ public class StatsProvider
 	 */
 	public boolean hasSinceBootRef()
 	{
-		return ((m_myRefSinceBoot != null) && (m_myRefSinceBoot.m_refKernelWakelocks != null));
+		Reference thisRef = m_refStore.get(Reference.BOOT_REF_FILENAME);
+
+		return ((thisRef != null) && (thisRef.m_refKernelWakelocks != null));
 	}
 
 	/**
@@ -1692,8 +1704,8 @@ public class StatsProvider
 	 */
 	public void setCustomReference(int iSort)
 	{
-		m_myRefs = new References(References.CUSTOM_REF_FILENAME);
-		m_myRefs = setReference(iSort, m_myRefs);
+		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		m_refStore.put(Reference.CUSTOM_REF_FILENAME, setReference(iSort, thisRef));
 	}
 
 	/**
@@ -1702,9 +1714,8 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceScreenOff(int iSort)
 	{
-		m_myRefSinceScreenOff = new References(
-				References.SINCE_SCREEN_OFF_REF_FILENAME);
-		m_myRefSinceScreenOff = setReference(iSort, m_myRefSinceScreenOff);
+		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		m_refStore.put(Reference.SCREEN_OFF_REF_FILENAME, setReference(iSort, thisRef));
 	}
 
 	/**
@@ -1713,9 +1724,8 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceCharged(int iSort)
 	{
-		m_myRefSinceCharged = new References(
-				References.SINCE_CHARGED_REF_FILENAME);
-		m_myRefSinceCharged = setReference(iSort, m_myRefSinceCharged);
+		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		m_refStore.put(Reference.CHARGED_REF_FILENAME, setReference(iSort, thisRef));
 	}
 
 	/**
@@ -1724,9 +1734,8 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceUnplugged(int iSort)
 	{
-		m_myRefSinceUnplugged = new References(
-				References.SINCE_UNPLUGGED_REF_FILENAME);
-		m_myRefSinceUnplugged = setReference(iSort, m_myRefSinceUnplugged);
+		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		m_refStore.put(Reference.UNPLUGGED_REF_FILENAME, setReference(iSort, thisRef));
 	}
 
 	/**
@@ -1735,15 +1744,15 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceBoot(int iSort)
 	{
-		m_myRefSinceBoot = new References(References.SINCE_BOOT_REF_FILENAME);
-		m_myRefSinceBoot = setReference(iSort, m_myRefSinceBoot);
+		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		m_refStore.put(Reference.BOOT_REF_FILENAME, setReference(iSort, thisRef));
 	}
 
 	/**
 	 * Saves data when the phone is unpluggediSort This data will be used in the
 	 * "since unplugged" stat type
 	 */
-	public References setReference(int iSort, References refs)
+	public Reference setReference(int iSort, Reference refs)
 	{
 		
 		// we are going to retrieve a reference: make sure data does not come from the cache
@@ -1842,7 +1851,7 @@ public class StatsProvider
 		return refs;
 	}
 
-	public void serializeRefToFile(References refs)
+	public void serializeRefToFile(Reference refs)
 	{
 		DataStorage.objectToFile(m_context, refs.m_fileName, refs);
 		Log.i(TAG, "Saved ref " + refs.m_fileName);
@@ -1850,88 +1859,50 @@ public class StatsProvider
 
 	public void deserializeFromFile()
 	{
-		m_myRefs = (References) DataStorage.fileToObject(m_context,
-				References.CUSTOM_REF_FILENAME);
-		if (m_myRefs != null)
+		String[] files = Reference.FILES;
+		for (int i=0; i < files.length; i++)
 		{
-			Log.i(TAG, "Retrieved ref: " + m_myRefs.whoAmI());
-		} else
-		{
-			Log.i(TAG, "Reference " + References.CUSTOM_REF_FILENAME
-					+ " was not found");
+			Reference thisRef = (Reference) DataStorage.fileToObject(m_context,
+				files[i]);
+			m_refStore.put(files[i], thisRef);
+		
+			if (thisRef != null)
+			{
+				Log.i(TAG, "Retrieved ref: " + thisRef.whoAmI());
+			}
+			else
+			{
+				Log.i(TAG, "Reference " + Reference.CUSTOM_REF_FILENAME
+						+ " was not found");
+			}
 		}
-
-		m_myRefSinceCharged = (References) DataStorage.fileToObject(m_context,
-				References.SINCE_CHARGED_REF_FILENAME);
-		if (m_myRefSinceCharged != null)
-		{
-			Log.i(TAG, "Retrieved ref: " + m_myRefSinceCharged.whoAmI());
-		} else
-		{
-			Log.i(TAG, "Reference " + References.SINCE_CHARGED_REF_FILENAME
-					+ " was not found");
-		}
-
-		m_myRefSinceScreenOff = (References) DataStorage.fileToObject(
-				m_context, References.SINCE_SCREEN_OFF_REF_FILENAME);
-		if (m_myRefSinceScreenOff != null)
-		{
-			Log.i(TAG, "Retrieved ref: " + m_myRefSinceScreenOff.whoAmI());
-		} else
-		{
-			Log.i(TAG, "Reference " + References.SINCE_SCREEN_OFF_REF_FILENAME
-					+ " was not found");
-		}
-
-		m_myRefSinceUnplugged = (References) DataStorage.fileToObject(
-				m_context, References.SINCE_UNPLUGGED_REF_FILENAME);
-		if (m_myRefSinceUnplugged != null)
-		{
-			Log.i(TAG, "Retrieved ref: " + m_myRefSinceUnplugged.whoAmI());
-		} else
-		{
-			Log.i(TAG, "Reference " + References.SINCE_UNPLUGGED_REF_FILENAME
-					+ " was not found");
-		}
-
-		m_myRefSinceBoot = (References) DataStorage.fileToObject(m_context,
-				References.SINCE_BOOT_REF_FILENAME);
-		if (m_myRefSinceBoot != null)
-		{
-			Log.i(TAG, "Retrieved ref: " + m_myRefSinceBoot.whoAmI());
-		} else
-		{
-			Log.i(TAG, "Reference " + References.SINCE_BOOT_REF_FILENAME
-					+ " was not found");
-		}
-
 	}
 
 	public void deletedSerializedRefs()
 	{
-		References myEmptyRef = new References(References.CUSTOM_REF_FILENAME);
+		Reference myEmptyRef = new Reference(Reference.CUSTOM_REF_FILENAME);
 		myEmptyRef.setEmpty();
-		DataStorage.objectToFile(m_context, References.CUSTOM_REF_FILENAME,
+		DataStorage.objectToFile(m_context, Reference.CUSTOM_REF_FILENAME,
 				myEmptyRef);
 
-		myEmptyRef = new References(References.SINCE_CHARGED_REF_FILENAME);
+		myEmptyRef = new Reference(Reference.CHARGED_REF_FILENAME);
 		myEmptyRef.setEmpty();
 		DataStorage.objectToFile(m_context,
-				References.SINCE_CHARGED_REF_FILENAME, myEmptyRef);
+				Reference.CHARGED_REF_FILENAME, myEmptyRef);
 
-		myEmptyRef = new References(References.SINCE_SCREEN_OFF_REF_FILENAME);
+		myEmptyRef = new Reference(Reference.SCREEN_OFF_REF_FILENAME);
 		myEmptyRef.setEmpty();
 		DataStorage.objectToFile(m_context,
-				References.SINCE_SCREEN_OFF_REF_FILENAME, myEmptyRef);
+				Reference.SCREEN_OFF_REF_FILENAME, myEmptyRef);
 
-		myEmptyRef = new References(References.SINCE_UNPLUGGED_REF_FILENAME);
+		myEmptyRef = new Reference(Reference.UNPLUGGED_REF_FILENAME);
 		myEmptyRef.setEmpty();
 		DataStorage.objectToFile(m_context,
-				References.SINCE_UNPLUGGED_REF_FILENAME, myEmptyRef);
+				Reference.UNPLUGGED_REF_FILENAME, myEmptyRef);
 
-		myEmptyRef = new References(References.SINCE_BOOT_REF_FILENAME);
+		myEmptyRef = new Reference(Reference.BOOT_REF_FILENAME);
 		myEmptyRef.setEmpty();
-		DataStorage.objectToFile(m_context, References.SINCE_BOOT_REF_FILENAME,
+		DataStorage.objectToFile(m_context, Reference.BOOT_REF_FILENAME,
 				myEmptyRef);
 
 	}
@@ -1956,25 +1927,25 @@ public class StatsProvider
 
 		long whichRealtime = 0;
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
-		if ((iStatType == StatsProvider.STATS_CUSTOM) && (m_myRefs != null))
+		if ((iStatType == StatsProvider.STATS_CUSTOM) && (m_refStore.get(Reference.CUSTOM_REF_FILENAME) != null))
 		{
 			whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
 					BatteryStatsTypes.STATS_CURRENT) / 1000;
-			whichRealtime -= m_myRefs.m_refBatteryRealtime;
+			whichRealtime -= m_refStore.get(Reference.CUSTOM_REF_FILENAME).m_refBatteryRealtime;
 		}
 		else if ((iStatType == StatsProvider.STATS_SCREEN_OFF)
-				&& (m_myRefSinceScreenOff != null))
+				&& (m_refStore.get(Reference.SCREEN_OFF_REF_FILENAME) != null))
 		{
 			whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
 					BatteryStatsTypes.STATS_CURRENT) / 1000;
-			whichRealtime -= m_myRefSinceScreenOff.m_refBatteryRealtime;
+			whichRealtime -= m_refStore.get(Reference.SCREEN_OFF_REF_FILENAME).m_refBatteryRealtime;
 		}
 		else if ((iStatType == StatsProvider.STATS_BOOT)
-				&& (m_myRefSinceBoot != null))
+				&& (m_refStore.get(Reference.BOOT_REF_FILENAME) != null))
 		{
 			whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
 					BatteryStatsTypes.STATS_CURRENT) / 1000;
-			whichRealtime -= m_myRefSinceBoot.m_refBatteryRealtime;
+			whichRealtime -= m_refStore.get(Reference.BOOT_REF_FILENAME).m_refBatteryRealtime;
 		}
 		else
 		{
@@ -2220,44 +2191,44 @@ public class StatsProvider
 				out.write("==================\n");
 				out.write("Reference overview\n");
 				out.write("==================\n");
-				if (m_myRefs != null)
+				if (m_refStore.get(Reference.CUSTOM_REF_FILENAME) != null)
 				{
-					out.write("Custom: " + m_myRefs.whoAmI() + "\n");
+					out.write("Custom: " + m_refStore.get(Reference.CUSTOM_REF_FILENAME).whoAmI() + "\n");
 				} else
 				{
 					out.write("Custom: " + "null" + "\n");
 				}
 
-				if (m_myRefSinceCharged != null)
+				if (m_refStore.get(Reference.CHARGED_REF_FILENAME) != null)
 				{
-					out.write("Since charged: " + m_myRefSinceCharged.whoAmI()
+					out.write("Since charged: " + m_refStore.get(Reference.CHARGED_REF_FILENAME).whoAmI()
 							+ "\n");
 				} else
 				{
 					out.write("Since charged: " + "null" + "\n");
 				}
 
-				if (m_myRefSinceScreenOff != null)
+				if (m_refStore.get(Reference.SCREEN_OFF_REF_FILENAME) != null)
 				{
 					out.write("Since screen off: "
-							+ m_myRefSinceScreenOff.whoAmI() + "\n");
+							+ m_refStore.get(Reference.SCREEN_OFF_REF_FILENAME).whoAmI() + "\n");
 				} else
 				{
 					out.write("Since screen off: " + "null" + "\n");
 				}
 
-				if (m_myRefSinceUnplugged != null)
+				if (m_refStore.get(Reference.UNPLUGGED_REF_FILENAME) != null)
 				{
 					out.write("Since unplugged: "
-							+ m_myRefSinceUnplugged.whoAmI() + "\n");
+							+ m_refStore.get(Reference.UNPLUGGED_REF_FILENAME).whoAmI() + "\n");
 				} else
 				{
 					out.write("Since unplugged: " + "null" + "\n");
 				}
 
-				if (m_myRefSinceBoot != null)
+				if (m_refStore.get(Reference.BOOT_REF_FILENAME) != null)
 				{
-					out.write("Since boot: " + m_myRefSinceBoot.whoAmI() + "\n");
+					out.write("Since boot: " + m_refStore.get(Reference.BOOT_REF_FILENAME).whoAmI() + "\n");
 				} else
 				{
 					out.write("Since boot: " + "null" + "\n");
