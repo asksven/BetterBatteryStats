@@ -1714,7 +1714,7 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceScreenOff(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.SCREEN_OFF_REF_FILENAME);
 		m_refStore.put(Reference.SCREEN_OFF_REF_FILENAME, setReference(iSort, thisRef));
 	}
 
@@ -1724,7 +1724,7 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceCharged(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.CHARGED_REF_FILENAME);
 		m_refStore.put(Reference.CHARGED_REF_FILENAME, setReference(iSort, thisRef));
 	}
 
@@ -1734,7 +1734,7 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceUnplugged(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.UNPLUGGED_REF_FILENAME);
 		m_refStore.put(Reference.UNPLUGGED_REF_FILENAME, setReference(iSort, thisRef));
 	}
 
@@ -1744,7 +1744,7 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceBoot(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.BOOT_REF_FILENAME);
 		m_refStore.put(Reference.BOOT_REF_FILENAME, setReference(iSort, thisRef));
 	}
 
