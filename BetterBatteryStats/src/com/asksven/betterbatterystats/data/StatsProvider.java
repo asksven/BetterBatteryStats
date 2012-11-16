@@ -93,11 +93,11 @@ public class StatsProvider
 
 	/** constant for custom stats */
 	// dependent on arrays.xml
-	public final static int STATS_CHARGED = 0;
-	public final static int STATS_UNPLUGGED = 3;
-	public final static int STATS_CUSTOM = 4;
-	public final static int STATS_SCREEN_OFF = 5;
-	public final static int STATS_BOOT = 6;
+	public final static int STATS_CHARGED 		= 0;
+	public final static int STATS_UNPLUGGED 	= 3;
+	public final static int STATS_CUSTOM 		= 4;
+	public final static int STATS_SCREEN_OFF 	= 5;
+	public final static int STATS_BOOT 			= 6;
 
 	/** the logger tag */
 	static String TAG = "StatsProvider";
@@ -110,16 +110,6 @@ public class StatsProvider
 	static String NO_SINCE_CHARGED_REF = "No reference since charged was saved yet, it will the next time you charge to 100%";
 
 	/** the storage for references */
-//	static Reference m_myRefs = new Reference(Reference.CUSTOM_REF_FILENAME);
-//	static Reference m_myRefSinceUnplugged = new Reference(
-//			Reference.UNPLUGGED_REF_FILENAME);
-//	static Reference m_myRefSinceCharged = new Reference(
-//			Reference.CHARGED_REF_FILENAME);
-//	static Reference m_myRefSinceScreenOff = new Reference(
-//			Reference.SCREEN_OFF_REF_FILENAME);
-//	static Reference m_myRefSinceBoot = new Reference(
-//			Reference.BOOT_REF_FILENAME);
-	
 	static Map<String, Reference> m_refStore = new HashMap<String, Reference>();
 
 	/**
@@ -153,14 +143,16 @@ public class StatsProvider
 	 * 
 	 * @return a List of StatElements sorted (descending)
 	 */
-	public ArrayList<StatElement> getStatList(int iStat, int iStatType,
-			int iSort) throws Exception
+	public ArrayList<StatElement> getStatList(int iStat, int iStatTypeFrom,
+			int iSort, String refToName) throws Exception
 	{
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
 		boolean developerMode = sharedPrefs.getBoolean("developer", false);
-
+		
+		Reference refTo = getReferenceByName(refToName);
+		
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
 				"0"));
 
@@ -176,20 +168,20 @@ public class StatsProvider
 		switch (iStat)
 		{
 		case 0:
-			return getOtherUsageStatList(bFilterStats, iStatType, true, false);
+			return getOtherUsageStatList(bFilterStats, iStatTypeFrom, true, false, refTo);
 		case 1:
-			return getNativeKernelWakelockStatList(bFilterStats, iStatType,
-					iPctType, iSort);
+			return getNativeKernelWakelockStatList(bFilterStats, iStatTypeFrom,
+					iPctType, iSort, refTo);
 		case 2:
-			return getWakelockStatList(bFilterStats, iStatType, iPctType, iSort);
+			return getWakelockStatList(bFilterStats, iStatTypeFrom, iPctType, iSort, refTo);
 		case 3:
-			return getAlarmsStatList(bFilterStats, iStatType);
+			return getAlarmsStatList(bFilterStats, iStatTypeFrom, refTo);
 		case 4:
-			return getNativeNetworkUsageStatList(bFilterStats, iStatType);
+			return getNativeNetworkUsageStatList(bFilterStats, iStatTypeFrom, refTo);
 		case 5:
-			return getCpuStateList(iStatType);
+			return getCpuStateList(iStatTypeFrom);
 		case 6:
-			return getProcessStatList(bFilterStats, iStatType, iSort);
+			return getProcessStatList(bFilterStats, iStatTypeFrom, iSort, refTo);
 
 		}
 
@@ -215,31 +207,20 @@ public class StatsProvider
 	 * @return a List of StatElements sorted (descending)
 	 * @throws BatteryInfoUnavailableException 
 	 */
-	private long getSince(int iStatType) throws BatteryInfoUnavailableException
+	public long getSince(int iStatTypeFrom, String refToName)
 	{
 		long ret = 0;
-		long now = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT); //SystemClock.elapsedRealtime();
 
-		Reference myReference = getReference(iStatType);
+		Reference myReferenceFrom 	= getReference(iStatTypeFrom);
+		Reference myReferenceTo	 	= getReferenceByName(refToName);
 
-		if (myReference != null)
+		if ((myReferenceTo != null) && (myReferenceFrom != null))
 		{
-			Log.d(TAG,
-					"Reference create at: "
-							+ DateUtils
-									.formatDuration(myReference.m_creationTime));
-			Log.d(TAG, "It is now " + DateUtils.now());
-			if (myReference.m_creationTime != 0)
-			{
-				ret = now - myReference.m_refBatteryRealtime;
-				Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
-			} else
-			{
-				ret = -1;
-				Log.d(TAG, "Since: undefined, reference is empty");
-			}
+			ret =  myReferenceTo.m_refBatteryRealtime - myReferenceFrom.m_refBatteryRealtime;
+			Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
 
-		} else
+		}
+		else
 		{
 			ret = -1;
 		}
@@ -288,6 +269,20 @@ public class StatsProvider
 
 	}
 
+	public static Reference getReferenceByName(String refName)
+	{
+		if (m_refStore.containsKey(refName))
+		{
+			return m_refStore.get(refName);
+		}
+		else
+		{
+			Log.e(TAG, "getReference was called with an unknown name "
+					+ refName + ". No reference found");
+			return null;
+		}
+	}
+
 	/**
 	 * Get the Alarm Stat to be displayed
 	 * 
@@ -299,7 +294,7 @@ public class StatsProvider
 	 */
 
 	public ArrayList<StatElement> getAlarmsStatList(boolean bFilter,
-			int iStatType) throws Exception
+			int iStatTypeFrom, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
@@ -312,8 +307,17 @@ public class StatsProvider
 			return myStats;
 		}
 
-		ArrayList<Alarm> myAlarms = AlarmsDumpsys.getAlarms();
-		Collections.sort(myAlarms);
+		ArrayList<StatElement> myAlarms = null;
+//		// get the current value
+		if ((refTo != null) && (refTo.m_refAlarms != null))
+		{
+			myAlarms = refTo.m_refAlarms;	
+		}
+		else
+		{
+			return null;
+		}
+		//Collections.sort(myAlarms);
 
 		ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
 		// if we are using custom ref. always retrieve "stats current"
@@ -324,7 +328,7 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		Reference myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatTypeFrom);
 
 		if (LogSettings.DEBUG)
 		{
@@ -342,8 +346,8 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatType)
-					+ "(" + iStatType + ")");
+			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatTypeFrom)
+					+ "(" + iStatTypeFrom + ")");
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -354,10 +358,10 @@ public class StatsProvider
 
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
-			Alarm alarm = myAlarms.get(i);
+			Alarm alarm = (Alarm) myAlarms.get(i);
 			if ((!bFilter) || ((alarm.getWakeups()) > 0))
 			{
-				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
+				if (iStatTypeFrom == BatteryStatsTypes.STATS_CURRENT)
 				{
 					myRetAlarms.add(alarm);
 				} else
@@ -405,6 +409,55 @@ public class StatsProvider
 		return myStats;
 
 	}
+	
+	public ArrayList<StatElement> getCurrentAlarmsStatList(boolean bFilter) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		// stop straight away of root features are disabled
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+		if (!rootEnabled)
+		{
+			return myStats;
+		}
+
+		ArrayList<StatElement> myAlarms = null;
+		// get the current value
+		myAlarms = AlarmsDumpsys.getAlarms();
+		//Collections.sort(myAlarms);
+
+		ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
+		// if we are using custom ref. always retrieve "stats current"
+
+		// sort @see
+		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+
+		for (int i = 0; i < myAlarms.size(); i++)
+		{
+			Alarm alarm = (Alarm) myAlarms.get(i);
+			if ((!bFilter) || ((alarm.getWakeups()) > 0))
+			{
+				myRetAlarms.add(alarm);
+			}
+		}
+
+		Collections.sort(myRetAlarms);
+
+		for (int i = 0; i < myRetAlarms.size(); i++)
+		{
+			myStats.add((StatElement) myRetAlarms.get(i));
+		}
+
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
+
+		return myStats;
+
+	}
 
 	/**
 	 * Get the Process Stat to be displayed
@@ -416,31 +469,37 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getProcessStatList(boolean bFilter,
-			int iStatType, int iSort) throws Exception
+			int iStatTypeFrom, int iSort, Reference refTo) throws Exception
 	{
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-		ArrayList<Process> myProcesses = null;
+		ArrayList<StatElement> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 
-		myProcesses = mStats.getProcessStats(m_context,
-				BatteryStatsTypes.STATS_CURRENT);
+		if ((refTo != null) && (refTo.m_refProcesses != null))
+		{
+			myProcesses = refTo.m_refProcesses;
+		}
+		else
+		{
+			return null;
+		}
 
 		String strCurrent = myProcesses.toString();
 		String strRef = "";
 		String strRefDescr = "";
 
-		Reference myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatTypeFrom);
 
 		if (LogSettings.DEBUG)
 		{
 			if (myReference != null)
 			{
 				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refAlarms != null)
+				if (myReference.m_refProcesses != null)
 				{
-					strRef = myReference.m_refAlarms.toString();
+					strRef = myReference.m_refProcesses.toString();
 				} else
 				{
 					strRef = "Process is null";
@@ -450,7 +509,7 @@ public class StatsProvider
 				strRefDescr = "Reference is null";
 			}
 			Log.d(TAG, "Processing processes since "
-					+ statTypeToLabel(iStatType) + "(" + iStatType + ")");
+					+ statTypeToLabel(iStatTypeFrom) + "(" + iStatTypeFrom + ")");
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -461,16 +520,17 @@ public class StatsProvider
 
 		for (int i = 0; i < myProcesses.size(); i++)
 		{
-			Process ps = myProcesses.get(i);
+			Process ps = (Process) myProcesses.get(i);
 			if ((!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0))
 			{
 				// we must distinguish two situations
 				// a) we use custom stat type
 				// b) we use regular stat type
-				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
+				if (iStatTypeFrom == BatteryStatsTypes.STATS_CURRENT)
 				{
 					myRetProcesses.add(ps);
-				} else
+				}
+				else
 				{
 
 					if ((myReference != null)
@@ -532,6 +592,58 @@ public class StatsProvider
 
 	}
 
+	public ArrayList<StatElement> getCurrentProcessStatList(boolean bFilter,
+			int iSort) throws Exception
+	{
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		ArrayList<StatElement> myProcesses = null;
+		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
+
+		myProcesses = mStats.getProcessStats(m_context,
+				BatteryStatsTypes.STATS_CURRENT);
+
+
+		for (int i = 0; i < myProcesses.size(); i++)
+		{
+			Process ps = (Process) myProcesses.get(i);
+			if ((!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0))
+			{
+				myRetProcesses.add(ps);
+			}
+		}
+
+		// sort @see
+		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		switch (iSort)
+		{
+		case 0:
+			// by Duration
+			Comparator<Process> myCompTime = new Process.ProcessTimeComparator();
+			Collections.sort(myRetProcesses, myCompTime);
+			break;
+		case 1:
+			// by Count
+			Comparator<Process> myCompCount = new Process.ProcessCountComparator();
+			Collections.sort(myRetProcesses, myCompCount);
+			break;
+		}
+
+		for (int i = 0; i < myRetProcesses.size(); i++)
+		{
+			myStats.add((StatElement) myRetProcesses.get(i));
+		}
+
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
+
+		return myStats;
+
+	}
+
 	/**
 	 * Get the Wakelock Stat to be displayed
 	 * 
@@ -542,20 +654,25 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getWakelockStatList(boolean bFilter,
-			int iStatType, int iPctType, int iSort) throws Exception
+			int iStatTypeFrom, int iPctType, int iSort, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
-		ArrayList<Wakelock> myWakelocks = null;
-		myWakelocks = mStats.getWakelockStats(m_context,
-				BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-				BatteryStatsTypes.STATS_CURRENT, iPctType);
-
+		ArrayList<StatElement> myWakelocks = null;
+		if ((refTo != null) && (refTo.m_refWakelocks != null))
+		{
+			myWakelocks = refTo.m_refWakelocks;
+		}
+		else
+		{
+			return null;
+		}
+		
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 
-		Reference myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatTypeFrom);
 		String strCurrent = myWakelocks.toString();
 
 		String strRef = "";
@@ -578,7 +695,7 @@ public class StatsProvider
 				strRefDescr = "Reference is null";
 			}
 			Log.d(TAG, "Processing wakelocks since "
-					+ statTypeToLabel(iStatType) + "(" + iStatType + ")");
+					+ statTypeToLabel(iStatTypeFrom) + "(" + iStatTypeFrom + ")");
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -593,14 +710,14 @@ public class StatsProvider
 
 		for (int i = 0; i < myWakelocks.size(); i++)
 		{
-			Wakelock wl = myWakelocks.get(i);
+			Wakelock wl = (Wakelock) myWakelocks.get(i);
 			if ((!bFilter) || ((wl.getDuration() / 1000) > 0))
 			{
 				// we must distinguish two situations
 				// a) we use custom stat type
 				// b) we use regular stat type
 
-				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
+				if (iStatTypeFrom == BatteryStatsTypes.STATS_CURRENT)
 				{
 					myRetWakelocks.add(wl);
 				} else
@@ -678,6 +795,67 @@ public class StatsProvider
 		return myStats;
 	}
 
+	public ArrayList<StatElement> getCurrentWakelockStatList(boolean bFilter,
+			int iPctType, int iSort) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+
+		ArrayList<StatElement> myWakelocks = null;
+		myWakelocks = mStats.getWakelockStats(m_context,
+				BatteryStatsTypes.WAKE_TYPE_PARTIAL,
+				BatteryStatsTypes.STATS_CURRENT, iPctType);
+		
+		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
+
+
+		// sort @see
+		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		// Collections.sort(myWakelocks);
+
+		for (int i = 0; i < myWakelocks.size(); i++)
+		{
+			Wakelock wl = (Wakelock) myWakelocks.get(i);
+			if ((!bFilter) || ((wl.getDuration() / 1000) > 0))
+			{
+				myRetWakelocks.add(wl);
+			}
+		}
+
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "Result has " + myRetWakelocks.size() + " entries");
+		}
+		// sort @see
+		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		switch (iSort)
+		{
+		case 0:
+			// by Duration
+			Comparator<Wakelock> myCompTime = new Wakelock.WakelockTimeComparator();
+			Collections.sort(myRetWakelocks, myCompTime);
+			break;
+		case 1:
+			// by Count
+			Comparator<Wakelock> myCompCount = new Wakelock.WakelockCountComparator();
+			Collections.sort(myRetWakelocks, myCompCount);
+			break;
+		}
+
+		for (int i = 0; i < myRetWakelocks.size(); i++)
+		{
+			myStats.add((StatElement) myRetWakelocks.get(i));
+		}
+
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
+
+		return myStats;
+	}
+
 	/**
 	 * Get the Kernel Wakelock Stat to be displayed
 	 * 
@@ -688,24 +866,32 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getNativeKernelWakelockStatList(
-			boolean bFilter, int iStatType, int iPctType, int iSort)
+			boolean bFilter, int iStatTypeFrom, int iPctType, int iSort, Reference refTo)
 			throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-		ArrayList<NativeKernelWakelock> myKernelWakelocks = Wakelocks
-				.parseProcWakelocks(m_context);
-
+		ArrayList<StatElement> myKernelWakelocks = null;
+		
+		if ((refTo != null) && (refTo.m_refKernelWakelocks != null))
+		{ 
+			myKernelWakelocks = refTo.m_refKernelWakelocks;
+		}
+		else
+		{
+			return null;
+		}
+		
 		ArrayList<NativeKernelWakelock> myRetKernelWakelocks = new ArrayList<NativeKernelWakelock>();
 		// if we are using custom ref. always retrieve "stats current"
 
 		// sort @see
 		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		Collections.sort(myKernelWakelocks);
+//		Collections.sort(myKernelWakelocks);
 
 		String strCurrent = myKernelWakelocks.toString();
 		String strRef = "";
 		String strRefDescr = "";
-		Reference myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatTypeFrom);
 
 		if (LogSettings.DEBUG)
 		{
@@ -725,7 +911,7 @@ public class StatsProvider
 				strRefDescr = "Reference is null";
 			}
 			Log.d(TAG, "Processing kernel wakelocks since "
-					+ statTypeToLabel(iStatType) + "(" + iStatType + ")");
+					+ statTypeToLabel(iStatTypeFrom) + "(" + iStatTypeFrom + ")");
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -736,42 +922,90 @@ public class StatsProvider
 
 		for (int i = 0; i < myKernelWakelocks.size(); i++)
 		{
-			NativeKernelWakelock wl = myKernelWakelocks.get(i);
+			NativeKernelWakelock wl = (NativeKernelWakelock) myKernelWakelocks.get(i);
 			if ((!bFilter) || ((wl.getDuration()) > 0))
 			{
-				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
+				if ((myReference != null) && (myReference.m_refKernelWakelocks != null))
 				{
-					myRetKernelWakelocks.add(wl);
-				} else
-				{
-					if ((myReference != null)
-							&& (myReference.m_refKernelWakelocks != null))
-					{
-						wl.substractFromRef(myReference.m_refKernelWakelocks);
+					wl.substractFromRef(myReference.m_refKernelWakelocks);
 
-						// we must recheck if the delta process is still above
-						// threshold
-						if ((!bFilter) || ((wl.getDuration()) > 0))
-						{
-							myRetKernelWakelocks.add(wl);
-						}
-					} else
+					// we must recheck if the delta process is still above
+					// threshold
+					if ((!bFilter) || ((wl.getDuration()) > 0))
 					{
-						myRetKernelWakelocks.clear();
-						if (myReference != null)
-						{
-							myRetKernelWakelocks.add(new NativeKernelWakelock(
-									myReference.getMissingRefError(), "", 1, 1,
-									1, 1, 1, 1, 1, 1, 1));
-						} else
-						{
-							myRetKernelWakelocks.add(new NativeKernelWakelock(
-									Reference.GENERIC_REF_ERR, "", 1, 1, 1, 1,
-									1, 1, 1, 1, 1));
-
-						}
+						myRetKernelWakelocks.add(wl);
 					}
 				}
+				else
+				{
+					myRetKernelWakelocks.clear();
+					if (myReference != null)
+					{
+						myRetKernelWakelocks.add(new NativeKernelWakelock(
+								myReference.getMissingRefError(), "", 1, 1,
+								1, 1, 1, 1, 1, 1, 1));
+					} else
+					{
+						myRetKernelWakelocks.add(new NativeKernelWakelock(
+								Reference.GENERIC_REF_ERR, "", 1, 1, 1, 1,
+								1, 1, 1, 1, 1));
+
+					}
+				}
+			}
+		}
+
+		// sort @see
+		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		switch (iSort)
+		{
+		case 0:
+			// by Duration
+			Comparator<NativeKernelWakelock> myCompTime = new NativeKernelWakelock.TimeComparator();
+			Collections.sort(myRetKernelWakelocks, myCompTime);
+			break;
+		case 1:
+			// by Count
+			Comparator<NativeKernelWakelock> myCompCount = new NativeKernelWakelock.CountComparator();
+			Collections.sort(myRetKernelWakelocks, myCompCount);
+			break;
+		}
+
+		for (int i = 0; i < myRetKernelWakelocks.size(); i++)
+		{
+			myStats.add((StatElement) myRetKernelWakelocks.get(i));
+		}
+
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
+
+		return myStats;
+	}
+
+	public ArrayList<StatElement> getCurrentNativeKernelWakelockStatList(boolean bFilter, int iPctType, int iSort)
+			throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		ArrayList<StatElement> myKernelWakelocks = null;
+		
+		myKernelWakelocks = Wakelocks.parseProcWakelocks(m_context);
+		
+		ArrayList<NativeKernelWakelock> myRetKernelWakelocks = new ArrayList<NativeKernelWakelock>();
+		// if we are using custom ref. always retrieve "stats current"
+
+		// sort @see
+		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+//		Collections.sort(myKernelWakelocks);
+
+
+		for (int i = 0; i < myKernelWakelocks.size(); i++)
+		{
+			NativeKernelWakelock wl = (NativeKernelWakelock) myKernelWakelocks.get(i);
+			if ((!bFilter) || ((wl.getDuration()) > 0))
+			{
+				myRetKernelWakelocks.add(wl);
 			}
 		}
 
@@ -814,7 +1048,7 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getNativeNetworkUsageStatList(
-			boolean bFilter, int iStatType) throws Exception
+			boolean bFilter, int iStatTypeFrom, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
@@ -827,20 +1061,29 @@ public class StatsProvider
 			return myStats;
 		}
 
-		ArrayList<NetworkUsage> myNetworkStats = Netstats.parseNetstats();
+		ArrayList<StatElement> myNetworkStats = null;
+		
+		if ((refTo != null) && (refTo.m_refNetworkStats != null))
+		{
+			myNetworkStats = refTo.m_refNetworkStats;
+		}
+		else
+		{
+			myNetworkStats = Netstats.parseNetstats();
+		}
 
 		ArrayList<NetworkUsage> myRetNetworkStats = new ArrayList<NetworkUsage>();
 		// if we are using custom ref. always retrieve "stats current"
 
 		// sort @see
 		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		Collections.sort(myNetworkStats);
+//		Collections.sort(myNetworkStats);
 
 		String strCurrent = "";
 		String strRef = "";
 		String strRefDescr = "";
 
-		Reference myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatTypeFrom);
 
 		if (LogSettings.DEBUG)
 		{
@@ -860,7 +1103,7 @@ public class StatsProvider
 				strRefDescr = "Reference is null";
 			}
 			Log.d(TAG, "Processing network stats since "
-					+ statTypeToLabel(iStatType) + "(" + iStatType + ")");
+					+ statTypeToLabel(iStatTypeFrom) + "(" + iStatTypeFrom + ")");
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -871,40 +1114,91 @@ public class StatsProvider
 
 		for (int i = 0; i < myNetworkStats.size(); i++)
 		{
-			NetworkUsage netStat = myNetworkStats.get(i);
+			NetworkUsage netStat = (NetworkUsage) myNetworkStats.get(i);
 			if ((!bFilter) || ((netStat.getTotalBytes()) > 0))
 			{
-				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
+				if ((myReference != null)
+						&& (myReference.m_refNetworkStats != null))
 				{
-					myRetNetworkStats.add(netStat);
+					netStat.substractFromRef(myReference.m_refNetworkStats);
+
+					// we must recheck if the delta process is still above
+					// threshold
+					if ((!bFilter) || ((netStat.getTotalBytes()) > 0))
+					{
+						myRetNetworkStats.add(netStat);
+					}
 				} else
 				{
-					if ((myReference != null)
-							&& (myReference.m_refNetworkStats != null))
+					myRetNetworkStats.clear();
+					if (myReference != null)
 					{
-						netStat.substractFromRef(myReference.m_refNetworkStats);
-
-						// we must recheck if the delta process is still above
-						// threshold
-						if ((!bFilter) || ((netStat.getTotalBytes()) > 0))
-						{
-							myRetNetworkStats.add(netStat);
-						}
+						myRetNetworkStats.add(new NetworkUsage(myReference
+								.getMissingRefError(), -1, 1, 0));
 					} else
 					{
-						myRetNetworkStats.clear();
-						if (myReference != null)
-						{
-							myRetNetworkStats.add(new NetworkUsage(myReference
-									.getMissingRefError(), -1, 1, 0));
-						} else
-						{
-							myRetNetworkStats.add(new NetworkUsage(
-									Reference.GENERIC_REF_ERR, -1, 1, 0));
+						myRetNetworkStats.add(new NetworkUsage(
+								Reference.GENERIC_REF_ERR, -1, 1, 0));
 
-						}
 					}
 				}
+			}
+		}
+
+		// recalculate the total
+		long total = 0;
+		for (int i = 0; i < myRetNetworkStats.size(); i++)
+		{
+			total += myRetNetworkStats.get(i).getTotalBytes();
+		}
+
+		Collections.sort(myRetNetworkStats);
+
+		for (int i = 0; i < myRetNetworkStats.size(); i++)
+		{
+			myRetNetworkStats.get(i).setTotal(total);
+			myStats.add((StatElement) myRetNetworkStats.get(i));
+		}
+
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
+
+		return myStats;
+	}
+
+	public ArrayList<StatElement> getCurrentNativeNetworkUsageStatList(boolean bFilter) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		// stop straight away of root features are disabled
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+		if (!rootEnabled)
+		{
+			return myStats;
+		}
+
+		ArrayList<StatElement> myNetworkStats = null;
+		
+		myNetworkStats = Netstats.parseNetstats();
+
+		ArrayList<NetworkUsage> myRetNetworkStats = new ArrayList<NetworkUsage>();
+		// if we are using custom ref. always retrieve "stats current"
+
+		// sort @see
+		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+//		Collections.sort(myNetworkStats);
+
+
+		for (int i = 0; i < myNetworkStats.size(); i++)
+		{
+			NetworkUsage netStat = (NetworkUsage) myNetworkStats.get(i);
+			if ((!bFilter) || ((netStat.getTotalBytes()) > 0))
+			{
+				myRetNetworkStats.add(netStat);
 			}
 		}
 
@@ -940,7 +1234,7 @@ public class StatsProvider
 	 * @throws Exception
 	 *             if the API call failed
 	 */
-	public ArrayList<StatElement> getCpuStateList(int iStatType)
+	public ArrayList<StatElement> getCpuStateList(int iStatTypeFrom)
 			throws Exception
 
 	{
@@ -958,7 +1252,7 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		Reference myReference = getReference(iStatType);
+		Reference myReference = getReference(iStatTypeFrom);
 
 		if (LogSettings.DEBUG)
 		{
@@ -978,7 +1272,7 @@ public class StatsProvider
 				strRefDescr = "Reference is null";
 			}
 			Log.d(TAG, "Processing CPU States since "
-					+ statTypeToLabel(iStatType));
+					+ statTypeToLabel(iStatTypeFrom));
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -991,7 +1285,7 @@ public class StatsProvider
 		{
 			State state = myStates.get(i);
 
-			if (iStatType == BatteryStatsTypes.STATS_CURRENT)
+			if (iStatTypeFrom == BatteryStatsTypes.STATS_CURRENT)
 			{
 				myStats.add(state);
 			} else
@@ -1132,9 +1426,10 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getOtherUsageStatList(boolean bFilter,
-			int iStatType, boolean bFilterView, boolean bWidget)
+			int iStatType, boolean bFilterView, boolean bWidget, Reference refTo)
 			throws Exception
 	{
+	
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		SharedPreferences sharedPrefs = PreferenceManager
@@ -1143,7 +1438,100 @@ public class StatsProvider
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
 		// List to store the other usages to
-		ArrayList<Misc> myUsages = new ArrayList<Misc>();
+		ArrayList<StatElement> myUsages = new ArrayList<StatElement>();
+
+		if ((refTo != null) && (refTo.m_refOther != null))
+		{
+			myUsages = refTo.m_refOther;
+		}
+		else
+		{
+			return null;
+		}
+//		Collections.sort(myUsages);
+
+		String strCurrent = myUsages.toString();
+		String strRef = "";
+		String strRefDescr = "";
+
+		Reference myReference = getReference(iStatType);
+
+		if (LogSettings.DEBUG)
+		{
+			if (myReference != null)
+			{
+				strRefDescr = myReference.whoAmI();
+				if (myReference.m_refOther != null)
+				{
+					strRef = myReference.m_refOther.toString();
+				} else
+				{
+					strRef = "Other is null";
+				}
+
+			} else
+			{
+				strRefDescr = "Reference is null";
+			}
+			Log.d(TAG, "Processing Other since " + statTypeToLabel(iStatType));
+
+			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "It is now " + DateUtils.now());
+
+			Log.d(TAG, "Substracting " + strRef);
+			Log.d(TAG, "from " + strCurrent);
+		}
+
+		for (int i = 0; i < myUsages.size(); i++)
+		{
+			Misc usage = (Misc)myUsages.get(i);
+			Log.d(TAG,
+					"Current value: " + usage.getName() + " " + usage.getData());
+			if ((!bFilter) || (usage.getTimeOn() > 0))
+			{
+				if ((myReference != null)
+						&& (myReference.m_refOther != null))
+				{
+					usage.substractFromRef(myReference.m_refOther);
+					if ((!bFilter) || (usage.getTimeOn() > 0))
+					{
+						Log.d(TAG, "Result value: " + usage.getName() + " "
+								+ usage.getData());
+						myStats.add((StatElement) usage);
+					}
+				}
+				else
+				{
+					myStats.clear();
+					if (myReference != null)
+					{
+						myStats.add(new Misc(myReference
+								.getMissingRefError(), 1, 1));
+					} else
+					{
+						myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1,
+								1));
+					}
+				}
+			}
+		}
+		return myStats;
+	}
+
+	public ArrayList<StatElement> getCurrentOtherUsageStatList(boolean bFilter,
+			boolean bFilterView, boolean bWidget)
+			throws Exception
+	{
+	
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		// List to store the other usages to
+		ArrayList<StatElement> myUsages = new ArrayList<StatElement>();
 
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
 		
@@ -1260,7 +1648,6 @@ public class StatsProvider
 				whichRealtime);
 		Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
 
-		Reference myReference = getReference(iStatType);
 
 		if ((!bFilter) || (deepSleepUsage.getTimeOn() > 0))
 		{
@@ -1386,77 +1773,16 @@ public class StatsProvider
 
 		// sort @see
 		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		Collections.sort(myUsages);
-
-		String strCurrent = myUsages.toString();
-		String strRef = "";
-		String strRefDescr = "";
-
-		if (LogSettings.DEBUG)
-		{
-			if (myReference != null)
-			{
-				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refOther != null)
-				{
-					strRef = myReference.m_refOther.toString();
-				} else
-				{
-					strRef = "Other is null";
-				}
-
-			} else
-			{
-				strRefDescr = "Reference is null";
-			}
-			Log.d(TAG, "Processing Other since " + statTypeToLabel(iStatType));
-
-			Log.d(TAG, "Reference used: " + strRefDescr);
-			Log.d(TAG, "It is now " + DateUtils.now());
-
-			Log.d(TAG, "Substracting " + strRef);
-			Log.d(TAG, "from " + strCurrent);
-		}
+//		Collections.sort(myUsages);
 
 		for (int i = 0; i < myUsages.size(); i++)
 		{
-			Misc usage = myUsages.get(i);
+			Misc usage = (Misc)myUsages.get(i);
 			Log.d(TAG,
 					"Current value: " + usage.getName() + " " + usage.getData());
 			if ((!bFilter) || (usage.getTimeOn() > 0))
 			{
-				if (iStatType == BatteryStatsTypes.STATS_CURRENT)
-				{
-					myStats.add((StatElement) usage);
-				}
-				else
-				{
-
-					if ((myReference != null)
-							&& (myReference.m_refOther != null))
-					{
-						usage.substractFromRef(myReference.m_refOther);
-						if ((!bFilter) || (usage.getTimeOn() > 0))
-						{
-							Log.d(TAG, "Result value: " + usage.getName() + " "
-									+ usage.getData());
-							myStats.add((StatElement) usage);
-						}
-					}
-					else
-					{
-						myStats.clear();
-						if (myReference != null)
-						{
-							myStats.add(new Misc(myReference
-									.getMissingRefError(), 1, 1));
-						} else
-						{
-							myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1,
-									1));
-						}
-					}
-				}
+				myStats.add((StatElement) usage);
 			}
 		}
 		return myStats;
@@ -1493,7 +1819,7 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public String getBatteryLevelFromTo(int iStatType)
+	public String getBatteryLevelFromTo(int iStatType, String refToName )
 	{
 		// deep sleep times are independent of stat type
 		long lLevelTo = getBatteryLevel();
@@ -1515,7 +1841,7 @@ public class StatsProvider
 		String drop_per_hour = "";
 		try
 		{
-			sinceH = getSince(iStatType);
+			sinceH = getSince(iStatType, refToName);
 			// since is in ms but x 100 in order to respect proportions of formatRatio (we call it with % and it normally calculates % so there is a factor 100
 			sinceH = sinceH / 10 / 60 / 60;
 			drop_per_hour = StringUtils.formatRatio(lLevelFrom - lLevelTo, sinceH) + "/h";
@@ -1709,6 +2035,15 @@ public class StatsProvider
 	}
 
 	/**
+	 * Saves all data at the current point in time
+	 */
+	public void setCurrentReference(int iSort)
+	{
+		Reference thisRef = new Reference(Reference.CURRENT_REF_FILENAME);
+		m_refStore.put(Reference.CURRENT_REF_FILENAME, setReference(iSort, thisRef));
+	}
+
+	/**
 	 * Saves all data to a point in time when the screen goes off This data will
 	 * be used in a custom "since..." stat type
 	 */
@@ -1776,18 +2111,13 @@ public class StatsProvider
 			refs.m_refProcesses = null;
 			refs.m_refCpuStates = null;
 
-			refs.m_refKernelWakelocks = getNativeKernelWakelockStatList(
-					bFilterStats, BatteryStatsTypes.STATS_CURRENT, iPctType,
-					iSort);
-			refs.m_refWakelocks = getWakelockStatList(bFilterStats,
-					BatteryStatsTypes.STATS_CURRENT, iPctType, iSort);
+			refs.m_refKernelWakelocks = getCurrentNativeKernelWakelockStatList(bFilterStats, iPctType, iSort);
+			refs.m_refWakelocks = getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
 
-			refs.m_refOther = getOtherUsageStatList(bFilterStats,
-					BatteryStatsTypes.STATS_CURRENT, false, false);
+			refs.m_refOther = getCurrentOtherUsageStatList(bFilterStats, false, false);
 			refs.m_refCpuStates = getCpuStateList(BatteryStatsTypes.STATS_CURRENT);
 
-			refs.m_refProcesses = getProcessStatList(bFilterStats,
-					BatteryStatsTypes.STATS_CURRENT, iSort);
+			refs.m_refProcesses = getCurrentProcessStatList(bFilterStats, iSort);
 
 			refs.m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 
@@ -1817,11 +2147,9 @@ public class StatsProvider
 			{
 				// After that we go on and try to write the rest. If this part
 				// fails at least there will be a partial ref saved
-				refs.m_refNetworkStats = getNativeNetworkUsageStatList(
-						bFilterStats, BatteryStatsTypes.STATS_CURRENT);
+				refs.m_refNetworkStats = getCurrentNativeNetworkUsageStatList(bFilterStats);
 
-				refs.m_refAlarms = getAlarmsStatList(bFilterStats,
-						BatteryStatsTypes.STATS_CURRENT);
+				refs.m_refAlarms = getCurrentAlarmsStatList(bFilterStats);
 
 				// update timestamp
 				refs.setTimestamp();
@@ -2021,7 +2349,7 @@ public class StatsProvider
 				out.write("Statistic Type: (" + iStatType + ") "
 						+ statTypeToLabel(iStatType) + "\n");
 				out.write("Since "
-						+ DateUtils.formatDuration(getSince(iStatType)) + "\n");
+						+ DateUtils.formatDuration(getSince(iStatType, null)) + "\n");
 				out.write("VERSION.RELEASE: " + Build.VERSION.RELEASE + "\n");
 				out.write("BRAND: " + Build.BRAND + "\n");
 				out.write("DEVICE: " + Build.DEVICE + "\n");
@@ -2062,7 +2390,7 @@ public class StatsProvider
 				out.write("Battery Info\n");
 				out.write("============\n");
 				out.write("Level lost [%]: " + getBatteryLevelStat(iStatType)
-						+ " " + getBatteryLevelFromTo(iStatType) + "\n");
+						+ " " + getBatteryLevelFromTo(iStatType, null) + "\n");
 				out.write("Voltage lost [mV]: "
 						+ getBatteryVoltageStat(iStatType) + " "
 						+ getBatteryVoltageFromTo(iStatType) + "\n");
@@ -2077,7 +2405,7 @@ public class StatsProvider
 					out.write("===========\n");
 					dumpList(
 							getOtherUsageStatList(bFilterStats, iStatType,
-									false, false), out);
+									false, false, null), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_pwl", true);
@@ -2089,7 +2417,8 @@ public class StatsProvider
 					out.write("=========\n");
 					dumpList(
 							getWakelockStatList(bFilterStats, iStatType,
-									iPctType, iSort), out);
+									iPctType, iSort, null), out);
+					
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_kwl", true);
@@ -2110,7 +2439,7 @@ public class StatsProvider
 					}
 					dumpList(
 							getNativeKernelWakelockStatList(bFilterStats,
-									iStatType, iPctType, iSort), out);
+									iStatType, iPctType, iSort, null), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_proc", false);
@@ -2121,7 +2450,7 @@ public class StatsProvider
 					out.write("Processes\n");
 					out.write("=========\n");
 					dumpList(
-							getProcessStatList(bFilterStats, iStatType, iSort),
+							getProcessStatList(bFilterStats, iStatType, iSort, null),
 							out);
 				}
 
@@ -2132,7 +2461,7 @@ public class StatsProvider
 					out.write("======================\n");
 					out.write("Alarms (requires root)\n");
 					out.write("======================\n");
-					dumpList(getAlarmsStatList(bFilterStats, iStatType), out);
+					dumpList(getAlarmsStatList(bFilterStats, iStatType, null), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_network", true);
@@ -2144,7 +2473,7 @@ public class StatsProvider
 					out.write("======================\n");
 					dumpList(
 							getNativeNetworkUsageStatList(bFilterStats,
-									iStatType), out);
+									iStatType, null), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_cpustates", true);

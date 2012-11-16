@@ -20,6 +20,8 @@ package com.asksven.betterbatterystats;
  *
  */
 
+import java.sql.Ref;
+
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.NotificationManager;
@@ -53,6 +55,7 @@ import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.SamplesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
+import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 
@@ -267,14 +270,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         if (tvSince != null)
         {
 
-            long sinceMs = getSince();
+        	//long sinceMs = getSince();
+            long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType, Reference.CURRENT_REF_FILENAME);
             if (sinceMs != -1)
             {
     	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
     			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
     	        if (bShowBatteryLevels)
     	        {
-    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType);
+    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType, Reference.CURRENT_REF_FILENAME);
     	        }
     	        tvSince.setText(sinceText);
     	    	Log.i(TAG, "Since " + sinceText);
@@ -382,7 +386,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// the service is always started as it handles the widget updates too
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean serviceShouldBeRunning = sharedPrefs.getBoolean("ref_for_screen_off", false);
-		
 		if (serviceShouldBeRunning)
 		{
 			if (!EventWatcherService.isServiceRunning(this))
@@ -391,6 +394,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				this.startService(i);
 			}    				
 		}
+		
+		// make sure to create a valid "current" stat
+		StatsProvider.getInstance(this).setCurrentReference(m_iSorting);
+		
 	}
 
 	/* Remove the locationlistener updates when Activity is paused */
@@ -434,7 +441,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		if (m_listViewAdapter == null)
 		{
 			m_listViewAdapter = new StatsAdapter(this, 
-					StatsProvider.getInstance(this).getStatList(m_iStat, m_iStatType, m_iSorting));
+					StatsProvider.getInstance(this).getStatList(m_iStat, m_iStatType, m_iSorting, Reference.CURRENT_REF_FILENAME));
 		
 			setListAdapter(m_listViewAdapter);
 		}
@@ -535,6 +542,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 	        case R.id.refresh:
             	// Refresh
+	        	updateCurrentRef();
 	        	doRefresh();
             	break;
             case R.id.dump:
@@ -663,6 +671,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			}
 
 		}
+		else if (parent == (Spinner) findViewById(R.id.spinnerStatSampleEnd))
+		{
+			// nothing yet
+		}
 		else
 		{
     		Log.e(TAG, "ProcessStatsActivity.onItemSelected error. ID could not be resolved");
@@ -671,14 +683,16 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-        long sinceMs = getSince();
+//        long sinceMs = getSince();
+        long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType, Reference.CURRENT_REF_FILENAME);
+
         if (sinceMs != -1)
         {
 	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
 			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
 	        if (bShowBatteryLevels)
 	        {
-	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType);
+	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType, Reference.CURRENT_REF_FILENAME);
 	        }
 	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + sinceText);
@@ -707,20 +721,30 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		//m_listViewAdapter.notifyDataSetChanged();
 		
 	}
-	
+
+	private void updateCurrentRef()
+	{
+		// make sure to create a valid "current" stat
+		StatsProvider.getInstance(this).setCurrentReference(m_iSorting);	
+	}
+
 	private void doRefresh()
 	{
+
 		// restore any available references if required
 		if (!StatsProvider.getInstance(this).hasSinceChargedRef())
 		{
 			StatsProvider.getInstance(this).deserializeFromFile();
 		}
 
+
 		BatteryStatsProxy.getInstance(this).invalidate();
 		new LoadStatData().execute(this);
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-        long sinceMs = getSince();
+        //long sinceMs = getSince();
+        long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType, Reference.CURRENT_REF_FILENAME);
+
         if (sinceMs != -1)
         {
 	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
@@ -729,7 +753,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
 	        if (bShowBatteryLevels)
 	        {
-	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType);
+	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType, Reference.CURRENT_REF_FILENAME);
 	        }
 	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + sinceText);
@@ -792,7 +816,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				m_listViewAdapter = new StatsAdapter(
 						StatsActivity.this,
-						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_iStatType, m_iSorting));
+						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_iStatType, m_iSorting, Reference.CURRENT_REF_FILENAME));
 			}
 			catch (BatteryInfoUnavailableException e)
 			{
@@ -935,23 +959,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    }
 	}
 
-	private long getSince()
-	{
-		long ret = -1;
-		try
-		{
-			ret = StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType);
-		}
-		catch (BatteryInfoUnavailableException e)
-		{
-			Toast.makeText(StatsActivity.this,
-					"BatteryInfo Service could not be contacted.",
-					Toast.LENGTH_LONG).show();
-			ret = -1;
-		}
-		
-		return ret;
-	}
+//	private long getSince()
+//	{
+//		long ret = -1;
+//		try
+//		{
+//			ret = StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType);
+//		}
+//		catch (BatteryInfoUnavailableException e)
+//		{
+//			Toast.makeText(StatsActivity.this,
+//					"BatteryInfo Service could not be contacted.",
+//					Toast.LENGTH_LONG).show();
+//			ret = -1;
+//		}
+//		
+//		return ret;
+//	}
 
 
 	

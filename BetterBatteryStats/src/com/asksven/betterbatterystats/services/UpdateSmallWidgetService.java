@@ -27,6 +27,7 @@ import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
+import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.widgets.WidgetBattery;
@@ -113,13 +114,16 @@ public class UpdateSmallWidgetService extends Service
 			try
 			{
 				
-				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true);
+				StatsProvider.getInstance(this).setCurrentReference(0);
+				Reference currentRef = StatsProvider.getReferenceByName(Reference.CURRENT_REF_FILENAME);
+
+				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true, currentRef);
 				
 				if ( (otherStats == null) || ( otherStats.size() == 1) )
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
 					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "3"));
-					otherStats = stats.getOtherUsageStatList(true, statType, false, true);
+					otherStats = stats.getOtherUsageStatList(true, statType, false, true, currentRef);
 				}
 
 				if ( (otherStats != null) && ( otherStats.size() > 1) )

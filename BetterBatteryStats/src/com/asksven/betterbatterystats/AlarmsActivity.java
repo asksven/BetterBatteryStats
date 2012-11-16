@@ -131,7 +131,7 @@ public class AlarmsActivity extends ListActivity
 			try
 			{
 				m_listViewAdapter = new StatsAdapter(AlarmsActivity.this,
-						StatsProvider.getInstance(AlarmsActivity.this).getAlarmsStatList(bFilter, BatteryStatsTypes.STATS_CURRENT));
+						StatsProvider.getInstance(AlarmsActivity.this).getAlarmsStatList(bFilter, BatteryStatsTypes.STATS_CURRENT, null));
 			}
 			catch (Exception e)
 			{

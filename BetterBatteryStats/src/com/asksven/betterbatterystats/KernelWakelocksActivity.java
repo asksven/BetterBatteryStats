@@ -144,7 +144,7 @@ public class KernelWakelocksActivity extends ListActivity
 			try
 			{
 				m_listViewAdapter = new StatsAdapter(KernelWakelocksActivity.this, 
-						StatsProvider.getInstance(KernelWakelocksActivity.this).getNativeKernelWakelockStatList(bFilter, BatteryStatsTypes.STATS_CURRENT, iPctType, iSort));
+						StatsProvider.getInstance(KernelWakelocksActivity.this).getCurrentNativeKernelWakelockStatList(bFilter, iPctType, iSort));
 			}
 			catch (Exception e)
 			{

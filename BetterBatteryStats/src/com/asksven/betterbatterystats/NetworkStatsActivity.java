@@ -129,7 +129,7 @@ public class NetworkStatsActivity extends ListActivity
 			try
 			{
 				m_listViewAdapter = new StatsAdapter(NetworkStatsActivity.this, 
-						StatsProvider.getInstance(NetworkStatsActivity.this).getNativeNetworkUsageStatList(bFilter, BatteryStatsTypes.STATS_CURRENT));
+						StatsProvider.getInstance(NetworkStatsActivity.this).getCurrentNativeNetworkUsageStatList(bFilter));
 			}
 			catch (Exception e)
 			{

@@ -99,7 +99,7 @@ public class WatchdogProcessingService extends Service
 					{
 						// restore any available since screen reference
 						StatsProvider.getInstance(this).deserializeFromFile();
-						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, StatsProvider.STATS_SCREEN_OFF, false, false);
+						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, StatsProvider.STATS_SCREEN_OFF, false, false, null);
 
 						long timeAwake = 0;
 						long timeSince = 0;

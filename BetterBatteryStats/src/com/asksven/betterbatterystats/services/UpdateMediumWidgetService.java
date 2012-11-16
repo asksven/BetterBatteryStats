@@ -28,6 +28,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.MediumWidgetProvider;
@@ -114,14 +115,16 @@ public class UpdateMediumWidgetService extends Service
 			
 			try
 			{
+				StatsProvider.getInstance(this).setCurrentReference(0);
+				Reference currentRef = StatsProvider.getReferenceByName(Reference.CURRENT_REF_FILENAME);
 				
-				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true);
+				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true, currentRef);
 				
 				if ( (otherStats == null) || ( otherStats.size() == 1) )
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
 					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "3"));
-					otherStats = stats.getOtherUsageStatList(true, statType, false, true);
+					otherStats = stats.getOtherUsageStatList(true, statType, false, true, null);
 				}
 
 				if ( (otherStats != null) && ( otherStats.size() > 1) )
@@ -138,10 +141,10 @@ public class UpdateMediumWidgetService extends Service
 					}
 					timeSince = stats.getBatteryRealtime(statType);
 //					timeSince = stats.getSince(statType);
-					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0);
+					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0, currentRef);
 					sumPWakelocks = stats.sum(pWakelockStats);
 	
-					ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, statType, 0, 0);
+					ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, statType, 0, 0, currentRef);
 					sumKWakelocks = stats.sum(kWakelockStats);
 	
 					Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));

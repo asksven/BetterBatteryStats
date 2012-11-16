@@ -31,20 +31,22 @@ import com.asksven.android.common.utils.DateUtils;
  * @author sven
  *
  */
-class Reference implements Serializable
+public class Reference implements Serializable
 {
 	
 	private static final long serialVersionUID = 3L;
 	
 	private transient static final String TAG = "References";
 	
-	protected static final String CUSTOM_REF_FILENAME 			= "ref_custom_";
-	protected static final String UNPLUGGED_REF_FILENAME 		= "ref_unplugged";
-	protected static final String CHARGED_REF_FILENAME 			= "ref_charged";
-	protected static final String SCREEN_OFF_REF_FILENAME		= "ref_screen_off";
-	protected static final String BOOT_REF_FILENAME				= "ref_boot";
+	public static final String CUSTOM_REF_FILENAME 			= "ref_custom";
+	public static final String UNPLUGGED_REF_FILENAME 		= "ref_unplugged";
+	public static final String CHARGED_REF_FILENAME 			= "ref_charged";
+	public static final String SCREEN_OFF_REF_FILENAME		= "ref_screen_off";
+	public static final String BOOT_REF_FILENAME				= "ref_boot";
+	public static final String CURRENT_REF_FILENAME 			= "ref_current";
+
 	
-	protected static final String[] FILES = {CUSTOM_REF_FILENAME, UNPLUGGED_REF_FILENAME, CHARGED_REF_FILENAME, SCREEN_OFF_REF_FILENAME, BOOT_REF_FILENAME};
+	protected static final String[] FILES = {CUSTOM_REF_FILENAME, CURRENT_REF_FILENAME, UNPLUGGED_REF_FILENAME, CHARGED_REF_FILENAME, SCREEN_OFF_REF_FILENAME, BOOT_REF_FILENAME};
 
 	protected static final String NO_STATS_WHEN_CHARGING		= "Device is plugged in: no stats";
 	protected static final String GENERIC_REF_ERR 				= "No reference set yet";
@@ -55,20 +57,17 @@ class Reference implements Serializable
 	protected static final String SINCE_BOOT_REF_ERR			= "Boot event was not registered yet, it will at next reboot";
 
 	/** storage of custom references */
-	protected String m_fileName							= "";
+	protected String m_fileName								= "";
 	protected long m_creationTime							= 0;
     protected ArrayList<StatElement> m_refWakelocks 		= null;
     protected ArrayList<StatElement> m_refKernelWakelocks 	= null;
     protected ArrayList<StatElement> m_refNetworkStats	 	= null;
     protected ArrayList<StatElement> m_refAlarms		 	= null;
     protected ArrayList<StatElement> m_refProcesses 		= null;
-    
-    /** @todo unused, delete in 2.0 */
-    protected ArrayList<StatElement> m_refNetwork	 		= null;
-    protected ArrayList<StatElement> m_refOther	 		= null;
-    protected ArrayList<StatElement> m_refCpuStates		= null;
+    protected ArrayList<StatElement> m_refOther	 			= null;
+    protected ArrayList<StatElement> m_refCpuStates			= null;
     protected long m_refBatteryRealtime 					= 0;  
-    protected int m_refBatteryLevel						= 0;
+    protected int m_refBatteryLevel							= 0;
     protected int m_refBatteryVoltage						= 0;
     
     private Reference()
