@@ -18,6 +18,7 @@ package com.asksven.betterbatterystats.adapters;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
@@ -31,12 +32,14 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.provider.Settings;
 
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
@@ -145,7 +148,12 @@ public class StatsAdapter extends BaseAdapter
         
         LinearLayout myLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutBar);
         LinearLayout myFqnLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutFqn);
-		
+        LinearLayout myRow = (LinearLayout) convertView.findViewById(R.id.LinearLayoutEntry);
+        
+        // long press for "copy to clipboard"
+        myRow.setOnLongClickListener(new OnItemLongClickListener(position));
+
+        
         GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
         
         ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
@@ -376,6 +384,52 @@ public class StatsAdapter extends BaseAdapter
             	dialog.show();
 
         	}
+        }
+    }
+
+    /**
+     * Handler for the on click of the list item
+     * @author sven
+     *
+     */
+    private class OnItemLongClickListener implements OnLongClickListener
+    {           
+        private int m_iPosition;
+        OnItemLongClickListener(int position)
+        {
+                m_iPosition = position;
+        }
+        
+        @SuppressLint("NewApi")
+		@Override
+        public boolean onLongClick(View arg0)
+        {
+        	StatElement entry = (StatElement) getItem(m_iPosition);
+        	if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB)
+        	{
+        	    android.text.ClipboardManager clipboard = (android.text.ClipboardManager) m_context.getSystemService(Context.CLIPBOARD_SERVICE);
+        	    clipboard.setText(entry.getName());
+        	}
+        	else
+        	{
+        	    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) m_context.getSystemService(Context.CLIPBOARD_SERVICE);
+        	    android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", entry.getName());
+        	            clipboard.setPrimaryClip(clip);
+        	}
+			Toast.makeText(m_context, entry.getName() + " was copied to the clipboard", Toast.LENGTH_LONG).show();
+
+//        	if (entry instanceof Alarm)
+//        	{
+//	        	Alarm alarmEntry = (Alarm) getItem(m_iPosition);
+//	            
+//	        }
+//        	if (entry instanceof NativeKernelWakelock)
+//        	{
+//        		NativeKernelWakelock kernelWakelockEntry = (NativeKernelWakelock) getItem(m_iPosition);
+//                
+//        	}
+        	
+        	return true;
         }
     }
 
