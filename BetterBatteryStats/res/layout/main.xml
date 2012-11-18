@@ -80,6 +80,6 @@
         android:layout_marginTop="3dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"        
-        android:text="Rate / Review on Android Market" />
+        android:text="Rate / Review on Google Play" />
     			
 </LinearLayout>
