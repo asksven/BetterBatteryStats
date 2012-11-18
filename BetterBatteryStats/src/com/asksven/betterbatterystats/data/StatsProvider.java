@@ -1636,6 +1636,43 @@ public class StatsProvider
 			}
 		}
 
+		long timeScreenDark = 0;
+		long timeScreenDim = 0;
+		long timeScreenMedium = 0;
+		long timeScreenLight = 0;
+		long timeScreenBright = 0;
+		if (sharedPrefs.getBoolean("show_other_screen_brightness", true))
+		{
+			try
+			{
+				timeScreenDark = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_DARK,
+						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+				timeScreenDim = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_DIM,
+						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+				timeScreenMedium = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_MEDIUM,
+						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+				timeScreenLight = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_LIGHT,
+						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+				timeScreenBright = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_BRIGHT,
+						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			}
+			catch (BatteryInfoUnavailableException e)
+			{
+				timeScreenDark = 0;
+				timeScreenDim = 0;
+				timeScreenMedium = 0;
+				timeScreenLight = 0;
+				timeScreenBright = 0;
+				Log.e(TAG,
+						"A batteryinfo error occured while retrieving Screen brightness data");
+			}
+		}
+
 		// deep sleep times are independent of stat type
 		long timeDeepSleep = (SystemClock.elapsedRealtime() - SystemClock
 				.uptimeMillis());
@@ -1739,6 +1776,50 @@ public class StatsProvider
 						true)))
 		{
 			myUsages.add(new Misc("Great Signal", timeSignalGreat,
+					whichRealtime));
+		}
+
+		if ((timeScreenDark > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen dark", timeScreenDark,
+					whichRealtime));
+		}
+
+		if ((timeScreenDim > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen dimmed", timeScreenDim,
+					whichRealtime));
+		}
+
+		if ((timeScreenMedium > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen medium", timeScreenMedium,
+					whichRealtime));
+		}
+		if ((timeScreenLight > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen light", timeScreenLight,
+					whichRealtime));
+		}
+
+		if ((timeScreenBright > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen bright", timeScreenBright,
 					whichRealtime));
 		}
 

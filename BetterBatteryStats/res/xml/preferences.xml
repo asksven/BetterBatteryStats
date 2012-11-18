@@ -32,6 +32,12 @@
                 android:title="Show signal" />
             <CheckBoxPreference
                 android:defaultValue="true"
+                android:key="show_other_screen_brightness"
+                android:summary="Show screen brightness"
+                android:title="Show screen" />
+            
+            <CheckBoxPreference
+                android:defaultValue="true"
                 android:key="show_other_connection"
                 android:summary="Show connection values"
                 android:title="Show connection" />
