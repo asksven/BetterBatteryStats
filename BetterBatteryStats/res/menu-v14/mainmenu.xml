@@ -18,7 +18,7 @@
     -->
     <item
         android:id="@+id/dump"
-        showAsAction="ifRoom"
+        android:showAsAction="ifRoom"
         android:title="Dump to File"/>
     <item
         android:id="@+id/custom_ref"
@@ -26,6 +26,9 @@
     <item
         android:id="@+id/logcat"
         android:title="Save Logcat"/>
+    <item android:id="@+id/dmesg"
+       	android:title="Save dmesg" />
+    
     <item
         android:id="@+id/more_group"
         android:title="More">

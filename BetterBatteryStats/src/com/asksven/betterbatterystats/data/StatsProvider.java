@@ -2613,6 +2613,38 @@ public class StatsProvider
 		}
 	}
 
+	public void writeDmesgToFile()
+	{
+		if (!DataStorage.isExternalStorageWritable())
+		{
+			Log.e(TAG, "External storage can not be written");
+			Toast.makeText(m_context, "External Storage can not be written",
+					Toast.LENGTH_SHORT).show();
+		}
+		try
+		{
+			// open file for writing
+			File root = Environment.getExternalStorageDirectory();
+			String path = root.getAbsolutePath();
+			// check if file can be written
+			if (root.canWrite())
+			{
+				String filename = "dmesg-"
+						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
+				Util.run("dmesg > " + path + "/" + filename);
+			} else
+			{
+				Log.i(TAG,
+						"Write error. "
+								+ Environment.getExternalStorageDirectory()
+								+ " couldn't be written");
+			}
+		} catch (Exception e)
+		{
+			Log.e(TAG, "Exception: " + e.getMessage());
+		}
+	}
+
 	/**
 	 * Dump the elements on one list
 	 * 

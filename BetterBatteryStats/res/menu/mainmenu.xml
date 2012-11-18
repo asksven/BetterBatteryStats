@@ -4,7 +4,7 @@
           android:title="Preferences" />
     <item android:id="@+id/refresh"    
           android:title="Refresh"
-          showAsAction="ifRoom"/>
+          android:showAsAction="ifRoom"/>
 
     <!-- 
     <item android:id="@+id/test"    
@@ -33,6 +33,9 @@
 	        	android:title="Dump to File" />
 	    	<item android:id="@+id/logcat"
 	        	android:title="Save Logcat" />
+	    	<item android:id="@+id/dmesg"
+	        	android:title="Save dmesg" />
+	    	
 	        <item android:id="@+id/custom_ref"
 	        	android:title="Set Custom Ref." />
 <!-- 	        <item android:id="@+id/history"
