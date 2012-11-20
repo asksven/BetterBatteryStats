@@ -179,7 +179,7 @@ public class StatsProvider
 		case 4:
 			return getNativeNetworkUsageStatList(bFilterStats, iStatTypeFrom, refTo);
 		case 5:
-			return getCpuStateList(iStatTypeFrom);
+			return getCpuStateList(iStatTypeFrom, refTo);
 		case 6:
 			return getProcessStatList(bFilterStats, iStatTypeFrom, iSort, refTo);
 
@@ -228,22 +228,6 @@ public class StatsProvider
 		return ret;
 	}
 
-	public boolean hasReference(int iStatType)
-	{
-		boolean ret = false;
-		Reference myCheckRef = getReference(iStatType);
-
-		if ((myCheckRef != null) && (myCheckRef.m_refKernelWakelocks != null))
-		{
-			ret = true;
-		} else
-		{
-			ret = false;
-		}
-
-		return ret;
-	}
-
 	static Reference getReference(int iStatType)
 	{
 		switch (iStatType)
@@ -266,7 +250,23 @@ public class StatsProvider
 			break;
 		}
 		return null;
+	
+	}
 
+	public boolean hasReference(int iStatType)
+	{
+		boolean ret = false;
+		Reference myCheckRef = getReference(iStatType);
+
+		if ((myCheckRef != null) && (myCheckRef.m_refKernelWakelocks != null))
+		{
+			ret = true;
+		} else
+		{
+			ret = false;
+		}
+
+		return ret;
 	}
 
 	public static Reference getReferenceByName(String refName)
@@ -1234,12 +1234,12 @@ public class StatsProvider
 	 * @throws Exception
 	 *             if the API call failed
 	 */
-	public ArrayList<StatElement> getCpuStateList(int iStatTypeFrom)
+	public ArrayList<StatElement> getCpuStateList(int iStatTypeFrom, Reference refTo)
 			throws Exception
 
 	{
 		// List to store the other usages to
-		ArrayList<State> myStates = CpuStates.getTimesInStates();
+		ArrayList<StatElement> myStates = refTo.m_refCpuStates;
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
@@ -1283,25 +1283,48 @@ public class StatsProvider
 
 		for (int i = 0; i < myStates.size(); i++)
 		{
-			State state = myStates.get(i);
+			State state = (State) myStates.get(i);
 
-			if (iStatTypeFrom == BatteryStatsTypes.STATS_CURRENT)
+
+			if ((myReference != null)
+					&& (myReference.m_refCpuStates != null))
 			{
+				state.substractFromRef(myReference.m_refCpuStates);
 				myStats.add(state);
 			} else
 			{
-
-				if ((myReference != null)
-						&& (myReference.m_refCpuStates != null))
-				{
-					state.substractFromRef(myReference.m_refCpuStates);
-					myStats.add(state);
-				} else
-				{
-					myStats.clear();
-					myStats.add(new State(1, 1));
-				}
+				myStats.clear();
+				myStats.add(new State(1, 1));
 			}
+		}
+		return myStats;
+
+	}
+
+	public ArrayList<StatElement> getCurrentCpuStateList()
+			throws Exception
+
+	{
+		// List to store the other usages to
+		ArrayList<State> myStates = CpuStates.getTimesInStates();
+
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		if (myStates == null)
+		{
+			return myStats;
+		}
+
+		String strCurrent = myStates.toString();
+		String strRef = "";
+		String strRefDescr = "";
+
+
+		for (int i = 0; i < myStates.size(); i++)
+		{
+			State state = myStates.get(i);
+
+			myStats.add(state);
 		}
 		return myStats;
 
@@ -1900,7 +1923,7 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public String getBatteryLevelFromTo(int iStatType, String refToName )
+	public String getBatteryLevelFromTo(int iStatType, String refToName)
 	{
 		// deep sleep times are independent of stat type
 		long lLevelTo = getBatteryLevel();
@@ -1968,11 +1991,13 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public String getBatteryVoltageFromTo(int iStatType)
+	public String getBatteryVoltageFromTo(int iStatType, String refToName)
 	{
 		// deep sleep times are independent of stat type
 		int voltageTo = getBatteryVoltage();
 		int voltageFrom = -1;
+		long sinceH = -1;
+
 
 		Log.d(TAG, "Current Battery Voltage:" + voltageTo);
 		Reference myReference = getReference(iStatType);
@@ -1982,8 +2007,23 @@ public class StatsProvider
 		}
 
 		Log.d(TAG, "Battery Voltage since " + iStatType + ":" + voltageFrom);
+		
+		String drop_per_hour = "";
+		try
+		{
+			sinceH = getSince(iStatType, refToName);
+			// since is in ms but x 100 in order to respect proportions of formatRatio (we call it with % and it normally calculates % so there is a factor 100
+			sinceH = sinceH / 10 / 60 / 60;
+			drop_per_hour = StringUtils.formatRatio(voltageFrom - voltageTo, sinceH) + "/h";
+		}
+		catch (Exception e)
+		{
+			drop_per_hour = "";
+			Log.e(TAG, "Error retrieving since");
+		}
+		
 
-		return "(" + voltageFrom + "-" + voltageTo + ")";
+		return "(" + voltageFrom + "-" + voltageTo + ")" + " [" + drop_per_hour + "]";
 	}
 
 	public StatElement getElementByKey(ArrayList<StatElement> myList, String key)
@@ -2196,7 +2236,7 @@ public class StatsProvider
 			refs.m_refWakelocks = getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
 
 			refs.m_refOther = getCurrentOtherUsageStatList(bFilterStats, false, false);
-			refs.m_refCpuStates = getCpuStateList(BatteryStatsTypes.STATS_CURRENT);
+			refs.m_refCpuStates = getCurrentCpuStateList();
 
 			refs.m_refProcesses = getCurrentProcessStatList(bFilterStats, iSort);
 
@@ -2390,13 +2430,15 @@ public class StatsProvider
 	 */
 
 	@SuppressLint("NewApi")
-	public void writeDumpToFile(int iStatType, int iSort)
+	public void writeDumpToFile(int iStatType, int iSort, String refToName)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
 				"0"));
+
+		Reference refTo = getReferenceByName(refToName);
 
 		if (!DataStorage.isExternalStorageWritable())
 		{
@@ -2471,10 +2513,10 @@ public class StatsProvider
 				out.write("Battery Info\n");
 				out.write("============\n");
 				out.write("Level lost [%]: " + getBatteryLevelStat(iStatType)
-						+ " " + getBatteryLevelFromTo(iStatType, null) + "\n");
+						+ " " + getBatteryLevelFromTo(iStatType, refToName) + "\n");
 				out.write("Voltage lost [mV]: "
 						+ getBatteryVoltageStat(iStatType) + " "
-						+ getBatteryVoltageFromTo(iStatType) + "\n");
+						+ getBatteryVoltageFromTo(iStatType, refToName) + "\n");
 
 				// write timing info
 				boolean bDumpChapter = sharedPrefs.getBoolean("show_other",
@@ -2486,7 +2528,7 @@ public class StatsProvider
 					out.write("===========\n");
 					dumpList(
 							getOtherUsageStatList(bFilterStats, iStatType,
-									false, false, null), out);
+									false, false, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_pwl", true);
@@ -2498,7 +2540,7 @@ public class StatsProvider
 					out.write("=========\n");
 					dumpList(
 							getWakelockStatList(bFilterStats, iStatType,
-									iPctType, iSort, null), out);
+									iPctType, iSort, refTo), out);
 					
 				}
 
@@ -2520,7 +2562,7 @@ public class StatsProvider
 					}
 					dumpList(
 							getNativeKernelWakelockStatList(bFilterStats,
-									iStatType, iPctType, iSort, null), out);
+									iStatType, iPctType, iSort, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_proc", false);
@@ -2531,7 +2573,7 @@ public class StatsProvider
 					out.write("Processes\n");
 					out.write("=========\n");
 					dumpList(
-							getProcessStatList(bFilterStats, iStatType, iSort, null),
+							getProcessStatList(bFilterStats, iStatType, iSort, refTo),
 							out);
 				}
 
@@ -2542,7 +2584,7 @@ public class StatsProvider
 					out.write("======================\n");
 					out.write("Alarms (requires root)\n");
 					out.write("======================\n");
-					dumpList(getAlarmsStatList(bFilterStats, iStatType, null), out);
+					dumpList(getAlarmsStatList(bFilterStats, iStatType, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_network", true);
@@ -2554,7 +2596,7 @@ public class StatsProvider
 					out.write("======================\n");
 					dumpList(
 							getNativeNetworkUsageStatList(bFilterStats,
-									iStatType, null), out);
+									iStatType, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_cpustates", true);
@@ -2564,7 +2606,7 @@ public class StatsProvider
 					out.write("==========\n");
 					out.write("CPU States\n");
 					out.write("==========\n");
-					dumpList(getCpuStateList(iStatType), out);
+					dumpList(getCpuStateList(iStatType, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_serv", false);

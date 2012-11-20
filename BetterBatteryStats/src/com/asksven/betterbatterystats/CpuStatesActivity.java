@@ -131,7 +131,7 @@ public class CpuStatesActivity extends ListActivity
 			try
 			{
 				m_listViewAdapter = new StatsAdapter(CpuStatesActivity.this,
-						StatsProvider.getInstance(CpuStatesActivity.this).getCpuStateList(BatteryStatsTypes.STATS_CURRENT));
+						StatsProvider.getInstance(CpuStatesActivity.this).getCurrentCpuStateList());
 			}
 			catch (Exception e)
 			{

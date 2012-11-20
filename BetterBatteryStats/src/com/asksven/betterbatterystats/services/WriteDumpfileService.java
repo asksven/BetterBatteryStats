@@ -28,6 +28,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
@@ -77,7 +78,7 @@ public class WriteDumpfileService extends Service
 				Wakelock.aquireWakelock(this);
 				// restore any available references if required
 				StatsProvider.getInstance(this).deserializeFromFile();
-	        	StatsProvider.getInstance(this).writeDumpToFile(statType, 0);
+	        	StatsProvider.getInstance(this).writeDumpToFile(statType, 0, Reference.CURRENT_REF_FILENAME);
 	
 			}
 			catch (Exception e)

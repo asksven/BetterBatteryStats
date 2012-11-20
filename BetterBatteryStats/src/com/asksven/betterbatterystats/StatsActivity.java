@@ -36,6 +36,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,6 +46,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.asksven.andoid.common.CommonLogSettings;
 import com.asksven.android.common.utils.DataStorage;
@@ -556,6 +558,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
             	new WriteLogcatFile().execute("");
             	break;
+            case R.id.dmesg:
+            	// Dump to File
+            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
+            	new WriteDmesgFile().execute("");
+            	break;
 	
             case R.id.custom_ref:
             	// Set custom reference
@@ -616,6 +623,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         }  
         return false;  
     }    
+    
 	/**
 	 * Take the change of selection from the spinners into account and refresh the ListView
 	 * with the right data
@@ -773,7 +781,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		@Override
 	    protected Object doInBackground(Object... params)
 	    {
-			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(m_iStatType, m_iSorting);
+			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(m_iStatType, m_iSorting, Reference.CURRENT_REF_FILENAME);
 	    	return true;
 	    }
 
@@ -791,6 +799,23 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    protected Object doInBackground(Object... params)
 	    {
 			StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile();
+	    	return true;
+	    }
+
+		@Override
+		protected void onPostExecute(Object o)
+	    {
+			super.onPostExecute(o);
+	        // update hourglass
+	    }
+	 }
+
+	private class WriteDmesgFile extends AsyncTask
+	{
+		@Override
+	    protected Object doInBackground(Object... params)
+	    {
+			StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile();
 	    	return true;
 	    }
 
