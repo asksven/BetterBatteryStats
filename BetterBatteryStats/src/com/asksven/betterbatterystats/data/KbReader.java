@@ -35,17 +35,19 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.asksven.betterbatterystats.StatsActivity;
+import com.asksven.betterbatterystats.services.KbReaderService;
+import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.google.gson.Gson;
 
 public class KbReader
 {
 	private static final String URL = "http://asksven.github.com/BetterBatteryStats-Knowledge-Base/kb_v1.0.json";
-    private static KbData m_kb = null;
     private static boolean m_bNoConnection = false;
     
     private static long MAX_CACHE_AGE_MILLIS = 1000 * 60 * 1440; // 24 hours
@@ -54,11 +56,8 @@ public class KbReader
     
     public static KbData read(Context ctx)
     {
-    	if (m_kb != null)
-    	{
-    		return m_kb;
-    	}
-    	else
+    	KbData kb = KbReaderService.getCachedKb();
+    	if (kb == null)
     	{
 	     	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 
@@ -75,86 +74,19 @@ public class KbReader
 			// if cache is not empty, cache not older than 24 hours and caching is on
 			if ((myEntries != null) && (myEntries.size() > 0) && (useCaching) && ((dateMillis - cachedMillis) < MAX_CACHE_AGE_MILLIS)) 
 			{
-				m_kb = new KbData();
-				m_kb.setEntries(myEntries);
+				kb = new KbData();
+				kb.setEntries(myEntries);
 			}
-			// retrieve data and update cache
 			else
 			{
-	    		// make sure we don't obcess
-	    		if (m_bNoConnection)
-	    		{
-	    			return null;
-	    		}
-	    		
-		    	KbData data = null;
-			  	 
-		    	String strUrlMod = sharedPrefs.getString("kb_url_appender", "");
-	  	      	
-		    	try
-		    	{
-		    		InputStream source = retrieveStream(URL + strUrlMod);
-		    		
-		    		if (source == null)
-		    		{
-		    			m_bNoConnection = true;
-		    			return null;
-		    		}
-		    		Gson gson = new Gson();
-
-		    		Reader reader = new InputStreamReader(source);
-		    		
-		    		// Now do the magic.
-		    		data = gson.fromJson(reader,
-		    				KbData.class);
-		    		
-			        // testing with static data
-			        //data = new Gson().fromJson(SampleKbData.json, KbData.class);
-			
-		    	}
-		    	catch (Exception e)
-		    	{
-		    		e.printStackTrace();
-		    	}
-		    	m_kb = data;
-		    	myDB.save(m_kb); 
-		    	// update cache update timestamp
-        		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-    	        SharedPreferences.Editor editor = prefs.edit();
-    	        editor.putLong("cache_updated", dateMillis);
-    	        editor.commit();
-
-
+				// start async service to retrieve KB if not already running
+				if (!KbReaderService.isTransactional())
+				{
+					Intent serviceIntent = new Intent(ctx, KbReaderService.class);
+					ctx.startService(serviceIntent);
+				}
 			}
     	}
-    	return m_kb;
+    	return kb;
     }
-    
-    private static InputStream retrieveStream(String url)
-    {
-        DefaultHttpClient client = new DefaultHttpClient();
-        HttpGet getRequest = new HttpGet(url);
-        try
-        {
-           HttpResponse getResponse = client.execute(getRequest);
-
-           final int statusCode = getResponse.getStatusLine().getStatusCode();
-
-           if (statusCode != HttpStatus.SC_OK)
-           {
-              Log.w(TAG,
-                  "Error " + statusCode + " for URL " + url);
-              return null;
-           }
-           HttpEntity getResponseEntity = getResponse.getEntity();
-           return getResponseEntity.getContent();
-        }
-        catch (IOException e)
-        {
-           getRequest.abort();
-           Log.w(TAG, "Error for URL " + url, e);
-        }
-        return null;
-     }
-
 }
