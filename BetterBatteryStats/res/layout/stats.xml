@@ -15,6 +15,11 @@
 		android:layout_height="wrap_content"
 		android:minHeight="50dp"/>
 
+	<Spinner android:id="@+id/spinnerStatSampleEnd"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:minHeight="50dp"/>
+	
 	<FrameLayout android:layout_width="match_parent"
 		android:id="@+id/FrameLayoutSince"
 		android:layout_height="wrap_content">
