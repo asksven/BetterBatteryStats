@@ -28,6 +28,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.widgets.WidgetBattery;
@@ -76,13 +77,6 @@ public class UpdateSmallWidgetService extends Service
 		// make sure to flush cache
 		BatteryStatsProxy.getInstance(this).invalidate();
 		
-		if (!stats.hasSinceUnpluggedRef())
-		{
-			// restore any available custom reference
-			StatsProvider.getInstance(this).deserializeFromFile();
-		}
-
-
 		for (int widgetId : allWidgetIds)
 		{
  
@@ -115,7 +109,7 @@ public class UpdateSmallWidgetService extends Service
 			{
 				
 				StatsProvider.getInstance(this).setCurrentReference(0);
-				Reference currentRef = StatsProvider.getReferenceByName(Reference.CURRENT_REF_FILENAME);
+				Reference currentRef = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
 
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true, currentRef);
 				
@@ -162,9 +156,7 @@ public class UpdateSmallWidgetService extends Service
 				else
 				{
 					// no proper reference found
-			        remoteViews.setInt(R.id.graph, "setVisibility", View.GONE);
-//			        remoteViews.setInt(R.id.error, "setVisibility", View.VISIBLE);	
-					
+			        remoteViews.setInt(R.id.graph, "setVisibility", View.GONE);					
 				}
 			}
 			catch (Exception e)

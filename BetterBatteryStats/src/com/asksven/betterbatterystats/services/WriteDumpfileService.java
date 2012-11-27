@@ -77,7 +77,6 @@ public class WriteDumpfileService extends Service
 			{
 				Wakelock.aquireWakelock(this);
 				// restore any available references if required
-				StatsProvider.getInstance(this).deserializeFromFile();
 	        	StatsProvider.getInstance(this).writeDumpToFile(statType, 0, Reference.CURRENT_REF_FILENAME);
 	
 			}

@@ -29,6 +29,7 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.LargeWidgetProvider;
@@ -85,12 +86,6 @@ public class UpdateLargeWidgetService extends Service
 		// make sure to flush cache
 		BatteryStatsProxy.getInstance(this).invalidate();
 		
-		if (!stats.hasSinceUnpluggedRef())
-		{
-			// restore any available custom reference
-			StatsProvider.getInstance(this).deserializeFromFile();
-		}
-
 		for (int widgetId : allWidgetIds)
 		{ 
 			RemoteViews remoteViews = new RemoteViews(this
@@ -120,7 +115,7 @@ public class UpdateLargeWidgetService extends Service
 			try
 			{
 				StatsProvider.getInstance(this).setCurrentReference(0);
-				Reference currentRef = StatsProvider.getReferenceByName(Reference.CURRENT_REF_FILENAME);
+				Reference currentRef = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true,currentRef);
 
@@ -145,7 +140,6 @@ public class UpdateLargeWidgetService extends Service
 					}
 					
 					timeSince = stats.getBatteryRealtime(statType);
-//					timeSince = stats.getSince(statType);
 					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0, currentRef);
 					sumPWakelocks = stats.sum(pWakelockStats);
 	

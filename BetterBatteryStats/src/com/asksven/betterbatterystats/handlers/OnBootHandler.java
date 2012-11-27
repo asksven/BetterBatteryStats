@@ -17,6 +17,7 @@
 package com.asksven.betterbatterystats.handlers;
 
 
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
@@ -49,7 +50,7 @@ public class OnBootHandler extends BroadcastReceiver
  
 		Log.i(TAG, "Received Broadcast " + intent.getAction());
 		// delete whatever references we have saved here
-		StatsProvider.getInstance(context).deletedSerializedRefs();
+		ReferenceStore.deletedSerializedRefs(context);
 		
 		// start service to persist boot reference
 		Intent serviceIntent = new Intent(context, WriteBootReferenceService.class);

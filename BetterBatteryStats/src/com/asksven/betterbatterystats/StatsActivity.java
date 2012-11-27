@@ -19,9 +19,6 @@ package com.asksven.betterbatterystats;
  * @author sven
  *
  */
-
-import java.sql.Ref;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.NotificationManager;
@@ -36,7 +33,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,8 +42,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-
 import com.asksven.andoid.common.CommonLogSettings;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
@@ -58,6 +52,7 @@ import com.asksven.betterbatterystats.adapters.SamplesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 
@@ -128,14 +123,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 		// Check if the stats are accessible and warn if not
 		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
-		
-		// restore any available references if required
-		if (!StatsProvider.getInstance(this).hasSinceChargedRef())
-		{
-			StatsProvider.getInstance(this).deserializeFromFile();
-		}
-	
-		
+				
 		if (stats.initFailed())
 		{
 			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. If this error persists after a reboot please contact the dev and provide your ROM/Kernel versions.", Toast.LENGTH_SHORT).show();			
@@ -218,7 +206,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
 		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "3"));
 
-		if (!StatsProvider.getInstance(this).hasReference(m_iStatType))
+		if (!ReferenceStore.hasReference(m_iStatType, this))
 		{
 			if (sharedPrefs.getBoolean("fallback_to_since_boot", false))
 			{
@@ -398,7 +386,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		
 		// make sure to create a valid "current" stat
-		StatsProvider.getInstance(this).setCurrentReference(m_iSorting);
+//		StatsProvider.getInstance(this).setCurrentReference(m_iSorting);
 		
 	}
 
@@ -739,11 +727,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	private void doRefresh()
 	{
 
-		// restore any available references if required
-		if (!StatsProvider.getInstance(this).hasSinceChargedRef())
-		{
-			StatsProvider.getInstance(this).deserializeFromFile();
-		}
+//		// restore any available references if required
+//		if (!StatsProvider.getInstance(this).hasSinceChargedRef())
+//		{
+//			StatsProvider.getInstance(this).deserializeFromFile();
+//		}
 
 
 		BatteryStatsProxy.getInstance(this).invalidate();
