@@ -28,6 +28,8 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
@@ -97,8 +99,9 @@ public class WatchdogProcessingService extends Service
 					
 					if (stats.hasScreenOffRef())
 					{
-//						// restore any available since screen reference
-						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, StatsProvider.STATS_SCREEN_OFF, false, false, null);
+						// restore any available since screen reference
+						Reference refTo = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
+						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, StatsProvider.STATS_SCREEN_OFF, false, false, refTo);
 
 						long timeAwake = 0;
 						long timeSince = 0;
