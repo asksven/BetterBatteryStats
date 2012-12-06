@@ -2129,6 +2129,9 @@ public class StatsProvider
 	{
 		Reference thisRef = new Reference(Reference.SCREEN_OFF_REF_FILENAME);
 		ReferenceStore.put(Reference.SCREEN_OFF_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		
+		// clean "current from cache"
+		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
 	}
 
 	/**
@@ -2139,6 +2142,10 @@ public class StatsProvider
 	{
 		Reference thisRef = new Reference(Reference.CHARGED_REF_FILENAME);
 		ReferenceStore.put(Reference.CHARGED_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		
+		// clean "current from cache"
+		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
+
 	}
 
 	/**
@@ -2149,6 +2156,9 @@ public class StatsProvider
 	{
 		Reference thisRef = new Reference(Reference.UNPLUGGED_REF_FILENAME);
 		ReferenceStore.put(Reference.UNPLUGGED_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		
+		// clean "current from cache"
+		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
 	}
 
 	/**

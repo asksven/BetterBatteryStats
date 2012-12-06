@@ -87,7 +87,19 @@ public class ReferenceStore
 		m_refStore.put(refName, ref);
 		serializeRefToFile(ref, ctx);
 	}
-	
+
+	/**
+	 * Invalidates a reference in the cache storage
+	 * @param refName the name
+	 * @param ref
+	 * @param ctx
+	 */
+	public static void invalidate(String refName, Context ctx)
+	{
+		m_refStore.put(refName, null);
+		serializeRefToFile(null, ctx);
+	}
+
 	/**
 	 * Returns a reference given a stat type
 	 * @deprecated
