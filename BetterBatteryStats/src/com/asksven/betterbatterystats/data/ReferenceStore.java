@@ -50,33 +50,30 @@ public class ReferenceStore
 			populateReferenceNames(ctx);
 		}
 		
-		if (m_refStore.containsKey(refName))
+		if (!m_refStore.containsKey(refName))
 		{
-			// we use lazy loading so we must check if there is a reference there
-			if (m_refStore.get(refName) == null)
+			// add
+			m_refStore.put(refName, null);
+		}
+
+		// we use lazy loading so we must check if there is a reference there
+		if (m_refStore.get(refName) == null)
+		{
+			Reference thisRef = (Reference) DataStorage.fileToObject(ctx, refName);
+			m_refStore.put(refName, thisRef);
+		
+			if (thisRef != null)
 			{
-				Reference thisRef = (Reference) DataStorage.fileToObject(ctx, refName);
-				m_refStore.put(refName, thisRef);
-			
-				if (thisRef != null)
-				{
-					Log.i(TAG, "Retrieved reference from storage: " + thisRef.whoAmI());
-				}
-				else
-				{
-					Log.i(TAG, "Reference " + Reference.CUSTOM_REF_FILENAME
-							+ " was not found");
-				}
-				
+				Log.i(TAG, "Retrieved reference from storage: " + thisRef.whoAmI());
 			}
-			return m_refStore.get(refName);
+			else
+			{
+				Log.i(TAG, "Reference " + Reference.CUSTOM_REF_FILENAME
+						+ " was not found");
+			}
+			
 		}
-		else
-		{
-			Log.e(TAG, "getReference was called with an unknown name "
-					+ refName + ". No reference found");
-			return null;
-		}
+		return m_refStore.get(refName);
 	}
 	
 	/**
