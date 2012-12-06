@@ -532,8 +532,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 	        case R.id.refresh:
             	// Refresh
-	        	updateCurrentRef();
-	        	doRefresh();
+	        	doRefresh(true);
             	break;
             case R.id.dump:
             	// Dump to File
@@ -560,12 +559,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             case R.id.by_time_desc:
             	// Enable "count" option
             	m_iSorting = 0;            	
-            	doRefresh();
+            	doRefresh(false);
             	break;	
             case R.id.by_count_desc:
             	// Enable "count" option
             	m_iSorting = 1;            	
-            	doRefresh();
+            	doRefresh(false);
             	break;	
 
 //            case R.id.test:
@@ -706,7 +705,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         	GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
         	//new LoadStatData().execute(this);
         	// as the source changed fetch the data
-        	doRefresh();
+        	doRefresh(false);
         }
 	}
 
@@ -718,24 +717,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 	}
 
-	private void updateCurrentRef()
+	private void doRefresh(boolean updateCurrent)
 	{
-		// make sure to create a valid "current" stat
-		StatsProvider.getInstance(this).setCurrentReference(m_iSorting);	
-	}
-
-	private void doRefresh()
-	{
-
-//		// restore any available references if required
-//		if (!StatsProvider.getInstance(this).hasSinceChargedRef())
-//		{
-//			StatsProvider.getInstance(this).deserializeFromFile();
-//		}
-
 
 		BatteryStatsProxy.getInstance(this).invalidate();
-		new LoadStatData().execute(this);
+		new LoadStatData().execute(updateCurrent);
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
         //long sinceMs = getSince();
@@ -817,12 +803,18 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 	// for more details
-	private class LoadStatData extends AsyncTask<Context, Integer, StatsAdapter>
+	private class LoadStatData extends AsyncTask<Boolean, Integer, StatsAdapter>
 	{
 		private Exception m_exception = null;
 		@Override
-	    protected StatsAdapter doInBackground(Context... params)
+	    protected StatsAdapter doInBackground(Boolean... refresh)
 	    {
+			// do we need to refresh current
+			if (refresh[0])
+			{
+				// make sure to create a valid "current" stat
+				StatsProvider.getInstance(StatsActivity.this).setCurrentReference(m_iSorting);		
+			}
 			//super.doInBackground(params);
 			m_listViewAdapter = null;
 			try
@@ -970,28 +962,5 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    		}
 	    	}
 	    }
-	}
-
-//	private long getSince()
-//	{
-//		long ret = -1;
-//		try
-//		{
-//			ret = StatsProvider.getInstance(this).getBatteryRealtime(m_iStatType);
-//		}
-//		catch (BatteryInfoUnavailableException e)
-//		{
-//			Toast.makeText(StatsActivity.this,
-//					"BatteryInfo Service could not be contacted.",
-//					Toast.LENGTH_LONG).show();
-//			ret = -1;
-//		}
-//		
-//		return ret;
-//	}
-
-
-	
-	
-	
+	}	
 }
