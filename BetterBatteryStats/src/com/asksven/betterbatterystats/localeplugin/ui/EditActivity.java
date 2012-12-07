@@ -116,7 +116,7 @@ public final class EditActivity extends Activity
         // populate the spinner
 		Spinner spinner = (Spinner) findViewById(R.id.spinnerStatType);
 		ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource(
-	            this, R.array.stat_types, android.R.layout.simple_spinner_item);
+	            this, R.array.statTypeLabels, android.R.layout.simple_spinner_item);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);	    
 		spinner.setAdapter(spinnerAdapter);
 

@@ -11,15 +11,7 @@
         <item>Process</item>
         
     </string-array>
-    <!-- Values for the statistic type. -->
-    <string-array name="stat_types" translatable="false">
-        <item>Since charged</item>
-        <item>Since unplugged</item>
-        <item>Since Custom Ref.</item>
-        <item>Since Screen Off</item>
-        <item>Since Boot</item>
-    </string-array>
-    
+
     <!--  Values for the preferences -->
     <string-array name="statLabels">
         <item name="0">Other</item>
@@ -50,11 +42,11 @@
     </string-array>
 
     <string-array name="statTypeValues">
-        <item name="0">0</item>
-        <item name="1">3</item>
-        <item name="2">4</item>
-        <item name="3">5</item>
-        <item name="4">6</item>
+        <item name="0">ref_charged</item>
+        <item name="1">ref_unplugged</item>
+        <item name="2">ref_custom</item>
+        <item name="3">ref_screen_off</item>
+        <item name="4">ref_boot</item>
     </string-array>
 
     <string-array name="wlRefLabels">
