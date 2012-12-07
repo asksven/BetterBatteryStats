@@ -38,22 +38,22 @@ import android.widget.TextView;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.Permission;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 
-public class SamplesAdapter extends ArrayAdapter<String>
+public class ReferencesAdapter extends ArrayAdapter<String>
 {
 
     private List<String> m_listData;
-    private static final String TAG = "SamplesAdapter";
+    private static final String TAG = "ReferencesAdapter";
 
     /**
 	 * @param context
 	 * @param textViewResourceId
 	 */
-	public SamplesAdapter(Context context, int textViewResourceId)
+	public ReferencesAdapter(Context context, int textViewResourceId)
 	{
 		super(context, textViewResourceId);
-		m_listData = new ArrayList<String>();
-		m_listData.add("Current");
+		m_listData = ReferenceStore.getReferences(null, context);
 	}
 
 
@@ -65,6 +65,11 @@ public class SamplesAdapter extends ArrayAdapter<String>
     public String getItem(int position)
     {
         return m_listData.get(position);
+    }
+
+    public int getPosition(String name)
+    {
+        return m_listData.indexOf(name);
     }
 
     public long getItemId(int position)

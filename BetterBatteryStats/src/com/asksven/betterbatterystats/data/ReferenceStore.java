@@ -15,7 +15,9 @@
  */
 package com.asksven.betterbatterystats.data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
@@ -37,6 +39,40 @@ public class ReferenceStore
 	private static final String TAG = "ReferenceStore";
 
 	/**
+	 * Return the reference names for references created after refName (or all if refName is empty or null)
+	 * @param refName
+	 * @param ctx
+	 * @return
+	 */
+	public static ArrayList<String> getReferences(String refName, Context ctx)
+	{
+		ArrayList<String> ret = new ArrayList<String>();
+		
+		long time = 0;
+		
+		// if a ref name was passed get the time that ref was created
+		if ((refName != null) && !refName.equals("") )
+		{
+			Reference ref = getReferenceByName(refName, ctx);
+			if (ref != null)
+			{
+				time = ref.m_creationTime;
+			}
+		}
+		Iterator<String> iterator = m_refStore.keySet().iterator();
+		while (iterator.hasNext())
+		{
+			String setElement = iterator.next();
+//			if ((m_refStore.get(setElement) != null) && (time < m_refStore.get(setElement).m_creationTime))
+//			{
+				ret.add(setElement);
+//			}
+		}
+		
+		return ret;
+	}
+	
+	/**
 	 * Returns a reference given a name
 	 * @param refName the name of the reference
 	 * @param ctx
@@ -44,6 +80,11 @@ public class ReferenceStore
 	 */
 	public static Reference getReferenceByName(String refName, Context ctx)
 	{
+		if (!refName.startsWith("ref_"))
+		{
+			Log.e(TAG, "Invalid reference name " + refName);
+			return null;
+		}
 		// the reference names are lazily loaded too
 		if (m_refStore.keySet().isEmpty())
 		{
@@ -100,49 +141,18 @@ public class ReferenceStore
 		serializeRefToFile(null, ctx);
 	}
 
-	/**
-	 * Returns a reference given a stat type
-	 * @deprecated
-	 * @param iStatType
-	 * @param ctx
-	 * @return
-	 */
-	public static Reference getReference(int iStatType, Context ctx)
-	{
-		switch (iStatType)
-		{
-		case StatsProvider.STATS_UNPLUGGED:
-			return getReferenceByName(Reference.UNPLUGGED_REF_FILENAME, ctx);
-		case StatsProvider.STATS_CHARGED:
-			return getReferenceByName(Reference.CHARGED_REF_FILENAME, ctx);
-		case StatsProvider.STATS_CUSTOM:
-			return getReferenceByName(Reference.CUSTOM_REF_FILENAME, ctx);
-		case StatsProvider.STATS_SCREEN_OFF:
-			return getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, ctx);
-		case StatsProvider.STATS_BOOT:
-			return getReferenceByName(Reference.BOOT_REF_FILENAME, ctx);
-		case BatteryStatsTypes.STATS_CURRENT:
-			return null;
-		default:
-			Log.e(TAG, "getReference was called with an unknown StatType "
-					+ iStatType + ". No reference found");
-			break;
-		}
-		return null;
-	
-	}
+
 
 	/**
 	 * Returns whether a reference exists
-	 * @deprecated
-	 * @param iStatType
+	 * @param ref
 	 * @param ctx
 	 * @return
 	 */
-	public static boolean hasReference(int iStatType, Context ctx)
+	public static boolean hasReferenceByName(String ref, Context ctx)
 	{
 		boolean ret = false;
-		Reference myCheckRef = getReference(iStatType, ctx);
+		Reference myCheckRef = getReferenceByName(ref, ctx);
 
 		if ((myCheckRef != null) && (myCheckRef.m_refKernelWakelocks != null))
 		{

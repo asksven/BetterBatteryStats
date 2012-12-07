@@ -138,7 +138,7 @@ public class StatsProvider
 	 * 
 	 * @return a List of StatElements sorted (descending)
 	 */
-	public ArrayList<StatElement> getStatList(int iStat, int iStatTypeFrom,
+	public ArrayList<StatElement> getStatList(int iStat, String refFromName,
 			int iSort, String refToName) throws Exception
 	{
 		SharedPreferences sharedPrefs = PreferenceManager
@@ -146,6 +146,7 @@ public class StatsProvider
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
 		boolean developerMode = sharedPrefs.getBoolean("developer", false);
 		
+		Reference refFrom = ReferenceStore.getReferenceByName(refFromName, m_context);
 		Reference refTo = ReferenceStore.getReferenceByName(refToName, m_context);
 		
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
@@ -163,20 +164,20 @@ public class StatsProvider
 		switch (iStat)
 		{
 		case 0:
-			return getOtherUsageStatList(bFilterStats, iStatTypeFrom, true, false, refTo);
+			return getOtherUsageStatList(bFilterStats, refFrom, true, false, refTo);
 		case 1:
-			return getNativeKernelWakelockStatList(bFilterStats, iStatTypeFrom,
+			return getNativeKernelWakelockStatList(bFilterStats, refFrom,
 					iPctType, iSort, refTo);
 		case 2:
-			return getWakelockStatList(bFilterStats, iStatTypeFrom, iPctType, iSort, refTo);
+			return getWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
 		case 3:
-			return getAlarmsStatList(bFilterStats, iStatTypeFrom, refTo);
+			return getAlarmsStatList(bFilterStats, refFrom, refTo);
 		case 4:
-			return getNativeNetworkUsageStatList(bFilterStats, iStatTypeFrom, refTo);
+			return getNativeNetworkUsageStatList(bFilterStats, refFrom, refTo);
 		case 5:
-			return getCpuStateList(iStatTypeFrom, refTo);
+			return getCpuStateList(refFrom, refTo);
 		case 6:
-			return getProcessStatList(bFilterStats, iStatTypeFrom, iSort, refTo);
+			return getProcessStatList(bFilterStats, refFrom, iSort, refTo);
 
 		}
 
@@ -202,11 +203,11 @@ public class StatsProvider
 	 * @return a List of StatElements sorted (descending)
 	 * @throws BatteryInfoUnavailableException 
 	 */
-	public long getSince(int iStatTypeFrom, String refToName)
+	public long getSince(String refFromName, String refToName)
 	{
 		long ret = 0;
 
-		Reference myReferenceFrom 	= ReferenceStore.getReference(iStatTypeFrom, m_context);
+		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(refFromName, m_context);
 		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(refToName, m_context);
 
 		if ((myReferenceTo != null) && (myReferenceFrom != null))
@@ -250,7 +251,7 @@ public class StatsProvider
 	 */
 
 	public ArrayList<StatElement> getAlarmsStatList(boolean bFilter,
-			int iStatTypeFrom, Reference refTo) throws Exception
+			Reference refFrom, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
@@ -284,16 +285,14 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		Reference myReference = ReferenceStore.getReference(iStatTypeFrom, m_context);
-
 		if (LogSettings.DEBUG)
 		{
-			if (myReference != null)
+			if (refFrom != null)
 			{
-				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refAlarms != null)
+				strRefDescr = refFrom.whoAmI();
+				if (refFrom.m_refAlarms != null)
 				{
-					strRef = myReference.m_refAlarms.toString();
+					strRef = refFrom.m_refAlarms.toString();
 				} else
 				{
 					strRef = "Alarms is null";
@@ -302,8 +301,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing alarms since " + statTypeToLabel(iStatTypeFrom)
-					+ "(" + iStatTypeFrom + ")");
+			Log.d(TAG, "Processing alarms from " + refFrom.m_fileName + " to " + refTo.m_fileName);
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -317,34 +315,28 @@ public class StatsProvider
 			Alarm alarm = (Alarm) myAlarms.get(i);
 			if ((!bFilter) || ((alarm.getWakeups()) > 0))
 			{
-				if (iStatTypeFrom == BatteryStatsTypes.STATS_CURRENT)
+				if ((refFrom != null)
+						&& (refFrom.m_refAlarms != null))
 				{
-					myRetAlarms.add(alarm);
+					alarm.substractFromRef(refFrom.m_refAlarms);
+
+					// we must recheck if the delta process is still above
+					// threshold
+					if ((!bFilter) || ((alarm.getWakeups()) > 0))
+					{
+						myRetAlarms.add(alarm);
+					}
 				} else
 				{
-					if ((myReference != null)
-							&& (myReference.m_refAlarms != null))
+					myRetAlarms.clear();
+					if (refFrom != null)
 					{
-						alarm.substractFromRef(myReference.m_refAlarms);
-
-						// we must recheck if the delta process is still above
-						// threshold
-						if ((!bFilter) || ((alarm.getWakeups()) > 0))
-						{
-							myRetAlarms.add(alarm);
-						}
+						myRetAlarms.add(new Alarm(refFrom
+								.getMissingRefError()));
 					} else
 					{
-						myRetAlarms.clear();
-						if (myReference != null)
-						{
-							myRetAlarms.add(new Alarm(myReference
-									.getMissingRefError()));
-						} else
-						{
-							myRetAlarms.add(new Alarm(
-									Reference.GENERIC_REF_ERR));
-						}
+						myRetAlarms.add(new Alarm(
+								Reference.GENERIC_REF_ERR));
 					}
 				}
 			}
@@ -425,7 +417,7 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getProcessStatList(boolean bFilter,
-			int iStatTypeFrom, int iSort, Reference refTo) throws Exception
+			Reference refFrom, int iSort, Reference refTo) throws Exception
 	{
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
@@ -446,16 +438,14 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		Reference myReference = ReferenceStore.getReference(iStatTypeFrom, m_context);
-
 		if (LogSettings.DEBUG)
 		{
-			if (myReference != null)
+			if (refFrom != null)
 			{
-				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refProcesses != null)
+				strRefDescr = refFrom.whoAmI();
+				if (refFrom.m_refProcesses != null)
 				{
-					strRef = myReference.m_refProcesses.toString();
+					strRef = refFrom.m_refProcesses.toString();
 				} else
 				{
 					strRef = "Process is null";
@@ -464,8 +454,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing processes since "
-					+ statTypeToLabel(iStatTypeFrom) + "(" + iStatTypeFrom + ")");
+			Log.d(TAG, "Processing processes from " + refFrom.m_fileName + " to " + refTo.m_fileName);
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -482,37 +471,29 @@ public class StatsProvider
 				// we must distinguish two situations
 				// a) we use custom stat type
 				// b) we use regular stat type
-				if (iStatTypeFrom == BatteryStatsTypes.STATS_CURRENT)
+				if ((refFrom != null)
+						&& (refFrom.m_refProcesses != null))
 				{
-					myRetProcesses.add(ps);
-				}
-				else
-				{
+					ps.substractFromRef(refFrom.m_refProcesses);
 
-					if ((myReference != null)
-							&& (myReference.m_refProcesses != null))
+					// we must recheck if the delta process is still above
+					// threshold
+					if ((!bFilter)
+							|| ((ps.getSystemTime() + ps.getUserTime()) > 0))
 					{
-						ps.substractFromRef(myReference.m_refProcesses);
-
-						// we must recheck if the delta process is still above
-						// threshold
-						if ((!bFilter)
-								|| ((ps.getSystemTime() + ps.getUserTime()) > 0))
-						{
-							myRetProcesses.add(ps);
-						}
+						myRetProcesses.add(ps);
+					}
+				} else
+				{
+					myRetProcesses.clear();
+					if (refFrom != null)
+					{
+						myRetProcesses.add(new Process(refFrom
+								.getMissingRefError(), 1, 1, 1));
 					} else
 					{
-						myRetProcesses.clear();
-						if (myReference != null)
-						{
-							myRetProcesses.add(new Process(myReference
-									.getMissingRefError(), 1, 1, 1));
-						} else
-						{
-							myRetProcesses.add(new Process(
-									Reference.GENERIC_REF_ERR, 1, 1, 1));
-						}
+						myRetProcesses.add(new Process(
+								Reference.GENERIC_REF_ERR, 1, 1, 1));
 					}
 				}
 			}
@@ -610,7 +591,7 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getWakelockStatList(boolean bFilter,
-			int iStatTypeFrom, int iPctType, int iSort, Reference refTo) throws Exception
+			Reference refFrom, int iPctType, int iSort, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
@@ -628,7 +609,6 @@ public class StatsProvider
 		
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 
-		Reference myReference = ReferenceStore.getReference(iStatTypeFrom, m_context);
 		String strCurrent = myWakelocks.toString();
 
 		String strRef = "";
@@ -636,12 +616,12 @@ public class StatsProvider
 
 		if (LogSettings.DEBUG)
 		{
-			if (myReference != null)
+			if (refFrom != null)
 			{
-				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refWakelocks != null)
+				strRefDescr = refFrom.whoAmI();
+				if (refFrom.m_refWakelocks != null)
 				{
-					strRef = myReference.m_refWakelocks.toString();
+					strRef = refFrom.m_refWakelocks.toString();
 				} else
 				{
 					strRef = "Wakelocks is null";
@@ -651,7 +631,7 @@ public class StatsProvider
 				strRefDescr = "Reference is null";
 			}
 			Log.d(TAG, "Processing wakelocks since "
-					+ statTypeToLabel(iStatTypeFrom) + "(" + iStatTypeFrom + ")");
+					+ refFrom.m_fileName);
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -673,48 +653,41 @@ public class StatsProvider
 				// a) we use custom stat type
 				// b) we use regular stat type
 
-				if (iStatTypeFrom == BatteryStatsTypes.STATS_CURRENT)
+				if ((refFrom != null)
+						&& (refFrom.m_refWakelocks != null))
 				{
-					myRetWakelocks.add(wl);
-				} else
-				{
-					if ((myReference != null)
-							&& (myReference.m_refWakelocks != null))
-					{
-						wl.substractFromRef(myReference.m_refWakelocks);
+					wl.substractFromRef(refFrom.m_refWakelocks);
 
-						// we must recheck if the delta process is still above
-						// threshold
-						if ((!bFilter) || ((wl.getDuration() / 1000) > 0))
+					// we must recheck if the delta process is still above
+					// threshold
+					if ((!bFilter) || ((wl.getDuration() / 1000) > 0))
+					{
+						if (LogSettings.DEBUG)
 						{
-							if (LogSettings.DEBUG)
-							{
-								Log.i(TAG, "Adding " + wl.toString());
-							}
-							myRetWakelocks.add(wl);
-						} else
-						{
-							if (LogSettings.DEBUG)
-							{
-								Log.i(TAG, "Skipped " + wl.toString()
-										+ " because duration < 1s");
-							}
+							Log.i(TAG, "Adding " + wl.toString());
 						}
+						myRetWakelocks.add(wl);
 					} else
 					{
-						myRetWakelocks.clear();
-						if (myReference != null)
+						if (LogSettings.DEBUG)
 						{
-							myRetWakelocks.add(new Wakelock(1, myReference
-									.getMissingRefError(), 1, 1, 1));
-						} else
-						{
-							myRetWakelocks.add(new Wakelock(1,
-									Reference.GENERIC_REF_ERR, 1, 1, 1));
+							Log.i(TAG, "Skipped " + wl.toString()
+									+ " because duration < 1s");
 						}
 					}
+				} else
+				{
+					myRetWakelocks.clear();
+					if (refFrom != null)
+					{
+						myRetWakelocks.add(new Wakelock(1, refFrom
+								.getMissingRefError(), 1, 1, 1));
+					} else
+					{
+						myRetWakelocks.add(new Wakelock(1,
+								Reference.GENERIC_REF_ERR, 1, 1, 1));
+					}
 				}
-
 			}
 		}
 
@@ -822,7 +795,7 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getNativeKernelWakelockStatList(
-			boolean bFilter, int iStatTypeFrom, int iPctType, int iSort, Reference refTo)
+			boolean bFilter, Reference refFrom, int iPctType, int iSort, Reference refTo)
 			throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
@@ -847,16 +820,15 @@ public class StatsProvider
 		String strCurrent = myKernelWakelocks.toString();
 		String strRef = "";
 		String strRefDescr = "";
-		Reference myReference = ReferenceStore.getReference(iStatTypeFrom, m_context);
 
 		if (LogSettings.DEBUG)
 		{
-			if (myReference != null)
+			if (refFrom != null)
 			{
-				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refKernelWakelocks != null)
+				strRefDescr = refFrom.whoAmI();
+				if (refFrom.m_refKernelWakelocks != null)
 				{
-					strRef = myReference.m_refKernelWakelocks.toString();
+					strRef = refFrom.m_refKernelWakelocks.toString();
 				} else
 				{
 					strRef = "kernel wakelocks is null";
@@ -866,8 +838,8 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing kernel wakelocks since "
-					+ statTypeToLabel(iStatTypeFrom) + "(" + iStatTypeFrom + ")");
+			Log.d(TAG, "Processing kernel wakelocks from "
+					+ refFrom.m_fileName + " to " + refTo.m_fileName);
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -881,9 +853,9 @@ public class StatsProvider
 			NativeKernelWakelock wl = (NativeKernelWakelock) myKernelWakelocks.get(i);
 			if ((!bFilter) || ((wl.getDuration()) > 0))
 			{
-				if ((myReference != null) && (myReference.m_refKernelWakelocks != null))
+				if ((refFrom != null) && (refFrom.m_refKernelWakelocks != null))
 				{
-					wl.substractFromRef(myReference.m_refKernelWakelocks);
+					wl.substractFromRef(refFrom.m_refKernelWakelocks);
 
 					// we must recheck if the delta process is still above
 					// threshold
@@ -895,10 +867,10 @@ public class StatsProvider
 				else
 				{
 					myRetKernelWakelocks.clear();
-					if (myReference != null)
+					if (refFrom != null)
 					{
 						myRetKernelWakelocks.add(new NativeKernelWakelock(
-								myReference.getMissingRefError(), "", 1, 1,
+								refFrom.getMissingRefError(), "", 1, 1,
 								1, 1, 1, 1, 1, 1, 1));
 					} else
 					{
@@ -1004,7 +976,7 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getNativeNetworkUsageStatList(
-			boolean bFilter, int iStatTypeFrom, Reference refTo) throws Exception
+			boolean bFilter, Reference refFrom, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
@@ -1039,16 +1011,14 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		Reference myReference = ReferenceStore.getReference(iStatTypeFrom, m_context);
-
 		if (LogSettings.DEBUG)
 		{
-			if (myReference != null)
+			if (refFrom != null)
 			{
-				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refNetworkStats != null)
+				strRefDescr = refFrom.whoAmI();
+				if (refFrom.m_refNetworkStats != null)
 				{
-					strRef = myReference.m_refNetworkStats.toString();
+					strRef = refFrom.m_refNetworkStats.toString();
 				} else
 				{
 					strRef = "Network stats is null";
@@ -1058,8 +1028,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing network stats since "
-					+ statTypeToLabel(iStatTypeFrom) + "(" + iStatTypeFrom + ")");
+			Log.d(TAG, "Processing network stats from " + refFrom.m_fileName + " to " + refTo.m_fileName);
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -1073,10 +1042,10 @@ public class StatsProvider
 			NetworkUsage netStat = (NetworkUsage) myNetworkStats.get(i);
 			if ((!bFilter) || ((netStat.getTotalBytes()) > 0))
 			{
-				if ((myReference != null)
-						&& (myReference.m_refNetworkStats != null))
+				if ((refFrom != null)
+						&& (refFrom.m_refNetworkStats != null))
 				{
-					netStat.substractFromRef(myReference.m_refNetworkStats);
+					netStat.substractFromRef(refFrom.m_refNetworkStats);
 
 					// we must recheck if the delta process is still above
 					// threshold
@@ -1087,9 +1056,9 @@ public class StatsProvider
 				} else
 				{
 					myRetNetworkStats.clear();
-					if (myReference != null)
+					if (refFrom != null)
 					{
-						myRetNetworkStats.add(new NetworkUsage(myReference
+						myRetNetworkStats.add(new NetworkUsage(refFrom
 								.getMissingRefError(), -1, 1, 0));
 					} else
 					{
@@ -1190,7 +1159,7 @@ public class StatsProvider
 	 * @throws Exception
 	 *             if the API call failed
 	 */
-	public ArrayList<StatElement> getCpuStateList(int iStatTypeFrom, Reference refTo)
+	public ArrayList<StatElement> getCpuStateList(Reference refFrom, Reference refTo)
 			throws Exception
 
 	{
@@ -1208,16 +1177,14 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		Reference myReference = ReferenceStore.getReference(iStatTypeFrom, m_context);
-
 		if (LogSettings.DEBUG)
 		{
-			if (myReference != null)
+			if (refFrom != null)
 			{
-				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refCpuStates != null)
+				strRefDescr = refFrom.whoAmI();
+				if (refFrom.m_refCpuStates != null)
 				{
-					strRef = myReference.m_refCpuStates.toString();
+					strRef = refFrom.m_refCpuStates.toString();
 				} else
 				{
 					strRef = "CPU States is null";
@@ -1227,8 +1194,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing CPU States since "
-					+ statTypeToLabel(iStatTypeFrom));
+			Log.d(TAG, "Processing CPU States from " + refFrom.m_fileName + " to " + refTo.m_fileName);
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -1242,10 +1208,10 @@ public class StatsProvider
 			State state = (State) myStates.get(i);
 
 
-			if ((myReference != null)
-					&& (myReference.m_refCpuStates != null))
+			if ((refFrom != null)
+					&& (refFrom.m_refCpuStates != null))
 			{
-				state.substractFromRef(myReference.m_refCpuStates);
+				state.substractFromRef(refFrom.m_refCpuStates);
 				myStats.add(state);
 			} else
 			{
@@ -1405,7 +1371,7 @@ public class StatsProvider
 	 *             if the API call failed
 	 */
 	public ArrayList<StatElement> getOtherUsageStatList(boolean bFilter,
-			int iStatType, boolean bFilterView, boolean bWidget, Reference refTo)
+			Reference refFrom, boolean bFilterView, boolean bWidget, Reference refTo)
 			throws Exception
 	{
 	
@@ -1433,16 +1399,14 @@ public class StatsProvider
 		String strRef = "";
 		String strRefDescr = "";
 
-		Reference myReference = ReferenceStore.getReference(iStatType, m_context);
-
 		if (LogSettings.DEBUG)
 		{
-			if (myReference != null)
+			if (refFrom != null)
 			{
-				strRefDescr = myReference.whoAmI();
-				if (myReference.m_refOther != null)
+				strRefDescr = refFrom.whoAmI();
+				if (refFrom.m_refOther != null)
 				{
-					strRef = myReference.m_refOther.toString();
+					strRef = refFrom.m_refOther.toString();
 				} else
 				{
 					strRef = "Other is null";
@@ -1452,7 +1416,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing Other since " + statTypeToLabel(iStatType));
+			Log.d(TAG, "Processing Other since " + refFrom.m_fileName);
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -1468,10 +1432,10 @@ public class StatsProvider
 					"Current value: " + usage.getName() + " " + usage.getData());
 			if ((!bFilter) || (usage.getTimeOn() > 0))
 			{
-				if ((myReference != null)
-						&& (myReference.m_refOther != null))
+				if ((refFrom != null)
+						&& (refFrom.m_refOther != null))
 				{
-					usage.substractFromRef(myReference.m_refOther);
+					usage.substractFromRef(refFrom.m_refOther);
 					if ((!bFilter) || (usage.getTimeOn() > 0))
 					{
 						Log.d(TAG, "Result value: " + usage.getName() + " "
@@ -1482,10 +1446,9 @@ public class StatsProvider
 				else
 				{
 					myStats.clear();
-					if (myReference != null)
+					if (refFrom != null)
 					{
-						myStats.add(new Misc(myReference
-								.getMissingRefError(), 1, 1));
+						myStats.add(new Misc(refFrom.getMissingRefError(), 1, 1));
 					} else
 					{
 						myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1,
@@ -1855,19 +1818,19 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public int getBatteryLevelStat(int iStatType)
+	public int getBatteryLevelStat(String refName)
 	{
 		// deep sleep times are independent of stat type
 		int level = getBatteryLevel();
 
 		Log.d(TAG, "Current Battery Level:" + level);
-		Reference myReference = ReferenceStore.getReference(iStatType, m_context);
+		Reference myReference = ReferenceStore.getReferenceByName(refName, m_context);
 		if (myReference != null)
 		{
 			level = myReference.m_refBatteryLevel - level;
 		}
 
-		Log.d(TAG, "Battery Level since " + iStatType + ":" + level);
+		Log.d(TAG, "Battery Level since " + refName + ":" + level);
 
 		return level;
 	}
@@ -1879,7 +1842,7 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public String getBatteryLevelFromTo(int iStatType, String refToName)
+	public String getBatteryLevelFromTo(String refFromName, String refToName)
 	{
 		// deep sleep times are independent of stat type
 		long lLevelTo = getBatteryLevel();
@@ -1889,7 +1852,7 @@ public class StatsProvider
 		
 		String levelFrom = "-";
 		Log.d(TAG, "Current Battery Level:" + levelTo);
-		Reference myReference = ReferenceStore.getReference(iStatType, m_context);
+		Reference myReference = ReferenceStore.getReferenceByName(refFromName, m_context);
 		
 		if (myReference != null)
 		{
@@ -1897,12 +1860,12 @@ public class StatsProvider
 			levelFrom = String.valueOf(lLevelFrom);
 		}
 
-		Log.d(TAG, "Battery Level since " + iStatType + ":" + levelFrom);
+		Log.d(TAG, "Battery Level between " + refFromName + " and " + refToName + ":" + levelFrom);
 
 		String drop_per_hour = "";
 		try
 		{
-			sinceH = getSince(iStatType, refToName);
+			sinceH = getSince(refFromName, refToName);
 			// since is in ms but x 100 in order to respect proportions of formatRatio (we call it with % and it normally calculates % so there is a factor 100
 			sinceH = sinceH / 10 / 60 / 60;
 			drop_per_hour = StringUtils.formatRatio(lLevelFrom - lLevelTo, sinceH) + "/h";
@@ -1913,7 +1876,7 @@ public class StatsProvider
 			Log.e(TAG, "Error retrieving since");
 		}
 		
-		return "Bat.: " + getBatteryLevelStat(iStatType) + "% (" + levelFrom
+		return "Bat.: " + getBatteryLevelStat(refFromName) + "% (" + levelFrom
 				+ "% to " + levelTo + "%)" + " [" + drop_per_hour + "]";
 	}
 
@@ -1924,19 +1887,19 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public int getBatteryVoltageStat(int iStatType)
+	public int getBatteryVoltageStat(String refName)
 	{
 		// deep sleep times are independent of stat type
 		int voltage = getBatteryVoltage();
 
 		Log.d(TAG, "Current Battery Voltage:" + voltage);
-		Reference myReference = ReferenceStore.getReference(iStatType, m_context);
+		Reference myReference = ReferenceStore.getReferenceByName(refName, m_context);
 		if (myReference != null)
 		{
 			voltage = myReference.m_refBatteryVoltage - voltage;
 		}
 
-		Log.d(TAG, "Battery Voltage since " + iStatType + ":" + voltage);
+		Log.d(TAG, "Battery Voltage since " + refName + ":" + voltage);
 
 		return voltage;
 	}
@@ -1948,7 +1911,7 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public String getBatteryVoltageFromTo(int iStatType, String refToName)
+	public String getBatteryVoltageFromTo(String refFromName, String refToName)
 	{
 		// deep sleep times are independent of stat type
 		int voltageTo = getBatteryVoltage();
@@ -1957,18 +1920,18 @@ public class StatsProvider
 
 
 		Log.d(TAG, "Current Battery Voltage:" + voltageTo);
-		Reference myReference = ReferenceStore.getReference(iStatType, m_context);
+		Reference myReference = ReferenceStore.getReferenceByName(refFromName, m_context);
 		if (myReference != null)
 		{
 			voltageFrom = myReference.m_refBatteryVoltage;
 		}
 
-		Log.d(TAG, "Battery Voltage since " + iStatType + ":" + voltageFrom);
+		Log.d(TAG, "Battery Voltage between " + refFromName + " and " + refToName + ":" + voltageFrom);
 		
 		String drop_per_hour = "";
 		try
 		{
-			sinceH = getSince(iStatType, refToName);
+			sinceH = getSince(refFromName, refToName);
 			// since is in ms but x 100 in order to respect proportions of formatRatio (we call it with % and it normally calculates % so there is a factor 100
 			sinceH = sinceH / 10 / 60 / 60;
 			drop_per_hour = StringUtils.formatRatio(voltageFrom - voltageTo, sinceH) + "/h";
@@ -2332,7 +2295,7 @@ public class StatsProvider
 	 */
 
 	@SuppressLint("NewApi")
-	public void writeDumpToFile(int iStatType, int iSort, String refToName)
+	public void writeDumpToFile(String refFromName, int iSort, String refToName)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
@@ -2341,6 +2304,7 @@ public class StatsProvider
 				"0"));
 
 		Reference refTo = ReferenceStore.getReferenceByName(refToName, m_context);
+		Reference refFrom = ReferenceStore.getReferenceByName(refFromName, m_context);
 
 		if (!DataStorage.isExternalStorageWritable())
 		{
@@ -2371,10 +2335,9 @@ public class StatsProvider
 				out.write("BetterBatteryStats version: " + pinfo.versionName
 						+ "\n");
 				out.write("Creation Date: " + DateUtils.now() + "\n");
-				out.write("Statistic Type: (" + iStatType + ") "
-						+ statTypeToLabel(iStatType) + "\n");
+				out.write("Statistic Type: " + refFromName + "\n");
 				out.write("Since "
-						+ DateUtils.formatDuration(getSince(iStatType, null)) + "\n");
+						+ DateUtils.formatDuration(getSince(refFromName, refToName)) + "\n");
 				out.write("VERSION.RELEASE: " + Build.VERSION.RELEASE + "\n");
 				out.write("BRAND: " + Build.BRAND + "\n");
 				out.write("DEVICE: " + Build.DEVICE + "\n");
@@ -2414,11 +2377,11 @@ public class StatsProvider
 				out.write("============\n");
 				out.write("Battery Info\n");
 				out.write("============\n");
-				out.write("Level lost [%]: " + getBatteryLevelStat(iStatType)
-						+ " " + getBatteryLevelFromTo(iStatType, refToName) + "\n");
+				out.write("Level lost [%]: " + getBatteryLevelStat(refFromName)
+						+ " " + getBatteryLevelFromTo(refFromName, refToName) + "\n");
 				out.write("Voltage lost [mV]: "
-						+ getBatteryVoltageStat(iStatType) + " "
-						+ getBatteryVoltageFromTo(iStatType, refToName) + "\n");
+						+ getBatteryVoltageStat(refFromName) + " "
+						+ getBatteryVoltageFromTo(refFromName, refToName) + "\n");
 
 				// write timing info
 				boolean bDumpChapter = sharedPrefs.getBoolean("show_other",
@@ -2429,7 +2392,7 @@ public class StatsProvider
 					out.write("Other Usage\n");
 					out.write("===========\n");
 					dumpList(
-							getOtherUsageStatList(bFilterStats, iStatType,
+							getOtherUsageStatList(bFilterStats, refFrom,
 									false, false, refTo), out);
 				}
 
@@ -2441,7 +2404,7 @@ public class StatsProvider
 					out.write("Wakelocks\n");
 					out.write("=========\n");
 					dumpList(
-							getWakelockStatList(bFilterStats, iStatType,
+							getWakelockStatList(bFilterStats, refFrom,
 									iPctType, iSort, refTo), out);
 					
 				}
@@ -2464,7 +2427,7 @@ public class StatsProvider
 					}
 					dumpList(
 							getNativeKernelWakelockStatList(bFilterStats,
-									iStatType, iPctType, iSort, refTo), out);
+									refFrom, iPctType, iSort, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_proc", false);
@@ -2475,7 +2438,7 @@ public class StatsProvider
 					out.write("Processes\n");
 					out.write("=========\n");
 					dumpList(
-							getProcessStatList(bFilterStats, iStatType, iSort, refTo),
+							getProcessStatList(bFilterStats, refFrom, iSort, refTo),
 							out);
 				}
 
@@ -2486,7 +2449,7 @@ public class StatsProvider
 					out.write("======================\n");
 					out.write("Alarms (requires root)\n");
 					out.write("======================\n");
-					dumpList(getAlarmsStatList(bFilterStats, iStatType, refTo), out);
+					dumpList(getAlarmsStatList(bFilterStats, refFrom, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_network", true);
@@ -2498,7 +2461,7 @@ public class StatsProvider
 					out.write("======================\n");
 					dumpList(
 							getNativeNetworkUsageStatList(bFilterStats,
-									iStatType, refTo), out);
+									refFrom, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_cpustates", true);
@@ -2508,7 +2471,7 @@ public class StatsProvider
 					out.write("==========\n");
 					out.write("CPU States\n");
 					out.write("==========\n");
-					dumpList(getCpuStateList(iStatType, refTo), out);
+					dumpList(getCpuStateList(refFrom, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_serv", false);

@@ -90,7 +90,7 @@ public class UpdateSmallWidgetService extends Service
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 
 			// retrieve stats
-			int statType	= Integer.valueOf(sharedPrefs.getString("small_widget_default_stat_type", "3"));
+			String refFrom	= sharedPrefs.getString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 
 			boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
 
@@ -102,7 +102,7 @@ public class UpdateSmallWidgetService extends Service
 			{
 				remoteViews.setInt(R.id.stat_type, "setVisibility", View.GONE);
 			}
-			remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabelShort(statType));
+			remoteViews.setTextViewText(R.id.stat_type, refFrom);
 			
 
 			try
@@ -110,14 +110,16 @@ public class UpdateSmallWidgetService extends Service
 				
 				StatsProvider.getInstance(this).setCurrentReference(0);
 				Reference currentRef = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
+				Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 
-				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true, currentRef);
+
+				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
 				
 				if ( (otherStats == null) || ( otherStats.size() == 1) )
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
-					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "3"));
-					otherStats = stats.getOtherUsageStatList(true, statType, false, true, currentRef);
+					refFrom	= sharedPrefs.getString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+					otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
 				}
 
 				if ( (otherStats != null) && ( otherStats.size() > 1) )
@@ -207,7 +209,8 @@ public class UpdateSmallWidgetService extends Service
 				    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					int stat = Integer.valueOf(sharedPrefs.getString("widget_default_stat", "0"));
 					i.putExtra(StatsActivity.STAT, stat);
-					i.putExtra(StatsActivity.STAT_TYPE, statType);
+					i.putExtra(StatsActivity.STAT_TYPE_FROM, refFrom);
+					i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.CURRENT_REF_FILENAME);
 
 					PendingIntent clickPI = PendingIntent.getActivity(
 							this.getApplicationContext(), PI_CODE,

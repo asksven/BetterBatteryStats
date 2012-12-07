@@ -48,7 +48,7 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.adapters.SamplesAdapter;
+import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.Reference;
@@ -60,7 +60,8 @@ import com.asksven.betterbatterystats.services.EventWatcherService;
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
 {    
 	public static String STAT 				= "STAT";
-	public static String STAT_TYPE 			= "STAT_TYPE";
+	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
+	public static String STAT_TYPE_TO		= "STAT_TYPE_TO";
 	public static String FROM_NOTIFICATION 	= "FROM_NOTIFICATION";
 	
 	/**
@@ -87,8 +88,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	/**
 	 * The Type of Stat to be displayed (default is "Since charged")
 	 */
-	private int m_iStatType = 0; 
-
+//	private int m_iStatType = 0; 
+	private String m_refFromName = "";
+	private String m_refToName = "";
 	/**
 	 * The Stat to be displayed (default is "Process")
 	 */
@@ -204,13 +206,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		///////////////////////////////////////////////
     	
     	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
-		m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "3"));
+		m_refFromName	= sharedPrefs.getString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 
-		if (!ReferenceStore.hasReference(m_iStatType, this))
+		if (!ReferenceStore.hasReferenceByName(m_refFromName, this))
 		{
 			if (sharedPrefs.getBoolean("fallback_to_since_boot", false))
 			{
-				m_iStatType = StatsProvider.STATS_BOOT;
+				m_refFromName = Reference.BOOT_REF_FILENAME;
 	    		Toast.makeText(this, "Fallback to 'Since Boot'", Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -221,14 +223,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			if ( (savedInstanceState != null) && (!savedInstanceState.isEmpty()))
 			{
 				m_iStat 				= (Integer) savedInstanceState.getSerializable("stat");
-				m_iStatType 			= (Integer) savedInstanceState.getSerializable("stattype");
+				m_refFromName 			= (String) savedInstanceState.getSerializable("stattypeFrom");
+				m_refToName 			= (String) savedInstanceState.getSerializable("stattypeTo");
 	 			
 			}			
 		}
 		catch (Exception e)
 		{
 			m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
-			m_iStatType	= Integer.valueOf(sharedPrefs.getString("default_stat_type", "3"));
+			m_refFromName	= sharedPrefs.getString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 			
     		Log.e(TAG, "Exception: " + e.getMessage());
     		DataStorage.LogToFile(LOGFILE, "Exception in onCreate restoring Bundle");
@@ -244,7 +247,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 			// Override if some values were passed to the intent
 			m_iStat = extras.getInt(StatsActivity.STAT);
-			m_iStatType = extras.getInt(StatsActivity.STAT_TYPE);
+			m_refFromName = extras.getString(StatsActivity.STAT_TYPE_FROM);
+			m_refToName = extras.getString(StatsActivity.STAT_TYPE_TO);
 			boolean bCalledFromNotification = extras.getBoolean(StatsActivity.FROM_NOTIFICATION, false);
 			
 			// Clear the notifications that was clicked to call the activity
@@ -261,14 +265,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         {
 
         	//long sinceMs = getSince();
-            long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType, Reference.CURRENT_REF_FILENAME);
+            long sinceMs = StatsProvider.getInstance(this).getSince(m_refFromName, m_refToName);
             if (sinceMs != -1)
             {
     	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
     			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
     	        if (bShowBatteryLevels)
     	        {
-    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType, Reference.CURRENT_REF_FILENAME);
+    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_refFromName, m_refToName);
     	        }
     	        tvSince.setText(sinceText);
     	    	Log.i(TAG, "Since " + sinceText);
@@ -297,15 +301,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// Spinner for Selecting the Stat type
 		///////////////////////////////////////////////
 		Spinner spinnerStatType = (Spinner) findViewById(R.id.spinnerStatType);
-		
-		ArrayAdapter spinnerAdapter = null;
-		spinnerAdapter = ArrayAdapter.createFromResource(
-	            this, R.array.stat_types, android.R.layout.simple_spinner_item);
-			
-		
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    
+		ReferencesAdapter spinnerAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
 		spinnerStatType.setAdapter(spinnerAdapter);
+
 		try
 		{
 			this.setListViewAdapter();
@@ -328,7 +326,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 					Toast.LENGTH_LONG).show();
 		}
 		// setSelection MUST be called after setAdapter
-		spinnerStatType.setSelection(StatsProvider.getInstance(this).positionFromStatType(m_iStatType));
+		spinnerStatType.setSelection(spinnerAdapter.getPosition(m_refFromName));
 		spinnerStatType.setOnItemSelectedListener(this);
 		
 		///////////////////////////////////////////////
@@ -336,7 +334,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		///////////////////////////////////////////////
 		Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
 		
-		SamplesAdapter spinnerSampleAdapter = new SamplesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
+		ReferencesAdapter spinnerSampleAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
 			
 		
 //		spinnerSampleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -362,7 +360,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_iSorting = 0;
 			
 		}
-		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
+		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_refFromName, m_refToName, m_iSorting);
 
 				
 	}
@@ -414,7 +412,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     {
     	super.onSaveInstanceState(savedInstanceState);
         
-    	savedInstanceState.putSerializable("stattype", m_iStatType); 
+    	savedInstanceState.putSerializable("stattypeFrom", m_refFromName);
+    	savedInstanceState.putSerializable("stattypeTo", m_refToName); 
+
     	savedInstanceState.putSerializable("stat", m_iStat);
 		
     	//StatsProvider.getInstance(this).writeToBundle(savedInstanceState);
@@ -431,7 +431,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		if (m_listViewAdapter == null)
 		{
 			m_listViewAdapter = new StatsAdapter(this, 
-					StatsProvider.getInstance(this).getStatList(m_iStat, m_iStatType, m_iSorting, Reference.CURRENT_REF_FILENAME));
+					StatsProvider.getInstance(this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName));
 		
 			setListAdapter(m_listViewAdapter);
 		}
@@ -629,15 +629,31 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			int iNewStatType = StatsProvider.getInstance(this).statTypeFromPosition(position);
 			
 			// detect if something changed
-			if (m_iStatType != iNewStatType)
+			String newStat = (String) parent.getAdapter().getItem(position);
+			if ( !m_refFromName.equals(newStat) )
 			{
-				m_iStatType = iNewStatType;
+				m_refFromName = newStat;
 				bChanged = true;
 			}
 			else
 			{
 				return;
 			}
+
+		}
+		else if (parent == (Spinner) findViewById(R.id.spinnerStatSampleEnd))
+		{
+			String newStat = (String) parent.getAdapter().getItem(position);
+			if ( !m_refToName.equals(newStat) )
+			{
+				m_refToName = newStat;
+				bChanged = true;
+			}
+			else
+			{
+				return;
+			}
+			
 		}
 		else if (parent == (Spinner) findViewById(R.id.spinnerStat))
 		{
@@ -666,10 +682,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			}
 
 		}
-		else if (parent == (Spinner) findViewById(R.id.spinnerStatSampleEnd))
-		{
-			// nothing yet
-		}
 		else
 		{
     		Log.e(TAG, "ProcessStatsActivity.onItemSelected error. ID could not be resolved");
@@ -679,7 +691,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 //        long sinceMs = getSince();
-        long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType, Reference.CURRENT_REF_FILENAME);
+        long sinceMs = StatsProvider.getInstance(this).getSince(m_refFromName, m_refToName);
 
         if (sinceMs != -1)
         {
@@ -687,7 +699,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
 	        if (bShowBatteryLevels)
 	        {
-	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType, Reference.CURRENT_REF_FILENAME);
+	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_refFromName, m_refToName);
 	        }
 	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + sinceText);
@@ -702,7 +714,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		//m_listViewAdapter.notifyDataSetChanged();
         if (bChanged)
         {
-        	GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_iStatType, m_iSorting);
+        	GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_refFromName, m_refToName, m_iSorting);
         	//new LoadStatData().execute(this);
         	// as the source changed fetch the data
         	doRefresh(false);
@@ -712,7 +724,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	public void onNothingSelected(AdapterView<?> parent)
 	{
 		// default
-		m_iStatType = 0;
+		m_refFromName = "";
+		m_refToName = "";
 		//m_listViewAdapter.notifyDataSetChanged();
 		
 	}
@@ -725,7 +738,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
         //long sinceMs = getSince();
-        long sinceMs = StatsProvider.getInstance(this).getSince(m_iStatType, Reference.CURRENT_REF_FILENAME);
+        long sinceMs = StatsProvider.getInstance(this).getSince(m_refFromName, m_refToName);
 
         if (sinceMs != -1)
         {
@@ -735,7 +748,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
 	        if (bShowBatteryLevels)
 	        {
-	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_iStatType, Reference.CURRENT_REF_FILENAME);
+	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_refFromName, m_refToName);
 	        }
 	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + sinceText);
@@ -755,7 +768,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		@Override
 	    protected Object doInBackground(Object... params)
 	    {
-			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(m_iStatType, m_iSorting, Reference.CURRENT_REF_FILENAME);
+			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(m_refFromName, m_iSorting, m_refToName);
 	    	return true;
 	    }
 
@@ -821,7 +834,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				m_listViewAdapter = new StatsAdapter(
 						StatsActivity.this,
-						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_iStatType, m_iSorting, Reference.CURRENT_REF_FILENAME));
+						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName));
 			}
 			catch (BatteryInfoUnavailableException e)
 			{

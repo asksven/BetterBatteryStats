@@ -57,7 +57,7 @@ public class Reference implements Serializable
 	protected static final String SINCE_BOOT_REF_ERR			= "Boot event was not registered yet, it will at next reboot";
 
 	/** storage of custom references */
-	protected String m_fileName								= "";
+	public String m_fileName								= "";
 	protected long m_creationTime							= 0;
     protected ArrayList<StatElement> m_refWakelocks 		= null;
     protected ArrayList<StatElement> m_refKernelWakelocks 	= null;

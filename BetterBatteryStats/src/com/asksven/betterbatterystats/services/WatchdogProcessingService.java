@@ -100,8 +100,9 @@ public class WatchdogProcessingService extends Service
 					if (stats.hasScreenOffRef())
 					{
 						// restore any available since screen reference
+						Reference refFrom = ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, this);
 						Reference refTo = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
-						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, StatsProvider.STATS_SCREEN_OFF, false, false, refTo);
+						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, refFrom, false, false, refTo);
 
 						long timeAwake = 0;
 						long timeSince = 0;
@@ -147,7 +148,7 @@ public class WatchdogProcessingService extends Service
 							i.addCategory(Intent.CATEGORY_LAUNCHER);
 						    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 							i.putExtra(StatsActivity.STAT, 0);
-							i.putExtra(StatsActivity.STAT_TYPE, StatsProvider.STATS_SCREEN_OFF);
+							i.putExtra(StatsActivity.STAT_TYPE_FROM, Reference.SCREEN_OFF_REF_FILENAME);
 							i.putExtra(StatsActivity.FROM_NOTIFICATION, true);
 
 					    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);

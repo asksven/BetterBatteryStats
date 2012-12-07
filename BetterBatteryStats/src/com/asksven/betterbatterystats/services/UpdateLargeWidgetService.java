@@ -99,7 +99,7 @@ public class UpdateLargeWidgetService extends Service
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 			
 			// retrieve stats
-			int statType	= Integer.valueOf(sharedPrefs.getString("large_widget_default_stat_type", "3"));
+			String refFrom	= sharedPrefs.getString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 			
 			boolean showPct	= sharedPrefs.getBoolean("large_widget_show_pct", false);
 			boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
@@ -116,14 +116,17 @@ public class UpdateLargeWidgetService extends Service
 			{
 				StatsProvider.getInstance(this).setCurrentReference(0);
 				Reference currentRef = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
+				Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 				
-				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, statType, false, true,currentRef);
+				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
 
 				if ( (otherStats == null) || ( otherStats.size() == 1) )
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
-					statType	= Integer.valueOf(sharedPrefs.getString("widget_fallback_stat_type", "3"));
-					otherStats = stats.getOtherUsageStatList(true, statType, false, true, null);
+					refFrom	= sharedPrefs.getString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+					fromRef = ReferenceStore.getReferenceByName(refFrom, this);
+					
+					otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
 				}
 				
 				if ( (otherStats != null) && ( otherStats.size() > 1) )
@@ -139,11 +142,11 @@ public class UpdateLargeWidgetService extends Service
 						timeScreenOn 	= 0;
 					}
 					
-					timeSince = stats.getBatteryRealtime(statType);
-					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, statType, 0, 0, currentRef);
+					timeSince = StatsProvider.getInstance(this).getSince(refFrom, Reference.CURRENT_REF_FILENAME);
+					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, fromRef, 0, 0, currentRef);
 					sumPWakelocks = stats.sum(pWakelockStats);
 	
-					ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, statType, 0, 0, currentRef);
+					ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, fromRef, 0, 0, currentRef);
 					sumKWakelocks = stats.sum(kWakelockStats);
 	
 					Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));
@@ -163,7 +166,7 @@ public class UpdateLargeWidgetService extends Service
 
 
 					// Set the text
-					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
+					remoteViews.setTextViewText(R.id.stat_type, fromRef.m_fileName);
 					remoteViews.setTextViewText(R.id.since, DateUtils.formatDurationShort(timeSince));
 					
 					if (showPct)
@@ -247,7 +250,7 @@ public class UpdateLargeWidgetService extends Service
 					// no stat available
 					// Set the text
 					String notAvailable = "n/a";
-					remoteViews.setTextViewText(R.id.stat_type, StatsProvider.statTypeToLabel(statType));
+					remoteViews.setTextViewText(R.id.stat_type, fromRef.m_fileName);
 					remoteViews.setTextViewText(R.id.since, notAvailable);
 					remoteViews.setTextViewText(R.id.awake, notAvailable);
 					remoteViews.setTextViewText(R.id.screen_on, notAvailable);
@@ -288,7 +291,8 @@ public class UpdateLargeWidgetService extends Service
 			    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				int stat = Integer.valueOf(sharedPrefs.getString("widget_default_stat", "0"));
 				i.putExtra(StatsActivity.STAT, stat);
-				i.putExtra(StatsActivity.STAT_TYPE, statType);
+				i.putExtra(StatsActivity.STAT_TYPE_FROM, refFrom);
+				i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.CURRENT_REF_FILENAME);
 
 				PendingIntent clickPI = PendingIntent.getActivity(
 						this.getApplicationContext(), PI_CODE,

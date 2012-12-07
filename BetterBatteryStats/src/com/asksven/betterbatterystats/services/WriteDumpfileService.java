@@ -59,7 +59,8 @@ import android.widget.RemoteViews;
 public class WriteDumpfileService extends Service
 {
 	private static final String TAG = "WriteDumpfileService";
-	public static final String STAT_TYPE = "StatType";
+	public static final String STAT_TYPE_FROM = "StatTypeFrom";
+	public static final String STAT_TYPE_TO = "StatTypeTo";
 
 	@Override
 	public void onStart(Intent intent, int startId)
@@ -67,17 +68,18 @@ public class WriteDumpfileService extends Service
 		Log.i(TAG, "Called at " + DateUtils.now());
 		
 		
-		int  statType = intent.getIntExtra(WriteDumpfileService.STAT_TYPE, -1);
+		String refFrom = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_FROM);
+		String refTo = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_TO);
 		
-		Log.i(TAG, "Called with extra " + statType);
+		Log.i(TAG, "Called with extra " + refFrom + " and " + refTo);
 
-		if (statType >= 0)
+		if (!refFrom.equals("") && !refTo.equals(""))
 		{
 			try
 			{
 				Wakelock.aquireWakelock(this);
 				// restore any available references if required
-	        	StatsProvider.getInstance(this).writeDumpToFile(statType, 0, Reference.CURRENT_REF_FILENAME);
+	        	StatsProvider.getInstance(this).writeDumpToFile(refFrom, 0, refTo);
 	
 			}
 			catch (Exception e)
@@ -91,7 +93,7 @@ public class WriteDumpfileService extends Service
 		}
 		else
 		{
-			Log.i(TAG, "No dumpfile written: " + statType);
+			Log.i(TAG, "No dumpfile written: " + refFrom + " and " + refTo);
 			
 		}
 		
