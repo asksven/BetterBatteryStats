@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.widgetproviders;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -24,16 +24,16 @@ import android.util.Log;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.services.UpdateLargeWidgetService;
+import com.asksven.betterbatterystats.services.UpdateSmallWidgetService;
 
 /**
  * @author sven
  *
  */
-public class LargeWidgetProvider extends BbsWidgetProvider
+public class SmallWidgetProvider extends BbsWidgetProvider
 {
 
-	private static final String TAG = "LargeWidgetProvider";
+	private static final String TAG = "SmallWidgetProvider";
 
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
@@ -42,19 +42,18 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 		Log.i(TAG, "onUpdate method called, starting service and setting alarm");
 
 		// Update the widgets via the service
-		startService(context, this.getClass(), appWidgetManager, UpdateLargeWidgetService.class);
+		startService(context, this.getClass(), appWidgetManager, UpdateSmallWidgetService.class);
 		
 		setAlarm(context);
 		
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
-
 	}
-	
+
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
 		super.onReceive(context, intent);
-
+		
 		Log.i(TAG, "onReceive method called, action = '" + intent.getAction() + "' at " + DateUtils.now());
 		
 		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
@@ -63,15 +62,20 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE_OPTIONS")
 				)
 		{
-			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
+			if (WIDGET_UPDATE.equals(intent.getAction()))
 			{
 				Log.d(TAG, "Alarm called: updating");
-//				GenericLogger.i(WIDGET_LOG, TAG, "LargeWidgetProvider: Alarm to refresh widget was called");
+			}
+			else if (LargeWidgetProvider.WIDGET_PREFS_REFRESH.equals(intent.getAction()))
+			{
+				Log.d(TAG, "WIDGET_PREFS_REFRESH called: updating");
+//				GenericLogger.i(LargeWidgetProvider.WIDGET_LOG, TAG, "SmallWidgetProvider: Alarm to refresh widget was called");
 			}
 			else
 			{
 				Log.d(TAG, "APPWIDGET_UPDATE called: updating");
 			}
+				
 
 			AppWidgetManager appWidgetManager = AppWidgetManager
 					.getInstance(context);
@@ -91,6 +95,7 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 			}
 		}
 	}
+
 	
 	
 }

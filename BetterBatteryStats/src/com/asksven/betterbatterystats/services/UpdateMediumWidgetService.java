@@ -31,8 +31,8 @@ import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.widgetproviders.MediumWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
-import com.asksven.betterbatterystats.MediumWidgetProvider;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
 

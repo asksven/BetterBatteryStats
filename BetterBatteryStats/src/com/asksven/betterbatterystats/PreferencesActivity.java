@@ -34,6 +34,10 @@ import com.asksven.andoid.common.CommonLogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
+import com.asksven.betterbatterystats.widgetproviders.BbsWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.MediumWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.SmallWidgetProvider;
 
 /**
  * Activity for managing preferences using Android's preferences framework
