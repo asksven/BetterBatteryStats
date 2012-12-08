@@ -166,8 +166,11 @@ public class ReferenceStore
 	 */
 	public static void invalidate(String refName, Context ctx)
 	{
+		Reference myEmptyRef = new Reference(refName);
+		myEmptyRef.setEmpty();
+
 		m_refStore.put(refName, null);
-		serializeRefToFile(null, ctx);
+		serializeRefToFile(myEmptyRef, ctx);
 	}
 
 
@@ -263,6 +266,11 @@ public class ReferenceStore
 		DataStorage.objectToFile(ctx,
 				Reference.SCREEN_OFF_REF_FILENAME, myEmptyRef);
 
+		myEmptyRef = new Reference(Reference.SCREEN_ON_REF_FILENAME);
+		myEmptyRef.setEmpty();
+		DataStorage.objectToFile(ctx,
+				Reference.SCREEN_ON_REF_FILENAME, myEmptyRef);
+
 		myEmptyRef = new Reference(Reference.UNPLUGGED_REF_FILENAME);
 		myEmptyRef.setEmpty();
 		DataStorage.objectToFile(ctx,
@@ -273,5 +281,10 @@ public class ReferenceStore
 		DataStorage.objectToFile(ctx, Reference.BOOT_REF_FILENAME,
 				myEmptyRef);
 
+		myEmptyRef = new Reference(Reference.CURRENT_REF_FILENAME);
+		myEmptyRef.setEmpty();
+		DataStorage.objectToFile(ctx, Reference.CURRENT_REF_FILENAME,
+				myEmptyRef);
+		
 	}
 }

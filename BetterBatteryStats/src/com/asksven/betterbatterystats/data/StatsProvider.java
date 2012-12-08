@@ -2092,6 +2092,19 @@ public class StatsProvider
 	}
 
 	/**
+	 * Saves all data to a point in time when the screen goes in
+	 * be used in a custom "since..." stat type
+	 */
+	public void setReferenceScreenOn(int iSort)
+	{
+		Reference thisRef = new Reference(Reference.SCREEN_ON_REF_FILENAME);
+		ReferenceStore.put(Reference.SCREEN_ON_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		
+		// clean "current from cache"
+		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
+	}
+
+	/**
 	 * Saves data when battery is fully charged This data will be used in the
 	 * "since charged" stat type
 	 */

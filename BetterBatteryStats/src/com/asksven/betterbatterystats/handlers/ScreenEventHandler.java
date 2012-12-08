@@ -27,6 +27,7 @@ import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WatchdogProcessingService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
+import com.asksven.betterbatterystats.services.WriteScreenOnReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 import com.asksven.betterbatterystats.R;
 import android.app.Notification;
@@ -69,7 +70,7 @@ public class ScreenEventHandler extends BroadcastReceiver
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_ON");
-			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);		
+			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);
 			boolean bRunOnUnlock = sharedPrefs.getBoolean("watchdog_on_unlock", false);
 			
 			if (watchdogActive && !bRunOnUnlock)
@@ -77,6 +78,7 @@ public class ScreenEventHandler extends BroadcastReceiver
 				// start service to process watchdog
 				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
 				context.startService(serviceIntent);
+
 			}
 
 			// Build the intent to update widgets
@@ -98,6 +100,7 @@ public class ScreenEventHandler extends BroadcastReceiver
 				// start service to process watchdog
 				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
 				context.startService(serviceIntent);
+
 			}
 			
 

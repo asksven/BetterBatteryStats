@@ -92,7 +92,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 */
 //	private int m_iStatType = 0; 
 	private String m_refFromName = "";
-	private String m_refToName = "";
+	private String m_refToName = Reference.CURRENT_REF_FILENAME;
 	/**
 	 * The Stat to be displayed (default is "Process")
 	 */

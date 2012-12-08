@@ -96,7 +96,11 @@ public class WatchdogProcessingService extends Service
 					StatsProvider stats = StatsProvider.getInstance(this);
 					// make sure to flush cache
 					BatteryStatsProxy.getInstance(this).invalidate();
-					
+
+					// save screen on reference
+					Intent serviceIntent = new Intent(this, WriteScreenOnReferenceService.class);
+					this.startService(serviceIntent);
+
 					if (stats.hasScreenOffRef())
 					{
 						// restore any available since screen reference

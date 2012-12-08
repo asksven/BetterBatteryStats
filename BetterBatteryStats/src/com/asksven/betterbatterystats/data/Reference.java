@@ -38,30 +38,33 @@ public class Reference implements Serializable
 	
 	private transient static final String TAG = "References";
 	
-	public static final String CUSTOM_REF_FILENAME 			= "ref_custom";
-	public static final String UNPLUGGED_REF_FILENAME 		= "ref_unplugged";
+	public static final String CUSTOM_REF_FILENAME 				= "ref_custom";
+	public static final String UNPLUGGED_REF_FILENAME 			= "ref_unplugged";
 	public static final String CHARGED_REF_FILENAME 			= "ref_charged";
-	public static final String SCREEN_OFF_REF_FILENAME		= "ref_screen_off";
+	public static final String SCREEN_OFF_REF_FILENAME			= "ref_screen_off";
+	public static final String SCREEN_ON_REF_FILENAME			= "ref_screen_on";
 	public static final String BOOT_REF_FILENAME				= "ref_boot";
 	public static final String CURRENT_REF_FILENAME 			= "ref_current";
 
 	
-	protected static final String[] FILES = {CUSTOM_REF_FILENAME, CURRENT_REF_FILENAME, UNPLUGGED_REF_FILENAME, CHARGED_REF_FILENAME, SCREEN_OFF_REF_FILENAME, BOOT_REF_FILENAME};
+	protected static final String[] FILES = {CUSTOM_REF_FILENAME, CURRENT_REF_FILENAME, UNPLUGGED_REF_FILENAME, CHARGED_REF_FILENAME, SCREEN_OFF_REF_FILENAME, SCREEN_ON_REF_FILENAME, BOOT_REF_FILENAME};
 
 	protected static final String NO_STATS_WHEN_CHARGING		= "Device is plugged in: no stats";
 	protected static final String GENERIC_REF_ERR 				= "No reference set yet";
 	protected static final String CUSTOM_REF_ERR 				= "No custom reference was set. Please use the menu to do so";
-	protected static final String SINCE_UNPLUGGED_REF_ERR 		= "No reference since unplugged was saved yet, plug/unplug you phone";
-	protected static final String SINCE_CHARGED_REF_ERR 		= "No reference since charged was saved yet, it will the next time you charge to 100%";
-	protected static final String SINCE_SCREEN_OFF_REF_ERR		= "Screen off event was not registered yet. Make sure to activate the watchdog.";
-	protected static final String SINCE_BOOT_REF_ERR			= "Boot event was not registered yet, it will at next reboot";
+	protected static final String UNPLUGGED_REF_ERR 			= "No reference unplugged was saved yet, plug/unplug you phone";
+	protected static final String CHARGED_REF_ERR 				= "No reference charged was saved yet, it will the next time you charge to 100%";
+	protected static final String SCREEN_OFF_REF_ERR			= "Screen off event was not registered yet. Make sure to activate the watchdog.";
+	protected static final String SCREEN_ON_REF_ERR				= "Screen on event was not registered yet. Make sure to activate the watchdog.";
+	protected static final String BOOT_REF_ERR					= "Boot event was not registered yet, it will at next reboot";
 
 	protected static final String CUSTOM_REF_NAME 				= "Custom";
 	protected static final String CURRENT_REF_NAME 				= "Current";
-	protected static final String SINCE_UNPLUGGED_REF_NAME 		= "Unplugged";
-	protected static final String SINCE_CHARGED_REF_NAME 		= "Charged";
-	protected static final String SINCE_SCREEN_OFF_REF_NAME		= "Screen Off";
-	protected static final String SINCE_BOOT_REF_NAME			= "Boot";
+	protected static final String UNPLUGGED_REF_NAME 			= "Unplugged";
+	protected static final String CHARGED_REF_NAME 				= "Charged";
+	protected static final String SCREEN_OFF_REF_NAME			= "Screen Off";
+	protected static final String SCREEN_ON_REF_NAME			= "Screen On";
+	protected static final String BOOT_REF_NAME					= "Boot";
 
 	/** storage of custom references */
 	public String m_fileName								= "";
@@ -104,13 +107,15 @@ public class Reference implements Serializable
     	if (m_fileName.equals(CUSTOM_REF_FILENAME))
     		return CUSTOM_REF_ERR;
     	else if (m_fileName.equals(UNPLUGGED_REF_FILENAME))
-    		return SINCE_UNPLUGGED_REF_ERR;
+    		return UNPLUGGED_REF_ERR;
     	else if (m_fileName.equals(CHARGED_REF_FILENAME))
-    		return SINCE_CHARGED_REF_ERR;
+    		return CHARGED_REF_ERR;
     	else if (m_fileName.equals(SCREEN_OFF_REF_FILENAME))
-    		return SINCE_SCREEN_OFF_REF_ERR;
+    		return SCREEN_OFF_REF_ERR;
+    	else if (m_fileName.equals(SCREEN_ON_REF_FILENAME))
+    		return SCREEN_ON_REF_ERR;
     	else if (m_fileName.equals(BOOT_REF_FILENAME))
-    		return SINCE_BOOT_REF_ERR;
+    		return BOOT_REF_ERR;
     	else
     		return "No reference found";
     }
@@ -120,13 +125,15 @@ public class Reference implements Serializable
     	if (refName.equals(CUSTOM_REF_FILENAME))
     		return CUSTOM_REF_NAME;
     	else if (refName.equals(UNPLUGGED_REF_FILENAME))
-    		return SINCE_UNPLUGGED_REF_NAME;
+    		return UNPLUGGED_REF_NAME;
     	else if (refName.equals(CHARGED_REF_FILENAME))
-    		return SINCE_CHARGED_REF_NAME;
+    		return CHARGED_REF_NAME;
     	else if (refName.equals(SCREEN_OFF_REF_FILENAME))
-    		return SINCE_SCREEN_OFF_REF_NAME;
+    		return SCREEN_OFF_REF_NAME;
+    	else if (refName.equals(SCREEN_ON_REF_FILENAME))
+    		return SCREEN_ON_REF_NAME;
     	else if (refName.equals(BOOT_REF_FILENAME))
-    		return SINCE_BOOT_REF_NAME;
+    		return BOOT_REF_NAME;
     	else if (refName.equals(CURRENT_REF_FILENAME))
     		return CURRENT_REF_NAME;
 
