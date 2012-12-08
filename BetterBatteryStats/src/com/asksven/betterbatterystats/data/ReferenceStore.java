@@ -33,7 +33,7 @@ import android.util.Log;
 public class ReferenceStore
 {
 	/** the storage for references */
-	private static Map<String, Reference> m_refStore = new HashMap<String, Reference>();
+	private static  Map<String, Reference> m_refStore = new HashMap<String, Reference>();
 	
 	/** the logging tag */
 	private static final String TAG = "ReferenceStore";
@@ -114,7 +114,8 @@ public class ReferenceStore
 			}
 			
 		}
-		return m_refStore.get(refName);
+		Reference ret = m_refStore.get(refName);
+		return ret;
 	}
 	
 	/**
@@ -123,7 +124,7 @@ public class ReferenceStore
 	 * @param ref
 	 * @param ctx
 	 */
-	public static void put(String refName, Reference ref, Context ctx)
+	public static synchronized void put(String refName, Reference ref, Context ctx)
 	{
 		m_refStore.put(refName, ref);
 		serializeRefToFile(ref, ctx);

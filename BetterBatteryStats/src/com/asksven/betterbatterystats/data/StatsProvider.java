@@ -1375,11 +1375,6 @@ public class StatsProvider
 			throws Exception
 	{
 	
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
-
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
 		// List to store the other usages to
@@ -1393,7 +1388,6 @@ public class StatsProvider
 		{
 			return null;
 		}
-//		Collections.sort(myUsages);
 
 		String strCurrent = myUsages.toString();
 		String strRef = "";
