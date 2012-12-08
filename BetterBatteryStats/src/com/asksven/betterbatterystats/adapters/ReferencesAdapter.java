@@ -43,7 +43,8 @@ import com.asksven.betterbatterystats.data.ReferenceStore;
 public class ReferencesAdapter extends ArrayAdapter<String>
 {
 
-    private List<String> m_listData;
+    private List<String> m_listLabels;
+    private List<String> m_listNames;
     private static final String TAG = "ReferencesAdapter";
 
     /**
@@ -53,23 +54,36 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 	public ReferencesAdapter(Context context, int textViewResourceId)
 	{
 		super(context, textViewResourceId);
-		m_listData = ReferenceStore.getReferences(null, context);
+		m_listNames = ReferenceStore.getReferenceNames(null, context);
+		m_listLabels = ReferenceStore.getReferenceLabels(null, context);
 	}
 
 
     public int getCount()
     {
-        return m_listData.size();
+        return m_listNames.size();
     }
 
     public String getItem(int position)
     {
-        return m_listData.get(position);
+        return m_listLabels.get(position);
+    }
+
+    public String getItemName(int position)
+    {
+        return m_listNames.get(position);
     }
 
     public int getPosition(String name)
     {
-    	int ret = m_listData.indexOf(name);
+    	int ret = m_listNames.indexOf(name);
+        return ret;
+    }
+
+    
+    public int getPositionForRefName(String name)
+    {
+    	int ret = m_listLabels.indexOf(name);
         return ret;
     }
 

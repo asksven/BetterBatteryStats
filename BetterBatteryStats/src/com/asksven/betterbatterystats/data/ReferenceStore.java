@@ -39,21 +39,21 @@ public class ReferenceStore
 	private static final String TAG = "ReferenceStore";
 
 	/**
-	 * Return the reference names for references created after refName (or all if refName is empty or null)
+	 * Return the speaking reference names for references created after refFileName (or all if refFileName is empty or null)
 	 * @param refName
 	 * @param ctx
 	 * @return
 	 */
-	public static ArrayList<String> getReferences(String refName, Context ctx)
+	public static ArrayList<String> getReferenceLabels(String refFileName, Context ctx)
 	{
 		ArrayList<String> ret = new ArrayList<String>();
 		
 		long time = 0;
 		
 		// if a ref name was passed get the time that ref was created
-		if ((refName != null) && !refName.equals("") )
+		if ((refFileName != null) && !refFileName.equals("") )
 		{
-			Reference ref = getReferenceByName(refName, ctx);
+			Reference ref = getReferenceByName(refFileName, ctx);
 			if (ref != null)
 			{
 				time = ref.m_creationTime;
@@ -63,15 +63,43 @@ public class ReferenceStore
 		while (iterator.hasNext())
 		{
 			String setElement = iterator.next();
-//			if ((m_refStore.get(setElement) != null) && (time < m_refStore.get(setElement).m_creationTime))
-//			{
-				ret.add(setElement);
-//			}
+			ret.add(Reference.getRefName(setElement));
 		}
 		
 		return ret;
 	}
-	
+
+	/**
+	 * Return the internal reference names for references created after refFileName (or all if refFileName is empty or null)
+	 * @param refName
+	 * @param ctx
+	 * @return
+	 */
+	public static ArrayList<String> getReferenceNames(String refFileName, Context ctx)
+	{
+		ArrayList<String> ret = new ArrayList<String>();
+		
+		long time = 0;
+		
+		// if a ref name was passed get the time that ref was created
+		if ((refFileName != null) && !refFileName.equals("") )
+		{
+			Reference ref = getReferenceByName(refFileName, ctx);
+			if (ref != null)
+			{
+				time = ref.m_creationTime;
+			}
+		}
+		Iterator<String> iterator = m_refStore.keySet().iterator();
+		while (iterator.hasNext())
+		{
+			String setElement = iterator.next();
+			ret.add(setElement);
+		}
+		
+		return ret;
+	}
+
 	/**
 	 * Returns a reference given a name
 	 * @param refName the name of the reference

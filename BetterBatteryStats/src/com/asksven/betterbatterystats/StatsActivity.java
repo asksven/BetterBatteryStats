@@ -625,7 +625,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			int iNewStatType = StatsProvider.getInstance(this).statTypeFromPosition(position);
 			
 			// detect if something changed
-			String newStat = (String) parent.getAdapter().getItem(position);
+			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
 			if ( !m_refFromName.equals(newStat) )
 			{
 				m_refFromName = newStat;
@@ -639,7 +639,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		else if (parent == (Spinner) findViewById(R.id.spinnerStatSampleEnd))
 		{
-			String newStat = (String) parent.getAdapter().getItem(position);
+			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
 			if ( !m_refToName.equals(newStat) )
 			{
 				m_refToName = newStat;

@@ -56,6 +56,13 @@ public class Reference implements Serializable
 	protected static final String SINCE_SCREEN_OFF_REF_ERR		= "Screen off event was not registered yet. Make sure to activate the watchdog.";
 	protected static final String SINCE_BOOT_REF_ERR			= "Boot event was not registered yet, it will at next reboot";
 
+	protected static final String CUSTOM_REF_NAME 				= "Custom";
+	protected static final String CURRENT_REF_NAME 				= "Current";
+	protected static final String SINCE_UNPLUGGED_REF_NAME 		= "Unplugged";
+	protected static final String SINCE_CHARGED_REF_NAME 		= "Charged";
+	protected static final String SINCE_SCREEN_OFF_REF_NAME		= "Screen Off";
+	protected static final String SINCE_BOOT_REF_NAME			= "Boot";
+
 	/** storage of custom references */
 	public String m_fileName								= "";
 	protected long m_creationTime							= 0;
@@ -107,7 +114,26 @@ public class Reference implements Serializable
     	else
     		return "No reference found";
     }
-        	
+
+    public static String getRefName(String refName)
+    {
+    	if (refName.equals(CUSTOM_REF_FILENAME))
+    		return CUSTOM_REF_NAME;
+    	else if (refName.equals(UNPLUGGED_REF_FILENAME))
+    		return SINCE_UNPLUGGED_REF_NAME;
+    	else if (refName.equals(CHARGED_REF_FILENAME))
+    		return SINCE_CHARGED_REF_NAME;
+    	else if (refName.equals(SCREEN_OFF_REF_FILENAME))
+    		return SINCE_SCREEN_OFF_REF_NAME;
+    	else if (refName.equals(BOOT_REF_FILENAME))
+    		return SINCE_BOOT_REF_NAME;
+    	else if (refName.equals(CURRENT_REF_FILENAME))
+    		return CURRENT_REF_NAME;
+
+    	else
+    		return "No reference found";
+    }
+
         	
     public String whoAmI()
     {
