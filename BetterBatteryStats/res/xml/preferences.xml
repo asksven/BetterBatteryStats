@@ -350,7 +350,13 @@
                 android:defaultValue="false"
                 android:key="developer"
                 android:summary="Enable stats while charging (at your own risk, stats may be inconsistent)"
-                android:title="Enable while charging" />            
+                android:title="Enable while charging" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="show_to_ref"
+                android:summary="Show the spinner for selecting the 'to' reference"
+                android:title="To References" />
+            
         </PreferenceScreen>
     </PreferenceCategory>
 

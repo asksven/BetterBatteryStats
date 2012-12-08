@@ -28,9 +28,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -57,7 +59,7 @@ import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 
 
-public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
+public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
 {    
 	public static String STAT 				= "STAT";
 	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
@@ -334,6 +336,16 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		///////////////////////////////////////////////
 		Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
 		
+		boolean bShowSpinner = sharedPrefs.getBoolean("show_to_ref", false);
+        if (bShowSpinner)
+        {
+        	spinnerStatSampleEnd.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+        	spinnerStatSampleEnd.setVisibility(View.GONE);
+        }
+		
 		ReferencesAdapter spinnerSampleAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
 			
 		spinnerStatSampleEnd.setAdapter(spinnerSampleAdapter);
@@ -358,7 +370,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_refFromName, m_refToName, m_iSorting);
 
-				
+        // Set up a listener whenever a key changes
+    	PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
+		
+		
 	}
     
 	/* Request updates at startup */
@@ -621,9 +637,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// id is in the order of the spinners, 0 is stat, 1 is stat_type
 		if (parent == (Spinner) findViewById(R.id.spinnerStatType))
 		{
-			// The Spinner does not show all available stats so it must be translated
-			int iNewStatType = StatsProvider.getInstance(this).statTypeFromPosition(position);
-			
 			// detect if something changed
 			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
 			if ( !m_refFromName.equals(newStat) )
@@ -759,7 +772,25 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 //    	this.setListViewAdapter();
 
 	}
-	private class WriteDumpFile extends AsyncTask
+	
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+    {
+    	if (key.equals("show_to_ref"))
+    	{
+    		Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);	
+    		boolean bShowSpinner = prefs.getBoolean("show_to_ref", false);
+            if (bShowSpinner)
+            {
+            	spinnerStatSampleEnd.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+            	spinnerStatSampleEnd.setVisibility(View.GONE);
+            }
+    	}
+    }
+
+    private class WriteDumpFile extends AsyncTask
 	{
 		@Override
 	    protected Object doInBackground(Object... params)
