@@ -312,7 +312,7 @@ public class StatsProvider
 
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
-			Alarm alarm = (Alarm) myAlarms.get(i);
+			Alarm alarm = ((Alarm) myAlarms.get(i)).clone();
 			if ((!bFilter) || ((alarm.getWakeups()) > 0))
 			{
 				if ((refFrom != null)
@@ -465,7 +465,7 @@ public class StatsProvider
 
 		for (int i = 0; i < myProcesses.size(); i++)
 		{
-			Process ps = (Process) myProcesses.get(i);
+			Process ps = ((Process) myProcesses.get(i)).clone();
 			if ((!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0))
 			{
 				// we must distinguish two situations
@@ -646,7 +646,7 @@ public class StatsProvider
 
 		for (int i = 0; i < myWakelocks.size(); i++)
 		{
-			Wakelock wl = (Wakelock) myWakelocks.get(i);
+			Wakelock wl = ((Wakelock) myWakelocks.get(i)).clone();
 			if ((!bFilter) || ((wl.getDuration() / 1000) > 0))
 			{
 				// we must distinguish two situations
@@ -850,7 +850,7 @@ public class StatsProvider
 
 		for (int i = 0; i < myKernelWakelocks.size(); i++)
 		{
-			NativeKernelWakelock wl = (NativeKernelWakelock) myKernelWakelocks.get(i);
+			NativeKernelWakelock wl = ((NativeKernelWakelock) myKernelWakelocks.get(i)).clone();
 			if ((!bFilter) || ((wl.getDuration()) > 0))
 			{
 				if ((refFrom != null) && (refFrom.m_refKernelWakelocks != null))
@@ -1039,7 +1039,7 @@ public class StatsProvider
 
 		for (int i = 0; i < myNetworkStats.size(); i++)
 		{
-			NetworkUsage netStat = (NetworkUsage) myNetworkStats.get(i);
+			NetworkUsage netStat = ((NetworkUsage) myNetworkStats.get(i)).clone();
 			if ((!bFilter) || ((netStat.getTotalBytes()) > 0))
 			{
 				if ((refFrom != null)
@@ -1205,7 +1205,7 @@ public class StatsProvider
 
 		for (int i = 0; i < myStates.size(); i++)
 		{
-			State state = (State) myStates.get(i);
+			State state = ((State) myStates.get(i)).clone();
 
 
 			if ((refFrom != null)
@@ -1416,7 +1416,7 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing Other since " + refFrom.m_fileName);
+			Log.d(TAG, "Processing Other from " + refFrom.m_fileName + " to " + refTo.m_fileName);
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -1427,7 +1427,7 @@ public class StatsProvider
 
 		for (int i = 0; i < myUsages.size(); i++)
 		{
-			Misc usage = (Misc)myUsages.get(i);
+			Misc usage = ((Misc)myUsages.get(i)).clone();
 			Log.d(TAG,
 					"Current value: " + usage.getName() + " " + usage.getData());
 			if ((!bFilter) || (usage.getTimeOn() > 0))
