@@ -69,7 +69,8 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 
     public int getPosition(String name)
     {
-        return m_listData.indexOf(name);
+    	int ret = m_listData.indexOf(name);
+        return ret;
     }
 
     public long getItemId(int position)

@@ -336,15 +336,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 		ReferencesAdapter spinnerSampleAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
 			
-		
-//		spinnerSampleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    
 		spinnerStatSampleEnd.setAdapter(spinnerSampleAdapter);
-		spinnerStatSampleEnd.setSelection(0);
+		// setSelection must be called after setAdapter
+		spinnerStatSampleEnd.setSelection(spinnerAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+
 		spinnerStatSampleEnd.setOnItemSelectedListener(this);
-		
-
-
 
 		///////////////////////////////////////////////
 		// sorting
