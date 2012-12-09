@@ -84,9 +84,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	/**
 	 * The ArrayAdpater for rendering the ListView
 	 */
-//	private ArrayAdapter<String> m_listViewAdapter;
 	private StatsAdapter m_listViewAdapter;
-	
+	private ReferencesAdapter m_spinnerFromAdapter;
+	private ReferencesAdapter m_spinnerToAdapter;
 	/**
 	 * The Type of Stat to be displayed (default is "Since charged")
 	 */
@@ -303,8 +303,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// Spinner for Selecting the Stat type
 		///////////////////////////////////////////////
 		Spinner spinnerStatType = (Spinner) findViewById(R.id.spinnerStatType);
-		ReferencesAdapter spinnerAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
-		spinnerStatType.setAdapter(spinnerAdapter);
+		m_spinnerFromAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
+		spinnerStatType.setAdapter(m_spinnerFromAdapter);
 
 		try
 		{
@@ -328,7 +328,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 					Toast.LENGTH_LONG).show();
 		}
 		// setSelection MUST be called after setAdapter
-		spinnerStatType.setSelection(spinnerAdapter.getPosition(m_refFromName));
+		spinnerStatType.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName));
 		spinnerStatType.setOnItemSelectedListener(this);
 		
 		///////////////////////////////////////////////
@@ -346,11 +346,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         	spinnerStatSampleEnd.setVisibility(View.GONE);
         }
 		
-		ReferencesAdapter spinnerSampleAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
+		m_spinnerToAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
 			
-		spinnerStatSampleEnd.setAdapter(spinnerSampleAdapter);
+		spinnerStatSampleEnd.setAdapter(m_spinnerToAdapter);
 		// setSelection must be called after setAdapter
-		spinnerStatSampleEnd.setSelection(spinnerAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+		spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
 
 		spinnerStatSampleEnd.setOnItemSelectedListener(this);
 
@@ -394,6 +394,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				this.startService(i);
 			}    				
 		}
+		m_spinnerFromAdapter.notifyDataSetChanged();
+		m_spinnerToAdapter.notifyDataSetChanged();
+
 		
 		// make sure to create a valid "current" stat
 //		StatsProvider.getInstance(this).setCurrentReference(m_iSorting);
@@ -432,24 +435,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	//StatsProvider.getInstance(this).writeToBundle(savedInstanceState);
     }
         
-	/**
-	 * In order to refresh the ListView we need to re-create the Adapter
-	 * (should be the case but notifyDataSetChanged doesn't work so
-	 * we recreate and set a new one)
-	 */
-	private void setListViewAdapter() throws Exception
-	{
-		// make sure we only instanciate when the reference does not exist
-		if (m_listViewAdapter == null)
-		{
-			m_listViewAdapter = new StatsAdapter(this, 
-					StatsProvider.getInstance(this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName));
-		
-			setListAdapter(m_listViewAdapter);
-		}
-	}
-	
-    /** 
+	/** 
      * Add menu items
      * 
      * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
@@ -623,6 +609,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         return false;  
     }    
     
+
 	/**
 	 * Take the change of selection from the spinners into account and refresh the ListView
 	 * with the right data
@@ -739,41 +726,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 	}
 
-	private void doRefresh(boolean updateCurrent)
-	{
-
-		BatteryStatsProxy.getInstance(this).invalidate();
-		new LoadStatData().execute(updateCurrent);
-
-        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-        //long sinceMs = getSince();
-        long sinceMs = StatsProvider.getInstance(this).getSince(m_refFromName, m_refToName);
-
-        if (sinceMs != -1)
-        {
-	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
-	        
-			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
-	        if (bShowBatteryLevels)
-	        {
-	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_refFromName, m_refToName);
-	        }
-	        tvSince.setText(sinceText);
-	    	Log.i(TAG, "Since " + sinceText);
-        }
-        else
-        {
-	        tvSince.setText("Since: n/a ");
-	    	Log.i(TAG, "Since: n/a ");
-        	
-        }
-    			
-//    	this.setListViewAdapter();
-
-	}
-	
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+	public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
     	if (key.equals("show_to_ref"))
     	{
@@ -790,7 +743,58 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	}
     }
 
-    private class WriteDumpFile extends AsyncTask
+    /**
+	 * In order to refresh the ListView we need to re-create the Adapter
+	 * (should be the case but notifyDataSetChanged doesn't work so
+	 * we recreate and set a new one)
+	 */
+	private void setListViewAdapter() throws Exception
+	{
+		// make sure we only instanciate when the reference does not exist
+		if (m_listViewAdapter == null)
+		{
+			m_listViewAdapter = new StatsAdapter(this, 
+					StatsProvider.getInstance(this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName));
+		
+			setListAdapter(m_listViewAdapter);
+		}
+	}
+
+	private void doRefresh(boolean updateCurrent)
+		{
+	
+			BatteryStatsProxy.getInstance(this).invalidate();
+			new LoadStatData().execute(updateCurrent);
+	
+	//        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
+	//        //long sinceMs = getSince();
+	//        long sinceMs = StatsProvider.getInstance(this).getSince(m_refFromName, m_refToName);
+	//
+	//        if (sinceMs != -1)
+	//        {
+	//	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
+	//	        
+	//			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+	//			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
+	//	        if (bShowBatteryLevels)
+	//	        {
+	//	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_refFromName, m_refToName);
+	//	        }
+	//	        tvSince.setText(sinceText);
+	//	    	Log.i(TAG, "Since " + sinceText);
+	//        }
+	//        else
+	//        {
+	//	        tvSince.setText("Since: n/a ");
+	//	    	Log.i(TAG, "Since: n/a ");
+	//        	
+	//        }
+	    			
+	//    	this.setListViewAdapter();
+	
+		}
+
+	private class WriteDumpFile extends AsyncTask
 	{
 		@Override
 	    protected Object doInBackground(Object... params)
@@ -922,6 +926,30 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    			
 	    		}
 	    	}
+	        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
+	        //long sinceMs = getSince();
+	        long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(m_refFromName, m_refToName);
+
+	        if (sinceMs != -1)
+	        {
+		        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
+		        
+				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
+				boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
+		        if (bShowBatteryLevels)
+		        {
+		        		sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(m_refFromName, m_refToName);
+		        }
+		        tvSince.setText(sinceText);
+		    	Log.i(TAG, "Since " + sinceText);
+	        }
+	        else
+	        {
+		        tvSince.setText("Since: n/a ");
+		    	Log.i(TAG, "Since: n/a ");
+	        	
+	        }
+
 	    	StatsActivity.this.setListAdapter(o);
 	    }
 //	    @Override
@@ -979,6 +1007,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			finally
 			{
 				m_progressDialog = null;
+				m_spinnerFromAdapter.notifyDataSetChanged();
+				m_spinnerToAdapter.notifyDataSetChanged();
 			}
 	    }
 //	    @Override
