@@ -44,9 +44,9 @@ public class ReferenceStore
 	 * @param ctx
 	 * @return
 	 */
-	public static ArrayList<String> getReferenceLabels(String refFileName, Context ctx)
+	public static List<String> getReferenceLabels(String refFileName, Context ctx)
 	{
-		ArrayList<String> ret = new ArrayList<String>();
+		List<String> ret = new ArrayList<String>();
 		
 		long time = 0;
 		
@@ -59,12 +59,8 @@ public class ReferenceStore
 				time = ref.m_creationTime;
 			}
 		}
-		Iterator<String> iterator = m_refStore.keySet().iterator();
-		while (iterator.hasNext())
-		{
-			String setElement = iterator.next();
-			ret.add(Reference.getRefName(setElement));
-		}
+		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		ret = db.fetchAllLabels();
 		
 		return ret;
 	}
@@ -75,9 +71,9 @@ public class ReferenceStore
 	 * @param ctx
 	 * @return
 	 */
-	public static ArrayList<String> getReferenceNames(String refFileName, Context ctx)
+	public static List<String> getReferenceNames(String refFileName, Context ctx)
 	{
-		ArrayList<String> ret = new ArrayList<String>();
+		List<String> ret = new ArrayList<String>();
 		
 		long time = 0;
 		
@@ -90,12 +86,8 @@ public class ReferenceStore
 				time = ref.m_creationTime;
 			}
 		}
-		Iterator<String> iterator = m_refStore.keySet().iterator();
-		while (iterator.hasNext())
-		{
-			String setElement = iterator.next();
-			ret.add(setElement);
-		}
+		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		ret = db.fetchAllKeys();
 		
 		return ret;
 	}
@@ -108,6 +100,8 @@ public class ReferenceStore
 	 */
 	public static Reference getReferenceByName(String refName, Context ctx)
 	{
+		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+
 		if (!refName.startsWith("ref_"))
 		{
 			Log.e(TAG, "Invalid reference name " + refName);
@@ -116,22 +110,13 @@ public class ReferenceStore
 		// the reference names are lazily loaded too
 		if (m_refStore.keySet().isEmpty())
 		{
-			deserializeFromFile(ctx);
-//			populateReferenceNames(ctx);
+			populateReferenceNames(ctx);
 		}
 		
-		if (!m_refStore.containsKey(refName))
-		{
-			// add
-			m_refStore.put(refName, null);
-		}
-
 		// we use lazy loading so we must check if there is a reference there
 		if (m_refStore.get(refName) == null)
 		{
-			ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
-			Reference thisRef = db.fetchCommandByKey(refName);
-//			Reference thisRef = (Reference) DataStorage.fileToObject(ctx, refName);
+			Reference thisRef = db.fetchReferenceByKey(refName);
 			m_refStore.put(refName, thisRef);
 		
 			if (thisRef != null)
@@ -158,7 +143,7 @@ public class ReferenceStore
 	public static synchronized void put(String refName, Reference ref, Context ctx)
 	{
 		m_refStore.put(refName, ref);
-		serializeRefToFile(ref, ctx);
+		serializeRef(ref, ctx);
 	}
 
 	/**
@@ -169,11 +154,9 @@ public class ReferenceStore
 	 */
 	public static void invalidate(String refName, Context ctx)
 	{
-		Reference myEmptyRef = new Reference(refName);
-		myEmptyRef.setEmpty();
-
 		m_refStore.put(refName, null);
-		serializeRefToFile(myEmptyRef, ctx);
+		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		db.deleteReference(refName);
 	}
 
 
@@ -205,7 +188,7 @@ public class ReferenceStore
 	 * @param refs
 	 * @param ctx
 	 */
-	private static void serializeRefToFile(Reference refs, Context ctx)
+	private static void serializeRef(Reference refs, Context ctx)
 	{
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 		db.addOrUpdateReference(refs);
@@ -217,7 +200,7 @@ public class ReferenceStore
 	 * Unmarshalls all refs from storage
 	 * @param ctx
 	 */
-	private static void deserializeFromFile(Context ctx)
+	private static void deserializeAllRef(Context ctx)
 	{
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 		
@@ -237,22 +220,6 @@ public class ReferenceStore
 				Log.i(TAG, "An error occured reading refs from the database");
 			}
 		}
-		
-//		for (int i=0; i < files.length; i++)
-//		{
-//			Reference thisRef = (Reference) DataStorage.fileToObject(ctx, files[i]);
-//			m_refStore.put(files[i], thisRef);
-//		
-//			if (thisRef != null)
-//			{
-//				Log.i(TAG, "Retrieved ref: " + thisRef.whoAmI());
-//			}
-//			else
-//			{
-//				Log.i(TAG, "Reference " + Reference.CUSTOM_REF_FILENAME
-//						+ " was not found");
-//			}
-//		}
 	}
 
 	/**
@@ -261,10 +228,11 @@ public class ReferenceStore
 	 */
 	private static void populateReferenceNames(Context ctx)
 	{
-		String[] files = Reference.FILES;
-		for (int i=0; i < files.length; i++)
+		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		List<String> refs = db.fetchAllKeys();
+		for (int i=0; i < refs.size(); i++)
 		{
-			m_refStore.put(files[i], null);		
+			m_refStore.put(refs.get(i), null);		
 		}
 	}
 	
@@ -272,44 +240,9 @@ public class ReferenceStore
 	 * Deletes (nulls) all serialized refererences
 	 * @param ctx
 	 */
-	public static void deletedSerializedRefs(Context ctx)
+	public static void deleteAllRefs(Context ctx)
 	{
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 		db.deleteReferences();
-//		Reference myEmptyRef = new Reference(Reference.CUSTOM_REF_FILENAME);
-//		myEmptyRef.setEmpty();
-//		DataStorage.objectToFile(ctx, Reference.CUSTOM_REF_FILENAME,
-//				myEmptyRef);
-//
-//		myEmptyRef = new Reference(Reference.CHARGED_REF_FILENAME);
-//		myEmptyRef.setEmpty();
-//		DataStorage.objectToFile(ctx,
-//				Reference.CHARGED_REF_FILENAME, myEmptyRef);
-//
-//		myEmptyRef = new Reference(Reference.SCREEN_OFF_REF_FILENAME);
-//		myEmptyRef.setEmpty();
-//		DataStorage.objectToFile(ctx,
-//				Reference.SCREEN_OFF_REF_FILENAME, myEmptyRef);
-//
-//		myEmptyRef = new Reference(Reference.SCREEN_ON_REF_FILENAME);
-//		myEmptyRef.setEmpty();
-//		DataStorage.objectToFile(ctx,
-//				Reference.SCREEN_ON_REF_FILENAME, myEmptyRef);
-//
-//		myEmptyRef = new Reference(Reference.UNPLUGGED_REF_FILENAME);
-//		myEmptyRef.setEmpty();
-//		DataStorage.objectToFile(ctx,
-//				Reference.UNPLUGGED_REF_FILENAME, myEmptyRef);
-//
-//		myEmptyRef = new Reference(Reference.BOOT_REF_FILENAME);
-//		myEmptyRef.setEmpty();
-//		DataStorage.objectToFile(ctx, Reference.BOOT_REF_FILENAME,
-//				myEmptyRef);
-//
-//		myEmptyRef = new Reference(Reference.CURRENT_REF_FILENAME);
-//		myEmptyRef.setEmpty();
-//		DataStorage.objectToFile(ctx, Reference.CURRENT_REF_FILENAME,
-//				myEmptyRef);
-//		
 	}
 }
