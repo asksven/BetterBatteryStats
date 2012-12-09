@@ -97,16 +97,6 @@ public class StatsProvider
 	/** the logger tag */
 	static String TAG = "StatsProvider";
 
-	/** the text when no reference is set */
-	static String NO_CUST_REF = "No custom reference was set. Please use the menu to do so";
-	static String NO_BOOT_REF = "Boot event was not registered yet, it will at next reboot";
-	static String NO_SCREEN_OFF_REF = "Screen off event was not registered yet";
-	static String NO_SINCE_UNPLUGGED_REF = "No reference since unplugged was saved yet, plug/unplug you phone";
-	static String NO_SINCE_CHARGED_REF = "No reference since charged was saved yet, it will the next time you charge to 100%";
-
-	/** the storage for references */
-//	static Map<String, Reference> m_refStore = new HashMap<String, Reference>();
-
 	/**
 	 * The constructor (hidden)
 	 */
@@ -2065,7 +2055,7 @@ public class StatsProvider
 	 */
 	public void setCustomReference(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME, Reference.TYPE_CUSTOM);
 		ReferenceStore.put(Reference.CUSTOM_REF_FILENAME, populateReference(iSort, thisRef), m_context);
 	}
 
@@ -2074,7 +2064,7 @@ public class StatsProvider
 	 */
 	public void setCurrentReference(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.CURRENT_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.CURRENT_REF_FILENAME, Reference.TYPE_CURRENT);
 		ReferenceStore.put(Reference.CURRENT_REF_FILENAME, populateReference(iSort, thisRef), m_context);
 	}
 
@@ -2084,7 +2074,7 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceScreenOff(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.SCREEN_OFF_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.SCREEN_OFF_REF_FILENAME, Reference.TYPE_EVENT);
 		ReferenceStore.put(Reference.SCREEN_OFF_REF_FILENAME, populateReference(iSort, thisRef), m_context);
 		
 		// clean "current from cache"
@@ -2097,7 +2087,7 @@ public class StatsProvider
 	 */
 	public void setReferenceScreenOn(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.SCREEN_ON_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.SCREEN_ON_REF_FILENAME, Reference.TYPE_EVENT);
 		ReferenceStore.put(Reference.SCREEN_ON_REF_FILENAME, populateReference(iSort, thisRef), m_context);
 		
 		// clean "current from cache"
@@ -2110,7 +2100,7 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceCharged(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.CHARGED_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.CHARGED_REF_FILENAME, Reference.TYPE_EVENT);
 		ReferenceStore.put(Reference.CHARGED_REF_FILENAME, populateReference(iSort, thisRef), m_context);
 		
 		// clean "current from cache"
@@ -2124,7 +2114,7 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceUnplugged(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.UNPLUGGED_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.UNPLUGGED_REF_FILENAME, Reference.TYPE_EVENT);
 		ReferenceStore.put(Reference.UNPLUGGED_REF_FILENAME, populateReference(iSort, thisRef), m_context);
 		
 		// clean "current from cache"
@@ -2137,7 +2127,7 @@ public class StatsProvider
 	 */
 	public void setReferenceSinceBoot(int iSort)
 	{
-		Reference thisRef = new Reference(Reference.BOOT_REF_FILENAME);
+		Reference thisRef = new Reference(Reference.BOOT_REF_FILENAME, Reference.TYPE_EVENT);
 		ReferenceStore.put(Reference.BOOT_REF_FILENAME, populateReference(iSort, thisRef), m_context);
 	}
 

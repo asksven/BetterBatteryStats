@@ -91,10 +91,13 @@ public class Reference implements Serializable
     	
     }
 
-    public Reference(String fileName)
+    public Reference(String fileName, int type)
     {
-    	m_fileName = fileName;
-    	m_creationTime = SystemClock.elapsedRealtime();
+    	m_fileName 		= fileName;
+    	m_creationTime 	= System.currentTimeMillis(); //SystemClock.elapsedRealtime();
+    	m_refType 		= type;
+    	m_refLabel		= getLabel(fileName);
+//    	+ " " + DateUtils.format(m_creationTime);			
     	Log.i(TAG, "Create ref " + m_fileName + " at " + DateUtils.formatDuration(m_creationTime));
     }
     
@@ -125,28 +128,6 @@ public class Reference implements Serializable
     	else
     		return "No reference found";
     }
-
-    public static String getRefName(String refName)
-    {
-    	if (refName.equals(CUSTOM_REF_FILENAME))
-    		return CUSTOM_REF_NAME;
-    	else if (refName.equals(UNPLUGGED_REF_FILENAME))
-    		return UNPLUGGED_REF_NAME;
-    	else if (refName.equals(CHARGED_REF_FILENAME))
-    		return CHARGED_REF_NAME;
-    	else if (refName.equals(SCREEN_OFF_REF_FILENAME))
-    		return SCREEN_OFF_REF_NAME;
-    	else if (refName.equals(SCREEN_ON_REF_FILENAME))
-    		return SCREEN_ON_REF_NAME;
-    	else if (refName.equals(BOOT_REF_FILENAME))
-    		return BOOT_REF_NAME;
-    	else if (refName.equals(CURRENT_REF_FILENAME))
-    		return CURRENT_REF_NAME;
-
-    	else
-    		return "No reference found";
-    }
-
         	
     public String whoAmI()
     {
@@ -174,6 +155,28 @@ public class Reference implements Serializable
         return "(" + wakelocks + "; " + kernelWakelocks + "; " + networkStats + "; " + alarms + "; "
         		+ processes + "; " + other + "; " + cpuStates + ")";
 
+    }
+
+    public static String getLabel(String refName)
+    {
+    	String ret = "";
+    	
+    	if (refName.equals(CUSTOM_REF_FILENAME))
+    		ret = CUSTOM_REF_NAME;
+    	else if (refName.equals(UNPLUGGED_REF_FILENAME))
+    		ret = UNPLUGGED_REF_NAME;
+    	else if (refName.equals(CHARGED_REF_FILENAME))
+    		ret = CHARGED_REF_NAME;
+    	else if (refName.equals(SCREEN_OFF_REF_FILENAME))
+    		ret = SCREEN_OFF_REF_NAME;
+    	else if (refName.equals(SCREEN_ON_REF_FILENAME))
+    		ret = SCREEN_ON_REF_NAME;
+    	else if (refName.equals(BOOT_REF_FILENAME))
+    		ret = BOOT_REF_NAME;
+    	else if (refName.equals(CURRENT_REF_FILENAME))
+    		ret = CURRENT_REF_NAME;
+    	
+    	return ret;
     }
 
 }
