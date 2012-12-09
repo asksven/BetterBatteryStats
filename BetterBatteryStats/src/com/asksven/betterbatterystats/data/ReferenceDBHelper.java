@@ -45,7 +45,7 @@ public class ReferenceDBHelper
 	private static final String DATABASE_NAME	= "betterbatterystats";
     private static final String TABLE_DBVERSION = "dbversion";
     private static final String TABLE_NAME 		= "samples";
-    private static final int DATABASE_VERSION 	= 1;
+    private static final int DATABASE_VERSION 	= 2;
     private static final String TAG 			= "EventDBHelper";
     private static final String[] COLS 			= new String[] {"ref_name", "ref_type", "ref_label", "time_created", "ref_blob"};
 
@@ -142,6 +142,7 @@ public class ReferenceDBHelper
     {
 		try
 		{
+			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 			db.execSQL(DBVERSION_CREATE);
 			ContentValues args = new ContentValues();
 			args.put("version", DATABASE_VERSION);
@@ -160,9 +161,7 @@ public class ReferenceDBHelper
     {
         try
         {
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
-			db.execSQL(DBVERSION_DROP);
-			db.execSQL(TABLE_DROP);
+			m_context.deleteDatabase(DATABASE_NAME);
 			
         }
         catch (SQLException e)
@@ -262,6 +261,30 @@ public class ReferenceDBHelper
 		}
 	}	
 
+	protected void deleteReference(String refName)
+	{
+		try
+		{
+			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0, null);
+			long lRes = db.delete(TABLE_NAME, "ref_name='" + refName + "'", null);
+			if (lRes == 0)
+			{
+				Log.e(TAG, "No row with key '" + refName + "' was deleted");
+			}
+		}
+		catch (SQLException e)
+		{
+			Log.d(TAG, "SQLite exception: " + e.getLocalizedMessage());
+		}
+		finally
+		{
+			if (db.isOpen())
+			{
+				db.close();
+			}
+		}
+	}	
+
 	/**
 	 * 
 	 * @return
@@ -301,7 +324,71 @@ public class ReferenceDBHelper
 	    return ret;
 	}
 
-	protected Reference fetchCommandByKey(String refName)
+	protected List<String> fetchAllKeys()
+	{
+	    ArrayList<String> ret = new ArrayList<String>();
+	    try
+	    {
+			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
+	        Cursor c;
+	        c = db.query(TABLE_NAME, new String[] {"ref_name"}, null, null, null, null, "time_created DESC");
+	        int numRows = c.getCount();
+	        c.moveToFirst();
+	        for (int i = 0; i < numRows; ++i)
+	        {
+	        	String name = c.getString(c.getColumnIndex("ref_name"));
+	            ret.add(name);
+	            c.moveToNext();
+	        }
+	        c.close();
+		}
+	    catch (SQLException e)
+		{
+			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
+		}
+	    finally 
+		{
+	    	if (db.isOpen())
+	    	{
+	    		db.close();
+	    	}
+		}
+	    return ret;
+	}
+
+	protected List<String> fetchAllLabels()
+	{
+	    ArrayList<String> ret = new ArrayList<String>();
+	    try
+	    {
+			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
+	        Cursor c;
+	        c = db.query(TABLE_NAME, new String[] {"ref_label"}, null, null, null, null, "time_created DESC");
+	        int numRows = c.getCount();
+	        c.moveToFirst();
+	        for (int i = 0; i < numRows; ++i)
+	        {
+	        	String name = c.getString(c.getColumnIndex("ref_label"));
+	            ret.add(name);
+	            c.moveToNext();
+	        }
+	        c.close();
+		}
+	    catch (SQLException e)
+		{
+			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
+		}
+	    finally 
+		{
+	    	if (db.isOpen())
+	    	{
+	    		db.close();
+	    	}
+		}
+	    return ret;
+	}
+
+	protected Reference fetchReferenceByKey(String refName)
 	{
 	    Reference myRet = null;
 	    try
