@@ -46,6 +46,10 @@ public class Reference implements Serializable
 	public static final String BOOT_REF_FILENAME				= "ref_boot";
 	public static final String CURRENT_REF_FILENAME 			= "ref_current";
 
+	public static final int TYPE_CUSTOM 	= 1;
+	public static final int TYPE_EVENT 		= 2;
+	public static final int TYPE_CURRENT 	= 3;
+	
 	
 	protected static final String[] FILES = {CUSTOM_REF_FILENAME, CURRENT_REF_FILENAME, UNPLUGGED_REF_FILENAME, CHARGED_REF_FILENAME, SCREEN_OFF_REF_FILENAME, SCREEN_ON_REF_FILENAME, BOOT_REF_FILENAME};
 
@@ -69,6 +73,8 @@ public class Reference implements Serializable
 	/** storage of custom references */
 	public String m_fileName								= "";
 	protected long m_creationTime							= 0;
+	protected int m_refType									= 0;
+	protected String m_refLabel								= "";
     protected ArrayList<StatElement> m_refWakelocks 		= null;
     protected ArrayList<StatElement> m_refKernelWakelocks 	= null;
     protected ArrayList<StatElement> m_refNetworkStats	 	= null;
