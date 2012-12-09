@@ -50,7 +50,7 @@ public class OnBootHandler extends BroadcastReceiver
  
 		Log.i(TAG, "Received Broadcast " + intent.getAction());
 		// delete whatever references we have saved here
-		ReferenceStore.deletedSerializedRefs(context);
+		ReferenceStore.deleteAllRefs(context);
 		
 		// start service to persist boot reference
 		Intent serviceIntent = new Intent(context, WriteBootReferenceService.class);
