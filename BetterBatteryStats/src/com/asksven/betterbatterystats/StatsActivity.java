@@ -394,8 +394,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				this.startService(i);
 			}    				
 		}
-		m_spinnerFromAdapter.notifyDataSetChanged();
-		m_spinnerToAdapter.notifyDataSetChanged();
+		m_spinnerFromAdapter.refresh(this);
+		m_spinnerToAdapter.refresh(this);
 
 		
 		// make sure to create a valid "current" stat
@@ -1007,8 +1007,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			finally
 			{
 				m_progressDialog = null;
-				m_spinnerFromAdapter.notifyDataSetChanged();
-				m_spinnerToAdapter.notifyDataSetChanged();
+				m_spinnerFromAdapter.refresh(StatsActivity.this);
+				m_spinnerToAdapter.refresh(StatsActivity.this);
 			}
 	    }
 //	    @Override
