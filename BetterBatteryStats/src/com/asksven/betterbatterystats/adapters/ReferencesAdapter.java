@@ -54,11 +54,19 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 	public ReferencesAdapter(Context context, int textViewResourceId)
 	{
 		super(context, textViewResourceId);
+		refresh(context);
 		m_listNames = ReferenceStore.getReferenceNames(null, context);
 		m_listLabels = ReferenceStore.getReferenceLabels(null, context);
 	}
 
 
+	public void refresh(Context context)
+	{
+		m_listNames = ReferenceStore.getReferenceNames(null, context);
+		m_listLabels = ReferenceStore.getReferenceLabels(null, context);
+		this.notifyDataSetChanged();
+	}
+	
     public int getCount()
     {
         return m_listNames.size();
