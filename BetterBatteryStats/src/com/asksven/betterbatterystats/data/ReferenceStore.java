@@ -60,7 +60,7 @@ public class ReferenceStore
 			}
 		}
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
-		ret = db.fetchAllLabels();
+		ret = db.fetchAllLabels(time);
 		
 		return ret;
 	}
@@ -87,7 +87,7 @@ public class ReferenceStore
 			}
 		}
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
-		ret = db.fetchAllKeys();
+		ret = db.fetchAllKeys(time);
 		
 		return ret;
 	}
@@ -229,7 +229,7 @@ public class ReferenceStore
 	private static void populateReferenceNames(Context ctx)
 	{
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
-		List<String> refs = db.fetchAllKeys();
+		List<String> refs = db.fetchAllKeys(0);
 		for (int i=0; i < refs.size(); i++)
 		{
 			m_refStore.put(refs.get(i), null);		

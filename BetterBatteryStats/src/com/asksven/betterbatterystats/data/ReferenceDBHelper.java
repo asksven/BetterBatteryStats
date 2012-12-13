@@ -45,7 +45,7 @@ public class ReferenceDBHelper
 	private static final String DATABASE_NAME	= "betterbatterystats";
     private static final String TABLE_DBVERSION = "dbversion";
     private static final String TABLE_NAME 		= "samples";
-    private static final int DATABASE_VERSION 	= 2;
+    private static final int DATABASE_VERSION 	= 1;
     private static final String TAG 			= "EventDBHelper";
     private static final String[] COLS 			= new String[] {"ref_name", "ref_type", "ref_label", "time_created", "ref_blob"};
 
@@ -324,20 +324,24 @@ public class ReferenceDBHelper
 	    return ret;
 	}
 
-	protected List<String> fetchAllKeys()
+	protected List<String> fetchAllKeys(long time)
 	{
 	    ArrayList<String> ret = new ArrayList<String>();
 	    try
 	    {
 			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, new String[] {"ref_name"}, null, null, null, null, "time_created DESC");
+	        c = db.query(TABLE_NAME, new String[] {"ref_name", "time_created"}, null, null, null, null, "time_created DESC");
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
 	        {
 	        	String name = c.getString(c.getColumnIndex("ref_name"));
-	            ret.add(name);
+	        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
+	        	if (timeCreated > time)
+	        	{
+	        		ret.add(name);
+	        	}
 	            c.moveToNext();
 	        }
 	        c.close();
@@ -356,20 +360,24 @@ public class ReferenceDBHelper
 	    return ret;
 	}
 
-	protected List<String> fetchAllLabels()
+	protected List<String> fetchAllLabels(long time)
 	{
 	    ArrayList<String> ret = new ArrayList<String>();
 	    try
 	    {
 			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, new String[] {"ref_label"}, null, null, null, null, "time_created DESC");
+	        c = db.query(TABLE_NAME, new String[] {"ref_label", "time_created"}, null, null, null, null, "time_created DESC");
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
 	        {
 	        	String name = c.getString(c.getColumnIndex("ref_label"));
-	            ret.add(name);
+	        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
+	        	if (timeCreated > time)
+	        	{
+	        		ret.add(name);
+	        	}
 	            c.moveToNext();
 	        }
 	        c.close();
