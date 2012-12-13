@@ -630,6 +630,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			{
 				m_refFromName = newStat;
 				bChanged = true;
+				// we need to update the second spinner
+				m_spinnerToAdapter.filter(newStat, this);
 			}
 			else
 			{
