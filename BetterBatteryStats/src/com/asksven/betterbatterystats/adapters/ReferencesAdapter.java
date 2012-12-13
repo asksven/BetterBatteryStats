@@ -67,6 +67,13 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 		this.notifyDataSetChanged();
 	}
 	
+	public void filter(String refName, Context context)
+	{
+		m_listNames = ReferenceStore.getReferenceNames(refName, context);
+		m_listLabels = ReferenceStore.getReferenceLabels(refName, context);
+		this.notifyDataSetChanged();
+		
+	}
     public int getCount()
     {
         return m_listNames.size();
