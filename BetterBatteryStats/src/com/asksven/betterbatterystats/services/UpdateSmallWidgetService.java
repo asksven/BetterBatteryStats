@@ -108,8 +108,7 @@ public class UpdateSmallWidgetService extends Service
 			try
 			{
 				
-				StatsProvider.getInstance(this).setCurrentReference(0);
-				Reference currentRef = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
+				Reference currentRef = StatsProvider.getInstance(this).getUncachedOtherReference(0);
 				Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 
 

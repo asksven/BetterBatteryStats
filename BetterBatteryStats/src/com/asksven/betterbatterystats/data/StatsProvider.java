@@ -2107,6 +2107,16 @@ public class StatsProvider
 	}
 
 	/**
+	 * Returns a n uncached current references with only "other" stats (for use in widgets)
+	 */
+	public Reference getUncachedOtherReference(int iSort)
+	{
+		Reference thisRef = new Reference(Reference.CURRENT_REF_FILENAME, Reference.TYPE_CURRENT);
+		populateOtherReference(iSort, thisRef);
+		return thisRef;
+	}
+
+	/**
 	 * Saves all data to a point in time when the screen goes off This data will
 	 * be used in a custom "since..." stat type
 	 */
@@ -2255,6 +2265,56 @@ public class StatsProvider
 		return refs;
 	}
 
+	/**
+	 * Saves a reference to cache and persists it
+	 */
+	private Reference populateOtherReference(int iSort, Reference refs)
+	{
+		
+		// we are going to retrieve a reference: make sure data does not come from the cache
+		BatteryStatsProxy.getInstance(m_context).invalidate();
+		
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+
+		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
+				"0"));
+
+		try
+		{
+			refs.m_refOther = null;
+			refs.m_refWakelocks = null;
+			refs.m_refKernelWakelocks = null;
+			refs.m_refNetworkStats = null;
+
+			refs.m_refAlarms = null;
+			refs.m_refProcesses = null;
+			refs.m_refCpuStates = null;
+
+			refs.m_refOther = getCurrentOtherUsageStatList(bFilterStats, false, false);
+
+			try
+			{
+				refs.m_refBatteryLevel = getBatteryLevel();
+				refs.m_refBatteryVoltage = getBatteryVoltage();
+			} catch (ReceiverCallNotAllowedException e)
+			{
+				Log.e("TAG", "An exception occured. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
+				refs.m_refBatteryLevel = 0;
+				refs.m_refBatteryVoltage = 0;
+			}
+		}
+		catch (Exception e)
+		{
+			Log.e("TAG", "An exception occured. Message: " + e.getMessage());
+		}
+		// update timestamp
+		refs.setTimestamp();
+
+		return refs;
+	}
 
 	/**
 	 * Returns the battery realtime since a given reference
