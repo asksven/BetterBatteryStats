@@ -245,4 +245,11 @@ public class ReferenceStore
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 		db.deleteReferences();
 	}
+	
+	public static void logReferences(Context ctx)
+	{
+		ReferenceDBHelper.getInstance(ctx).logCacheContent();
+		
+	}
 }
+
