@@ -291,7 +291,7 @@ public class ReferenceDBHelper
 	    {
 			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, COLS, null, null, null, null, "time_created DESC");
+	        c = db.query(TABLE_NAME, COLS, null, null, null, null, "time_created ASC");
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
@@ -319,6 +319,16 @@ public class ReferenceDBHelper
 	    return ret;
 	}
 
+	public void logCacheContent()
+	{
+		List<Reference> refs = fetchAllRows();
+		Log.i(TAG, "Reference store");
+		for (int i=0; i < refs.size(); i++)
+		{
+			Reference ref = refs.get(i);
+			Log.i(TAG, ref.whoAmI());
+		}
+	}
 	protected List<String> fetchAllKeys(long time)
 	{
 	    ArrayList<String> ret = new ArrayList<String>();
@@ -326,7 +336,7 @@ public class ReferenceDBHelper
 	    {
 			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, new String[] {"ref_name", "time_created"}, null, null, null, null, "time_created DESC");
+	        c = db.query(TABLE_NAME, new String[] {"ref_name", "time_created"}, null, null, null, null, "time_created ASC");
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
@@ -362,7 +372,7 @@ public class ReferenceDBHelper
 	    {
 			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, new String[] {"ref_label", "time_created"}, null, null, null, null, "time_created DESC");
+	        c = db.query(TABLE_NAME, new String[] {"ref_label", "time_created"}, null, null, null, null, "time_created ASC");
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
