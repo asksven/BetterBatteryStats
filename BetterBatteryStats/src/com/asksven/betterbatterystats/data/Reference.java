@@ -179,4 +179,9 @@ public class Reference implements Serializable
     	return ret;
     }
 
+    public String getLabel()
+    {
+    	return Reference.getLabel(m_fileName);
+    }
+
 }
