@@ -237,15 +237,10 @@ public class ReferenceDBHelper
 		try
 		{
 			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0, null);
-			long lRes = db.insert(TABLE_NAME, null, val);
+			long lRes = db.replace(TABLE_NAME, null, val);
 			if (lRes == -1)
 			{
-				// update
-				lRes = db.update(TABLE_NAME, val, "ref_name='" + entry.m_fileName + "'", null);
-				if (lRes == -1)
-				{
-					Log.e(TAG, "Error inserting row");
-				}
+				Log.e(TAG, "Error inserting or updating row");
 			}
 		}
 		catch (SQLException e)
