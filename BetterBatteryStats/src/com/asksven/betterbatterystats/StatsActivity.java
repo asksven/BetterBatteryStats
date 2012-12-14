@@ -54,6 +54,7 @@ import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceDBHelper;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
@@ -374,6 +375,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
 		
+    	// log reference store
+    	ReferenceStore.logReferences(this);
 		
 	}
     
@@ -398,8 +401,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		m_spinnerToAdapter.refresh(this);
 
 		
-		// make sure to create a valid "current" stat
-//		StatsProvider.getInstance(this).setCurrentReference(m_iSorting);
+		// make sure to create a valid "current" stat if none exists
+		if (!ReferenceStore.hasReferenceByName(Reference.CURRENT_REF_FILENAME, this))
+		{
+			StatsProvider.getInstance(this).setCurrentReference(m_iSorting);
+		}
 		
 	}
 
@@ -632,6 +638,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				bChanged = true;
 				// we need to update the second spinner
 				m_spinnerToAdapter.filter(newStat, this);
+				m_spinnerToAdapter.notifyDataSetChanged();
 			}
 			else
 			{
