@@ -254,6 +254,12 @@ public class StatsProvider
 			return myStats;
 		}
 
+		if ((refFrom == null) || (refTo == null))
+		{
+				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+			return myStats;
+		}
+
 		ArrayList<StatElement> myAlarms = null;
 //		// get the current value
 		if ((refTo != null) && (refTo.m_refAlarms != null))
@@ -409,9 +415,15 @@ public class StatsProvider
 	public ArrayList<StatElement> getProcessStatList(boolean bFilter,
 			Reference refFrom, int iSort, Reference refTo) throws Exception
 	{
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		
+		if ((refFrom == null) || (refTo == null))
+		{
+				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+			return myStats;
+		}
+
 		ArrayList<StatElement> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 
@@ -584,8 +596,12 @@ public class StatsProvider
 			Reference refFrom, int iPctType, int iSort, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		if ((refFrom == null) || (refTo == null))
+		{
+				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+			return myStats;
+		}
 
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		ArrayList<StatElement> myWakelocks = null;
 		if ((refTo != null) && (refTo.m_refWakelocks != null))
@@ -789,6 +805,12 @@ public class StatsProvider
 			throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		if ((refFrom == null) || (refTo == null))
+		{
+				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+			return myStats;
+		}
+
 		ArrayList<StatElement> myKernelWakelocks = null;
 		
 		if ((refTo != null) && (refTo.m_refKernelWakelocks != null))
@@ -969,6 +991,11 @@ public class StatsProvider
 			boolean bFilter, Reference refFrom, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		if ((refFrom == null) || (refTo == null))
+		{
+				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+			return myStats;
+		}
 
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
@@ -1157,6 +1184,11 @@ public class StatsProvider
 		ArrayList<StatElement> myStates = refTo.m_refCpuStates;
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		if ((refFrom == null) || (refTo == null))
+		{
+				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+			return myStats;
+		}
 
 		if (myStates == null)
 		{
@@ -1366,7 +1398,13 @@ public class StatsProvider
 	{
 	
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-
+		// if on of the refs is null return
+		if ((refFrom == null) || (refTo == null))
+		{
+				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+			return myStats;
+		}
+		
 		// List to store the other usages to
 		ArrayList<StatElement> myUsages = new ArrayList<StatElement>();
 
