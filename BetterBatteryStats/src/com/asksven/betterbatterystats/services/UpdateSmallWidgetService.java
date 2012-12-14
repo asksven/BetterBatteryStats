@@ -102,7 +102,7 @@ public class UpdateSmallWidgetService extends Service
 			{
 				remoteViews.setInt(R.id.stat_type, "setVisibility", View.GONE);
 			}
-			remoteViews.setTextViewText(R.id.stat_type, refFrom);
+			remoteViews.setTextViewText(R.id.stat_type, Reference.getLabel(refFrom));
 			
 
 			try

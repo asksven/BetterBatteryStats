@@ -165,7 +165,7 @@ public class UpdateLargeWidgetService extends Service
 
 
 					// Set the text
-					remoteViews.setTextViewText(R.id.stat_type, fromRef.m_fileName);
+					remoteViews.setTextViewText(R.id.stat_type, fromRef.getLabel());
 					remoteViews.setTextViewText(R.id.since, DateUtils.formatDurationShort(timeSince));
 					
 					if (showPct)
