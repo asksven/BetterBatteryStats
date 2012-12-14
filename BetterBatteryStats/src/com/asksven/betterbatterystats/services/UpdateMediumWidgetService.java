@@ -111,6 +111,7 @@ public class UpdateMediumWidgetService extends Service
 			try
 			{
 				StatsProvider.getInstance(this).setCurrentReference(0);
+				
 				Reference currentRef = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
 				Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 				
@@ -231,7 +232,14 @@ public class UpdateMediumWidgetService extends Service
 					// no stat available
 					// Set the text
 					String notAvailable = "n/a";
-					remoteViews.setTextViewText(R.id.stat_type, fromRef.m_fileName);
+					if (fromRef != null)
+					{
+						remoteViews.setTextViewText(R.id.stat_type, fromRef.m_fileName);
+					}
+					else
+					{
+						remoteViews.setTextViewText(R.id.stat_type, notAvailable);
+					}
 					remoteViews.setTextViewText(R.id.since, notAvailable);
 					remoteViews.setTextViewText(R.id.awake, notAvailable);
 					remoteViews.setTextViewText(R.id.deep_sleep, notAvailable);
