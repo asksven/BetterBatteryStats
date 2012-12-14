@@ -193,7 +193,7 @@ public class StatsProvider
 	 * @return a List of StatElements sorted (descending)
 	 * @throws BatteryInfoUnavailableException 
 	 */
-	public long getSince(String refFromName, String refToName)
+	public long getSinces(String refFromName, String refToName)
 	{
 		long ret = 0;
 
@@ -203,6 +203,31 @@ public class StatsProvider
 		if ((myReferenceTo != null) && (myReferenceFrom != null))
 		{
 			ret =  myReferenceTo.m_refBatteryRealtime - myReferenceFrom.m_refBatteryRealtime;
+			Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
+
+		}
+		else
+		{
+			ret = -1;
+		}
+
+		return ret;
+	}
+
+	/**
+	 * Return the timespan between two references
+	 * @param refFrom
+	 * @param refTo
+	 * @return
+	 */
+	public long getSince(Reference refFrom, Reference refTo)
+	{
+		long ret = 0;
+
+
+		if ((refFrom != null) && (refTo != null))
+		{
+			ret =  refTo.m_refBatteryRealtime - refFrom.m_refBatteryRealtime;
 			Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
 
 		}
@@ -1840,19 +1865,19 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public int getBatteryLevelStat(String refName)
+	public int getBatteryLevelStat(Reference myReference)
 	{
 		// deep sleep times are independent of stat type
 		int level = getBatteryLevel();
 
 		Log.d(TAG, "Current Battery Level:" + level);
-		Reference myReference = ReferenceStore.getReferenceByName(refName, m_context);
+
 		if (myReference != null)
 		{
 			level = myReference.m_refBatteryLevel - level;
 		}
 
-		Log.d(TAG, "Battery Level since " + refName + ":" + level);
+		Log.d(TAG, "Battery Level since " + myReference.getLabel() + ":" + level);
 
 		return level;
 	}
@@ -1864,7 +1889,7 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public String getBatteryLevelFromTo(String refFromName, String refToName)
+	public String getBatteryLevelFromTo(Reference refFrom, Reference refTo)
 	{
 		// deep sleep times are independent of stat type
 		long lLevelTo = getBatteryLevel();
@@ -1874,20 +1899,19 @@ public class StatsProvider
 		
 		String levelFrom = "-";
 		Log.d(TAG, "Current Battery Level:" + levelTo);
-		Reference myReference = ReferenceStore.getReferenceByName(refFromName, m_context);
 		
-		if (myReference != null)
+		if (refFrom != null)
 		{
-			lLevelFrom = myReference.m_refBatteryLevel;
+			lLevelFrom = refFrom.m_refBatteryLevel;
 			levelFrom = String.valueOf(lLevelFrom);
 		}
 
-		Log.d(TAG, "Battery Level between " + refFromName + " and " + refToName + ":" + levelFrom);
+		Log.d(TAG, "Battery Level between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + levelFrom);
 
 		String drop_per_hour = "";
 		try
 		{
-			sinceH = getSince(refFromName, refToName);
+			sinceH = getSince(refFrom, refTo);
 			// since is in ms but x 100 in order to respect proportions of formatRatio (we call it with % and it normally calculates % so there is a factor 100
 			sinceH = sinceH / 10 / 60 / 60;
 			drop_per_hour = StringUtils.formatRatio(lLevelFrom - lLevelTo, sinceH) + "/h";
@@ -1898,7 +1922,7 @@ public class StatsProvider
 			Log.e(TAG, "Error retrieving since");
 		}
 		
-		return "Bat.: " + getBatteryLevelStat(refFromName) + "% (" + levelFrom
+		return "Bat.: " + getBatteryLevelStat(refFrom) + "% (" + levelFrom
 				+ "% to " + levelTo + "%)" + " [" + drop_per_hour + "]";
 	}
 
@@ -1909,19 +1933,19 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public int getBatteryVoltageStat(String refName)
+	public int getBatteryVoltageStat(Reference myReference)
 	{
 		// deep sleep times are independent of stat type
 		int voltage = getBatteryVoltage();
 
 		Log.d(TAG, "Current Battery Voltage:" + voltage);
-		Reference myReference = ReferenceStore.getReferenceByName(refName, m_context);
+
 		if (myReference != null)
 		{
 			voltage = myReference.m_refBatteryVoltage - voltage;
 		}
 
-		Log.d(TAG, "Battery Voltage since " + refName + ":" + voltage);
+		Log.d(TAG, "Battery Voltage since " + myReference.getLabel() + ":" + voltage);
 
 		return voltage;
 	}
@@ -1933,7 +1957,7 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public String getBatteryVoltageFromTo(String refFromName, String refToName)
+	public String getBatteryVoltageFromTo(Reference refFrom, Reference refTo)
 	{
 		// deep sleep times are independent of stat type
 		int voltageTo = getBatteryVoltage();
@@ -1942,18 +1966,17 @@ public class StatsProvider
 
 
 		Log.d(TAG, "Current Battery Voltage:" + voltageTo);
-		Reference myReference = ReferenceStore.getReferenceByName(refFromName, m_context);
-		if (myReference != null)
+		if (refFrom != null)
 		{
-			voltageFrom = myReference.m_refBatteryVoltage;
+			voltageFrom = refFrom.m_refBatteryVoltage;
 		}
 
-		Log.d(TAG, "Battery Voltage between " + refFromName + " and " + refToName + ":" + voltageFrom);
+		Log.d(TAG, "Battery Voltage between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + voltageFrom);
 		
 		String drop_per_hour = "";
 		try
 		{
-			sinceH = getSince(refFromName, refToName);
+			sinceH = getSince(refFrom, refTo);
 			// since is in ms but x 100 in order to respect proportions of formatRatio (we call it with % and it normally calculates % so there is a factor 100
 			sinceH = sinceH / 10 / 60 / 60;
 			drop_per_hour = StringUtils.formatRatio(voltageFrom - voltageTo, sinceH) + "/h";
@@ -2293,6 +2316,8 @@ public class StatsProvider
 			refs.m_refCpuStates = null;
 
 			refs.m_refOther = getCurrentOtherUsageStatList(bFilterStats, false, false);
+			refs.m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+
 
 			try
 			{
@@ -2390,7 +2415,7 @@ public class StatsProvider
 	 */
 
 	@SuppressLint("NewApi")
-	public void writeDumpToFile(String refFromName, int iSort, String refToName)
+	public void writeDumpToFile(Reference refFrom, int iSort, Reference refTo)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
@@ -2398,8 +2423,6 @@ public class StatsProvider
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
 				"0"));
 
-		Reference refTo = ReferenceStore.getReferenceByName(refToName, m_context);
-		Reference refFrom = ReferenceStore.getReferenceByName(refFromName, m_context);
 
 		if (!DataStorage.isExternalStorageWritable())
 		{
@@ -2430,9 +2453,9 @@ public class StatsProvider
 				out.write("BetterBatteryStats version: " + pinfo.versionName
 						+ "\n");
 				out.write("Creation Date: " + DateUtils.now() + "\n");
-				out.write("Statistic Type: " + refFromName + "\n");
+				out.write("Statistic Type: " + refFrom.getLabel() + " to "+ refTo.getLabel() + "\n");
 				out.write("Since "
-						+ DateUtils.formatDuration(getSince(refFromName, refToName)) + "\n");
+						+ DateUtils.formatDuration(getSince(refFrom, refTo)) + "\n");
 				out.write("VERSION.RELEASE: " + Build.VERSION.RELEASE + "\n");
 				out.write("BRAND: " + Build.BRAND + "\n");
 				out.write("DEVICE: " + Build.DEVICE + "\n");
@@ -2472,11 +2495,11 @@ public class StatsProvider
 				out.write("============\n");
 				out.write("Battery Info\n");
 				out.write("============\n");
-				out.write("Level lost [%]: " + getBatteryLevelStat(refFromName)
-						+ " " + getBatteryLevelFromTo(refFromName, refToName) + "\n");
+				out.write("Level lost [%]: " + getBatteryLevelStat(refFrom)
+						+ " " + getBatteryLevelFromTo(refFrom, refTo) + "\n");
 				out.write("Voltage lost [mV]: "
-						+ getBatteryVoltageStat(refFromName) + " "
-						+ getBatteryVoltageFromTo(refFromName, refToName) + "\n");
+						+ getBatteryVoltageStat(refFrom) + " "
+						+ getBatteryVoltageFromTo(refFrom, refTo) + "\n");
 
 				// write timing info
 				boolean bDumpChapter = sharedPrefs.getBoolean("show_other",

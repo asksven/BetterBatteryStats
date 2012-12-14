@@ -266,16 +266,17 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
         if (tvSince != null)
         {
+    		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, this);
+    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, this);
 
-        	//long sinceMs = getSince();
-            long sinceMs = StatsProvider.getInstance(this).getSince(m_refFromName, m_refToName);
+            long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
             if (sinceMs != -1)
             {
     	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
     			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
     	        if (bShowBatteryLevels)
     	        {
-    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_refFromName, m_refToName);
+    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo);
     	        }
     	        tvSince.setText(sinceText);
     	    	Log.i(TAG, "Since " + sinceText);
@@ -694,9 +695,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 		}
 
+    	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, this);
+		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, this);
+
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 //        long sinceMs = getSince();
-        long sinceMs = StatsProvider.getInstance(this).getSince(m_refFromName, m_refToName);
+        long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
 
         if (sinceMs != -1)
         {
@@ -704,7 +708,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
 	        if (bShowBatteryLevels)
 	        {
-	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_refFromName, m_refToName);
+
+        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo);
 	        }
 	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + sinceText);
@@ -808,7 +813,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		@Override
 	    protected Object doInBackground(Object... params)
 	    {
-			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(m_refFromName, m_iSorting, m_refToName);
+        	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
+    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
+
+			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(myReferenceFrom, m_iSorting, myReferenceTo);
 	    	return true;
 	    }
 
@@ -936,8 +944,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    		}
 	    	}
 	        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-	        //long sinceMs = getSince();
-	        long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(m_refFromName, m_refToName);
+    		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
+    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
+
+	        long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(myReferenceFrom, myReferenceTo);
 
 	        if (sinceMs != -1)
 	        {
@@ -947,7 +957,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
 		        if (bShowBatteryLevels)
 		        {
-		        		sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(m_refFromName, m_refToName);
+		        		sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo);
 		        }
 		        tvSince.setText(sinceText);
 		    	Log.i(TAG, "Since " + sinceText);

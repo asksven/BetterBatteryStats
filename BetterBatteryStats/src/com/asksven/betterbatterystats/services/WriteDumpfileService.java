@@ -29,9 +29,11 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.Wakelock;
 
 import android.app.PendingIntent;
@@ -71,6 +73,7 @@ public class WriteDumpfileService extends Service
 		String refFrom = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_FROM);
 		String refTo = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_TO);
 		
+		
 		Log.i(TAG, "Called with extra " + refFrom + " and " + refTo);
 
 		if (!refFrom.equals("") && !refTo.equals(""))
@@ -79,7 +82,9 @@ public class WriteDumpfileService extends Service
 			{
 				Wakelock.aquireWakelock(this);
 				// restore any available references if required
-	        	StatsProvider.getInstance(this).writeDumpToFile(refFrom, 0, refTo);
+	        	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(refFrom, this);
+	    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(refTo, this);
+	        	StatsProvider.getInstance(this).writeDumpToFile(myReferenceFrom, 0, myReferenceTo);
 	
 			}
 			catch (Exception e)

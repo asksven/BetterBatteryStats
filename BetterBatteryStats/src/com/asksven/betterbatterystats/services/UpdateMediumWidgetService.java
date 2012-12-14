@@ -134,7 +134,7 @@ public class UpdateMediumWidgetService extends Service
 						timeAwake 		= 0;
 						timeScreenOn 	= 0;
 					}
-					timeSince = StatsProvider.getInstance(this).getSince(refFrom, Reference.CURRENT_REF_FILENAME);
+					timeSince = StatsProvider.getInstance(this).getSince(fromRef, currentRef);
 					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, fromRef, 0, 0, currentRef);
 					sumPWakelocks = stats.sum(pWakelockStats);
 	
