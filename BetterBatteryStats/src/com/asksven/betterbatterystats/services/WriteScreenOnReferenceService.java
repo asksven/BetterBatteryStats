@@ -76,6 +76,7 @@ public class WriteScreenOnReferenceService extends Service
 			// Store the "since screen off" ref
 			Wakelock.aquireWakelock(this);
 			StatsProvider.getInstance(this).setReferenceScreenOn(0);
+			StatsProvider.getInstance(this).setCurrentReference(0);
 			
 		}
 		catch (Exception e)

@@ -67,9 +67,9 @@ public class WriteCustomReferenceService extends Service
 		try
 		{
 			Wakelock.aquireWakelock(this);
-			// Store the "since unplugged ref
+			// Store the "custom
 			StatsProvider.getInstance(this).setCustomReference(0);
-			
+			StatsProvider.getInstance(this).setCurrentReference(0);
 			// Build the intent to call the service
 			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
 			this.sendBroadcast(intentRefreshWidgets);
