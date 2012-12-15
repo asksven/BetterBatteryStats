@@ -398,15 +398,33 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				this.startService(i);
 			}    				
 		}
-		m_spinnerFromAdapter.refresh(this);
-		m_spinnerToAdapter.refresh(this);
-
 		
 		// make sure to create a valid "current" stat if none exists
 		if (!ReferenceStore.hasReferenceByName(Reference.CURRENT_REF_FILENAME, this))
 		{
 			StatsProvider.getInstance(this).setCurrentReference(m_iSorting);
 		}
+
+		// reload the spinners to make sure all refs are in the right sequence
+		m_spinnerFromAdapter.refresh(this);
+		m_spinnerToAdapter.refresh(this);
+		// after we reloaded the spinners we need to reset the selections
+		Spinner spinnerStatTypeFrom = (Spinner) findViewById(R.id.spinnerStatType);
+		Spinner spinnerStatTypeTo = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
+		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName));
+		if (spinnerStatTypeTo.isShown())
+		{
+			spinnerStatTypeTo.setSelection(m_spinnerFromAdapter.getPosition(m_refToName));
+		}
+		else
+		{
+			spinnerStatTypeTo.setSelection(m_spinnerFromAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+		}
+		
+
+		
+
+		
 		
 	}
 
@@ -640,6 +658,18 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				// we need to update the second spinner
 				m_spinnerToAdapter.filter(newStat, this);
 				m_spinnerToAdapter.notifyDataSetChanged();
+				
+				// select the right element
+				Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
+				if (spinnerStatSampleEnd.isShown())
+				{
+					spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(m_refToName));
+				}
+				else
+				{
+					spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+				}
+
 			}
 			else
 			{
