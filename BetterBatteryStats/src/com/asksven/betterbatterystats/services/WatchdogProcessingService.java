@@ -165,6 +165,12 @@ public class WatchdogProcessingService extends Service
 						}
 					}
 				}
+				else
+				{
+					// delete screen on ref
+					ReferenceStore.invalidate(Reference.SCREEN_ON_REF_FILENAME, this);
+
+				}
 				
 			}
 			
