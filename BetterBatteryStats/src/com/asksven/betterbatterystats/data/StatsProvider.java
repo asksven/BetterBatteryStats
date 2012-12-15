@@ -139,6 +139,12 @@ public class StatsProvider
 		Reference refFrom = ReferenceStore.getReferenceByName(refFromName, m_context);
 		Reference refTo = ReferenceStore.getReferenceByName(refToName, m_context);
 		
+		if (refFrom.equals(refToName))
+		{
+			Toast.makeText(m_context, "An error occured. Both stats are identical (" + refFromName + ")", Toast.LENGTH_LONG).show();			
+
+		}
+		
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
 				"0"));
 
@@ -185,33 +191,6 @@ public class StatsProvider
 		// }
 
 		return new ArrayList<StatElement>();
-	}
-
-	/**
-	 * Get the Stat to be displayed
-	 * 
-	 * @return a List of StatElements sorted (descending)
-	 * @throws BatteryInfoUnavailableException 
-	 */
-	public long getSinces(String refFromName, String refToName)
-	{
-		long ret = 0;
-
-		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(refFromName, m_context);
-		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(refToName, m_context);
-
-		if ((myReferenceTo != null) && (myReferenceFrom != null))
-		{
-			ret =  myReferenceTo.m_refBatteryRealtime - myReferenceFrom.m_refBatteryRealtime;
-			Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
-
-		}
-		else
-		{
-			ret = -1;
-		}
-
-		return ret;
 	}
 
 	/**
@@ -2149,7 +2128,7 @@ public class StatsProvider
 		ReferenceStore.put(Reference.SCREEN_OFF_REF_FILENAME, populateReference(iSort, thisRef), m_context);
 		
 		// clean "current from cache"
-		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
+//		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
 	}
 
 	/**
@@ -2258,10 +2237,12 @@ public class StatsProvider
 			{
 				// After that we go on and try to write the rest. If this part
 				// fails at least there will be a partial ref saved
+				Log.i(TAG, "Trace: Calling root operations" + DateUtils.now());
 				refs.m_refNetworkStats = getCurrentNativeNetworkUsageStatList(bFilterStats);
 
 				refs.m_refAlarms = getCurrentAlarmsStatList(bFilterStats);
-
+				Log.i(TAG, "Trace: Finished root operations" + DateUtils.now());
+				
 			}
 		} catch (Exception e)
 		{
