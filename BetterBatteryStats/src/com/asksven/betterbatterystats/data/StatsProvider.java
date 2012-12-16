@@ -1421,34 +1421,47 @@ public class StatsProvider
 			return null;
 		}
 
-		String strCurrent = myUsages.toString();
-		String strRef = "";
-		String strRefDescr = "";
+		String strRefFrom = "";
+		String strRefTo = "";
+		String strRefFromDescr = "";
+		String strRefToDescr = "";
 
 		if (LogSettings.DEBUG)
 		{
 			if (refFrom != null)
 			{
-				strRefDescr = refFrom.whoAmI();
+				strRefFromDescr = refFrom.whoAmI();
 				if (refFrom.m_refOther != null)
 				{
-					strRef = refFrom.m_refOther.toString();
+					strRefFrom = refFrom.m_refOther.toString();
 				} else
 				{
-					strRef = "Other is null";
+					strRefFrom = "Other is null";
 				}
 
-			} else
-			{
-				strRefDescr = "Reference is null";
 			}
+			
+			if (refTo != null)
+			{
+				strRefToDescr = refTo.whoAmI();
+				if (refTo.m_refOther != null)
+				{
+					strRefTo = refTo.m_refOther.toString();
+				} else
+				{
+					strRefTo = "Other is null";
+				}
+
+			}
+
 			Log.d(TAG, "Processing Other from " + refFrom.m_fileName + " to " + refTo.m_fileName);
 
-			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "Reference from: " + strRefFromDescr);
+			Log.d(TAG, "Reference to: " + strRefToDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
 
-			Log.d(TAG, "Substracting " + strRef);
-			Log.d(TAG, "from " + strCurrent);
+			Log.d(TAG, "Substracting " + strRefFrom);
+			Log.d(TAG, "from " + strRefTo);
 		}
 
 		for (int i = 0; i < myUsages.size(); i++)
