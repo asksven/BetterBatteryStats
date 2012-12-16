@@ -24,9 +24,11 @@ import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
@@ -58,6 +60,8 @@ import com.asksven.betterbatterystats.data.ReferenceDBHelper;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
+import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
+import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
 
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
@@ -103,6 +107,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 * the selected sorting
 	 */
 	private int m_iSorting = 0;
+	
+	private BroadcastReceiver m_referenceSavedReceiver = null;
 	
 	/**
 	 * @see android.app.Activity#onCreate(Bundle@SuppressWarnings("rawtypes")
@@ -387,6 +393,27 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{
 		super.onResume();
 
+		
+		// register the broadcast receiver
+		IntentFilter intentFilter = new IntentFilter(ReferenceStore.REF_UPDATED);
+        m_referenceSavedReceiver = new BroadcastReceiver()
+        {
+            @Override
+            public void onReceive(Context context, Intent intent)
+            {
+                //extract our message from intent
+                String refName = intent.getStringExtra(Reference.EXTRA_REF_NAME);
+                //log our message value
+                Log.i("Reference was updated;", refName);
+                
+                // reload the spinners to make sure all refs are in the right sequence
+                refreshSpinners();
+            }
+        };
+        
+        //registering our receiver
+        this.registerReceiver(m_referenceSavedReceiver, intentFilter);
+        
 		// the service is always started as it handles the widget updates too
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean serviceShouldBeRunning = sharedPrefs.getBoolean("ref_for_screen_off", false);
@@ -402,25 +429,17 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// make sure to create a valid "current" stat if none exists
 		if (!ReferenceStore.hasReferenceByName(Reference.CURRENT_REF_FILENAME, this))
 		{
-			StatsProvider.getInstance(this).setCurrentReference(m_iSorting);
-		}
+			Intent serviceIntent = new Intent(this, WriteCurrentReferenceService.class);
+			this.startService(serviceIntent);
+			doRefresh(true);
 
-		// reload the spinners to make sure all refs are in the right sequence
-		m_spinnerFromAdapter.refresh(this);
-		m_spinnerToAdapter.refresh(this);
-		// after we reloaded the spinners we need to reset the selections
-		Spinner spinnerStatTypeFrom = (Spinner) findViewById(R.id.spinnerStatType);
-		Spinner spinnerStatTypeTo = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
-		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName));
-		if (spinnerStatTypeTo.isShown())
-		{
-			spinnerStatTypeTo.setSelection(m_spinnerFromAdapter.getPosition(m_refToName));
 		}
 		else
-		{
-			spinnerStatTypeTo.setSelection(m_spinnerFromAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+		{	
+			refreshSpinners();
+			doRefresh(false);
+			
 		}
-		
 
 		
 
@@ -433,6 +452,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	protected void onPause()
 	{
 		super.onPause();
+		
+		// unregister boradcast receiver for saved references
+		this.unregisterReceiver(this.m_referenceSavedReceiver);
+		
 		// make sure to dispose any running dialog
 		if (m_progressDialog != null)
 		{
@@ -787,6 +810,25 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	}
     }
 
+	private void refreshSpinners()
+	{
+		// reload the spinners to make sure all refs are in the right sequence
+		m_spinnerFromAdapter.refresh(this);
+		m_spinnerToAdapter.filter(m_refFromName, this);
+		// after we reloaded the spinners we need to reset the selections
+		Spinner spinnerStatTypeFrom = (Spinner) findViewById(R.id.spinnerStatType);
+		Spinner spinnerStatTypeTo = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
+		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName));
+		if (spinnerStatTypeTo.isShown())
+		{
+			spinnerStatTypeTo.setSelection(m_spinnerFromAdapter.getPosition(m_refToName));
+		}
+		else
+		{
+			spinnerStatTypeTo.setSelection(m_spinnerFromAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+		}
+	}
+	
     /**
 	 * In order to refresh the ListView we need to re-create the Adapter
 	 * (should be the case but notifyDataSetChanged doesn't work so
