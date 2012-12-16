@@ -31,6 +31,7 @@ import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
@@ -177,7 +178,14 @@ public class WatchdogProcessingService extends IntentService
 					ReferenceStore.invalidate(Reference.SCREEN_ON_REF_FILENAME, this);
 
 				}
+			
+				// Build the intent to update the widget
+				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+				this.sendBroadcast(intentRefreshWidgets);
 				
+				Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
+			    this.sendBroadcast(i);
+
 			}
 			
 		}
