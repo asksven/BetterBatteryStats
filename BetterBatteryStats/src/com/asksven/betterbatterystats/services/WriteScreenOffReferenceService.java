@@ -28,11 +28,15 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.Wakelock;
 
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -56,12 +60,17 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class WriteScreenOffReferenceService extends Service
+public class WriteScreenOffReferenceService extends IntentService
 {
 	private static final String TAG = "WriteScreenOffReferenceService";
 
+	public WriteScreenOffReferenceService()
+	{
+	    super("WriteScreenOffReferenceService");
+	}
+	
 	@Override
-	public void onStart(Intent intent, int startId)
+	public void onHandleIntent(Intent intent)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -86,6 +95,14 @@ public class WriteScreenOffReferenceService extends Service
 		        SharedPreferences.Editor editor = sharedPrefs.edit();
 		        editor.putLong("screen_went_off_at", now);
 		        editor.commit();
+		        
+				// Build the intent to update the widget
+				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+				this.sendBroadcast(intentRefreshWidgets);
+				
+				Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.SCREEN_OFF_REF_FILENAME);
+			    this.sendBroadcast(i);
+
 			}
 			
 		}
@@ -100,8 +117,6 @@ public class WriteScreenOffReferenceService extends Service
 
 		
 		stopSelf();
-
-		super.onStart(intent, startId);
 	}
 
 	@Override

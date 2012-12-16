@@ -28,12 +28,15 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.Wakelock;
 
+import android.app.IntentService;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -56,12 +59,17 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class WriteUnpluggedReferenceService extends Service
+public class WriteUnpluggedReferenceService extends IntentService
 {
 	private static final String TAG = "WriteUnpluggedReferenceService";
 
+	public WriteUnpluggedReferenceService()
+	{
+	    super("WriteUnpluggedReferenceService");
+	}
+	
 	@Override
-	public void onStart(Intent intent, int startId)
+	public void onHandleIntent(Intent intent)
 	{
 		Log.i(TAG, "Called at " + DateUtils.now());
 		try
@@ -98,9 +106,12 @@ public class WriteUnpluggedReferenceService extends Service
 				}
 				
 			}
-			// Build the intent to call the service
+			// Build the intent to update the widget
 			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
 			this.sendBroadcast(intentRefreshWidgets);
+			
+			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.UNPLUGGED_REF_FILENAME);
+		    this.sendBroadcast(i);
 
 		}
 		catch (Exception e)
@@ -113,8 +124,6 @@ public class WriteUnpluggedReferenceService extends Service
 		}
 		
 		stopSelf();
-
-		super.onStart(intent, startId);
 	}
 
 	@Override

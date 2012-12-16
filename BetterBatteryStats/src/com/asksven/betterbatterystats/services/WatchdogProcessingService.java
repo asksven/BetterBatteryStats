@@ -35,6 +35,7 @@ import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
 
+import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -60,12 +61,17 @@ import android.widget.Toast;
  * @author sven
  *
  */
-public class WatchdogProcessingService extends Service
+public class WatchdogProcessingService extends IntentService
 {
 	private static final String TAG = "WatchdogProcessingService";
 
+	public WatchdogProcessingService()
+	{
+	    super("WatchdogProcessingService");
+	}
+	
 	@Override
-	public void onStart(Intent intent, int startId)
+	public void onHandleIntent(Intent intent)
 	{
 		Log.i(TAG, "Called at " + DateUtils.now());
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -105,7 +111,7 @@ public class WatchdogProcessingService extends Service
 					{
 						// restore any available since screen reference
 						Reference refFrom = ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, this);
-						Reference refTo = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
+						Reference refTo = StatsProvider.getInstance(this).getUncachedOtherReference(0);
 						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, refFrom, false, false, refTo);
 
 						long timeAwake = 0;
@@ -179,11 +185,8 @@ public class WatchdogProcessingService extends Service
 		{
 			Log.e(TAG, "An error occured: " + e.getMessage());
 		}
-
 		
 		stopSelf();
-
-		super.onStart(intent, startId);
 	}
 
 	@Override

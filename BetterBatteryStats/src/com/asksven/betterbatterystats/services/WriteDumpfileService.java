@@ -36,6 +36,7 @@ import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.Wakelock;
 
+import android.app.IntentService;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -58,14 +59,19 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class WriteDumpfileService extends Service
+public class WriteDumpfileService extends IntentService
 {
 	private static final String TAG = "WriteDumpfileService";
 	public static final String STAT_TYPE_FROM = "StatTypeFrom";
 	public static final String STAT_TYPE_TO = "StatTypeTo";
 
+	public WriteDumpfileService()
+	{
+	    super("WriteDumpfileService");
+	}
+	
 	@Override
-	public void onStart(Intent intent, int startId)
+	public void onHandleIntent(Intent intent)
 	{
 		Log.i(TAG, "Called at " + DateUtils.now());
 		
@@ -103,8 +109,6 @@ public class WriteDumpfileService extends Service
 		}
 		
 		stopSelf();
-
-		super.onStart(intent, startId);
 	}
 
 	@Override

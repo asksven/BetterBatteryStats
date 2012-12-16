@@ -28,12 +28,15 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.Wakelock;
 
+import android.app.IntentService;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -56,12 +59,17 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class WriteCustomReferenceService extends Service
+public class WriteCustomReferenceService extends IntentService
 {
 	private static final String TAG = "WriteCustomReferenceService";
 
+	public WriteCustomReferenceService()
+	{
+	    super("WriteCustomReferenceService");
+	}
+	
 	@Override
-	public void onStart(Intent intent, int startId)
+	public void onHandleIntent(Intent intent)
 	{
 		Log.i(TAG, "Called at " + DateUtils.now());
 		try
@@ -70,9 +78,13 @@ public class WriteCustomReferenceService extends Service
 			// Store the "custom
 			StatsProvider.getInstance(this).setCustomReference(0);
 			StatsProvider.getInstance(this).setCurrentReference(0);
-			// Build the intent to call the service
+
+			// Build the intent to update the widget
 			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
 			this.sendBroadcast(intentRefreshWidgets);
+			
+			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CUSTOM_REF_FILENAME);
+		    this.sendBroadcast(i);
 
 		}
 		catch (Exception e)
@@ -83,11 +95,8 @@ public class WriteCustomReferenceService extends Service
 		{
 			Wakelock.releaseWakelock();
 		}
-
 		
 		stopSelf();
-
-		super.onStart(intent, startId);
 	}
 
 	@Override

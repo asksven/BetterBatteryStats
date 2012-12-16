@@ -46,6 +46,7 @@ import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.Wakelock;
 import com.google.gson.Gson;
 
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -69,16 +70,20 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class KbReaderService extends Service
+public class KbReaderService extends IntentService
 {
 	private static final String TAG = "KbReaderService";
 	private static final String URL = "http://asksven.github.com/BetterBatteryStats-Knowledge-Base/kb_v1.0.json";
     private static KbData m_kb = null;
     private static boolean m_transactional = false;
     
+	public KbReaderService()
+	{
+	    super("KbReaderService");
+	}
 
 	@Override
-	public void onStart(Intent intent, int startId)
+	public void onHandleIntent(Intent intent)
 	{
 		m_transactional = true;
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -125,7 +130,6 @@ public class KbReaderService extends Service
 		
 		stopSelf();
 		m_transactional = false;
-		super.onStart(intent, startId);
 	}
 
 	@Override

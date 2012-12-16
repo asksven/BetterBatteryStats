@@ -33,6 +33,7 @@ import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.Wakelock;
 
+import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -56,12 +57,17 @@ import android.widget.RemoteViews;
  * @author sven
  *
  */
-public class WriteBootReferenceService extends Service
+public class WriteBootReferenceService extends IntentService
 {
 	private static final String TAG = "WriteBootReferenceService";
 
+	public WriteBootReferenceService()
+	{
+	    super("WriteBootReferenceService");
+	}
+	
 	@Override
-	public void onStart(Intent intent, int startId)
+	public void onHandleIntent(Intent intent)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -87,10 +93,7 @@ public class WriteBootReferenceService extends Service
 			Wakelock.releaseWakelock();
 		}
 
-		
 		stopSelf();
-
-		super.onStart(intent, startId);
 	}
 
 	@Override
