@@ -38,6 +38,8 @@ public class Reference implements Serializable
 	
 	private transient static final String TAG = "References";
 	
+	public static final String EXTRA_REF_NAME					= "com.asksven.betterbatterystats.REF_NAME";
+	
 	public static final String CUSTOM_REF_FILENAME 				= "ref_custom";
 	public static final String UNPLUGGED_REF_FILENAME 			= "ref_unplugged";
 	public static final String CHARGED_REF_FILENAME 			= "ref_charged";

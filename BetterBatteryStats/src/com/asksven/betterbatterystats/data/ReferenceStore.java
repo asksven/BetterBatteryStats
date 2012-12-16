@@ -32,6 +32,8 @@ import android.util.Log;
  */
 public class ReferenceStore
 {
+	public static final String REF_UPDATED = "com.asksven.betterbatterystats.REF_UPDATED";
+	
 	/** the storage for references */
 	private static  Map<String, Reference> m_refStore = new HashMap<String, Reference>();
 	
