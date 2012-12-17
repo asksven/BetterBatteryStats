@@ -161,6 +161,7 @@
         <service android:name="com.asksven.betterbatterystats.services.UpdateMediumWidgetService"></service>
         <service android:name="com.asksven.betterbatterystats.services.UpdateSmallWidgetService"></service>
         <service android:name="com.asksven.betterbatterystats.services.EventWatcherService"/>
+		<service android:name="com.asksven.betterbatterystats.services.KbReaderService"/>        
         <service android:name="com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService"/>
         <service android:name="com.asksven.betterbatterystats.services.WriteCustomReferenceService"/>
         <service android:name="com.asksven.betterbatterystats.services.WriteCurrentReferenceService"/>
