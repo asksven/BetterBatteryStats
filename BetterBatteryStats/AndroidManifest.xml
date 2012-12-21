@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest 
     android:versionCode="29"
-    android:versionName="1.12.0.0B7"
+    android:versionName="1.12.0.0B8"
     android:installLocation="internalOnly"
     package="com.asksven.betterbatterystats"
     xmlns:android="http://schemas.android.com/apk/res/android">
