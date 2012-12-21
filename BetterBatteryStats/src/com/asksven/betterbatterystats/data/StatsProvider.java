@@ -139,11 +139,16 @@ public class StatsProvider
 		Reference refFrom = ReferenceStore.getReferenceByName(refFromName, m_context);
 		Reference refTo = ReferenceStore.getReferenceByName(refToName, m_context);
 		
+		if ((refFrom == null) || (refTo == null) || (refFromName == null) || (refToName == null) || (refFromName.equals("")) || (refToName.equals("")))
+		{
+			Log.e(TAG, "Reference from or to are empty: (" + refFromName + ", " + refToName +")");
+			return null;
+		}
 		if (refFrom.equals(refToName))
 		{
 			Toast.makeText(m_context, "An error occured. Both stats are identical (" + refFromName + ")", Toast.LENGTH_LONG).show();			
 
-		}
+		} 
 		
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
 				"0"));
