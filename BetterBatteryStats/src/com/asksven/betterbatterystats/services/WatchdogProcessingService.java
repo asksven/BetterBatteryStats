@@ -108,6 +108,7 @@ public class WatchdogProcessingService extends IntentService
 					Intent serviceIntent = new Intent(this, WriteScreenOnReferenceService.class);
 					this.startService(serviceIntent);
 
+
 					if (stats.hasScreenOffRef())
 					{
 						// restore any available since screen reference
@@ -182,10 +183,6 @@ public class WatchdogProcessingService extends IntentService
 				// Build the intent to update the widget
 				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
 				this.sendBroadcast(intentRefreshWidgets);
-				
-				Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
-			    this.sendBroadcast(i);
-
 			}
 			
 		}

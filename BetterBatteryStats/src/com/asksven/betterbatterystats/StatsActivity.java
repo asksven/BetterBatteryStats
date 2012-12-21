@@ -406,8 +406,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
                 //log our message value
                 Log.i("Reference was updated;", refName);
                 
-                // reload the spinners to make sure all refs are in the right sequence
-                refreshSpinners();
+                // reload the spinners to make sure all refs are in the right sequence when current gets refreshed
+                if (refName.equals(Reference.CURRENT_REF_FILENAME))
+                {
+                	refreshSpinners();
+                }
             }
         };
         

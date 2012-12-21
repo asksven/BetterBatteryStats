@@ -77,14 +77,17 @@ public class WriteCustomReferenceService extends IntentService
 			Wakelock.aquireWakelock(this);
 			// Store the "custom
 			StatsProvider.getInstance(this).setCustomReference(0);
+			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CUSTOM_REF_FILENAME);
+		    this.sendBroadcast(i);
+
 			StatsProvider.getInstance(this).setCurrentReference(0);
+			i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
+		    this.sendBroadcast(i);
 
 			// Build the intent to update the widget
 			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
 			this.sendBroadcast(intentRefreshWidgets);
 			
-			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CUSTOM_REF_FILENAME);
-		    this.sendBroadcast(i);
 
 		}
 		catch (Exception e)
