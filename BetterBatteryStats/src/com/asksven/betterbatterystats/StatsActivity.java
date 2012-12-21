@@ -161,6 +161,27 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
     	if (!strLastRelease.equals(strCurrentRelease))
     	{
+    		//////////////////////////////////////////////////////////////////////////
+    		// Migration from 1.11.x to 1.12.x : preferences for default stat types
+    		//////////////////////////////////////////////////////////////////////////
+    		if (strLastRelease.startsWith("1.11"))
+    		{
+    			// 1.12 changes the way stat type prefs are stored:
+    			// 1.11 used to have index number for constants
+    			// 1.12 has the reference name
+    			// prefs to be migrated are:
+    			// default_stat_type, small_widget_default_stat_type, widget_fallback_stat_type, large_widget_default_stat_type
+    			// all are migrated to "unplugged"
+    	        SharedPreferences.Editor editor = sharedPrefs.edit();
+    	        editor.putString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+    	        editor.putString("small_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+    	        editor.putString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+    	        editor.putString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+
+    	        editor.commit();
+    			
+    			
+    		}
     		// show the readme
 	    	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
 	    	intentReleaseNotes.putExtra("filename", "readme.html");
