@@ -110,7 +110,7 @@ public class UpdateMediumWidgetService extends Service
 			
 			try
 			{
-				Reference currentRef = StatsProvider.getInstance(this).getUncachedOtherReference(0);
+				Reference currentRef = StatsProvider.getInstance(this).getUncachedPartialReference(0);
 				Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);

@@ -113,7 +113,7 @@ public class WatchdogProcessingService extends IntentService
 					{
 						// restore any available since screen reference
 						Reference refFrom = ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, this);
-						Reference refTo = StatsProvider.getInstance(this).getUncachedOtherReference(0);
+						Reference refTo = StatsProvider.getInstance(this).getUncachedPartialReference(0);
 						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, refFrom, false, false, refTo);
 
 						long timeAwake = 0;

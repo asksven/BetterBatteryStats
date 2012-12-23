@@ -2127,12 +2127,12 @@ public class StatsProvider
 	}
 
 	/**
-	 * Returns a n uncached current references with only "other" stats (for use in widgets)
+	 * Returns a n uncached current references with only "other", "wakelocks" and "kernel wakelocks" stats (for use in widgets)
 	 */
-	public Reference getUncachedOtherReference(int iSort)
+	public Reference getUncachedPartialReference(int iSort)
 	{
 		Reference thisRef = new Reference(Reference.CURRENT_REF_FILENAME, Reference.TYPE_CURRENT);
-		populateOtherReference(iSort, thisRef);
+		partiallyPopulateReference(iSort, thisRef);
 		return thisRef;
 	}
 
@@ -2290,7 +2290,7 @@ public class StatsProvider
 	/**
 	 * Saves a reference to cache and persists it
 	 */
-	private Reference populateOtherReference(int iSort, Reference refs)
+	private Reference partiallyPopulateReference(int iSort, Reference refs)
 	{
 		
 		// we are going to retrieve a reference: make sure data does not come from the cache
@@ -2305,22 +2305,22 @@ public class StatsProvider
 
 		try
 		{
-			refs.m_refOther = null;
-			refs.m_refWakelocks = null;
-			refs.m_refKernelWakelocks = null;
-			refs.m_refNetworkStats = null;
+			refs.m_refOther 			= null;
+			refs.m_refWakelocks 		= null;
+			refs.m_refKernelWakelocks 	= null;
+			refs.m_refAlarms 			= null;
+			refs.m_refProcesses 		= null;
+			refs.m_refCpuStates 		= null;
 
-			refs.m_refAlarms = null;
-			refs.m_refProcesses = null;
-			refs.m_refCpuStates = null;
-
-			refs.m_refOther = getCurrentOtherUsageStatList(bFilterStats, false, false);
-			refs.m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+			refs.m_refKernelWakelocks 	= getCurrentNativeKernelWakelockStatList(bFilterStats, iPctType, iSort);
+			refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
+			refs.m_refOther 			= getCurrentOtherUsageStatList(bFilterStats, false, false);
+			refs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 
 
 			try
 			{
-				refs.m_refBatteryLevel = getBatteryLevel();
+				refs.m_refBatteryLevel 	= getBatteryLevel();
 				refs.m_refBatteryVoltage = getBatteryVoltage();
 			} catch (ReceiverCallNotAllowedException e)
 			{
