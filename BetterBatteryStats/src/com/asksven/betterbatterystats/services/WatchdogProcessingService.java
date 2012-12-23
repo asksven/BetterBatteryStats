@@ -105,7 +105,7 @@ public class WatchdogProcessingService extends IntentService
 					BatteryStatsProxy.getInstance(this).invalidate();
 
 					// save screen on reference
-					Intent serviceIntent = new Intent(this, WriteScreenOnReferenceService.class);
+					Intent serviceIntent = new Intent(this.getApplicationContext(), WriteScreenOnReferenceService.class);
 					this.startService(serviceIntent);
 
 
@@ -161,6 +161,7 @@ public class WatchdogProcessingService extends IntentService
 						    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 							i.putExtra(StatsActivity.STAT, 0);
 							i.putExtra(StatsActivity.STAT_TYPE_FROM, Reference.SCREEN_OFF_REF_FILENAME);
+							i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.SCREEN_ON_REF_FILENAME);
 							i.putExtra(StatsActivity.FROM_NOTIFICATION, true);
 
 					    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);

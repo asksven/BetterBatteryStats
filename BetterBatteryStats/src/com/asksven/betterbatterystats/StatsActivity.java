@@ -364,22 +364,36 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// Spinner for Selecting the end sample
 		///////////////////////////////////////////////
 		Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
+		m_spinnerToAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
 		
 		boolean bShowSpinner = sharedPrefs.getBoolean("show_to_ref", false);
         if (bShowSpinner)
         {
         	spinnerStatSampleEnd.setVisibility(View.VISIBLE);
+    		spinnerStatSampleEnd.setAdapter(m_spinnerToAdapter);
+    		// setSelection must be called after setAdapter
+    		if ((m_refToName != null) && !m_refToName.equals("") )
+    		{
+    			int pos = m_spinnerToAdapter.getPosition(m_refToName);
+    			spinnerStatSampleEnd.setSelection(pos);
+    			
+    		}
+    		else
+    		{
+    			spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+    		}
+
         }
         else
         {
         	spinnerStatSampleEnd.setVisibility(View.GONE);
+    		spinnerStatSampleEnd.setAdapter(m_spinnerToAdapter);
+    		// setSelection must be called after setAdapter
+    		spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+
         }
 		
-		m_spinnerToAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
 			
-		spinnerStatSampleEnd.setAdapter(m_spinnerToAdapter);
-		// setSelection must be called after setAdapter
-		spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
 
 		spinnerStatSampleEnd.setOnItemSelectedListener(this);
 

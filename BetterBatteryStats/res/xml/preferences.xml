@@ -300,7 +300,7 @@
                     android:summary="Threshold for warning (awake / total)"
                     android:title="Awake threshold"
                     robobunny:interval="10"
-                    robobunny:min="10"
+                    robobunny:min="0"
                     robobunny:unitsLeft=""
                     robobunny:unitsRight="%" />
                 <com.asksven.betterbatterystats.contrib.SeekBarPreference
