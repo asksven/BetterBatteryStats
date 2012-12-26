@@ -352,10 +352,15 @@
                 android:summary="Enable stats while charging (at your own risk, stats may be inconsistent)"
                 android:title="Enable while charging" />
             <CheckBoxPreference
-                android:defaultValue="false"
+                android:defaultValue="true"
                 android:key="show_to_ref"
                 android:summary="Show the spinner for selecting the 'to' reference"
                 android:title="To References" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="auto_refresh"
+                android:summary="Automaticall refresh 'current'"
+                android:title="Auto refresh" />
             
         </PreferenceScreen>
     </PreferenceCategory>

@@ -465,7 +465,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		
 		// make sure to create a valid "current" stat if none exists
-		if (!ReferenceStore.hasReferenceByName(Reference.CURRENT_REF_FILENAME, this))
+		// or if prefs re set to auto refresh
+		boolean bAutoRefresh = sharedPrefs.getBoolean("auto_refresh", true);
+
+		if ((bAutoRefresh) || (!ReferenceStore.hasReferenceByName(Reference.CURRENT_REF_FILENAME, this)))
 		{
 			Intent serviceIntent = new Intent(this, WriteCurrentReferenceService.class);
 			this.startService(serviceIntent);
@@ -888,34 +891,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 	
 			BatteryStatsProxy.getInstance(this).invalidate();
-			new LoadStatData().execute(updateCurrent);
-	
-	//        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-	//        //long sinceMs = getSince();
-	//        long sinceMs = StatsProvider.getInstance(this).getSince(m_refFromName, m_refToName);
-	//
-	//        if (sinceMs != -1)
-	//        {
-	//	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
-	//	        
-	//			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-	//			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
-	//	        if (bShowBatteryLevels)
-	//	        {
-	//	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(m_refFromName, m_refToName);
-	//	        }
-	//	        tvSince.setText(sinceText);
-	//	    	Log.i(TAG, "Since " + sinceText);
-	//        }
-	//        else
-	//        {
-	//	        tvSince.setText("Since: n/a ");
-	//	    	Log.i(TAG, "Since: n/a ");
-	//        	
-	//        }
-	    			
-	//    	this.setListViewAdapter();
-	
+			new LoadStatData().execute(updateCurrent);	
 		}
 
 	private class WriteDumpFile extends AsyncTask
