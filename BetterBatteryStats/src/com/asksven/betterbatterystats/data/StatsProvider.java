@@ -56,6 +56,7 @@ import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.RootDetection;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
+import com.asksven.android.common.kernelutils.WakeupSources;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -939,7 +940,16 @@ public class StatsProvider
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<StatElement> myKernelWakelocks = null;
 		
-		myKernelWakelocks = Wakelocks.parseProcWakelocks(m_context);
+		// we must support both "old" (/proc/wakelocks) and "new formats
+		if (Wakelocks.fileExists())
+		{
+			myKernelWakelocks = Wakelocks.parseProcWakelocks(m_context);	
+		}
+		else
+		{
+			myKernelWakelocks = WakeupSources.parseWakeupSources(m_context);
+		}
+		
 		
 		ArrayList<NativeKernelWakelock> myRetKernelWakelocks = new ArrayList<NativeKernelWakelock>();
 		// if we are using custom ref. always retrieve "stats current"
