@@ -177,7 +177,7 @@ public class StatsProvider
 		case 4:
 			return getNativeNetworkUsageStatList(bFilterStats, refFrom, refTo);
 		case 5:
-			return getCpuStateList(refFrom, refTo);
+			return getCpuStateList(refFrom, refTo, bFilterStats);
 		case 6:
 			return getProcessStatList(bFilterStats, refFrom, iSort, refTo);
 
@@ -1195,7 +1195,7 @@ public class StatsProvider
 	 * @throws Exception
 	 *             if the API call failed
 	 */
-	public ArrayList<StatElement> getCpuStateList(Reference refFrom, Reference refTo)
+	public ArrayList<StatElement> getCpuStateList(Reference refFrom, Reference refTo, boolean bFilter)
 			throws Exception
 
 	{
@@ -1231,9 +1231,6 @@ public class StatsProvider
 					strRef = "CPU States is null";
 				}
 
-			} else
-			{
-				strRefDescr = "Reference is null";
 			}
 			Log.d(TAG, "Processing CPU States from " + refFrom.m_fileName + " to " + refTo.m_fileName);
 
@@ -1253,7 +1250,10 @@ public class StatsProvider
 					&& (refFrom.m_refCpuStates != null))
 			{
 				state.substractFromRef(refFrom.m_refCpuStates);
-				myStats.add(state);
+				if ((!bFilter) || ((state.m_duration) > 0))
+				{
+					myStats.add(state);
+				}
 			} else
 			{
 				myStats.clear();
@@ -1264,7 +1264,7 @@ public class StatsProvider
 
 	}
 
-	public ArrayList<StatElement> getCurrentCpuStateList()
+	public ArrayList<StatElement> getCurrentCpuStateList(boolean bFilter)
 			throws Exception
 
 	{
@@ -1286,8 +1286,10 @@ public class StatsProvider
 		for (int i = 0; i < myStates.size(); i++)
 		{
 			State state = myStates.get(i);
-
-			myStats.add(state);
+			if ((!bFilter) || ((state.m_duration) > 0))
+			{
+				myStats.add(state);
+			}
 		}
 		return myStats;
 
@@ -2240,7 +2242,7 @@ public class StatsProvider
 			refs.m_refWakelocks = getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
 
 			refs.m_refOther = getCurrentOtherUsageStatList(bFilterStats, false, false);
-			refs.m_refCpuStates = getCurrentCpuStateList();
+			refs.m_refCpuStates = getCurrentCpuStateList(bFilterStats);
 
 			refs.m_refProcesses = getCurrentProcessStatList(bFilterStats, iSort);
 
@@ -2598,7 +2600,7 @@ public class StatsProvider
 					out.write("==========\n");
 					out.write("CPU States\n");
 					out.write("==========\n");
-					dumpList(getCpuStateList(refFrom, refTo), out);
+					dumpList(getCpuStateList(refFrom, refTo, bFilterStats), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_serv", false);
