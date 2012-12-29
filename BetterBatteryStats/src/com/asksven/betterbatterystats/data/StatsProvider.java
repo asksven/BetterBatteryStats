@@ -2541,22 +2541,24 @@ public class StatsProvider
 				bDumpChapter = sharedPrefs.getBoolean("show_kwl", true);
 				if (bDumpChapter)
 				{
+					String addendum = "";
 					if (Wakelocks.isDiscreteKwlPatch())
 					{
-						// write kernel wakelock info
-						out.write("===================================\n");
-						out.write("Kernel Wakelocks (!!! discrete !!!)\n");
-						out.write("===================================\n");
-					} else
-					{
-						// write kernel wakelock info
-						out.write("================\n");
-						out.write("Kernel Wakelocks\n");
-						out.write("================\n");
+						addendum = "!!! Discrete !!!";
 					}
+					if (!Wakelocks.fileExists())
+					{
+						addendum = " !!! wakeup_sources !!!";
+					}
+
+					// write kernel wakelock info
+					out.write("================\n");
+					out.write("Kernel Wakelocks " + addendum + "\n");
+					out.write("================\n");
+
 					dumpList(
-							getNativeKernelWakelockStatList(bFilterStats,
-									refFrom, iPctType, iSort, refTo), out);
+						getNativeKernelWakelockStatList(bFilterStats,
+								refFrom, iPctType, iSort, refTo), out);
 				}
 
 				bDumpChapter = sharedPrefs.getBoolean("show_proc", false);
