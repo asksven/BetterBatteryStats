@@ -8,19 +8,19 @@
 	<Spinner
 	    android:id="@+id/spinnerStat"
 	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
+	    android:layout_height="55dp"
 	    android:drawSelectorOnTop="true"
 	    android:minHeight="50dp" />
 	
 	<Spinner android:id="@+id/spinnerStatType"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="55dp"
 		android:drawSelectorOnTop="true"
 		android:minHeight="50dp"/>
 
 	<Spinner android:id="@+id/spinnerStatSampleEnd"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="55dp"
 		android:drawSelectorOnTop="true"
 		android:minHeight="50dp"/>
 	

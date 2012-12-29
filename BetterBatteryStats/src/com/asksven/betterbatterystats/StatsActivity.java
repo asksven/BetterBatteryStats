@@ -332,7 +332,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// Spinner for Selecting the Stat type
 		///////////////////////////////////////////////
 		Spinner spinnerStatType = (Spinner) findViewById(R.id.spinnerStatType);
-		m_spinnerFromAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
+		m_spinnerFromAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_item);
+		m_spinnerFromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerStatType.setAdapter(m_spinnerFromAdapter);
 
 		try
@@ -364,7 +365,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// Spinner for Selecting the end sample
 		///////////////////////////////////////////////
 		Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
-		m_spinnerToAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_dropdown_item);
+		m_spinnerToAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_item);
+		m_spinnerToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
 		
 		boolean bShowSpinner = sharedPrefs.getBoolean("show_to_ref", false);
         if (bShowSpinner)
