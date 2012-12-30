@@ -30,7 +30,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 
-import com.asksven.andoid.common.CommonLogSettings;
+import com.asksven.android.common.CommonLogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;

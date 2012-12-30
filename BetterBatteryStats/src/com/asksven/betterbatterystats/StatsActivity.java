@@ -46,7 +46,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.asksven.andoid.common.CommonLogSettings;
+
+import com.asksven.android.common.AppRater;
+import com.asksven.android.common.CommonLogSettings;
+import com.asksven.android.common.ReadmeActivity;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
@@ -227,6 +230,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	            // show it
 	            alertbox.show();
 	
+			}
+			else
+			{
+		    	// show "rate" dialog
+		    	// for testing: 
+				AppRater.showRateDialog(this, null);
+		    	//AppRater.app_launched(this);
+
 			}
     	}
     	

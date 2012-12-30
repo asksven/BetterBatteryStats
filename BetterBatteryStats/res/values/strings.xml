@@ -7,4 +7,10 @@
     <string name="message_hint_sinceref">Dump Since last Reference</string>
     <string name="message_hint_stat_type">Stat Type</string>
     <string name="app_name">BetterBatteryStats</string>
+    <string name="app_pname">com.asksven.betterbatterystats</string>
+    <string name="label_button_remind">Remind me later</string>
+    <string name="label_button_rate">Rate</string>
+    <string name="label_button_no">No, thanks</string>
+    <string name="text_dialog_rate">If you enjoy using %s, please take a moment to rate it. Thanks for your support!</string>
+    
 </resources>

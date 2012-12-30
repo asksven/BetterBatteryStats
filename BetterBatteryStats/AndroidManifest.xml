@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest 
     android:versionCode="29"
-    android:versionName="1.12.0.0RC3"
+    android:versionName="1.12.0.0RC4"
     android:installLocation="internalOnly"
     package="com.asksven.betterbatterystats"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -49,7 +49,7 @@
         <activity android:name="com.asksven.betterbatterystats.AboutActivity" android:theme="@style/Theme.asksven"/>
         <activity android:name="com.asksven.betterbatterystats.PreferencesActivity" android:theme="@style/Theme.asksven"/>
         <activity android:name="com.asksven.betterbatterystats.HelpActivity" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.ReadmeActivity" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.android.common.ReadmeActivity" android:theme="@style/Theme.asksven"/>
         <activity android:name="com.asksven.betterbatterystats.HistActivity"
             android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
         <activity android:name="com.asksven.betterbatterystats.AlarmsActivity"
