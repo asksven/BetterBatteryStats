@@ -33,6 +33,7 @@ import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
 
@@ -66,7 +67,10 @@ public class UpdateLargeWidgetService extends Service
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
-		Log.d(TAG, "Service started");
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Service started");
+		}
 		// Create some random data
 
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this
@@ -79,8 +83,11 @@ public class UpdateLargeWidgetService extends Service
 		
 		int[] allWidgetIds2 = appWidgetManager.getAppWidgetIds(thisWidget);
 		
-		Log.w(TAG, "From Intent" + String.valueOf(allWidgetIds.length));
-		Log.w(TAG, "Direct" + String.valueOf(allWidgetIds2.length));
+		if (LogSettings.DEBUG)
+		{
+			Log.w(TAG, "From Intent" + String.valueOf(allWidgetIds.length));
+			Log.w(TAG, "Direct" + String.valueOf(allWidgetIds2.length));
+		}
 
 		StatsProvider stats = StatsProvider.getInstance(this);
 		// make sure to flush cache
@@ -270,12 +277,14 @@ public class UpdateLargeWidgetService extends Service
 			}
 			finally
 			{
-				Log.d(TAG, "Since: " + DateUtils.formatDurationShort(timeSince));
-				Log.d(TAG, "Awake: " + DateUtils.formatDurationShort(timeAwake));
-				Log.d(TAG, "Screen on: " + DateUtils.formatDurationShort(timeScreenOn));
-				Log.d(TAG, "P. Wl.: " + DateUtils.formatDurationShort(sumPWakelocks));
-				Log.d(TAG, "K. Wl.: " + DateUtils.formatDurationShort(sumKWakelocks));
-
+				if (LogSettings.DEBUG)
+				{
+					Log.d(TAG, "Since: " + DateUtils.formatDurationShort(timeSince));
+					Log.d(TAG, "Awake: " + DateUtils.formatDurationShort(timeAwake));
+					Log.d(TAG, "Screen on: " + DateUtils.formatDurationShort(timeScreenOn));
+					Log.d(TAG, "P. Wl.: " + DateUtils.formatDurationShort(sumPWakelocks));
+					Log.d(TAG, "K. Wl.: " + DateUtils.formatDurationShort(sumKWakelocks));
+				}
 				// Register an onClickListener for the graph -> refresh
 				Intent clickIntent = new Intent(this.getApplicationContext(),
 						LargeWidgetProvider.class);

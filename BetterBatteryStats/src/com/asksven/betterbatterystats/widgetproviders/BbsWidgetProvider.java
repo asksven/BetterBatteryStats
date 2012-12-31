@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -65,13 +66,19 @@ public class BbsWidgetProvider extends AppWidgetProvider
 		alarmManager.cancel(pendingIntent);
 		if (freqMinutes != 0)
 		{
-			Log.i(TAG, "It is now " + DateUtils.now() + ", Scheduling alarm in " + freqMinutes + " minutes");
+			if (LogSettings.DEBUG)
+			{
+				Log.i(TAG, "It is now " + DateUtils.now() + ", Scheduling alarm in " + freqMinutes + " minutes");
+			}
 			alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
 					pendingIntent);
 		}
 		else
 		{
-			Log.i(TAG, "No alarm scheduled, freq is 0");
+			if (LogSettings.DEBUG)
+			{
+				Log.i(TAG, "No alarm scheduled, freq is 0");
+			}
 		}
 		
 	}
@@ -92,7 +99,10 @@ public class BbsWidgetProvider extends AppWidgetProvider
 		// Get all ids
 		ComponentName thisWidget = new ComponentName(context, callerClass);
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-		Log.i(TAG, "Starting Widget Service " + serviceClass.getName());
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "Starting Widget Service " + serviceClass.getName());
+		}
 		// Build the intent to call the service
 		Intent intent = new Intent(context.getApplicationContext(), serviceClass);
 		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);

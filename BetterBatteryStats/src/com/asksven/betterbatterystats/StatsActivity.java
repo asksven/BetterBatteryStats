@@ -234,9 +234,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			else
 			{
 		    	// show "rate" dialog
-		    	// for testing: 
-				AppRater.showRateDialog(this, null);
-		    	//AppRater.app_launched(this);
+		    	// for testing: AppRater.showRateDialog(this, null);
+		    	AppRater.app_launched(this);
 
 			}
     	}

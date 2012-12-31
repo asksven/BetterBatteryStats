@@ -23,6 +23,7 @@ import android.util.Log;
 
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.services.UpdateLargeWidgetService;
 
@@ -39,7 +40,10 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
 
-		Log.i(TAG, "onUpdate method called, starting service and setting alarm");
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "onUpdate method called, starting service and setting alarm");
+		}
 
 		// Update the widgets via the service
 		startService(context, this.getClass(), appWidgetManager, UpdateLargeWidgetService.class);
@@ -55,7 +59,10 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 	{
 		super.onReceive(context, intent);
 
-		Log.i(TAG, "onReceive method called, action = '" + intent.getAction() + "' at " + DateUtils.now());
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "onReceive method called, action = '" + intent.getAction() + "' at " + DateUtils.now());
+		}
 		
 		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") ||
@@ -65,7 +72,10 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 		{
 			if (LargeWidgetProvider.WIDGET_UPDATE.equals(intent.getAction()))
 			{
-				Log.d(TAG, "Alarm called: updating");
+				if (LogSettings.DEBUG)
+				{
+					Log.d(TAG, "Alarm called: updating");
+				}
 //				GenericLogger.i(WIDGET_LOG, TAG, "LargeWidgetProvider: Alarm to refresh widget was called");
 			}
 			else
@@ -87,7 +97,10 @@ public class LargeWidgetProvider extends BbsWidgetProvider
 			}
 			else
 			{
-				Log.i(TAG, "No widget found to update");
+				if (LogSettings.DEBUG)
+				{
+					Log.i(TAG, "No widget found to update");
+				}
 			}
 		}
 	}

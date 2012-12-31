@@ -23,6 +23,7 @@ import android.util.Log;
 
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.services.UpdateMediumWidgetService;
 
@@ -38,8 +39,10 @@ public class MediumWidgetProvider extends BbsWidgetProvider
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
-
-		Log.i(TAG, "onUpdate method called, starting service and setting alarm");
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "onUpdate method called, starting service and setting alarm");
+		}
 
 		// Update the widgets via the service
 		startService(context, this.getClass(), appWidgetManager, UpdateMediumWidgetService.class);
@@ -54,22 +57,28 @@ public class MediumWidgetProvider extends BbsWidgetProvider
 	{
 		super.onReceive(context, intent);
 
-		Log.i(TAG, "onReceive method called, action = '" + intent.getAction() + "' at " + DateUtils.now());
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "onReceive method called, action = '" + intent.getAction() + "' at " + DateUtils.now());
+		}
+		
 		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") ||
 				intent.getAction().equals("com.sec.android.widgetapp.APPWIDGET_RESIZE") ||
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE_OPTIONS")
 				)
 		{
-			if (WIDGET_UPDATE.equals(intent.getAction()))
+			if (LogSettings.DEBUG)
 			{
-				Log.d(TAG, "Alarm called: updating");
+				if (WIDGET_UPDATE.equals(intent.getAction()))
+				{
+					Log.d(TAG, "Alarm called: updating");
+				}
+				else
+				{
+					Log.d(TAG, "APPWIDGET_UPDATE called: updating");
+				}
 			}
-			else
-			{
-				Log.d(TAG, "APPWIDGET_UPDATE called: updating");
-			}
-
 			AppWidgetManager appWidgetManager = AppWidgetManager
 					.getInstance(context);
 			ComponentName thisAppWidget = new ComponentName(
@@ -83,7 +92,10 @@ public class MediumWidgetProvider extends BbsWidgetProvider
 			}
 			else
 			{
-				Log.i(TAG, "No widget found to update");
+				if (LogSettings.DEBUG)
+				{	
+					Log.i(TAG, "No widget found to update");
+				}
 			}
 		}
 	}

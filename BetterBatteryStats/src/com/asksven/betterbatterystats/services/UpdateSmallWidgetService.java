@@ -33,6 +33,7 @@ import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgetproviders.SmallWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.widgets.WidgetBattery;
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
 
@@ -66,7 +67,10 @@ public class UpdateSmallWidgetService extends Service
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
-		Log.d(TAG, "Service started");
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Service started");
+		}
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this
 				.getApplicationContext());
 
@@ -166,10 +170,12 @@ public class UpdateSmallWidgetService extends Service
 			}
 			finally
 			{
-				Log.d(TAG, "Awake: " + DateUtils.formatDuration(timeAwake));
-				Log.d(TAG, "Screen on: " + DateUtils.formatDuration(timeScreenOn));
-				Log.d(TAG, "Deep sleep: " + DateUtils.formatDuration(timeDeepSleep));
-
+				if (LogSettings.DEBUG)
+				{
+					Log.d(TAG, "Awake: " + DateUtils.formatDuration(timeAwake));
+					Log.d(TAG, "Screen on: " + DateUtils.formatDuration(timeScreenOn));
+					Log.d(TAG, "Deep sleep: " + DateUtils.formatDuration(timeDeepSleep));
+				}
 				WidgetBattery graph = new WidgetBattery();
 				graph.setAwake(timeAwake);
 				graph.setScreenOn(timeScreenOn);

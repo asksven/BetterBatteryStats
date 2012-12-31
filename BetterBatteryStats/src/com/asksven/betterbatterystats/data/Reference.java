@@ -25,6 +25,7 @@ import android.util.Log;
 
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.betterbatterystats.LogSettings;
 
 /**
  * A serializable value holder for stat references 
@@ -99,8 +100,11 @@ public class Reference implements Serializable
     	m_creationTime 	= System.currentTimeMillis(); //SystemClock.elapsedRealtime();
     	m_refType 		= type;
     	m_refLabel		= getLabel(fileName);
-//    	+ " " + DateUtils.format(m_creationTime);			
-    	Log.i(TAG, "Create ref " + m_fileName + " at " + DateUtils.formatDuration(m_creationTime));
+//    	+ " " + DateUtils.format(m_creationTime);		
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "Create ref " + m_fileName + " at " + DateUtils.formatDuration(m_creationTime));
+		}
     }
     
     public void setEmpty()

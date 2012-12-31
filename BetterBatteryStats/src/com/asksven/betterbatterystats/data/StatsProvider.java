@@ -213,7 +213,10 @@ public class StatsProvider
 		if ((refFrom != null) && (refTo != null))
 		{
 			ret =  refTo.m_refBatteryRealtime - refFrom.m_refBatteryRealtime;
-			Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
+			if (LogSettings.DEBUG)
+			{
+				Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
+			}
 
 		}
 		else
@@ -1484,8 +1487,10 @@ public class StatsProvider
 		for (int i = 0; i < myUsages.size(); i++)
 		{
 			Misc usage = ((Misc)myUsages.get(i)).clone();
-			Log.d(TAG,
-					"Current value: " + usage.getName() + " " + usage.getData());
+			if (LogSettings.DEBUG)
+			{
+				Log.d(TAG, "Current value: " + usage.getName() + " " + usage.getData());
+			}
 			if ((!bFilter) || (usage.getTimeOn() > 0))
 			{
 				if ((refFrom != null)
@@ -1494,8 +1499,10 @@ public class StatsProvider
 					usage.substractFromRef(refFrom.m_refOther);
 					if ((!bFilter) || (usage.getTimeOn() > 0))
 					{
-						Log.d(TAG, "Result value: " + usage.getName() + " "
-								+ usage.getData());
+						if (LogSettings.DEBUG)
+						{
+							Log.d(TAG, "Result value: " + usage.getName() + " "	+ usage.getData());
+						}
 						myStats.add((StatElement) usage);
 					}
 				}
@@ -1857,8 +1864,10 @@ public class StatsProvider
 		for (int i = 0; i < myUsages.size(); i++)
 		{
 			Misc usage = (Misc)myUsages.get(i);
-			Log.d(TAG,
-					"Current value: " + usage.getName() + " " + usage.getData());
+			if (LogSettings.DEBUG)
+			{
+				Log.d(TAG,	"Current value: " + usage.getName() + " " + usage.getData());
+			}
 			if ((!bFilter) || (usage.getTimeOn() > 0))
 			{
 				myStats.add((StatElement) usage);
@@ -1879,14 +1888,17 @@ public class StatsProvider
 		// deep sleep times are independent of stat type
 		int level = getBatteryLevel();
 
-		Log.d(TAG, "Current Battery Level:" + level);
 
 		if (myReference != null)
 		{
 			level = myReference.m_refBatteryLevel - level;
 		}
-
-		Log.d(TAG, "Battery Level since " + myReference.getLabel() + ":" + level);
+		
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Current Battery Level:" + level);
+			Log.d(TAG, "Battery Level since " + myReference.getLabel() + ":" + level);
+		}
 
 		return level;
 	}
@@ -1907,7 +1919,6 @@ public class StatsProvider
 		String levelTo = String.valueOf(lLevelTo);
 		
 		String levelFrom = "-";
-		Log.d(TAG, "Current Battery Level:" + levelTo);
 		
 		if (refFrom != null)
 		{
@@ -1915,8 +1926,12 @@ public class StatsProvider
 			levelFrom = String.valueOf(lLevelFrom);
 		}
 
-		Log.d(TAG, "Battery Level between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + levelFrom);
-
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Current Battery Level:" + levelTo);
+			Log.d(TAG, "Battery Level between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + levelFrom);
+		}
+		
 		String drop_per_hour = "";
 		try
 		{
@@ -1947,14 +1962,16 @@ public class StatsProvider
 		// deep sleep times are independent of stat type
 		int voltage = getBatteryVoltage();
 
-		Log.d(TAG, "Current Battery Voltage:" + voltage);
-
 		if (myReference != null)
 		{
 			voltage = myReference.m_refBatteryVoltage - voltage;
 		}
 
-		Log.d(TAG, "Battery Voltage since " + myReference.getLabel() + ":" + voltage);
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Current Battery Voltage:" + voltage);
+			Log.d(TAG, "Battery Voltage since " + myReference.getLabel() + ":" + voltage);
+		}
 
 		return voltage;
 	}
@@ -1974,13 +1991,16 @@ public class StatsProvider
 		long sinceH = -1;
 
 
-		Log.d(TAG, "Current Battery Voltage:" + voltageTo);
 		if (refFrom != null)
 		{
 			voltageFrom = refFrom.m_refBatteryVoltage;
 		}
 
-		Log.d(TAG, "Battery Voltage between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + voltageFrom);
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Current Battery Voltage:" + voltageTo);
+			Log.d(TAG, "Battery Voltage between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + voltageFrom);
+		}
 		
 		String drop_per_hour = "";
 		try
@@ -2254,7 +2274,7 @@ public class StatsProvider
 				refs.m_refBatteryVoltage = getBatteryVoltage();
 			} catch (ReceiverCallNotAllowedException e)
 			{
-				Log.e("TAG", "An exception occured. Message: " + e.getMessage());
+				Log.e(TAG, "An exception occured. Message: " + e.getMessage());
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
 				refs.m_refBatteryLevel = 0;
 				refs.m_refBatteryVoltage = 0;
@@ -2276,7 +2296,7 @@ public class StatsProvider
 			}
 		} catch (Exception e)
 		{
-			Log.e("TAG", "An exception occured. Message: " + e.getMessage());
+			Log.e(TAG, "An exception occured. Message: " + e.getMessage());
 			// Log.e(TAG, "Callstack", e.fillInStackTrace());
 			Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
 
@@ -2336,7 +2356,7 @@ public class StatsProvider
 				refs.m_refBatteryVoltage = getBatteryVoltage();
 			} catch (ReceiverCallNotAllowedException e)
 			{
-				Log.e("TAG", "An exception occured. Message: " + e.getMessage());
+				Log.e(TAG, "An exception occured. Message: " + e.getMessage());
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
 				refs.m_refBatteryLevel = 0;
 				refs.m_refBatteryVoltage = 0;
@@ -2344,7 +2364,7 @@ public class StatsProvider
 		}
 		catch (Exception e)
 		{
-			Log.e("TAG", "An exception occured. Message: " + e.getMessage());
+			Log.e(TAG, "An exception occured. Message: " + e.getMessage());
 		}
 		// update timestamp
 		refs.setTimestamp();

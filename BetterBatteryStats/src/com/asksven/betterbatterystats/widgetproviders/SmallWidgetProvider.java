@@ -23,6 +23,7 @@ import android.util.Log;
 
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.services.UpdateSmallWidgetService;
 
@@ -39,7 +40,10 @@ public class SmallWidgetProvider extends BbsWidgetProvider
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
 
-		Log.i(TAG, "onUpdate method called, starting service and setting alarm");
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "onUpdate method called, starting service and setting alarm");
+		}
 
 		// Update the widgets via the service
 		startService(context, this.getClass(), appWidgetManager, UpdateSmallWidgetService.class);
@@ -62,20 +66,21 @@ public class SmallWidgetProvider extends BbsWidgetProvider
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE_OPTIONS")
 				)
 		{
-			if (WIDGET_UPDATE.equals(intent.getAction()))
+			if (LogSettings.DEBUG)
 			{
-				Log.d(TAG, "Alarm called: updating");
-			}
-			else if (LargeWidgetProvider.WIDGET_PREFS_REFRESH.equals(intent.getAction()))
-			{
-				Log.d(TAG, "WIDGET_PREFS_REFRESH called: updating");
-//				GenericLogger.i(LargeWidgetProvider.WIDGET_LOG, TAG, "SmallWidgetProvider: Alarm to refresh widget was called");
-			}
-			else
-			{
-				Log.d(TAG, "APPWIDGET_UPDATE called: updating");
-			}
-				
+				if (WIDGET_UPDATE.equals(intent.getAction()))
+				{
+					Log.d(TAG, "Alarm called: updating");
+				}
+				else if (LargeWidgetProvider.WIDGET_PREFS_REFRESH.equals(intent.getAction()))
+				{
+					Log.d(TAG, "WIDGET_PREFS_REFRESH called: updating");
+				}
+				else
+				{
+					Log.d(TAG, "APPWIDGET_UPDATE called: updating");
+				}
+			}				
 
 			AppWidgetManager appWidgetManager = AppWidgetManager
 					.getInstance(context);
@@ -91,7 +96,10 @@ public class SmallWidgetProvider extends BbsWidgetProvider
 			}
 			else
 			{
-				Log.i(TAG, "No widget found to update");
+				if (LogSettings.DEBUG)
+				{
+					Log.i(TAG, "No widget found to update");
+				}
 			}
 		}
 	}

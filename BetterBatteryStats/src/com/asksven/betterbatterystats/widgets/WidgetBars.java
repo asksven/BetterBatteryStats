@@ -17,6 +17,8 @@ package com.asksven.betterbatterystats.widgets;
 
 import java.util.ArrayList;
 
+import com.asksven.betterbatterystats.LogSettings;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -123,7 +125,10 @@ public class WidgetBars
     	{
     		float ratio = (float)values.get(i) / (float)max;
     		int len = (int) (BITMAP_WIDTH*ratio);
-    		Log.d(TAG, "Drawing line for value " + len + ",ratio is " + ratio +  ", value is " + values.get(i));
+    		if (LogSettings.DEBUG)
+    		{
+    			Log.d(TAG, "Drawing line for value " + len + ",ratio is " + ratio +  ", value is " + values.get(i));
+    		}
     		int pos = i*10+10;
 //    		canvas.drawLine(0, pos, len, pos, m_paint[i]);
     		canvas.drawRect(0, pos, len, pos + BAR_WIDTH, m_paint[i]);

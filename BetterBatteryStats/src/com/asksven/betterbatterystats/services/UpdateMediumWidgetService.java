@@ -33,6 +33,7 @@ import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgetproviders.MediumWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
 
@@ -66,7 +67,10 @@ public class UpdateMediumWidgetService extends Service
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
-		Log.d(TAG, "Service started");
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Service started");
+		}
 		// Create some random data
 
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this
@@ -252,13 +256,15 @@ public class UpdateMediumWidgetService extends Service
 			}
 			finally
 			{
-				Log.d(TAG, "Since: " + DateUtils.formatDurationShort(timeSince));
-				Log.d(TAG, "Awake: " + DateUtils.formatDurationShort(timeAwake));
-				Log.d(TAG, "Deep Sleep: " + DateUtils.formatDurationShort(timeDeepSleep));
-				Log.d(TAG, "Screen on: " + DateUtils.formatDurationShort(timeScreenOn));
-				Log.d(TAG, "PWL: " + DateUtils.formatDurationShort(sumPWakelocks));
-				Log.d(TAG, "KWL: " + DateUtils.formatDurationShort(sumKWakelocks));
-
+				if (LogSettings.DEBUG)
+				{
+					Log.d(TAG, "Since: " + DateUtils.formatDurationShort(timeSince));
+					Log.d(TAG, "Awake: " + DateUtils.formatDurationShort(timeAwake));
+					Log.d(TAG, "Deep Sleep: " + DateUtils.formatDurationShort(timeDeepSleep));
+					Log.d(TAG, "Screen on: " + DateUtils.formatDurationShort(timeScreenOn));
+					Log.d(TAG, "PWL: " + DateUtils.formatDurationShort(sumPWakelocks));
+					Log.d(TAG, "KWL: " + DateUtils.formatDurationShort(sumKWakelocks));
+				}
 				// Register an onClickListener for the graph -> refresh
 				Intent clickIntent = new Intent(this.getApplicationContext(),
 						MediumWidgetProvider.class);
