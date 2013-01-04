@@ -87,6 +87,9 @@ public class UpdateSmallWidgetService extends Service
 			RemoteViews remoteViews = new RemoteViews(this
 					.getApplicationContext().getPackageName(),
 					R.layout.small_widget_layout);
+			
+			// make sure to make the widget visible as it may have been previously hidden 
+			remoteViews.setInt(R.id.graph, "setVisibility", View.VISIBLE);
 			// we change the bg color of the layout based on alpha from prefs
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 			int opacity	= sharedPrefs.getInt("small_widget_bg_opacity", 20);
