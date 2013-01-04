@@ -123,6 +123,7 @@ public class UpdateMediumWidgetService extends Service
 				{
 					// the desired stat type is unavailable, pick the alternate one and go on with that one
 					refFrom	= sharedPrefs.getString("widget_fallback_stat_type", Reference.BOOT_REF_FILENAME);
+					fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 					otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
 				}
 
