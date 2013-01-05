@@ -107,4 +107,12 @@ public class WriteCustomReferenceService extends IntentService
 	{
 		return null;
 	}
+	
+	@Override
+	public void onDestroy()
+	{
+		Log.e(TAG, "Destroyed at" + DateUtils.now());
+		Wakelock.releaseWakelock();
+	}
+
 }
