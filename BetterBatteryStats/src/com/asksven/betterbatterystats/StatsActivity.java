@@ -64,7 +64,9 @@ import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
+import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
+import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
@@ -452,7 +454,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
                 //extract our message from intent
                 String refName = intent.getStringExtra(Reference.EXTRA_REF_NAME);
                 //log our message value
-                Log.i("Reference was updated;", refName);
+                Log.i("Reference was updated:", refName);
                 
                 // reload the spinners to make sure all refs are in the right sequence when current gets refreshed
                 if (refName.equals(Reference.CURRENT_REF_FILENAME))
@@ -654,7 +656,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             case R.id.custom_ref:
             	// Set custom reference
             	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_SET_CUSTOM_REF);
-            	new SetCustomRef().execute(this);
+
+            	// start service to persist reference
+        		Intent serviceIntent = new Intent(this, WriteCustomReferenceService.class);
+        		this.startService(serviceIntent);
             	break;
             case R.id.by_time_desc:
             	// Enable "count" option
@@ -867,7 +872,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	private void refreshSpinners()
 	{
 		// reload the spinners to make sure all refs are in the right sequence
-		m_spinnerFromAdapter.refresh(this);
+		m_spinnerFromAdapter.refreshFromSpinner(this);
 		m_spinnerToAdapter.filter(m_refFromName, this);
 		// after we reloaded the spinners we need to reset the selections
 		Spinner spinnerStatTypeFrom = (Spinner) findViewById(R.id.spinnerStatType);
@@ -1092,63 +1097,4 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    	}
 	    }
 	}
-	
-	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
-	// for more details
-	private class SetCustomRef extends AsyncTask<Context, Integer, Boolean>
-	{
-		@Override
-	    protected Boolean doInBackground(Context... params)
-	    {
-			//super.doInBackground(params);
-			StatsProvider.getInstance(StatsActivity.this).setCustomReference(m_iSorting);
-			return true;
-	    }
-		
-//		@Override
-		protected void onPostExecute(Boolean b)
-	    {
-//			super.onPostExecute(b);
-	        // update hourglass
-			try
-			{
-		    	if (m_progressDialog != null)
-		    	{
-		    		m_progressDialog.dismiss(); // hide();
-		    	
-		    	}
-			}
-			catch (Exception e)
-			{
-				// nop
-			}
-			finally
-			{
-				m_progressDialog = null;
-				m_spinnerFromAdapter.refresh(StatsActivity.this);
-				m_spinnerToAdapter.refresh(StatsActivity.this);
-			}
-	    }
-//	    @Override
-	    protected void onPreExecute()
-	    {
-	        // update hourglass
-	    	// @todo this code is only there because onItemSelected is called twice
-	    	if (m_progressDialog == null)
-	    	{
-	    		try
-	    		{
-			    	m_progressDialog = new ProgressDialog(StatsActivity.this);
-			    	m_progressDialog.setMessage("Saving...");
-			    	m_progressDialog.setIndeterminate(true);
-			    	m_progressDialog.setCancelable(false);
-			    	m_progressDialog.show();
-	    		}
-	    		catch (Exception e)
-	    		{
-	    			m_progressDialog = null;
-	    		}
-	    	}
-	    }
-	}	
 }

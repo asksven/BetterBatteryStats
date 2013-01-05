@@ -38,6 +38,7 @@ import android.widget.TextView;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.Permission;
+import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 
 public class ReferencesAdapter extends ArrayAdapter<String>
@@ -60,12 +61,25 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 	}
 
 
+	public void refreshFromSpinner(Context context)
+	{
+		this.refresh(context);
+		
+		int posCurrent = m_listNames.indexOf(Reference.CURRENT_REF_FILENAME);
+		
+		if (posCurrent != -1)
+		{	
+			m_listNames.remove(posCurrent);
+			m_listLabels.remove(posCurrent);		
+		}
+	}
+
 	public void refresh(Context context)
 	{
 		m_listNames = ReferenceStore.getReferenceNames(null, context);
-		m_listLabels = ReferenceStore.getReferenceLabels(null, context);
-		this.notifyDataSetChanged();
+		m_listLabels = ReferenceStore.getReferenceLabels(null, context);		
 	}
+
 	
 	public void filter(String refName, Context context)
 	{
