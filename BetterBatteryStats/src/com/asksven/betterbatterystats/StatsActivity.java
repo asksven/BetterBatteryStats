@@ -121,6 +121,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		Log.i(TAG, "OnCreated called");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);	
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -441,6 +442,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	@Override
 	protected void onResume()
 	{
+		Log.i(TAG, "OnResume called");
 		super.onResume();
 
 		
@@ -457,10 +459,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
                 Log.i("Reference was updated:", refName);
                 
                 // reload the spinners to make sure all refs are in the right sequence when current gets refreshed
-                if (refName.equals(Reference.CURRENT_REF_FILENAME))
-                {
+//                if (refName.equals(Reference.CURRENT_REF_FILENAME))
+//                {
                 	refreshSpinners();
-                }
+//                }
             }
         };
         
@@ -735,6 +737,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
 			if ( !m_refFromName.equals(newStat) )
 			{
+				Log.i(TAG, "Spinner from changed from " + m_refFromName + " to " + newStat);
 				m_refFromName = newStat;
 				bChanged = true;
 				// we need to update the second spinner
@@ -764,6 +767,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
 			if ( !m_refToName.equals(newStat) )
 			{
+				Log.i(TAG, "Spinner to changed from " + m_refToName + " to " + newStat);
 				m_refToName = newStat;
 				bChanged = true;
 			}
@@ -845,11 +849,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 	public void onNothingSelected(AdapterView<?> parent)
 	{
-		// default
-		m_refFromName = "";
-		m_refToName = "";
-		//m_listViewAdapter.notifyDataSetChanged();
-		
+//		Log.i(TAG, "OnNothingSelected called");
+		// do nothing
 	}
 
 	public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
@@ -877,14 +878,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// after we reloaded the spinners we need to reset the selections
 		Spinner spinnerStatTypeFrom = (Spinner) findViewById(R.id.spinnerStatType);
 		Spinner spinnerStatTypeTo = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
-		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName));
+		Log.i(TAG, "Reset spinner selections: from='" + m_refFromName + "', to='" + m_refToName + "'");
+		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName), false);
 		if (spinnerStatTypeTo.isShown())
 		{
-			spinnerStatTypeTo.setSelection(m_spinnerFromAdapter.getPosition(m_refToName));
+			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(m_refToName), false);
 		}
 		else
 		{
-			spinnerStatTypeTo.setSelection(m_spinnerFromAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME), false);
 		}
 	}
 	
