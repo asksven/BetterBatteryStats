@@ -74,17 +74,35 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 		}
 	}
 
-	public void refresh(Context context)
+	private void refresh(Context context)
 	{
 		m_listNames = ReferenceStore.getReferenceNames(null, context);
 		m_listLabels = ReferenceStore.getReferenceLabels(null, context);		
 	}
 
 	
-	public void filter(String refName, Context context)
+	public void filterToSpinner(String refName, Context context)
 	{
 		m_listNames = ReferenceStore.getReferenceNames(refName, context);
 		m_listLabels = ReferenceStore.getReferenceLabels(refName, context);
+		
+		// remove "charged" and "unplugged" from to spinner as those make no sense
+		int posCurrent = m_listNames.indexOf(Reference.CHARGED_REF_FILENAME);
+		
+		if (posCurrent != -1)
+		{	
+			m_listNames.remove(posCurrent);
+			m_listLabels.remove(posCurrent);		
+		}
+
+		posCurrent = m_listNames.indexOf(Reference.UNPLUGGED_REF_FILENAME);
+		
+		if (posCurrent != -1)
+		{	
+			m_listNames.remove(posCurrent);
+			m_listLabels.remove(posCurrent);		
+		}
+
 		this.notifyDataSetChanged();
 		
 	}

@@ -741,7 +741,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				m_refFromName = newStat;
 				bChanged = true;
 				// we need to update the second spinner
-				m_spinnerToAdapter.filter(newStat, this);
+				m_spinnerToAdapter.filterToSpinner(newStat, this);
 				m_spinnerToAdapter.notifyDataSetChanged();
 				
 				// select the right element
@@ -874,7 +874,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{
 		// reload the spinners to make sure all refs are in the right sequence
 		m_spinnerFromAdapter.refreshFromSpinner(this);
-		m_spinnerToAdapter.filter(m_refFromName, this);
+		m_spinnerToAdapter.filterToSpinner(m_refFromName, this);
 		// after we reloaded the spinners we need to reset the selections
 		Spinner spinnerStatTypeFrom = (Spinner) findViewById(R.id.spinnerStatType);
 		Spinner spinnerStatTypeTo = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
