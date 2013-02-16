@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ReceiverCallNotAllowedException;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
@@ -1361,6 +1362,42 @@ public class StatsProvider
 		    	for (int i = 0; i < requestedPermissions.length; i++)
 		    	{
 		    		myStats.add(requestedPermissions[i]);
+				}			    	
+		    }
+		} catch (Exception e)
+		{
+			Log.e(TAG, e.getMessage());
+		}
+		return myStats;
+
+	}
+
+	/**
+	 * Returns the permissions <uses-permissions> requested by a package in its manifest
+	 * @param context
+	 * @param packageName 
+	 * @return the list of permissions
+	 */
+	public ArrayList<String> getReceiverListForPackage(Context context, String packageName)
+	{
+		ArrayList<String> myStats = new ArrayList<String>();
+		
+		try
+		{
+			PackageInfo pkgInfo = context.getPackageManager().getPackageInfo(
+				    packageName, 
+				    PackageManager.GET_RECEIVERS
+				  );
+			ActivityInfo[] receivers = pkgInfo.receivers;
+		    if (receivers == null)
+		    {
+		    	myStats.add("No receivers");
+		    }
+		    else
+		    {
+		    	for (int i = 0; i < receivers.length; i++)
+		    	{
+		    		myStats.add(receivers[i].name);
 				}			    	
 		    }
 		} catch (Exception e)

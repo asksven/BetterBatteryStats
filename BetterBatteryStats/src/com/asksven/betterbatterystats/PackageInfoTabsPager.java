@@ -61,11 +61,9 @@ public class PackageInfoTabsPager extends SherlockFragmentActivity
 				PermissionsFragmentActivity.PermissionsListFragment.class, null);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Services"),
 				ServicesFragmentActivity.ServicesListFragment.class, null);
+//		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Receivers"),
+//				ReceiversFragmentActivity.ReceiversListFragment.class, null);
 
-//		mTabsAdapter.addTab(mTabHost.newTabSpec("contacts").setIndicator("Permissions"),
-//				PermissionsFragment.CursorLoaderListFragment.class, null);
-//		mTabsAdapter.addTab(mTabHost.newTabSpec("custom").setIndicator("Services"),
-//				LoaderCustomSupport.AppListFragment.class, null);
 
 		if (savedInstanceState != null)
 		{
