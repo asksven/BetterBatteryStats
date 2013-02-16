@@ -2454,7 +2454,6 @@ public class StatsProvider
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
 				"0"));
 
-
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
@@ -2464,7 +2463,24 @@ public class StatsProvider
 		try
 		{
 			// open file for writing
-			File root = Environment.getExternalStorageDirectory();
+			File root;
+			boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
+
+			if (bSaveToPrivateStorage)
+			{
+				try
+				{
+					root = m_context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+				}
+				catch (Exception e)
+				{
+					root = Environment.getExternalStorageDirectory();
+				}
+			}
+			else
+			{
+				root = Environment.getExternalStorageDirectory();
+			}
 
 			// check if file can be written
 			if (root.canWrite())
@@ -2704,8 +2720,7 @@ public class StatsProvider
 
 				// close file
 				out.close();
-				// Toast.makeText(m_context, "Dump witten: " + strFilename,
-				// Toast.LENGTH_SHORT).show();
+//				Toast.makeText(m_context, "Dump witten: " + strFilename, Toast.LENGTH_SHORT).show();
 
 			} else
 			{
@@ -2720,8 +2735,12 @@ public class StatsProvider
 		}
 	}
 
+	@SuppressLint("NewApi")
 	public void writeLogcatToFile()
 	{
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
@@ -2731,7 +2750,26 @@ public class StatsProvider
 		try
 		{
 			// open file for writing
-			File root = Environment.getExternalStorageDirectory();
+			// open file for writing
+			File root;
+			boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
+
+			if (bSaveToPrivateStorage)
+			{
+				try
+				{
+					root = m_context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+				}
+				catch (Exception e)
+				{
+					root = Environment.getExternalStorageDirectory();
+				}
+			}
+			else
+			{
+				root = Environment.getExternalStorageDirectory();
+			}
+
 			String path = root.getAbsolutePath();
 			// check if file can be written
 			if (root.canWrite())
@@ -2739,6 +2777,8 @@ public class StatsProvider
 				String filename = "logcat-"
 						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
 				Util.run("logcat -d > " + path + "/" + filename);
+//				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
+
 			} else
 			{
 				Log.i(TAG,
@@ -2752,8 +2792,12 @@ public class StatsProvider
 		}
 	}
 
+	@SuppressLint("NewApi")
 	public void writeDmesgToFile()
 	{
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
@@ -2763,7 +2807,25 @@ public class StatsProvider
 		try
 		{
 			// open file for writing
-			File root = Environment.getExternalStorageDirectory();
+			File root;
+			boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
+
+			if (bSaveToPrivateStorage)
+			{
+				try
+				{
+					root = m_context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+				}
+				catch (Exception e)
+				{
+					root = Environment.getExternalStorageDirectory();
+				}
+			}
+			else
+			{
+				root = Environment.getExternalStorageDirectory();
+			}
+
 			String path = root.getAbsolutePath();
 			// check if file can be written
 			if (root.canWrite())
@@ -2771,6 +2833,8 @@ public class StatsProvider
 				String filename = "dmesg-"
 						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
 				Util.run("dmesg > " + path + "/" + filename);
+//				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
+
 			} else
 			{
 				Log.i(TAG,
