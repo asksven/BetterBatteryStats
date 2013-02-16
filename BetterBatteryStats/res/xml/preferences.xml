@@ -343,6 +343,12 @@
                 android:title="Debug" />
             <CheckBoxPreference
                 android:defaultValue="false"
+                android:key="files_to_private_storage"
+                android:summary="Write files to /sdcard/Android/data/com.asksven.betterbatterystats/files/Download"
+                android:title="Private storage" />
+            
+            <CheckBoxPreference
+                android:defaultValue="false"
                 android:key="root_features"
                 android:summary="Enable network stats and alarms"
                 android:title="Root features" />
