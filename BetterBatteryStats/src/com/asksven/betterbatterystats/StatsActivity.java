@@ -312,7 +312,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
             if (sinceMs != -1)
             {
-    	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
+    	        String sinceText = DateUtils.formatDuration(sinceMs);
     			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
     	        if (bShowBatteryLevels)
     	        {
@@ -323,7 +323,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             }
             else
             {
-    	        tvSince.setText("Since: n/a ");
+    	        tvSince.setText("n/a");
     	    	Log.i(TAG, "Since: n/a ");
             	
             }
@@ -820,7 +820,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
         if (sinceMs != -1)
         {
-	        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
+	        String sinceText = DateUtils.formatDuration(sinceMs);
 			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
 	        if (bShowBatteryLevels)
 	        {
@@ -832,7 +832,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         }
         else
         {
-	        tvSince.setText("Since: n/a ");
+	        tvSince.setText("n/a ");
 	    	Log.i(TAG, "Since: n/a ");
         	
         }
@@ -1057,7 +1057,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 	        if (sinceMs != -1)
 	        {
-		        String sinceText = "Since " + DateUtils.formatDuration(sinceMs);
+		        String sinceText = DateUtils.formatDuration(sinceMs);
 		        
 				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
 				boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
@@ -1070,7 +1070,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        }
 	        else
 	        {
-		        tvSince.setText("Since: n/a ");
+		        tvSince.setText("n/a");
 		    	Log.i(TAG, "Since: n/a ");
 	        	
 	        }
