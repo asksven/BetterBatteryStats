@@ -48,6 +48,7 @@ import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.Alarm.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.KbData;
@@ -198,8 +199,9 @@ public class StatsAdapter extends BaseAdapter
 	        // set a click listener for the list
 	        iconKb.setOnClickListener(new OnIconClickListener(position));
         }
-        // Hide fqn in stat is CPU state
-        if (entry instanceof State)
+
+        // show / hide fqn text
+        if ((entry instanceof Process) || (entry instanceof Alarm) || (entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc))
         {
         	myFqnLayout.setVisibility(View.GONE);
         }
@@ -207,9 +209,9 @@ public class StatsAdapter extends BaseAdapter
         {
         	myFqnLayout.setVisibility(View.VISIBLE);
         }
-        
+
         // show / hide package icons
-        if ((entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc))
+        if ((entry instanceof Process) || (entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc))
         {
 
         	iconView.setVisibility(View.GONE);
