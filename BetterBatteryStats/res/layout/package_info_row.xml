@@ -3,13 +3,12 @@
         android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        	    android:paddingBottom="5sp"
-	    android:paddingLeft="5sp"
-	    android:paddingRight="5sp"
-	    android:paddingTop="5sp">
+        	    android:paddingBottom="4dp"
+	    android:paddingLeft="8dp"
+	    android:paddingRight="8dp"
+	    android:paddingTop="4dp">
 
 	<LinearLayout
-	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:id="@+id/LayoutName"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
@@ -29,7 +28,7 @@
                         android:layout_height="wrap_content"
                         android:text="Description"
                         android:id="@+id/TextViewDescription"
-                        android:textSize="13sp"
+                        android:textSize="12sp"
                         android:layout_weight="10">
                 </TextView>
         </LinearLayout> 
