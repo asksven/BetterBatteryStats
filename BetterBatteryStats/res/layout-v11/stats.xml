@@ -8,21 +8,21 @@
 	<Spinner
 	    android:id="@+id/spinnerStat"
 	    android:layout_width="match_parent"
-	    android:layout_height="55dp"
-	    android:drawSelectorOnTop="true"
-	    android:minHeight="50dp" />
+	    android:layout_height="48dp"
+	    android:text="Spinner1"
+	    android:drawSelectorOnTop="true"/>
 	
 	<Spinner android:id="@+id/spinnerStatType"
 		android:layout_width="match_parent"
-		android:layout_height="55dp"
-		android:drawSelectorOnTop="true"
-		android:minHeight="50dp"/>
+		android:layout_height="48dp"
+		android:text="Spinner2"
+		android:drawSelectorOnTop="true"/>
 
 	<Spinner android:id="@+id/spinnerStatSampleEnd"
 		android:layout_width="match_parent"
-		android:layout_height="55dp"
-		android:drawSelectorOnTop="true"
-		android:minHeight="50dp"/>
+		android:layout_height="48dp"
+		android:text="Spinner3"
+		android:drawSelectorOnTop="true"/>
 	
 	<FrameLayout android:layout_width="match_parent"
 		android:id="@+id/FrameLayoutSince"
