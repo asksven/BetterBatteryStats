@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.asksven.betterbatterystats.R;
 
 public class AboutActivity extends Activity
@@ -39,7 +40,7 @@ public class AboutActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.about);
         
         // retrieve the version name and display it
         try
@@ -79,7 +80,17 @@ public class AboutActivity extends Activity
                 openURL(TWITTER_LINK);
             }
         });
+        final Button buttonCredits = (Button) findViewById(R.id.buttonCredits);
+        buttonCredits.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+            	Intent intent = new Intent(AboutActivity.this, CreditsActivity.class);
+            	AboutActivity.this.startActivity(intent);
+            }
+        });
 
+        
     }   
     
     public void openURL( String inURL )

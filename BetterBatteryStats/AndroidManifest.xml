@@ -47,6 +47,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.asksven.betterbatterystats.AboutActivity" android:theme="@style/Theme.asksven"/>
+        <activity android:name="com.asksven.betterbatterystats.CreditsActivity" android:theme="@style/Theme.asksven"/>
         <activity android:name="com.asksven.betterbatterystats.PreferencesActivity" android:theme="@style/Theme.asksven"/>
         <activity android:name="com.asksven.betterbatterystats.HelpActivity" android:theme="@style/Theme.asksven"/>
         <activity android:name="com.asksven.android.common.ReadmeActivity" android:theme="@style/Theme.asksven"/>
