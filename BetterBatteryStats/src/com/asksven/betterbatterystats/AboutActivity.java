@@ -41,6 +41,7 @@ public class AboutActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
+        setTitle("About");
         
         // retrieve the version name and display it
         try
@@ -78,15 +79,6 @@ public class AboutActivity extends Activity
             public void onClick(View v)
             {
                 openURL(TWITTER_LINK);
-            }
-        });
-        final Button buttonCredits = (Button) findViewById(R.id.buttonCredits);
-        buttonCredits.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View v)
-            {
-            	Intent intent = new Intent(AboutActivity.this, CreditsActivity.class);
-            	AboutActivity.this.startActivity(intent);
             }
         });
 

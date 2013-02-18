@@ -26,9 +26,9 @@
     <item
         android:id="@+id/logcat"
         android:title="Save Logcat"/>
-    <item android:id="@+id/dmesg"
-       	android:title="Save dmesg" />
-    
+    <item
+        android:id="@+id/dmesg"
+        android:title="Save dmesg"/>
     <item
         android:id="@+id/more_group"
         android:title="More">
@@ -84,6 +84,9 @@
             <item
                 android:id="@+id/releasenotes"
                 android:title="Release Notes"/>
+            <item
+                android:id="@+id/credits"
+                android:title="Credits"/>
         </menu>
     </item>
 

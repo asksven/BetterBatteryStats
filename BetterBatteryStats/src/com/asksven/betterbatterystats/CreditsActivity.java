@@ -16,6 +16,7 @@
 package com.asksven.betterbatterystats;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
@@ -23,21 +24,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
-import com.asksven.betterbatterystats.R;
 
-public class CreditsActivity extends Activity
+import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.adapters.CreditsAdapter;
+
+public class CreditsActivity extends ListActivity
 {
 
     private static final String TAG = "CreditsActivity";
     
-
+    
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.credits);
+        CreditsAdapter adapter = new CreditsAdapter(this);
+        setListAdapter(adapter);
+        setTitle("Credits");
         
 
     }   

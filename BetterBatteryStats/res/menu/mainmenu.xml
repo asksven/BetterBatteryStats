@@ -73,7 +73,9 @@
 	        	android:title="How to..." />
 	        <item android:id="@+id/releasenotes"
 	        	android:title="Release Notes" />	
-	        	
+	        <item android:id="@+id/credits"
+	        	android:title="Credits" />	
+	        	        	
 	        	
 	        
     	</menu>

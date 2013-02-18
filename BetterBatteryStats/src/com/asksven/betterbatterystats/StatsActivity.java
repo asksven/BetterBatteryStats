@@ -663,6 +663,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
         		Intent serviceIntent = new Intent(this, WriteCustomReferenceService.class);
         		this.startService(serviceIntent);
             	break;
+            case R.id.credits:
+	        	Intent intentCredits = new Intent(this, CreditsActivity.class);
+	            this.startActivity(intentCredits);
+	        	break;	            	
             case R.id.by_time_desc:
             	// Enable "count" option
             	m_iSorting = 0;            	
