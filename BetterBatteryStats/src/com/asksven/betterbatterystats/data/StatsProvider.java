@@ -50,6 +50,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.asksven.andoid.common.contrib.Util;
+import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
@@ -1585,7 +1586,11 @@ public class StatsProvider
 		long timeBatteryUp = mStats.computeBatteryUptime(
 				SystemClock.uptimeMillis() * 1000,
 				BatteryStatsTypes.STATS_CURRENT) / 1000;
-		Log.i(TAG, "whichRealtime = " + whichRealtime + " batteryRealtime = " + batteryRealtime + " timeBatteryUp=" + timeBatteryUp);
+		
+		if (CommonLogSettings.DEBUG)
+		{
+			Log.i(TAG, "whichRealtime = " + whichRealtime + " batteryRealtime = " + batteryRealtime + " timeBatteryUp=" + timeBatteryUp);
+		}
 		
 		long timeScreenOn = mStats.getScreenOnTime(batteryRealtime,
 				BatteryStatsTypes.STATS_CURRENT) / 1000;
