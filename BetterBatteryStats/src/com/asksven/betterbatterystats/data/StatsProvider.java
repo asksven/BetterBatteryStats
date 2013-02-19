@@ -31,6 +31,8 @@ import java.util.StringTokenizer;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -72,6 +74,7 @@ import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.ActiveMonAlarmReceiver;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 
@@ -2201,6 +2204,18 @@ public class StatsProvider
 	}
 
 	/**
+	 * Saves all data at the current point in time
+	 */
+	public synchronized String setTimedReference(int iSort)
+	{
+		String fileName = Reference.TIMER_REF_FILENAME + DateUtils.now();
+		Reference thisRef = new Reference(fileName, Reference.TYPE_TIMER);
+		ReferenceStore.put(fileName, populateReference(iSort, thisRef), m_context);
+		
+		return fileName;
+	}
+
+	/**
 	 * Returns a n uncached current references with only "other", "wakelocks" and "kernel wakelocks" stats (for use in widgets)
 	 */
 	public Reference getUncachedPartialReference(int iSort)
@@ -2300,15 +2315,65 @@ public class StatsProvider
 			refs.m_refProcesses = null;
 			refs.m_refCpuStates = null;
 
-			refs.m_refKernelWakelocks = getCurrentNativeKernelWakelockStatList(bFilterStats, iPctType, iSort);
-			refs.m_refWakelocks = getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
+			try
+			{
+				refs.m_refKernelWakelocks = getCurrentNativeKernelWakelockStatList(bFilterStats, iPctType, iSort);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An exception occured processing kernel wakelocks. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+			}
 
-			refs.m_refOther = getCurrentOtherUsageStatList(bFilterStats, false, false);
-			refs.m_refCpuStates = getCurrentCpuStateList(bFilterStats);
+			try
+			{
+				refs.m_refWakelocks = getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An exception occured processing partial wakelocks. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+			}
 
-			refs.m_refProcesses = getCurrentProcessStatList(bFilterStats, iSort);
+			try
+			{
+				refs.m_refOther = getCurrentOtherUsageStatList(bFilterStats, false, false);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An exception occured processing other. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+			}
 
-			refs.m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+			try
+			{
+				refs.m_refCpuStates = getCurrentCpuStateList(bFilterStats);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An exception occured processing CPU states. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+			}
+
+			try
+			{
+				refs.m_refProcesses = getCurrentProcessStatList(bFilterStats, iSort);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An exception occured processing processes. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+			}
+
+			try
+			{
+				refs.m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An exception occured processing battery realtime. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+			}
 
 			try
 			{
@@ -2330,9 +2395,26 @@ public class StatsProvider
 				// After that we go on and try to write the rest. If this part
 				// fails at least there will be a partial ref saved
 				Log.i(TAG, "Trace: Calling root operations" + DateUtils.now());
-				refs.m_refNetworkStats = getCurrentNativeNetworkUsageStatList(bFilterStats);
+				try
+				{
+					refs.m_refNetworkStats = getCurrentNativeNetworkUsageStatList(bFilterStats);
+				}
+				catch (Exception e)
+				{
+					Log.e(TAG, "An exception occured processing network. Message: " + e.getMessage());
+					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+				}
 
-				refs.m_refAlarms = getCurrentAlarmsStatList(bFilterStats);
+				try
+				{
+					refs.m_refAlarms = getCurrentAlarmsStatList(bFilterStats);
+				}
+				catch (Exception e)
+				{
+					Log.e(TAG, "An exception occured processing alarms. Message: " + e.getMessage());
+					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+				}
+
 				Log.i(TAG, "Trace: Finished root operations" + DateUtils.now());
 				
 			}
@@ -3150,4 +3232,66 @@ public class StatsProvider
 		return voltage;
 	}
 
+
+	/**
+	 * Adds an alarm to schedule a wakeup to save a reference
+	 */
+	public static boolean scheduleActiveMonAlarm(Context ctx)
+	{
+		Log.i(TAG, "active_mon_enabled called");
+		
+		// create a new one starting to count NOW
+		
+    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+    	    	
+		int iInterval = prefs.getInt("active_mon_freq", 60);
+
+		long fireAt = System.currentTimeMillis() + (iInterval * 1000); //(iInterval * 60 * 1000);
+
+		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
+
+		PendingIntent sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		// Get the AlarmManager service
+		AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+		am.set(AlarmManager.RTC_WAKEUP, fireAt, sender);
+
+		return true;
+	}
+	
+	/**
+	 * Cancels the current alarm (if existing)
+	 */
+	public static void cancelActiveMonAlarm(Context ctx)
+	{
+		// check if there is an intent pending
+		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
+
+		PendingIntent sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		if (sender != null)
+		{
+
+			// Get the AlarmManager service
+			AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+			am.cancel(sender);
+		}
+	}
+	
+	public static boolean isActiveMonAlarmScheduled(Context ctx)
+	{
+		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
+		boolean alarmUp = (PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM, 
+		        intent, 
+		        PendingIntent.FLAG_NO_CREATE) != null);
+
+		if (alarmUp)
+		{
+		    Log.i("myTag", "Alarm is already active");
+		}
+		
+		return alarmUp;
+	}
 }
