@@ -16,9 +16,9 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="show_batt"
-            android:summary="Shows or hides battery levels (drain, from/to) in 'since' label"
+            android:summary="Shows or hides battery levels (drain, from/to) in &apos;since&apos; label"
             android:title="Show Battery Levels" />
-        
+
         <PreferenceScreen android:title="Customize Views" >
             <CheckBoxPreference
                 android:defaultValue="true"
@@ -35,7 +35,6 @@
                 android:key="show_other_screen_brightness"
                 android:summary="Show screen brightness"
                 android:title="Show screen" />
-            
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="show_other_connection"
@@ -70,12 +69,12 @@
             android:key="default_wl_ref"
             android:summary="Wakelock expressed as pct of time..."
             android:title="Wakelock pct of" />
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="fallback_to_since_boot"
-            android:summary="Fall back to 'since boot' stat if default has no reference"
+            android:summary="Fall back to &apos;since boot&apos; stat if default has no reference"
             android:title="Fallback to Since Boot" />
-    
     </PreferenceCategory>
     <PreferenceCategory android:title="Settings" >
         <PreferenceScreen android:title="Knowledge Base" >
@@ -160,6 +159,14 @@
                 android:key="widget_refresh_freq"
                 android:summary="Set how often the Widgets will update (they always will when screen is turned on)"
                 android:title="Refresh Frequency" />
+
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:enabled="true"
+                android:key="widget_refresh_on_screen_on"
+                android:summary="Refresh when screen goes on"
+                android:title="Screen on refresh" />
+
             <ListPreference
                 android:defaultValue="0"
                 android:entries="@array/statLabels"
@@ -267,10 +274,10 @@
         </PreferenceScreen>
         <PreferenceScreen android:title="Watchdog" >
             <CheckBoxPreference
-                android:defaultValue="true"
+                android:defaultValue="false"
                 android:key="ref_for_screen_off"
-                android:summary="Saves a reference when screen goes off"
-                android:title="Screen Off" />
+                android:summary="Enables watchdog processing"
+                android:title="Enable" />
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:dependency="ref_for_screen_off"
@@ -295,6 +302,7 @@
                 android:title="Warnings" >
                 <com.asksven.betterbatterystats.contrib.SeekBarPreference
                     android:defaultValue="30"
+                    android:dependency="ref_for_screen_off"
                     android:key="watchdog_awake_threshold"
                     android:max="100"
                     android:summary="Threshold for warning (awake / total)"
@@ -305,6 +313,7 @@
                     robobunny:unitsRight="%" />
                 <com.asksven.betterbatterystats.contrib.SeekBarPreference
                     android:defaultValue="10"
+                    android:dependency="ref_for_screen_off"
                     android:key="watchdog_duration_threshold"
                     android:max="30"
                     android:summary="Screen Off duration to trigger"
@@ -313,7 +322,32 @@
                     robobunny:min="0"
                     robobunny:unitsLeft=""
                     robobunny:unitsRight="Min." />
+
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:dependency="ref_for_screen_off"
+                    android:key="ref_for_screen_on"
+                    android:summary="Saves a &apos;screen on&apos; reference when watchdog triggers"
+                    android:title="Screen on" />
             </PreferenceCategory>
+        </PreferenceScreen>
+        <PreferenceScreen android:title="Active Monitoring" >
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="active_mon_enabled"
+                android:summary="Enables active monitoring. Caution: be aware that active monitoring has costs in terms of battery"
+                android:title="Enable" />
+
+            <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                android:defaultValue="60"
+                android:key="active_mon_freq"
+                android:max="240"
+                android:summary="Frequency for saving timer references"
+                android:title="Frequency [Min.]"
+                robobunny:interval="30"
+                robobunny:min="30"
+                robobunny:unitsLeft=""
+                robobunny:unitsRight="Min." />
         </PreferenceScreen>
         <PreferenceScreen android:title="Advanced" >
             <ListPreference
@@ -346,7 +380,6 @@
                 android:key="files_to_private_storage"
                 android:summary="Write files to /sdcard/Android/data/com.asksven.betterbatterystats/files/Download"
                 android:title="Private storage" />
-            
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="root_features"
@@ -360,14 +393,13 @@
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="show_to_ref"
-                android:summary="Show the spinner for selecting the 'to' reference"
+                android:summary="Show the spinner for selecting the &apos;to&apos; reference"
                 android:title="To References" />
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="auto_refresh"
-                android:summary="Automaticall refresh 'current'"
+                android:summary="Automaticall refresh &apos;current&apos;"
                 android:title="Auto refresh" />
-            
         </PreferenceScreen>
     </PreferenceCategory>
 
