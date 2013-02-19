@@ -60,10 +60,14 @@ public class ScreenEventHandler extends BroadcastReceiver
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_OFF");
-			// start service to persist reference
-			Intent serviceIntent = new Intent(context, WriteScreenOffReferenceService.class);
-			context.startService(serviceIntent);
-
+			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);
+			
+			if (watchdogActive)
+			{
+				// start service to persist reference
+				Intent serviceIntent = new Intent(context, WriteScreenOffReferenceService.class);
+				context.startService(serviceIntent);
+			}
 
 		}
 
@@ -81,10 +85,12 @@ public class ScreenEventHandler extends BroadcastReceiver
 
 			}
 
-			// Build the intent to update widgets
-			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
-			context.sendBroadcast(intentRefreshWidgets);
-
+			if (sharedPrefs.getBoolean("widget_refresh_on_screen_on", true))
+			{
+				// Build the intent to update widgets
+				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+				context.sendBroadcast(intentRefreshWidgets);
+			}
 
 			
 		}
