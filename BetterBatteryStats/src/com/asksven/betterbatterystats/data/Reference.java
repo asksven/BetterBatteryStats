@@ -42,6 +42,7 @@ public class Reference implements Serializable
 	public static final String EXTRA_REF_NAME					= "com.asksven.betterbatterystats.REF_NAME";
 	
 	public static final String CUSTOM_REF_FILENAME 				= "ref_custom";
+	public static final String TIMER_REF_FILENAME 				= "Timer ";
 	public static final String UNPLUGGED_REF_FILENAME 			= "ref_unplugged";
 	public static final String CHARGED_REF_FILENAME 			= "ref_charged";
 	public static final String SCREEN_OFF_REF_FILENAME			= "ref_screen_off";
@@ -52,6 +53,8 @@ public class Reference implements Serializable
 	public static final int TYPE_CUSTOM 	= 1;
 	public static final int TYPE_EVENT 		= 2;
 	public static final int TYPE_CURRENT 	= 3;
+	public static final int TYPE_TIMER	 	= 4;
+	
 	
 	
 	protected static final String[] FILES = {CUSTOM_REF_FILENAME, CURRENT_REF_FILENAME, UNPLUGGED_REF_FILENAME, CHARGED_REF_FILENAME, SCREEN_OFF_REF_FILENAME, SCREEN_ON_REF_FILENAME, BOOT_REF_FILENAME};
@@ -72,6 +75,7 @@ public class Reference implements Serializable
 	protected static final String SCREEN_OFF_REF_NAME			= "Screen Off";
 	protected static final String SCREEN_ON_REF_NAME			= "Screen On";
 	protected static final String BOOT_REF_NAME					= "Boot";
+	protected static final String TIMER_REF_NAME				= "Timer";
 
 	/** storage of custom references */
 	public String m_fileName								= "";
@@ -181,6 +185,8 @@ public class Reference implements Serializable
     		ret = BOOT_REF_NAME;
     	else if (refName.equals(CURRENT_REF_FILENAME))
     		ret = CURRENT_REF_NAME;
+    	else if (refName.startsWith(TIMER_REF_FILENAME))
+    		ret = refName;
     	
     	return ret;
     }

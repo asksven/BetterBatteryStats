@@ -171,6 +171,53 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 		        builder.create().show();
     		}
         }
+        
+        if (key.equals("active_mon_enabled"))
+        {
+    		boolean enabled = sharedPreferences.getBoolean(key, false);
+
+    		if (enabled)
+    		{
+		        AlertDialog.Builder builder = new AlertDialog.Builder(PreferencesActivity.this);
+		        builder.setMessage("Active monitoring results in an overhead in terms of wakeups and processing and should be used with care.\n"
+		        		+ "Continue?")
+		               .setCancelable(false)
+		               .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		               {
+		                   public void onClick(DialogInterface dialog, int id)
+		                   {		           
+		                	   // Fire the alarms
+		                	   StatsProvider.scheduleActiveMonAlarm(PreferencesActivity.this);
+		                	   dialog.cancel();
+		                   }
+		               })
+		               .setNegativeButton("No", new DialogInterface.OnClickListener()
+		               {
+		                   public void onClick(DialogInterface dialog, int id)
+		                   {
+		                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity.this);
+			           	        SharedPreferences.Editor editor = sharedPrefs.edit();	        
+			        	        editor.putBoolean("active_mon_enabled", false);
+			        			editor.commit();
+				    	        CheckBoxPreference checkboxPref = (CheckBoxPreference) getPreferenceManager().findPreference("root_features");
+				    	        checkboxPref.setChecked(false);
+
+		                        dialog.cancel();
+		                   }
+		               });
+		        builder.create().show();
+
+    		}
+    		else
+    		{
+    			// cancel any existing alarms
+         	   StatsProvider.cancelActiveMonAlarm(PreferencesActivity.this);
+
+    		}
+    			
+        }
+
 	}
+
 
 }

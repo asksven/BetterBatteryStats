@@ -104,11 +104,11 @@ public class ReferenceStore
 	{
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 
-		if (!refName.startsWith("ref_"))
-		{
-			Log.e(TAG, "Invalid reference name " + refName);
-			return null;
-		}
+//		if (!refName.startsWith("ref_"))
+//		{
+//			Log.e(TAG, "Invalid reference name " + refName);
+//			return null;
+//		}
 		// the reference names are lazily loaded too
 		if (m_refStore.keySet().isEmpty())
 		{

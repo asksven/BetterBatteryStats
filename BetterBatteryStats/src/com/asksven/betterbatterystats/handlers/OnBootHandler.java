@@ -64,5 +64,13 @@ public class OnBootHandler extends BroadcastReceiver
 			Intent i = new Intent(context, EventWatcherService.class);
 	        context.startService(i);
 		}
+		
+		// if active monitoring enabled schedule the next alarm 
+		if (sharedPrefs.getBoolean("active_mon_enabled", false))
+		{
+			// reschedule next timer
+			StatsProvider.scheduleActiveMonAlarm(context);
+		}
+
 	}
 }
