@@ -2208,7 +2208,7 @@ public class StatsProvider
 	 */
 	public synchronized String setTimedReference(int iSort)
 	{
-		String fileName = Reference.TIMER_REF_FILENAME + DateUtils.now();
+		String fileName = Reference.TIMER_REF_FILENAME + DateUtils.format(System.currentTimeMillis(), DateUtils.DATE_FORMAT_NOW);
 		Reference thisRef = new Reference(fileName, Reference.TYPE_TIMER);
 		ReferenceStore.put(fileName, populateReference(iSort, thisRef), m_context);
 		

@@ -145,6 +145,7 @@ public class ReferenceStore
 	public static synchronized void put(String refName, Reference ref, Context ctx)
 	{
 		m_refStore.put(refName, ref);
+		Log.i(TAG, "Serializing reference " + refName);
 		serializeRef(ref, ctx);
 	}
 
