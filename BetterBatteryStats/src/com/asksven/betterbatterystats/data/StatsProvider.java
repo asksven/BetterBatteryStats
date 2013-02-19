@@ -3248,7 +3248,7 @@ public class StatsProvider
     	    	
 		int iInterval = prefs.getInt("active_mon_freq", 60);
 
-		long fireAt = System.currentTimeMillis() + (iInterval * 1000); //(iInterval * 60 * 1000);
+		long fireAt = System.currentTimeMillis() + (iInterval * 60 * 1000);
 
 		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
 
