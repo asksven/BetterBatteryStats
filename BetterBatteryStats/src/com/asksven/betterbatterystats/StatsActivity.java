@@ -125,7 +125,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stats);	
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		
+				
 		// set debugging
 		if (sharedPrefs.getBoolean("debug_logging", false))
 		{
@@ -165,7 +165,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			// nop strCurrentRelease is set to ""
 		}
 		
-    	if (!strLastRelease.equals(strCurrentRelease))
+		if (strLastRelease.equals("0"))
+		{
+			// show the initial run screen
+			FirstLaunch.app_launched(this);
+
+		}
+		else if (!strLastRelease.equals(strCurrentRelease))
     	{
     		//////////////////////////////////////////////////////////////////////////
     		// Migration from 1.11.x to 1.12.x : preferences for default stat types
@@ -382,7 +388,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		m_spinnerToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		
-		boolean bShowSpinner = sharedPrefs.getBoolean("show_to_ref", false);
+		boolean bShowSpinner = sharedPrefs.getBoolean("show_to_ref", true);
         if (bShowSpinner)
         {
         	spinnerStatSampleEnd.setVisibility(View.VISIBLE);
@@ -498,6 +504,16 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			doRefresh(false);
 			
 		}
+		
+		// check if active monitoring is on: if yes make sure the alarm is scheduled
+		if (sharedPrefs.getBoolean("active_mon_enabled", false))
+		{
+			if (!StatsProvider.isActiveMonAlarmScheduled(this))
+			{
+				StatsProvider.scheduleActiveMonAlarm(this);
+			}
+		}
+
 
 		
 
@@ -862,7 +878,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	if (key.equals("show_to_ref"))
     	{
     		Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);	
-    		boolean bShowSpinner = prefs.getBoolean("show_to_ref", false);
+    		boolean bShowSpinner = prefs.getBoolean("show_to_ref", true);
             if (bShowSpinner)
             {
             	spinnerStatSampleEnd.setVisibility(View.VISIBLE);
