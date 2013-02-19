@@ -78,9 +78,9 @@ public class WriteScreenOnReferenceService extends IntentService
 		try
 		{
 			
-			// Clear any notifications taht may still be shown as the reference in going to be overwritten
-	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
-	    	nM.cancel(EventWatcherService.NOTFICATION_ID);
+//			// Clear any notifications taht may still be shown as the reference in going to be overwritten
+//	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
+//	    	nM.cancel(EventWatcherService.NOTFICATION_ID);
 
 			// Store the "since screen off" ref
 			Wakelock.aquireWakelock(this);

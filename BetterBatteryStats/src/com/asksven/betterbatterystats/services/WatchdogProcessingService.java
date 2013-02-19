@@ -104,10 +104,13 @@ public class WatchdogProcessingService extends IntentService
 					// make sure to flush cache
 					BatteryStatsProxy.getInstance(this).invalidate();
 
-					// save screen on reference
-					Intent serviceIntent = new Intent(this.getApplicationContext(), WriteScreenOnReferenceService.class);
-					this.startService(serviceIntent);
-
+					boolean saveScreenOnRef = sharedPrefs.getBoolean("ref_for_screen_on", false);
+					if (saveScreenOnRef)
+					{
+						// save screen on reference
+						Intent serviceIntent = new Intent(this.getApplicationContext(), WriteScreenOnReferenceService.class);
+						this.startService(serviceIntent);
+					}
 
 					if (stats.hasScreenOffRef())
 					{
