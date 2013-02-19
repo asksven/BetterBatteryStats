@@ -218,9 +218,11 @@ public class StatsProvider
 		if ((refFrom != null) && (refTo != null))
 		{
 			ret =  refTo.m_refBatteryRealtime - refFrom.m_refBatteryRealtime;
+			long since = refTo.m_creationTime - refFrom.m_creationTime;
 			if (LogSettings.DEBUG)
 			{
-				Log.d(TAG, "Since: " + DateUtils.formatDuration(ret));
+				Log.d(TAG, "Since (battery realtime): " + DateUtils.formatDuration(ret));
+				Log.d(TAG, "Since (creating time, not displayed): " + DateUtils.formatDuration(since));
 			}
 
 		}
