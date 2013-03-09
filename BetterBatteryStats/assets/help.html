@@ -33,8 +33,11 @@ BetterBatteryStats does not collect data in the background but uses references s
 	<li><b>Boot</b>: is saved when your phone boots, deletes all other refrences</li>
 	<li><b>Unplug</b>: is saved when you unplug your phone from the charger</li>
 	<li><b>Charged</b>: is saved when your phone gets charged to 100%</li>
-	<li><b>Screen Off</b>: is saved when the screen of your phone goes off</li>
+	<li><b>Screen Off</b>: is saved when the screen of your phone goes off (if watchdog activated)</li>
+	<li><b>Screen On</b>: is saved when the screen of your phone goes on (if watchdog activated)</li>
 	<li><b>Custom</b>: is saved when you select the option to save a custom reference from the menu</li>
+	<li><b>Current</b>: is the current data sample</li>
+	
 </ul>
 <br/><br/>
 <b>As long as those events did not occur or after a reboot BBS will notify you about a missing reference. This is not a bug, it's the way BBS was designed</b>	
@@ -51,17 +54,20 @@ BetterBatteryStats does not collect data in the background but uses references s
 	<li>Processes: shows the cpu time (user and system) processes have consumed</li>
 	<li>Package info: shows rights and services for a given package (app): this view can be opened by clicking on any icon from any view</li>
 </ul></p>
-<p>and these are the possible timespans:
+<p>and these are the possible points in time for showing stats (selection "from" and "to" any of those points in time):
 <ul>
-	<li>Since charged: all statistics since the phone was 100% charged</li>
-	<li>Since unplugged: all statitics since the phone was unplugged from A/C or USB</li>
-	<li>Since custom reference: all statitics since a custom reference was set (from the "Actions" menu)</li>
-	<li>Since screen off: all statitics since the screen was turned off</li>
-	<li>Since boot: all statitics since the phone was booted</li>
+	<li>Charged: when the phone was 100% charged</li>
+	<li>Unplugged: when the phone was unplugged from A/C or USB</li>
+	<li>Custom reference: when a custom reference was set (from the "Actions" menu)</li>
+	<li>Screen off: when the screen was turned off</li>
+	<li>Screen on: when the screen was turned on</li>
+	<li>Boot: when the phone was booted</li>
+	<li>Current: the current point in time</li>
+	
 </ul>
 </p>
 <p>
-Please note that the data for the timespans gets deleted at boot. To use "Since unplugged" after a reboot you need to plug/unplug your phone.
+Please note that the data for the timespans gets deleted at boot. To use "From=unplugged" after a reboot you need to plug/unplug your phone.
 </p>
 
 <h3>Other</h3>
