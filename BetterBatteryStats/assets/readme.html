@@ -39,189 +39,45 @@ BetterBatteryStats does not collect data in the background but uses references s
 <b>As long as those events did not occur or after a reboot BBS will notify you about a missing reference. This is not a bug, it's the way BBS was designed</b>	
 <p>
 
-<h2>v1.12.0.0RC12 2013-03-09</h2>
+<h2>v1.12.0.0 2013-03-11</h2>
 <p>
 <ul>
-	<li>Fixed empty stats on screen rotate</li>
-	<li>Final preparations for release (in-app doc</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC11 2013-02-19</h2>
-<p>
-<ul>
-	<li>Added actve monitoring</li>
+	<li>Added from/to references (spinners) instead of only having "since" ref to "current"</li>
+	<li>Added active monitoring</li>
 	<li>When initially starting the app a reference 'unplugged' is created automatically</li>
+	<li>Fixed empty stats on screen rotate</li>
 	<li>Added a pref to not refresh the widgets automatically when screen goes on</li>
 	<li>Changed the watchdog behavior: 'screen off' is always saved when watchdog is enabled, 'screen on' saving must be enabled in prefs and will trigger only if screen off time is bigger than threshold</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC10 2013-02-18</h2>
-<p>
-<ul>
 	<li>Added credits</li>
 	<li>Fixed alarm details not being shown when there is no activity involved</li>
 	<li>Better logging verbosity controlled by advanced debug preference</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC9 2013-02-16</h2>
-<p>
-<ul>
 	<li>Optimized real estate on main screen and package info</li>
 	<li>Fixed tiny font in widgets</li>
 	<li>Added pref to save dumpfile to private folder</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC8 2013-02-16</h2>
-<p>
-<ul>
 	<li>Fixed alarms for android 4.2.2</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC7 2013-01-08</h2>
-<p>
-<ul>
-	<li>Fix for spinner refresh issues</li>
-	<li>Fix for displayed data not in sync with the spinners</li>
-	<li>Removed "charged" and "umplugged" from "to" spinner as those make no sense</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC6 2013-01-05</h2>
-<p>
-<ul>
 	<li>Fix for 1x1 widget stopping being updated</li>
 	<li>Fix for fallback ref not being read in 1x1 and 2x1 widgets</li>
-	<li>Fix for blocking su calls</li> 
-	<li>Removed "current" from "from" spinner</li>
-	<li>Make sure "from" spinner's sequence is always updated when new refererences were written</li>
-	<li>Saving "custom" references now also updates the spinners</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC5 2012-12-31</h2>
-<p>
-<ul>
-	<li>Fxed rate dialog showing at each start</li>
-	<li>Some profiling</li>
 	<li>Less intrusive logging</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC4 2012-12-31</h2>
-<p>
-<ul>
-	<li>wakeup_sources times are a factor 1000 to small</li>
 	<li>New readme and rate dialogs</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC3 2012-12-29</h2>
-<p>
-<ul>
 	<li>Fixed spinner height</li>
 	<li>Filter 0-values applies to CPU state as well</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC2 2012-12-27</h2>
-<p>
-<ul>
 	<li>Added (experimental) support for wakeup_sources (replacement of "old" kernel wakelock representation)</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0RC1 2012-12-26</h2>
-<p>
-<ul>
 	<li>Main view automatically refreshes "current" when opened (can be turned off in advanced settings)</li>
-	<li>"to ref" is showsn by default (can be turned off in advanced settings)</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0B9 2012-12-23</h2>
-<p>
-<ul>
 	<li>Fixed 0 kwl and pwl in 2x2 widget</li>
 	<li>Fixed FC when calling BBS from watchdog notification</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0B8 2012-12-21</h2>
-<p>
-<ul>
 	<li>Fixed FC condition causing unknown error</li>
-	<li>Fixed "current" being lost after events creating other references</li>
 	<li>Fixed CPU states showing negative percents</li>
 	<li>Due to changes in the way references are computed all prefs related to the stat type are getting migrated to "unplugged" (coming from 1.11)</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0B7 2012-12-17</h2>
-<p>
-<ul>
 	<li>Partial wakelocks and kernel wakelocks always show the same time for all stats</li>
 	<li>Fixed online KB failing to update</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0B6 2012-12-16</h2>
-<p>
-<ul>
 	<li>Changed the way su operations are processed</li>
-	<li>Some fixes regarding the refresh of the spinners</li>
 	<li>Make sure all root operations are running in an own thread</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0B5 2012-12-14</h2>
-<p>
-<ul>
-	<li>Fixed callstack when updating a reference</li>
-	<li>Widget now have a lightweight method for obtaining the current data without causing the cache to be updated</li>
-	<li>Spinners show references sorted in ascending order</li>
-	<li>Fixed spinner not showing all existing references</li>
-</ul>
-</p>
-
-
-<h2>v1.12.0.0B4 2012-12-13</h2>
-<p>
-<ul>
-	<li>Fixed broken dumpfiles</li>
 	<li>Added pref to show/hide the "reference to" spinner</li>
 	<li>Added screen on reference (saved when watchdog is active)</li>	
 	<li>References are now stored in a database</li>
-	<li>From/To references are chronogical</li> 
-</ul>
-</p>
-
-<h2>v1.12.0.0B3 2012-12-06</h2>
-<p>
-<ul>
-	<li>Fixed references disapearing after a while</li>
-	<li>Invalidate "current" ref when saving other refs</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0B2 2012-11-27</h2>
-<p>
-<ul>
 	<li>Fixed FC condition in RAW alarms</li>
 	<li>Optimized loading for speed</li> 
 	<li>Fixed watchdog not issuing any alerts</li>
-	<li>Fixed spinner height</li>
-</ul>
-</p>
-
-
-<h2>v1.12.0.0B1 2012-11-18</h2>
-<p>
-<ul>
 	<li>Fixed typos</li> 
 	<li>Freeze time when BBS is opened / resumed (use "refresh" to update)</li>
 	<li>Long press on list item copies its text to the clipboard</li>
