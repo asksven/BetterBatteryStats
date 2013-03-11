@@ -176,7 +176,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		//////////////////////////////////////////////////////////////////////////
     		// Migration from 1.11.x to 1.12.x : preferences for default stat types
     		//////////////////////////////////////////////////////////////////////////
-    		if (strLastRelease.startsWith("1.11"))
+    		if (strLastRelease.startsWith("28"))
     		{
     			// 1.12 changes the way stat type prefs are stored:
     			// 1.11 used to have index number for constants
@@ -184,6 +184,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     			// prefs to be migrated are:
     			// default_stat_type, small_widget_default_stat_type, widget_fallback_stat_type, large_widget_default_stat_type
     			// all are migrated to "unplugged"
+    			Toast.makeText(this, "Migrating data from previous version", Toast.LENGTH_SHORT).show();
+
     	        SharedPreferences.Editor editor = sharedPrefs.edit();
     	        editor.putString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
     	        editor.putString("small_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
@@ -191,8 +193,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     	        editor.putString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 
     	        editor.commit();
-    			
-    			
+    	        
+    	        // migrate and save a reference
+    			FirstLaunch.app_launched(this);
     		}
     		// show the readme
 	    	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);

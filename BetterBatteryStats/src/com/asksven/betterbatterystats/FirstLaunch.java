@@ -8,6 +8,7 @@ import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -53,6 +54,10 @@ public class FirstLaunch
 			// start service to persist reference
 			Intent serviceIntent = new Intent(ctx, WriteUnpluggedReferenceService.class);
 			ctx.startService(serviceIntent);
+			
+			// refresh widgets
+			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+			ctx.sendBroadcast(intentRefreshWidgets);
 
 		}
 
@@ -62,7 +67,7 @@ public class FirstLaunch
 	public static void showInfoDialog(final Activity ctx)
 	{		
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setMessage("A reference 'unplugged' is being created now as it is the first time the app is started. When you plug/unplug your phone this reference will be overwritten.")
+        builder.setMessage("A reference 'unplugged' is being created now. When you plug/unplug your phone this reference will be overwritten.")
                .setCancelable(false)
                .setTitle("Welcome to " + ctx.getString(R.string.app_name))
                .setPositiveButton("OK", new DialogInterface.OnClickListener()
