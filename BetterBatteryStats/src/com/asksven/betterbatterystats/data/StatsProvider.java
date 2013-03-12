@@ -1583,7 +1583,16 @@ public class StatsProvider
 
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
 		
-		long batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
+		long batteryRealtime = 0;
+		try
+		{
+			batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, "An exception occured processing battery realtime. Message: " + e.getMessage());
+			Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+		}		
 
 		long whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
 				BatteryStatsTypes.STATS_CURRENT) / 1000;
