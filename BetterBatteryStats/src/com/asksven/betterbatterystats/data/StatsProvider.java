@@ -1960,11 +1960,11 @@ public class StatsProvider
 	public String getBatteryLevelFromTo(Reference refFrom, Reference refTo)
 	{
 		// deep sleep times are independent of stat type
-		long lLevelTo = getBatteryLevel();
+		long lLevelTo = 0;
 		long lLevelFrom = 0;
 		long sinceH = -1;
-		String levelTo = String.valueOf(lLevelTo);
-		
+
+		String levelTo = "-";
 		String levelFrom = "-";
 		
 		if (refFrom != null)
@@ -1973,6 +1973,12 @@ public class StatsProvider
 			levelFrom = String.valueOf(lLevelFrom);
 		}
 
+		if (refTo != null)
+		{
+			lLevelTo = refTo.m_refBatteryLevel;
+			levelTo = String.valueOf(lLevelTo);
+		}
+		
 		if (LogSettings.DEBUG)
 		{
 			Log.d(TAG, "Current Battery Level:" + levelTo);
