@@ -1939,22 +1939,29 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public int getBatteryLevelStat(Reference myReference)
+	public int getBatteryLevelStat(Reference refFrom, Reference refTo)
 	{
-		// deep sleep times are independent of stat type
-		int level = getBatteryLevel();
-
-
-		if (myReference != null)
+		long lLevelTo = 0;
+		long lLevelFrom = 0;
+		
+		if (refFrom != null)
 		{
-			level = myReference.m_refBatteryLevel - level;
+			lLevelFrom = refFrom.m_refBatteryLevel;
+		}
+
+		if (refTo != null)
+		{
+			lLevelTo = refTo.m_refBatteryLevel;
 		}
 		
 		if (LogSettings.DEBUG)
 		{
-			Log.d(TAG, "Current Battery Level:" + level);
-			Log.d(TAG, "Battery Level since " + myReference.getLabel() + ":" + level);
+			Log.d(TAG, "Current Battery Level:" + lLevelTo);
+			Log.d(TAG, "Battery Level between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + lLevelFrom + " to " + lLevelTo);
 		}
+
+		int level = (int) (lLevelTo - lLevelFrom);
+
 
 		return level;
 	}
@@ -2008,7 +2015,7 @@ public class StatsProvider
 			Log.e(TAG, "Error retrieving since");
 		}
 		
-		return "Bat.: " + getBatteryLevelStat(refFrom) + "% (" + levelFrom
+		return "Bat.: " + getBatteryLevelStat(refFrom, refTo) + "% (" + levelFrom
 				+ "% to " + levelTo + "%)" + " [" + drop_per_hour + "]";
 	}
 
@@ -2019,21 +2026,30 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public int getBatteryVoltageStat(Reference myReference)
+	public int getBatteryVoltageStat(Reference refFrom, Reference refTo)
 	{
-		// deep sleep times are independent of stat type
-		int voltage = getBatteryVoltage();
+		int voltageTo = -1;
+		int voltageFrom = -1;
+		long sinceH = -1;
 
-		if (myReference != null)
+
+		if (refFrom != null)
 		{
-			voltage = myReference.m_refBatteryVoltage - voltage;
+			voltageFrom = refFrom.m_refBatteryVoltage;
+		}
+
+		if (refTo != null)
+		{
+			voltageTo = refTo.m_refBatteryVoltage;
 		}
 
 		if (LogSettings.DEBUG)
 		{
-			Log.d(TAG, "Current Battery Voltage:" + voltage);
-			Log.d(TAG, "Battery Voltage since " + myReference.getLabel() + ":" + voltage);
+			Log.d(TAG, "Current Battery Voltage:" + voltageTo);
+			Log.d(TAG, "Battery Voltage between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + voltageFrom + " to " + voltageTo);
 		}
+
+		int voltage = (int) (voltageTo - voltageFrom);
 
 		return voltage;
 	}
@@ -2683,10 +2699,10 @@ public class StatsProvider
 				out.write("============\n");
 				out.write("Battery Info\n");
 				out.write("============\n");
-				out.write("Level lost [%]: " + getBatteryLevelStat(refFrom)
+				out.write("Level lost [%]: " + getBatteryLevelStat(refFrom, refTo)
 						+ " " + getBatteryLevelFromTo(refFrom, refTo) + "\n");
 				out.write("Voltage lost [mV]: "
-						+ getBatteryVoltageStat(refFrom) + " "
+						+ getBatteryVoltageStat(refFrom, refTo) + " "
 						+ getBatteryVoltageFromTo(refFrom, refTo) + "\n");
 
 				// write timing info
