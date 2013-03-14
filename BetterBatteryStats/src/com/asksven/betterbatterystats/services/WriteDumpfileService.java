@@ -82,7 +82,7 @@ public class WriteDumpfileService extends IntentService
 		
 		Log.i(TAG, "Called with extra " + refFrom + " and " + refTo);
 
-		if (!refFrom.equals("") && !refTo.equals(""))
+		if ((refTo != null) && (refFrom != null) && !refFrom.equals("") && !refTo.equals(""))
 		{
 			try
 			{
