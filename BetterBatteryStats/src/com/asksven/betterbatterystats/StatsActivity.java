@@ -174,29 +174,54 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		else if (!strLastRelease.equals(strCurrentRelease))
     	{
     		//////////////////////////////////////////////////////////////////////////
-    		// Migration from 1.11.x to 1.12.x : preferences for default stat types
+    		// Fix for bad migration to 1.12
     		//////////////////////////////////////////////////////////////////////////
-    		if (strLastRelease.startsWith("28"))
+    		boolean migrated = false;
+    		
+    		if (!sharedPrefs.getString("default_stat_type", "0").startsWith("ref_"))
     		{
-    			// 1.12 changes the way stat type prefs are stored:
-    			// 1.11 used to have index number for constants
-    			// 1.12 has the reference name
-    			// prefs to be migrated are:
-    			// default_stat_type, small_widget_default_stat_type, widget_fallback_stat_type, large_widget_default_stat_type
-    			// all are migrated to "unplugged"
-    			Toast.makeText(this, "Migrating data from previous version", Toast.LENGTH_SHORT).show();
-
     	        SharedPreferences.Editor editor = sharedPrefs.edit();
     	        editor.putString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-    	        editor.putString("small_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-    	        editor.putString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-    	        editor.putString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-
     	        editor.commit();
-    	        
-    	        // migrate and save a reference
-    			FirstLaunch.app_launched(this);
+    	        migrated = true;
     		}
+    		if (!sharedPrefs.getString("small_widget_default_stat_type", "0").startsWith("ref_"))
+    		{
+    	        SharedPreferences.Editor editor = sharedPrefs.edit();
+    	        editor.putString("small_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+    	        editor.commit();
+    	        migrated = true;
+    		}
+    		if (!sharedPrefs.getString("widget_fallback_stat_type", "0").startsWith("ref_"))
+    		{
+    	        SharedPreferences.Editor editor = sharedPrefs.edit();
+    	        editor.putString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+    	        editor.commit();    		
+    	        migrated = true;
+    		}
+    		if (!sharedPrefs.getString("large_widget_default_stat_type", "0").startsWith("ref_"))
+    		{
+    	        SharedPreferences.Editor editor = sharedPrefs.edit();
+    	        editor.putString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+    	        editor.commit();    		
+    	        migrated = true;
+    		}
+
+    		if (migrated)
+    		{
+    			Toast.makeText(this, "Migrating data from previous version", Toast.LENGTH_SHORT).show();
+    			// start service to persist reference
+    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
+    			this.startService(serviceIntent);
+    			
+    			// restart the app
+         	   	Intent i = this.getBaseContext().getPackageManager()
+         	             .getLaunchIntentForPackage( this.getBaseContext().getPackageName() );
+	         	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	         	this.startActivity(i);
+    		}
+    		
+    			
     		// show the readme
 	    	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
 	    	intentReleaseNotes.putExtra("filename", "readme.html");
