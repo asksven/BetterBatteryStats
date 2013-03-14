@@ -490,7 +490,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
                 //extract our message from intent
                 String refName = intent.getStringExtra(Reference.EXTRA_REF_NAME);
                 //log our message value
-                Log.i("Reference was updated:", refName);
+                Log.i(TAG, "Received broadcast, reference was updated:" + refName);
                 
                 // reload the spinners to make sure all refs are in the right sequence when current gets refreshed
 //                if (refName.equals(Reference.CURRENT_REF_FILENAME))
