@@ -758,7 +758,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 			// detect if something changed
 			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
-			if ( !m_refFromName.equals(newStat) )
+			if ((m_refFromName != null) && ( !m_refFromName.equals(newStat) ))
 			{
 				Log.i(TAG, "Spinner from changed from " + m_refFromName + " to " + newStat);
 				m_refFromName = newStat;
@@ -788,7 +788,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		else if (parent == (Spinner) findViewById(R.id.spinnerStatSampleEnd))
 		{
 			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
-			if ( !m_refToName.equals(newStat) )
+			if ((m_refFromName != null) && ( !m_refToName.equals(newStat) ))
 			{
 				Log.i(TAG, "Spinner to changed from " + m_refToName + " to " + newStat);
 				m_refToName = newStat;
