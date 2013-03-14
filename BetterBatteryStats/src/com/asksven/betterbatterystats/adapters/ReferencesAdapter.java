@@ -113,7 +113,14 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 
     public String getItem(int position)
     {
-        return m_listLabels.get(position);
+    	if (position < m_listLabels.size())
+    	{
+    		return m_listLabels.get(position);
+    	}
+    	else
+    	{
+    		return "";
+    	}
     }
 
     public String getItemName(int position)
