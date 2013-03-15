@@ -180,6 +180,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		
     		if (!sharedPrefs.getString("default_stat_type", "0").startsWith("ref_"))
     		{
+    			Log.i(TAG, "Migrating default_stat_type, value was " + sharedPrefs.getString("default_stat_type", "0"));
     	        SharedPreferences.Editor editor = sharedPrefs.edit();
     	        editor.putString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
     	        editor.commit();
@@ -187,6 +188,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		}
     		if (!sharedPrefs.getString("small_widget_default_stat_type", "0").startsWith("ref_"))
     		{
+    			Log.i(TAG, "Migrating small_widget_default_stat_type, value was " + sharedPrefs.getString("small_widget_default_stat_type", "0"));
     	        SharedPreferences.Editor editor = sharedPrefs.edit();
     	        editor.putString("small_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
     	        editor.commit();
@@ -194,6 +196,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		}
     		if (!sharedPrefs.getString("widget_fallback_stat_type", "0").startsWith("ref_"))
     		{
+    			Log.i(TAG, "Migrating widget_fallback_stat_type, value was " + sharedPrefs.getString("widget_fallback_stat_type", "0"));
     	        SharedPreferences.Editor editor = sharedPrefs.edit();
     	        editor.putString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
     	        editor.commit();    		
@@ -201,6 +204,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		}
     		if (!sharedPrefs.getString("large_widget_default_stat_type", "0").startsWith("ref_"))
     		{
+    			Log.i(TAG, "Migrating large_widget_default_stat_type, value was " + sharedPrefs.getString("large_widget_default_stat_type", "0"));
     	        SharedPreferences.Editor editor = sharedPrefs.edit();
     	        editor.putString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
     	        editor.commit();    		
@@ -209,12 +213,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
     		if (migrated)
     		{
+    			Log.i(TAG, "Some preferences were migrated");
     			Toast.makeText(this, "Migrating data from previous version", Toast.LENGTH_SHORT).show();
     			// start service to persist reference
+    			Log.i(TAG, "Force-write Unplugged ref");
     			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
     			this.startService(serviceIntent);
-    			
     			// restart the app
+    			Log.i(TAG, "Restarting the app");
          	   	Intent i = this.getBaseContext().getPackageManager()
          	             .getLaunchIntentForPackage( this.getBaseContext().getPackageName() );
 	         	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

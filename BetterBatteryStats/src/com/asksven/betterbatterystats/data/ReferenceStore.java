@@ -104,11 +104,6 @@ public class ReferenceStore
 	{
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 
-//		if (!refName.startsWith("ref_"))
-//		{
-//			Log.e(TAG, "Invalid reference name " + refName);
-//			return null;
-//		}
 		// the reference names are lazily loaded too
 		if (m_refStore.keySet().isEmpty())
 		{
@@ -127,8 +122,7 @@ public class ReferenceStore
 			}
 			else
 			{
-				Log.i(TAG, "Reference " + Reference.CUSTOM_REF_FILENAME
-						+ " was not found");
+				Log.i(TAG, "Reference " + refName + " was not found");
 			}
 			
 		}
@@ -200,32 +194,6 @@ public class ReferenceStore
 	}
 
 	/**
-	 * Unmarshalls all refs from storage
-	 * @param ctx
-	 */
-	private static void deserializeAllRef(Context ctx)
-	{
-		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
-		
-		List<Reference> refs = db.fetchAllRows();
-		for (int i = 0; i < refs.size(); i++)
-		{
-			
-			Reference ref = refs.get(i);
-			if (ref != null)
-			{
-				Log.i(TAG, "Retrieved ref: " + ref.whoAmI());
-				m_refStore.put(ref.m_fileName, ref);
-		
-			}
-			else
-			{
-				Log.i(TAG, "An error occured reading refs from the database");
-			}
-		}
-	}
-
-	/**
 	 * Fill the cache names of all existing refernces
 	 * @param ctx
 	 */
@@ -233,10 +201,14 @@ public class ReferenceStore
 	{
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 		List<String> refs = db.fetchAllKeys(0);
+		Log.i(TAG, "Populating cache");
 		for (int i=0; i < refs.size(); i++)
 		{
-			m_refStore.put(refs.get(i), null);		
+			m_refStore.put(refs.get(i), null);
+			Log.i(TAG, "Added ref " + refs.get(i));
 		}
+		Log.i(TAG, "Finished populating cache");
+		
 	}
 	
 	/**
@@ -245,8 +217,10 @@ public class ReferenceStore
 	 */
 	public static void deleteAllRefs(Context ctx)
 	{
+		Log.i(TAG, "Deleting all references");
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 		db.deleteReferences();
+		m_refStore.clear();
 	}
 	
 	public static void logReferences(Context ctx)

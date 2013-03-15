@@ -183,7 +183,7 @@ public class ReferenceDBHelper
         }
         catch (SQLException e)
 		{
-			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
+			Log.e(TAG,"SQLite exception: " + e.getLocalizedMessage());
 		}
         finally 
 		{
