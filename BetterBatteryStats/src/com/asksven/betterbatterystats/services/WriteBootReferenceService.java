@@ -28,6 +28,8 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
@@ -78,10 +80,13 @@ public class WriteBootReferenceService extends IntentService
 			// Clear any notifications taht may still be shown as the reference in going to be overwritten
 	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
 	    	nM.cancel(EventWatcherService.NOTFICATION_ID);
-
-			// Store the "since screen off" ref
+	    	
 			Wakelock.aquireWakelock(this);
 			StatsProvider.getInstance(this).setReferenceSinceBoot(0);
+
+			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.BOOT_REF_FILENAME);
+		    this.sendBroadcast(i);
+
 			
 		}
 		catch (Exception e)
