@@ -39,6 +39,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.localeplugin.Constants;
 import com.asksven.betterbatterystats.localeplugin.bundle.BundleScrubber;
@@ -73,6 +74,7 @@ public final class EditActivity extends Activity
      */
     private boolean mIsCancelled = false;
 
+    private ReferencesAdapter m_spinnerAdapter;
     /**
      * {@inheritDoc}
      */
@@ -115,12 +117,10 @@ public final class EditActivity extends Activity
 
         // populate the spinner
 		Spinner spinner = (Spinner) findViewById(R.id.spinnerStatType);
-		ArrayAdapter spinnerAdapter = ArrayAdapter.createFromResource(
-	            this, R.array.statTypeLabels, android.R.layout.simple_spinner_item);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);	    
-		spinner.setAdapter(spinnerAdapter);
-
-
+		m_spinnerAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_item);
+		m_spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);	    
+		spinner.setAdapter(m_spinnerAdapter);
+		
         /*
          * if savedInstanceState is null, then then this is a new Activity instance and a check for EXTRA_BUNDLE is needed
          */
@@ -139,7 +139,7 @@ public final class EditActivity extends Activity
                 Log.i(TAG, "Retrieved from Bundle: " 
                 		+", " + forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF)
                 		+", " + forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT)
-                		+ ", " + forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_STRING_REF_NAME));
+                		+ ", " + forwardedBundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_REF_NAME));
             }
         }
         
@@ -164,7 +164,9 @@ public final class EditActivity extends Activity
         {
             final boolean saveRef = ((CheckBox) findViewById(R.id.CheckBoxSaveRef)).isChecked();
             final boolean saveStat = ((CheckBox) findViewById(R.id.CheckBoxSaveStat)).isChecked();
-            final String ref = (String) ((Spinner) findViewById(R.id.spinnerStatType)).getSelectedItem();
+             
+            int pos = ((Spinner) findViewById(R.id.spinnerStatType)).getSelectedItemPosition();
+            final String ref = m_spinnerAdapter.getItemName(pos);
 
             /*
              * This is the result Intent to Locale

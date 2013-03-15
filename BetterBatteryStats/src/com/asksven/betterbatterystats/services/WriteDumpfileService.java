@@ -78,6 +78,10 @@ public class WriteDumpfileService extends IntentService
 		
 		String refFrom = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_FROM);
 		String refTo = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_TO);
+		if (refTo == null)
+		{
+			refTo = Reference.CURRENT_REF_FILENAME;
+		}
 		
 		
 		Log.i(TAG, "Called with extra " + refFrom + " and " + refTo);
