@@ -51,13 +51,13 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
-import com.asksven.android.common.kernelutils.RootDetection;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
@@ -2324,7 +2324,7 @@ public class StatsProvider
 	/**
 	 * Saves a reference to cache and persists it
 	 */
-	private Reference populateReference(int iSort, Reference refs)
+	private synchronized Reference populateReference(int iSort, Reference refs)
 	{
 		
 		// we are going to retrieve a reference: make sure data does not come from the cache
@@ -2694,7 +2694,7 @@ public class StatsProvider
 
 				out.write("RADIO: " + radio + "\n");
 				out.write("Rooted: "
-						+ RootDetection.hasSuRights("dumpsys alarm") + "\n");
+						+ SU.available() + "\n");
 
 				out.write("============\n");
 				out.write("Battery Info\n");
