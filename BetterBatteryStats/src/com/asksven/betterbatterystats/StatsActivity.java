@@ -1034,6 +1034,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			m_listViewAdapter = null;
 			try
 			{
+				Log.i(TAG, "LoadStatData: refreshing display for stats " + m_refFromName + " to " + m_refToName);
 				m_listViewAdapter = new StatsAdapter(
 						StatsActivity.this,
 						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName));
