@@ -131,16 +131,28 @@ public class ReferenceStore
 	}
 	
 	/**
-	 * Adds a reference to the cache and persists it
+	 * Adds a reference to the cache and persists it asynchronously
 	 * @param refName the name
 	 * @param ref
 	 * @param ctx
 	 */
-	public static synchronized void put(String refName, Reference ref, Context ctx)
+	public static synchronized void put(String refName, final Reference ref, final Context ctx)
 	{
 		m_refStore.put(refName, ref);
 		Log.i(TAG, "Serializing reference " + refName);
-		serializeRef(ref, ctx);
+		
+		// Do this asynchronously as the data is already in the cache
+	    Runnable runnable = new Runnable()
+	    {
+	      @Override
+	      public void run()
+	      {
+	  		serializeRef(ref, ctx);
+	      }
+	    };
+	    
+	    new Thread(runnable).start();
+
 	}
 
 	/**
@@ -187,9 +199,8 @@ public class ReferenceStore
 	 */
 	private static void serializeRef(Reference refs, Context ctx)
 	{
-		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+  		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 		db.addOrUpdateReference(refs);
-//		DataStorage.objectToFile(ctx, refs.m_fileName, refs);
 		Log.i(TAG, "Saved ref " + refs.m_fileName);
 	}
 
