@@ -1942,13 +1942,11 @@ public class StatsProvider
 		{
 			lLevelTo = refTo.m_refBatteryLevel;
 		}
-		
-		if (LogSettings.DEBUG)
+		if ((LogSettings.DEBUG) && (refFrom != null) && (refTo != null))
 		{
 			Log.d(TAG, "Current Battery Level:" + lLevelTo);
 			Log.d(TAG, "Battery Level between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + lLevelFrom + " to " + lLevelTo);
 		}
-
 		int level = (int) (lLevelTo - lLevelFrom);
 
 
@@ -1984,7 +1982,7 @@ public class StatsProvider
 			levelTo = String.valueOf(lLevelTo);
 		}
 		
-		if (LogSettings.DEBUG)
+		if ((LogSettings.DEBUG) && (refFrom != null) && (refTo != null))
 		{
 			Log.d(TAG, "Current Battery Level:" + levelTo);
 			Log.d(TAG, "Battery Level between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + levelFrom);
@@ -2032,7 +2030,7 @@ public class StatsProvider
 			voltageTo = refTo.m_refBatteryVoltage;
 		}
 
-		if (LogSettings.DEBUG)
+		if ((LogSettings.DEBUG) && (refFrom != null) && (refTo != null))
 		{
 			Log.d(TAG, "Current Battery Voltage:" + voltageTo);
 			Log.d(TAG, "Battery Voltage between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + voltageFrom + " to " + voltageTo);
@@ -2063,7 +2061,7 @@ public class StatsProvider
 			voltageFrom = refFrom.m_refBatteryVoltage;
 		}
 
-		if (LogSettings.DEBUG)
+		if ((LogSettings.DEBUG) && (refFrom != null) && (refTo != null))
 		{
 			Log.d(TAG, "Current Battery Voltage:" + voltageTo);
 			Log.d(TAG, "Battery Voltage between " + refFrom.m_fileName + " and " + refTo.m_fileName + ":" + voltageFrom);

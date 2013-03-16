@@ -179,12 +179,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
     		boolean migrated = false;
     		
-    		if (strCurrentRelease.equals("32"))
-    		{
-    			// force deletion of references
-    			migrated = true;
-    		}
-    		
     		//////////////////////////////////////////////////////////////////////////
     		// Fix for bad migration to 1.12
     		//////////////////////////////////////////////////////////////////////////    		
@@ -224,20 +218,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		if (migrated)
     		{
     			Log.i(TAG, "Some preferences were migrated");
-    			Toast.makeText(this, "Upgrading data and references. BetterBatteryStats will restart", Toast.LENGTH_SHORT).show();
+    			Toast.makeText(this, "Upgrading data.", Toast.LENGTH_SHORT).show();
 
-    			// delete all references
-    			ReferenceStore.deleteAllRefs(this);
-    			// start service to persist reference
-    			Log.i(TAG, "Force-write Unplugged ref");
-    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
-    			this.startService(serviceIntent);
-    			// restart the app
-    			Log.i(TAG, "Restarting the app");
-         	   	Intent i = this.getBaseContext().getPackageManager()
-         	             .getLaunchIntentForPackage( this.getBaseContext().getPackageName() );
-	         	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	         	this.startActivity(i);
     		}
     		
     			
