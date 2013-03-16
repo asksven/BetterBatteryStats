@@ -136,5 +136,17 @@ public class GoogleAnalytics
 					+ "Sort" + sort);
 		}
 	}
-	
+
+	public void trackStats(Context context, String page, int stat, String refFrom, String refTo, int sort)
+	{
+		if ((m_tracker != null) && m_bActive )
+		{
+			m_tracker.trackPageView(page 
+					+ StatsProvider.getInstance(context).statToUrl(stat)
+					+ "From" + refFrom
+					+ "To" + refTo
+					+ "Sort" + sort);
+		}
+	}
+
 }
