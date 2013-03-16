@@ -97,7 +97,7 @@ public class UpdateSmallWidgetService extends Service
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 
 			// retrieve stats
-			String refFrom	= sharedPrefs.getString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+			String refFrom	= sharedPrefs.getString("small_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 
 			boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
 
