@@ -149,8 +149,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		///////////////////////////////////////////////
 		// check if we have a new release
 		///////////////////////////////////////////////
-		// if yes show release notes
-		// migrate the default stat and stat type preferences for pre-1.9 releases if not migrated already
+		// if yes do some migration (if required) and show release notes
 		String strLastRelease	= sharedPrefs.getString("last_release", "0");
 		
 		String strCurrentRelease = "";
@@ -173,11 +172,22 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		else if (!strLastRelease.equals(strCurrentRelease))
     	{
-    		//////////////////////////////////////////////////////////////////////////
-    		// Fix for bad migration to 1.12
-    		//////////////////////////////////////////////////////////////////////////
+	        // save the current release to properties so that the dialog won't be shown till next version
+	        SharedPreferences.Editor updater = sharedPrefs.edit();
+	        updater.putString("last_release", strCurrentRelease);
+	        updater.commit();
+
     		boolean migrated = false;
     		
+    		if (strCurrentRelease.equals("32"))
+    		{
+    			// force deletion of references
+    			migrated = true;
+    		}
+    		
+    		//////////////////////////////////////////////////////////////////////////
+    		// Fix for bad migration to 1.12
+    		//////////////////////////////////////////////////////////////////////////    		
     		if (!sharedPrefs.getString("default_stat_type", "0").startsWith("ref_"))
     		{
     			Log.i(TAG, "Migrating default_stat_type, value was " + sharedPrefs.getString("default_stat_type", "0"));
@@ -214,7 +224,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		if (migrated)
     		{
     			Log.i(TAG, "Some preferences were migrated");
-    			Toast.makeText(this, "Migrating data from previous version", Toast.LENGTH_SHORT).show();
+    			Toast.makeText(this, "Upgrading data and references. BetterBatteryStats will restart", Toast.LENGTH_SHORT).show();
+
+    			// delete all references
+    			ReferenceStore.deleteAllRefs(this);
     			// start service to persist reference
     			Log.i(TAG, "Force-write Unplugged ref");
     			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
@@ -233,10 +246,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    	intentReleaseNotes.putExtra("filename", "readme.html");
 	        this.startActivity(intentReleaseNotes);
 	        
-	        // save the current release to properties so that the dialog won't be shown till next version
-	        SharedPreferences.Editor editor = sharedPrefs.edit();
-	        editor.putString("last_release", strCurrentRelease);
-	        editor.commit();
     	}
     	else
     	{
