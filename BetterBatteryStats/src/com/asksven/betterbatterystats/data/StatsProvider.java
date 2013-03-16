@@ -213,16 +213,16 @@ public class StatsProvider
 	public long getSince(Reference refFrom, Reference refTo)
 	{
 		long ret = 0;
-
+		long since = 0;
 
 		if ((refFrom != null) && (refTo != null))
 		{
 			ret =  refTo.m_refBatteryRealtime - refFrom.m_refBatteryRealtime;
-			long since = refTo.m_creationTime - refFrom.m_creationTime;
+			since = refTo.m_creationTime - refFrom.m_creationTime;
 			if (LogSettings.DEBUG)
 			{
-				Log.d(TAG, "Since (battery realtime): " + DateUtils.formatDuration(ret));
-				Log.d(TAG, "Since (creating time, not displayed): " + DateUtils.formatDuration(since));
+				Log.d(TAG, "Since (not used anymore): " + DateUtils.formatDuration(ret));
+				Log.d(TAG, "Since: " + DateUtils.formatDuration(since));
 			}
 
 		}
@@ -231,7 +231,7 @@ public class StatsProvider
 			ret = -1;
 		}
 
-		return ret;
+		return since;
 	}
 
 
@@ -1582,6 +1582,7 @@ public class StatsProvider
 		ArrayList<StatElement> myUsages = new ArrayList<StatElement>();
 
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+		long elaspedRealtime = rawRealtime / 1000;
 		
 		long batteryRealtime = 0;
 		try
@@ -1742,8 +1743,7 @@ public class StatsProvider
 		// BatteryStatsTypes.STATS_CURRENT) / 1000;
 		// SystemClock.elapsedRealtime();
 
-		Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep,
-				whichRealtime);
+		Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, elaspedRealtime);
 		Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
 
 
@@ -1754,24 +1754,24 @@ public class StatsProvider
 
 		if (timeBatteryUp > 0)
 		{
-			myUsages.add(new Misc("Awake", timeBatteryUp, whichRealtime));
+			myUsages.add(new Misc("Awake", timeBatteryUp, elaspedRealtime));
 		}
 
 		if (timeScreenOn > 0)
 		{
-			myUsages.add(new Misc("Screen On", timeScreenOn, whichRealtime));
+			myUsages.add(new Misc("Screen On", timeScreenOn, elaspedRealtime));
 		}
 
 		if (timePhoneOn > 0)
 		{
-			myUsages.add(new Misc("Phone On", timePhoneOn, whichRealtime));
+			myUsages.add(new Misc("Phone On", timePhoneOn, elaspedRealtime));
 		}
 
 		if ((timeWifiOn > 0)
 				&& (!bFilterView || sharedPrefs.getBoolean("show_other_wifi",
 						true)))
 		{
-			myUsages.add(new Misc("Wifi On", timeWifiOn, whichRealtime));
+			myUsages.add(new Misc("Wifi On", timeWifiOn, elaspedRealtime));
 		}
 
 		if ((timeWifiRunning > 0)
@@ -1779,8 +1779,7 @@ public class StatsProvider
 						true)))
 
 		{
-			myUsages.add(new Misc("Wifi Running", timeWifiRunning,
-					whichRealtime));
+			myUsages.add(new Misc("Wifi Running", timeWifiRunning, elaspedRealtime));
 		}
 
 		if ((timeBluetoothOn > 0)
@@ -1788,8 +1787,7 @@ public class StatsProvider
 						true)))
 
 		{
-			myUsages.add(new Misc("Bluetooth On", timeBluetoothOn,
-					whichRealtime));
+			myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, elaspedRealtime));
 		}
 
 		if ((timeNoDataConnection > 0)
@@ -1797,8 +1795,7 @@ public class StatsProvider
 						"show_other_connection", true)))
 
 		{
-			myUsages.add(new Misc("No Data Connection", timeNoDataConnection,
-					whichRealtime));
+			myUsages.add(new Misc("No Data Connection", timeNoDataConnection, elaspedRealtime));
 		}
 
 		if ((timeSignalNone > 0)
@@ -1806,38 +1803,35 @@ public class StatsProvider
 						true)))
 
 		{
-			myUsages.add(new Misc("No or Unknown Signal", timeSignalNone,
-					whichRealtime));
+			myUsages.add(new Misc("No or Unknown Signal", timeSignalNone, elaspedRealtime));
 		}
 
 		if ((timeSignalPoor > 0)
 				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
 						true)))
 		{
-			myUsages.add(new Misc("Poor Signal", timeSignalPoor, whichRealtime));
+			myUsages.add(new Misc("Poor Signal", timeSignalPoor, elaspedRealtime));
 		}
 
 		if ((timeSignalModerate > 0)
 				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
 						true)))
 		{
-			myUsages.add(new Misc("Moderate Signal", timeSignalModerate,
-					whichRealtime));
+			myUsages.add(new Misc("Moderate Signal", timeSignalModerate, elaspedRealtime));
 		}
 
 		if ((timeSignalGood > 0)
 				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
 						true)))
 		{
-			myUsages.add(new Misc("Good Signal", timeSignalGood, whichRealtime));
+			myUsages.add(new Misc("Good Signal", timeSignalGood, elaspedRealtime));
 		}
 
 		if ((timeSignalGreat > 0)
 				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
 						true)))
 		{
-			myUsages.add(new Misc("Great Signal", timeSignalGreat,
-					whichRealtime));
+			myUsages.add(new Misc("Great Signal", timeSignalGreat, elaspedRealtime));
 		}
 
 		if ((timeScreenDark > 0)
@@ -1845,8 +1839,7 @@ public class StatsProvider
 						true)))
 
 		{
-			myUsages.add(new Misc("Screen dark", timeScreenDark,
-					whichRealtime));
+			myUsages.add(new Misc("Screen dark", timeScreenDark, elaspedRealtime));
 		}
 
 		if ((timeScreenDim > 0)
@@ -1854,8 +1847,7 @@ public class StatsProvider
 						true)))
 
 		{
-			myUsages.add(new Misc("Screen dimmed", timeScreenDim,
-					whichRealtime));
+			myUsages.add(new Misc("Screen dimmed", timeScreenDim, elaspedRealtime));
 		}
 
 		if ((timeScreenMedium > 0)
@@ -1863,16 +1855,14 @@ public class StatsProvider
 						true)))
 
 		{
-			myUsages.add(new Misc("Screen medium", timeScreenMedium,
-					whichRealtime));
+			myUsages.add(new Misc("Screen medium", timeScreenMedium, elaspedRealtime));
 		}
 		if ((timeScreenLight > 0)
 				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
 						true)))
 
 		{
-			myUsages.add(new Misc("Screen light", timeScreenLight,
-					whichRealtime));
+			myUsages.add(new Misc("Screen light", timeScreenLight, elaspedRealtime));
 		}
 
 		if ((timeScreenBright > 0)
@@ -1880,37 +1870,36 @@ public class StatsProvider
 						true)))
 
 		{
-			myUsages.add(new Misc("Screen bright", timeScreenBright,
-					whichRealtime));
+			myUsages.add(new Misc("Screen bright", timeScreenBright, elaspedRealtime));
 		}
 
 		// if ( (timeWifiMulticast > 0) && (!bFilterView ||
 		// sharedPrefs.getBoolean("show_other_wifi", true)) )
 		// {
 		// myUsages.add(new Misc("Wifi Multicast On", timeWifiMulticast,
-		// whichRealtime));
+		// elaspedRealtme));
 		// }
 		//
 		// if ( (timeWifiLocked > 0) && (!bFilterView ||(!bFilterView ||
 		// sharedPrefs.getBoolean("show_other_wifi", true)) )
 		// {
-		// myUsages.add(new Misc("Wifi Locked", timeWifiLocked, whichRealtime));
+		// myUsages.add(new Misc("Wifi Locked", timeWifiLocked, elaspedRealtme));
 		// }
 		//
 		// if ( (timeWifiScan > 0) && (!bFilterView ||
 		// sharedPrefs.getBoolean("show_other_wifi", true)) )
 		// {
-		// myUsages.add(new Misc("Wifi Scan", timeWifiScan, whichRealtime));
+		// myUsages.add(new Misc("Wifi Scan", timeWifiScan, elaspedRealtme));
 		// }
 		//
 		// if (timeAudioOn > 0)
 		// {
-		// myUsages.add(new Misc("Video On", timeAudioOn, whichRealtime));
+		// myUsages.add(new Misc("Video On", timeAudioOn, elaspedRealtme));
 		// }
 		//
 		// if (timeVideoOn > 0)
 		// {
-		// myUsages.add(new Misc("Video On", timeVideoOn, whichRealtime));
+		// myUsages.add(new Misc("Video On", timeVideoOn, elaspedRealtme));
 		// }
 
 		// sort @see
@@ -2554,6 +2543,7 @@ public class StatsProvider
 			whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
 					BatteryStatsTypes.STATS_CURRENT) / 1000;
 			whichRealtime -= ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context).m_refBatteryRealtime;
+			
 		}
 		else if ((iStatType == StatsProvider.STATS_SCREEN_OFF)
 				&& (ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, m_context) != null))
@@ -2574,6 +2564,10 @@ public class StatsProvider
 			whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
 					iStatType) / 1000;
 		}
+		
+		Log.i(TAG, "rawRealtime = " + rawRealtime);
+		Log.i(TAG, "whichRealtime = " + whichRealtime);
+		
 		return whichRealtime;
 	}
 
@@ -2832,47 +2826,12 @@ public class StatsProvider
 				out.write("==================\n");
 				out.write("Reference overview\n");
 				out.write("==================\n");
-				if (ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context) != null)
+				
+				for (int i = 0; i < ReferenceStore.getReferenceNames(null, m_context).size(); i++)
 				{
-					out.write("Custom: " + ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context).whoAmI() + "\n");
-				} else
-				{
-					out.write("Custom: " + "null" + "\n");
-				}
-
-				if (ReferenceStore.getReferenceByName(Reference.CHARGED_REF_FILENAME, m_context) != null)
-				{
-					out.write("Since charged: " + ReferenceStore.getReferenceByName(Reference.CHARGED_REF_FILENAME, m_context).whoAmI()
-							+ "\n");
-				} else
-				{
-					out.write("Since charged: " + "null" + "\n");
-				}
-
-				if (ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, m_context) != null)
-				{
-					out.write("Since screen off: "
-							+ ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, m_context).whoAmI() + "\n");
-				} else
-				{
-					out.write("Since screen off: " + "null" + "\n");
-				}
-
-				if (ReferenceStore.getReferenceByName(Reference.UNPLUGGED_REF_FILENAME, m_context) != null)
-				{
-					out.write("Since unplugged: "
-							+ ReferenceStore.getReferenceByName(Reference.UNPLUGGED_REF_FILENAME, m_context).whoAmI() + "\n");
-				} else
-				{
-					out.write("Since unplugged: " + "null" + "\n");
-				}
-
-				if (ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, m_context) != null)
-				{
-					out.write("Since boot: " + ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, m_context).whoAmI() + "\n");
-				} else
-				{
-					out.write("Since boot: " + "null" + "\n");
+					String name = ReferenceStore.getReferenceNames(null, m_context).get(i);
+					Reference ref = ReferenceStore.getReferenceByName(name, m_context);
+					out.write(name + ": " + ref.whoAmI() + "\n");
 				}
 
 				// close file
