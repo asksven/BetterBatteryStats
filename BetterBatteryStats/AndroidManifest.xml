@@ -1,80 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<manifest 
-    android:versionCode="32"
-    android:versionName="1.12.4.0"
-    android:installLocation="internalOnly"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asksven.betterbatterystats"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="14"/>
-    
-  	<uses-permission android:name="android.permission.BATTERY_STATS"/>
-    <!--  required for writing dump files -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!--  required for accessing the knowledge base, required for analytics -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!--  required for analytics -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-   	<!--  store kernel wakelock ref boot -->
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<!--  detect when battery is charged -->
+    android:installLocation="internalOnly"
+    android:versionCode="32"
+    android:versionName="1.13.0.0B1" >
+
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="14" />
+
     <uses-permission android:name="android.permission.BATTERY_STATS" />
-	<!-- detect  when screen is turned on/off-->
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<!-- detect unplug actions -->
-	<uses-permission android:name="android.permission.DEVICE_POWER" />
-	<!-- retrieve ps list (running tasks) -->
-	<uses-permission android:name="android.permission.GET_TASKS" />
-	<!-- tentative to fix bug #173 -->
-	<uses-permission android:name="android.permission.BLUETOOTH" />
-	<!-- need to hold wakelocks for writing operations  -->
- 	<uses-permission android:name="android.permission.WAKE_LOCK" />
- 	<!--  needed to read logcat -->
- 	<uses-permission android:name="android.permission.READ_LOGS" />
-	
+    <!-- required for writing dump files -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- required for accessing the knowledge base, required for analytics -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- required for analytics -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- store kernel wakelock ref boot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!-- detect when battery is charged -->
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <!-- detect  when screen is turned on/off -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- detect unplug actions -->
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <!-- retrieve ps list (running tasks) -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- tentative to fix bug #173 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <!-- need to hold wakelocks for writing operations -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- needed to read logcat -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
-    <supports-screens android:anyDensity="true"
-        android:largeScreens="true" android:normalScreens="true"
-        android:resizeable="true" android:smallScreens="true"/>
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
 
-    <application android:icon="@drawable/icon_notext" android:label="BetterBatteryStats">
+    <application
+        android:icon="@drawable/icon_notext"
+        android:label="BetterBatteryStats" >
         <activity
-            android:label="BetterBatteryStats"
             android:name="com.asksven.betterbatterystats.StatsActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/Theme.asksven"> 
+            android:label="BetterBatteryStats"
+            android:theme="@style/Theme.asksven" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.asksven.betterbatterystats.AboutActivity" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.CreditsActivity" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.PreferencesActivity" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.HelpActivity" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.android.common.ReadmeActivity" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.HistActivity"
-            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.AlarmsActivity"
-            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.KernelWakelocksActivity"
-            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.NetworkStatsActivity"
-            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.CpuStatesActivity"
-            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.PackageInfoActivity"
-            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.PackageInfoTabsPager"
-            android:configChanges="orientation" android:theme="@style/Theme.Sherlock"/>
-        
-        <activity android:name="com.asksven.betterbatterystats.BatteryGraphActivity"
-            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.BatteryGraph2Activity"
-            android:configChanges="orientation" android:theme="@style/Theme.asksven"/>
-        <activity android:name="com.asksven.betterbatterystats.ZoomScrollGraphActivity"/>
-        <activity android:name="org.achartengine.GraphicalActivity" android:theme="@style/Theme.asksven"/>
-        
+        <activity
+            android:name="com.asksven.betterbatterystats.AboutActivity"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.CreditsActivity"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.PreferencesActivity"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.HelpActivity"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.android.common.ReadmeActivity"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.HistActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.AlarmsActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.KernelWakelocksActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.NetworkStatsActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.CpuStatesActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.PackageInfoActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.PackageInfoTabsPager"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.Sherlock" />
+        <activity
+            android:name="com.asksven.betterbatterystats.BatteryGraphActivity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.asksven" />
+        <activity
+            android:name="com.asksven.betterbatterystats.BatteryGraph2Activity"
+            android:configChanges="orientation"
+            android:theme="@style/Theme.asksven" />
+        <activity android:name="com.asksven.betterbatterystats.ZoomScrollGraphActivity" />
+        <activity
+            android:name="org.achartengine.GraphicalActivity"
+            android:theme="@style/Theme.asksven" />
         <activity
             android:name="com.asksven.betterbatterystats.localeplugin.ui.EditActivity"
             android:exported="true"
@@ -105,79 +139,98 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
-        
-        <receiver android:name="com.asksven.betterbatterystats.handlers.OnBootHandler">
+        <receiver android:name="com.asksven.betterbatterystats.handlers.OnBootHandler" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>    
-        </receiver>        
-        <receiver android:name="com.asksven.betterbatterystats.handlers.OnUnplugHandler">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
-            </intent-filter>    
-        </receiver>        
-
-        
-        <receiver android:name="com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider" android:label="BBS 2 x 2 Widget">
-            <intent-filter >
-                <action 
-                    android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-			<intent-filter>
-          		<action android:name="BBS_WIDGET_UPDATE" />
-      		</intent-filter>            
+        </receiver>
+        <receiver android:name="com.asksven.betterbatterystats.handlers.OnUnplugHandler" >
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider"
+            android:label="BBS 2 x 2 Widget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="BBS_WIDGET_UPDATE" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/large_widget_info" />
         </receiver>
-
-        <receiver android:name="com.asksven.betterbatterystats.widgetproviders.MediumWidgetProvider" android:label="BBS 2 x 1 Widget">
-            <intent-filter >
-                <action 
-                    android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <receiver
+            android:name="com.asksven.betterbatterystats.widgetproviders.MediumWidgetProvider"
+            android:label="BBS 2 x 1 Widget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-			<intent-filter>
-          		<action android:name="BBS_WIDGET_UPDATE" />
-      		</intent-filter>            
+            <intent-filter>
+                <action android:name="BBS_WIDGET_UPDATE" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/medium_widget_info" />
         </receiver>
-        
-        <receiver android:name="com.asksven.betterbatterystats.widgetproviders.SmallWidgetProvider" android:label="BBS 1 x 1 Widget">
-            <intent-filter >
-                <action 
-                    android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+        <receiver
+            android:name="com.asksven.betterbatterystats.widgetproviders.SmallWidgetProvider"
+            android:label="BBS 1 x 1 Widget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-			<intent-filter>
-          		<action android:name="BBS_WIDGET_UPDATE" />
-      		</intent-filter>            
-            
+            <intent-filter>
+                <action android:name="BBS_WIDGET_UPDATE" />
+            </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/small_widget_info" />
         </receiver>
-        
-        <receiver  android:process=":remote" android:name="com.asksven.betterbatterystats.ActiveMonAlarmReceiver"/>
-        
-        
-        <service android:name="com.asksven.betterbatterystats.services.UpdateLargeWidgetService"></service>
-        <service android:name="com.asksven.betterbatterystats.services.UpdateMediumWidgetService"></service>
-        <service android:name="com.asksven.betterbatterystats.services.UpdateSmallWidgetService"></service>
-        <service android:name="com.asksven.betterbatterystats.services.EventWatcherService"/>
-		<service android:name="com.asksven.betterbatterystats.services.KbReaderService"/>        
-        <service android:name="com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.services.WriteCustomReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.services.WriteCurrentReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.services.WriteDumpfileService"/>
-        <service android:name="com.asksven.betterbatterystats.services.WriteScreenOffReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.services.WriteTimerReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.services.WriteScreenOnReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.services.WriteBootReferenceService"/>
-        <service android:name="com.asksven.betterbatterystats.services.WatchdogProcessingService"/>
-        
+        <receiver
+            android:name="com.asksven.betterbatterystats.ActiveMonAlarmReceiver"
+            android:process=":remote" />
+
+        <service android:name="com.asksven.betterbatterystats.services.UpdateLargeWidgetService" >
+        </service>
+        <service android:name="com.asksven.betterbatterystats.services.UpdateMediumWidgetService" >
+        </service>
+        <service android:name="com.asksven.betterbatterystats.services.UpdateSmallWidgetService" >
+        </service>
+        <service android:name="com.asksven.betterbatterystats.services.EventWatcherService" />
+        <service android:name="com.asksven.betterbatterystats.services.KbReaderService" />
+        <service android:name="com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService" />
+        <service android:name="com.asksven.betterbatterystats.services.WriteCustomReferenceService" />
+        <service android:name="com.asksven.betterbatterystats.services.WriteCurrentReferenceService" />
+        <service android:name="com.asksven.betterbatterystats.services.WriteDumpfileService" />
+        <service android:name="com.asksven.betterbatterystats.services.WriteScreenOffReferenceService" />
+        <service android:name="com.asksven.betterbatterystats.services.WriteTimerReferenceService" />
+        <service android:name="com.asksven.betterbatterystats.services.WriteScreenOnReferenceService" />
+        <service android:name="com.asksven.betterbatterystats.services.WriteBootReferenceService" />
+        <service android:name="com.asksven.betterbatterystats.services.WatchdogProcessingService" />
+        <service
+            android:name="com.asksven.betterbatterystats.services.BbsDashClockExtension"
+            android:icon="@drawable/icon_notext"
+            android:label="BetterBatteryStats"
+            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
+            <intent-filter>
+                <action android:name="com.google.android.apps.dashclock.Extension" />
+            </intent-filter>
+
+            <meta-data
+                android:name="protocolVersion"
+                android:value="1" />
+            <meta-data
+                android:name="description"
+                android:value="Show info about awake times and drain per hour" />
+            <meta-data
+                android:name="settingsActivity"
+                android:value="com.asksven.betterbatterystats.DashClockSettingsActivity" />
+        </service>
     </application>
-	
+
 </manifest>
