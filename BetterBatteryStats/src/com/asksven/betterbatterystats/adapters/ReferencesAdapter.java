@@ -72,6 +72,7 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 			m_listNames.remove(posCurrent);
 			m_listLabels.remove(posCurrent);		
 		}
+		this.notifyDataSetChanged();
 	}
 
 	private void refresh(Context context)
