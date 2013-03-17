@@ -60,9 +60,7 @@ public class BbsDashClockExtension extends DashClockExtension
 		setUpdateWhenScreenOn(true);
 		
 		// collect some data
-		String refFrom	= sharedPrefs.getString("small_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-
-		boolean showTitle	= sharedPrefs.getBoolean("widget_show_stat_type", true);
+		String refFrom	= sharedPrefs.getString("dashclock_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 
 		long timeAwake 		= 0;
 		long timeSince 		= 0;
@@ -81,23 +79,20 @@ public class BbsDashClockExtension extends DashClockExtension
 			Reference toRef = StatsProvider.getInstance(this).getUncachedPartialReference(0);
 			Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 
-
 			ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, toRef);
 			timeSince = stats.getSince(fromRef, toRef);
 			drain = stats.getBatteryLevelStat(fromRef, toRef);
 			
-			
 			if ( (otherStats == null) || ( otherStats.size() == 1) )
 			{
 				// the desired stat type is unavailable, pick the alternate one and go on with that one
-				refFrom	= sharedPrefs.getString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+				refFrom	= sharedPrefs.getString("dashclock_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 				fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 				otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, toRef);
 			}
 
 			if ( (otherStats != null) && ( otherStats.size() > 1) )
 			{
-
 				Misc timeAwakeStat = (Misc) stats.getElementByKey(otherStats, "Awake");
 				if (timeAwakeStat != null)
 				{
@@ -134,10 +129,10 @@ public class BbsDashClockExtension extends DashClockExtension
 			}
 		}
 
-		String refs = "Since " + Reference.getLabel(refFrom);
+		String refs = getString(R.string.label_since) + " " + Reference.getLabel(refFrom);
 		// Publish the extension data update.
 		publishUpdate(new ExtensionData().visible(true).icon(R.drawable.icon_notext).status(strDrain)
-				.expandedTitle(strAwake + " awake, " + strDrain).expandedBody(refs)
+				.expandedTitle(strAwake + " " + getString(R.string.label_awake_abbrev) + ", " + strDrain).expandedBody(refs)
 				.clickIntent(new Intent(this, StatsActivity.class)));
 	}
 }
