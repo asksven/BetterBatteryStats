@@ -183,7 +183,7 @@
                 android:title="Show Title" />
 
             <ListPreference
-                android:defaultValue="ref_unplugged"
+                android:defaultValue="ref_boot"
                 android:entries="@array/statTypeLabels"
                 android:entryValues="@array/statTypeValues"
                 android:key="widget_fallback_stat_type"

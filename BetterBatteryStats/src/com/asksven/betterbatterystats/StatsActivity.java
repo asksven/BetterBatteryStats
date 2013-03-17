@@ -202,7 +202,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		{
     			Log.i(TAG, "Migrating widget_fallback_stat_type, value was " + sharedPrefs.getString("widget_fallback_stat_type", "0"));
     	        SharedPreferences.Editor editor = sharedPrefs.edit();
-    	        editor.putString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+    	        editor.putString("widget_fallback_stat_type", Reference.BOOT_REF_FILENAME);
     	        editor.commit();    		
     	        migrated = true;
     		}
