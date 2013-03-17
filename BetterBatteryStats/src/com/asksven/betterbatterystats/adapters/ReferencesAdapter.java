@@ -77,6 +77,7 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 
 	private void refresh(Context context)
 	{
+		ReferenceStore.rebuildCache(context);
 		m_listNames = ReferenceStore.getReferenceNames(null, context);
 		m_listLabels = ReferenceStore.getReferenceLabels(null, context);		
 	}

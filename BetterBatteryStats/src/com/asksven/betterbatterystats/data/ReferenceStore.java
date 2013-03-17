@@ -168,6 +168,16 @@ public class ReferenceStore
 		db.deleteReference(refName);
 	}
 
+	/**
+	 * Invalidates the whole cache
+	 * @param ref
+	 * @param ctx
+	 */
+	public static synchronized void rebuildCache(Context ctx)
+	{
+		m_refStore.clear();
+		populateReferenceNames(ctx);
+	}
 
 
 	/**

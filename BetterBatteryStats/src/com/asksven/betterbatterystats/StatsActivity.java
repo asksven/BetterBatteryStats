@@ -677,6 +677,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 	        case R.id.refresh:
             	// Refresh
+	        	ReferenceStore.rebuildCache(this);
 	        	doRefresh(true);
             	break;
             case R.id.dump:
