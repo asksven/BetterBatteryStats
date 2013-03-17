@@ -39,90 +39,23 @@ BetterBatteryStats does not collect data in the background but uses references s
 <b>As long as those events did not occur or after a reboot BBS will notify you about a missing reference. This is not a bug, it's the way BBS was designed</b>	
 <p>
 
-<h2>v1.12.3.0 2013-03-16</h2>
+<h2>v1.12.4.0 2013-03-16</h2>
 <p>
 <ul>
-	<li>Fixed elapsed time (since) being too short if phone had been plugged</li>
+	<li>Fixed widget defaults on fresh install</li>
+	<li>widget default fallback stat is boot</li>
+	<li>Refresh actions flush the cache to guarantee current data</li>
 	<li>Fixed Other stats (deep sleep) being larger than "since"</li>
-	<li>Make persisiting of refs asynchronous</li>
 	<li>Fixed small widget reading wgrong default stat from preferences</li>
-</ul>
-</p>
-
-<h2>v1.12.2.0 2013-03-15</h2>
-<p>
-<ul>
 	<li>Fixed caching issues</li>
-	<li>Added more logging</li>
 	<li>Fixed synchronization issue sometimes leading to empty "to" stat</li>
 	<li>Fixed tasker plugin issue</li>
-</ul>
-</p>
-
-<h2>v1.12.1.0 2013-03-14</h2>
-<p>
-<ul>
 	<li>Fixed "to" battery % and voltage always being the current value</li>
 	<li>Fixed possible FC and error conditions from gplay crash reports</li>
 	<li>Fixed errors due to updating from 1.11 to 1.12 (inconsistent readings)</li>
 </ul>
 </p>
 
-<h2>v1.12.0.1 2013-03-11</h2>
-<p>
-<ul>
-	<li>Fixed problems when migrating from 1.11</li>
-</ul>
-</p>
-
-<h2>v1.12.0.0 2013-03-11</h2>
-<p>
-<ul>
-	<li>Added from/to references (spinners) instead of only having "since" ref to "current"</li>
-	<li>Added active monitoring</li>
-	<li>When initially starting the app a reference 'unplugged' is created automatically</li>
-	<li>Fixed empty stats on screen rotate</li>
-	<li>Added a pref to not refresh the widgets automatically when screen goes on</li>
-	<li>Changed the watchdog behavior: 'screen off' is always saved when watchdog is enabled, 'screen on' saving must be enabled in prefs and will trigger only if screen off time is bigger than threshold</li>
-	<li>Added credits</li>
-	<li>Fixed alarm details not being shown when there is no activity involved</li>
-	<li>Better logging verbosity controlled by advanced debug preference</li>
-	<li>Optimized real estate on main screen and package info</li>
-	<li>Fixed tiny font in widgets</li>
-	<li>Added pref to save dumpfile to private folder</li>
-	<li>Fixed alarms for android 4.2.2</li>
-	<li>Fix for 1x1 widget stopping being updated</li>
-	<li>Fix for fallback ref not being read in 1x1 and 2x1 widgets</li>
-	<li>Less intrusive logging</li>
-	<li>New readme and rate dialogs</li>
-	<li>Fixed spinner height</li>
-	<li>Filter 0-values applies to CPU state as well</li>
-	<li>Added (experimental) support for wakeup_sources (replacement of "old" kernel wakelock representation)</li>
-	<li>Main view automatically refreshes "current" when opened (can be turned off in advanced settings)</li>
-	<li>Fixed 0 kwl and pwl in 2x2 widget</li>
-	<li>Fixed FC when calling BBS from watchdog notification</li>
-	<li>Fixed FC condition causing unknown error</li>
-	<li>Fixed CPU states showing negative percents</li>
-	<li>Due to changes in the way references are computed all prefs related to the stat type are getting migrated to "unplugged" (coming from 1.11)</li>
-	<li>Partial wakelocks and kernel wakelocks always show the same time for all stats</li>
-	<li>Fixed online KB failing to update</li>
-	<li>Changed the way su operations are processed</li>
-	<li>Make sure all root operations are running in an own thread</li>
-	<li>Added pref to show/hide the "reference to" spinner</li>
-	<li>Added screen on reference (saved when watchdog is active)</li>	
-	<li>References are now stored in a database</li>
-	<li>Fixed FC condition in RAW alarms</li>
-	<li>Optimized loading for speed</li> 
-	<li>Fixed watchdog not issuing any alerts</li>
-	<li>Fixed typos</li> 
-	<li>Freeze time when BBS is opened / resumed (use "refresh" to update)</li>
-	<li>Long press on list item copies its text to the clipboard</li>
-	<li>Option to write dmesg to file</li>
-	<li>Screen brightness stats/li>
-	<li>Retrieval of KB is now an async task</li>
-	<li>Added mV/h to battery info (dumpfile)</li>
-</ul>
-</p>
 
 </div> 
 
