@@ -1,15 +1,11 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
-    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-    <EditTextPreference
-        android:key="pref_name"
-        android:title="Test"
-        android:defaultValue="Testvalue"
-        android:selectAllOnFocus="true"
-        android:inputType="textCapWords"
-        android:capitalize="words"
-        android:singleLine="true"
-        android:maxLines="1" />
+    <ListPreference
+        android:defaultValue="ref_unplugged"
+        android:entries="@array/statTypeLabels"
+        android:entryValues="@array/statTypeValues"
+        android:key="dashclock_default_stat_type"
+        android:summary="@string/pref_dashclock_default_stat_type_summary"
+        android:title="@string/label_stat_type" />
 
 </PreferenceScreen>

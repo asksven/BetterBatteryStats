@@ -12,5 +12,7 @@
     <string name="label_button_rate">Rate</string>
     <string name="label_button_no">No, thanks</string>
     <string name="text_dialog_rate">If you enjoy using %s, please take a moment to rate it. Thanks for your support!</string>
+    <string name="label_stat_type">Stat type</string>
+    <string name="pref_dashclock_default_stat_type_summary">Set the stat type to be shown in dashclock</string>
     
 </resources>
