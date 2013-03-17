@@ -43,8 +43,9 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/Theme.asksven"> 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name="com.asksven.betterbatterystats.AboutActivity" android:theme="@style/Theme.asksven"/>
