@@ -2963,6 +2963,20 @@ public class StatsProvider
 	}
 
 	/**
+	 * Writes a reading in json format
+	 * @param refFrom 
+	 * @param iSort
+	 * @param refTo
+	 */
+	@SuppressLint("NewApi")
+	public void writeJsonToFile(Reference refFrom, int iSort, Reference refTo)
+	{
+		Reading reading = new Reading(m_context, refFrom, refTo);
+		reading.writeToFile(m_context);
+		
+	}
+	
+	/**
 	 * Dump the elements on one list
 	 * 
 	 * @param myList

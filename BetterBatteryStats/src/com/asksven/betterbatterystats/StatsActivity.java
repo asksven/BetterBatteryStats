@@ -686,6 +686,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	new WriteDumpFile().execute("");
             	//this.writeDumpToFile();
             	break;
+            case R.id.json:
+            	// Dump to File
+            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
+            	new WriteJsonFile().execute("");
+            	//this.writeDumpToFile();
+            	break;
+	
             case R.id.logcat:
             	// Dump to File
             	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
@@ -969,6 +976,26 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
 			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(myReferenceFrom, m_iSorting, myReferenceTo);
+	    	return true;
+	    }
+
+		@Override
+		protected void onPostExecute(Object o)
+	    {
+			super.onPostExecute(o);
+	        // update hourglass
+	    }
+	 }
+
+	private class WriteJsonFile extends AsyncTask
+	{
+		@Override
+	    protected Object doInBackground(Object... params)
+	    {
+        	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
+    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
+
+			StatsProvider.getInstance(StatsActivity.this).writeJsonToFile(myReferenceFrom, m_iSorting, myReferenceTo);
 	    	return true;
 	    }
 
