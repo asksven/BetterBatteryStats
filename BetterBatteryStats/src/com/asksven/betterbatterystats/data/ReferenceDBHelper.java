@@ -19,6 +19,7 @@ package com.asksven.betterbatterystats.data;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
@@ -26,6 +27,7 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -326,7 +328,10 @@ public class ReferenceDBHelper
 		for (int i=0; i < refs.size(); i++)
 		{
 			Reference ref = refs.get(i);
-			Log.i(TAG, ref.whoAmI());
+			if (ref != null)
+			{
+				Log.i(TAG, ref.whoAmI());
+			}
 		}
 	}
 	protected List<String> fetchAllKeys(long time)
@@ -415,7 +420,14 @@ public class ReferenceDBHelper
 	        {
 
 	        	// cctor with id, name, command, command_status
-	            myRet = createReferenceFromRow(c);	           
+	        	try
+	        	{
+	        		myRet = createReferenceFromRow(c);
+	        	}
+	        	catch (Exception e)
+	        	{
+	        		Log.e(TAG, "An error occured deserializing the reference: " + e.getMessage());
+	        	}
 	        }
 	        c.close();
 		}

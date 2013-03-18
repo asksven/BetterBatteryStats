@@ -157,6 +157,9 @@ public class Reading implements Serializable
 			ArrayList<StatElement> tempStats = StatsProvider.getInstance(context).getOtherUsageStatList(bFilterStats, refFrom, false, false, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
+				// make sure to load all data (even the lazy loaded one)
+				tempStats.get(i).getFqn(context);
+				
 				if (tempStats.get(i) instanceof Misc)
 				{
 					otherStats.add((Misc) tempStats.get(i));
@@ -170,78 +173,96 @@ public class Reading implements Serializable
 			tempStats = StatsProvider.getInstance(context).getWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
-				if (tempStats.get(i) instanceof Misc)
+				// make sure to load all data (even the lazy loaded one)
+				tempStats.get(i).getFqn(context);
+
+				if (tempStats.get(i) instanceof Wakelock)
 				{
 					partialWakelockStats.add((Wakelock) tempStats.get(i));
 				}
 				else
 				{
-					Log.e(TAG, tempStats.get(i).toString() + " is not of type Misc");
+					Log.e(TAG, tempStats.get(i).toString() + " is not of type Wakelock");
 				}
 			}
 
 			tempStats = StatsProvider.getInstance(context).getNativeKernelWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
+				// make sure to load all data (even the lazy loaded one)
+				tempStats.get(i).getFqn(context);
+
 				if (tempStats.get(i) instanceof NativeKernelWakelock)
 				{
 					kernelWakelockStats.add((NativeKernelWakelock) tempStats.get(i));
 				}
 				else
 				{
-					Log.e(TAG, tempStats.get(i).toString() + " is not of type Misc");
+					Log.e(TAG, tempStats.get(i).toString() + " is not of type NativeKernelWakelock");
 				}
 			}
 			
 			tempStats = StatsProvider.getInstance(context).getProcessStatList(bFilterStats, refFrom, iSort, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
+				// make sure to load all data (even the lazy loaded one)
+				tempStats.get(i).getFqn(context);
+
 				if (tempStats.get(i) instanceof Process)
 				{
 					processStats.add((Process) tempStats.get(i));
 				}
 				else
 				{
-					Log.e(TAG, tempStats.get(i).toString() + " is not of type Misc");
+					Log.e(TAG, tempStats.get(i).toString() + " is not of type Process");
 				}
 			}
 			
 			tempStats = StatsProvider.getInstance(context).getAlarmsStatList(bFilterStats, refFrom, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
+				// make sure to load all data (even the lazy loaded one)
+				tempStats.get(i).getFqn(context);
+
 				if (tempStats.get(i) instanceof Alarm)
 				{
 					alarmStats.add((Alarm) tempStats.get(i));
 				}
 				else
 				{
-					Log.e(TAG, tempStats.get(i).toString() + " is not of type Misc");
+					Log.e(TAG, tempStats.get(i).toString() + " is not of type Alarm");
 				}
 			}
 			
 			tempStats = StatsProvider.getInstance(context).getNativeNetworkUsageStatList(bFilterStats, refFrom, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
+				// make sure to load all data (even the lazy loaded one)
+				tempStats.get(i).getFqn(context);
+
 				if (tempStats.get(i) instanceof NetworkUsage)
 				{
 					networkStats.add((NetworkUsage) tempStats.get(i));
 				}
 				else
 				{
-					Log.e(TAG, tempStats.get(i).toString() + " is not of type Misc");
+					Log.e(TAG, tempStats.get(i).toString() + " is not of type NetworkUsage");
 				}
 			}
 			
 			tempStats = StatsProvider.getInstance(context).getCpuStateList(refFrom, refTo, bFilterStats);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
+				// make sure to load all data (even the lazy loaded one)
+				tempStats.get(i).getFqn(context);
+
 				if (tempStats.get(i) instanceof State)
 				{
 					cpuStateStats.add((State) tempStats.get(i));
 				}
 				else
 				{
-					Log.e(TAG, tempStats.get(i).toString() + " is not of type Misc");
+					Log.e(TAG, tempStats.get(i).toString() + " is not of type State");
 				}
 			}		
 		}
