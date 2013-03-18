@@ -122,6 +122,11 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.asksven.betterbatterystats.DashClockSettingsActivity"
+            android:exported="true"
+            android:label="Settings" />
+
         <!--
              This is the "fire" BroadcastReceiver. Note that Locale will reject plug-in BroadcastReceivers for the following reasons:
                 - The BroadcastReceiver isn't exported (e.g. android:exported="false")
@@ -229,7 +234,7 @@
                 android:value="Show info about awake times and drain per hour" />
             <meta-data
                 android:name="settingsActivity"
-                android:value="com.asksven.betterbatterystats.DashClockSettingsActivity" />
+                android:value=".DashClockSettingsActivity" />
         </service>
     </application>
 

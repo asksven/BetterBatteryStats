@@ -16,19 +16,9 @@
 
 package com.asksven.betterbatterystats;
 
-import com.asksven.betterbatterystats.services.BbsDashClockExtension;
-
 import android.annotation.SuppressLint;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
 import android.view.MenuItem;
 
 public class DashClockSettingsActivity extends PreferenceActivity
@@ -45,7 +35,7 @@ public class DashClockSettingsActivity extends PreferenceActivity
 	protected void onPostCreate(Bundle savedInstanceState)
 	{
 		super.onPostCreate(savedInstanceState);
-		setupSimplePreferencesScreen();
+		addPreferencesFromResource(R.xml.pref_dashboard);
 	}
 
 	@Override
@@ -63,14 +53,5 @@ public class DashClockSettingsActivity extends PreferenceActivity
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void setupSimplePreferencesScreen()
-	{
-		// In the simplified UI, fragments are not used at all and we instead
-		// use the older PreferenceActivity APIs.
-
-		// Add 'general' preferences.
-		addPreferencesFromResource(R.xml.pref_dashboard);
-
-	}
 
 }

@@ -46,7 +46,7 @@ import android.view.View;
 
 public class BbsDashClockExtension extends DashClockExtension
 {
-	private static final String TAG = "DashclockExtension";
+	private static final String TAG = "BbsDashClockExtension";
 
 	public static final String PREF_NAME = "pref_name";
 
@@ -115,13 +115,15 @@ public class BbsDashClockExtension extends DashClockExtension
 				Log.d(TAG, "Awake: " + DateUtils.formatDuration(timeAwake));
 				Log.d(TAG, "Since: " + DateUtils.formatDuration(timeSince));
 				Log.d(TAG, "Drain: " + drain);
+				Log.d(TAG, "Drain %/h: " + drain/timeSince);
 				
 			}
 
 			strAwake = DateUtils.formatDurationCompressed(timeAwake);
 			if (timeSince != 0)
 			{
-				strDrain = (drain / (timeSince/1000/60/60)) + "%/h";
+				float pct = drain / ((float)timeSince / 1000F / 60F / 60F);
+				strDrain = String.format("%.1f", pct) + "%/h";
 			}
 			else
 			{
