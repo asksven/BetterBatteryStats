@@ -115,7 +115,14 @@ public class BbsDashClockExtension extends DashClockExtension
 				Log.d(TAG, "Awake: " + DateUtils.formatDuration(timeAwake));
 				Log.d(TAG, "Since: " + DateUtils.formatDuration(timeSince));
 				Log.d(TAG, "Drain: " + drain);
-				Log.d(TAG, "Drain %/h: " + drain/timeSince);
+				if (timeSince != 0)
+				{
+					Log.d(TAG, "Drain %/h: " + drain/timeSince);
+				}
+				else
+				{
+					Log.d(TAG, "Drain %/h: 0");
+				}
 				
 			}
 
