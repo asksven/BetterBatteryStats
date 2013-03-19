@@ -70,6 +70,7 @@ import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
+import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
 {    
@@ -222,6 +223,18 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     			Log.i(TAG, "Some preferences were migrated");
     			Toast.makeText(this, "Upgrading data.", Toast.LENGTH_SHORT).show();
 
+    		}
+    		if (strCurrentRelease.equals("33"))
+    		{
+    			// we have changed the serialized format: delete reference and re-create umplugged and boot
+    			Toast.makeText(this, "Deleting and re-creating references", Toast.LENGTH_SHORT).show();
+    			ReferenceStore.deleteAllRefs(this);
+				Intent i = new Intent(this, WriteBootReferenceService.class);
+				this.startService(i);
+				i = new Intent(this, WriteUnpluggedReferenceService.class);
+				this.startService(i);
+
+    			
     		}
     		
     			
