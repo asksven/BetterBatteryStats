@@ -400,6 +400,19 @@
                 android:key="auto_refresh"
                 android:summary="Automaticall refresh &apos;current&apos;"
                 android:title="Auto refresh" />
+
+            <PreferenceScreen android:title="Advanced" >
+                <CheckBoxPreference
+                    android:defaultValue="true"
+                    android:key="save_as_text"
+                    android:summary="Save Dumpfile as text"
+                    android:title="Text" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="save_as_json"
+                    android:summary="Save Dumpfile as JSON"
+                    android:title="JSON" />
+            </PreferenceScreen>
         </PreferenceScreen>
     </PreferenceCategory>
 

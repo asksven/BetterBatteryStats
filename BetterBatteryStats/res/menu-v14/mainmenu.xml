@@ -20,9 +20,6 @@
         android:id="@+id/dump"
         android:showAsAction="ifRoom"
         android:title="Dump to File"/>
-    <item android:id="@+id/json"
-        android:showAsAction="ifRoom"
-	   	android:title="Write JSON to File" />
     
     <item
         android:id="@+id/custom_ref"

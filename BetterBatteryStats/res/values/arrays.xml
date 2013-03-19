@@ -23,6 +23,12 @@
         <item name="6">Process</item>
     </string-array>
 
+    <!--  Values for the preferences -->
+    <string-array name="saveAsLabels">
+        <item name="0">Text</item>
+        <item name="1">JSON</item>
+    </string-array>
+    
     <string-array name="statValues">
         <item name="0">0</item>
         <item name="1">1</item>
