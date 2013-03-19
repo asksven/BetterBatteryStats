@@ -19,7 +19,10 @@ package com.asksven.betterbatterystats;
  * @author sven
  *
  */
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -68,7 +71,6 @@ import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 
-
 public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
 {    
 	public static String STAT 				= "STAT";
@@ -107,7 +109,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 * The Stat to be displayed (default is "Process")
 	 */
 	private int m_iStat = 0; 
-
+	
 	/**
 	 * the selected sorting
 	 */
@@ -682,17 +684,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	break;
             case R.id.dump:
             	// Dump to File
-            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
-            	new WriteDumpFile().execute("");
-            	//this.writeDumpToFile();
-            	break;
-            case R.id.json:
-            	// Dump to File
-            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
-            	new WriteJsonFile().execute("");
-            	//this.writeDumpToFile();
-            	break;
-	
+                getSaveAsDialog().show();
+            	break;	
             case R.id.logcat:
             	// Dump to File
             	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
@@ -1172,5 +1165,76 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    		}
 	    	}
 	    }
+	}
+	
+	public Dialog getSaveAsDialog()
+	{
+
+		final ArrayList<Integer> selectedSaveActions = new ArrayList<Integer>();
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		boolean saveAsText = sharedPrefs.getBoolean("save_as_text", true);
+		boolean saveAsJson = sharedPrefs.getBoolean("save_as_json", false);
+		if (saveAsText)
+		{
+			selectedSaveActions.add(0);
+		}
+		if (saveAsJson)
+		{
+			selectedSaveActions.add(1);
+		}
+		
+		// Set the dialog title
+		builder.setTitle(R.string.title_saveas_dialog)
+				.setMultiChoiceItems(R.array.saveAsLabels, new boolean[]{saveAsText, saveAsJson}, new DialogInterface.OnMultiChoiceClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked)
+					{
+						if (isChecked)
+						{
+							// If the user checked the item, add it to the
+							// selected items
+							selectedSaveActions.add(which);
+						} else if (selectedSaveActions.contains(which))
+						{
+							// Else, if the item is already in the array,
+							// remove it
+							selectedSaveActions.remove(Integer.valueOf(which));
+						}
+					}
+				})
+				// Set the action buttons
+				.setPositiveButton(R.string.label_button_ok, new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int id)
+					{
+		            	GoogleAnalytics.getInstance(StatsActivity.this).trackPage(GoogleAnalytics.ACTION_DUMP);            	
+
+						// save as text is selected
+						if (selectedSaveActions.contains(0))
+						{
+			            	new WriteDumpFile().execute("");							
+						}
+						
+						// save as JSON if selected
+						if (selectedSaveActions.contains(0))
+						{
+			            	new WriteJsonFile().execute("");
+						}
+							
+					}
+				}).setNegativeButton(R.string.label_button_cancel, new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int id)
+					{
+						// do nothing
+					}
+				});
+
+		return builder.create();
 	}
 }
