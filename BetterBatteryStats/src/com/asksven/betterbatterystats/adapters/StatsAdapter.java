@@ -211,7 +211,7 @@ public class StatsAdapter extends BaseAdapter
         }
 
         // show / hide package icons
-        if ((entry instanceof Process) || (entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc))
+        if ((entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc))
         {
 
         	iconView.setVisibility(View.GONE);
