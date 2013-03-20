@@ -20,6 +20,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
+import com.asksven.betterbatterystats.R;
 
 public class DashClockSettingsActivity extends PreferenceActivity
 {
