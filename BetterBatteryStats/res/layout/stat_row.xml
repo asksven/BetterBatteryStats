@@ -48,13 +48,6 @@
                 android:text="NameGoesHere"
                 android:textSize="12sp" >
             </TextView>
-
-            <ImageView
-                android:id="@+id/imageKB"
-                android:layout_width="32dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/icon_kb" >
-            </ImageView>
         </LinearLayout>
 
         <LinearLayout
@@ -69,6 +62,13 @@
                 android:layout_weight="1"
                 android:text="DataGoesHere"
                 android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/imageKB"
+                android:layout_width="32dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_kb" >
+            </ImageView>
         </LinearLayout>
 
         <LinearLayout
