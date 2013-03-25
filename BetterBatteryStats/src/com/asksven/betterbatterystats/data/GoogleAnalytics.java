@@ -34,10 +34,7 @@ public class GoogleAnalytics
 	
 	/** constants for the reported actions */
 	public static final String ACTIVITY_ABOUT					= "/AboutActivity";
-	public static final String ACTIVITY_ALARMS 					= "/AlarmsActivity";
-	public static final String ACTIVITY_KWL						= "/RawKwlActivity";
-	public static final String ACTIVITY_NET 					= "/RawNetActivity";
-	public static final String ACTIVITY_CPU 					= "/RawCpuActivity";
+	public static final String ACTIVITY_RAW 					= "/RawStatsActivity";	
 	public static final String ACTIVITY_PERMS 					= "/PermissionsActivity";
 
 	public static final String ACTIVITY_BATTERY_GRAPH 			= "/BatteryGraphActivity";

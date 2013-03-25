@@ -3,7 +3,7 @@
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
     android:versionCode="33"
-    android:versionName="1.13.0.0B3" >
+    android:versionName="1.13.0.0B4" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -74,19 +74,7 @@
             android:configChanges="orientation"
             android:theme="@style/Theme.asksven" />
         <activity
-            android:name="com.asksven.betterbatterystats.AlarmsActivity"
-            android:configChanges="orientation"
-            android:theme="@style/Theme.asksven" />
-        <activity
-            android:name="com.asksven.betterbatterystats.KernelWakelocksActivity"
-            android:configChanges="orientation"
-            android:theme="@style/Theme.asksven" />
-        <activity
-            android:name="com.asksven.betterbatterystats.NetworkStatsActivity"
-            android:configChanges="orientation"
-            android:theme="@style/Theme.asksven" />
-        <activity
-            android:name="com.asksven.betterbatterystats.CpuStatesActivity"
+            android:name="com.asksven.betterbatterystats.RawStatsActivity"
             android:configChanges="orientation"
             android:theme="@style/Theme.asksven" />
         <activity

@@ -37,24 +37,8 @@
             <item
                 android:id="@+id/graph"
                 android:title="Graphs"/>
-            <item
-                android:id="@+id/raw_group"
-                android:title="Raw Stats">
-                <menu>
-                    <item
-                        android:id="@+id/rawalarms"
-                        android:title="Raw alarms"/>
-                    <item
-                        android:id="@+id/rawkwl"
-                        android:title="Raw kernel wakelocks"/>
-                    <item
-                        android:id="@+id/rawnetwork"
-                        android:title="Raw network stats"/>
-                    <item
-                        android:id="@+id/rawcpustates"
-                        android:title="Raw CPU states"/>
-                </menu>
-            </item>
+	       	<item android:id="@+id/rawstats"
+	        	android:title="Raw stats" />            
             <item
                 android:id="@+id/sorting_group"
                 android:title="Order by...">

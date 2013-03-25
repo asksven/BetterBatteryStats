@@ -664,32 +664,13 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        	Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
 	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_BATTERY_GRAPH);
 	            this.startActivity(intentGraph);
+	        	break;
+	        	
+	        case R.id.rawstats:  
+	        	Intent intentRaw = new Intent(this, RawStatsActivity.class);
+	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_RAW);
+	            this.startActivity(intentRaw);
 	        	break;	
-
-	        case R.id.rawalarms:  
-	        	Intent intentAlarms = new Intent(this, AlarmsActivity.class);
-	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_ALARMS);
-	            this.startActivity(intentAlarms);
-	        	break;	
-
-	        case R.id.rawkwl:  
-	        	Intent intentKwl = new Intent(this, KernelWakelocksActivity.class);
-	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_KWL);
-	            this.startActivity(intentKwl);
-	        	break;	
-
-	        case R.id.rawnetwork:  
-	        	Intent intentNet = new Intent(this, NetworkStatsActivity.class);
-	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_NET);
-	            this.startActivity(intentNet);
-	        	break;	
-
-	        case R.id.rawcpustates:  
-	        	Intent intentCpu = new Intent(this, CpuStatesActivity.class);
-	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_CPU);
-	            this.startActivity(intentCpu);
-	        	break;	
-
 	        case R.id.refresh:
             	// Refresh
 	        	ReferenceStore.rebuildCache(this);
