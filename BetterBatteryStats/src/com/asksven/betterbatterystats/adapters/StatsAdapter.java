@@ -343,13 +343,12 @@ public class StatsAdapter extends BaseAdapter
 	        	Dialog dialog = new Dialog(m_context);
 	
 	        	dialog.setContentView(R.layout.alarms_dialog);
-	        	dialog.setTitle("Details");
+	        	dialog.setTitle(entry.getName());
 	
 	        	TextView title = (TextView) dialog.findViewById(R.id.title);
-	        	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
+//	        	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
 	        	TextView text = (TextView) dialog.findViewById(R.id.text);
-	        	title.setText(entry.getName());
-	        	subtitle.setText(entry.getData());
+	        	title.setText(entry.getData());
 	        	
 	        	String strText = "";
 	        	ArrayList<AlarmItem> myItems = alarmEntry.getItems();
@@ -359,7 +358,7 @@ public class StatsAdapter extends BaseAdapter
 	        		{
 	        			if (myItems.get(i).getCount() > 0)
 	        			{
-	        				strText = strText + myItems.get(i).getData() + "\n";
+	        				strText = strText + myItems.get(i).getData() + "\n\n";
 	        			}
 	        		}
 	        	}
@@ -373,13 +372,12 @@ public class StatsAdapter extends BaseAdapter
             	Dialog dialog = new Dialog(m_context);
 
             	dialog.setContentView(R.layout.alarms_dialog);
-            	dialog.setTitle("Details");
+            	dialog.setTitle(kernelWakelockEntry.getName());
 
             	TextView title = (TextView) dialog.findViewById(R.id.title);
-            	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
+//            	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
             	TextView text = (TextView) dialog.findViewById(R.id.text);
-            	title.setText(kernelWakelockEntry.getName());
-            	subtitle.setText(kernelWakelockEntry.getData());
+            	title.setText(kernelWakelockEntry.getData());
             	
             	String strText = "";
             	strText += "Count: " + kernelWakelockEntry.getCount() + "\n";
