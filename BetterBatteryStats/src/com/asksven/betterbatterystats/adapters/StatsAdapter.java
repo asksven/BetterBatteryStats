@@ -79,7 +79,7 @@ public class StatsAdapter extends BaseAdapter
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
         boolean bKbEnabled = sharedPrefs.getBoolean("enable_kb", true);
         
-        if (bKbEnabled)
+        if (bKbEnabled && ((m_kb == null) || (m_kb.getEntries().isEmpty())))
         {
         	// async read KB
         	new ReadKb().execute("");
