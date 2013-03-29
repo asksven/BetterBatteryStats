@@ -114,6 +114,8 @@ public class StatsAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup viewGroup)
     {
     	StatElement entry = m_listData.get(position);
+    	
+    	Log.i(TAG, "Values: " +entry.getVals());
         if (convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater) m_context
