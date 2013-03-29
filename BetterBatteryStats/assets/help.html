@@ -59,8 +59,8 @@ BetterBatteryStats does not collect data in the background but uses references s
 	<li>Charged: when the phone was 100% charged</li>
 	<li>Unplugged: when the phone was unplugged from A/C or USB</li>
 	<li>Custom reference: when a custom reference was set (from the "Actions" menu)</li>
-	<li>Screen off: when the screen was turned off</li>
-	<li>Screen on: when the screen was turned on</li>
+	<li>Screen off: when the screen was turned off (only when the watchdog is enabled)</li>
+	<li>Screen on: when the screen was turned on (only when the watchdog is enabled and the corresponding preference is set)</li>
 	<li>Boot: when the phone was booted</li>
 	<li>Current: the current point in time</li>
 	
@@ -118,6 +118,11 @@ Shows the time spent in each CPU state (frequency) including the time spent in d
 <p>
 The list shows the processes and their CPU consumption during the timespan. CPU consumption is expressed in user CPU and system CPU and both times are shown in the total and in the bar graph with different colors.
 </p>
+<h2>The watchdog</h2>
+<p>
+The watchdog is a feature to help you in analysing when happens when the screen is off. When the watchdog is on a reference 'screen off' is created when the screen turns off. You can also configure the watchdog to create a reference 'screen on' when the screen is turned on (or unlocked). Opionally the watchdog will notify you when screen is turned on and the awake ratio was bigger that the configured awake threshold. In order to avoid too much overhead in processing a duration threshold can be set to disable the watchdog for short screen off times.
+</p>
+
 <h2>Menu</h2>
 <p>
 <ul>
