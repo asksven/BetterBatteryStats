@@ -159,7 +159,7 @@ public class StatsAdapter extends BaseAdapter
         LinearLayout myRow = (LinearLayout) convertView.findViewById(R.id.LinearLayoutEntry);
         
         // long press for "copy to clipboard"
-        myRow.setOnLongClickListener(new OnItemLongClickListener(position));
+        //myRow.setOnLongClickListener(new OnItemLongClickListener(position));
 
         
         GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
@@ -334,6 +334,7 @@ public class StatsAdapter extends BaseAdapter
         @Override
         public void onClick(View arg0)
         {
+        	
         	StatElement entry = (StatElement) getItem(m_iPosition);
 
         	if (entry instanceof Alarm)
@@ -424,17 +425,6 @@ public class StatsAdapter extends BaseAdapter
         	            clipboard.setPrimaryClip(clip);
         	}
 			Toast.makeText(m_context, entry.getName() + " was copied to the clipboard", Toast.LENGTH_LONG).show();
-
-//        	if (entry instanceof Alarm)
-//        	{
-//	        	Alarm alarmEntry = (Alarm) getItem(m_iPosition);
-//	            
-//	        }
-//        	if (entry instanceof NativeKernelWakelock)
-//        	{
-//        		NativeKernelWakelock kernelWakelockEntry = (NativeKernelWakelock) getItem(m_iPosition);
-//                
-//        	}
         	
         	return true;
         }
