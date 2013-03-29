@@ -98,6 +98,10 @@
             android:name="org.achartengine.GraphicalActivity"
             android:theme="@style/Theme.asksven" />
         <activity
+            android:name="com.asksven.betterbatterystats.ResponsiveListActivity"
+            android:theme="@style/Theme.asksven" />
+        
+        <activity
             android:name="com.asksven.betterbatterystats.localeplugin.ui.EditActivity"
             android:exported="true"
             android:icon="@drawable/icon_notext"
