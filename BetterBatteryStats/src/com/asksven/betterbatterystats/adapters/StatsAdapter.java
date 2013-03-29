@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,9 +69,6 @@ public class StatsAdapter extends BaseAdapter
 
     private double m_maxValue = 0;
     
-    /** The Knowlegde base */
-    private KbData m_kb;
-
     public StatsAdapter(Context context, List<StatElement> listData)
     {
         this.m_context = context;
@@ -78,12 +76,6 @@ public class StatsAdapter extends BaseAdapter
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
         boolean bKbEnabled = sharedPrefs.getBoolean("enable_kb", true);
-        
-        if (bKbEnabled && ((m_kb == null) || (m_kb.getEntries().isEmpty())))
-        {
-        	// async read KB
-        	new ReadKb().execute("");
-        }
         
         if (m_listData != null)
         {
@@ -131,10 +123,11 @@ public class StatsAdapter extends BaseAdapter
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
        	tvName.setText(entry.getName());
 
+       	KbData kb = KbReader.getInstance().read(m_context);
        	KbEntry kbentry = null;
-        if (m_kb != null)
+        if (kb != null)
         {
-        	 kbentry = m_kb.findByStatElement(entry.getName(), entry.getFqn(m_context));
+        	 kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(m_context));
         }
         
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
@@ -256,13 +249,13 @@ public class StatsAdapter extends BaseAdapter
         public void onClick(View arg0)
         {
         	StatElement entry = (StatElement) getItem(m_iPosition);
-            
+            KbData kb = KbReader.getInstance().read(m_context);
         	// the timing may lead to m_kb not being initialized yet, it must be checked
-        	if (m_kb == null)
+        	if (kb == null)
         	{
         		return;
         	}
-        	KbEntry kbentry = m_kb.findByStatElement(entry.getName(), entry.getFqn(StatsAdapter.this.m_context));
+        	KbEntry kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(StatsAdapter.this.m_context));
   	      	if (kbentry != null)
   	      	{
 	  	      	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsAdapter.this.m_context);
@@ -429,27 +422,6 @@ public class StatsAdapter extends BaseAdapter
         	return true;
         }
     }
-
-    private class ReadKb extends AsyncTask
-	{
-		@Override
-	    protected Object doInBackground(Object... params)
-	    {
-			// retrieve KB
-			StatsAdapter.this.m_kb = KbReader.read(StatsAdapter.this.m_context);
-
-	    	return true;
-	    }
-
-		@Override
-		protected void onPostExecute(Object o)
-	    {
-			super.onPostExecute(o);
-	        // update hourglass
-	    }
-	 }
-    
-
 
     public static void showInstalledPackageDetails(Context context, String packageName)
     {

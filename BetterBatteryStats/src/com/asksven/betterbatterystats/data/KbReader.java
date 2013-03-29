@@ -40,6 +40,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.services.KbReaderService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
@@ -54,11 +55,37 @@ public class KbReader
     
     private static final String TAG = "KbReader";
     
-    public static KbData read(Context ctx)
+    private static KbReader m_singleton = null;
+    
+    private KbData m_cache = null;
+    
+    private KbReader()
     {
-    	KbData kb = KbReaderService.getCachedKb();
-    	if (kb == null)
+    	
+    }
+    
+    public static KbReader getInstance()
+    {
+    	if (m_singleton == null)
     	{
+    		m_singleton = new KbReader();
+    	}
+    	
+    	return m_singleton;
+    }
+    
+    public KbData read(Context ctx)
+    {
+    	if (LogSettings.DEBUG)
+    	{
+    		Log.i(TAG, "read called");
+    	}
+    	if (m_cache == null)
+    	{
+    		if (LogSettings.DEBUG)
+    		{
+    			Log.i(TAG, "Cache is empty");
+    		}
 	     	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 
     		// first check if cache is present and not outdated
@@ -74,11 +101,15 @@ public class KbReader
 			// if cache is not empty, cache not older than 24 hours and caching is on
 			if ((myEntries != null) && (myEntries.size() > 0) && (useCaching) && ((dateMillis - cachedMillis) < MAX_CACHE_AGE_MILLIS)) 
 			{
-				kb = new KbData();
-				kb.setEntries(myEntries);
+				m_cache = new KbData();
+				m_cache.setEntries(myEntries);
 			}
 			else
 			{
+				if (LogSettings.DEBUG)
+				{
+					Log.i(TAG, "Starting service to retrieve KB");
+				}
 				// start async service to retrieve KB if not already running
 				if (!KbReaderService.isTransactional())
 				{
@@ -87,6 +118,13 @@ public class KbReader
 				}
 			}
     	}
-    	return kb;
+    	else
+    	{
+    		if (LogSettings.DEBUG)
+    		{
+    			Log.i(TAG, "returning cached KB");
+    		}
+    	}
+    	return m_cache;
     }
 }

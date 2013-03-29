@@ -74,7 +74,6 @@ public class KbReaderService extends IntentService
 {
 	private static final String TAG = "KbReaderService";
 	private static final String URL = "http://asksven.github.com/BetterBatteryStats-Knowledge-Base/kb_v1.0.json";
-    private static KbData m_kb = null;
     private static boolean m_transactional = false;
     
 	public KbReaderService()
@@ -112,8 +111,7 @@ public class KbReaderService extends IntentService
 	        //data = new Gson().fromJson(SampleKbData.json, KbData.class);
     		
     		// save data and update timestamp
-        	m_kb = data;
-        	myDB.save(m_kb); 
+        	myDB.save(data); 
         	// update cache update timestamp
     		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = prefs.edit();
@@ -137,11 +135,6 @@ public class KbReaderService extends IntentService
 	{
 		return null;
 	}
-
-    public static KbData getCachedKb()
-    {
-    	return m_kb;
-    }
 
     public static boolean isTransactional()
     {
