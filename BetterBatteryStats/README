@@ -13,4 +13,12 @@ Read this to learn how to integration ActionBarSherlock into this project.
 
 - libsuperuser (indirectly through AndroidCommon)
 
+Building BetterBatteryStats
+
+BetterBatteryStats builds with ant
+To build it requires dependent projects (libraries) to be built with ant as well:
+- ActionbarSherlock
+- AndroidCommon
+
+If dependent build.xml files are missing they can be create with "android update project" (see http://www.androidengineer.com/2010/06/using-ant-to-automate-building-android.html for more info)
 
