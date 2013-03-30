@@ -43,6 +43,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
 import android.content.pm.ServiceInfo;
+import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Environment;
@@ -51,6 +52,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.asksven.andoid.common.contrib.Shell;
 import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
@@ -2594,264 +2596,11 @@ public class StatsProvider
 	 * 
 	 */
 
-	@SuppressLint("NewApi")
-	public void writeDumpToFile(Reference refFrom, int iSort, Reference refTo)
-	{
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
-		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
-		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
-				"0"));
-
-		if (!DataStorage.isExternalStorageWritable())
-		{
-			Log.e(TAG, "External storage can not be written");
-			Toast.makeText(m_context, "External Storage can not be written",
-					Toast.LENGTH_SHORT).show();
-		}
-		try
-		{
-			// open file for writing
-			File root;
-			boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
-
-			if (bSaveToPrivateStorage)
-			{
-				try
-				{
-					root = m_context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-				}
-				catch (Exception e)
-				{
-					root = Environment.getExternalStorageDirectory();
-				}
-			}
-			else
-			{
-				root = Environment.getExternalStorageDirectory();
-			}
-
-			// check if file can be written
-			if (root.canWrite())
-			{
-				String strFilename = "BetterBatteryStats-"
-						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-				File dumpFile = new File(root, strFilename);
-				FileWriter fw = new FileWriter(dumpFile);
-				BufferedWriter out = new BufferedWriter(fw);
-
-				// write header
-				out.write("===================\n");
-				out.write("General Information\n");
-				out.write("===================\n");
-				PackageInfo pinfo = m_context.getPackageManager()
-						.getPackageInfo(m_context.getPackageName(), 0);
-				out.write("BetterBatteryStats version: " + pinfo.versionName
-						+ "\n");
-				out.write("Creation Date: " + DateUtils.now() + "\n");
-				out.write("Statistic Type: " + refFrom.getLabel() + " to "+ refTo.getLabel() + "\n");
-				out.write("Since "
-						+ DateUtils.formatDuration(getSince(refFrom, refTo)) + "\n");
-				out.write("VERSION.RELEASE: " + Build.VERSION.RELEASE + "\n");
-				out.write("BRAND: " + Build.BRAND + "\n");
-				out.write("DEVICE: " + Build.DEVICE + "\n");
-				out.write("MANUFACTURER: " + Build.MANUFACTURER + "\n");
-				out.write("MODEL: " + Build.MODEL + "\n");
-				out.write("OS.VERSION: " + System.getProperty("os.version")
-						+ "\n");
-
-				if (Build.VERSION.SDK_INT >= 8)
-				{
-
-					out.write("BOOTLOADER: " + Build.BOOTLOADER + "\n");
-					out.write("HARDWARE: " + Build.HARDWARE + "\n");
-				}
-				out.write("FINGERPRINT: " + Build.FINGERPRINT + "\n");
-				out.write("ID: " + Build.ID + "\n");
-				out.write("TAGS: " + Build.TAGS + "\n");
-				out.write("USER: " + Build.USER + "\n");
-				out.write("PRODUCT: " + Build.PRODUCT + "\n");
-				String radio = "";
-
-				// from API14
-				if (Build.VERSION.SDK_INT >= 14)
-				{
-					radio = Build.getRadioVersion();
-				}
-
-				else if (Build.VERSION.SDK_INT >= 8)
-				{
-					radio = Build.RADIO;
-				}
-
-				out.write("RADIO: " + radio + "\n");
-				out.write("Rooted: "
-						+ SU.available() + "\n");
-
-				out.write("============\n");
-				out.write("Battery Info\n");
-				out.write("============\n");
-				out.write("Level lost [%]: " + getBatteryLevelStat(refFrom, refTo)
-						+ " " + getBatteryLevelFromTo(refFrom, refTo) + "\n");
-				out.write("Voltage lost [mV]: "
-						+ getBatteryVoltageStat(refFrom, refTo) + " "
-						+ getBatteryVoltageFromTo(refFrom, refTo) + "\n");
-
-				// write timing info
-				boolean bDumpChapter = sharedPrefs.getBoolean("show_other",
-						true);
-				if (bDumpChapter)
-				{
-					out.write("===========\n");
-					out.write("Other Usage\n");
-					out.write("===========\n");
-					dumpList(
-							getOtherUsageStatList(bFilterStats, refFrom,
-									false, false, refTo), out);
-				}
-
-				bDumpChapter = sharedPrefs.getBoolean("show_pwl", true);
-				if (bDumpChapter)
-				{
-					// write wakelock info
-					out.write("=========\n");
-					out.write("Wakelocks\n");
-					out.write("=========\n");
-					dumpList(
-							getWakelockStatList(bFilterStats, refFrom,
-									iPctType, iSort, refTo), out);
-					
-				}
-
-				bDumpChapter = sharedPrefs.getBoolean("show_kwl", true);
-				if (bDumpChapter)
-				{
-					String addendum = "";
-					if (Wakelocks.isDiscreteKwlPatch())
-					{
-						addendum = "!!! Discrete !!!";
-					}
-					if (!Wakelocks.fileExists())
-					{
-						addendum = " !!! wakeup_sources !!!";
-					}
-
-					// write kernel wakelock info
-					out.write("================\n");
-					out.write("Kernel Wakelocks " + addendum + "\n");
-					out.write("================\n");
-
-					dumpList(
-						getNativeKernelWakelockStatList(bFilterStats,
-								refFrom, iPctType, iSort, refTo), out);
-				}
-
-				bDumpChapter = sharedPrefs.getBoolean("show_proc", false);
-				if (bDumpChapter)
-				{
-					// write process info
-					out.write("=========\n");
-					out.write("Processes\n");
-					out.write("=========\n");
-					dumpList(
-							getProcessStatList(bFilterStats, refFrom, iSort, refTo),
-							out);
-				}
-
-				bDumpChapter = sharedPrefs.getBoolean("show_alarm", true);
-				if (bDumpChapter)
-				{
-					// write alarms info
-					out.write("======================\n");
-					out.write("Alarms (requires root)\n");
-					out.write("======================\n");
-					dumpList(getAlarmsStatList(bFilterStats, refFrom, refTo), out);
-				}
-
-				bDumpChapter = sharedPrefs.getBoolean("show_network", true);
-				if (bDumpChapter)
-				{
-					// write alarms info
-					out.write("======================\n");
-					out.write("Network (requires root)\n");
-					out.write("======================\n");
-					dumpList(
-							getNativeNetworkUsageStatList(bFilterStats,
-									refFrom, refTo), out);
-				}
-
-				bDumpChapter = sharedPrefs.getBoolean("show_cpustates", true);
-				if (bDumpChapter)
-				{
-					// write alarms info
-					out.write("==========\n");
-					out.write("CPU States\n");
-					out.write("==========\n");
-					dumpList(getCpuStateList(refFrom, refTo, bFilterStats), out);
-				}
-
-				bDumpChapter = sharedPrefs.getBoolean("show_serv", false);
-				if (bDumpChapter)
-				{
-					out.write("========\n");
-					out.write("Services\n");
-					out.write("========\n");
-					out.write("Active since: The time when the service was first made active, either by someone starting or binding to it.\n");
-					out.write("Last activity: The time when there was last activity in the service (either explicit requests to start it or clients binding to it)\n");
-					out.write("See http://developer.android.com/reference/android/app/ActivityManager.RunningServiceInfo.html\n");
-					ActivityManager am = (ActivityManager) m_context
-							.getSystemService(m_context.ACTIVITY_SERVICE);
-					List<ActivityManager.RunningServiceInfo> rs = am
-							.getRunningServices(50);
-
-					for (int i = 0; i < rs.size(); i++)
-					{
-						ActivityManager.RunningServiceInfo rsi = rs.get(i);
-						out.write(rsi.process + " ("
-								+ rsi.service.getClassName() + ")\n");
-						out.write("  Active since: "
-								+ DateUtils.formatDuration(rsi.activeSince)
-								+ "\n");
-						out.write("  Last activity: "
-								+ DateUtils
-										.formatDuration(rsi.lastActivityTime)
-								+ "\n");
-						out.write("  Crash count:" + rsi.crashCount + "\n");
-					}
-				}
-
-				// add chapter for reference info
-				out.write("==================\n");
-				out.write("Reference overview\n");
-				out.write("==================\n");
-				
-				for (int i = 0; i < ReferenceStore.getReferenceNames(null, m_context).size(); i++)
-				{
-					String name = ReferenceStore.getReferenceNames(null, m_context).get(i);
-					Reference ref = ReferenceStore.getReferenceByName(name, m_context);
-					out.write(name + ": " + ref.whoAmI() + "\n");
-				}
-
-				// close file
-				out.close();
-//				Toast.makeText(m_context, "Dump witten: " + strFilename, Toast.LENGTH_SHORT).show();
-
-			} else
-			{
-				Log.i(TAG,
-						"Write error. "
-								+ Environment.getExternalStorageDirectory()
-								+ " couldn't be written");
-			}
-		} catch (Exception e)
-		{
-			Log.e(TAG, "Exception: " + e.getMessage());
-		}
-	}
 
 	@SuppressLint("NewApi")
-	public void writeLogcatToFile()
+	public Uri writeLogcatToFile()
 	{
+		Uri fileUri = null;
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 
@@ -2891,6 +2640,8 @@ public class StatsProvider
 				String filename = "logcat-"
 						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
 				Util.run("logcat -d > " + path + "/" + filename);
+				fileUri = Uri.fromFile(new File(path + "/" + filename));
+
 //				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
 
 			} else
@@ -2904,11 +2655,13 @@ public class StatsProvider
 		{
 			Log.e(TAG, "Exception: " + e.getMessage());
 		}
+		return fileUri;
 	}
 
 	@SuppressLint("NewApi")
-	public void writeDmesgToFile()
+	public Uri writeDmesgToFile()
 	{
+		Uri fileUri = null;
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 
@@ -2946,7 +2699,15 @@ public class StatsProvider
 			{
 				String filename = "dmesg-"
 						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-				Util.run("dmesg > " + path + "/" + filename);
+				if (Shell.SU.available())
+				{
+					Shell.SU.run("dmesg > " + path + "/" + filename);
+				}
+				else
+				{
+					Util.run("dmesg > " + path + "/" + filename);
+				}
+				fileUri = Uri.fromFile(new File(path + "/" + filename));
 //				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
 
 			} else
@@ -2960,6 +2721,7 @@ public class StatsProvider
 		{
 			Log.e(TAG, "Exception: " + e.getMessage());
 		}
+		return fileUri;
 	}
 
 	/**
@@ -2972,28 +2734,29 @@ public class StatsProvider
 	public void writeJsonToFile(Reference refFrom, int iSort, Reference refTo)
 	{
 		Reading reading = new Reading(m_context, refFrom, refTo);
-		reading.writeToFile(m_context);
+		reading.writeToFileJson(m_context);
 		
 	}
 	
-	/**
-	 * Dump the elements on one list
-	 * 
-	 * @param myList
-	 *            a list of StatElement
-	 */
-	private void dumpList(List<StatElement> myList, BufferedWriter out)
-			throws IOException
-	{
-		if (myList != null)
-		{
-			for (int i = 0; i < myList.size(); i++)
-			{
-				out.write(myList.get(i).getDumpData(m_context) + "\n");
-
-			}
-		}
-	}
+	
+//	/**
+//	 * Dump the elements on one list
+//	 * 
+//	 * @param myList
+//	 *            a list of StatElement
+//	 */
+//	private void dumpList(List<StatElement> myList, BufferedWriter out)
+//			throws IOException
+//	{
+//		if (myList != null)
+//		{
+//			for (int i = 0; i < myList.size(); i++)
+//			{
+//				out.write(myList.get(i).getDumpData(m_context) + "\n");
+//
+//			}
+//		}
+//	}
 
 	/**
 	 * translate the stat type (see arrays.xml) to the corresponding label
