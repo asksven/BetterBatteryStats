@@ -401,17 +401,28 @@
                 android:summary="Automaticall refresh &apos;current&apos;"
                 android:title="Auto refresh" />
 
-            <PreferenceScreen android:title="Advanced" >
+            <PreferenceScreen android:title="Sharing options" >
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="save_as_text"
-                    android:summary="Save Dumpfile as text"
+                    android:summary="Share dumpfile as text"
                     android:title="Text" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="save_as_json"
-                    android:summary="Save Dumpfile as JSON"
+                    android:summary="Share dumpfile as JSON"
                     android:title="JSON" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="save_logcat"
+                    android:summary="Share logcat"
+                    android:title="Logcat" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="save_dmesg"
+                    android:summary="Share dmesg"
+                    android:title="dmesg" />
+                
             </PreferenceScreen>
         </PreferenceScreen>
     </PreferenceCategory>

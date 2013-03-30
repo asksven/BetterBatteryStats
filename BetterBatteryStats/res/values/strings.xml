@@ -18,9 +18,10 @@
     <string name="pref_dashclock_default_stat_type_summary">Set the stat type to be shown in dashclock</string>
     <string name="pref_dashclock_fallback_stat_type_summary">Set the fallback stat type to be shown in the dashclock if the primary one has no reference</string>
     <string name="label_awake_abbrev">aw.</string>
-    <string name="label_button_ok">OK</string>
+    <string name="label_button_share">Share to...</string>
+    <string name="label_button_save">Save</string>
     <string name="label_button_cancel">Cancel</string>
-    <string name="title_saveas_dialog">Save Dumpfile as...</string>
+    <string name="title_share_dialog">Share data as...</string>
     
     
 </resources>

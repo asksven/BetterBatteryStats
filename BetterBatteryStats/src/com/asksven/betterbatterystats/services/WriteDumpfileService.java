@@ -28,6 +28,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -94,7 +95,8 @@ public class WriteDumpfileService extends IntentService
 				// restore any available references if required
 	        	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(refFrom, this);
 	    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(refTo, this);
-	        	StatsProvider.getInstance(this).writeDumpToFile(myReferenceFrom, 0, myReferenceTo);
+	    		Reading data = new Reading(this,myReferenceFrom, myReferenceTo);
+	    		data.writeToFileText(this);
 	
 			}
 			catch (Exception e)

@@ -35,8 +35,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -61,6 +63,7 @@ import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
+import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceDBHelper;
 import com.asksven.betterbatterystats.data.ReferenceStore;
@@ -675,22 +678,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
             	// Refresh
 	        	ReferenceStore.rebuildCache(this);
 	        	doRefresh(true);
-            	break;
-            case R.id.dump:
-            	// Dump to File
-                getSaveAsDialog().show();
             	break;	
-            case R.id.logcat:
-            	// Dump to File
-            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
-            	new WriteLogcatFile().execute("");
-            	break;
-            case R.id.dmesg:
-            	// Dump to File
-            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_DUMP);
-            	new WriteDmesgFile().execute("");
-            	break;
-	
             case R.id.custom_ref:
             	// Set custom reference
             	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_SET_CUSTOM_REF);
@@ -749,11 +737,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
                 this.startActivity(intentReleaseNotes);
             	break;	
 
-//            case R.id.test:
-//            	// Test something
-//            	AlarmsDumpsys.getAlarms();
-//            	break;	
-
+            case R.id.share:
+            	// Share
+            	getShareDialog().show();
+            	break;
         }  
         return false;  
     }    
@@ -948,85 +935,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	}
 
 	private void doRefresh(boolean updateCurrent)
-		{
-	
-			BatteryStatsProxy.getInstance(this).invalidate();
-			new LoadStatData().execute(updateCurrent);	
-		}
-
-	private class WriteDumpFile extends AsyncTask
 	{
-		@Override
-	    protected Object doInBackground(Object... params)
-	    {
-        	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
-    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
-			StatsProvider.getInstance(StatsActivity.this).writeDumpToFile(myReferenceFrom, m_iSorting, myReferenceTo);
-	    	return true;
-	    }
-
-		@Override
-		protected void onPostExecute(Object o)
-	    {
-			super.onPostExecute(o);
-	        // update hourglass
-	    }
-	 }
-
-	private class WriteJsonFile extends AsyncTask
-	{
-		@Override
-	    protected Object doInBackground(Object... params)
-	    {
-        	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
-    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
-
-			StatsProvider.getInstance(StatsActivity.this).writeJsonToFile(myReferenceFrom, m_iSorting, myReferenceTo);
-	    	return true;
-	    }
-
-		@Override
-		protected void onPostExecute(Object o)
-	    {
-			super.onPostExecute(o);
-	        // update hourglass
-	    }
-	 }
-
-	private class WriteLogcatFile extends AsyncTask
-	{
-		@Override
-	    protected Object doInBackground(Object... params)
-	    {
-			StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile();
-	    	return true;
-	    }
-
-		@Override
-		protected void onPostExecute(Object o)
-	    {
-			super.onPostExecute(o);
-	        // update hourglass
-	    }
-	 }
-
-	private class WriteDmesgFile extends AsyncTask
-	{
-		@Override
-	    protected Object doInBackground(Object... params)
-	    {
-			StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile();
-	    	return true;
-	    }
-
-		@Override
-		protected void onPostExecute(Object o)
-	    {
-			super.onPostExecute(o);
-	        // update hourglass
-	    }
-	 }
+		BatteryStatsProxy.getInstance(this).invalidate();
+		new LoadStatData().execute(updateCurrent);	
+	}
 
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 	// for more details
@@ -1161,15 +1074,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	    }
 	}
 	
-	public Dialog getSaveAsDialog()
-	{
 
+	public Dialog getShareDialog()
+	{
+	
 		final ArrayList<Integer> selectedSaveActions = new ArrayList<Integer>();
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean saveAsText = sharedPrefs.getBoolean("save_as_text", true);
 		boolean saveAsJson = sharedPrefs.getBoolean("save_as_json", false);
+		boolean saveLogcat = sharedPrefs.getBoolean("save_logcat", false);
+		boolean saveDmesg = sharedPrefs.getBoolean("save_dmesg", false);
+
 		if (saveAsText)
 		{
 			selectedSaveActions.add(0);
@@ -1178,10 +1095,19 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 			selectedSaveActions.add(1);
 		}
+		if (saveLogcat)
+		{
+			selectedSaveActions.add(2);
+		}
+		if (saveDmesg)
+		{
+			selectedSaveActions.add(3);
+		}
+
 		
 		// Set the dialog title
-		builder.setTitle(R.string.title_saveas_dialog)
-				.setMultiChoiceItems(R.array.saveAsLabels, new boolean[]{saveAsText, saveAsJson}, new DialogInterface.OnMultiChoiceClickListener()
+		builder.setTitle(R.string.title_share_dialog)
+				.setMultiChoiceItems(R.array.saveAsLabels, new boolean[]{saveAsText, saveAsJson, saveLogcat, saveDmesg}, new DialogInterface.OnMultiChoiceClickListener()
 				{
 					@Override
 					public void onClick(DialogInterface dialog, int which, boolean isChecked)
@@ -1200,35 +1126,97 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 					}
 				})
 				// Set the action buttons
-				.setPositiveButton(R.string.label_button_ok, new DialogInterface.OnClickListener()
+				.setPositiveButton(R.string.label_button_share, new DialogInterface.OnClickListener()
 				{
 					@Override
 					public void onClick(DialogInterface dialog, int id)
 					{
 		            	GoogleAnalytics.getInstance(StatsActivity.this).trackPage(GoogleAnalytics.ACTION_DUMP);            	
 
+		            	ArrayList<Uri> attachements = new ArrayList<Uri>();
+
+		            	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
+			    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
+
+			    		Reading reading = new Reading(StatsActivity.this, myReferenceFrom, myReferenceTo);
+
 						// save as text is selected
 						if (selectedSaveActions.contains(0))
 						{
-			            	new WriteDumpFile().execute("");							
+							attachements.add(reading.writeToFileText(StatsActivity.this));
 						}
-						
 						// save as JSON if selected
-						if (selectedSaveActions.contains(0))
+						if (selectedSaveActions.contains(1))
 						{
-			            	new WriteJsonFile().execute("");
+							attachements.add(reading.writeToFileJson(StatsActivity.this));
 						}
-							
+						// save logcat if selected
+						if (selectedSaveActions.contains(2))
+						{
+							attachements.add(StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile());
+						}
+						// save dmesg if selected
+						if (selectedSaveActions.contains(3))
+						{
+							attachements.add(StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile());
+						}
+
+
+						if (!attachements.isEmpty())
+						{
+							Intent shareIntent = new Intent();
+							shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+							shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachements);
+							shareIntent.setType("text/*");
+							startActivity(Intent.createChooser(shareIntent, "Share info to.."));
+						}
 					}
-				}).setNegativeButton(R.string.label_button_cancel, new DialogInterface.OnClickListener()
+				})
+				.setNeutralButton(R.string.label_button_save, new DialogInterface.OnClickListener()
 				{
 					@Override
 					public void onClick(DialogInterface dialog, int id)
 					{
-						// do nothing
-					}
-				});
+		            	GoogleAnalytics.getInstance(StatsActivity.this).trackPage(GoogleAnalytics.ACTION_DUMP);            	
 
+
+		            	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
+			    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
+
+			    		Reading reading = new Reading(StatsActivity.this, myReferenceFrom, myReferenceTo);
+
+						// save as text is selected
+						// save as text is selected
+						if (selectedSaveActions.contains(0))
+						{
+							reading.writeToFileText(StatsActivity.this);
+						}
+						// save as JSON if selected
+						if (selectedSaveActions.contains(1))
+						{
+							reading.writeToFileJson(StatsActivity.this);
+						}
+						// save logcat if selected
+						if (selectedSaveActions.contains(2))
+						{
+							StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile();
+						}
+						// save dmesg if selected
+						if (selectedSaveActions.contains(3))
+						{
+							StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile();
+						}
+						
+					}
+				}).setNegativeButton(R.string.label_button_cancel, new DialogInterface.OnClickListener()
+					{
+						@Override
+						public void onClick(DialogInterface dialog, int id)
+						{
+							// do nothing
+						}
+					});
+	
 		return builder.create();
 	}
 }

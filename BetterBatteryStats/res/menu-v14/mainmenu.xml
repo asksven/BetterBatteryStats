@@ -2,34 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/preferences"
-        android:icon="@drawable/ic_menu_settings"
-        android:showAsAction="ifRoom"
-        android:title="Settings"/>
-    <item
         android:id="@+id/refresh"
         android:icon="@drawable/ic_menu_refresh"
         android:showAsAction="always"
         android:title="Refresh"/>
-
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_action_share"
+        android:showAsAction="ifRoom"
+        android:title="Share"/>
+    <item
+        android:id="@+id/preferences"
+        android:icon="@drawable/ic_menu_settings"
+        android:showAsAction="ifRoom"
+        android:title="Settings"/>
+    
     <!--
     <item android:id="@+id/test"
     	android:title="Test" />
     -->
     <item
-        android:id="@+id/dump"
-        android:showAsAction="ifRoom"
-        android:title="Dump to File"/>
-    
-    <item
         android:id="@+id/custom_ref"
         android:title="Set Custom Ref."/>
-    <item
-        android:id="@+id/logcat"
-        android:title="Save Logcat"/>
-    <item
-        android:id="@+id/dmesg"
-        android:title="Save dmesg"/>
     <item
         android:id="@+id/more_group"
         android:title="More">
@@ -37,8 +31,9 @@
             <item
                 android:id="@+id/graph"
                 android:title="Graphs"/>
-	       	<item android:id="@+id/rawstats"
-	        	android:title="Raw stats" />            
+            <item
+                android:id="@+id/rawstats"
+                android:title="Raw stats"/>
             <item
                 android:id="@+id/sorting_group"
                 android:title="Order by...">

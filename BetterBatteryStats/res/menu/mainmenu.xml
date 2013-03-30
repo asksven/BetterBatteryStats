@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/preferences"
-          android:title="Preferences" />
     <item android:id="@+id/refresh"    
           android:title="Refresh"
           android:showAsAction="ifRoom"/>
-
+    <item android:id="@+id/share"    
+          android:title="Share"
+          android:showAsAction="ifRoom"/>
+    <item android:id="@+id/preferences"
+          android:title="Preferences" />
+    
     <!-- 
     <item android:id="@+id/test"    
           android:title="Test" />
@@ -28,14 +31,7 @@
  	        
 <!-- 	    	<item android:id="@+id/test" -->
 <!-- 	        	android:title="Test" /> -->
-	        
-	    	<item android:id="@+id/dump"
-	        	android:title="Dump to File" />
-	    	<item android:id="@+id/logcat"
-	        	android:title="Save Logcat" />
-	    	<item android:id="@+id/dmesg"
-	        	android:title="Save dmesg" />
-	    	
+	        	    	
 	        <item android:id="@+id/custom_ref"
 	        	android:title="Set Custom Ref." />
 	        <item android:id="@+id/graph"
