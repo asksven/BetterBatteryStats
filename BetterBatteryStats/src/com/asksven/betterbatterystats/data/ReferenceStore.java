@@ -61,8 +61,9 @@ public class ReferenceStore
 				time = ref.m_creationTime;
 			}
 		}
-		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
 		ret = db.fetchAllLabels(time);
+		db.close();
 		
 		return ret;
 	}
@@ -88,9 +89,9 @@ public class ReferenceStore
 				time = ref.m_creationTime;
 			}
 		}
-		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
 		ret = db.fetchAllKeys(time);
-		
+		db.close();
 		return ret;
 	}
 
@@ -102,7 +103,7 @@ public class ReferenceStore
 	 */
 	public static Reference getReferenceByName(String refName, Context ctx)
 	{
-		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
 
 		// the reference names are lazily loaded too
 		if (m_refStore.keySet().isEmpty())
@@ -126,6 +127,7 @@ public class ReferenceStore
 			}
 			
 		}
+		db.close();
 		Reference ret = m_refStore.get(refName);
 		return ret;
 	}
@@ -164,8 +166,9 @@ public class ReferenceStore
 	public static void invalidate(String refName, Context ctx)
 	{
 		m_refStore.put(refName, null);
-		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
 		db.deleteReference(refName);
+		db.close();
 	}
 
 	/**
@@ -209,8 +212,9 @@ public class ReferenceStore
 	 */
 	private static void serializeRef(Reference refs, Context ctx)
 	{
-  		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+  		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
 		db.addOrUpdateReference(refs);
+		db.close();
 		Log.i(TAG, "Saved ref " + refs.m_fileName);
 	}
 
@@ -220,7 +224,7 @@ public class ReferenceStore
 	 */
 	private static void populateReferenceNames(Context ctx)
 	{
-		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
 		List<String> refs = db.fetchAllKeys(0);
 		Log.i(TAG, "Populating cache");
 		for (int i=0; i < refs.size(); i++)
@@ -229,7 +233,7 @@ public class ReferenceStore
 			Log.i(TAG, "Added ref " + refs.get(i));
 		}
 		Log.i(TAG, "Finished populating cache");
-		
+		db.close();
 	}
 	
 	/**
@@ -239,14 +243,18 @@ public class ReferenceStore
 	public static void deleteAllRefs(Context ctx)
 	{
 		Log.i(TAG, "Deleting all references");
-		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
+		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
 		db.deleteReferences();
+		db.close();
 		m_refStore.clear();
+		
 	}
 	
 	public static void logReferences(Context ctx)
 	{
-		ReferenceDBHelper.getInstance(ctx).logCacheContent();
+		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
+		db.logCacheContent();
+		db.close();
 		
 	}
 }

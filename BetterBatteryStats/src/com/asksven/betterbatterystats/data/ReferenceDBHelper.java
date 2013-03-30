@@ -37,7 +37,7 @@ import android.util.Log;
 
 
 /**
- * DBHelper sigleton class.  
+ * DBHelper class
  * 
  * Database layer for cell log data
  */
@@ -52,7 +52,7 @@ public class ReferenceDBHelper
     private static final String[] COLS 			= new String[] {"ref_name", "ref_type", "ref_label", "time_created", "ref_blob"};
 
     Context m_context;
-    static ReferenceDBHelper m_helper;
+//    static ReferenceDBHelper m_helper;
 
     private static final String DBVERSION_CREATE = 
     	"create table " + TABLE_DBVERSION + " (" + "version integer not null);";
@@ -72,43 +72,43 @@ public class ReferenceDBHelper
 
     private static final String TABLE_DROP = "drop table " + TABLE_NAME + ";";
 
-    private SQLiteDatabase db;
+    private SQLiteDatabase m_db;
 
-    protected static ReferenceDBHelper getInstance(Context context)
-    {
-    	if (m_helper == null)
-    	{
-    		m_helper = new ReferenceDBHelper(context); 
-    	}
-    	return m_helper;
-    }
+//    protected static ReferenceDBHelper getInstance(Context context)
+//    {
+//    	if (m_helper == null)
+//    	{
+//    		m_helper = new ReferenceDBHelper(context); 
+//    	}
+//    	return m_helper;
+//    }
     
     /**
      * Hidden constructor, use as singleton
      * @param ctx
      */
-    private ReferenceDBHelper(Context ctx)
+    public ReferenceDBHelper(Context ctx)
     {
     	m_context = ctx;
 		try
 		{
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
+			m_db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 
 			// Check for the existence of the DBVERSION table
 			// If it doesn't exist than create the overall data,
 			// otherwise double check the version
 			Cursor c =
-				db.query("sqlite_master", new String[] { "name" },
+				m_db.query("sqlite_master", new String[] { "name" },
 						"type='table' and name='" + TABLE_DBVERSION + "'", null, null, null, null);
 			int numRows = c.getCount();
 			if (numRows < 1)
 			{
-				createDatabase(db);
+				createDatabase(m_db);
 			}
 			else
 			{
 				int version=0;
-				Cursor vc = db.query(true, TABLE_DBVERSION, new String[] {"version"},
+				Cursor vc = m_db.query(true, TABLE_DBVERSION, new String[] {"version"},
 						null, null, null, null, null,null);
 				if(vc.getCount() > 0)
 				{
@@ -119,7 +119,7 @@ public class ReferenceDBHelper
 				if (version!=DATABASE_VERSION)
 				{
 					Log.e(TAG,"database version mismatch");
-					migrateDatabase(db, version, DATABASE_VERSION);
+					migrateDatabase(m_db, version, DATABASE_VERSION);
 				}
 
 			}
@@ -131,20 +131,20 @@ public class ReferenceDBHelper
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
 		}
-		finally
-		{
-			if (db.isOpen())
-			{
-				db.close();
-			}
-		}
     }
 
+    public void close()
+    {
+    	if (m_db.isOpen())
+    	{
+    		m_db.close();
+    	}
+    }
+    
     private void createDatabase(SQLiteDatabase db)
     {
 		try
 		{
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 			db.execSQL(DBVERSION_CREATE);
 			ContentValues args = new ContentValues();
 			args.put("version", DATABASE_VERSION);
@@ -172,7 +172,7 @@ public class ReferenceDBHelper
 		}
         finally 
 		{
-			db.close();
+			m_db.close();
 		}    	
     }
     
@@ -180,8 +180,7 @@ public class ReferenceDBHelper
     {
         try
         {
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
-			db.execSQL(PURGE_EVENTS);
+			m_db.execSQL(PURGE_EVENTS);
         }
         catch (SQLException e)
 		{
@@ -189,9 +188,9 @@ public class ReferenceDBHelper
 		}
         finally 
 		{
-        	if (db.isOpen())
+        	if (m_db.isOpen())
         	{
-        		db.close();
+        		m_db.close();
         	}
 		}    	
     }
@@ -238,8 +237,7 @@ public class ReferenceDBHelper
 
 		try
 		{
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0, null);
-			long lRes = db.replace(TABLE_NAME, null, val);
+			long lRes = m_db.replace(TABLE_NAME, null, val);
 			if (lRes == -1)
 			{
 				Log.e(TAG, "Error inserting or updating row");
@@ -249,21 +247,13 @@ public class ReferenceDBHelper
 		{
 			Log.d(TAG, "SQLite exception: " + e.getLocalizedMessage());
 		}
-		finally
-		{
-			if (db.isOpen())
-			{
-				db.close();
-			}
-		}
 	}	
 
 	protected void deleteReference(String refName)
 	{
 		try
 		{
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0, null);
-			long lRes = db.delete(TABLE_NAME, "ref_name='" + refName + "'", null);
+			long lRes = m_db.delete(TABLE_NAME, "ref_name='" + refName + "'", null);
 			if (lRes == 0)
 			{
 				Log.e(TAG, "No row with key '" + refName + "' was deleted");
@@ -272,13 +262,6 @@ public class ReferenceDBHelper
 		catch (SQLException e)
 		{
 			Log.d(TAG, "SQLite exception: " + e.getLocalizedMessage());
-		}
-		finally
-		{
-			if (db.isOpen())
-			{
-				db.close();
-			}
 		}
 	}	
 
@@ -291,9 +274,8 @@ public class ReferenceDBHelper
 	    ArrayList<Reference> ret = new ArrayList<Reference>();
 	    try
 	    {
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, COLS, null, null, null, null, "time_created ASC");
+	        c = m_db.query(TABLE_NAME, COLS, null, null, null, null, "time_created ASC");
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
@@ -310,13 +292,6 @@ public class ReferenceDBHelper
 	    catch (SQLException e)
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
-		}
-	    finally 
-		{
-	    	if (db.isOpen())
-	    	{
-	    		db.close();
-	    	}
 		}
 	    return ret;
 	}
@@ -339,9 +314,8 @@ public class ReferenceDBHelper
 	    ArrayList<String> ret = new ArrayList<String>();
 	    try
 	    {
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, new String[] {"ref_name", "time_created"}, null, null, null, null, "time_created ASC");
+	        c = m_db.query(TABLE_NAME, new String[] {"ref_name", "time_created"}, null, null, null, null, "time_created ASC");
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
@@ -360,13 +334,6 @@ public class ReferenceDBHelper
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
 		}
-	    finally 
-		{
-	    	if (db.isOpen())
-	    	{
-	    		db.close();
-	    	}
-		}
 	    return ret;
 	}
 
@@ -375,9 +342,8 @@ public class ReferenceDBHelper
 	    ArrayList<String> ret = new ArrayList<String>();
 	    try
 	    {
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, new String[] {"ref_label", "time_created"}, null, null, null, null, "time_created ASC");
+	        c = m_db.query(TABLE_NAME, new String[] {"ref_label", "time_created"}, null, null, null, null, "time_created ASC");
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
@@ -396,13 +362,6 @@ public class ReferenceDBHelper
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
 		}
-	    finally 
-		{
-	    	if (db.isOpen())
-	    	{
-	    		db.close();
-	    	}
-		}
 	    return ret;
 	}
 
@@ -411,9 +370,8 @@ public class ReferenceDBHelper
 	    Reference myRet = null;
 	    try
 	    {
-			db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, COLS, "ref_name='" + refName + "'", null, null, null, null);
+	        c = m_db.query(TABLE_NAME, COLS, "ref_name='" + refName + "'", null, null, null, null);
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        if (numRows == 1)
@@ -434,10 +392,6 @@ public class ReferenceDBHelper
 	    catch (SQLException e)
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
-		}
-	    finally 
-		{
-			db.close();
 		}
 	    return myRet;
 	}
