@@ -2639,7 +2639,7 @@ public class StatsProvider
 			{
 				String filename = "logcat-"
 						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-				Util.run("logcat -d > " + path + "/" + filename);
+				Util.run("logcat -v time -d > " + path + "/" + filename);
 				fileUri = Uri.fromFile(new File(path + "/" + filename));
 
 //				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
