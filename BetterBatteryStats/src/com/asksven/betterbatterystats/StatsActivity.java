@@ -906,14 +906,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		Spinner spinnerStatTypeFrom = (Spinner) findViewById(R.id.spinnerStatType);
 		Spinner spinnerStatTypeTo = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
 		Log.i(TAG, "Reset spinner selections: from='" + m_refFromName + "', to='" + m_refToName + "'");
-		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName), false);
+		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName), true);
 		if (spinnerStatTypeTo.isShown())
 		{
-			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(m_refToName), false);
+			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(m_refToName), true);
 		}
 		else
 		{
-			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME), false);
+			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME), true);
 		}
 	}
 	
