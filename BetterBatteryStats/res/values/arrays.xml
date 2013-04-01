@@ -27,7 +27,7 @@
     <string-array name="saveAsLabels">
         <item name="0">Text Dumpfile</item>
         <item name="1">JSON Dumpfile</item>
-        <item name="2">loggat</item>
+        <item name="2">logcat</item>
         <item name="3">dmesg</item>
                 
     </string-array>
