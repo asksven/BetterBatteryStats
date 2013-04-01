@@ -76,11 +76,11 @@ public class FirstLaunch
                    {		           
                 	   dialog.dismiss();
                 	   
-                	   // restart the app
-                	   Intent i = ctx.getBaseContext().getPackageManager()
-                	             .getLaunchIntentForPackage( ctx.getBaseContext().getPackageName() );
-                	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                	ctx.startActivity(i);
+//                	   // restart the app
+//                	   Intent i = ctx.getBaseContext().getPackageManager()
+//                	             .getLaunchIntentForPackage( ctx.getBaseContext().getPackageName() );
+//                	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                	ctx.startActivity(i);
                    }
                });
         builder.create().show();
