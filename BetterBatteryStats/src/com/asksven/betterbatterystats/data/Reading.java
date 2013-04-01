@@ -85,6 +85,8 @@ public class Reading implements Serializable
 	boolean rooted;
 	int batteryLevelLost;
 	int batteryVoltageLost;
+	String batteryLevelLostText;
+	String batteryVoltageLostText;
 	
 	
 	ArrayList<StatElement> otherStats;
@@ -152,8 +154,10 @@ public class Reading implements Serializable
 
 		rooted 				= Shell.SU.available();
 		
-		batteryLevelLost 	= StatsProvider.getInstance(context).getBatteryLevelStat(refFrom, refTo);
-		batteryVoltageLost 	= StatsProvider.getInstance(context).getBatteryVoltageStat(refFrom, refTo);
+		batteryLevelLost 		= StatsProvider.getInstance(context).getBatteryLevelStat(refFrom, refTo);
+		batteryVoltageLost 		= StatsProvider.getInstance(context).getBatteryVoltageStat(refFrom, refTo);
+		batteryLevelLostText 	= StatsProvider.getInstance(context).getBatteryLevelFromTo(refFrom, refTo);
+		batteryVoltageLostText 	= StatsProvider.getInstance(context).getBatteryVoltageFromTo(refFrom, refTo);
 
 		// populate the stats
 		SharedPreferences sharedPrefs 	= PreferenceManager.getDefaultSharedPreferences(context);
@@ -328,8 +332,8 @@ public class Reading implements Serializable
 		out.write("============\n");
 		out.write("Battery Info\n");
 		out.write("============\n");
-		out.write("Level lost [%]: " + batteryLevelLost + "\n");
-		out.write("Voltage lost [mV]: " + batteryVoltageLost + "\n");
+		out.write("Level lost [%]: " + batteryLevelLostText + "\n");
+		out.write("Voltage lost [mV]: " + batteryVoltageLostText + "\n");
 
 		// write timing info
 		boolean bDumpChapter = sharedPrefs.getBoolean("show_other",
