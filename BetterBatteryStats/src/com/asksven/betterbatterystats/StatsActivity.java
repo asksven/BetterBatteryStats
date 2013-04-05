@@ -905,7 +905,11 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// after we reloaded the spinners we need to reset the selections
 		Spinner spinnerStatTypeFrom = (Spinner) findViewById(R.id.spinnerStatType);
 		Spinner spinnerStatTypeTo = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
-		Log.i(TAG, "Reset spinner selections: from='" + m_refFromName + "', to='" + m_refToName + "'");
+		Log.i(TAG, "refreshSpinners: reset spinner selections: from='" + m_refFromName + "', to='" + m_refToName + "'");
+		Log.i(TAG, "refreshSpinners Spinner values: SpinnerFrom=" + m_spinnerFromAdapter.getNames() + " SpinnerTo=" + m_spinnerToAdapter.getNames());
+		Log.i(TAG, "refreshSpinners: request selections: from='" + m_spinnerFromAdapter.getPosition(m_refFromName) + "', to='" + m_spinnerToAdapter.getPosition(m_refToName) + "'");
+
+		// restore positions
 		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName), true);
 		if (spinnerStatTypeTo.isShown())
 		{
@@ -915,6 +919,15 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME), true);
 		}
+		Log.i(TAG, "refreshSpinners result positions: from='" + spinnerStatTypeFrom.getSelectedItemPosition() + "', to='" + spinnerStatTypeTo.getSelectedItemPosition() + "'");
+		
+		if ((spinnerStatTypeFrom.getSelectedItemPosition() == -1)||(spinnerStatTypeTo.getSelectedItemPosition() == -1))
+		{
+			Toast.makeText(StatsActivity.this,
+					"Selected 'from' or 'to' reference could not be loaded. Please refresh",
+					Toast.LENGTH_LONG).show();
+		}
+			
 	}
 	
     /**
@@ -938,6 +951,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{
 
 		BatteryStatsProxy.getInstance(this).invalidate();
+		refreshSpinners();
 		new LoadStatData().execute(updateCurrent);	
 	}
 
