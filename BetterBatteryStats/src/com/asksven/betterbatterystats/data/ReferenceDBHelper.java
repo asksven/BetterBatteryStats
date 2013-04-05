@@ -322,7 +322,8 @@ public class ReferenceDBHelper
 	        {
 	        	String name = c.getString(c.getColumnIndex("ref_name"));
 	        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
-	        	if (timeCreated > time)
+	        	String refName = c.getString(c.getColumnIndex("ref_name"));
+	        	if ((timeCreated > time) || (refName.equals(Reference.CURRENT_REF_FILENAME)))
 	        	{
 	        		ret.add(name);
 	        	}
