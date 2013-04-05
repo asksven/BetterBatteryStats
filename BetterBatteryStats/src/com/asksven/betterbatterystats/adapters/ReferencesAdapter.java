@@ -61,7 +61,7 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 	}
 
 
-	public void refreshFromSpinner(Context context)
+	public synchronized void refreshFromSpinner(Context context)
 	{
 		this.refresh(context);
 		
@@ -83,7 +83,7 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 	}
 
 	
-	public void filterToSpinner(String refName, Context context)
+	public synchronized void filterToSpinner(String refName, Context context)
 	{
 		m_listNames = ReferenceStore.getReferenceNames(refName, context);
 		m_listLabels = ReferenceStore.getReferenceLabels(refName, context);
@@ -147,6 +147,10 @@ public class ReferencesAdapter extends ArrayAdapter<String>
     {
         return position;
     }
-
+    
+    public List<String> getNames()
+    {
+    	return m_listNames;
+    }
 }
 
