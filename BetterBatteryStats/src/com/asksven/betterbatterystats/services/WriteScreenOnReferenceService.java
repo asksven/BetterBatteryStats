@@ -91,10 +91,10 @@ public class WriteScreenOnReferenceService extends IntentService
 
 			StatsProvider.getInstance(this).setCurrentReference(0);
 
-			// save a new current ref
-			StatsProvider.getInstance(this).setCurrentReference(0);
-			i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
-		    this.sendBroadcast(i);
+//			// save a new current ref
+//			StatsProvider.getInstance(this).setCurrentReference(0);
+//			i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
+//		    this.sendBroadcast(i);
 
 			
 			// Build the intent to update the widget
