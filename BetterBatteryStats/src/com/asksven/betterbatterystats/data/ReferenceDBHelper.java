@@ -137,7 +137,14 @@ public class ReferenceDBHelper
     {
     	if (m_db.isOpen())
     	{
-    		m_db.close();
+    		try
+    		{
+    			m_db.close();
+    		}
+    		catch (Exception e)
+    		{
+    			Log.e(TAG, "An error occured when closing the database: " + e.getMessage());
+    		}
     	}
     }
     
