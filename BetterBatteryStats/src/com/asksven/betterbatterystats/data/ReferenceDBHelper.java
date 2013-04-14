@@ -135,7 +135,7 @@ public class ReferenceDBHelper
 
     public void close()
     {
-    	if (m_db.isOpen())
+    	if ((m_db != null) && (m_db.isOpen()))
     	{
     		try
     		{
