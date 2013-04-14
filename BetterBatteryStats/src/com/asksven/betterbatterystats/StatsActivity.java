@@ -227,7 +227,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     			Toast.makeText(this, "Upgrading data.", Toast.LENGTH_SHORT).show();
 
     		}
-    		if (strCurrentRelease.equals("34"))
+    		if (strCurrentRelease.equals("36"))
     		{
     			// we have changed the serialized format: delete reference and re-create umplugged and boot
     			Toast.makeText(this, "Deleting and re-creating references", Toast.LENGTH_SHORT).show();
