@@ -37,7 +37,7 @@ import android.util.Log;
 
 
 /**
- * DBHelper class
+ * Singleton DBHelper class (makes sure there is only on database connection)
  * 
  * Database layer for cell log data
  */
@@ -52,7 +52,7 @@ public class ReferenceDBHelper
     private static final String[] COLS 			= new String[] {"ref_name", "ref_type", "ref_label", "time_created", "ref_blob"};
 
     Context m_context;
-//    static ReferenceDBHelper m_helper;
+    static ReferenceDBHelper m_helper;
 
     private static final String DBVERSION_CREATE = 
     	"create table " + TABLE_DBVERSION + " (" + "version integer not null);";
@@ -74,20 +74,20 @@ public class ReferenceDBHelper
 
     private SQLiteDatabase m_db;
 
-//    protected static ReferenceDBHelper getInstance(Context context)
-//    {
-//    	if (m_helper == null)
-//    	{
-//    		m_helper = new ReferenceDBHelper(context); 
-//    	}
-//    	return m_helper;
-//    }
+    protected static ReferenceDBHelper getInstance(Context context)
+    {
+    	if (m_helper == null)
+    	{
+    		m_helper = new ReferenceDBHelper(context); 
+    	}
+    	return m_helper;
+    }
     
     /**
      * Hidden constructor, use as singleton
      * @param ctx
      */
-    public ReferenceDBHelper(Context ctx)
+    private ReferenceDBHelper(Context ctx)
     {
     	m_context = ctx;
 		try
@@ -146,7 +146,7 @@ public class ReferenceDBHelper
 		}
     }
 
-    public synchronized void close()
+    private synchronized void close()
     {
     	if ((m_db != null) && (m_db.isOpen()))
     	{
