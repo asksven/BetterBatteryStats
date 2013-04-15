@@ -47,8 +47,8 @@ public class ReferenceDBHelper
 	private static final String DATABASE_NAME	= "betterbatterystats";
     private static final String TABLE_DBVERSION = "dbversion";
     private static final String TABLE_NAME 		= "samples";
-    private static final int DATABASE_VERSION 	= 2;
-    private static final String TAG 			= "EventDBHelper";
+    private static final int DATABASE_VERSION 	= 3;
+    private static final String TAG 			= "ReferenceDBHelper";
     private static final String[] COLS 			= new String[] {"ref_name", "ref_type", "ref_label", "time_created", "ref_blob"};
 
     Context m_context;
@@ -170,13 +170,22 @@ public class ReferenceDBHelper
     {
         try
         {
-			m_context.deleteDatabase(DATABASE_NAME);
-			
+			m_db.execSQL(DBVERSION_DROP);
         }
         catch (SQLException e)
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
 		}
+
+        try
+        {
+			m_db.execSQL(TABLE_DROP);
+        }
+        catch (SQLException e)
+		{
+			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
+		}
+
     }
     
     protected void deleteReferences()
