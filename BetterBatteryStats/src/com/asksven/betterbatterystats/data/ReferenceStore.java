@@ -62,8 +62,14 @@ public class ReferenceStore
 			}
 		}
 		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
-		ret = db.fetchAllLabels(time);
-		db.close();
+		try
+		{
+			ret = db.fetchAllLabels(time);
+		}
+		finally
+		{
+			db.close();
+		}
 		
 		return ret;
 	}
@@ -90,8 +96,14 @@ public class ReferenceStore
 			}
 		}
 		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
-		ret = db.fetchAllKeys(time);
-		db.close();
+		try
+		{
+			ret = db.fetchAllKeys(time);
+		}
+		finally
+		{
+			db.close();
+		}
 		return ret;
 	}
 
@@ -105,29 +117,35 @@ public class ReferenceStore
 	{
 		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
 
-		// the reference names are lazily loaded too
-		if (m_refStore.keySet().isEmpty())
+		try
 		{
-			populateReferenceNames(ctx);
-		}
-		
-		// we use lazy loading so we must check if there is a reference there
-		if (m_refStore.get(refName) == null)
-		{
-			Reference thisRef = db.fetchReferenceByKey(refName);
-			m_refStore.put(refName, thisRef);
-		
-			if (thisRef != null)
+			// the reference names are lazily loaded too
+			if (m_refStore.keySet().isEmpty())
 			{
-				Log.i(TAG, "Retrieved reference from storage: " + thisRef.whoAmI());
-			}
-			else
-			{
-				Log.i(TAG, "Reference " + refName + " was not found");
+				populateReferenceNames(ctx);
 			}
 			
+			// we use lazy loading so we must check if there is a reference there
+			if (m_refStore.get(refName) == null)
+			{
+				Reference thisRef = db.fetchReferenceByKey(refName);
+				m_refStore.put(refName, thisRef);
+			
+				if (thisRef != null)
+				{
+					Log.i(TAG, "Retrieved reference from storage: " + thisRef.whoAmI());
+				}
+				else
+				{
+					Log.i(TAG, "Reference " + refName + " was not found");
+				}
+				
+			}
 		}
-		db.close();
+		finally
+		{
+			db.close();
+		}
 		Reference ret = m_refStore.get(refName);
 		return ret;
 	}
@@ -167,8 +185,14 @@ public class ReferenceStore
 	{
 		m_refStore.put(refName, null);
 		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
-		db.deleteReference(refName);
-		db.close();
+		try
+		{
+			db.deleteReference(refName);
+		}
+		finally
+		{
+			db.close();
+		}
 	}
 
 	/**
@@ -213,8 +237,14 @@ public class ReferenceStore
 	private static void serializeRef(Reference refs, Context ctx)
 	{
   		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
-		db.addOrUpdateReference(refs);
-		db.close();
+  		try
+  		{
+  			db.addOrUpdateReference(refs);
+  		}
+  		finally
+  		{
+  			db.close();
+  		}
 		Log.i(TAG, "Saved ref " + refs.m_fileName);
 	}
 
@@ -225,15 +255,21 @@ public class ReferenceStore
 	private static void populateReferenceNames(Context ctx)
 	{
 		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
-		List<String> refs = db.fetchAllKeys(0);
-		Log.i(TAG, "Populating cache");
-		for (int i=0; i < refs.size(); i++)
+		try
 		{
-			m_refStore.put(refs.get(i), null);
-			Log.i(TAG, "Added ref " + refs.get(i));
+			List<String> refs = db.fetchAllKeys(0);
+			Log.i(TAG, "Populating cache");
+			for (int i=0; i < refs.size(); i++)
+			{
+				m_refStore.put(refs.get(i), null);
+				Log.i(TAG, "Added ref " + refs.get(i));
+			}
+			Log.i(TAG, "Finished populating cache");
 		}
-		Log.i(TAG, "Finished populating cache");
-		db.close();
+		finally
+		{
+			db.close();
+		}
 	}
 	
 	/**
@@ -244,8 +280,15 @@ public class ReferenceStore
 	{
 		Log.i(TAG, "Deleting all references");
 		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
-		db.deleteReferences();
-		db.close();
+
+		try
+		{
+			db.deleteReferences();
+		}
+		finally
+		{
+			db.close();
+		}
 		m_refStore.clear();
 		
 	}
@@ -253,8 +296,14 @@ public class ReferenceStore
 	public static void logReferences(Context ctx)
 	{
 		ReferenceDBHelper db = new ReferenceDBHelper(ctx);
-		db.logCacheContent();
-		db.close();
+		try
+		{
+			db.logCacheContent();
+		}
+		finally
+		{
+			db.close();
+		}
 		
 	}
 }

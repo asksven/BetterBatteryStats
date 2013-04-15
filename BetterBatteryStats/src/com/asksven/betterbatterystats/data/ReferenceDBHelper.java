@@ -92,40 +92,53 @@ public class ReferenceDBHelper
     	m_context = ctx;
 		try
 		{
-			m_db = m_context.openOrCreateDatabase(DATABASE_NAME, 0,null);
+			m_db = m_context.openOrCreateDatabase(DATABASE_NAME, SQLiteDatabase.CREATE_IF_NECESSARY, null);
+			
 
 			// Check for the existence of the DBVERSION table
 			// If it doesn't exist than create the overall data,
 			// otherwise double check the version
 			Cursor c =
-				m_db.query("sqlite_master", new String[] { "name" },
-						"type='table' and name='" + TABLE_DBVERSION + "'", null, null, null, null);
-			int numRows = c.getCount();
-			if (numRows < 1)
-			{
-				createDatabase(m_db);
-			}
-			else
-			{
-				int version=0;
-				Cursor vc = m_db.query(true, TABLE_DBVERSION, new String[] {"version"},
-						null, null, null, null, null,null);
-				if(vc.getCount() > 0)
-				{
-				    vc.moveToLast();
-				    version=vc.getInt(0);
-				}
-				vc.close();
-				if (version!=DATABASE_VERSION)
-				{
-					Log.e(TAG,"database version mismatch");
-					migrateDatabase(m_db, version, DATABASE_VERSION);
-				}
+					m_db.query("sqlite_master", new String[] { "name" },
+							"type='table' and name='" + TABLE_DBVERSION + "'", null, null, null, null);
 
+			try
+			{
+				int numRows = c.getCount();
+				if (numRows < 1)
+				{
+					createDatabase(m_db);
+				}
+				else
+				{
+					int version=0;
+					Cursor vc = m_db.query(true, TABLE_DBVERSION, new String[] {"version"},
+							null, null, null, null, null,null);
+					try
+					{
+						if(vc.getCount() > 0)
+						{
+						    vc.moveToLast();
+						    version=vc.getInt(0);
+						}
+					}
+					finally
+					{
+						vc.close();
+					}
+					
+					if (version!=DATABASE_VERSION)
+					{
+						Log.e(TAG,"database version mismatch");
+						migrateDatabase(m_db, version, DATABASE_VERSION);
+					}
+	
+				}
 			}
-			c.close();
-			
-
+			finally
+			{
+				c.close();
+			}
 		}
 		catch (SQLException e)
 		{
@@ -133,7 +146,7 @@ public class ReferenceDBHelper
 		}
     }
 
-    public void close()
+    public synchronized void close()
     {
     	if ((m_db != null) && (m_db.isOpen()))
     	{
@@ -148,7 +161,7 @@ public class ReferenceDBHelper
     	}
     }
     
-    private void createDatabase(SQLiteDatabase db)
+    private synchronized void createDatabase(SQLiteDatabase db)
     {
 		try
 		{
@@ -166,7 +179,7 @@ public class ReferenceDBHelper
     }
     
 
-    private void deleteDatabase()
+    private synchronized void deleteDatabase()
     {
         try
         {
@@ -188,7 +201,7 @@ public class ReferenceDBHelper
 
     }
     
-    protected void deleteReferences()
+    protected synchronized void deleteReferences()
     {
         try
         {
@@ -204,7 +217,7 @@ public class ReferenceDBHelper
 	 * 
 	 * @param entry
 	 */
-	protected void addOrUpdateReference(Reference entry)
+	protected synchronized void addOrUpdateReference(Reference entry)
 	{
 
 		ContentValues val = new ContentValues();
@@ -254,7 +267,7 @@ public class ReferenceDBHelper
 		}
 	}	
 
-	protected void deleteReference(String refName)
+	protected synchronized void deleteReference(String refName)
 	{
 		try
 		{
@@ -281,18 +294,24 @@ public class ReferenceDBHelper
 	    {
 	        Cursor c;
 	        c = m_db.query(TABLE_NAME, COLS, null, null, null, null, "time_created ASC");
-	        int numRows = c.getCount();
-	        c.moveToFirst();
-	        for (int i = 0; i < numRows; ++i)
+	        try
 	        {
-
-	        	// cctor with id, name, command, command_status
-	            Reference row = createReferenceFromRow(c);
-	           
-	            ret.add(row);
-	            c.moveToNext();
+		        int numRows = c.getCount();
+		        c.moveToFirst();
+		        for (int i = 0; i < numRows; ++i)
+		        {
+	
+		        	// cctor with id, name, command, command_status
+		            Reference row = createReferenceFromRow(c);
+		           
+		            ret.add(row);
+		            c.moveToNext();
+		        }
 	        }
-	        c.close();
+	        finally
+	        {
+	        	c.close();
+	        }
 		}
 	    catch (SQLException e)
 		{
@@ -314,27 +333,33 @@ public class ReferenceDBHelper
 			}
 		}
 	}
-	protected List<String> fetchAllKeys(long time)
+	protected synchronized List<String> fetchAllKeys(long time)
 	{
 	    ArrayList<String> ret = new ArrayList<String>();
 	    try
 	    {
 	        Cursor c;
 	        c = m_db.query(TABLE_NAME, new String[] {"ref_name", "time_created"}, null, null, null, null, "time_created ASC");
-	        int numRows = c.getCount();
-	        c.moveToFirst();
-	        for (int i = 0; i < numRows; ++i)
+	        try
 	        {
-	        	String name = c.getString(c.getColumnIndex("ref_name"));
-	        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
-	        	String refName = c.getString(c.getColumnIndex("ref_name"));
-	        	if ((timeCreated > time) || (refName.equals(Reference.CURRENT_REF_FILENAME)))
-	        	{
-	        		ret.add(name);
-	        	}
-	            c.moveToNext();
+	        	int numRows = c.getCount();
+		        c.moveToFirst();
+		        for (int i = 0; i < numRows; ++i)
+		        {
+		        	String name = c.getString(c.getColumnIndex("ref_name"));
+		        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
+		        	String refName = c.getString(c.getColumnIndex("ref_name"));
+		        	if ((timeCreated > time) || (refName.equals(Reference.CURRENT_REF_FILENAME)))
+		        	{
+		        		ret.add(name);
+		        	}
+		            c.moveToNext();
+		        }
 	        }
-	        c.close();
+	        finally
+	        {
+	        	c.close();
+	        }
 		}
 	    catch (SQLException e)
 		{
@@ -346,10 +371,11 @@ public class ReferenceDBHelper
 	protected List<String> fetchAllLabels(long time)
 	{
 	    ArrayList<String> ret = new ArrayList<String>();
+        Cursor c;
+        c = m_db.query(TABLE_NAME, new String[] {"ref_label", "time_created"}, null, null, null, null, "time_created ASC");
 	    try
 	    {
-	        Cursor c;
-	        c = m_db.query(TABLE_NAME, new String[] {"ref_label", "time_created"}, null, null, null, null, "time_created ASC");
+
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
@@ -362,38 +388,54 @@ public class ReferenceDBHelper
 	        	}
 	            c.moveToNext();
 	        }
-	        c.close();
 		}
 	    catch (SQLException e)
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
 		}
+	    finally
+	    {
+	        c.close();
+	    }
+	    
 	    return ret;
 	}
 
 	protected Reference fetchReferenceByKey(String refName)
 	{
 	    Reference myRet = null;
+	    
+	    if (m_db == null)
+	    {
+	    	return myRet;
+	    }
+	    
 	    try
 	    {
 	        Cursor c;
 	        c = m_db.query(TABLE_NAME, COLS, "ref_name='" + refName + "'", null, null, null, null);
-	        int numRows = c.getCount();
-	        c.moveToFirst();
-	        if (numRows == 1)
+	        try
 	        {
-
-	        	// cctor with id, name, command, command_status
-	        	try
-	        	{
-	        		myRet = createReferenceFromRow(c);
-	        	}
-	        	catch (Exception e)
-	        	{
-	        		Log.e(TAG, "An error occured deserializing the reference: " + e.getMessage());
-	        	}
+		        int numRows = c.getCount();
+		        c.moveToFirst();
+		        if (numRows == 1)
+		        {
+	
+		        	// cctor with id, name, command, command_status
+		        	try
+		        	{
+		        		myRet = createReferenceFromRow(c);
+		        	}
+		        	catch (Exception e)
+		        	{
+		        		Log.e(TAG, "An error occured deserializing the reference: " + e.getMessage());
+		        	}
+		        }
 	        }
-	        c.close();
+	        finally
+	        {
+	        	c.close();
+	        }
 		}
 	    catch (SQLException e)
 		{
