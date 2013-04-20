@@ -33,6 +33,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 
@@ -372,32 +373,38 @@ public class ReferenceDBHelper
 	{
 	    ArrayList<String> ret = new ArrayList<String>();
         Cursor c;
-        c = m_db.query(TABLE_NAME, new String[] {"ref_label", "time_created"}, null, null, null, null, "time_created ASC");
-	    try
-	    {
-
-	        int numRows = c.getCount();
-	        c.moveToFirst();
-	        for (int i = 0; i < numRows; ++i)
-	        {
-	        	String name = c.getString(c.getColumnIndex("ref_label"));
-	        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
-	        	if (timeCreated > time)
-	        	{
-	        		ret.add(name);
-	        	}
-	            c.moveToNext();
-	        }
-		}
-	    catch (SQLException e)
-		{
-			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
-		}
-	    finally
-	    {
-	        c.close();
-	    }
-	    
+        try
+        {
+	        c = m_db.query(TABLE_NAME, new String[] {"ref_label", "time_created"}, null, null, null, null, "time_created ASC");
+		    try
+		    {
+	
+		        int numRows = c.getCount();
+		        c.moveToFirst();
+		        for (int i = 0; i < numRows; ++i)
+		        {
+		        	String name = c.getString(c.getColumnIndex("ref_label"));
+		        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
+		        	if (timeCreated > time)
+		        	{
+		        		ret.add(name);
+		        	}
+		            c.moveToNext();
+		        }
+			}
+		    catch (SQLException e)
+			{
+				Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
+			}
+		    finally
+		    {
+		        c.close();
+		    }
+        }
+        catch (SQLiteException e)
+        {
+        	Log.e(TAG, "An error occured: " +e.getMessage());
+        }
 	    return ret;
 	}
 
