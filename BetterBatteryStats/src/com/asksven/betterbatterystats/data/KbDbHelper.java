@@ -62,34 +62,48 @@ public class KbDbHelper
    private static final String TABLE_DROP =
    	"drop table " + TABLE_NAME + ";";
 
-   private SQLiteDatabase db;
+   private static KbDbHelper m_singleton = null;
+   
+   private SQLiteDatabase m_db;
 
+   public static KbDbHelper getInstance(Context ctx)
+   {
+	   if (m_singleton != null)
+	   {
+		   return m_singleton;
+	   }
+	   else
+	   {
+		   m_singleton = new KbDbHelper(ctx);
+		   return m_singleton;
+	   }
+   }
    /**
     * 
     * @param ctx
     */
-   public KbDbHelper(Context ctx)
+   private KbDbHelper(Context ctx)
    {
    	myCtx = ctx;
 		try
 		{
-			db = myCtx.openOrCreateDatabase(DATABASE_NAME, 0,null);
+			m_db = myCtx.openOrCreateDatabase(DATABASE_NAME, 0,null);
 
 			// Check for the existence of the DBVERSION table
 			// If it doesn't exist than create the overall data,
 			// otherwise double check the version
 			Cursor c =
-				db.query("sqlite_master", new String[] { "name" },
+				m_db.query("sqlite_master", new String[] { "name" },
 						"type='table' and name='"+TABLE_DBVERSION+"'", null, null, null, null);
 			int numRows = c.getCount();
 			if (numRows < 1)
 			{
-				CreateDatabase(db);
+				CreateDatabase(m_db);
 			}
 			else
 			{
 				int version=0;
-				Cursor vc = db.query(true, TABLE_DBVERSION, new String[] {"version"},
+				Cursor vc = m_db.query(true, TABLE_DBVERSION, new String[] {"version"},
 						null, null, null, null, null,null);
 				if(vc.getCount() > 0) {
 				    vc.moveToLast();
@@ -99,7 +113,7 @@ public class KbDbHelper
 				if (version!=DATABASE_VERSION)
 				{
 					Log.e(TAG,"database version mismatch");
-					MigrateDatabase(db, version, DATABASE_VERSION);
+					MigrateDatabase(m_db, version, DATABASE_VERSION);
 //					deleteDatabase();
 //					CreateDatabase(db);
 //					populateDatabase();
@@ -112,10 +126,6 @@ public class KbDbHelper
 		catch (SQLException e)
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
-		}
-		finally 
-		{
-			db.close();
 		}
    }
 
@@ -158,18 +168,13 @@ public class KbDbHelper
    {
        try
        {
-			db = myCtx.openOrCreateDatabase(DATABASE_NAME, 0,null);
-			db.execSQL(TABLE_DROP);
-			db.execSQL(DBVERSION_DROP);
+			m_db.execSQL(TABLE_DROP);
+			m_db.execSQL(DBVERSION_DROP);
        }
        catch (SQLException e)
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
 		}
-       finally 
-		{
-			db.close();
-		}    	
    }
       
    
@@ -195,8 +200,7 @@ public class KbDbHelper
 	
 	    try
 	    {
-			db = myCtx.openOrCreateDatabase(DATABASE_NAME, 0,null);
-	        long lRes =db.insert(TABLE_NAME, null, initialValues);
+	        long lRes =m_db.insert(TABLE_NAME, null, initialValues);
 	        if (lRes == -1)
 	        {
 	        	Log.d(TAG,"Error inserting row");
@@ -205,10 +209,6 @@ public class KbDbHelper
 	    catch (SQLException e)
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
-		}
-		finally 
-		{
-			db.close();
 		}
 	}
 	
@@ -219,16 +219,11 @@ public class KbDbHelper
 	{
 	    try
 	    {
-			db = myCtx.openOrCreateDatabase(DATABASE_NAME, 0,null);
-			db.delete(TABLE_NAME, "", null);
+			m_db.delete(TABLE_NAME, "", null);
 		}
 	    catch (SQLException e)
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
-		}
-	    finally 
-		{
-			db.close();
 		}
 	}
 
@@ -243,9 +238,8 @@ public class KbDbHelper
 	    
 	    try
 	    {
-			db = myCtx.openOrCreateDatabase(DATABASE_NAME, 0,null);
 	        Cursor c;
-	        c = db.query(TABLE_NAME, COLS, null, null, null, null, null);
+	        c = m_db.query(TABLE_NAME, COLS, null, null, null, null, null);
 	        int numRows = c.getCount();
 	        c.moveToFirst();
 	        for (int i = 0; i < numRows; ++i)
@@ -262,10 +256,6 @@ public class KbDbHelper
 	    catch (SQLException e)
 		{
 			Log.d(TAG,"SQLite exception: " + e.getLocalizedMessage());
-		}
-	    finally 
-		{
-			db.close();
 		}
 	    return ret;
 	}

@@ -89,7 +89,7 @@ public class KbReaderService extends IntentService
 
 		Log.i(TAG, "Called at " + DateUtils.now());
     	KbData data = null;
-		KbDbHelper myDB = new KbDbHelper(this);
+		KbDbHelper myDB = KbDbHelper.getInstance(this);
 
 	  	 
     	String strUrlMod = sharedPrefs.getString("kb_url_appender", "");

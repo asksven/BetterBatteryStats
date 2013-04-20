@@ -94,7 +94,10 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 		if (posCurrent != -1)
 		{	
 			m_listNames.remove(posCurrent);
-			m_listLabels.remove(posCurrent);		
+			if (m_listLabels.size() > posCurrent)
+			{
+				m_listLabels.remove(posCurrent);
+			}
 		}
 
 		posCurrent = m_listNames.indexOf(Reference.UNPLUGGED_REF_FILENAME);
@@ -102,7 +105,10 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 		if (posCurrent != -1)
 		{	
 			m_listNames.remove(posCurrent);
-			m_listLabels.remove(posCurrent);		
+			if (m_listLabels.size() > posCurrent)
+			{
+				m_listLabels.remove(posCurrent);
+			}
 		}
 
 		this.notifyDataSetChanged();

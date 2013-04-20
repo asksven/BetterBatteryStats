@@ -49,7 +49,6 @@ import com.google.gson.Gson;
 public class KbReader
 {
 	private static final String URL = "http://asksven.github.com/BetterBatteryStats-Knowledge-Base/kb_v1.0.json";
-    private static boolean m_bNoConnection = false;
     
     private static long MAX_CACHE_AGE_MILLIS = 1000 * 60 * 1440; // 24 hours
     
@@ -89,7 +88,7 @@ public class KbReader
 	     	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 
     		// first check if cache is present and not outdated
-    		KbDbHelper myDB = new KbDbHelper(ctx);
+    		KbDbHelper myDB = KbDbHelper.getInstance(ctx);
     		
     		List<KbEntry> myEntries = myDB.fetchAllRows();
     		
