@@ -38,8 +38,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.asksven.andoid.common.contrib.Shell;
-import com.asksven.andoid.common.contrib.Shell.SU;
+//import com.asksven.andoid.common.contrib.Shell;
+//import com.asksven.andoid.common.contrib.Shell.SU;
+import com.asksven.android.common.RootShell;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
@@ -152,7 +153,7 @@ public class Reading implements Serializable
 			buildRadio 		= Build.RADIO;
 		}
 
-		rooted 				= Shell.SU.available();
+		rooted 				= RootShell.getInstance().rooted(); //Shell.SU.available();
 		
 		batteryLevelLost 		= StatsProvider.getInstance(context).getBatteryLevelStat(refFrom, refTo);
 		batteryVoltageLost 		= StatsProvider.getInstance(context).getBatteryVoltageStat(refFrom, refTo);

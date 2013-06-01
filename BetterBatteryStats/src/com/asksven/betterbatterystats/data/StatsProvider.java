@@ -52,10 +52,12 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.asksven.andoid.common.contrib.Shell;
-import com.asksven.andoid.common.contrib.Shell.SU;
+
+//import com.asksven.andoid.common.contrib.Shell;
+//import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
+import com.asksven.android.common.RootShell;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
@@ -2699,9 +2701,9 @@ public class StatsProvider
 			{
 				String filename = "dmesg-"
 						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-				if (Shell.SU.available())
+				if (RootShell.getInstance().rooted()) //Shell.SU.available())
 				{
-					Shell.SU.run("dmesg > " + path + "/" + filename);
+					RootShell.getInstance().run("dmesg > " + path + "/" + filename); //Shell.SU.run("dmesg > " + path + "/" + filename);
 				}
 				else
 				{
@@ -2710,7 +2712,8 @@ public class StatsProvider
 				fileUri = Uri.fromFile(new File(path + "/" + filename));
 //				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
 
-			} else
+			}
+			else
 			{
 				Log.i(TAG,
 						"Write error. "
