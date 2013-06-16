@@ -660,8 +660,8 @@ public class StatsProvider
 			{
 				strRefDescr = "Reference is null";
 			}
-			Log.d(TAG, "Processing wakelocks since "
-					+ refFrom.m_fileName);
+			Log.d(TAG, "Processing kernel wakelocks from "
+					+ refFrom.m_fileName + " to " + refTo.m_fileName);
 
 			Log.d(TAG, "Reference used: " + strRefDescr);
 			Log.d(TAG, "It is now " + DateUtils.now());
@@ -692,10 +692,6 @@ public class StatsProvider
 					// threshold
 					if ((!bFilter) || ((wl.getDuration() / 1000) > 0))
 					{
-//						if (LogSettings.DEBUG)
-//						{
-//							Log.i(TAG, "Adding " + wl.toString());
-//						}
 						myRetWakelocks.add(wl);
 					} else
 					{
