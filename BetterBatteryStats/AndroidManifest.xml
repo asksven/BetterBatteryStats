@@ -3,7 +3,7 @@
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
     android:versionCode="38"
-    android:versionName="1.14.0.0B1" >
+    android:versionName="1.14.0.0B2" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -32,6 +32,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- needed to read logcat -->
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <!-- permission to access su (optional if available for dumpsys and network stats -->
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
 
     <supports-screens
         android:anyDensity="true"

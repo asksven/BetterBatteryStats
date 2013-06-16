@@ -39,39 +39,21 @@ BetterBatteryStats does not collect data in the background but uses references s
 <b>As long as those events did not occur or after a reboot BBS will notify you about a missing reference. This is not a bug, it's the way BBS was designed</b>	
 <p>
 
-<h2>v1.14.0.0 2013-06-02</h2>
+<h2>v1.14.0.0B2 2013-06-16</h2>
+<p>
+<ul>
+	<li>Fixed double hashing of partial wakelock accounts causing calculations to fail</li>
+</ul>
+</p>
+
+<h2>v1.14.0.0B1 2013-06-02</h2>
 <p>
 <ul>
 	<li>Hold a permanent su shell for batching all su operations</li>
 	<li>Fixed various crashreports from gplay</li>
+	<li>added proper permissions for accessing su in manifest</li>
 </ul>
 </p>
-
-<h2>v1.13.4.0 2013-04-16</h2>
-<p>
-<ul>
-	<li>Database access redesign due to muti-device support issues</li>
-</ul>
-</p>
-
-<h2>v1.13.0.0 2013-04-14</h2>
-<p>
-<ul>
-	<li>detect and fix spinner refresh problem leading to stats being shown empty for some users</li>
-	<li>Fixed battery / voltage level in dumpfile</li>
-	<li>A few typos</li>
-	<li>Added "share" feature for dumpfiles, logcat and dmesg</li>
-	<li>Refactored RAW stats </li>
-	<li>Responsive stat row</li>
-	<li>Added timestamps to logcat</li>
-	<li>Mask any account data (personal info)</li>
-	<li>Fixed missing icon for packages in processes</li>
-	<li>Fixed KB icon not showing</li> 
-	<li>Added dashclock widget (Android 4.2.2+ only)</li>
-	<li>Added JSON marshalling of dumpfile info</li>
-</ul>
-</p>
-
 
 </div> 
 
