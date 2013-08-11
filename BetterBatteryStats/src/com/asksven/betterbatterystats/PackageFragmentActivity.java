@@ -88,6 +88,8 @@ public class PackageFragmentActivity extends SherlockFragmentActivity
 	        TextView pName = (TextView) v.findViewById(R.id.TextViewPName);
 	        pName.setText(m_packageName);
 
+	        TextView pOnly4_3 = (TextView) v.findViewById(R.id.TextViewOnly43);
+
 	        final Button buttonSettings = (Button) v.findViewById(R.id.buttonSettings);
 	        buttonSettings.setOnClickListener(new View.OnClickListener()
 	        {
@@ -96,6 +98,24 @@ public class PackageFragmentActivity extends SherlockFragmentActivity
 	            	showInstalledAppDetails(getActivity(), PackageFragment.this.m_packageName);
 	            }
 	        });
+
+	        final Button buttonAppOps = (Button) v.findViewById(R.id.ButtonAppOps);
+	        if (Build.VERSION.SDK_INT >= 18)
+	        {
+	        	pOnly4_3.setVisibility(View.GONE);
+		        buttonAppOps.setOnClickListener(new View.OnClickListener()
+		        {
+		            public void onClick(View v)
+		            {
+		            	showAppOps(getActivity(), PackageFragment.this.m_packageName);
+		            }
+		        });
+	        }
+	        else
+	        {
+	        	// disable as app ops is not available
+	        	buttonAppOps.setEnabled(false);
+	        }
 	        
 	        ImageView iconView = (ImageView) v.findViewById(R.id.icon);
 	        Drawable icon;
@@ -145,5 +165,25 @@ public class PackageFragmentActivity extends SherlockFragmentActivity
         context.startActivity(intent);
     }
 
+
+    public static void showAppOps(Context context, String packageName)
+    {
+
+        Intent intent = new Intent("android.settings.APP_OPS_SETTINGS");
+        Uri uri = Uri.fromParts(SCHEME, packageName, null);
+//        intent.setData(uri);
+    	context.startActivity(intent);
+//        }
+//        else
+//        {
+//        	// below 2.3
+//            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22 : APP_PKG_NAME_21);
+//            intent.setAction(Intent.ACTION_VIEW);
+//            intent.setClassName(APP_DETAILS_PACKAGE_NAME,
+//                    APP_DETAILS_CLASS_NAME);
+//            intent.putExtra(appPkgName, packageName);
+//        }
+//        context.startActivity(intent);
+    }
 
 }
