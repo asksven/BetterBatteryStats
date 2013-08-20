@@ -82,6 +82,10 @@ public class GraphableBars extends ImageView
     @Override
     public void onDraw(Canvas canvas)
     {
+    	if (mValues == null)
+    	{
+    		return;
+    	}
 //        Log.d(TAG, "onDraw: w = " + getWidth() + ", h = " + getHeight());
         
         int xmin = getPaddingLeft();
