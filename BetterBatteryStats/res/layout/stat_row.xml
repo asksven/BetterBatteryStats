@@ -10,23 +10,32 @@
     android:paddingTop="4dp"
     android:background="@drawable/clickable">
 
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+         >
+    
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/clickable"
         android:paddingBottom="0dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:paddingTop="0dp"
-        android:scaleType="centerInside"
-        android:background="@drawable/clickable"/>
+        android:scaleType="centerCrop" />
 
+</LinearLayout>
     <LinearLayout
         android:id="@+id/LinearLayout01"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        >
 
         <TextView
             android:id="@+id/TextViewName"
@@ -34,8 +43,7 @@
             android:layout_height="wrap_content"
             android:text="Name"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:typeface="sans" />
+            />
 
         <LinearLayout
             android:id="@+id/LinearLayoutFqn"
@@ -48,8 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
                 android:text="NameGoesHere"
-                android:textSize="12sp" >
-            </TextView>
+                android:textSize="12sp"
+                />
         </LinearLayout>
 
         <LinearLayout
@@ -63,7 +71,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="DataGoesHere"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                />
 
             <ImageView
                 android:id="@+id/imageKB"
