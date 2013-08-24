@@ -82,9 +82,12 @@ public class GraphableBars extends ImageView
     @Override
     public void onDraw(Canvas canvas)
     {
+    	// set some values for the gauge to get painted in the res editor
     	if (mValues == null)
     	{
-    		return;
+    		mValues = new double[2];
+    		mValues[0] = 0.5;
+    		mValues[1] = 0.6;    		
     	}
 //        Log.d(TAG, "onDraw: w = " + getWidth() + ", h = " + getHeight());
         
