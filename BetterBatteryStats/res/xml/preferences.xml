@@ -351,13 +351,6 @@
         </PreferenceScreen>
         <PreferenceScreen android:title="Advanced" >
             <ListPreference
-                android:defaultValue="10"
-                android:entries="@array/graphBarHeigthLabels"
-                android:entryValues="@array/graphBarHeigthValues"
-                android:key="graph_bar_height"
-                android:summary="If you are using non-default densities you can change the bar height here"
-                android:title="Height for graph bars" />
-            <ListPreference
                 android:defaultValue="0"
                 android:entries="@array/orderbyLabels"
                 android:entryValues="@array/orderbyValues"

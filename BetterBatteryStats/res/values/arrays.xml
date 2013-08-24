@@ -2,6 +2,7 @@
 <resources>
 	<!-- Values for the statistic. -->
     <string-array name="stats" translatable="false">
+        <item>Overview</item>
         <item>Other</item>
         <item>Kernel Wakelock</item>
         <item>Partial Wakelocks</item>
@@ -14,6 +15,7 @@
 
     <!--  Values for the preferences -->
     <string-array name="statLabels">
+        <item name="7">Overview</item>
         <item name="0">Other</item>
         <item name="1">Kernel Wakelock</item>
         <item name="2">Partial Wakelocks</item>
@@ -33,13 +35,14 @@
     </string-array>
     
     <string-array name="statValues">
-        <item name="0">0</item>
-        <item name="1">1</item>
-        <item name="2">2</item>
-        <item name="3">3</item>
-        <item name="4">4</item>
-        <item name="5">5</item>
-        <item name="6">6</item>
+        <item name="0">7</item>
+        <item name="1">0</item>
+        <item name="2">1</item>
+        <item name="3">2</item>
+        <item name="4">3</item>
+        <item name="5">4</item>
+        <item name="6">5</item>
+        <item name="7">6</item>
     </string-array>
 
     <string-array name="statTypeLabels">
@@ -70,20 +73,6 @@
         <item name="2">2</item>
     </string-array>
     
-	<string-array name="graphBarHeigthLabels">
-		<item name="0">4</item>
-		<item name="1">8</item>
-		<item name="2">*10</item>
-		<item name="2">12</item>
-		
-	</string-array>
-	<string-array name="graphBarHeigthValues">
-		<item name="0">4</item>
-		<item name="1">8</item>
-		<item name="2">10</item>
-		<item name="3">12</item>
-	</string-array>
-
 	<string-array name="widgetUpdateFreqLabels">
 	    <item name="0">None</item>
 		<item name="1">5 Min.</item>
