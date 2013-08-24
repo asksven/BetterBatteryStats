@@ -56,6 +56,7 @@ import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
 import com.asksven.betterbatterystats.data.KbReader;
 import com.asksven.betterbatterystats.widgets.GraphableBars;
+import com.asksven.betterbatterystats.widgets.GraphablePie;
 import com.asksven.betterbatterystats.HelpActivity;
 import com.asksven.betterbatterystats.PackageInfoTabsPager;
 import com.asksven.betterbatterystats.R;
@@ -83,8 +84,9 @@ public class StatsAdapter extends BaseAdapter
 	        {
 	        	StatElement g = m_listData.get(i);
 	        	double[] values = g.getValues();
-	        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
-	            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
+//	        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
+//	            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
+	        	m_maxValue = g.getTotal();
 	        }
         }
     }
@@ -149,45 +151,17 @@ public class StatsAdapter extends BaseAdapter
         TextView tvData = (TextView) convertView.findViewById(R.id.TextViewData);
         tvData.setText(entry.getData());
         
-        LinearLayout myLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutBar);
         LinearLayout myFqnLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutFqn);
-        LinearLayout myRow = (LinearLayout) convertView.findViewById(R.id.LinearLayoutEntry);
         
         // long press for "copy to clipboard"
         //myRow.setOnLongClickListener(new OnItemLongClickListener(position));
 
         
-        GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
+        GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
+       	gauge.setValue(entry.getValues()[0], m_maxValue);
         
         ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
-        
-        if (sharedPrefs.getBoolean("hide_bars", false))
-        {
-        	myLayout.setVisibility(View.GONE);
-        	
-        }
-        else
-        {
-        	myLayout.setVisibility(View.VISIBLE);
-        	int iHeight = 10;
-        	try
-    		{
-    			iHeight = Integer.valueOf(sharedPrefs.getString("graph_bar_height", "10"));
-    		}
-    		catch (Exception e)
-    		{
-    			iHeight = 10;
-    		}    		
-        	if (iHeight == 0)
-        	{
-        		iHeight = 10;
-        	}
-
-   			buttonBar.setMinimumHeight(iHeight);
-   			buttonBar.setName(entry.getName());
-        	buttonBar.setValues(entry.getValues(), m_maxValue);        	
-        }
-        
+                
         // add on click listener for the icon only if KB is enabled
         if (bShowKb)
         {
@@ -208,9 +182,7 @@ public class StatsAdapter extends BaseAdapter
         // show / hide package icons
         if ((entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc))
         {
-
         	iconView.setVisibility(View.GONE);
-
         }
         else
         {
@@ -227,10 +199,6 @@ public class StatsAdapter extends BaseAdapter
         	convertView.setOnClickListener(new OnItemClickListener(position));
         }
         
-//        // show / hide set dividers
-//        ListView myList = (ListView) convertView.getListView(); //findViewById(R.id.id.list);
-//        myList.setDivider(new ColorDrawable(0x99F10529));
-//        myList.setDividerHeight(1);
         return convertView;
     }
     

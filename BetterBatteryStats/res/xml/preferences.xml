@@ -9,11 +9,6 @@
             android:summary="Enable or disable the filtering of data to non-zero values"
             android:title="Filter stats" />
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="hide_bars"
-            android:summary="Hide or show the graph bars"
-            android:title="Hide graph bars" />
-        <CheckBoxPreference
             android:defaultValue="true"
             android:key="show_batt"
             android:summary="Shows or hides battery levels (drain, from/to) in &apos;since&apos; label"
