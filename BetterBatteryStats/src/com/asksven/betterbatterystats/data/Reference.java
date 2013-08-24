@@ -89,6 +89,7 @@ public class Reference implements Serializable
     protected ArrayList<StatElement> m_refProcesses 		= null;
     protected ArrayList<StatElement> m_refOther	 			= null;
     protected ArrayList<StatElement> m_refCpuStates			= null;
+    protected ArrayList<StatElement> m_refOverview			= null;
     protected long m_refBatteryRealtime 					= 0;  
     protected int m_refBatteryLevel							= 0;
     protected int m_refBatteryVoltage						= 0;
@@ -153,6 +154,8 @@ public class Reference implements Serializable
         String processes = (m_refProcesses ==null) ? "null" : m_refProcesses.size() + " elements";
         String other = (m_refOther == null) ? "null" : m_refOther.size() + " elements";
         String cpuStates = (m_refCpuStates == null) ? "null" : m_refCpuStates.size() + " elements";
+        String overview = (m_refOverview == null) ? "null" : m_refOverview.size() + " elements";
+
         
         wakelocks = "Wl: " + wakelocks;
         kernelWakelocks = "KWl: " + kernelWakelocks;
@@ -161,9 +164,10 @@ public class Reference implements Serializable
         processes = "Proc: " + processes;
         other = "Oth: " + other;
         cpuStates = "CPU: " + cpuStates;
+        overview = "Over:" + overview;
         
         return "(" + wakelocks + "; " + kernelWakelocks + "; " + networkStats + "; " + alarms + "; "
-        		+ processes + "; " + other + "; " + cpuStates + ")";
+        		+ processes + "; " + other + "; " + cpuStates + "; " + overview + ")";
 
     }
 
