@@ -74,6 +74,7 @@ import android.widget.Toast;
 
 
 
+
 //import com.asksven.andoid.common.contrib.Shell;
 //import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
@@ -86,6 +87,7 @@ import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
+import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -723,58 +725,77 @@ public class StatsProvider
 		
 		for (int i = 0; i < refs.m_refWakelocks.size(); i++)
 		{
-			Wakelock element = (Wakelock) refs.m_refWakelocks.get(i);
-			String strPackage = element.getPackageName();
-			String name = element.getPackageName();
+			Wakelock element = ((Wakelock) refs.m_refWakelocks.get(i)).clone();
+			// force lazy element to get loaded
+			element.getFqn(m_context);
+			UidInfo info = element.getUidInfo();
+			
+			// decide on what key to use: use package name except if it is empty, in that case use uid_name
+			String strKey = info.getNamePackage();
+			String name = info.getName();
+			if (strKey.equals(""))
+			{
+				strKey = name;
+			}
 			
 			// if not in Map yet add, if found add
-			if (!packages.containsKey(strPackage))
+			if (!packages.containsKey(strKey))
 			{
 				long duration = element.getDuration();
 				long total = element.getTotal();
 				int count = element.getCount();
 				int uid = element.getuid();
-				packages.put(strPackage, new PackageElement(strPackage, name, uid, duration, total, count, 0, 0));
+				
+				packages.put(strKey, new PackageElement(strKey, name, uid, duration, total, count, 0, 0));
 			}
 			else
 			{
-				((PackageElement) packages.get(strPackage)).add(element);
+				((PackageElement) packages.get(strKey)).add(element);
 			}
 		}
 		
 		for (int i = 0; i < refs.m_refAlarms.size(); i++)
 		{
 			Alarm element = (Alarm) refs.m_refAlarms.get(i);
-			String strPackage = element.getPackageName();
+			String strKey = element.getPackageName();
 			String name = element.getPackageName();
 			
 			// if not in Map yet add, if found add
-			if (!packages.containsKey(strPackage))
+			if (!packages.containsKey(strKey))
 			{
 				long wakeups = element.getWakeups();
-				packages.put(strPackage, new PackageElement(strPackage, name, 0, 0, 0, 0, wakeups, 0));
+				packages.put(strKey, new PackageElement(strKey, name, 0, 0, 0, 0, wakeups, 0));
 			}
 			else
 			{
-				((PackageElement) packages.get(strPackage)).add(element);
+				((PackageElement) packages.get(strKey)).add(element);
 			}
 		}
 
 		for (int i = 0; i < refs.m_refNetworkStats.size(); i++)
 		{
-			NetworkUsage element = (NetworkUsage) refs.m_refNetworkStats.get(i);
-			String strPackage = element.getPackageName();
-			String name = element.getPackageName();
+			NetworkUsage element = ((NetworkUsage) refs.m_refNetworkStats.get(i)).clone();
+			// force lazy element to get loaded
+			element.getFqn(m_context);
+			UidInfo info = element.getUidInfo();
+			
+			// decide on what key to use: use package name except if it is empty, in that case use uid_name
+			String strKey = info.getNamePackage();
+			String name = info.getName();
+			if (strKey.equals(""))
+			{
+				strKey = name;
+			}
 			
 			// if not in Map yet add, if found add
-			if (!packages.containsKey(strPackage))
+			if (!packages.containsKey(strKey))
 			{
 				long rxtx = element.getTotalBytes();
-				packages.put(strPackage, new PackageElement(strPackage, name, 0, 0, 0, 0, 0, rxtx));
+				packages.put(strKey, new PackageElement(strKey, name, 0, 0, 0, 0, 0, rxtx));
 			}
 			else
 			{
-				((PackageElement) packages.get(strPackage)).add(element);
+				((PackageElement) packages.get(strKey)).add(element);
 			}
 		}
 
