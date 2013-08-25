@@ -453,24 +453,19 @@ public class ReferenceDBHelper
 
 	private Reference createReferenceFromRow(Cursor c)
 	{
-		ByteArrayInputStream bis = new ByteArrayInputStream(c.getBlob(c.getColumnIndex("ref_blob")));
+		ByteArrayInputStream bis = null;
 		ObjectInput in = null;
 		Reference ret = null;
+		
 		try
 		{
+			bis = new ByteArrayInputStream(c.getBlob(c.getColumnIndex("ref_blob")));
+			in = null;	
 			in = new ObjectInputStream(bis);
 			Object o = in.readObject();
 			ret = (Reference) o;
 		}
-		catch (StreamCorruptedException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
@@ -484,6 +479,10 @@ public class ReferenceDBHelper
 			catch (IOException e)
 			{
 				e.printStackTrace();
+			}
+			catch (NullPointerException e)
+			{
+				// nothing went wrong
 			}
 
 		}
