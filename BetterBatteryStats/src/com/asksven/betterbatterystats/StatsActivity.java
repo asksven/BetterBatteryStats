@@ -42,9 +42,6 @@ import android.os.Parcelable;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -52,6 +49,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.asksven.android.common.AppRater;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.ReadmeActivity;
@@ -75,7 +76,7 @@ import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 
-public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
+public class StatsActivity extends SherlockListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
 {    
 	public static String STAT 				= "STAT";
 	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
@@ -607,7 +608,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
      */
     public boolean onCreateOptionsMenu(Menu menu)
     {  
-    	MenuInflater inflater = getMenuInflater();
+    	MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.mainmenu, menu);
         return true;
     }  
