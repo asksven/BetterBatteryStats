@@ -23,7 +23,6 @@ package com.asksven.betterbatterystats;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.asksven.android.common.ReadmeActivity;
-import com.asksven.betterbatterystats.adapters.MenuListAdapter;
 import com.asksven.betterbatterystats.adapters.NavigationDrawerAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.NavigationDrawerItem;
