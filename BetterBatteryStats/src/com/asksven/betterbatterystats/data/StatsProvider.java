@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012<Re asksven
+ * Copyright (C) 2011-2012  asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,6 +75,7 @@ import android.widget.Toast;
 
 
 
+
 //import com.asksven.andoid.common.contrib.Shell;
 //import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
@@ -92,6 +93,7 @@ import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
+import com.asksven.android.common.privateapiproxies.KernelWakelock;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.PackageElement;
@@ -745,29 +747,73 @@ public class StatsProvider
 				long total = element.getTotal();
 				int count = element.getCount();
 				int uid = element.getuid();
-				
-				packages.put(strKey, new PackageElement(strKey, name, uid, duration, total, count, 0, 0));
+				PackageElement newElement = new PackageElement(strKey, name, uid, duration, total, count, 0, 0);
+				Log.d(TAG + ".getCurrentOverviewStatList.addNewWakelock", newElement.toString());
+				packages.put(strKey, newElement);
 			}
 			else
 			{
+				Log.d(TAG + ".getCurrentOverviewStatList.addToExistingWakelock", element.toString());
 				((PackageElement) packages.get(strKey)).add(element);
 			}
 		}
-		
+
+		for (int i = 0; i < refs.m_refKernelWakelocks.size(); i++)
+		{
+			NativeKernelWakelock element = ((NativeKernelWakelock) refs.m_refKernelWakelocks.get(i)).clone();
+			// force lazy element to get loaded
+			element.getFqn(m_context);
+			
+			String strKey = element.getName();
+			String name = element.getName();
+			if (strKey.equals(""))
+			{
+				strKey = name;
+			}
+			
+			// if not in Map yet add, if found add
+			if (!packages.containsKey(strKey))
+			{
+				long duration = element.getDuration();
+				long total = element.getTotal();
+				int count = element.getCount();
+				int uid = element.getuid();
+				PackageElement newElement = new PackageElement(strKey, name, uid, duration, total, count, 0, 0);
+				Log.d(TAG + ".getCurrentOverviewStatList.addNewKernelWakelock", newElement.toString());
+				packages.put(strKey, newElement);
+			}
+			else
+			{
+				Log.d(TAG + ".getCurrentOverviewStatList.addToExistingKernelWakelock", element.toString());
+				((PackageElement) packages.get(strKey)).add(element);
+			}
+		}
+
 		for (int i = 0; i < refs.m_refAlarms.size(); i++)
 		{
 			Alarm element = (Alarm) refs.m_refAlarms.get(i);
 			String strKey = element.getPackageName();
 			String name = element.getPackageName();
 			
+			// decide on what key to use: use package name except if it is empty, in that case use uid_name
+			if (strKey.equals(""))
+			{
+				strKey = name;
+			}
+			
 			// if not in Map yet add, if found add
 			if (!packages.containsKey(strKey))
 			{
 				long wakeups = element.getWakeups();
-				packages.put(strKey, new PackageElement(strKey, name, 0, 0, 0, 0, wakeups, 0));
+				PackageElement newElement = new PackageElement(strKey, name, element.getuid(), 0, 0, 0, wakeups, 0);
+				Log.d(TAG + ".getCurrentOverviewStatList.addNewAlarm", newElement.toString());
+
+				packages.put(strKey, newElement);
 			}
 			else
 			{
+				Log.d(TAG + ".getCurrentOverviewStatList.addToExistingAlarm", element.toString());
+
 				((PackageElement) packages.get(strKey)).add(element);
 			}
 		}
@@ -791,11 +837,43 @@ public class StatsProvider
 			if (!packages.containsKey(strKey))
 			{
 				long rxtx = element.getTotalBytes();
-				packages.put(strKey, new PackageElement(strKey, name, 0, 0, 0, 0, 0, rxtx));
+				PackageElement newElement = new PackageElement(strKey, name, info.getUid(), 0, 0, 0, 0, rxtx);
+				Log.d(TAG + ".getCurrentOverviewStatList.addNewNetworkUsage", newElement.toString());
+
+				packages.put(strKey, newElement);
 			}
 			else
 			{
+				Log.d(TAG + ".getCurrentOverviewStatList.addToExistingNetworkUsage", element.toString());
+
 				((PackageElement) packages.get(strKey)).add(element);
+			}
+		}
+
+		for (int i = 0; i < refs.m_refOther.size(); i++)
+		{
+			Misc element = ((Misc) refs.m_refOther.get(i)).clone();
+			
+			// decide on what key to use: use package name except if it is empty, in that case use uid_name
+			String strKey = element.getName();
+			
+			// add only stuff relevant to the user
+			if ( strKey.equals("Deep Sleep") || strKey.equals("Awake") || strKey.equals("Screen On"))
+			{
+				// if not in Map yet add, if found add
+				if (!packages.containsKey(strKey))
+				{
+					PackageElement newElement = new PackageElement(strKey, strKey, 0, element.getTimeOn(), 0, 0, 0, 0);
+					Log.d(TAG + ".getCurrentOverviewStatList.addNewMisc", newElement.toString());
+	
+					packages.put(strKey, newElement);
+				}
+				else
+				{
+					Log.d(TAG + ".getCurrentOverviewStatList.addToExistingMisc", element.toString());
+	
+					((PackageElement) packages.get(strKey)).add(element);
+				}
 			}
 		}
 
@@ -818,7 +896,7 @@ public class StatsProvider
         while (it.hasNext())
         {
         	PackageElement element = (PackageElement) it.next();
-			if ((!bFilter) || ((element.getDuration()) > 0))
+			if ((!bFilter) || ((element.getDuration()) > 0) || (element.getWakeups() > 0) || (element.getDataVolume() > 0))
 			{
 				myStats.add(element);
 			}
@@ -1753,13 +1831,14 @@ public class StatsProvider
 			{
 				Log.d(TAG, "Current value: " + usage.getName() + " " + usage.getData());
 			}
-			if ((!bFilter) || (usage.getTotal() > 0))
+			if ((!bFilter) || ((usage.getDuration()) > 0) || (usage.getWakeups() > 0) || (usage.getDataVolume() > 0))
+	
 			{
 				if ((refFrom != null)
 						&& (refFrom.m_refOverview != null))
 				{
 					usage.substractFromRef(refFrom.m_refOverview);
-					if ((!bFilter) || (usage.getTotal() > 0))
+					if ((!bFilter) || ((usage.getDuration()) > 0) || (usage.getWakeups() > 0) || (usage.getDataVolume() > 0))
 					{
 						if (LogSettings.DEBUG)
 						{
