@@ -30,6 +30,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -51,7 +53,7 @@ import com.asksven.betterbatterystats.widgetproviders.SmallWidgetProvider;
  * @author sven
  *
  */
-public class PreferencesActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener
+public class PreferencesActivity extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener
 {
 	
 	/**
@@ -62,6 +64,9 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
+		
+		ActionBar ab = getSupportActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
