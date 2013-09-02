@@ -32,7 +32,7 @@ import com.asksven.betterbatterystats.adapters.CreditsAdapter;
 
 public class CreditsActivity extends ListActivity
 {
-
+	// @todo: not needed anymore, replaced by CreditsFragment
     private static final String TAG = "CreditsActivity";
     
     

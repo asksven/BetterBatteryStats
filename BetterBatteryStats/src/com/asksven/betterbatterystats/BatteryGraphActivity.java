@@ -35,15 +35,16 @@ import android.preference.PreferenceManager;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.androidplot.LineRegion;
 import com.androidplot.ui.*;
 import com.androidplot.xy.*;
@@ -54,7 +55,7 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.ZoomScrollGraphActivity.Viewport;
 import com.asksven.betterbatterystats.R;
- 
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -76,7 +77,7 @@ import java.util.TimerTask;
  * @author sven
  *
  */
-public class BatteryGraphActivity extends Activity
+public class BatteryGraphActivity extends SherlockActivity
 {
 	/**
 	 * a progess dialog to be used for long running tasks
@@ -134,7 +135,7 @@ public class BatteryGraphActivity extends Activity
      */
     public boolean onCreateOptionsMenu(Menu menu)
     {  
-    	MenuInflater inflater = getMenuInflater();
+    	MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.history_menu, menu);
         return true;
     }  
