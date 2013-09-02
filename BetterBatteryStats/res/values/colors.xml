@@ -3,4 +3,11 @@
 	<color name="dangerous_color">#778c8cff</color>
 	<color name="signature_color">#77ffa4a4</color>
 	<color name="divider_color">#7798fb98</color>
+	
+	
+    <color name="golden">#f2a400</color>
+    <color name="red">#e00707</color>
+    <color name="green">#4ac925</color>
+    <color name="skyblue">#00d5f2</color>
+    <color name="holoblue">#ff33b6ea</color>
 </resources>

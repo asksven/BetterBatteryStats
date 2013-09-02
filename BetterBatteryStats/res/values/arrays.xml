@@ -116,4 +116,25 @@
     </string-array>
 
     
+    <string-array name="drawer_group1_items">
+        <item>drawer_item_stats</item>
+        <item>drawer_item_settings</item>
+        <item>drawer_item_graphs</item>
+        <item>drawer_item_raw</item>
+    </string-array>
+
+    <string-array name="drawer_group2_items">
+        <item>drawer_item_about</item>
+        <item>drawer_item_getting_started</item>
+        <item>drawer_item_howto</item>
+        <item>drawer_item_release_notes</item>
+        <item>drawer_item_credits</item>
+    </string-array>
+    
+    <array name="drawer_group1_icons">
+        <item>action_about</item>
+        <item>action_settings</item>
+        <item>collections_cloud</item>
+    </array>
+
 </resources>

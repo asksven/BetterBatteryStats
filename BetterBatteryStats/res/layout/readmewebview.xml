@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+	<WebView android:id="@+id/webview"
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"/>
+	<LinearLayout
+	  android:orientation="horizontal"
+	  android:layout_width="match_parent"
+	  android:layout_height="match_parent"
+	  android:layout_weight="10">
+		<Button
+		    android:id="@+id/buttonTwitter"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="15"
+		    android:text="@string/dialog_follow_me" />
+		<Button
+		    android:id="@+id/buttonMarket"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="15"
+		    android:text="@string/dialog_apps" />
+	</LinearLayout>	
+</LinearLayout>

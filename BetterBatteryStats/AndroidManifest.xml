@@ -46,16 +46,28 @@
         android:icon="@drawable/icon_notext"
         android:label="BetterBatteryStats" >
         <activity
-            android:name="com.asksven.betterbatterystats.StatsActivity"
+            android:name="com.asksven.betterbatterystats.MainActivity"
             android:configChanges="orientation|screenSize"
             android:label="BetterBatteryStats"
-            android:theme="@style/Theme.asksven" >
+            android:theme="@style/Theme.Sherlock" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+<!--         <activity -->
+<!--             android:name="com.asksven.betterbatterystats.StatsActivity" -->
+<!--             android:configChanges="orientation|screenSize" -->
+<!--             android:label="BetterBatteryStats" -->
+<!--             android:theme="@style/Theme.asksven" > -->
+<!--             <intent-filter> -->
+<!--                 <action android:name="android.intent.action.MAIN" /> -->
+
+<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
+<!--             </intent-filter> -->
+<!--         </activity> -->
         <activity
             android:name="com.asksven.betterbatterystats.AboutActivity"
             android:theme="@style/Theme.asksven" />
@@ -64,7 +76,13 @@
             android:theme="@style/Theme.asksven" />
         <activity
             android:name="com.asksven.betterbatterystats.PreferencesActivity"
-            android:theme="@style/Theme.asksven" />
+            android:theme="@style/Theme.asksven"
+            android:parentActivityName="com.asksven.betterbatterystats.MainActivity" >
+	        <!-- Parent activity meta-data to support API level 7+ -->
+	        <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.asksven.betterbatterystats.MainActivity" />
+	    </activity>    
         <activity
             android:name="com.asksven.betterbatterystats.HelpActivity"
             android:theme="@style/Theme.asksven" />
@@ -74,11 +92,25 @@
         <activity
             android:name="com.asksven.betterbatterystats.HistActivity"
             android:configChanges="orientation"
-            android:theme="@style/Theme.asksven" />
+            android:theme="@style/Theme.asksven"
+                        android:parentActivityName="com.asksven.betterbatterystats.MainActivity" >
+	        <!-- Parent activity meta-data to support API level 7+ -->
+	        <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.asksven.betterbatterystats.MainActivity" />
+	    </activity>    
+            
         <activity
             android:name="com.asksven.betterbatterystats.RawStatsActivity"
             android:configChanges="orientation"
-            android:theme="@style/Theme.asksven" />
+            android:theme="@style/Theme.asksven"
+            android:parentActivityName="com.asksven.betterbatterystats.MainActivity" >
+	        <!-- Parent activity meta-data to support API level 7+ -->
+	        <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.asksven.betterbatterystats.MainActivity" />
+	    </activity>    
+            />
         <activity
             android:name="com.asksven.betterbatterystats.PackageInfoActivity"
             android:configChanges="orientation"
@@ -94,11 +126,25 @@
         <activity
             android:name="com.asksven.betterbatterystats.BatteryGraph2Activity"
             android:configChanges="orientation"
-            android:theme="@style/Theme.asksven" />
+            android:theme="@style/Theme.asksven"
+            android:parentActivityName="com.asksven.betterbatterystats.MainActivity" >
+	        <!-- Parent activity meta-data to support API level 7+ -->
+	        <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.asksven.betterbatterystats.MainActivity" />
+	    </activity>    
+            
         <activity android:name="com.asksven.betterbatterystats.ZoomScrollGraphActivity" />
         <activity
             android:name="org.achartengine.GraphicalActivity"
-            android:theme="@style/Theme.asksven" />
+            android:theme="@style/Theme.asksven"
+            android:parentActivityName="com.asksven.betterbatterystats.MainActivity" >
+	        <!-- Parent activity meta-data to support API level 7+ -->
+	        <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.asksven.betterbatterystats.MainActivity" />
+	    </activity>    
+            
         <activity
             android:name="com.asksven.betterbatterystats.ResponsiveListActivity"
             android:theme="@style/Theme.asksven" />
