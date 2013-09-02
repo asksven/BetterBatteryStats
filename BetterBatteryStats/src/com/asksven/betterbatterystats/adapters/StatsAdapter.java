@@ -86,7 +86,16 @@ public class StatsAdapter extends BaseAdapter
 	        	double[] values = g.getValues();
 //	        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
 //	            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
-	        	m_maxValue = g.getTotal();
+	        	
+	        	// @todo refactor Misc instead. For now the change is here as I don't want to break the deserialization
+	        	if (g instanceof Misc)
+	        	{
+	        		m_maxValue = ((Misc)g).getTimeRunning();
+	        	}
+	        	else
+	        	{
+	        		m_maxValue = g.getTotal();
+	        	}
 	        }
         }
     }
