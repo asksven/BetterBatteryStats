@@ -19,14 +19,16 @@ import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.androidplot.xy.*;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.betterbatterystats.R;
- 
+
 import java.util.ArrayList;
 
 
@@ -60,6 +62,10 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.batterygraph2);
+        
+		ActionBar ab = getSupportActionBar();
+		ab.setDisplayHomeAsUpEnabled(true);
+
         m_plotWakelock 	= (XYPlot) findViewById(R.id.wakelockPlot);
         m_plotScreenOn 	= (XYPlot) findViewById(R.id.screenOnPlot);
         m_plotCharging 	= (XYPlot) findViewById(R.id.chargingPlot);
@@ -109,7 +115,7 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
      */
     public boolean onCreateOptionsMenu(Menu menu)
     {  
-    	MenuInflater inflater = getMenuInflater();
+    	MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.history2_menu, menu);
         return true;
     }  
