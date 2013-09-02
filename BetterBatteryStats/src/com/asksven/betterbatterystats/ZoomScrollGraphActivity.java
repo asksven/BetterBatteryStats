@@ -47,7 +47,7 @@ public class ZoomScrollGraphActivity extends Activity implements OnTouchListener
 		private SimpleXYSeries mySeries;
 		
 		private Viewport m_viewPort; 
-		class Viewport
+		public class Viewport
 		{
 			public PointF minXY;
 			public PointF maxXY;
