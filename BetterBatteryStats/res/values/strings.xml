@@ -29,7 +29,8 @@
     <string name="Fragment3">This is Fragment 3</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    
+
+    <string name="drawer_item_overview">Overview</string>    
     <string name="drawer_item_stats">Stats</string>
     <string name="drawer_item_settings">Settings</string>
     <string name="drawer_item_graphs">Graphs</string>

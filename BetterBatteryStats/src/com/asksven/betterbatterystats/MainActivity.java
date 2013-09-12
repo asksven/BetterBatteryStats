@@ -29,6 +29,7 @@ import com.asksven.betterbatterystats.data.NavigationDrawerItem;
 import com.asksven.betterbatterystats.fragments.BatteryGraphFragment;
 import com.asksven.betterbatterystats.fragments.CreditsFragment;
 import com.asksven.betterbatterystats.fragments.NewCreditsFragment;
+import com.asksven.betterbatterystats.fragments.OverviewFragment;
 import com.asksven.betterbatterystats.fragments.RawStatsFragment;
 import com.asksven.betterbatterystats.fragments.ReadmeFragment;
 import com.asksven.betterbatterystats.fragments.StatsFragment;
@@ -56,6 +57,7 @@ public class MainActivity extends SherlockFragmentActivity
 	NavigationDrawerAdapter mDrawerAdapter;
 	String[] title;
 	// int[] icon;
+	Fragment m_pieFragment = new OverviewFragment();
 	Fragment m_statsFragment = new StatsFragment();
 	Fragment m_creditsFragment = new NewCreditsFragment();
 	Fragment m_readmeFragment = new ReadmeFragment();
@@ -224,6 +226,10 @@ public class MainActivity extends SherlockFragmentActivity
 		// Locate constant at selected position
 		switch (mDrawerAdapter.getItem(position).title)
 		{
+			case R.string.drawer_item_overview:
+				ft.replace(R.id.content_frame, m_pieFragment);
+				break;
+
 			case R.string.drawer_item_stats:
 				ft.replace(R.id.content_frame, m_statsFragment);
 				break;
