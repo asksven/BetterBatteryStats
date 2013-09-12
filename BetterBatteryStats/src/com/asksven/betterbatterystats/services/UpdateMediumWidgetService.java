@@ -35,7 +35,7 @@ import com.asksven.betterbatterystats.widgetproviders.MediumWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.StatsActivity;
+import com.asksven.betterbatterystats.MainActivity;
 
 import android.app.PendingIntent;
 import android.app.Service;
@@ -286,9 +286,9 @@ public class UpdateMediumWidgetService extends Service
 				i.addCategory(Intent.CATEGORY_LAUNCHER);
 			    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				int stat = Integer.valueOf(sharedPrefs.getString("widget_default_stat", "0"));
-				i.putExtra(StatsActivity.STAT, stat);
-				i.putExtra(StatsActivity.STAT_TYPE_FROM, refFrom);
-				i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.CURRENT_REF_FILENAME);
+				i.putExtra(MainActivity.STAT, stat);
+				i.putExtra(MainActivity.STAT_TYPE_FROM, refFrom);
+				i.putExtra(MainActivity.STAT_TYPE_TO, Reference.CURRENT_REF_FILENAME);
 
 
 				PendingIntent clickPI = PendingIntent.getActivity(

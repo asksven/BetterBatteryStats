@@ -34,7 +34,7 @@ import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.StatsActivity;
+import com.asksven.betterbatterystats.MainActivity;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -162,10 +162,10 @@ public class WatchdogProcessingService extends IntentService
 							i = manager.getLaunchIntentForPackage(this.getPackageName());
 							i.addCategory(Intent.CATEGORY_LAUNCHER);
 						    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-							i.putExtra(StatsActivity.STAT, 0);
-							i.putExtra(StatsActivity.STAT_TYPE_FROM, Reference.SCREEN_OFF_REF_FILENAME);
-							i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.SCREEN_ON_REF_FILENAME);
-							i.putExtra(StatsActivity.FROM_NOTIFICATION, true);
+							i.putExtra(MainActivity.STAT, 0);
+							i.putExtra(MainActivity.STAT_TYPE_FROM, Reference.SCREEN_OFF_REF_FILENAME);
+							i.putExtra(MainActivity.STAT_TYPE_TO, Reference.SCREEN_ON_REF_FILENAME);
+							i.putExtra(MainActivity.FROM_NOTIFICATION, true);
 
 					    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 

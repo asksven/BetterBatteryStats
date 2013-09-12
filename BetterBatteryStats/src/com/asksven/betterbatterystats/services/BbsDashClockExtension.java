@@ -23,9 +23,10 @@ import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.LogSettings;
+import com.asksven.betterbatterystats.MainActivity;
 import com.asksven.betterbatterystats.PreferencesActivity;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.StatsActivity;
+//import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -142,6 +143,6 @@ public class BbsDashClockExtension extends DashClockExtension
 		// Publish the extension data update.
 		publishUpdate(new ExtensionData().visible(true).icon(R.drawable.icon_notext).status(strDrain)
 				.expandedTitle(strAwake + " " + getString(R.string.label_awake_abbrev) + ", " + strDrain).expandedBody(refs)
-				.clickIntent(new Intent(this, StatsActivity.class)));
+				.clickIntent(new Intent(this, MainActivity.class)));
 	}
 }

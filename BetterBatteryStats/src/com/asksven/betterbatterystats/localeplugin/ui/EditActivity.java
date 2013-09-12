@@ -46,7 +46,6 @@ import com.asksven.betterbatterystats.localeplugin.bundle.BundleScrubber;
 import com.asksven.betterbatterystats.localeplugin.bundle.PluginBundleManager;
 import com.twofortyfouram.locale.BreadCrumber;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.StatsActivity;
 
 /**
  * This is the "Edit" activity for a Locale Plug-in.

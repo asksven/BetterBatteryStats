@@ -27,7 +27,6 @@ import com.asksven.betterbatterystats.adapters.NavigationDrawerAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.NavigationDrawerItem;
 import com.asksven.betterbatterystats.fragments.BatteryGraphFragment;
-import com.asksven.betterbatterystats.fragments.CreditsFragment;
 import com.asksven.betterbatterystats.fragments.NewCreditsFragment;
 import com.asksven.betterbatterystats.fragments.OverviewFragment;
 import com.asksven.betterbatterystats.fragments.RawStatsFragment;
@@ -48,6 +47,10 @@ import android.support.v4.view.GravityCompat;
 
 public class MainActivity extends SherlockFragmentActivity
 {
+	public static String STAT 				= "STAT";
+	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
+	public static String STAT_TYPE_TO		= "STAT_TYPE_TO";
+	public static String FROM_NOTIFICATION 	= "FROM_NOTIFICATION";
 
 	// Declare Variables
 	DrawerLayout mDrawerLayout;

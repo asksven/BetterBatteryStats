@@ -41,7 +41,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.asksven.betterbatterystats.LogSettings;
-import com.asksven.betterbatterystats.StatsActivity;
+//import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.services.KbReaderService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.google.gson.Gson;

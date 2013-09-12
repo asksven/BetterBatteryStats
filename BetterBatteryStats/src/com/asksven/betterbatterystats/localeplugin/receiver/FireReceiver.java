@@ -27,7 +27,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.localeplugin.Constants;
 import com.asksven.betterbatterystats.localeplugin.bundle.BundleScrubber;

@@ -34,7 +34,6 @@ import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgets.WidgetBars;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.Wakelock;
 
 import android.app.IntentService;
