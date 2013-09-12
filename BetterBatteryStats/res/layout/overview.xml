@@ -4,56 +4,134 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.echo.holographlibrary.PieGraph
+    <com.asksven.betterbatterystats.widgets.MyPieGraph
         android:id="@+id/piegraph"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/graph_height"
         android:layout_margin="16dp" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Phone States"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_marginLeft="@dimen/legend_margin"
+        android:layout_marginRight="@dimen/legend_margin"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textViewDeepSleep"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Deep Sleep"
-        android:textColor="@color/state_green"/>
-
-    <TextView
-        android:id="@+id/textViewAwake"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Awake Screen Off"
-        android:textColor="@color/state_red"/>
-
-    <TextView
-        android:id="@+id/textViewScreenOn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Awake Screen On"
-        android:textColor="@color/state_yellow"/>
-
-        <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Hints"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <ListView
-            android:id="@+id/listViewHints"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
-    
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="8dp"
+                android:background="@color/state_green" />
+
+            <TextView
+                android:id="@+id/textViewDeepSleep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="8dp"
+                android:layout_weight="10"
+                android:textSize="@dimen/legend_font_size"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:text="Deep Sleep"
+                android:textColor="@color/state_green" />
+
+            <TextView
+                android:id="@+id/textViewDeepSleepValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:textSize="@dimen/legend_font_size"
+                android:text="0h 13m (24%)"
+                android:textColor="@color/state_green" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/state_red" />
+
+            <TextView
+                android:id="@+id/textViewAwake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:textSize="@dimen/legend_font_size"
+                android:layout_weight="10"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:text="Awake Scr. Off"
+                android:textColor="@color/state_red" />
+
+            <TextView
+                android:id="@+id/textViewAwakeValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:textSize="@dimen/legend_font_size"
+                android:text="0h 45m (34%)"
+                android:textColor="@color/state_red" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/state_yellow" />
+
+            <TextView
+                android:id="@+id/textViewScreenOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill_horizontal"
+                android:layout_weight="10"
+                android:ellipsize="end"
+                android:textSize="@dimen/legend_font_size"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:text="Awake Scr. On"
+                android:textColor="@color/state_yellow" />
+
+            <TextView
+                android:id="@+id/textViewScreenOnValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:textSize="@dimen/legend_font_size"
+                android:text="0h 45m (34%)"
+                android:textColor="@color/state_yellow" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

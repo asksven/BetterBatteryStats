@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dimensions for devices starting with 600dp (Nexus 7) -->
+    <!-- dimensions for overview -->
+    <dimen name="legend_margin">192dp</dimen>
+    
+    
+    
+</resources>
