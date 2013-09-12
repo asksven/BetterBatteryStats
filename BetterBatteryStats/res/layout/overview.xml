@@ -37,12 +37,12 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="8dp"
                 android:layout_weight="10"
-                android:textSize="@dimen/legend_font_size"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
                 android:text="Deep Sleep"
-                android:textColor="@color/state_green" />
+                android:textColor="@color/state_green"
+                android:textSize="@dimen/legend_font_size" />
 
             <TextView
                 android:id="@+id/textViewDeepSleepValue"
@@ -52,10 +52,17 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
-                android:textSize="@dimen/legend_font_size"
                 android:text="0h 13m (24%)"
-                android:textColor="@color/state_green" />
+                android:textColor="@color/state_green"
+                android:textSize="@dimen/legend_font_size" />
         </LinearLayout>
+
+        <View
+            android:id="@+id/top_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/headline"
+            android:background="@color/concrete" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,13 +81,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:textSize="@dimen/legend_font_size"
                 android:layout_weight="10"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
                 android:text="Awake Scr. Off"
-                android:textColor="@color/state_red" />
+                android:textColor="@color/state_red"
+                android:textSize="@dimen/legend_font_size" />
 
             <TextView
                 android:id="@+id/textViewAwakeValue"
@@ -90,11 +97,17 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
-                android:textSize="@dimen/legend_font_size"
                 android:text="0h 45m (34%)"
-                android:textColor="@color/state_red" />
+                android:textColor="@color/state_red"
+                android:textSize="@dimen/legend_font_size" />
         </LinearLayout>
-
+        <View
+            android:id="@+id/top_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/headline"
+            android:background="@color/concrete" />
+        
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,11 +127,11 @@
                 android:layout_gravity="fill_horizontal"
                 android:layout_weight="10"
                 android:ellipsize="end"
-                android:textSize="@dimen/legend_font_size"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
                 android:text="Awake Scr. On"
-                android:textColor="@color/state_yellow" />
+                android:textColor="@color/state_yellow"
+                android:textSize="@dimen/legend_font_size" />
 
             <TextView
                 android:id="@+id/textViewScreenOnValue"
@@ -128,10 +141,17 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
-                android:textSize="@dimen/legend_font_size"
                 android:text="0h 45m (34%)"
-                android:textColor="@color/state_yellow" />
+                android:textColor="@color/state_yellow"
+                android:textSize="@dimen/legend_font_size" />
         </LinearLayout>
+                <View
+            android:id="@+id/top_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@+id/headline"
+            android:background="@color/concrete" />
+        
     </LinearLayout>
 
 </LinearLayout>
