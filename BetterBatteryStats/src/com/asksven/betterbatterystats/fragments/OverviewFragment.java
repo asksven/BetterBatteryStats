@@ -26,6 +26,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.R.id;
 import com.asksven.betterbatterystats.R.layout;
+import com.asksven.betterbatterystats.widgets.MyPieGraph;
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieGraph.OnSliceClickedListener;
 import com.echo.holographlibrary.PieSlice;
@@ -37,8 +38,11 @@ public class OverviewFragment extends SherlockFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		final View v = inflater.inflate(R.layout.overview, container, false);
-		PieGraph pg = (PieGraph) v.findViewById(R.id.piegraph);
+		MyPieGraph pg = (MyPieGraph) v.findViewById(R.id.piegraph);
 
+		pg.setTitle("12h 32m");
+		pg.setTextHeightRatio(0.2f);
+		
 		PieSlice slice = new PieSlice();
 		slice.setColor(getResources().getColor(R.color.state_green)); // Color.GREEN); //parseColor("#99CC00"));
 		slice.setValue(2);
