@@ -93,17 +93,13 @@ public class RawStatsFragment extends SherlockListFragment implements AdapterVie
 
 	}
 	
-    /** 
-     * Add menu items
-     * 
-     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-     */
-    public boolean onCreateOptionsMenu(Menu menu)
+	@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {  
-    	MenuInflater inflater = getSherlockActivity().getSupportMenuInflater();
+		super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.kernelwakelocks_menu, menu);
-        return true;
     }  
+
 
     /** 
      * Define menu action

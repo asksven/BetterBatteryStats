@@ -28,6 +28,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
@@ -44,13 +47,61 @@ import com.echo.holographlibrary.PieSlice;
 public class OverviewFragment extends SherlockFragment
 {
 	private static String TAG = "OverviewFragment";
+	TextView m_tvDeepSleep;
+	TextView m_tvAwakeScreenOn;
+	TextView m_tvAwakeScreenOff;
+	MyPieGraph m_pg;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		final View v = inflater.inflate(R.layout.overview, container, false);
-		MyPieGraph pg = (MyPieGraph) v.findViewById(R.id.piegraph);
+		m_tvDeepSleep 		= (TextView) v.findViewById(R.id.textViewDeepSleepValue);
+		m_tvAwakeScreenOn 	= (TextView) v.findViewById(R.id.textViewScreenOnValue);
+		m_tvAwakeScreenOff 	= (TextView) v.findViewById(R.id.textViewAwakeValue);
 
+		m_pg = (MyPieGraph) v.findViewById(R.id.piegraph);
+
+		setHasOptionsMenu(true);
+		doRefresh();
+		
+		m_pg.setOnSliceClickedListener(new OnSliceClickedListener()
+		{
+
+			@Override
+			public void onClick(int index)
+			{
+
+			}
+
+		});
+
+		return v;
+	}
+	
+	@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {  
+		super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.kernelwakelocks_menu, menu);
+    }  
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {  
+        switch (item.getItemId())
+        {  
+	        case R.id.refresh:
+            	// Refresh
+	        	doRefresh();
+            	break;
+
+        }  
+        return false;  
+    }
+    
+    void doRefresh()
+    {
 		// get the data
 		StatsProvider stats = StatsProvider.getInstance(getActivity());
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -67,7 +118,18 @@ public class OverviewFragment extends SherlockFragment
 
 		try
 		{
-			Reference toRef 	= ReferenceStore.getReferenceByName(refTo, getActivity());
+
+			Reference toRef = null;
+			if (refTo.equals(Reference.CURRENT_REF_FILENAME))
+			{
+				// Update "current" uncached
+				toRef = StatsProvider.getInstance(getActivity()).getUncachedPartialReference(0);
+			}
+			else
+			{
+				toRef 	= ReferenceStore.getReferenceByName(refTo, getActivity());
+			}
+			
 			Reference fromRef 	= ReferenceStore.getReferenceByName(refFrom, getActivity());
 			
 			ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, toRef);
@@ -133,48 +195,33 @@ public class OverviewFragment extends SherlockFragment
 		}
 
 		// Populate the graph
-		pg.setTitle(DateUtils.formatDurationCompressed(timeSince));
-		pg.setTextHeightRatio(0.2f);
+		m_pg.removeSlices();
+		m_pg.setTitle(DateUtils.formatDurationCompressed(timeSince));
+		m_pg.setTextHeightRatio(0.2f);
 		
 		PieSlice slice = new PieSlice();
 		slice.setColor(getResources().getColor(R.color.state_green));
 		slice.setValue(timeDeepSleep);
 		slice.setTitle("Deep Sleep");
-		pg.addSlice(slice);
+		m_pg.addSlice(slice);
 
 		slice = new PieSlice();
 		slice.setColor(getResources().getColor(R.color.state_red));
 		slice.setValue(timeAwake - timeScreenOn);
 		slice.setTitle("Awake Screen Off");
-		pg.addSlice(slice);
+		m_pg.addSlice(slice);
 		
 		slice = new PieSlice();
 		slice.setColor(getResources().getColor(R.color.state_yellow));
 		slice.setValue(timeScreenOn);
 		slice.setTitle("Awake Screen On");
-		pg.addSlice(slice);
+		m_pg.addSlice(slice);
 
-		// Populate the legend
-		TextView tvDeepSleep 		= (TextView) v.findViewById(R.id.textViewDeepSleepValue);
-		TextView tvAwakeScreenOn 	= (TextView) v.findViewById(R.id.textViewScreenOnValue);
-		TextView tvAwakeScreenOff 	= (TextView) v.findViewById(R.id.textViewAwakeValue);
-		
-		tvDeepSleep.setText(DateUtils.formatDurationCompressed(timeDeepSleep));
-		tvAwakeScreenOn.setText(DateUtils.formatDurationCompressed(timeScreenOn));
-		tvAwakeScreenOff.setText(DateUtils.formatDurationCompressed(timeAwake - timeScreenOn));
-		
+		// Populate the legend		
+		m_tvDeepSleep.setText(DateUtils.formatDurationCompressed(timeDeepSleep));
+		m_tvAwakeScreenOn.setText(DateUtils.formatDurationCompressed(timeScreenOn));
+		m_tvAwakeScreenOff.setText(DateUtils.formatDurationCompressed(timeAwake - timeScreenOn));
 
-		pg.setOnSliceClickedListener(new OnSliceClickedListener()
-		{
+    }
 
-			@Override
-			public void onClick(int index)
-			{
-
-			}
-
-		});
-
-		return v;
-	}
 }
