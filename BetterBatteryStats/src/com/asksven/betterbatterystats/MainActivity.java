@@ -29,6 +29,7 @@ import com.asksven.betterbatterystats.data.NavigationDrawerItem;
 import com.asksven.betterbatterystats.fragments.BatteryGraphFragment;
 import com.asksven.betterbatterystats.fragments.NewCreditsFragment;
 import com.asksven.betterbatterystats.fragments.OverviewFragment;
+import com.asksven.betterbatterystats.fragments.OverviewPagerFragment;
 import com.asksven.betterbatterystats.fragments.RawStatsFragment;
 import com.asksven.betterbatterystats.fragments.ReadmeFragment;
 import com.asksven.betterbatterystats.fragments.StatsFragment;
@@ -60,7 +61,7 @@ public class MainActivity extends SherlockFragmentActivity
 	NavigationDrawerAdapter mDrawerAdapter;
 	String[] title;
 	// int[] icon;
-	Fragment m_pieFragment = new OverviewFragment();
+	Fragment m_pieFragment = new OverviewPagerFragment();
 	Fragment m_statsFragment = new StatsFragment();
 	Fragment m_creditsFragment = new NewCreditsFragment();
 	Fragment m_readmeFragment = new ReadmeFragment();

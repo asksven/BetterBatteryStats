@@ -60,6 +60,7 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.betterbatterystats.AboutActivity;
+import com.asksven.betterbatterystats.BbsApplication;
 import com.asksven.betterbatterystats.BatteryGraphActivity;
 import com.asksven.betterbatterystats.FirstLaunch;
 import com.asksven.betterbatterystats.HelpActivity;
@@ -93,6 +94,11 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 	private static final String TAG = "StatsActivity";
 
 	/**
+	 * The application
+	 */
+	private BbsApplication m_app = null;
+	
+	/**
 	 * The logfile TAG
 	 */
 	private static final String LOGFILE = "BetterBatteryStats_Dump.log";
@@ -111,7 +117,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 	/**
 	 * The Type of Stat to be displayed (default is "Since charged")
 	 */
-//	private int m_iStatType = 0; 
 	private String m_refFromName = "";
 	private String m_refToName = Reference.CURRENT_REF_FILENAME;
 	/**
@@ -193,64 +198,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 	        updater.putString("last_release", strCurrentRelease);
 	        updater.commit();
 
-    		boolean migrated = false;
-    		
-    		//////////////////////////////////////////////////////////////////////////
-    		// Fix for bad migration to 1.12
-    		//////////////////////////////////////////////////////////////////////////    		
-    		if (!sharedPrefs.getString("default_stat_type", "0").startsWith("ref_"))
-    		{
-    			Log.i(TAG, "Migrating default_stat_type, value was " + sharedPrefs.getString("default_stat_type", "0"));
-    	        SharedPreferences.Editor editor = sharedPrefs.edit();
-    	        editor.putString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-    	        editor.commit();
-    	        migrated = true;
-    		}
-    		if (!sharedPrefs.getString("small_widget_default_stat_type", "0").startsWith("ref_"))
-    		{
-    			Log.i(TAG, "Migrating small_widget_default_stat_type, value was " + sharedPrefs.getString("small_widget_default_stat_type", "0"));
-    	        SharedPreferences.Editor editor = sharedPrefs.edit();
-    	        editor.putString("small_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-    	        editor.commit();
-    	        migrated = true;
-    		}
-    		if (!sharedPrefs.getString("widget_fallback_stat_type", "0").startsWith("ref_"))
-    		{
-    			Log.i(TAG, "Migrating widget_fallback_stat_type, value was " + sharedPrefs.getString("widget_fallback_stat_type", "0"));
-    	        SharedPreferences.Editor editor = sharedPrefs.edit();
-    	        editor.putString("widget_fallback_stat_type", Reference.BOOT_REF_FILENAME);
-    	        editor.commit();    		
-    	        migrated = true;
-    		}
-    		if (!sharedPrefs.getString("large_widget_default_stat_type", "0").startsWith("ref_"))
-    		{
-    			Log.i(TAG, "Migrating large_widget_default_stat_type, value was " + sharedPrefs.getString("large_widget_default_stat_type", "0"));
-    	        SharedPreferences.Editor editor = sharedPrefs.edit();
-    	        editor.putString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-    	        editor.commit();    		
-    	        migrated = true;
-    		}
-
-    		if (migrated)
-    		{
-    			Log.i(TAG, "Some preferences were migrated");
-    			Toast.makeText(getActivity(), "Upgrading data.", Toast.LENGTH_SHORT).show();
-
-    		}
-    		if (strCurrentRelease.equals("38"))
-    		{
-    			// we have changed the serialized format: delete reference and re-create umplugged and boot
-    			Toast.makeText(getActivity(), "Deleting and re-creating references", Toast.LENGTH_SHORT).show();
-    			ReferenceStore.deleteAllRefs(getActivity());
-				Intent i = new Intent(getActivity(), WriteBootReferenceService.class);
-				getActivity().startService(i);
-				i = new Intent(getActivity(), WriteUnpluggedReferenceService.class);
-				getActivity().startService(i);
-
-    			
-    		}
-    		
-    			
     		// show the readme
 	    	Intent intentReleaseNotes = new Intent(getActivity(), ReadmeActivity.class);
 	    	intentReleaseNotes.putExtra("filename", "readme.html");
@@ -306,19 +253,11 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
     	// retrieve default selections for spinners
     	// if none were passed
 		///////////////////////////////////////////////
-    	
-    	m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
-		m_refFromName	= sharedPrefs.getString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+    	m_app = (BbsApplication) getActivity().getApplication(); 
+    	m_iStat			= m_app.getStat();
+		m_refFromName	= m_app.getRefFromName();
+		m_refToName		= m_app.getRefToName();
 
-		if (!ReferenceStore.hasReferenceByName(m_refFromName, getActivity()))
-		{
-			if (sharedPrefs.getBoolean("fallback_to_since_boot", false))
-			{
-				m_refFromName = Reference.BOOT_REF_FILENAME;
-	    		Toast.makeText(getActivity(), "Fallback to 'Since Boot'", Toast.LENGTH_SHORT).show();
-			}
-		}
-		
 		try
 		{
 			// recover any saved state
@@ -327,6 +266,10 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 				m_iStat 				= (Integer) savedInstanceState.getSerializable("stat");
 				m_refFromName 			= (String) savedInstanceState.getSerializable("stattypeFrom");
 				m_refToName 			= (String) savedInstanceState.getSerializable("stattypeTo");
+				
+				m_app.setStat(m_iStat);
+				m_app.setRefFromName(m_refFromName);
+				m_app.setRefToName(m_refToName);
 	 			
 			}			
 		}
@@ -334,7 +277,11 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 		{
 			m_iStat		= Integer.valueOf(sharedPrefs.getString("default_stat", "0"));
 			m_refFromName	= sharedPrefs.getString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-			
+
+			m_app.setStat(m_iStat);
+			m_app.setRefFromName(m_refFromName);
+			m_app.setRefToName(m_refToName);
+
     		Log.e(TAG, "Exception: " + e.getMessage());
     		DataStorage.LogToFile(LOGFILE, "Exception in onCreate restoring Bundle");
     		DataStorage.LogToFile(LOGFILE, e.getMessage());
@@ -344,7 +291,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 		}
 
 		// Handle the case the Activity was called from an intent with paramaters
-//		Bundle extras = getIntent().getExtras();
 	    Bundle extras = getArguments();
 
 		if (extras != null)
@@ -353,6 +299,11 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 			m_iStat = extras.getInt(StatsFragment.STAT);
 			m_refFromName = extras.getString(StatsFragment.STAT_TYPE_FROM);
 			m_refToName = extras.getString(StatsFragment.STAT_TYPE_TO);
+			
+			m_app.setStat(m_iStat);
+			m_app.setRefFromName(m_refFromName);
+			m_app.setRefToName(m_refToName);
+
 			boolean bCalledFromNotification = extras.getBoolean(StatsFragment.FROM_NOTIFICATION, false);
 			
 			// Clear the notifications that was clicked to call the activity
@@ -667,6 +618,7 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 			{
 				Log.i(TAG, "Spinner from changed from " + m_refFromName + " to " + newStat);
 				m_refFromName = newStat;
+				m_app.setRefFromName(m_refFromName);
 				bChanged = true;
 				// we need to update the second spinner
 				m_spinnerToAdapter.filterToSpinner(newStat, getActivity());
@@ -697,6 +649,7 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 			{
 				Log.i(TAG, "Spinner to changed from " + m_refToName + " to " + newStat);
 				m_refToName = newStat;
+				m_app.setRefFromName(newStat);
 				bChanged = true;
 			}
 			else
@@ -711,6 +664,7 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 			if ( m_iStat != iNewStat )
 			{
 				m_iStat = iNewStat;
+				m_app.setStat(iNewStat);
 				bChanged = true;
 			}
 			else

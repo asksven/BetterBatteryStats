@@ -31,6 +31,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.betterbatterystats.BbsApplication;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.Reference;
@@ -53,8 +54,11 @@ public class OverviewFragment extends SherlockFragment
 		// get the data
 		StatsProvider stats = StatsProvider.getInstance(getActivity());
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		BbsApplication app = (BbsApplication) getActivity().getApplication();
 		// retrieve stats
-		String refFrom	= sharedPrefs.getString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+		
+		String refFrom	= app.getRefFromName();
+		String refTo	= app.getRefToName();
 		
 		long timeAwake 		= 0;
 		long timeDeepSleep	= 0;
@@ -63,10 +67,10 @@ public class OverviewFragment extends SherlockFragment
 
 		try
 		{
-			Reference currentRef = StatsProvider.getInstance(getActivity()).getUncachedPartialReference(0);
-			Reference fromRef = ReferenceStore.getReferenceByName(refFrom, getActivity());
+			Reference toRef 	= ReferenceStore.getReferenceByName(refTo, getActivity());
+			Reference fromRef 	= ReferenceStore.getReferenceByName(refFrom, getActivity());
 			
-			ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
+			ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, toRef);
 
 			if ( (otherStats == null) || ( otherStats.size() == 1) )
 			{
@@ -74,7 +78,7 @@ public class OverviewFragment extends SherlockFragment
 				refFrom	= sharedPrefs.getString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 				fromRef = ReferenceStore.getReferenceByName(refFrom, getActivity());
 				
-				otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
+				otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, toRef);
 			}
 			
 			if ( (otherStats != null) && ( otherStats.size() > 1) )
@@ -90,7 +94,7 @@ public class OverviewFragment extends SherlockFragment
 					timeScreenOn 	= 0;
 				}
 				
-				timeSince = StatsProvider.getInstance(getActivity()).getSince(fromRef, currentRef);
+				timeSince = StatsProvider.getInstance(getActivity()).getSince(fromRef, toRef);
 
 				Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));
 				if (deepSleepStat != null)
