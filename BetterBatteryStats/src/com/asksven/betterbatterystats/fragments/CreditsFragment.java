@@ -25,7 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class NewCreditsFragment extends SherlockFragment
+public class CreditsFragment extends SherlockFragment
 {
 	
 	private CardUI mCardView;

@@ -27,7 +27,7 @@ import com.asksven.betterbatterystats.adapters.NavigationDrawerAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.NavigationDrawerItem;
 import com.asksven.betterbatterystats.fragments.BatteryGraphFragment;
-import com.asksven.betterbatterystats.fragments.NewCreditsFragment;
+import com.asksven.betterbatterystats.fragments.CreditsFragment;
 import com.asksven.betterbatterystats.fragments.OverviewFragment;
 import com.asksven.betterbatterystats.fragments.OverviewPagerFragment;
 import com.asksven.betterbatterystats.fragments.RawStatsFragment;
@@ -63,7 +63,7 @@ public class MainActivity extends SherlockFragmentActivity
 	// int[] icon;
 	Fragment m_pieFragment = new OverviewPagerFragment();
 	Fragment m_statsFragment = new StatsFragment();
-	Fragment m_creditsFragment = new NewCreditsFragment();
+	Fragment m_creditsFragment = new CreditsFragment();
 	Fragment m_readmeFragment = new ReadmeFragment();
 	Fragment m_helpFragment = new ReadmeFragment();
 	Fragment m_howtoFragment = new ReadmeFragment();
