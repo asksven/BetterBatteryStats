@@ -12,20 +12,6 @@
         android:drawSelectorOnTop="true"
         android:text="Spinner1" />
 
-    <Spinner
-        android:id="@+id/spinnerStatType"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:drawSelectorOnTop="true"
-        android:text="Spinner1" />
-
-    <Spinner
-        android:id="@+id/spinnerStatSampleEnd"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:drawSelectorOnTop="true"
-        android:text="Spinner1" />
-
     <FrameLayout
         android:id="@+id/FrameLayoutSince"
         android:layout_width="match_parent"

@@ -112,8 +112,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 	 * The ArrayAdpater for rendering the ListView
 	 */
 	private StatsAdapter m_listViewAdapter;
-	private ReferencesAdapter m_spinnerFromAdapter;
-	private ReferencesAdapter m_spinnerToAdapter;
 	/**
 	 * The Type of Stat to be displayed (default is "Since charged")
 	 */
@@ -353,13 +351,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 		spinnerStat.setSelection(m_iStat);
 		spinnerStat.setOnItemSelectedListener(this);
 		
-		///////////////////////////////////////////////
-		// Spinner for Selecting the Stat type
-		///////////////////////////////////////////////
-		Spinner spinnerStatType = (Spinner) rootView.findViewById(R.id.spinnerStatType);
-		m_spinnerFromAdapter = new ReferencesAdapter(getActivity(), android.R.layout.simple_spinner_item);
-		m_spinnerFromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinnerStatType.setAdapter(m_spinnerFromAdapter);
 
 		try
 		{
@@ -382,48 +373,7 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 					"An unhandled error occured. Please check your logcat",
 					Toast.LENGTH_LONG).show();
 		}
-		// setSelection MUST be called after setAdapter
-		spinnerStatType.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName));
-		spinnerStatType.setOnItemSelectedListener(this);
 		
-		///////////////////////////////////////////////
-		// Spinner for Selecting the end sample
-		///////////////////////////////////////////////
-		Spinner spinnerStatSampleEnd = (Spinner) rootView.findViewById(R.id.spinnerStatSampleEnd);
-		m_spinnerToAdapter = new ReferencesAdapter(getActivity(), android.R.layout.simple_spinner_item);
-		m_spinnerToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		
-		boolean bShowSpinner = sharedPrefs.getBoolean("show_to_ref", true);
-        if (bShowSpinner)
-        {
-        	spinnerStatSampleEnd.setVisibility(View.VISIBLE);
-    		spinnerStatSampleEnd.setAdapter(m_spinnerToAdapter);
-    		// setSelection must be called after setAdapter
-    		if ((m_refToName != null) && !m_refToName.equals("") )
-    		{
-    			int pos = m_spinnerToAdapter.getPosition(m_refToName);
-    			spinnerStatSampleEnd.setSelection(pos);
-    			
-    		}
-    		else
-    		{
-    			spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
-    		}
-
-        }
-        else
-        {
-        	spinnerStatSampleEnd.setVisibility(View.GONE);
-    		spinnerStatSampleEnd.setAdapter(m_spinnerToAdapter);
-    		// setSelection must be called after setAdapter
-    		spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
-
-        }
-		
-			
-
-		spinnerStatSampleEnd.setOnItemSelectedListener(this);
 
 		///////////////////////////////////////////////
 		// sorting
@@ -458,7 +408,10 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 		Log.i(TAG, "OnResume called");
 		super.onResume();
 
-		
+		// read the currently selected references
+		BbsApplication app = (BbsApplication) getActivity().getApplication();
+		m_refFromName = app.getRefFromName();
+		m_refToName = app.getRefToName();
 		// register the broadcast receiver
 		IntentFilter intentFilter = new IntentFilter(ReferenceStore.REF_UPDATED);
         m_referenceSavedReceiver = new BroadcastReceiver()
@@ -471,11 +424,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
                 //log our message value
                 Log.i(TAG, "Received broadcast, reference was updated:" + refName);
                 
-                // reload the spinners to make sure all refs are in the right sequence when current gets refreshed
-//                if (refName.equals(Reference.CURRENT_REF_FILENAME))
-//                {
-                	refreshSpinners();
-//                }
             }
         };
         
@@ -507,7 +455,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 		}
 		else
 		{	
-			refreshSpinners();
 			doRefresh(false);
 			
 		}
@@ -610,55 +557,7 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 		boolean bChanged = false;
 		
 		// id is in the order of the spinners, 0 is stat, 1 is stat_type
-		if (parent == (Spinner) getView().findViewById(R.id.spinnerStatType))
-		{
-			// detect if something changed
-			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
-			if ((m_refFromName != null) && ( !m_refFromName.equals(newStat) ))
-			{
-				Log.i(TAG, "Spinner from changed from " + m_refFromName + " to " + newStat);
-				m_refFromName = newStat;
-				m_app.setRefFromName(m_refFromName);
-				bChanged = true;
-				// we need to update the second spinner
-				m_spinnerToAdapter.filterToSpinner(newStat, getActivity());
-				m_spinnerToAdapter.notifyDataSetChanged();
-				
-				// select the right element
-				Spinner spinnerStatSampleEnd = (Spinner) getView().findViewById(R.id.spinnerStatSampleEnd);
-				if (spinnerStatSampleEnd.isShown())
-				{
-					spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(m_refToName));
-				}
-				else
-				{
-					spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
-				}
-
-			}
-			else
-			{
-				return;
-			}
-
-		}
-		else if (parent == (Spinner) getView().findViewById(R.id.spinnerStatSampleEnd))
-		{
-			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
-			if ((m_refFromName != null) && ( !m_refToName.equals(newStat) ))
-			{
-				Log.i(TAG, "Spinner to changed from " + m_refToName + " to " + newStat);
-				m_refToName = newStat;
-				m_app.setRefFromName(newStat);
-				bChanged = true;
-			}
-			else
-			{
-				return;
-			}
-			
-		}
-		else if (parent == (Spinner) getView().findViewById(R.id.spinnerStat))
+		if (parent == (Spinner) getView().findViewById(R.id.spinnerStat))
 		{
 			int iNewStat = position;
 			if ( m_iStat != iNewStat )
@@ -752,39 +651,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
     	}
     }
 
-	private void refreshSpinners()
-	{
-		// reload the spinners to make sure all refs are in the right sequence
-		m_spinnerFromAdapter.refreshFromSpinner(getActivity());
-		m_spinnerToAdapter.filterToSpinner(m_refFromName, getActivity());
-		// after we reloaded the spinners we need to reset the selections
-		Spinner spinnerStatTypeFrom = (Spinner) getView().findViewById(R.id.spinnerStatType);
-		Spinner spinnerStatTypeTo = (Spinner) getView().findViewById(R.id.spinnerStatSampleEnd);
-		Log.i(TAG, "refreshSpinners: reset spinner selections: from='" + m_refFromName + "', to='" + m_refToName + "'");
-		Log.i(TAG, "refreshSpinners Spinner values: SpinnerFrom=" + m_spinnerFromAdapter.getNames() + " SpinnerTo=" + m_spinnerToAdapter.getNames());
-		Log.i(TAG, "refreshSpinners: request selections: from='" + m_spinnerFromAdapter.getPosition(m_refFromName) + "', to='" + m_spinnerToAdapter.getPosition(m_refToName) + "'");
-
-		// restore positions
-		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName), true);
-		if (spinnerStatTypeTo.isShown())
-		{
-			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(m_refToName), true);
-		}
-		else
-		{
-			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME), true);
-		}
-		Log.i(TAG, "refreshSpinners result positions: from='" + spinnerStatTypeFrom.getSelectedItemPosition() + "', to='" + spinnerStatTypeTo.getSelectedItemPosition() + "'");
-		
-		if ((spinnerStatTypeFrom.getSelectedItemPosition() == -1)||(spinnerStatTypeTo.getSelectedItemPosition() == -1))
-		{
-			Toast.makeText(getActivity(),
-					"Selected 'from' or 'to' reference could not be loaded. Please refresh",
-					Toast.LENGTH_LONG).show();
-		}
-			
-	}
-	
     /**
 	 * In order to refresh the ListView we need to re-create the Adapter
 	 * (should be the case but notifyDataSetChanged doesn't work so
@@ -806,7 +672,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 	{
 
 		BatteryStatsProxy.getInstance(getActivity()).invalidate();
-		refreshSpinners();
 		new LoadStatData().execute(updateCurrent);	
 	}
 

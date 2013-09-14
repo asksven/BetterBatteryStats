@@ -21,6 +21,8 @@ package com.asksven.betterbatterystats;
  */
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.asksven.android.common.ReadmeActivity;
 import com.asksven.betterbatterystats.adapters.NavigationDrawerAdapter;
@@ -30,6 +32,7 @@ import com.asksven.betterbatterystats.fragments.BatteryGraphFragment;
 import com.asksven.betterbatterystats.fragments.CreditsFragment;
 import com.asksven.betterbatterystats.fragments.OverviewFragment;
 import com.asksven.betterbatterystats.fragments.OverviewPagerFragment;
+import com.asksven.betterbatterystats.fragments.SelectReferencesFragment;
 import com.asksven.betterbatterystats.fragments.RawStatsFragment;
 import com.asksven.betterbatterystats.fragments.RawStatsPagerFragment;
 import com.asksven.betterbatterystats.fragments.ReadmeFragment;
@@ -49,27 +52,27 @@ import android.support.v4.view.GravityCompat;
 
 public class MainActivity extends SherlockFragmentActivity
 {
-	public static String STAT 				= "STAT";
-	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
-	public static String STAT_TYPE_TO		= "STAT_TYPE_TO";
-	public static String FROM_NOTIFICATION 	= "FROM_NOTIFICATION";
+	public static String STAT = "STAT";
+	public static String STAT_TYPE_FROM = "STAT_TYPE_FROM";
+	public static String STAT_TYPE_TO = "STAT_TYPE_TO";
+	public static String FROM_NOTIFICATION = "FROM_NOTIFICATION";
 
 	// Declare Variables
 	DrawerLayout mDrawerLayout;
 	ListView mDrawerList;
 	ActionBarDrawerToggle mDrawerToggle;
-//	MenuListAdapter mMenuAdapter;
+	// MenuListAdapter mMenuAdapter;
 	NavigationDrawerAdapter mDrawerAdapter;
 	String[] title;
 	// int[] icon;
-	Fragment m_OverviewPagerFragment = new OverviewPagerFragment();//OverviewPagerFragment();
+	Fragment m_OverviewPagerFragment = new OverviewPagerFragment();// OverviewPagerFragment();
 	Fragment m_statsFragment = new StatsFragment();
 	Fragment m_creditsFragment = new CreditsFragment();
 	Fragment m_readmeFragment = new ReadmeFragment();
 	Fragment m_helpFragment = new ReadmeFragment();
 	Fragment m_howtoFragment = new ReadmeFragment();
 	Fragment m_batteryGraphFragment = new BatteryGraphFragment();
-//	Fragment m_rawStatsFragment = new RawStatsFragment();
+	// Fragment m_rawStatsFragment = new RawStatsFragment();
 	Fragment m_rawStatsFragment = new RawStatsPagerFragment();
 
 	private CharSequence mDrawerTitle;
@@ -195,13 +198,26 @@ public class MainActivity extends SherlockFragmentActivity
 		}
 	}
 
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.main_activity_menu, menu);
+		return true;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 
-		if (item.getItemId() == android.R.id.home)
+		switch (item.getItemId())
 		{
+		case R.id.select_refs:
+			this.startActivity(new Intent(this, SelectReferenceActivity.class));
+//			SelectReferencesFragment dialog = new SelectReferencesFragment();
+//			dialog.show(getSupportFragmentManager(), "QuickContactFragment");
+			break;
 
+		case android.R.id.home:
 			if (mDrawerLayout.isDrawerOpen(mDrawerList))
 			{
 				mDrawerLayout.closeDrawer(mDrawerList);
@@ -232,65 +248,65 @@ public class MainActivity extends SherlockFragmentActivity
 		// Locate constant at selected position
 		switch (mDrawerAdapter.getItem(position).title)
 		{
-			case R.string.drawer_item_overview:
-				ft.replace(R.id.content_frame, m_OverviewPagerFragment);
+		case R.string.drawer_item_overview:
+			ft.replace(R.id.content_frame, m_OverviewPagerFragment);
 
-				break;
+			break;
 
-			case R.string.drawer_item_stats:
-				ft.replace(R.id.content_frame, m_statsFragment);
-				break;
-				
-			case R.string.drawer_item_settings:
-				Intent intentPrefs = new Intent(this, PreferencesActivity.class);
-				GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_PREFERENCES);
-				this.startActivity(intentPrefs);
-				break;
-	
-			case R.string.drawer_item_graphs:
-				GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_BATTERY_GRAPH);
-				ft.replace(R.id.content_frame, m_batteryGraphFragment);
-				break;
-	
-			case R.string.drawer_item_raw:
-				GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_RAW);
-				ft.replace(R.id.content_frame, m_rawStatsFragment);
-				break;
-	
-			case R.string.drawer_item_about:
-				// About
-				Intent intentAbout = new Intent(this, AboutActivity.class);
-				GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_ABOUT);
-				this.startActivity(intentAbout);
-				break;
-			case R.string.drawer_item_getting_started:
-				// Help
-				b.clear();
-				b.putString("filename", "help.html");
-				m_helpFragment.setArguments(b);
-				ft.replace(R.id.content_frame, m_helpFragment);
-				break;
-			case R.string.drawer_item_howto:
-				// How To
-				b.clear();
-				b.putString("filename", "howto.html");
-				m_howtoFragment.setArguments(b);
-				ft.replace(R.id.content_frame, m_howtoFragment);
-				break;
-	
-			case R.string.drawer_item_release_notes:
-				// Release notes
-				b.clear();
-				b.putString("filename", "readme.html");
-				m_readmeFragment.setArguments(b);
-				ft.replace(R.id.content_frame, m_readmeFragment);
-				break;
+		case R.string.drawer_item_stats:
+			ft.replace(R.id.content_frame, m_statsFragment);
+			break;
 
-			case R.string.drawer_item_credits:
-				ft.replace(R.id.content_frame, m_creditsFragment);
-				break;
+		case R.string.drawer_item_settings:
+			Intent intentPrefs = new Intent(this, PreferencesActivity.class);
+			GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_PREFERENCES);
+			this.startActivity(intentPrefs);
+			break;
+
+		case R.string.drawer_item_graphs:
+			GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_BATTERY_GRAPH);
+			ft.replace(R.id.content_frame, m_batteryGraphFragment);
+			break;
+
+		case R.string.drawer_item_raw:
+			GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_RAW);
+			ft.replace(R.id.content_frame, m_rawStatsFragment);
+			break;
+
+		case R.string.drawer_item_about:
+			// About
+			Intent intentAbout = new Intent(this, AboutActivity.class);
+			GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_ABOUT);
+			this.startActivity(intentAbout);
+			break;
+		case R.string.drawer_item_getting_started:
+			// Help
+			b.clear();
+			b.putString("filename", "help.html");
+			m_helpFragment.setArguments(b);
+			ft.replace(R.id.content_frame, m_helpFragment);
+			break;
+		case R.string.drawer_item_howto:
+			// How To
+			b.clear();
+			b.putString("filename", "howto.html");
+			m_howtoFragment.setArguments(b);
+			ft.replace(R.id.content_frame, m_howtoFragment);
+			break;
+
+		case R.string.drawer_item_release_notes:
+			// Release notes
+			b.clear();
+			b.putString("filename", "readme.html");
+			m_readmeFragment.setArguments(b);
+			ft.replace(R.id.content_frame, m_readmeFragment);
+			break;
+
+		case R.string.drawer_item_credits:
+			ft.replace(R.id.content_frame, m_creditsFragment);
+			break;
 		}
-		
+
 		ft.commit();
 		mDrawerList.setItemChecked(position, true);
 

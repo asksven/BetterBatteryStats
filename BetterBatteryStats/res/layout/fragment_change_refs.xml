@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="80dip"
+        android:scaleType="centerCrop"
+        android:src="@drawable/contact" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/image"
+        android:background="#77000000"
+        android:paddingBottom="14dip"
+        android:paddingLeft="8dip"
+        android:paddingTop="14dip"
+        android:text="Select References"
+        android:textColor="#FFFFFFFF"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/spinnerStatType"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/image"
+        android:drawSelectorOnTop="true"
+        android:text="Spinner1" />
+
+    <Spinner
+        android:id="@+id/spinnerStatSampleEnd"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/spinnerStatType"
+        android:drawSelectorOnTop="true"
+        android:text="Spinner1" />
+
+</RelativeLayout>

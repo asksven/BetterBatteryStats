@@ -73,6 +73,10 @@
             android:name="com.asksven.betterbatterystats.AboutActivity"
             android:theme="@style/Theme.asksven" />
         <activity
+            android:name="com.asksven.betterbatterystats.SelectReferenceActivity"
+            android:theme="@style/Theme.asksven" />
+        
+        <activity
             android:name="com.asksven.betterbatterystats.todelete.CreditsActivity"
             android:theme="@style/Theme.asksven" />
         <activity
