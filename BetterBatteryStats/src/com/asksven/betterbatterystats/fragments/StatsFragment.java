@@ -67,7 +67,6 @@ import com.asksven.betterbatterystats.HelpActivity;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.PreferencesActivity;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.RawStatsActivity;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
