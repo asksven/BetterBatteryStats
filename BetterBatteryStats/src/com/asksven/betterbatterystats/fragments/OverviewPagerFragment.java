@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 asksven
+ * Copyright (C) 2011 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,190 +13,128 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.asksven.betterbatterystats.fragments;
 
-import java.util.ArrayList;
+/**
+ * @author sven
+ *
+ */
+import com.actionbarsherlock.app.SherlockFragment;
+import com.asksven.betterbatterystats.R;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TabHost;
-import android.widget.TabWidget;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.asksven.betterbatterystats.R;
-
-/**
- * Demonstrates combining a TabHost with a ViewPager to implement a tab UI that
- * switches between tabs and also allows the user to perform horizontal flicks
- * to move between the tabs.
- */
-public class OverviewPagerFragment extends SherlockFragment
+public class OverviewPagerFragment extends NestedFragment // we use nested fragment to avoid InvalideStateException: no Activity
 {
-	TabHost mTabHost;
-	ViewPager mViewPager;
-	TabsAdapter mTabsAdapter;
+
+	public static final String TAG = OverviewPagerFragment.class.getSimpleName();
+
+	public static OverviewPagerFragment newInstance()
+	{
+		return new OverviewPagerFragment();
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View rootView = inflater.inflate(R.layout.package_info_pager, container, false);
-
-		mTabHost = (TabHost) rootView.findViewById(android.R.id.tabhost);
-		mTabHost.setup();
-
-		mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-
-		mTabsAdapter = new TabsAdapter(getActivity(), mTabHost, mViewPager);
-
-		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Overview"),
-				OverviewFragment.class, null);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Details"),
-				EmptyFragment.class, null);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Hints"),
-				EmptyFragment.class, null);
-
-
-		if (savedInstanceState != null)
-		{
-			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-		}
-		
-		return rootView;
+		return inflater.inflate(R.layout.fragment_parent, container, false);
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState)
+	public void onViewCreated(View view, Bundle savedInstanceState)
 	{
-		super.onSaveInstanceState(outState);
-		outState.putString("tab", mTabHost.getCurrentTabTag());
+		super.onViewCreated(view, savedInstanceState);
+
+		ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+		mViewPager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
 	}
 
-	/**
-	 * This is a helper class that implements the management of tabs and all
-	 * details of connecting a ViewPager with associated TabHost. It relies on a
-	 * trick. Normally a tab host has a simple API for supplying a View or
-	 * Intent that each tab will show. This is not sufficient for switching
-	 * between pages. So instead we make the content part of the tab host 0dp
-	 * high (it is not shown) and the TabsAdapter supplies its own dummy view to
-	 * show as the tab content. It listens to changes in tabs, and takes care of
-	 * switch to the correct paged in the ViewPager whenever the selected tab
-	 * changes.
-	 */
-	public static class TabsAdapter extends FragmentPagerAdapter implements TabHost.OnTabChangeListener,
-			ViewPager.OnPageChangeListener
+	public class MyPagerAdapter extends FragmentPagerAdapter
 	{
-		private final Context mContext;
-		private final TabHost mTabHost;
-		private final ViewPager mViewPager;
-		private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
-		static final class TabInfo
+		private final String[] TITLES =
+		{ "Overview", "Details", "Hint" };
+
+		public MyPagerAdapter(FragmentManager fm)
 		{
-			private final String tag;
-			private final Class<?> clss;
-			private final Bundle args;
-
-			TabInfo(String _tag, Class<?> _class, Bundle _args)
-			{
-				tag = _tag;
-				clss = _class;
-				args = _args;
-			}
+			super(fm);
 		}
 
-		static class DummyTabFactory implements TabHost.TabContentFactory
+		@Override
+		public CharSequence getPageTitle(int position)
 		{
-			private final Context mContext;
-
-			public DummyTabFactory(Context context)
-			{
-				mContext = context;
-			}
-
-			@Override
-			public View createTabContent(String tag)
-			{
-				View v = new View(mContext);
-				v.setMinimumWidth(0);
-				v.setMinimumHeight(0);
-				return v;
-			}
-		}
-
-		public TabsAdapter(FragmentActivity activity, TabHost tabHost, ViewPager pager)
-		{
-			super(activity.getSupportFragmentManager());
-			mContext = activity;
-			mTabHost = tabHost;
-			mViewPager = pager;
-			mTabHost.setOnTabChangedListener(this);
-			mViewPager.setAdapter(this);
-			mViewPager.setOnPageChangeListener(this);
-		}
-
-		public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args)
-		{
-			tabSpec.setContent(new DummyTabFactory(mContext));
-			String tag = tabSpec.getTag();
-
-			TabInfo info = new TabInfo(tag, clss, args);
-			mTabs.add(info);
-			mTabHost.addTab(tabSpec);
-			notifyDataSetChanged();
+			return TITLES[position];
 		}
 
 		@Override
 		public int getCount()
 		{
-			return mTabs.size();
+			return TITLES.length;
 		}
 
 		@Override
 		public Fragment getItem(int position)
 		{
-			TabInfo info = mTabs.get(position);
-			return Fragment.instantiate(mContext, info.clss.getName(), info.args);
+			switch (position)
+			{
+			case 0:
+				return new OverviewFragment();
+			default:
+				return new EmptyFragment();
+			}
 		}
 
-		@Override
-		public void onTabChanged(String tabId)
-		{
-			int position = mTabHost.getCurrentTab();
-			mViewPager.setCurrentItem(position);
-		}
-
-		@Override
-		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-		{
-		}
-
-		@Override
-		public void onPageSelected(int position)
-		{
-			// Unfortunately when TabHost changes the current tab, it kindly
-			// also takes care of putting focus on it when not in touch mode.
-			// The jerk.
-			// This hack tries to prevent this from pulling focus out of our
-			// ViewPager.
-			TabWidget widget = mTabHost.getTabWidget();
-			int oldFocusability = widget.getDescendantFocusability();
-			widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-			mTabHost.setCurrentTab(position);
-			widget.setDescendantFocusability(oldFocusability);
-		}
-
-		@Override
-		public void onPageScrollStateChanged(int state)
-		{
-		}
 	}
+
+	public static class MyAdapter extends FragmentPagerAdapter
+	{
+		public MyAdapter(FragmentManager fm)
+		{
+			super(fm);
+		}
+
+		@Override
+		public int getCount()
+		{
+			return 2;
+		}
+
+		@Override
+		public Fragment getItem(int position)
+		{
+			Bundle args = new Bundle();
+			args.putInt(TabHostOverviewPagerFragment.POSITION_KEY, position);
+			switch (position)
+			{
+			case 0:
+				return OverviewFragment.newInstance(args);
+			case 1:
+				return EmptyFragment.newInstance(args);
+			default:
+				return EmptyFragment.newInstance(args);
+			}
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position)
+		{
+			return "Fragment # " + position;
+		}
+
+	}
+
 }

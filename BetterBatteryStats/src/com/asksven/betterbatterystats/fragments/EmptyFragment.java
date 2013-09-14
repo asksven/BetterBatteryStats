@@ -48,7 +48,12 @@ public class EmptyFragment extends SherlockFragment
 {
 	private static String TAG = "EmptyFragment";
 	
-	
+	public static OverviewFragment newInstance(Bundle args)
+	{
+		OverviewFragment fragment = new OverviewFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{

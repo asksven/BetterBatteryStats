@@ -61,7 +61,7 @@ public class MainActivity extends SherlockFragmentActivity
 	NavigationDrawerAdapter mDrawerAdapter;
 	String[] title;
 	// int[] icon;
-	Fragment m_pieFragment = new OverviewPagerFragment();
+	Fragment m_OverviewPagerFragment = new OverviewPagerFragment();//OverviewPagerFragment();
 	Fragment m_statsFragment = new StatsFragment();
 	Fragment m_creditsFragment = new CreditsFragment();
 	Fragment m_readmeFragment = new ReadmeFragment();
@@ -231,7 +231,8 @@ public class MainActivity extends SherlockFragmentActivity
 		switch (mDrawerAdapter.getItem(position).title)
 		{
 			case R.string.drawer_item_overview:
-				ft.replace(R.id.content_frame, m_pieFragment);
+				ft.replace(R.id.content_frame, m_OverviewPagerFragment);
+
 				break;
 
 			case R.string.drawer_item_stats:

@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -51,21 +52,43 @@ public class OverviewFragment extends SherlockFragment
 	TextView m_tvAwakeScreenOn;
 	TextView m_tvAwakeScreenOff;
 	MyPieGraph m_pg;
-	
-	
+
+	public static OverviewFragment newInstance(Bundle args)
+	{
+		OverviewFragment fragment = new OverviewFragment();
+		fragment.setArguments(args);
+		return fragment;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		final View v = inflater.inflate(R.layout.overview, container, false);
-		m_tvDeepSleep 		= (TextView) v.findViewById(R.id.textViewDeepSleepValue);
-		m_tvAwakeScreenOn 	= (TextView) v.findViewById(R.id.textViewScreenOnValue);
-		m_tvAwakeScreenOff 	= (TextView) v.findViewById(R.id.textViewAwakeValue);
 
-		m_pg = (MyPieGraph) v.findViewById(R.id.piegraph);
+		return v;
+	}
+
+	 @Override
+	 public void onViewCreated(View view, Bundle savedInstanceState)
+	 {
+		super.onViewCreated(view, savedInstanceState);
+		m_tvDeepSleep = (TextView) view.findViewById(R.id.textViewDeepSleepValue);
+		m_tvAwakeScreenOn = (TextView) view.findViewById(R.id.textViewScreenOnValue);
+		m_tvAwakeScreenOff = (TextView) view.findViewById(R.id.textViewAwakeValue);
+
+		m_pg = (MyPieGraph) view.findViewById(R.id.piegraph);
 
 		setHasOptionsMenu(true);
+		// setRetainInstance(true);
+
 		doRefresh();
-		
+
 		m_pg.setOnSliceClickedListener(new OnSliceClickedListener()
 		{
 
@@ -77,44 +100,81 @@ public class OverviewFragment extends SherlockFragment
 
 		});
 
-		return v;
-	}
-	
+	 }
+	 
 	@Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {  
+	public void onPause()
+	{
+		super.onPause();
+
+		Toast.makeText(getActivity(), "MyFragment.onPause()", Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		// m_tvDeepSleep = (TextView)
+		// getActivity().findViewById(R.id.textViewDeepSleepValue);
+		// m_tvAwakeScreenOn = (TextView)
+		// getActivity().findViewById(R.id.textViewScreenOnValue);
+		// m_tvAwakeScreenOff = (TextView)
+		// getActivity().findViewById(R.id.textViewAwakeValue);
+		//
+		// m_pg = (MyPieGraph) getActivity().findViewById(R.id.piegraph);
+		//
+		// doRefresh();
+		//
+		// m_pg.setOnSliceClickedListener(new OnSliceClickedListener()
+		// {
+		//
+		// @Override
+		// public void onClick(int index)
+		// {
+		//
+		// }
+		//
+		// });
+		//
+		//
+		Toast.makeText(getActivity(), "MyFragment.onResume()", Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+	{
 		super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.kernelwakelocks_menu, menu);
-    }  
+		inflater.inflate(R.menu.kernelwakelocks_menu, menu);
+	}
 
-    public boolean onOptionsItemSelected(MenuItem item)
-    {  
-        switch (item.getItemId())
-        {  
-	        case R.id.refresh:
-            	// Refresh
-	        	doRefresh();
-            	break;
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case R.id.refresh:
+			// Refresh
+			doRefresh();
+			break;
 
-        }  
-        return false;  
-    }
-    
-    void doRefresh()
-    {
+		}
+		return false;
+	}
+
+	void doRefresh()
+	{
 		// get the data
 		StatsProvider stats = StatsProvider.getInstance(getActivity());
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		BbsApplication app = (BbsApplication) getActivity().getApplication();
 		// retrieve stats
-		
-		String refFrom	= app.getRefFromName();
-		String refTo	= app.getRefToName();
-		
-		long timeAwake 		= 0;
-		long timeDeepSleep	= 0;
-		long timeScreenOn 	= 0;
-		long timeSince 		= 0;		
+
+		String refFrom = app.getRefFromName();
+		String refTo = app.getRefToName();
+
+		long timeAwake = 0;
+		long timeDeepSleep = 0;
+		long timeScreenOn = 0;
+		long timeSince = 0;
 
 		try
 		{
@@ -124,26 +184,26 @@ public class OverviewFragment extends SherlockFragment
 			{
 				// Update "current" uncached
 				toRef = StatsProvider.getInstance(getActivity()).getUncachedPartialReference(0);
-			}
-			else
+			} else
 			{
-				toRef 	= ReferenceStore.getReferenceByName(refTo, getActivity());
+				toRef = ReferenceStore.getReferenceByName(refTo, getActivity());
 			}
-			
-			Reference fromRef 	= ReferenceStore.getReferenceByName(refFrom, getActivity());
-			
+
+			Reference fromRef = ReferenceStore.getReferenceByName(refFrom, getActivity());
+
 			ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, toRef);
 
-			if ( (otherStats == null) || ( otherStats.size() == 1) )
+			if ((otherStats == null) || (otherStats.size() == 1))
 			{
-				// the desired stat type is unavailable, pick the alternate one and go on with that one
-				refFrom	= sharedPrefs.getString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+				// the desired stat type is unavailable, pick the alternate one
+				// and go on with that one
+				refFrom = sharedPrefs.getString("widget_fallback_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 				fromRef = ReferenceStore.getReferenceByName(refFrom, getActivity());
-				
+
 				otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, toRef);
 			}
-			
-			if ( (otherStats != null) && ( otherStats.size() > 1) )
+
+			if ((otherStats != null) && (otherStats.size() > 1))
 			{
 				try
 				{
@@ -152,36 +212,33 @@ public class OverviewFragment extends SherlockFragment
 				}
 				catch (Exception e)
 				{
-					timeAwake 		= 0;
-					timeScreenOn 	= 0;
+					timeAwake = 0;
+					timeScreenOn = 0;
 				}
-				
+
 				timeSince = StatsProvider.getInstance(getActivity()).getSince(fromRef, toRef);
 
 				Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));
 				if (deepSleepStat != null)
 				{
 					timeDeepSleep = deepSleepStat.getTimeOn();
-				}
-				else
+				} else
 				{
 					timeDeepSleep = 0;
 				}
-				
-				
-			}
-			else
+
+			} else
 			{
 				// no stat available
-				timeAwake 		= -1;
-				timeDeepSleep	= -1;
-				timeScreenOn 	= -1;
-				timeSince 		= -1;		
+				timeAwake = -1;
+				timeDeepSleep = -1;
+				timeScreenOn = -1;
+				timeSince = -1;
 			}
 		}
 		catch (Exception e)
 		{
-			Log.e(TAG, "Exception: "+Log.getStackTraceString(e));				
+			Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
 		}
 		finally
 		{
@@ -198,7 +255,7 @@ public class OverviewFragment extends SherlockFragment
 		m_pg.removeSlices();
 		m_pg.setTitle(DateUtils.formatDurationCompressed(timeSince));
 		m_pg.setTextHeightRatio(0.2f);
-		
+
 		PieSlice slice = new PieSlice();
 		slice.setColor(getResources().getColor(R.color.state_green));
 		slice.setValue(timeDeepSleep);
@@ -210,18 +267,18 @@ public class OverviewFragment extends SherlockFragment
 		slice.setValue(timeAwake - timeScreenOn);
 		slice.setTitle("Awake Screen Off");
 		m_pg.addSlice(slice);
-		
+
 		slice = new PieSlice();
 		slice.setColor(getResources().getColor(R.color.state_yellow));
 		slice.setValue(timeScreenOn);
 		slice.setTitle("Awake Screen On");
 		m_pg.addSlice(slice);
 
-		// Populate the legend		
+		// Populate the legend
 		m_tvDeepSleep.setText(DateUtils.formatDurationCompressed(timeDeepSleep));
 		m_tvAwakeScreenOn.setText(DateUtils.formatDurationCompressed(timeScreenOn));
 		m_tvAwakeScreenOff.setText(DateUtils.formatDurationCompressed(timeAwake - timeScreenOn));
 
-    }
+	}
 
 }
