@@ -31,6 +31,7 @@ import com.asksven.betterbatterystats.fragments.CreditsFragment;
 import com.asksven.betterbatterystats.fragments.OverviewFragment;
 import com.asksven.betterbatterystats.fragments.OverviewPagerFragment;
 import com.asksven.betterbatterystats.fragments.RawStatsFragment;
+import com.asksven.betterbatterystats.fragments.RawStatsPagerFragment;
 import com.asksven.betterbatterystats.fragments.ReadmeFragment;
 import com.asksven.betterbatterystats.fragments.StatsFragment;
 
@@ -68,7 +69,8 @@ public class MainActivity extends SherlockFragmentActivity
 	Fragment m_helpFragment = new ReadmeFragment();
 	Fragment m_howtoFragment = new ReadmeFragment();
 	Fragment m_batteryGraphFragment = new BatteryGraphFragment();
-	Fragment m_rawStatsFragment = new RawStatsFragment();
+//	Fragment m_rawStatsFragment = new RawStatsFragment();
+	Fragment m_rawStatsFragment = new RawStatsPagerFragment();
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;

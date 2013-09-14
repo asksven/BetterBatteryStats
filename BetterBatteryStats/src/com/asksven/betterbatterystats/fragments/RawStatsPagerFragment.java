@@ -31,14 +31,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class OverviewPagerFragment extends NestedFragment // we use nested fragment to avoid InvalideStateException: no Activity
+public class RawStatsPagerFragment extends NestedFragment // we use nested fragment to avoid InvalideStateException: no Activity
 {
 
-	public static final String TAG = OverviewPagerFragment.class.getSimpleName();
+	public static final String TAG = RawStatsPagerFragment.class.getSimpleName();
 
-	public static OverviewPagerFragment newInstance()
+	public static RawStatsPagerFragment newInstance()
 	{
-		return new OverviewPagerFragment();
+		return new RawStatsPagerFragment();
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class OverviewPagerFragment extends NestedFragment // we use nested fragm
 	{
 
 		private final String[] TITLES =
-		{ "Summary", "Details", "Hint" };
+		{ "Other", "Kernel Wakelocks", "Partial Wakelocks", "Alarms", "Network", "CPU States", "Processes" };
 
 		public MyPagerAdapter(FragmentManager fm)
 		{
@@ -89,52 +89,10 @@ public class OverviewPagerFragment extends NestedFragment // we use nested fragm
 		@Override
 		public Fragment getItem(int position)
 		{
-			switch (position)
-			{
-			case 0:
-				return new OverviewFragment();
-			default:
-				return new EmptyFragment();
-			}
+			return RawStatsFragment.newInstance(position);
 		}
 
 	}
 
-	public static class MyAdapter extends FragmentPagerAdapter
-	{
-		public MyAdapter(FragmentManager fm)
-		{
-			super(fm);
-		}
-
-		@Override
-		public int getCount()
-		{
-			return 2;
-		}
-
-		@Override
-		public Fragment getItem(int position)
-		{
-			Bundle args = new Bundle();
-			args.putInt(TabHostOverviewPagerFragment.POSITION_KEY, position);
-			switch (position)
-			{
-			case 0:
-				return OverviewFragment.newInstance(args);
-			case 1:
-				return EmptyFragment.newInstance(args);
-			default:
-				return EmptyFragment.newInstance(args);
-			}
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position)
-		{
-			return "Fragment # " + position;
-		}
-
-	}
 
 }

@@ -47,7 +47,7 @@ import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
-public class RawStatsFragment extends SherlockListFragment implements AdapterView.OnItemSelectedListener
+public class RawStatsFragment extends SherlockListFragment 
 {
 	/**
 	 * The logging TAG
@@ -58,6 +58,8 @@ public class RawStatsFragment extends SherlockListFragment implements AdapterVie
 	 * The Stat to be displayed
 	 */
 	private int m_iStat = 0; 
+	
+	private static final String STAT = "com.asksven.betterbatterystats.STAT";
 
 	
 	/**
@@ -70,23 +72,30 @@ public class RawStatsFragment extends SherlockListFragment implements AdapterVie
 	 */
 	private StatsAdapter m_listViewAdapter;
 	
+	public static RawStatsFragment newInstance(int position)
+	{
+		RawStatsFragment fragment = new RawStatsFragment();
+	    Bundle args=new Bundle();
+
+	    args.putInt(STAT, position);
+	    fragment.setArguments(args);
+
+		return fragment;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		m_iStat = getArguments().getInt(STAT, 0);
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View rootView = inflater.inflate(R.layout.raw_stats, container, false);
+		View rootView = inflater.inflate(R.layout.new_raw_stats, container, false);
 		
-		// Spinner for selecting the stat
-		Spinner spinnerStat = (Spinner) rootView.findViewById(R.id.spinnerStat);
-		
-		ArrayAdapter spinnerStatAdapter = ArrayAdapter.createFromResource(
-	            getActivity(), R.array.stats, android.R.layout.simple_spinner_item);
-		spinnerStatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    
-		spinnerStat.setAdapter(spinnerStatAdapter);
-		// setSelection MUST be called after setAdapter
-		spinnerStat.setSelection(m_iStat);
-		spinnerStat.setOnItemSelectedListener(this);
-		
+		    
 		new LoadStatData().execute(this);
 
 		return rootView;
@@ -127,63 +136,6 @@ public class RawStatsFragment extends SherlockListFragment implements AdapterVie
     	m_listViewAdapter.notifyDataSetChanged();
 	}
 	
-	/**
-	 * Take the change of selection from the spinners into account and refresh the ListView
-	 * with the right data
-	 */
-	public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
-	{
-		// this method is fired even if nothing has changed so we nee to find that out
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-		boolean bChanged = false;
-		
-		// id is in the order of the spinners, 0 is stat, 1 is stat_type
-		if (parent == (Spinner) getView().findViewById(R.id.spinnerStat))
-		{
-			int iNewStat = position;
-			if ( m_iStat != iNewStat )
-			{
-				m_iStat = iNewStat;
-				bChanged = true;
-			}
-			else
-			{
-				return;
-			}
-
-			// inform the user when he tries to use functions requiring root and he doesn't have root enabled
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-			
-			if (!rootEnabled)
-			{
-				if ((m_iStat == 4) || (m_iStat == 3)) 
-				{
-					Toast.makeText(getActivity(),
-							"This function requires root access. Check \"Advanced\" preferences",
-							Toast.LENGTH_LONG).show();
-				}
-			}
-
-		}
-		else
-		{
-    		Log.e(TAG, "RawStatsActivity.onItemSelected error. ID could not be resolved");
-    		Toast.makeText(getActivity(), "Error: could not resolve what changed", Toast.LENGTH_SHORT).show();
-
-		}
-
-        if (bChanged)
-        {
-        	doRefresh();
-        }
-	}
-
-	public void onNothingSelected(AdapterView<?> parent)
-	{
-		// do nothing
-	}
-
 
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 	// for more details
