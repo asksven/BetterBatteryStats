@@ -37,6 +37,7 @@ import com.asksven.betterbatterystats.fragments.RawStatsFragment;
 import com.asksven.betterbatterystats.fragments.RawStatsPagerFragment;
 import com.asksven.betterbatterystats.fragments.ReadmeFragment;
 import com.asksven.betterbatterystats.fragments.StatsFragment;
+import com.asksven.betterbatterystats.fragments.StatsPagerFragment;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
@@ -66,7 +67,7 @@ public class MainActivity extends SherlockFragmentActivity
 	String[] title;
 	// int[] icon;
 	Fragment m_OverviewPagerFragment = new OverviewPagerFragment();// OverviewPagerFragment();
-	Fragment m_statsFragment = new StatsFragment();
+	Fragment m_statsFragment = new StatsPagerFragment();
 	Fragment m_creditsFragment = new CreditsFragment();
 	Fragment m_readmeFragment = new ReadmeFragment();
 	Fragment m_helpFragment = new ReadmeFragment();

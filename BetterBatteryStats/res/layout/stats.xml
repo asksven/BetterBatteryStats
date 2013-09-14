@@ -5,13 +5,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <Spinner
-        android:id="@+id/spinnerStat"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:drawSelectorOnTop="true"
-        android:text="Spinner1" />
-
     <FrameLayout
         android:id="@+id/FrameLayoutSince"
         android:layout_width="match_parent"

@@ -106,39 +106,26 @@ public class SelectReferencesFragment extends SherlockFragment implements Adapte
 		{
 			// detect if something changed
 			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
-			if ((m_refFromName != null) && ( !m_refFromName.equals(newStat) ))
-			{
-				Log.i(TAG, "Spinner from changed from " + m_refFromName + " to " + newStat);
-				m_refFromName = newStat;
-				app.setRefFromName(m_refFromName);
-				// we need to update the second spinner
-				m_spinnerToAdapter.filterToSpinner(newStat, getActivity());
-				m_spinnerToAdapter.notifyDataSetChanged();
-				
-				// select the right element
-				Spinner spinnerStatSampleEnd = (Spinner) getView().findViewById(R.id.spinnerStatSampleEnd);
-				spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(m_refToName));
 
-			}
-			else
-			{
-				return;
-			}
+			Log.i(TAG, "Spinner from changed from " + m_refFromName + " to " + newStat);
+			m_refFromName = newStat;
+			app.setRefFromName(m_refFromName);
+			// we need to update the second spinner
+			m_spinnerToAdapter.filterToSpinner(newStat, getActivity());
+			m_spinnerToAdapter.notifyDataSetChanged();
+			
+			// select the right element
+			Spinner spinnerStatSampleEnd = (Spinner) getView().findViewById(R.id.spinnerStatSampleEnd);
+			spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(m_refToName));
+
 
 		}
 		else if (parent == (Spinner) getView().findViewById(R.id.spinnerStatSampleEnd))
 		{
 			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
-			if ((m_refFromName != null) && ( !m_refToName.equals(newStat) ))
-			{
-				Log.i(TAG, "Spinner to changed from " + m_refToName + " to " + newStat);
-				m_refToName = newStat;
-				app.setRefFromName(newStat);
-			}
-			else
-			{
-				return;
-			}
+			Log.i(TAG, "Spinner to changed from " + m_refToName + " to " + newStat);
+			m_refToName = newStat;
+			app.setRefFromName(newStat);
 		}
 		else
 		{

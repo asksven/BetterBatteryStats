@@ -80,7 +80,7 @@ import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 
-public class StatsFragment extends SherlockListFragment implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
+public class StatsFragment extends SherlockListFragment implements OnSharedPreferenceChangeListener
 {    
 	public static String STAT 				= "STAT";
 	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
@@ -128,12 +128,30 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 	
 	private BroadcastReceiver m_referenceSavedReceiver = null;
 	
+	public static StatsFragment newInstance(int position)
+	{
+		StatsFragment fragment = new StatsFragment();
+	    Bundle args=new Bundle();
+
+	    args.putInt(STAT, position);
+	    fragment.setArguments(args);
+
+		return fragment;
+	}
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
+	@Override
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		m_iStat = getArguments().getInt(STAT, 0);
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -251,7 +269,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
     	// if none were passed
 		///////////////////////////////////////////////
     	m_app = (BbsApplication) getActivity().getApplication(); 
-    	m_iStat			= m_app.getStat();
 		m_refFromName	= m_app.getRefFromName();
 		m_refToName		= m_app.getRefToName();
 
@@ -292,14 +309,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 
 		if (extras != null)
 		{
-			// Override if some values were passed to the intent
-			m_iStat = extras.getInt(StatsFragment.STAT);
-			m_refFromName = extras.getString(StatsFragment.STAT_TYPE_FROM);
-			m_refToName = extras.getString(StatsFragment.STAT_TYPE_TO);
-			
-			m_app.setStat(m_iStat);
-			m_app.setRefFromName(m_refFromName);
-			m_app.setRefToName(m_refToName);
 
 			boolean bCalledFromNotification = extras.getBoolean(StatsFragment.FROM_NOTIFICATION, false);
 			
@@ -338,19 +347,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
             }
         }
         
-		// Spinner for selecting the stat
-		Spinner spinnerStat = (Spinner) rootView.findViewById(R.id.spinnerStat);
-		
-		ArrayAdapter spinnerStatAdapter = ArrayAdapter.createFromResource(
-				getActivity(), R.array.stats, android.R.layout.simple_spinner_item);
-		spinnerStatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    
-		spinnerStat.setAdapter(spinnerStatAdapter);
-		// setSelection MUST be called after setAdapter
-		spinnerStat.setSelection(m_iStat);
-		spinnerStat.setOnItemSelectedListener(this);
-		
-
 		try
 		{
 			this.setListViewAdapter();
@@ -408,9 +404,8 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
 		super.onResume();
 
 		// read the currently selected references
-		BbsApplication app = (BbsApplication) getActivity().getApplication();
-		m_refFromName = app.getRefFromName();
-		m_refToName = app.getRefToName();
+		m_refFromName = m_app.getRefFromName();
+		m_refToName = m_app.getRefToName();
 		// register the broadcast receiver
 		IntentFilter intentFilter = new IntentFilter(ReferenceStore.REF_UPDATED);
         m_referenceSavedReceiver = new BroadcastReceiver()
@@ -544,94 +539,6 @@ public class StatsFragment extends SherlockListFragment implements AdapterView.O
     }    
     
 
-	/**
-	 * Take the change of selection from the spinners into account and refresh the ListView
-	 * with the right data
-	 */
-	public void onItemSelected(AdapterView<?> parent, View v, int position, long id)
-	{
-		// this method is fired even if nothing has changed so we nee to find that out
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-		boolean bChanged = false;
-		
-		// id is in the order of the spinners, 0 is stat, 1 is stat_type
-		if (parent == (Spinner) getView().findViewById(R.id.spinnerStat))
-		{
-			int iNewStat = position;
-			if ( m_iStat != iNewStat )
-			{
-				m_iStat = iNewStat;
-				m_app.setStat(iNewStat);
-				bChanged = true;
-			}
-			else
-			{
-				return;
-			}
-
-			// inform the user when he tries to use functions requiring root and he doesn't have root enabled
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-			
-			if (!rootEnabled)
-			{
-				if ((m_iStat == 4) || (m_iStat == 3)) 
-				{
-					Toast.makeText(getActivity(),
-							"This function requires root access. Check \"Advanced\" preferences",
-							Toast.LENGTH_LONG).show();
-				}
-			}
-
-		}
-		else
-		{
-    		Log.e(TAG, "ProcessStatsActivity.onItemSelected error. ID could not be resolved");
-    		Toast.makeText(getActivity(), "Error: could not resolve what changed", Toast.LENGTH_SHORT).show();
-
-		}
-
-    	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, getActivity());
-		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, getActivity());
-
-        TextView tvSince = (TextView) getView().findViewById(R.id.TextViewSince);
-//        long sinceMs = getSince();
-        long sinceMs = StatsProvider.getInstance(getActivity()).getSince(myReferenceFrom, myReferenceTo);
-
-        if (sinceMs != -1)
-        {
-	        String sinceText = DateUtils.formatDuration(sinceMs);
-			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
-	        if (bShowBatteryLevels)
-	        {
-
-        		sinceText += " " + StatsProvider.getInstance(getActivity()).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo);
-	        }
-	        tvSince.setText(sinceText);
-	    	Log.i(TAG, "Since " + sinceText);
-        }
-        else
-        {
-	        tvSince.setText("n/a ");
-	    	Log.i(TAG, "Since: n/a ");
-        	
-        }
-		// @todo fix this: this method is called twice
-		//m_listViewAdapter.notifyDataSetChanged();
-        if (bChanged)
-        {
-        	GoogleAnalytics.getInstance(getActivity()).trackStats(getActivity(), GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_refFromName, m_refToName, m_iSorting);
-        	//new LoadStatData().execute(this);
-        	// as the source changed fetch the data
-        	doRefresh(false);
-        }
-	}
-
-	public void onNothingSelected(AdapterView<?> parent)
-	{
-//		Log.i(TAG, "OnNothingSelected called");
-		// do nothing
-	}
 
 	public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
     {
