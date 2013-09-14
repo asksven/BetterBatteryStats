@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/legend_symbol_size"
+                android:layout_height="@dimen/legend_symbol_size"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="8dp"
                 android:background="@color/state_green" />
@@ -71,8 +71,8 @@
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/legend_symbol_size"
+                android:layout_height="@dimen/legend_symbol_size"
                 android:layout_marginRight="8dp"
                 android:background="@color/state_red" />
 
@@ -80,7 +80,7 @@
                 android:id="@+id/textViewAwake"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="fill_horizontal"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="10"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"
@@ -115,8 +115,8 @@
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="@dimen/legend_symbol_size"
+                android:layout_height="@dimen/legend_symbol_size"
                 android:layout_marginRight="8dp"
                 android:background="@color/state_yellow" />
 
@@ -124,7 +124,7 @@
                 android:id="@+id/textViewScreenOn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="fill_horizontal"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="10"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-light"

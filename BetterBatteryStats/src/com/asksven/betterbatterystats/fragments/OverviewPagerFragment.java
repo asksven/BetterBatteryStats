@@ -60,9 +60,9 @@ public class OverviewPagerFragment extends SherlockFragment
 		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Overview"),
 				OverviewFragment.class, null);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Details"),
-				OverviewFragment.class, null);
+				EmptyFragment.class, null);
 		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Hints"),
-				OverviewFragment.class, null);
+				EmptyFragment.class, null);
 
 
 		if (savedInstanceState != null)
