@@ -194,7 +194,7 @@ public class MainActivity extends SherlockFragmentActivity
 			{
 				// TODO Auto-generated method stub
 				// Set the title on the action when drawer open
-				getSupportActionBar().setTitle(mDrawerTitle);
+//				getSupportActionBar().setTitle(mDrawerTitle);
 				super.onDrawerOpened(drawerView);
 			}
 		};
@@ -205,6 +205,16 @@ public class MainActivity extends SherlockFragmentActivity
 		{
 			selectItem(1);
 		}
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState)
+	{
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+		setSupportProgressBarIndeterminateVisibility(false);
+
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -325,13 +335,6 @@ public class MainActivity extends SherlockFragmentActivity
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState)
-	{
-		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
-	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig)
