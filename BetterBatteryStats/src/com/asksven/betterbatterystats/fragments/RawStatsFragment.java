@@ -88,20 +88,41 @@ public class RawStatsFragment extends SherlockListFragment
 	{
 		super.onCreate(savedInstanceState);
 		m_iStat = getArguments().getInt(STAT, 0);
+		
+		// Load the data once
+		new LoadStatData().execute(this);
+
 	}
 	
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+
+    }
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View rootView = inflater.inflate(R.layout.new_raw_stats, container, false);
 		
 		    
-		new LoadStatData().execute(this);
+	//	new LoadStatData().execute(this);
 
 		return rootView;
 
 	}
 	
+	@Override
+	public void onResume()
+	{
+		Log.i(TAG, "OnResume called");
+		super.onResume();
+		
+	}
+	
+
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {  

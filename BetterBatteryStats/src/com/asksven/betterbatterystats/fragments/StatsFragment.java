@@ -151,6 +151,7 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
 	{
 		super.onCreate(savedInstanceState);
 		m_iStat = getArguments().getInt(STAT, 0);
+		new LoadStatData().execute(true);
 	}
 
 	@Override
@@ -438,21 +439,23 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
 		
 		// make sure to create a valid "current" stat if none exists
 		// or if prefs re set to auto refresh
-		boolean bAutoRefresh = sharedPrefs.getBoolean("auto_refresh", true);
-
-		if ((bAutoRefresh) || (!ReferenceStore.hasReferenceByName(Reference.CURRENT_REF_FILENAME, getActivity())))
-		{
-			Intent serviceIntent = new Intent(getActivity(), WriteCurrentReferenceService.class);
-			getActivity().startService(serviceIntent);
-			doRefresh(true);
-
-		}
-		else
-		{	
-			doRefresh(false);
-			
-		}
 		
+// do not auto refresh		
+//		boolean bAutoRefresh = sharedPrefs.getBoolean("auto_refresh", true);
+//
+//		if ((bAutoRefresh) || (!ReferenceStore.hasReferenceByName(Reference.CURRENT_REF_FILENAME, getActivity())))
+//		{
+//			Intent serviceIntent = new Intent(getActivity(), WriteCurrentReferenceService.class);
+//			getActivity().startService(serviceIntent);
+//			doRefresh(true);
+//
+//		}
+//		else
+//		{	
+//			doRefresh(false);
+//			
+//		}
+//		
 		// check if active monitoring is on: if yes make sure the alarm is scheduled
 		if (sharedPrefs.getBoolean("active_mon_enabled", false))
 		{
