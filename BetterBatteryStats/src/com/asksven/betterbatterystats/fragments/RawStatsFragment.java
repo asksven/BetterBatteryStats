@@ -61,12 +61,7 @@ public class RawStatsFragment extends SherlockListFragment
 	
 	private static final String STAT = "com.asksven.betterbatterystats.STAT";
 
-	
-	/**
-	 * a progess dialog to be used for long running tasks
-	 */
-	ProgressDialog m_progressDialog;
-	
+		
 	/**
 	 * The ArrayAdpater for rendering the ListView
 	 */
@@ -223,24 +218,8 @@ public class RawStatsFragment extends SherlockListFragment
 //		@Override
 		protected void onPostExecute(StatsAdapter o)
 	    {
-//			super.onPostExecute(o);
-	        // update hourglass
-			try
-			{
-		    	if (m_progressDialog != null)
-		    	{
-		    		m_progressDialog.dismiss(); //hide();
-		    		m_progressDialog = null;
-		    	}
-			}
-			catch (Exception e)
-			{
-				// nop
-			}
-			finally 
-			{
-				m_progressDialog = null;
-			}
+		    // update hourglass
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
 			
 	    	if (m_exception != null)
 	    	{
@@ -266,22 +245,8 @@ public class RawStatsFragment extends SherlockListFragment
 	    protected void onPreExecute()
 	    {
 	        // update hourglass
-	    	// @todo this code is only there because onItemSelected is called twice
-	    	if (m_progressDialog == null)
-	    	{
-	    		try
-	    		{
-			    	m_progressDialog = new ProgressDialog(getActivity());
-			    	m_progressDialog.setMessage("Computing...");
-			    	m_progressDialog.setIndeterminate(true);
-			    	m_progressDialog.setCancelable(false);
-			    	m_progressDialog.show();
-	    		}
-	    		catch (Exception e)
-	    		{
-	    			m_progressDialog = null;
-	    		}
-	    	}
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+
 	    }
 	}
 	

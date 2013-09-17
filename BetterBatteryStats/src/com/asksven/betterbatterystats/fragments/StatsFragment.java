@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
-import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -52,6 +51,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.asksven.android.common.AppRater;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.ReadmeActivity;
@@ -103,11 +103,6 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
 	private static final String LOGFILE = "BetterBatteryStats_Dump.log";
 	
 	/**
-	 * a progess dialog to be used for long running tasks
-	 */
-	ProgressDialog m_progressDialog;
-	
-	/**
 	 * The ArrayAdpater for rendering the ListView
 	 */
 	private StatsAdapter m_listViewAdapter;
@@ -149,7 +144,8 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState); 
+		
 		m_iStat = getArguments().getInt(STAT, 0);
 		new LoadStatData().execute(true);
 	}
@@ -481,14 +477,6 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
 		// unregister boradcast receiver for saved references
 		getActivity().unregisterReceiver(this.m_referenceSavedReceiver);
 		
-		// make sure to dispose any running dialog
-		if (m_progressDialog != null)
-		{
-			m_progressDialog.dismiss();
-			m_progressDialog = null;
-		}
-//		this.unregisterReceiver(m_batteryHandler);
-
 	}
 	
     /**
@@ -627,28 +615,19 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
 	        return m_listViewAdapter;
 	    }
 		
-//		@Override
+//	    @Override
+		protected void onPreExecute()
+		{
+		    // update hourglass
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(true);
+		}
+
+		//		@Override
 		protected void onPostExecute(StatsAdapter o)
 	    {
-//			super.onPostExecute(o);
-	        // update hourglass
-			try
-			{
-		    	if (m_progressDialog != null)
-		    	{
-		    		m_progressDialog.dismiss(); //hide();
-		    		m_progressDialog = null;
-		    	}
-			}
-			catch (Exception e)
-			{
-				// nop
-			}
-			finally 
-			{
-				m_progressDialog = null;
-			}
-			
+			// update hourglass
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(false);
+	        
 	    	if (m_exception != null)
 	    	{
 	    		if (m_exception instanceof BatteryInfoUnavailableException)
@@ -694,29 +673,7 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
 
 	    	StatsFragment.this.setListAdapter(o);
 	    }
-//	    @Override
-	    protected void onPreExecute()
-	    {
-	        // update hourglass
-	    	// @todo this code is only there because onItemSelected is called twice
-	    	if (m_progressDialog == null)
-	    	{
-	    		try
-	    		{
-			    	m_progressDialog = new ProgressDialog(getActivity());
-			    	m_progressDialog.setMessage("Computing...");
-			    	m_progressDialog.setIndeterminate(true);
-			    	m_progressDialog.setCancelable(false);
-			    	m_progressDialog.show();
-	    		}
-	    		catch (Exception e)
-	    		{
-	    			m_progressDialog = null;
-	    		}
-	    	}
-	    }
-	}
-	
+	}	
 
 	public Dialog getShareDialog()
 	{

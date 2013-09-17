@@ -24,6 +24,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.asksven.android.common.ReadmeActivity;
 import com.asksven.betterbatterystats.adapters.NavigationDrawerAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
@@ -84,7 +85,14 @@ public class MainActivity extends SherlockFragmentActivity
 	{
 		super.onCreate(savedInstanceState);
 		// Get the view from drawer_main.xml
+
+		// allow a progress to be shown in actionbar and hide it straight away
+	    requestWindowFeature(com.actionbarsherlock.view.Window.FEATURE_INDETERMINATE_PROGRESS);
+
 		setContentView(R.layout.drawer_main);
+		
+		// make sure to do that after setting the contentview
+		setSupportProgressBarIndeterminateVisibility(true);
 
 		// Get the Title
 		mTitle = mDrawerTitle = getTitle();
