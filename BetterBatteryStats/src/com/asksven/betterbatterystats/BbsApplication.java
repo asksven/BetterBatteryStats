@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2013 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 package com.asksven.betterbatterystats;
 
+import org.acra.*;
+import org.acra.annotation.ReportsCrashes;
+
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -26,6 +29,11 @@ import com.asksven.betterbatterystats.data.ReferenceStore;
  * @author sven The Application class holds the application-wide settings
  */
 
+@ReportsCrashes(formKey = "", // will not be used
+	mailTo = "sven.knispel+acra_bbs@gmail.com",
+	customReportContent = { ReportField.APP_VERSION_CODE, ReportField.APP_VERSION_NAME, ReportField.ANDROID_VERSION, ReportField.PHONE_MODEL, ReportField.CUSTOM_DATA, ReportField.STACK_TRACE, ReportField.LOGCAT },                
+	mode = ReportingInteractionMode.TOAST,
+	resToastText = R.string.crash_toast_text)
 public class BbsApplication extends Application
 {
 	int m_iStat = 0;
@@ -48,7 +56,7 @@ public class BbsApplication extends Application
 				m_refFromName = Reference.BOOT_REF_FILENAME;
 			}
 		}
-
+		ACRA.init(this);
 	}
 
 	public int getStat()

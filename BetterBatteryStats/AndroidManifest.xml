@@ -22,15 +22,15 @@
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <!-- detect  when screen is turned on/off -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- detect unplug actions -->
-    <uses-permission android:name="android.permission.DEVICE_POWER" />
+<!--     detect unplug actions -->
+<!--     <uses-permission android:name="android.permission.DEVICE_POWER" /> -->
     <!-- retrieve ps list (running tasks) -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- tentative to fix bug #173 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <!-- need to hold wakelocks for writing operations -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!-- needed to read logcat -->
+    <!-- needed to read logcat, also for ACRA -->
     <uses-permission android:name="android.permission.READ_LOGS" />
     <!-- permission to access su (optional if available for dumpsys and network stats -->
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />

@@ -35,33 +35,34 @@ public class CreditsFragment extends SherlockFragment
 			"Android Common", "Google gson",
 			"AchartEngine", "AndroidPlot",
 			"DashClock", "RootTools",
-			"HoloGraphLibrary"};
+			"HoloGraphLibrary", "Acra"};
 	
 	private final String[] m_authors = new String[]
 	{ "Jake Wharton", "Chainfire",
 			"asksven", "",
 			"AchartEngine",	"AndroidPlot",
 			"Roman Nurik", "Stericson",
-			"Daniel Nadeau"};
+			"Daniel Nadeau", "acra.ch"};
 	
 	private final String[] m_licenses = new String[]
 	{ "Apache 2.0", "Apache 2.0",
 			"Apache 2.0", "Apache 2.0",
 			"Apache 2.0", "Apache 2.0",
 			"Apache 2.0", "Apache 2.0",
-			"Apache 2.0"};
+			"Apache 2.0", "Apache 2.0"};
 	
 	private final String[] m_urls = new String[]
 	{ "Apache 2.0", "Apache 2.0",
 			"Apache 2.0", "https://code.google.com/p/google-gson/",
 			"http://www.achartengine.org/index.html", "http://androidplot.com/",
 			"https://code.google.com/p/dashclock/",	"https://code.google.com/p/roottools/",
-			"https://bitbucket.org/danielnadeau/holographlibrary"};
+			"https://bitbucket.org/danielnadeau/holographlibrary", "http://acra.ch"};
 
 	private final String[] m_colors = new String[]
 	{ "#33b6ea", "#e00707",
 			"#f2a400", "#9d36d0",
 			"#4ac925", "#222222",
+			"#33b6ea", "#e00707",
 			"#33b6ea", "#e00707"};
 
 	@Override

@@ -46,5 +46,6 @@
     
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
+    <string name="crash_toast_text">Oops! BBS has crashed. Please use the opportunity to send the author a crash report by mail.</string>
     
 </resources>
