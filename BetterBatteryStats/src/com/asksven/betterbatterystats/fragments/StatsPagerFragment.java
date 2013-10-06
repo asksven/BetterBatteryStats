@@ -67,7 +67,7 @@ public class StatsPagerFragment extends NestedFragment // we use nested fragment
 	{
 
 		private final String[] TITLES =
-		{ "Other", "Kernel Wakelocks", "Partial Wakelocks", "Alarms", "Network", "CPU States", "Processes" };
+		{ "Overview", "Other", "Kernel Wakelocks", "Partial Wakelocks", "Alarms", "Network", "CPU States", "Processes" };
 
 		public MyPagerAdapter(FragmentManager fm)
 		{
