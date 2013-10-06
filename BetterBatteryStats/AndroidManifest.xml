@@ -41,6 +41,10 @@
         android:normalScreens="true"
         android:resizeable="true"
         android:smallScreens="true" />
+    
+    <uses-feature
+		android:name="android.software.app_widgets"
+		android:required="false"/>
 
     <application
         android:icon="@drawable/icon_notext"
@@ -180,6 +184,21 @@
                 - There are multiple BroadcastReceivers for com.twofortyfouram.locale.intent.action.FIRE_SETTING
         -->
         <receiver
+			android:name="com.asksven.betterbatterystats.widgetproviders.AppWidgetApi16"
+			android:icon="@drawable/icon_notext"
+			android:label="@string/app_name"
+			android:enabled="@bool/hasResizableWidgets"> <!-- only starting from Android 4.1 -->
+			<intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+				<action android:name="android.appwidget.action.APPWIDGET_OPTIONS_CHANGED"/>
+			</intent-filter>
+
+			<meta-data
+				android:name="android.appwidget.provider"
+				android:resource="@xml/widget_provider"/>
+		</receiver>
+		
+        <receiver
             android:name="com.asksven.betterbatterystats.localeplugin.receiver.FireReceiver"
             android:exported="true"
             android:process=":background" >
@@ -199,6 +218,7 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
+        <!-- 
         <receiver
             android:name="com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider"
             android:label="BBS 2 x 2 Widget" >
@@ -241,16 +261,19 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/small_widget_info" />
         </receiver>
+         -->
         <receiver
             android:name="com.asksven.betterbatterystats.ActiveMonAlarmReceiver"
             android:process=":remote" />
 
+        <!-- 
         <service android:name="com.asksven.betterbatterystats.services.UpdateLargeWidgetService" >
         </service>
         <service android:name="com.asksven.betterbatterystats.services.UpdateMediumWidgetService" >
         </service>
         <service android:name="com.asksven.betterbatterystats.services.UpdateSmallWidgetService" >
         </service>
+         -->
         <service android:name="com.asksven.betterbatterystats.services.EventWatcherService" />
         <service android:name="com.asksven.betterbatterystats.services.KbReaderService" />
         <service android:name="com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService" />
