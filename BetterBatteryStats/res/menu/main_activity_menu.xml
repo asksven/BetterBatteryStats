@@ -2,6 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/select_refs"    
           android:title="Select References"
+          android:icon="@drawable/ic_action_filter"
           android:showAsAction="ifRoom"/>
-    
+    <item
+        android:id="@+id/about"
+        android:title="About"/>
+    <item
+        android:id="@+id/getting_started"
+        android:title="Getting started"/>
+    <item
+        android:id="@+id/howto"
+        android:title="How to..."/>
+    <item
+        android:id="@+id/releasenotes"
+        android:title="Release Notes"/>
+    <item
+        android:id="@+id/credits"
+        android:title="Credits"/>
 </menu>
