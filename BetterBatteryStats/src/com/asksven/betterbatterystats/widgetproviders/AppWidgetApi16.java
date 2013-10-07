@@ -17,11 +17,14 @@
 package com.asksven.betterbatterystats.widgetproviders;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar.LayoutParams;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RemoteViews;
 
 import java.util.Locale;
@@ -49,12 +52,49 @@ public class AppWidgetApi16 extends AppWidgetProvider
 	@Override
 	public void onAppWidgetOptionsChanged(Context ctxt, AppWidgetManager mgr, int appWidgetId, Bundle newOptions)
 	{
-		RemoteViews updateViews = new RemoteViews(ctxt.getPackageName(), R.layout.widget);
-		String msg = String.format(Locale.getDefault(), "[%d-%d] x [%d-%d]",
-				newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH),
-				newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH),
-				newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT),
-				newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT));
+		RemoteViews updateViews;
+		
+		final int cellSize = 40;
+		int width = (newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH) - newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) / cellSize;
+		int height = (newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT) - newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)) / cellSize;
+		
+		// height 1
+		if (height == 1)
+		{
+			 updateViews = new RemoteViews(ctxt.getPackageName(), R.layout.widget_x1);
+			 if (width == 1)
+			 {
+					updateViews.setViewVisibility(R.id.size, View.GONE);
+				 
+			 }
+			 else
+			 {
+					updateViews.setViewVisibility(R.id.size, View.VISIBLE);
+			 }
+		}
+		else
+		{
+			 updateViews = new RemoteViews(ctxt.getPackageName(), R.layout.widget);
+			// width 1
+			if (width == 1)
+			{
+				// set imageView1 to fill parent 
+				// hide size
+				updateViews.setViewVisibility(R.id.size, View.GONE);
+				updateViews.setViewVisibility(R.id.size2, View.GONE);
+			}
+			else
+			{
+				updateViews.setViewVisibility(R.id.size, View.VISIBLE);
+				updateViews.setViewVisibility(R.id.size2, View.VISIBLE);
+
+			}
+
+
+		}
+		
+
+		String msg = String.format(Locale.getDefault(), "[%d] x [%d]", width, height);
 
 		updateViews.setTextViewText(R.id.size, msg);
 

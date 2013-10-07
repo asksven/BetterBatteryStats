@@ -3,6 +3,6 @@
   android:minHeight="146dip"
   android:minResizeWidth="110dip"
   android:minResizeHeight="40dip"
-  android:initialLayout="@layout/widget"
+  android:initialLayout="@layout/widget_x1"
   android:resizeMode="horizontal|vertical"
 />
