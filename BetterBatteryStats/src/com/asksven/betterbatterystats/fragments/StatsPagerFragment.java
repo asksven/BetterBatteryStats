@@ -20,6 +20,8 @@ package com.asksven.betterbatterystats.fragments;
  *
  */
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.asksven.betterbatterystats.R;
 
 import android.os.Bundle;
@@ -45,6 +47,7 @@ public class StatsPagerFragment extends NestedFragment // we use nested fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 		setRetainInstance(true);
 	}
 
@@ -62,6 +65,12 @@ public class StatsPagerFragment extends NestedFragment // we use nested fragment
 		ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
 		mViewPager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
 	}
+
+	@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {  
+		super.onCreateOptionsMenu(menu, inflater);
+    }  
 
 	public class MyPagerAdapter extends FragmentPagerAdapter
 	{

@@ -138,13 +138,13 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState); 
+        setHasOptionsMenu(true);
 		
 		m_iStat = getArguments().getInt(STAT, 0);
 		new LoadStatData().execute(true);
@@ -499,6 +499,8 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {  
+		// as this fragment is nested it requires a patch to ABS: https://github.com/JakeWharton/ActionBarSherlock/issues/828
+		// the patch is here: https://github.com/purdyk/ActionBarSherlock/commit/cab97d6a33685963b402b61db1343b3fea802598
 		super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.statsmenu, menu);
     }  

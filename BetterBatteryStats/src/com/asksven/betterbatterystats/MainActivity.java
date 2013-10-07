@@ -69,10 +69,6 @@ public class MainActivity extends SherlockFragmentActivity
 	// int[] icon;
 	Fragment m_OverviewPagerFragment = new OverviewPagerFragment();// OverviewPagerFragment();
 	Fragment m_statsFragment = new StatsPagerFragment();
-	Fragment m_creditsFragment = new CreditsFragment();
-	Fragment m_readmeFragment = new ReadmeFragment();
-	Fragment m_helpFragment = new ReadmeFragment();
-	Fragment m_howtoFragment = new ReadmeFragment();
 	Fragment m_batteryGraphFragment = new BatteryGraphFragment();
 	// Fragment m_rawStatsFragment = new RawStatsFragment();
 	Fragment m_rawStatsFragment = new RawStatsPagerFragment();
@@ -98,16 +94,8 @@ public class MainActivity extends SherlockFragmentActivity
 		mTitle = mDrawerTitle = getTitle();
 
 		// Generate title
-		title = new String[]
-		{ "Stats", "Settings", "Graphs", "RAW Stats", "About", "Getting Started", "How To", "Release Notes", "Credits" };
-
-		// Generate icon
-		// icon = new int[]
-		// { R.drawable.action_about, R.drawable.action_settings,
-		// R.drawable.collections_cloud, 0,
-		// R.drawable.action_about, 0,
-		// 0, 0,
-		// 0 };
+//		title = new String[]
+//		{ "Stats", "Settings", "Graphs", "RAW Stats" };
 
 		// Locate DrawerLayout in drawer_main.xml
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -129,28 +117,6 @@ public class MainActivity extends SherlockFragmentActivity
 		String[] menuItemsIcon = getResources().getStringArray(R.array.drawer_group1_icons);
 
 		int res = 0;
-		for (String item : menuItems)
-		{
-
-			int id_title = getResources().getIdentifier(item, "string", this.getPackageName());
-			int id_icon = 0;
-			// we may have no icon
-			if (res < menuItemsIcon.length)
-			{
-				id_icon = getResources().getIdentifier(menuItemsIcon[res], "drawable", this.getPackageName());
-			}
-
-			NavigationDrawerItem entry = new NavigationDrawerItem(id_title, id_icon);
-			mDrawerAdapter.addItem(entry);
-			res++;
-		}
-
-		mDrawerAdapter.addHeader(R.string.drawer_header2);
-
-		menuItems = getResources().getStringArray(R.array.drawer_group2_items);
-		// menuItemsIcon =
-		// getResources().getStringArray(R.array.drawer_group2_icons);
-
 		for (String item : menuItems)
 		{
 
@@ -236,6 +202,36 @@ public class MainActivity extends SherlockFragmentActivity
 //			dialog.show(getSupportFragmentManager(), "QuickContactFragment");
 			break;
 
+          case R.id.about:
+        	// About
+        	Intent intentAbout = new Intent(this, AboutActivity.class);
+        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_ABOUT);       	
+            this.startActivity(intentAbout);
+        	break;
+        case R.id.getting_started:
+        	// Help
+        	Intent intentHelp = new Intent(this, HelpActivity.class);
+        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_HELP);
+        	intentHelp.putExtra("filename", "help.html");
+            this.startActivity(intentHelp);
+        	break;	
+
+        case R.id.howto:
+        	// How To
+        	Intent intentHowTo = new Intent(this, HelpActivity.class);
+        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_HOWTO);
+        	intentHowTo.putExtra("filename", "howto.html");
+            this.startActivity(intentHowTo);
+        	break;	
+
+        case R.id.releasenotes:
+        	// Release notes
+        	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
+        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_README);
+        	intentReleaseNotes.putExtra("filename", "readme.html");
+            this.startActivity(intentReleaseNotes);
+        	break;	
+
 		case android.R.id.home:
 			if (mDrawerLayout.isDrawerOpen(mDrawerList))
 			{
@@ -292,38 +288,6 @@ public class MainActivity extends SherlockFragmentActivity
 			ft.replace(R.id.content_frame, m_rawStatsFragment);
 			break;
 
-		case R.string.drawer_item_about:
-			// About
-			Intent intentAbout = new Intent(this, AboutActivity.class);
-			GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_ABOUT);
-			this.startActivity(intentAbout);
-			break;
-		case R.string.drawer_item_getting_started:
-			// Help
-			b.clear();
-			b.putString("filename", "help.html");
-			m_helpFragment.setArguments(b);
-			ft.replace(R.id.content_frame, m_helpFragment);
-			break;
-		case R.string.drawer_item_howto:
-			// How To
-			b.clear();
-			b.putString("filename", "howto.html");
-			m_howtoFragment.setArguments(b);
-			ft.replace(R.id.content_frame, m_howtoFragment);
-			break;
-
-		case R.string.drawer_item_release_notes:
-			// Release notes
-			b.clear();
-			b.putString("filename", "readme.html");
-			m_readmeFragment.setArguments(b);
-			ft.replace(R.id.content_frame, m_readmeFragment);
-			break;
-
-		case R.string.drawer_item_credits:
-			ft.replace(R.id.content_frame, m_creditsFragment);
-			break;
 		}
 
 		ft.commit();
