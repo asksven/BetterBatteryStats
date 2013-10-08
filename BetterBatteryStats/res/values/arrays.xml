@@ -127,8 +127,9 @@
     
     <array name="drawer_group1_icons">
         <item>action_about</item>
-        <item>action_about</item>
+        <item>action_search</item>
         <item>action_settings</item>
+        <item>ic_action_graph</item>
         <item>collections_cloud</item>
     </array>
 
