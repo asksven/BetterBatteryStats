@@ -61,7 +61,7 @@ import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableExcept
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.betterbatterystats.AboutActivity;
 import com.asksven.betterbatterystats.BbsApplication;
-import com.asksven.betterbatterystats.BatteryGraphActivity;
+//import com.asksven.betterbatterystats.BatteryGraphActivity;
 import com.asksven.betterbatterystats.FirstLaunch;
 import com.asksven.betterbatterystats.HelpActivity;
 import com.asksven.betterbatterystats.LogSettings;

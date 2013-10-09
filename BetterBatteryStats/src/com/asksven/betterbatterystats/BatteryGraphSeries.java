@@ -17,7 +17,9 @@ package com.asksven.betterbatterystats;
 
 import java.util.ArrayList;
 
-import com.androidplot.series.XYSeries;
+import android.util.Log;
+
+import com.androidplot.xy.XYSeries;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.betterbatterystats.R;
 
@@ -27,7 +29,8 @@ import com.asksven.betterbatterystats.R;
  */
 public class BatteryGraphSeries implements XYSeries
 {	
-	ArrayList<HistoryItem> m_dataSource;
+	private static final String TAG = "BatteryGraphSeries";
+	ArrayList<HistoryItem> m_dataSource = new ArrayList<HistoryItem>();
 	private int m_iSerie;
     private String m_title;
     
@@ -43,7 +46,20 @@ public class BatteryGraphSeries implements XYSeries
     public BatteryGraphSeries(ArrayList<HistoryItem> datasource, int iSerie, String title)
     {
     	m_iSerie	 	= iSerie;
-        m_dataSource 	= datasource;
+    	long time = 0;
+    	for (int i=0; i < datasource.size(); i++)
+    	{
+    		long span = datasource.get(i).getNormalizedTimeLong() - time;
+    		
+    		// add max a sample per minute
+    		if (span > (15 * 60 * 1000))
+    		{
+    			m_dataSource.add(datasource.get(i));
+    			Log.d(TAG, "Added sample " + datasource.get(i).getNormalizedTime());
+    			time = datasource.get(i).getNormalizedTimeLong();
+    		}
+    	}
+//        m_dataSource 	= datasource;
         m_title 		= title;
     }
     

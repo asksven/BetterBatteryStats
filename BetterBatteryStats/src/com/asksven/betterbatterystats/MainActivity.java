@@ -69,7 +69,7 @@ public class MainActivity extends SherlockFragmentActivity
 	// int[] icon;
 	Fragment m_OverviewPagerFragment = new OverviewPagerFragment();// OverviewPagerFragment();
 	Fragment m_statsFragment = new StatsPagerFragment();
-	Fragment m_batteryGraphFragment = new BatteryGraphFragment();
+	Fragment m_batteryGraphFragment = new BatteryGraphFragment(); //NewBatteryFragment(); //BatteryGraphFragment();
 	// Fragment m_rawStatsFragment = new RawStatsFragment();
 	Fragment m_rawStatsFragment = new RawStatsPagerFragment();
 

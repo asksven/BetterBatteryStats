@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2013 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +20,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -40,12 +42,9 @@ import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.system.AndroidVersion;
-import com.asksven.betterbatterystats.BatteryGraph2Activity;
 import com.asksven.betterbatterystats.BatteryGraphSeries;
 import com.asksven.betterbatterystats.HistActivity;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.ZoomOnSerieChart;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -63,7 +62,7 @@ import java.util.ArrayList;
  * @author sven
  *
  */
-public class BatteryGraphFragment extends SherlockFragment
+public class BatteryGraphFragment extends NestedFragment // we use nested fragment to avoid InvalideStateException: no Activity
 {
 	/**
 	 * a progess dialog to be used for long running tasks
@@ -71,13 +70,10 @@ public class BatteryGraphFragment extends SherlockFragment
 	ProgressDialog m_progressDialog;
 	
 	private static final String TAG = "BatteryGraphActivity";
-    private static final int FONT_LABEL_SIZE = 13;
+    private static final int FONT_LABEL_SIZE = 25;
     private XYPlot m_plotCharge;
-    private XYPlot m_plotWakelock;
-    private XYPlot m_plotScreenOn;
-    private XYPlot m_plotWifi;
 
-    protected static ArrayList<HistoryItem> m_histList;
+    public static ArrayList<HistoryItem> m_histList;
 	    
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
@@ -87,29 +83,29 @@ public class BatteryGraphFragment extends SherlockFragment
     }
     
 	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState)
+	{
+		super.onViewCreated(view, savedInstanceState);
+
+		ViewPager mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+		mViewPager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View rootView = inflater.inflate(R.layout.batterygraph, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_battery_graph, container, false);
 		
         
 		m_plotCharge 	= (XYPlot) rootView.findViewById(R.id.myBatteryXYPlot);
-        m_plotWakelock 	= (XYPlot) rootView.findViewById(R.id.wakelockPlot);
-        m_plotScreenOn 	= (XYPlot) rootView.findViewById(R.id.screenOnPlot);
-        m_plotWifi	 	= (XYPlot) rootView.findViewById(R.id.wifiPlot);
         
 		//new LoadStatData().execute(this);
 		m_histList = this.getHistList();
         seriesSetup();
       
         makePlotPretty(m_plotCharge);
-        makePlotPretty(m_plotWakelock);
-        makePlotPretty(m_plotScreenOn);
-        makePlotPretty(m_plotWifi);
         
         refreshPlot(m_plotCharge);
-        refreshPlot(m_plotWakelock);
-        refreshPlot(m_plotScreenOn);
-        refreshPlot(m_plotWifi);
 
 		//Set of internal variables for keeping track of the boundaries
 		m_plotCharge.calculateMinMaxVals();
@@ -127,9 +123,6 @@ public class BatteryGraphFragment extends SherlockFragment
 	@Override
     public boolean onOptionsItemSelected(MenuItem item)
     {  
-    	BatteryGraphSeries myZoomSerie = null;
-		ZoomOnSerieChart myZoomChart = null;
-		Intent myZoomIntent = null;
 		
         switch (item.getItemId())
         {  
@@ -138,68 +131,10 @@ public class BatteryGraphFragment extends SherlockFragment
 				Intent intentHist = new Intent(getActivity(), HistActivity.class);
 			    this.startActivity(intentHist);
 			    break;
-			case R.id.more:
-				Intent intentMore = new Intent(getActivity(), BatteryGraph2Activity.class);
-			    this.startActivity(intentMore);
-			    break;
-
 			case R.id.dump:
             	// Dump to File
             	new WriteDumpFile().execute("");
             	break;
-			case R.id.refresh:
-				BatteryStatsProxy.getInstance(getActivity()).invalidate();
-				m_histList = this.getHistList();
-		        refreshPlot(m_plotCharge);
-		        refreshPlot(m_plotWakelock);
-		        refreshPlot(m_plotScreenOn);
-		        refreshPlot(m_plotWifi);
-		        break;
-			case R.id.zoomWakelock:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_WAKELOCK,
-		        		"Wakelock");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(getActivity());
-				startActivity(myZoomIntent);
-				break;
-			case R.id.zoomScreenOn:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_SCREENON,
-		        		"Screen On");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(getActivity());
-				startActivity(myZoomIntent);
-				break;
-			case R.id.zoomWifi:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_WIFI,
-		        		"Wifi");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(getActivity());
-				startActivity(myZoomIntent);
-				break;
-			case R.id.zoomGps:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_GPS,
-		        		"GPS");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(getActivity());
-				startActivity(myZoomIntent);
-				break;
-			case R.id.zoomBluetooth:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_BT,
-		        		"Bluetooth");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(getActivity());
-				startActivity(myZoomIntent);
-				break;
         }        
         return true;
     }
@@ -207,7 +142,7 @@ public class BatteryGraphFragment extends SherlockFragment
      /**
      * Cleans up the plot's general layout and color scheme
      */
-    protected void makePlotPretty(XYPlot plot)
+    protected static void makePlotPretty(XYPlot plot)
     {	 
     	if (plot != null)
     	{
@@ -230,10 +165,10 @@ public class BatteryGraphFragment extends SherlockFragment
 	        plot.getGraphWidget().getDomainOriginLabelPaint().setTextSize(FONT_LABEL_SIZE);
 	        plot.getGraphWidget().getRangeLabelPaint().setTextSize(FONT_LABEL_SIZE);
 	        plot.getGraphWidget().getRangeOriginLabelPaint().setTextSize(FONT_LABEL_SIZE);
-	        plot.getGraphWidget().getGridLinePaint().setPathEffect(new DashPathEffect(new float[]{1, 2, 1, 2}, 0));
+//	        plot.getGraphWidget().getGridLinePaint().setPathEffect(new DashPathEffect(new float[]{1, 2, 1, 2}, 0));
 	        plot.getTitleWidget().getLabelPaint().setTextSize(FONT_LABEL_SIZE);
 	        plot.getTitleWidget().pack();
-	        plot.disableAllMarkup();
+//	        plot.disableAllMarkup();
     	}
     }
 	 
@@ -246,16 +181,17 @@ public class BatteryGraphFragment extends SherlockFragment
         		"Charge");
         
         LineAndPointFormatter formater = new LineAndPointFormatter(
-        		Color.rgb(0, 0, 200),
+        		getResources().getColor(R.color.state_green), // Color.rgb(0, 0, 200),
         		null,
-        		Color.rgb(0, 0, 80));
+        		getResources().getColor(R.color.state_green), //Color.rgb(0, 0, 80),
+        		new PointLabelFormatter(Color.TRANSPARENT));
         formater.getFillPaint().setAlpha(220);
         
-        m_plotCharge.addSeries(mySerie, formater);
+        m_plotCharge.addSeries((XYSeries) mySerie, formater);
         
         m_plotCharge.setTicksPerDomainLabel(2);
         m_plotCharge.setTicksPerRangeLabel(1);
-        m_plotCharge.disableAllMarkup();
+//        m_plotCharge.disableAllMarkup();
         m_plotCharge.setDomainLabel("Time");
         m_plotCharge.setRangeLabel("%");
         
@@ -264,52 +200,23 @@ public class BatteryGraphFragment extends SherlockFragment
         m_plotCharge.setRangeValueFormat(new DecimalFormat("0"));
         m_plotCharge.setDomainValueFormat(new MyDateFormat());
         
-        // SERIES #2:
-        BatteryGraphSeries mySerie2 = new BatteryGraphSeries(
-        		m_histList,
-        		BatteryGraphSeries.SERIE_WAKELOCK,
-        		"Wakelock");
-        BarFormatter formater2 = new BarFormatter(
-        		Color.rgb(0, 0, 200),
-        		Color.rgb(0, 0, 80));
-        formater2.getFillPaint().setAlpha(220);
-
-        m_plotWakelock.addSeries(mySerie2, formater2);	        
-        configBinPlot(m_plotWakelock);
-        
-        // SERIES #3:
-		BatteryGraphSeries mySerie3 = new BatteryGraphSeries(
-				m_histList,
-				BatteryGraphSeries.SERIE_SCREENON,
-				"Screen On");
-		m_plotScreenOn.addSeries(mySerie3, formater2);	        
-		configBinPlot(m_plotScreenOn);
-
-        // SERIES #4:
-		BatteryGraphSeries mySerie4 = new BatteryGraphSeries(
-				m_histList,
-				BatteryGraphSeries.SERIE_WIFI,
-				"Wifi");
-		m_plotWifi.addSeries(mySerie4, formater2);	        
-		configBinPlot(m_plotWifi);
-
     }
 
     /**
      * Set common attributes for binary (0/1) plots
      * @param plot the plot to be configured
      */
-    protected void configBinPlot(XYPlot plot)
+    protected static void configBinPlot(XYPlot plot)
     {
         plot.setTicksPerDomainLabel(2);
         plot.setTicksPerRangeLabel(1);
         plot.setRangeBoundaries(0, 1, BoundaryMode.FIXED);
-        plot.disableAllMarkup();
+//        plot.disableAllMarkup();
         plot.setDomainLabel("Time");
         plot.setRangeLabel("");
         
         plot.setRangeValueFormat(new DecimalFormat("0"));
-        plot.setDomainValueFormat(new MyDateFormat());
+        plot.setDomainValueFormat(new SimpleDateFormat("HH:mm:ss"));
         
         // remove ticks
         plot.getGraphWidget().getDomainLabelPaint().setAlpha(0);
@@ -501,6 +408,46 @@ public class BatteryGraphFragment extends SherlockFragment
     	}		
 	}
 	
-	
+	private class MyPagerAdapter extends FragmentPagerAdapter
+	{
 
+		private final String[] TITLES =
+		{ "Awake", "Screen On",
+				"Wifi On", "GPS On",
+				"Bluetooth On" };
+
+		private final int[] GRAPH_SERIES =
+		{ BatteryGraphSeries.SERIE_WAKELOCK, BatteryGraphSeries.SERIE_SCREENON,
+				BatteryGraphSeries.SERIE_WIFI, BatteryGraphSeries.SERIE_GPS,
+				BatteryGraphSeries.SERIE_BT };
+
+		public MyPagerAdapter(FragmentManager fm)
+		{
+			super(fm);
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position)
+		{
+			return TITLES[position];
+		}
+
+		@Override
+		public int getCount()
+		{
+			return TITLES.length;
+		}
+
+		@Override
+		public Fragment getItem(int position)
+		{
+			Bundle args = new Bundle();
+			args.putInt(TabHostOverviewPagerFragment.POSITION_KEY, position);
+			args.putInt(SecondGraphFragment.GRAPH_SERIE, GRAPH_SERIES[position]);
+			args.putString(SecondGraphFragment.GRAPH_TITLE, TITLES[position]);
+			
+			return SecondGraphFragment.newInstance(args);
+		}
+
+	}
 }

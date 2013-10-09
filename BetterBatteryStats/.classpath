@@ -3,12 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="lib" path="libs/libGoogleAnalytics.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/Androidplot-core-0.4.4-release.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/EasyTracker.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/dashclock-api-r1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/achartengine-0.7.0.jar"/>
 	<classpathentry kind="lib" path="libs/acra-4.5.0.jar"/>
+	<classpathentry kind="lib" path="libs/androidplot-core-0.6.0.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>

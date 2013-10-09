@@ -63,7 +63,7 @@ public class OverviewPagerFragment extends NestedFragment // we use nested fragm
 		mViewPager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
 	}
 
-	public class MyPagerAdapter extends FragmentPagerAdapter
+	private class MyPagerAdapter extends FragmentPagerAdapter
 	{
 
 		private final String[] TITLES =
@@ -100,7 +100,7 @@ public class OverviewPagerFragment extends NestedFragment // we use nested fragm
 
 	}
 
-	public static class MyAdapter extends FragmentPagerAdapter
+	private static class MyAdapter extends FragmentPagerAdapter
 	{
 		public MyAdapter(FragmentManager fm)
 		{

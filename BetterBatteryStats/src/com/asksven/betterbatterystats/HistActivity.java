@@ -40,6 +40,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.HistAdapter;
+import com.asksven.betterbatterystats.fragments.BatteryGraphFragment;
 
 public class HistActivity extends ListActivity
 {
@@ -167,6 +168,6 @@ public class HistActivity extends ListActivity
 	 */
 	private ArrayList<HistoryItem> getHistList()
 	{
-		return BatteryGraphActivity.m_histList;
+		return BatteryGraphFragment.m_histList;
 	}
 }
