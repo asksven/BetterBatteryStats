@@ -4,7 +4,11 @@ This project makes use of:
 licensed under the terms of the Apache License Version 2.0, http://www.apache.org/licenses/
 See libs/ LICENSE_GSON
 
-- achartengine and androidplot (see libs/LICENSE_ACHARTENGINE and libs/ANDROIDPLOT)
+- acra (https://github.com/ACRA/acra)
+licensed under the terms of the Apache License Version 2.0, http://www.apache.org/licenses/
+
+
+- androidplot (see libs/ANDROIDPLOT)
 
 - ActionbarSherlock. ActionBarSherlock can be obtained here: https://github.com/JakeWharton/ActionBarSherlock
 Read this to learn how to integration ActionBarSherlock into this project.

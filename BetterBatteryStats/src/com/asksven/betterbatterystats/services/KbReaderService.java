@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-12 asksven
+ * Copyright (C) 2013 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,52 +19,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Random;
-
-import org.achartengine.chart.TimeChart;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.GenericLogger;
-import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbDbHelper;
-import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgets.WidgetBars;
-import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.Wakelock;
 import com.google.gson.Gson;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.text.method.TimeKeyListener;
 import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RemoteViews;
 
 /**
  * @author sven
