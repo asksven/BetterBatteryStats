@@ -37,6 +37,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         class="com.asksven.betterbatterystats.fragments.SelectReferencesFragment"
-        tools:layout="@layout/fragment_change_refs" />
+        tools:layout="@layout/fragment_select_references" />
 
 </ScrollView>

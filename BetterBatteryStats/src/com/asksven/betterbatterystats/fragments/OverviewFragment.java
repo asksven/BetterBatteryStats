@@ -69,7 +69,7 @@ public class OverviewFragment extends SherlockFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		final View v = inflater.inflate(R.layout.overview, container, false);
+		final View v = inflater.inflate(R.layout.fragment_overview, container, false);
 
 		return v;
 	}

@@ -94,7 +94,7 @@ public class RawStatsFragment extends SherlockListFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View rootView = inflater.inflate(R.layout.new_raw_stats, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_raw_stats, container, false);
 		
 		    
 	//	new LoadStatData().execute(this);

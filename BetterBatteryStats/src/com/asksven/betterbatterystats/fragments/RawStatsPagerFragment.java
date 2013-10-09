@@ -51,7 +51,7 @@ public class RawStatsPagerFragment extends NestedFragment // we use nested fragm
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		return inflater.inflate(R.layout.fragment_parent, container, false);
+		return inflater.inflate(R.layout.fragment_overview_pager, container, false);
 	}
 
 	@Override

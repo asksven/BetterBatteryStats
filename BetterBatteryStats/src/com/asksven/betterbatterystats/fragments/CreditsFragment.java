@@ -74,7 +74,7 @@ public class CreditsFragment extends SherlockFragment
 //		LayoutInflater localInflater = inflater.cloneInContext(context);
 //		// inflate using the cloned inflater, not the passed in default	
 //		return localInflater.inflate(R.layout.my_layout, container, false);
-		View rootView = inflater.inflate(R.layout.new_credits, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_credits, container, false);
 		// init CardView
 		mCardView = (CardUI) rootView.findViewById(R.id.cardsview);
 		mCardView.setSwipeable(false);

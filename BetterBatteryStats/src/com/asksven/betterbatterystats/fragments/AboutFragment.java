@@ -43,7 +43,7 @@ public class AboutFragment extends SherlockFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View rootView = inflater.inflate(R.layout.about, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_about, container, false);
         
         // retrieve the version name and display it
         try

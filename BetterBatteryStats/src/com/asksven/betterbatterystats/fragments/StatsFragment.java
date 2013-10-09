@@ -153,7 +153,7 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View rootView = inflater.inflate(R.layout.stats, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_stats, container, false);
 		Log.i(TAG, "OnCreated called");
 		super.onCreate(savedInstanceState);
 		

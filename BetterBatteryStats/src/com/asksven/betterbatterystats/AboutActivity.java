@@ -40,7 +40,7 @@ public class AboutActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.about);
+        setContentView(R.layout.fragment_about);
         setTitle("About");
         
         // retrieve the version name and display it
