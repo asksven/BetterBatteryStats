@@ -119,18 +119,18 @@
     <string-array name="drawer_group1_items">
         <item>drawer_item_overview</item>
         <item>drawer_item_stats</item>
-        <item>drawer_item_settings</item>
         <item>drawer_item_graphs</item>
-        <item>drawer_item_raw</item>
+        <item>drawer_item_settings</item>
+        
     </string-array>
 
     
     <array name="drawer_group1_icons">
         <item>action_about</item>
         <item>action_search</item>
-        <item>action_settings</item>
         <item>ic_action_graph</item>
-        <item>collections_cloud</item>
+        <item>action_settings</item>
+        
     </array>
 
 </resources>

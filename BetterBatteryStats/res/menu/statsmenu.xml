@@ -14,5 +14,8 @@
     <item
         android:id="@+id/custom_ref"
         android:title="Set Custom Ref."/>
-
+    <item
+        android:id="@+id/raw_stats"
+        android:title="RAW Stats"/>
+    
 </menu>

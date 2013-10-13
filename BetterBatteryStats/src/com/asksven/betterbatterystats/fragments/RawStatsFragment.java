@@ -22,6 +22,7 @@ package com.asksven.betterbatterystats.fragments;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,8 +38,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.betterbatterystats.AboutActivity;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.RawStatsActivity;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
+import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
 public class RawStatsFragment extends SherlockListFragment 
@@ -133,7 +137,9 @@ public class RawStatsFragment extends SherlockListFragment
             	// Refresh
 	        	doRefresh();
             	break;
-
+	        case android.R.id.home:
+    			getActivity().finish();
+    			return true;
         }  
         return false;  
     }    

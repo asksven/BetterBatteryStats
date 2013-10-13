@@ -31,7 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class RawStatsPagerFragment extends NestedFragment // we use nested fragment to avoid InvalideStateException: no Activity
+public class RawStatsPagerFragment extends SherlockFragment //NestedFragment // we use nested fragment to avoid InvalideStateException: no Activity
 {
 
 	public static final String TAG = RawStatsPagerFragment.class.getSimpleName();

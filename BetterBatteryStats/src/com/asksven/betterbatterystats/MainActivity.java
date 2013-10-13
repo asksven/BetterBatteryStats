@@ -70,8 +70,6 @@ public class MainActivity extends SherlockFragmentActivity
 	Fragment m_OverviewPagerFragment = new OverviewPagerFragment();// OverviewPagerFragment();
 	Fragment m_statsFragment = new StatsPagerFragment();
 	Fragment m_batteryGraphFragment = new BatteryGraphFragment(); //NewBatteryFragment(); //BatteryGraphFragment();
-	// Fragment m_rawStatsFragment = new RawStatsFragment();
-	Fragment m_rawStatsFragment = new RawStatsPagerFragment();
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
@@ -282,12 +280,6 @@ public class MainActivity extends SherlockFragmentActivity
 			GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_BATTERY_GRAPH);
 			ft.replace(R.id.content_frame, m_batteryGraphFragment);
 			break;
-
-		case R.string.drawer_item_raw:
-			GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_RAW);
-			ft.replace(R.id.content_frame, m_rawStatsFragment);
-			break;
-
 		}
 
 		ft.commit();

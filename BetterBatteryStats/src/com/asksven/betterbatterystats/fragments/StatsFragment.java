@@ -67,6 +67,7 @@ import com.asksven.betterbatterystats.HelpActivity;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.PreferencesActivity;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.RawStatsActivity;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
@@ -527,6 +528,13 @@ public class StatsFragment extends SherlockListFragment implements OnSharedPrefe
             	// Share
             	getShareDialog().show();
             	break;
+            case R.id.raw_stats:
+              	// RAR stats
+              	Intent intentRaw = new Intent(getActivity(), RawStatsActivity.class);
+              	GoogleAnalytics.getInstance(getActivity()).trackPage(GoogleAnalytics.ACTIVITY_RAW);       	
+                  this.startActivity(intentRaw);
+              	break;
+	
         }  
         return false;  
     }    

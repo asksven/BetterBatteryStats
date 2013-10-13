@@ -81,9 +81,6 @@
             android:theme="@style/Theme.asksven" />
         
         <activity
-            android:name="com.asksven.betterbatterystats.todelete.CreditsActivity"
-            android:theme="@style/Theme.asksven" />
-        <activity
             android:name="com.asksven.betterbatterystats.PreferencesActivity"
             android:theme="@style/Theme.asksven"
             android:parentActivityName="com.asksven.betterbatterystats.MainActivity" >
@@ -95,6 +92,7 @@
         <activity
             android:name="com.asksven.betterbatterystats.HelpActivity"
             android:theme="@style/Theme.asksven" />
+        
         <activity
             android:name="com.asksven.android.common.ReadmeActivity"
             android:theme="@style/Theme.asksven" />
