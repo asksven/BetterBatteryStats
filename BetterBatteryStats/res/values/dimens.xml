@@ -14,6 +14,10 @@
     <dimen name="legend_font_size">18sp</dimen>
     <dimen name="legend_symbol_size">32dp</dimen>
     
+    <!--  graphs -->
+    <dimen name="tick_label_font_size">13dp</dimen>
+    
+    
     
     
 </resources>

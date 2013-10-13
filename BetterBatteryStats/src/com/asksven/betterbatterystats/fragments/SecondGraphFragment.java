@@ -17,6 +17,7 @@
 package com.asksven.betterbatterystats.fragments;
 
 import java.util.ArrayList;
+
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -29,11 +30,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.androidplot.xy.BarFormatter;
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.PointLabelFormatter;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.asksven.android.common.privateapiproxies.Misc;
@@ -90,8 +94,14 @@ public class SecondGraphFragment extends SherlockFragment
 		BarFormatter formater2 = new BarFormatter(getResources().getColor(R.color.state_yellow),
 				getResources().getColor(R.color.state_yellow));
 		formater2.getFillPaint().setAlpha(220);
+        LineAndPointFormatter formater = new LineAndPointFormatter(
+        		getResources().getColor(R.color.state_yellow),
+        		getResources().getColor(R.color.state_yellow),
+        		getResources().getColor(R.color.state_yellow),
+        		new PointLabelFormatter(Color.TRANSPARENT));
+        formater.getFillPaint().setAlpha(220);
 
-		m_plotWakelock.addSeries((XYSeries) mySerie2, formater2);
+		m_plotWakelock.addSeries((XYSeries) mySerie2, formater);
 		BatteryGraphFragment.configBinPlot(m_plotWakelock);
 
 		BatteryGraphFragment.makePlotPretty(m_plotWakelock);

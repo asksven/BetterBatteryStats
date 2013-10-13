@@ -104,6 +104,8 @@ public class BatteryGraphFragment extends NestedFragment // we use nested fragme
         seriesSetup();
       
         makePlotPretty(m_plotCharge);
+        m_plotCharge.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
+        m_plotCharge.setRangeStep(XYStepMode.INCREMENT_BY_VAL, 10);
         
         refreshPlot(m_plotCharge);
 
@@ -146,6 +148,10 @@ public class BatteryGraphFragment extends NestedFragment // we use nested fragme
     {	 
     	if (plot != null)
     	{
+            // Make the domain and range step correctly
+//            plot.setDomainStep(XYStepMode.INCREMENT_BY_VAL, 60);
+//            plot.setTicksPerDomainLabel(2);
+
 	        // hide legend
 	        plot.getLegendWidget().setVisible(false);
 	        // make our domain and range labels invisible:
@@ -153,8 +159,8 @@ public class BatteryGraphFragment extends NestedFragment // we use nested fragme
 	        plot.getRangeLabelWidget().setVisible(false);
 	 
 	//	        plot.getGraphWidget().setRangeLabelMargin(-1);
-	        plot.getGraphWidget().setRangeLabelWidth(25);
-	        plot.getGraphWidget().setDomainLabelWidth(10);
+//	        plot.getGraphWidget().setRangeLabelWidth(25);
+//	        plot.getGraphWidget().setDomainLabelWidth(10);
 	//	        plot.getGraphWidget().setDomainLabelMargin(-6);
 	        plot.setBackgroundPaint(null);
 	        plot.getGraphWidget().setBackgroundPaint(null);
@@ -174,16 +180,15 @@ public class BatteryGraphFragment extends NestedFragment // we use nested fragme
 	 
     private void seriesSetup()
     {
-        // SERIES #1:
         BatteryGraphSeries mySerie = new BatteryGraphSeries(
         		m_histList,
         		BatteryGraphSeries.SERIE_CHARGE,
         		"Charge");
         
         LineAndPointFormatter formater = new LineAndPointFormatter(
-        		getResources().getColor(R.color.state_green), // Color.rgb(0, 0, 200),
+        		getResources().getColor(R.color.state_green),
         		null,
-        		getResources().getColor(R.color.state_green), //Color.rgb(0, 0, 80),
+        		getResources().getColor(R.color.state_green),
         		new PointLabelFormatter(Color.TRANSPARENT));
         formater.getFillPaint().setAlpha(220);
         
@@ -191,12 +196,24 @@ public class BatteryGraphFragment extends NestedFragment // we use nested fragme
         
         m_plotCharge.setTicksPerDomainLabel(2);
         m_plotCharge.setTicksPerRangeLabel(1);
-//        m_plotCharge.disableAllMarkup();
         m_plotCharge.setDomainLabel("Time");
         m_plotCharge.setRangeLabel("%");
         
         m_plotCharge.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
+        m_plotCharge.setRangeStep(XYStepMode.INCREMENT_BY_VAL, 10);
         
+        // rounds down to the hour before the first sample
+        long firstTime = mySerie.getX(0).longValue() / 1000 / 60 / 60;
+
+        // rounds down to the hour before the first sample
+        long lastTime = ((mySerie.getX(mySerie.size()-1).longValue() / 1000 / 60 ) + 60) / 60;
+
+        m_plotCharge.setDomainBoundaries(firstTime * 60 * 60 * 1000, lastTime * 60 * 60 * 1000, BoundaryMode.FIXED);
+
+        // set the right grid
+        long hours = lastTime - firstTime;
+        m_plotCharge.setDomainStep(XYStepMode.SUBDIVIDE, hours + 1);
+
         m_plotCharge.setRangeValueFormat(new DecimalFormat("0"));
         m_plotCharge.setDomainValueFormat(new MyDateFormat());
         
@@ -208,15 +225,32 @@ public class BatteryGraphFragment extends NestedFragment // we use nested fragme
      */
     protected static void configBinPlot(XYPlot plot)
     {
-        plot.setTicksPerDomainLabel(2);
+        BatteryGraphSeries mySerie = new BatteryGraphSeries(
+        		m_histList,
+        		BatteryGraphSeries.SERIE_CHARGE,
+        		"Charge");
+
+    	plot.setTicksPerDomainLabel(2);
         plot.setTicksPerRangeLabel(1);
         plot.setRangeBoundaries(0, 1, BoundaryMode.FIXED);
 //        plot.disableAllMarkup();
         plot.setDomainLabel("Time");
         plot.setRangeLabel("");
         
+        // rounds down to the hour before the first sample
+        long firstTime = mySerie.getX(0).longValue() / 1000 / 60 / 60;
+
+        // rounds down to the hour before the first sample
+        long lastTime = ((mySerie.getX(mySerie.size()-1).longValue() / 1000 / 60) + 60) / 60;
+
+        plot.setDomainBoundaries(firstTime * 60 * 60 * 1000, lastTime * 60 * 60 * 1000, BoundaryMode.FIXED);
+
+        // set the right grid
+        long hours = lastTime - firstTime;
+        plot.setDomainStep(XYStepMode.SUBDIVIDE, hours + 1);
+
         plot.setRangeValueFormat(new DecimalFormat("0"));
-        plot.setDomainValueFormat(new SimpleDateFormat("HH:mm:ss"));
+        plot.setDomainValueFormat(new SimpleDateFormat("HH:mm"));
         
         // remove ticks
         plot.getGraphWidget().getDomainLabelPaint().setAlpha(0);
@@ -259,12 +293,12 @@ public class BatteryGraphFragment extends NestedFragment // we use nested fragme
 	}
 
 		
-	class MyDateFormat extends Format 
+	protected class MyDateFormat extends Format 
 	{
         // create a simple date format that draws on the year portion of our timestamp.
         // see http://download.oracle.com/javase/1.4.2/docs/api/java/text/SimpleDateFormat.html
         // for a full description of SimpleDateFormat.
-        private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
  
  
         @Override

@@ -15,10 +15,18 @@
 		    android:id="@+id/myBatteryXYPlot"
 		    android:layout_width="fill_parent"
 		    android:layout_height="match_parent"
-		    android:layout_marginTop="5dp"
-		    android:layout_marginLeft="10dp"
-		    android:layout_marginRight="10dp"
-		    android:layout_marginBottom="5dp"
+		    android:layout_marginTop="4dp"
+		    android:layout_marginLeft="0dp"
+		    android:layout_marginRight="0dp"
+		    android:layout_marginBottom="4dp"
+            android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+        	androidPlot.graphWidget.marginTop="8dp"
+        	androidPlot.graphWidget.marginLeft="16dp"
+        	androidPlot.graphWidget.marginBottom="8dp"
+        	androidPlot.graphWidget.marginRight="12dp"
+        	androidPlot.graphWidget.rangeLabelPaint.textSize="@dimen/tick_label_font_size"
+        	androidPlot.graphWidget.domainLabelPaint.textSize="@dimen/tick_label_font_size"
 		    title="Battery Charge"/>
 	</LinearLayout>
 		<LinearLayout

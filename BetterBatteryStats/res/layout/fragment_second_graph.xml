@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    
-	    <com.androidplot.xy.XYPlot
-		    android:id="@+id/wakelockPlot"
-		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
-		    android:layout_marginTop="0dp"
-		    android:layout_marginBottom="0dp"
-		    android:layout_marginLeft="10dp"
-		    android:layout_marginRight="10dp"
-		    title="Awake"/>
-	 
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <com.androidplot.xy.XYPlot
+        android:id="@+id/wakelockPlot"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        androidPlot.graphWidget.domainLabelPaint.textSize="@dimen/tick_label_font_size"
+        androidPlot.graphWidget.marginBottom="8dp"
+        androidPlot.graphWidget.marginLeft="16dp"
+        androidPlot.graphWidget.marginRight="12dp"
+        androidPlot.graphWidget.marginTop="8dp"
+        androidPlot.graphWidget.rangeLabelPaint.textSize="@dimen/tick_label_font_size"
+        title="Awake" />
+
 </LinearLayout>
