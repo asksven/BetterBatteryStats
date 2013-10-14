@@ -90,6 +90,16 @@
 	            android:value="com.asksven.betterbatterystats.MainActivity" />
 	    </activity>    
         <activity
+            android:name="com.asksven.betterbatterystats.PackageInfoActivity"
+            android:theme="@style/Theme.asksven"
+            android:parentActivityName="com.asksven.betterbatterystats.MainActivity" >
+	        <!-- Parent activity meta-data to support API level 7+ -->
+	        <meta-data
+	            android:name="android.support.PARENT_ACTIVITY"
+	            android:value="com.asksven.betterbatterystats.MainActivity" />
+	    </activity>    
+        
+        <activity
             android:name="com.asksven.betterbatterystats.HelpActivity"
             android:theme="@style/Theme.asksven" />
         
@@ -118,10 +128,6 @@
 	            android:value="com.asksven.betterbatterystats.MainActivity" />
 	    </activity>    
             />
-        <activity
-            android:name="com.asksven.betterbatterystats.PackageInfoActivity"
-            android:configChanges="orientation"
-            android:theme="@style/Theme.asksven" />
         <activity
             android:name="com.asksven.betterbatterystats.PackageInfoTabsPager"
             android:configChanges="orientation"

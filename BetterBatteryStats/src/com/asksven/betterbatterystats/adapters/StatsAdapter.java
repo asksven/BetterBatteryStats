@@ -58,7 +58,7 @@ import com.asksven.betterbatterystats.data.KbReader;
 import com.asksven.betterbatterystats.widgets.GraphableBars;
 import com.asksven.betterbatterystats.widgets.GraphablePie;
 import com.asksven.betterbatterystats.HelpActivity;
-import com.asksven.betterbatterystats.PackageInfoTabsPager;
+import com.asksven.betterbatterystats.PackageInfoActivity;
 import com.asksven.betterbatterystats.R;
 
 public class StatsAdapter extends BaseAdapter
@@ -404,7 +404,8 @@ public class StatsAdapter extends BaseAdapter
 
     public static void showInstalledPackageDetails(Context context, String packageName)
     {
-    	Intent intentPerms = new Intent(context, PackageInfoTabsPager.class); //Activity.class);
+//    	Intent intentPerms = new Intent(context, PackageInfoTabsPager.class);
+    	Intent intentPerms = new Intent(context, PackageInfoActivity.class);
     	intentPerms.putExtra("package", packageName);
     	GoogleAnalytics.getInstance(context).trackPage(GoogleAnalytics.ACTIVITY_PERMS);
         context.startActivity(intentPerms);

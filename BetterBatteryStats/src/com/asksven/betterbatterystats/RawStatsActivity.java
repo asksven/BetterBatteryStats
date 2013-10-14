@@ -22,38 +22,10 @@ package com.asksven.betterbatterystats;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-import com.asksven.android.common.ReadmeActivity;
-import com.asksven.betterbatterystats.PackageFragmentActivity.PackageFragment;
-import com.asksven.betterbatterystats.adapters.NavigationDrawerAdapter;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
-import com.asksven.betterbatterystats.data.NavigationDrawerItem;
-import com.asksven.betterbatterystats.fragments.BatteryGraphFragment;
-import com.asksven.betterbatterystats.fragments.CreditsFragment;
-import com.asksven.betterbatterystats.fragments.OverviewFragment;
-import com.asksven.betterbatterystats.fragments.OverviewPagerFragment;
-import com.asksven.betterbatterystats.fragments.SelectReferencesFragment;
-import com.asksven.betterbatterystats.fragments.RawStatsFragment;
 import com.asksven.betterbatterystats.fragments.RawStatsPagerFragment;
-import com.asksven.betterbatterystats.fragments.ReadmeFragment;
-import com.asksven.betterbatterystats.fragments.StatsFragment;
-import com.asksven.betterbatterystats.fragments.StatsPagerFragment;
-
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.support.v4.view.GravityCompat;
 
 public class RawStatsActivity extends SherlockFragmentActivity
 {
