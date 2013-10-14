@@ -64,7 +64,7 @@ public class PackagesFragment extends SherlockFragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View v = inflater.inflate(R.layout.packageinfo, container, false);
+		View v = inflater.inflate(R.layout.fragment_packages, container, false);
 		Bundle b = getActivity().getIntent().getExtras();
 		m_packageName = b.getString("package");
 
