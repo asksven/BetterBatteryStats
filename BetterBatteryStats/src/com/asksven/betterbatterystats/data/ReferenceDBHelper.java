@@ -348,7 +348,7 @@ public class ReferenceDBHelper
 		        for (int i = 0; i < numRows; ++i)
 		        {
 		        	String name = c.getString(c.getColumnIndex("ref_name"));
-		        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
+		        	long timeCreated = c.getLong(c.getColumnIndex("time_created"));
 		        	String refName = c.getString(c.getColumnIndex("ref_name"));
 		        	if ((timeCreated > time) || (refName.equals(Reference.CURRENT_REF_FILENAME)))
 		        	{
@@ -384,7 +384,7 @@ public class ReferenceDBHelper
 		        for (int i = 0; i < numRows; ++i)
 		        {
 		        	String name = c.getString(c.getColumnIndex("ref_label"));
-		        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
+		        	long timeCreated = c.getLong(c.getColumnIndex("time_created"));
 		        	if (timeCreated > time)
 		        	{
 		        		ret.add(name);
