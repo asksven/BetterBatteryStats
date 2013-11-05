@@ -1584,344 +1584,354 @@ public class StatsProvider
 			throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-
-		if (Build.VERSION.SDK_INT >= 19) return myStats;
-			
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
-
 		// List to store the other usages to
 		ArrayList<StatElement> myUsages = new ArrayList<StatElement>();
 
-		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
-		long uptime = SystemClock.uptimeMillis();
-		
-		long elaspedRealtime = rawRealtime / 1000;
-		
-		long batteryRealtime = 0;
-		try
+		if (Build.VERSION.SDK_INT >= 19)
 		{
-			batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An exception occured processing battery realtime. Message: " + e.getMessage());
-			Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
-		}		
-
-		long whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
-				BatteryStatsTypes.STATS_CURRENT) / 1000;
-		
-		long timeBatteryUp = mStats.computeBatteryUptime(
-				SystemClock.uptimeMillis() * 1000,
-				BatteryStatsTypes.STATS_CURRENT) / 1000;
-		
-		if (CommonLogSettings.DEBUG)
-		{
-			Log.i(TAG, "whichRealtime = " + whichRealtime + " batteryRealtime = " + batteryRealtime + " timeBatteryUp=" + timeBatteryUp);
-		}
-		
-		long timeScreenOn = mStats.getScreenOnTime(batteryRealtime,
-				BatteryStatsTypes.STATS_CURRENT) / 1000;
-		long timePhoneOn = mStats.getPhoneOnTime(batteryRealtime,
-				BatteryStatsTypes.STATS_CURRENT) / 1000;
-
-		long timeWifiOn = 0;
-		long timeWifiRunning = 0;
-		if (sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget)
-		{
-			try
-			{
-				timeWifiOn = mStats.getWifiOnTime(batteryRealtime,
-						BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeWifiRunning = mStats.getGlobalWifiRunningTime(
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				// long timeWifiMulticast =
-				// mStats.getWifiMulticastTime(m_context, batteryRealtime,
-				// BatteryStatsTypes.STATS_CURRENT) / 1000;
-				// long timeWifiLocked = mStats.getFullWifiLockTime(m_context,
-				// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				// long timeWifiScan = mStats.getScanWifiLockTime(m_context,
-				// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-			} catch (BatteryInfoUnavailableException e)
-			{
-				timeWifiOn = 0;
-				timeWifiRunning = 0;
-				Log.e(TAG,
-						"A batteryinfo error occured while retrieving Wifi data");
-			}
-		}
-		// long timeAudioOn = mStats.getAudioTurnedOnTime(m_context,
-		// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-		// long timeVideoOn = mStats.getVideoTurnedOnTime(m_context,
-		// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-		long timeBluetoothOn = 0;
-		if (sharedPrefs.getBoolean("show_other_bt", true) && !bWidget)
-		{
-			try
-			{
-				timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime,
-						BatteryStatsTypes.STATS_CURRENT) / 1000;
-			} catch (BatteryInfoUnavailableException e)
-			{
-				timeBluetoothOn = 0;
-				Log.e(TAG,
-						"A batteryinfo error occured while retrieving BT data");
-			}
-
-		}
-
-		long timeNoDataConnection = 0;
-		long timeSignalNone = 0;
-		long timeSignalPoor = 0;
-		long timeSignalModerate = 0;
-		long timeSignalGood = 0;
-		long timeSignalGreat = 0;
-		if (sharedPrefs.getBoolean("show_other_signal", true))
-		{
-			try
-			{
-				timeNoDataConnection = mStats.getPhoneDataConnectionTime(
-						BatteryStatsTypes.DATA_CONNECTION_NONE,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeSignalNone = mStats.getPhoneSignalStrengthTime(
-						BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeSignalPoor = mStats.getPhoneSignalStrengthTime(
-						BatteryStatsTypes.SIGNAL_STRENGTH_POOR,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeSignalModerate = mStats.getPhoneSignalStrengthTime(
-						BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeSignalGood = mStats.getPhoneSignalStrengthTime(
-						BatteryStatsTypes.SIGNAL_STRENGTH_GOOD,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeSignalGreat = mStats.getPhoneSignalStrengthTime(
-						BatteryStatsTypes.SIGNAL_STRENGTH_GREAT,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-			} catch (BatteryInfoUnavailableException e)
-			{
-				timeNoDataConnection = 0;
-				timeSignalNone = 0;
-				timeSignalPoor = 0;
-				timeSignalModerate = 0;
-				timeSignalGood = 0;
-				timeSignalGreat = 0;
-				Log.e(TAG,
-						"A batteryinfo error occured while retrieving Signal data");
-			}
-		}
-
-		long timeScreenDark = 0;
-		long timeScreenDim = 0;
-		long timeScreenMedium = 0;
-		long timeScreenLight = 0;
-		long timeScreenBright = 0;
-		if (sharedPrefs.getBoolean("show_other_screen_brightness", true))
-		{
-			try
-			{
-				timeScreenDark = mStats.getScreenBrightnessTime(
-						BatteryStatsTypes.SCREEN_BRIGHTNESS_DARK,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeScreenDim = mStats.getScreenBrightnessTime(
-						BatteryStatsTypes.SCREEN_BRIGHTNESS_DIM,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeScreenMedium = mStats.getScreenBrightnessTime(
-						BatteryStatsTypes.SCREEN_BRIGHTNESS_MEDIUM,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeScreenLight = mStats.getScreenBrightnessTime(
-						BatteryStatsTypes.SCREEN_BRIGHTNESS_LIGHT,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				timeScreenBright = mStats.getScreenBrightnessTime(
-						BatteryStatsTypes.SCREEN_BRIGHTNESS_BRIGHT,
-						batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-			}
-			catch (BatteryInfoUnavailableException e)
-			{
-				timeScreenDark = 0;
-				timeScreenDim = 0;
-				timeScreenMedium = 0;
-				timeScreenLight = 0;
-				timeScreenBright = 0;
-				Log.e(TAG,
-						"A batteryinfo error occured while retrieving Screen brightness data");
-			}
-		}
-
-		// deep sleep times are independent of stat type
-		long timeDeepSleep = (SystemClock.elapsedRealtime() - SystemClock
-				.uptimeMillis());
-		// long whichRealtime = SystemClock.elapsedRealtime();
-		// long timeElapsed = mStats.computeBatteryRealtime(rawRealtime,
-		// BatteryStatsTypes.STATS_CURRENT) / 1000;
-		// SystemClock.elapsedRealtime();
-
-		Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, elaspedRealtime);
-		Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
-
-
-		if ((!bFilter) || (deepSleepUsage.getTimeOn() > 0))
-		{
+			// basic fonctionality
+			// elapsedRealtime(): Returns milliseconds since boot, including time spent in sleep.
+			// uptimeMillis(): Returns milliseconds since boot, not counting time spent in deep sleep.
+			long elapsedRealtime = SystemClock.elapsedRealtime();
+			long uptimeMillis = SystemClock.uptimeMillis();
+			Misc deepSleepUsage = new Misc("Deep Sleep", elapsedRealtime - uptimeMillis, elapsedRealtime);
 			myUsages.add(deepSleepUsage);
 		}
-
-		if (timeBatteryUp > 0)
-		{
-			myUsages.add(new Misc("Awake", timeBatteryUp, elaspedRealtime));
+		else
+		{	
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+	
+			SharedPreferences sharedPrefs = PreferenceManager
+					.getDefaultSharedPreferences(m_context);
+	
+	
+			long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+			long uptime = SystemClock.uptimeMillis();
+			
+			long elaspedRealtime = rawRealtime / 1000;
+			
+			long batteryRealtime = 0;
+			try
+			{
+				batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An exception occured processing battery realtime. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+			}		
+	
+			long whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
+					BatteryStatsTypes.STATS_CURRENT) / 1000;
+			
+			long timeBatteryUp = mStats.computeBatteryUptime(
+					SystemClock.uptimeMillis() * 1000,
+					BatteryStatsTypes.STATS_CURRENT) / 1000;
+			
+			if (CommonLogSettings.DEBUG)
+			{
+				Log.i(TAG, "whichRealtime = " + whichRealtime + " batteryRealtime = " + batteryRealtime + " timeBatteryUp=" + timeBatteryUp);
+			}
+			
+			long timeScreenOn = mStats.getScreenOnTime(batteryRealtime,
+					BatteryStatsTypes.STATS_CURRENT) / 1000;
+			long timePhoneOn = mStats.getPhoneOnTime(batteryRealtime,
+					BatteryStatsTypes.STATS_CURRENT) / 1000;
+	
+			long timeWifiOn = 0;
+			long timeWifiRunning = 0;
+			if (sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget)
+			{
+				try
+				{
+					timeWifiOn = mStats.getWifiOnTime(batteryRealtime,
+							BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeWifiRunning = mStats.getGlobalWifiRunningTime(
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					// long timeWifiMulticast =
+					// mStats.getWifiMulticastTime(m_context, batteryRealtime,
+					// BatteryStatsTypes.STATS_CURRENT) / 1000;
+					// long timeWifiLocked = mStats.getFullWifiLockTime(m_context,
+					// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					// long timeWifiScan = mStats.getScanWifiLockTime(m_context,
+					// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+				} catch (BatteryInfoUnavailableException e)
+				{
+					timeWifiOn = 0;
+					timeWifiRunning = 0;
+					Log.e(TAG,
+							"A batteryinfo error occured while retrieving Wifi data");
+				}
+			}
+			// long timeAudioOn = mStats.getAudioTurnedOnTime(m_context,
+			// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			// long timeVideoOn = mStats.getVideoTurnedOnTime(m_context,
+			// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+			long timeBluetoothOn = 0;
+			if (sharedPrefs.getBoolean("show_other_bt", true) && !bWidget)
+			{
+				try
+				{
+					timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime,
+							BatteryStatsTypes.STATS_CURRENT) / 1000;
+				} catch (BatteryInfoUnavailableException e)
+				{
+					timeBluetoothOn = 0;
+					Log.e(TAG,
+							"A batteryinfo error occured while retrieving BT data");
+				}
+	
+			}
+	
+			long timeNoDataConnection = 0;
+			long timeSignalNone = 0;
+			long timeSignalPoor = 0;
+			long timeSignalModerate = 0;
+			long timeSignalGood = 0;
+			long timeSignalGreat = 0;
+			if (sharedPrefs.getBoolean("show_other_signal", true))
+			{
+				try
+				{
+					timeNoDataConnection = mStats.getPhoneDataConnectionTime(
+							BatteryStatsTypes.DATA_CONNECTION_NONE,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeSignalNone = mStats.getPhoneSignalStrengthTime(
+							BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeSignalPoor = mStats.getPhoneSignalStrengthTime(
+							BatteryStatsTypes.SIGNAL_STRENGTH_POOR,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeSignalModerate = mStats.getPhoneSignalStrengthTime(
+							BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeSignalGood = mStats.getPhoneSignalStrengthTime(
+							BatteryStatsTypes.SIGNAL_STRENGTH_GOOD,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeSignalGreat = mStats.getPhoneSignalStrengthTime(
+							BatteryStatsTypes.SIGNAL_STRENGTH_GREAT,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+				} catch (BatteryInfoUnavailableException e)
+				{
+					timeNoDataConnection = 0;
+					timeSignalNone = 0;
+					timeSignalPoor = 0;
+					timeSignalModerate = 0;
+					timeSignalGood = 0;
+					timeSignalGreat = 0;
+					Log.e(TAG,
+							"A batteryinfo error occured while retrieving Signal data");
+				}
+			}
+	
+			long timeScreenDark = 0;
+			long timeScreenDim = 0;
+			long timeScreenMedium = 0;
+			long timeScreenLight = 0;
+			long timeScreenBright = 0;
+			if (sharedPrefs.getBoolean("show_other_screen_brightness", true))
+			{
+				try
+				{
+					timeScreenDark = mStats.getScreenBrightnessTime(
+							BatteryStatsTypes.SCREEN_BRIGHTNESS_DARK,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeScreenDim = mStats.getScreenBrightnessTime(
+							BatteryStatsTypes.SCREEN_BRIGHTNESS_DIM,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeScreenMedium = mStats.getScreenBrightnessTime(
+							BatteryStatsTypes.SCREEN_BRIGHTNESS_MEDIUM,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeScreenLight = mStats.getScreenBrightnessTime(
+							BatteryStatsTypes.SCREEN_BRIGHTNESS_LIGHT,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeScreenBright = mStats.getScreenBrightnessTime(
+							BatteryStatsTypes.SCREEN_BRIGHTNESS_BRIGHT,
+							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+				}
+				catch (BatteryInfoUnavailableException e)
+				{
+					timeScreenDark = 0;
+					timeScreenDim = 0;
+					timeScreenMedium = 0;
+					timeScreenLight = 0;
+					timeScreenBright = 0;
+					Log.e(TAG,
+							"A batteryinfo error occured while retrieving Screen brightness data");
+				}
+			}
+	
+			// deep sleep times are independent of stat type
+			long timeDeepSleep = (SystemClock.elapsedRealtime() - SystemClock
+					.uptimeMillis());
+			// long whichRealtime = SystemClock.elapsedRealtime();
+			// long timeElapsed = mStats.computeBatteryRealtime(rawRealtime,
+			// BatteryStatsTypes.STATS_CURRENT) / 1000;
+			// SystemClock.elapsedRealtime();
+	
+			Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, elaspedRealtime);
+			Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
+	
+	
+			if ((!bFilter) || (deepSleepUsage.getTimeOn() > 0))
+			{
+				myUsages.add(deepSleepUsage);
+			}
+	
+			if (timeBatteryUp > 0)
+			{
+				myUsages.add(new Misc("Awake", timeBatteryUp, elaspedRealtime));
+			}
+	
+			if (timeScreenOn > 0)
+			{
+				myUsages.add(new Misc("Screen On", timeScreenOn, elaspedRealtime));
+			}
+	
+			if (timePhoneOn > 0)
+			{
+				myUsages.add(new Misc("Phone On", timePhoneOn, elaspedRealtime));
+			}
+	
+			if ((timeWifiOn > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_wifi",
+							true)))
+			{
+				myUsages.add(new Misc("Wifi On", timeWifiOn, elaspedRealtime));
+			}
+	
+			if ((timeWifiRunning > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_wifi",
+							true)))
+	
+			{
+				myUsages.add(new Misc("Wifi Running", timeWifiRunning, elaspedRealtime));
+			}
+	
+			if ((timeBluetoothOn > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
+							true)))
+	
+			{
+				myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, elaspedRealtime));
+			}
+	
+			if ((timeNoDataConnection > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean(
+							"show_other_connection", true)))
+	
+			{
+				myUsages.add(new Misc("No Data Connection", timeNoDataConnection, elaspedRealtime));
+			}
+	
+			if ((timeSignalNone > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+							true)))
+	
+			{
+				myUsages.add(new Misc("No or Unknown Signal", timeSignalNone, elaspedRealtime));
+			}
+	
+			if ((timeSignalPoor > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+							true)))
+			{
+				myUsages.add(new Misc("Poor Signal", timeSignalPoor, elaspedRealtime));
+			}
+	
+			if ((timeSignalModerate > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+							true)))
+			{
+				myUsages.add(new Misc("Moderate Signal", timeSignalModerate, elaspedRealtime));
+			}
+	
+			if ((timeSignalGood > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+							true)))
+			{
+				myUsages.add(new Misc("Good Signal", timeSignalGood, elaspedRealtime));
+			}
+	
+			if ((timeSignalGreat > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+							true)))
+			{
+				myUsages.add(new Misc("Great Signal", timeSignalGreat, elaspedRealtime));
+			}
+	
+			if ((timeScreenDark > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+							true)))
+	
+			{
+				myUsages.add(new Misc("Screen dark", timeScreenDark, elaspedRealtime));
+			}
+	
+			if ((timeScreenDim > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+							true)))
+	
+			{
+				myUsages.add(new Misc("Screen dimmed", timeScreenDim, elaspedRealtime));
+			}
+	
+			if ((timeScreenMedium > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+							true)))
+	
+			{
+				myUsages.add(new Misc("Screen medium", timeScreenMedium, elaspedRealtime));
+			}
+			if ((timeScreenLight > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+							true)))
+	
+			{
+				myUsages.add(new Misc("Screen light", timeScreenLight, elaspedRealtime));
+			}
+	
+			if ((timeScreenBright > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+							true)))
+	
+			{
+				myUsages.add(new Misc("Screen bright", timeScreenBright, elaspedRealtime));
+			}
+	
+			// if ( (timeWifiMulticast > 0) && (!bFilterView ||
+			// sharedPrefs.getBoolean("show_other_wifi", true)) )
+			// {
+			// myUsages.add(new Misc("Wifi Multicast On", timeWifiMulticast,
+			// elaspedRealtme));
+			// }
+			//
+			// if ( (timeWifiLocked > 0) && (!bFilterView ||(!bFilterView ||
+			// sharedPrefs.getBoolean("show_other_wifi", true)) )
+			// {
+			// myUsages.add(new Misc("Wifi Locked", timeWifiLocked, elaspedRealtme));
+			// }
+			//
+			// if ( (timeWifiScan > 0) && (!bFilterView ||
+			// sharedPrefs.getBoolean("show_other_wifi", true)) )
+			// {
+			// myUsages.add(new Misc("Wifi Scan", timeWifiScan, elaspedRealtme));
+			// }
+			//
+			// if (timeAudioOn > 0)
+			// {
+			// myUsages.add(new Misc("Video On", timeAudioOn, elaspedRealtme));
+			// }
+			//
+			// if (timeVideoOn > 0)
+			// {
+			// myUsages.add(new Misc("Video On", timeVideoOn, elaspedRealtme));
+			// }
+	
+			// sort @see
+			// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+	//		Collections.sort(myUsages);
 		}
-
-		if (timeScreenOn > 0)
-		{
-			myUsages.add(new Misc("Screen On", timeScreenOn, elaspedRealtime));
-		}
-
-		if (timePhoneOn > 0)
-		{
-			myUsages.add(new Misc("Phone On", timePhoneOn, elaspedRealtime));
-		}
-
-		if ((timeWifiOn > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_wifi",
-						true)))
-		{
-			myUsages.add(new Misc("Wifi On", timeWifiOn, elaspedRealtime));
-		}
-
-		if ((timeWifiRunning > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_wifi",
-						true)))
-
-		{
-			myUsages.add(new Misc("Wifi Running", timeWifiRunning, elaspedRealtime));
-		}
-
-		if ((timeBluetoothOn > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
-						true)))
-
-		{
-			myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, elaspedRealtime));
-		}
-
-		if ((timeNoDataConnection > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean(
-						"show_other_connection", true)))
-
-		{
-			myUsages.add(new Misc("No Data Connection", timeNoDataConnection, elaspedRealtime));
-		}
-
-		if ((timeSignalNone > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-						true)))
-
-		{
-			myUsages.add(new Misc("No or Unknown Signal", timeSignalNone, elaspedRealtime));
-		}
-
-		if ((timeSignalPoor > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-						true)))
-		{
-			myUsages.add(new Misc("Poor Signal", timeSignalPoor, elaspedRealtime));
-		}
-
-		if ((timeSignalModerate > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-						true)))
-		{
-			myUsages.add(new Misc("Moderate Signal", timeSignalModerate, elaspedRealtime));
-		}
-
-		if ((timeSignalGood > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-						true)))
-		{
-			myUsages.add(new Misc("Good Signal", timeSignalGood, elaspedRealtime));
-		}
-
-		if ((timeSignalGreat > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-						true)))
-		{
-			myUsages.add(new Misc("Great Signal", timeSignalGreat, elaspedRealtime));
-		}
-
-		if ((timeScreenDark > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-						true)))
-
-		{
-			myUsages.add(new Misc("Screen dark", timeScreenDark, elaspedRealtime));
-		}
-
-		if ((timeScreenDim > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-						true)))
-
-		{
-			myUsages.add(new Misc("Screen dimmed", timeScreenDim, elaspedRealtime));
-		}
-
-		if ((timeScreenMedium > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-						true)))
-
-		{
-			myUsages.add(new Misc("Screen medium", timeScreenMedium, elaspedRealtime));
-		}
-		if ((timeScreenLight > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-						true)))
-
-		{
-			myUsages.add(new Misc("Screen light", timeScreenLight, elaspedRealtime));
-		}
-
-		if ((timeScreenBright > 0)
-				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-						true)))
-
-		{
-			myUsages.add(new Misc("Screen bright", timeScreenBright, elaspedRealtime));
-		}
-
-		// if ( (timeWifiMulticast > 0) && (!bFilterView ||
-		// sharedPrefs.getBoolean("show_other_wifi", true)) )
-		// {
-		// myUsages.add(new Misc("Wifi Multicast On", timeWifiMulticast,
-		// elaspedRealtme));
-		// }
-		//
-		// if ( (timeWifiLocked > 0) && (!bFilterView ||(!bFilterView ||
-		// sharedPrefs.getBoolean("show_other_wifi", true)) )
-		// {
-		// myUsages.add(new Misc("Wifi Locked", timeWifiLocked, elaspedRealtme));
-		// }
-		//
-		// if ( (timeWifiScan > 0) && (!bFilterView ||
-		// sharedPrefs.getBoolean("show_other_wifi", true)) )
-		// {
-		// myUsages.add(new Misc("Wifi Scan", timeWifiScan, elaspedRealtme));
-		// }
-		//
-		// if (timeAudioOn > 0)
-		// {
-		// myUsages.add(new Misc("Video On", timeAudioOn, elaspedRealtme));
-		// }
-		//
-		// if (timeVideoOn > 0)
-		// {
-		// myUsages.add(new Misc("Video On", timeVideoOn, elaspedRealtme));
-		// }
-
-		// sort @see
-		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-//		Collections.sort(myUsages);
-
 		for (int i = 0; i < myUsages.size(); i++)
 		{
 			Misc usage = (Misc)myUsages.get(i);
