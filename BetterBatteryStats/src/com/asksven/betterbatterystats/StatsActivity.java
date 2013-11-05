@@ -37,6 +37,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.CheckBoxPreference;
@@ -145,12 +146,12 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 
 		// Check if the stats are accessible and warn if not
-		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
+//		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
 				
-		if (stats.initFailed())
-		{
-			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. If this error persists after a reboot please contact the dev and provide your ROM/Kernel versions.", Toast.LENGTH_SHORT).show();			
-		}
+//		if (stats.initFailed())
+//		{
+//			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. If this error persists after a reboot please contact the dev and provide your ROM/Kernel versions.", Toast.LENGTH_SHORT).show();			
+//		}
 		
 		///////////////////////////////////////////////
 		// check if we have a new release
@@ -950,7 +951,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	private void doRefresh(boolean updateCurrent)
 	{
 
-		BatteryStatsProxy.getInstance(this).invalidate();
+		if (Build.VERSION.SDK_INT < 19) BatteryStatsProxy.getInstance(this).invalidate();
+		
 		refreshSpinners();
 		new LoadStatData().execute(updateCurrent);	
 	}

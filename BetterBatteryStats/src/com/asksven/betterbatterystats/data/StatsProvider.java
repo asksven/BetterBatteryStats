@@ -53,6 +53,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+
 //import com.asksven.andoid.common.contrib.Shell;
 //import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
@@ -62,6 +63,7 @@ import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
+import com.asksven.android.common.kernelutils.PartialWakelocksDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
@@ -558,9 +560,13 @@ public class StatsProvider
 	public ArrayList<StatElement> getCurrentProcessStatList(boolean bFilter,
 			int iSort) throws Exception
 	{
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		if (Build.VERSION.SDK_INT >= 19) return myStats;
+		
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+
 		ArrayList<StatElement> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 
@@ -754,13 +760,20 @@ public class StatsProvider
 			int iPctType, int iSort) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-
 		ArrayList<StatElement> myWakelocks = null;
-		myWakelocks = mStats.getWakelockStats(m_context,
-				BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-				BatteryStatsTypes.STATS_CURRENT, iPctType);
+		
+		if (Build.VERSION.SDK_INT >= 19)
+		{
+			myWakelocks = PartialWakelocksDumpsys.getPartialWakelocks();
+		}
+		else
+		{
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+	
+			myWakelocks = mStats.getWakelockStats(m_context,
+					BatteryStatsTypes.WAKE_TYPE_PARTIAL,
+					BatteryStatsTypes.STATS_CURRENT, iPctType);
+		}
 		
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 
@@ -1570,18 +1583,21 @@ public class StatsProvider
 			boolean bFilterView, boolean bWidget)
 			throws Exception
 	{
-	
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		if (Build.VERSION.SDK_INT >= 19) return myStats;
+			
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 
-		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-
 		// List to store the other usages to
 		ArrayList<StatElement> myUsages = new ArrayList<StatElement>();
 
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+		long uptime = SystemClock.uptimeMillis();
+		
 		long elaspedRealtime = rawRealtime / 1000;
 		
 		long batteryRealtime = 0;
@@ -2315,7 +2331,7 @@ public class StatsProvider
 	{
 		
 		// we are going to retrieve a reference: make sure data does not come from the cache
-		BatteryStatsProxy.getInstance(m_context).invalidate();
+		if (Build.VERSION.SDK_INT < 19) BatteryStatsProxy.getInstance(m_context).invalidate();
 		
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
@@ -2526,41 +2542,33 @@ public class StatsProvider
 	public long getBatteryRealtime(int iStatType)
 			throws BatteryInfoUnavailableException
 	{
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-
-		if (mStats == null)
+		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+		long whichRealtime = 0;
+		
+		if (Build.VERSION.SDK_INT >= 19)
 		{
-			// an error has occured
-			return -1;
+			whichRealtime = rawRealtime;
+			return whichRealtime;
 		}
 
-		long whichRealtime = 0;
-		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+
+		whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
+				BatteryStatsTypes.STATS_CURRENT) / 1000;
+
 		if ((iStatType == StatsProvider.STATS_CUSTOM) && (ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context) != null))
-		{
-			whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
-					BatteryStatsTypes.STATS_CURRENT) / 1000;
-			whichRealtime -= ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context).m_refBatteryRealtime;
-			
+		{			
+			whichRealtime -= ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context).m_refBatteryRealtime;	
 		}
 		else if ((iStatType == StatsProvider.STATS_SCREEN_OFF)
 				&& (ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, m_context) != null))
 		{
-			whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
-					BatteryStatsTypes.STATS_CURRENT) / 1000;
 			whichRealtime -= ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, m_context).m_refBatteryRealtime;
 		}
 		else if ((iStatType == StatsProvider.STATS_BOOT)
 				&& (ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, m_context) != null))
 		{
-			whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
-					BatteryStatsTypes.STATS_CURRENT) / 1000;
 			whichRealtime -= ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, m_context).m_refBatteryRealtime;
-		}
-		else
-		{
-			whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
-					iStatType) / 1000;
 		}
 		
 		Log.i(TAG, "rawRealtime = " + rawRealtime);
@@ -2578,6 +2586,8 @@ public class StatsProvider
 	 */
 	public boolean getIsCharging() throws BatteryInfoUnavailableException
 	{
+		if (Build.VERSION.SDK_INT >= 19) return false;
+		
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		if (mStats == null)
@@ -2585,7 +2595,7 @@ public class StatsProvider
 			// an error has occured
 			return false;
 		}
-
+		
 		return !mStats.getIsOnBattery(m_context);
 	}
 
