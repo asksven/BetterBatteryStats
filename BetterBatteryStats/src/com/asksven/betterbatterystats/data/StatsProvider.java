@@ -54,6 +54,7 @@ import android.widget.Toast;
 
 
 
+
 //import com.asksven.andoid.common.contrib.Shell;
 //import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
@@ -63,6 +64,7 @@ import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
+import com.asksven.android.common.kernelutils.OtherStatsDumpsys;
 import com.asksven.android.common.kernelutils.PartialWakelocksDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
@@ -1587,8 +1589,15 @@ public class StatsProvider
 		// List to store the other usages to
 		ArrayList<StatElement> myUsages = new ArrayList<StatElement>();
 
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+
 		if (Build.VERSION.SDK_INT >= 19)
 		{
+			myUsages = OtherStatsDumpsys.getOtherStats(
+					sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget,
+					sharedPrefs.getBoolean("show_other_bt", true) && !bWidget);
+
 			// basic fonctionality
 			// elapsedRealtime(): Returns milliseconds since boot, including time spent in sleep.
 			// uptimeMillis(): Returns milliseconds since boot, not counting time spent in deep sleep.
@@ -1596,14 +1605,14 @@ public class StatsProvider
 			long uptimeMillis = SystemClock.uptimeMillis();
 			Misc deepSleepUsage = new Misc("Deep Sleep", elapsedRealtime - uptimeMillis, elapsedRealtime);
 			myUsages.add(deepSleepUsage);
+
+			Misc awakeUsage = new Misc("Awake", uptimeMillis, elapsedRealtime);
+			myUsages.add(awakeUsage);
+			
 		}
 		else
 		{	
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-	
-			SharedPreferences sharedPrefs = PreferenceManager
-					.getDefaultSharedPreferences(m_context);
-	
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);	
 	
 			long rawRealtime = SystemClock.elapsedRealtime() * 1000;
 			long uptime = SystemClock.uptimeMillis();
