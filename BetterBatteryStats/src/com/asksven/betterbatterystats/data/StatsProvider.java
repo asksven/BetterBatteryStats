@@ -766,7 +766,7 @@ public class StatsProvider
 		
 		if (Build.VERSION.SDK_INT >= 19)
 		{
-			myWakelocks = PartialWakelocksDumpsys.getPartialWakelocks();
+			myWakelocks = PartialWakelocksDumpsys.getPartialWakelocks(m_context);
 		}
 		else
 		{
