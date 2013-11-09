@@ -26,6 +26,7 @@ import android.content.pm.PermissionInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract.Contacts;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.Permission;
@@ -69,8 +71,15 @@ public class ReferencesAdapter extends ArrayAdapter<String>
 		
 		if (posCurrent != -1)
 		{	
-			m_listNames.remove(posCurrent);
-			m_listLabels.remove(posCurrent);		
+			try
+			{
+				m_listNames.remove(posCurrent);
+				m_listLabels.remove(posCurrent);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "Error removing element " + posCurrent + " from lists " + m_listNames + " and " + m_listLabels);
+			}
 		}
 		this.notifyDataSetChanged();
 	}
