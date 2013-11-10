@@ -55,6 +55,7 @@ import android.widget.Toast;
 
 
 
+
 //import com.asksven.andoid.common.contrib.Shell;
 //import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
@@ -66,6 +67,7 @@ import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.OtherStatsDumpsys;
 import com.asksven.android.common.kernelutils.PartialWakelocksDumpsys;
+import com.asksven.android.common.kernelutils.ProcessStatsDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
@@ -563,18 +565,19 @@ public class StatsProvider
 			int iSort) throws Exception
 	{
 
-		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-
-		if (Build.VERSION.SDK_INT >= 19) return myStats;
-		
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-
 		ArrayList<StatElement> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 
-		myProcesses = mStats.getProcessStats(m_context,
-				BatteryStatsTypes.STATS_CURRENT);
-
+		if (Build.VERSION.SDK_INT >= 19)
+		{
+			myProcesses = ProcessStatsDumpsys.getProcesses(m_context);
+		}
+		else
+		{
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+			myProcesses = mStats.getProcessStats(m_context,
+					BatteryStatsTypes.STATS_CURRENT);
+		}
 
 		for (int i = 0; i < myProcesses.size(); i++)
 		{
@@ -601,17 +604,12 @@ public class StatsProvider
 			break;
 		}
 
-		for (int i = 0; i < myRetProcesses.size(); i++)
-		{
-			myStats.add((StatElement) myRetProcesses.get(i));
-		}
-
 		if (LogSettings.DEBUG)
 		{
-			Log.d(TAG, "Result " + myStats.toString());
+			Log.d(TAG, "Result " + myProcesses.toString());
 		}
 
-		return myStats;
+		return myProcesses;
 
 	}
 
