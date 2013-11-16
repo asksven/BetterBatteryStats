@@ -56,6 +56,7 @@ import android.widget.Toast;
 
 
 
+
 //import com.asksven.andoid.common.contrib.Shell;
 //import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
@@ -84,6 +85,7 @@ import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.ActiveMonAlarmReceiver;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
@@ -281,6 +283,7 @@ public class StatsProvider
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 		if (!rootEnabled)
 		{
+			myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
 			return myStats;
 		}
 
@@ -448,6 +451,20 @@ public class StatsProvider
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
+		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
+		{
+			// stop straight away of root features are disabled
+			SharedPreferences sharedPrefs = PreferenceManager
+					.getDefaultSharedPreferences(m_context);
+
+			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+			if (!rootEnabled)
+			{
+				myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
+				return myStats;
+			}
+		}
+		
 		if ((refFrom == null) || (refTo == null))
 		{
 				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
@@ -568,7 +585,7 @@ public class StatsProvider
 		ArrayList<StatElement> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 
-		if (Build.VERSION.SDK_INT >= 19)
+		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
 		{
 			myProcesses = ProcessStatsDumpsys.getProcesses(m_context);
 		}
@@ -626,6 +643,21 @@ public class StatsProvider
 			Reference refFrom, int iPctType, int iSort, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		
+		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
+		{
+			// stop straight away of root features are disabled
+			SharedPreferences sharedPrefs = PreferenceManager
+					.getDefaultSharedPreferences(m_context);
+
+			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+			if (!rootEnabled)
+			{
+				myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
+				return myStats;
+			}
+		}
+
 		if ((refFrom == null) || (refTo == null))
 		{
 				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
@@ -762,7 +794,7 @@ public class StatsProvider
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<StatElement> myWakelocks = null;
 		
-		if (Build.VERSION.SDK_INT >= 19)
+		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
 		{
 			myWakelocks = PartialWakelocksDumpsys.getPartialWakelocks(m_context);
 		}
@@ -1032,19 +1064,24 @@ public class StatsProvider
 	public ArrayList<StatElement> getNativeNetworkUsageStatList(
 			boolean bFilter, Reference refFrom, Reference refTo) throws Exception
 	{
-		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-		if ((refFrom == null) || (refTo == null))
-		{
-				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
-			return myStats;
-		}
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();			
 
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
+
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 		if (!rootEnabled)
 		{
+			myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
+			return myStats;
+		}
+
+		
+		
+		if ((refFrom == null) || (refTo == null))
+		{
+				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
 			return myStats;
 		}
 
@@ -1590,7 +1627,7 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 
-		if (Build.VERSION.SDK_INT >= 19)
+		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
 		{
 			myUsages = OtherStatsDumpsys.getOtherStats(
 					sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget,
@@ -2357,6 +2394,9 @@ public class StatsProvider
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
 				"0"));
 
+		boolean rootEnabled = sharedPrefs
+				.getBoolean("root_features", false);
+
 		try
 		{
 			refs.m_refOther = null;
@@ -2377,17 +2417,20 @@ public class StatsProvider
 				Log.e(TAG, "An exception occured processing kernel wakelocks. Message: " + e.getMessage());
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
-
-			try
+			
+			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) )
 			{
-				refs.m_refWakelocks = getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
+				try
+				{
+					refs.m_refWakelocks = getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
+				}
+				catch (Exception e)
+				{
+					Log.e(TAG, "An exception occured processing partial wakelocks. Message: " + e.getMessage());
+					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+				}
 			}
-			catch (Exception e)
-			{
-				Log.e(TAG, "An exception occured processing partial wakelocks. Message: " + e.getMessage());
-				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
-			}
-
+			
 			try
 			{
 				refs.m_refOther = getCurrentOtherUsageStatList(bFilterStats, false, false);
@@ -2408,16 +2451,18 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 
-			try
+			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) )
 			{
-				refs.m_refProcesses = getCurrentProcessStatList(bFilterStats, iSort);
+				try
+				{
+					refs.m_refProcesses = getCurrentProcessStatList(bFilterStats, iSort);
+				}
+				catch (Exception e)
+				{
+					Log.e(TAG, "An exception occured processing processes. Message: " + e.getMessage());
+					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+				}
 			}
-			catch (Exception e)
-			{
-				Log.e(TAG, "An exception occured processing processes. Message: " + e.getMessage());
-				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
-			}
-
 			try
 			{
 				refs.m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
@@ -2440,9 +2485,6 @@ public class StatsProvider
 				refs.m_refBatteryVoltage = 0;
 			}
 
-			// only root features active
-			boolean rootEnabled = sharedPrefs
-					.getBoolean("root_features", false);
 			if (rootEnabled)
 			{
 				// After that we go on and try to write the rest. If this part
@@ -2471,7 +2513,8 @@ public class StatsProvider
 				Log.i(TAG, "Trace: Finished root operations" + DateUtils.now());
 				
 			}
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			Log.e(TAG, "An exception occured. Message: " + e.getMessage());
 			// Log.e(TAG, "Callstack", e.fillInStackTrace());
@@ -2512,6 +2555,9 @@ public class StatsProvider
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
 				"0"));
 
+		boolean rootEnabled = sharedPrefs
+				.getBoolean("root_features", false);
+
 		try
 		{
 			refs.m_refOther 			= null;
@@ -2522,7 +2568,10 @@ public class StatsProvider
 			refs.m_refCpuStates 		= null;
 
 			refs.m_refKernelWakelocks 	= getCurrentNativeKernelWakelockStatList(bFilterStats, iPctType, iSort);
-			refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
+			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) )
+			{
+				refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
+			}
 			refs.m_refOther 			= getCurrentOtherUsageStatList(bFilterStats, false, false);
 			refs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
 
@@ -2562,7 +2611,7 @@ public class StatsProvider
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
 		long whichRealtime = 0;
 		
-		if (Build.VERSION.SDK_INT >= 19)
+		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
 		{
 			whichRealtime = rawRealtime;
 			return whichRealtime;
@@ -2603,7 +2652,7 @@ public class StatsProvider
 	 */
 	public boolean getIsCharging() throws BatteryInfoUnavailableException
 	{
-		if (Build.VERSION.SDK_INT >= 19) return false;
+		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) ) return false;
 		
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
