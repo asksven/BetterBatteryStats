@@ -17,8 +17,10 @@ package com.asksven.betterbatterystats;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -51,10 +53,11 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.ZoomScrollGraphActivity.Viewport;
 import com.asksven.betterbatterystats.R;
- 
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -95,6 +98,33 @@ public class BatteryGraphActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
+		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(this) )
+		{
+			// show message that data is not available
+			// prepare the alert box
+            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+ 
+            // set the message to display
+            alertbox.setMessage("On kitkat Google has removed the possibility for apps to access BATTERY_STATS. For that reason the history and graphs are not available anymore");
+ 
+            // add a neutral button to the alert box and assign a click listener
+            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
+            {
+ 
+                // click listener on the alert box
+                public void onClick(DialogInterface arg0, int arg1)
+                {
+                	setResult(RESULT_OK);
+                	finish();
+                }
+            });
+ 
+            // show it
+            alertbox.show();
+
+		}
+
         setContentView(R.layout.batterygraph);
         m_plotCharge 	= (XYPlot) findViewById(R.id.myBatteryXYPlot);
         m_plotWakelock 	= (XYPlot) findViewById(R.id.wakelockPlot);
