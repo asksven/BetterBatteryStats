@@ -145,14 +145,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			LogSettings.DEBUG=false;
 			CommonLogSettings.DEBUG=false;
 		}
-
-		// Check if the stats are accessible and warn if not
-//		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
-				
-//		if (stats.initFailed())
-//		{
-//			Toast.makeText(this, "The 'batteryinfo' service could not be accessed. If this error persists after a reboot please contact the dev and provide your ROM/Kernel versions.", Toast.LENGTH_SHORT).show();			
-//		}
 		
 		///////////////////////////////////////////////
 		// check if we have a new release
@@ -176,6 +168,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		{
 			// show the initial run screen
 			FirstLaunch.app_launched(this);
+	        SharedPreferences.Editor updater = sharedPrefs.edit();
+	        updater.putString("last_release", strCurrentRelease);
+	        updater.commit();
 
 		}
 		else if (!strLastRelease.equals(strCurrentRelease))
@@ -211,12 +206,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	                // click listener on the alert box
 	                public void onClick(DialogInterface arg0, int arg1)
 	                {
-	        	        // opt out info was displayed
-	            		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
-	        	        SharedPreferences.Editor editor = prefs.edit();
-	        	        editor.putBoolean("analytics_opt_out", true);
-	        	        editor.commit();
-	
 	                }
 	            });
 	 
@@ -498,6 +487,16 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		// the service is always started as it handles the widget updates too
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean serviceShouldBeRunning = sharedPrefs.getBoolean("ref_for_screen_off", false);
+		
+		// we need to run the service also if we are on kitkat without root
+		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+
+		// if on kitkat make sure that we always collect screen on time: if no root then count the time
+		if ( !rootEnabled && !SysUtils.hasBatteryStatsPermission(this) )
+		{
+			serviceShouldBeRunning = true;
+		}
+
 		if (serviceShouldBeRunning)
 		{
 			if (!EventWatcherService.isServiceRunning(this))

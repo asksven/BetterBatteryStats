@@ -1629,15 +1629,28 @@ public class StatsProvider
 
 		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
 		{
-			myUsages = OtherStatsDumpsys.getOtherStats(
-					sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget,
-					sharedPrefs.getBoolean("show_other_bt", true) && !bWidget);
+			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 
+			long elapsedRealtime = SystemClock.elapsedRealtime();
+			long uptimeMillis = SystemClock.uptimeMillis();
+
+			if ( rootEnabled )
+			{
+
+				myUsages = OtherStatsDumpsys.getOtherStats(
+						sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget,
+						sharedPrefs.getBoolean("show_other_bt", true) && !bWidget);
+			}
+			else
+			{
+				// retrieve screen on time from prefs
+				long screenOnTime = sharedPrefs.getLong("screen_on_counter", 0);
+				myUsages.add(new Misc("Screen On", screenOnTime, elapsedRealtime));
+
+			}
 			// basic fonctionality
 			// elapsedRealtime(): Returns milliseconds since boot, including time spent in sleep.
 			// uptimeMillis(): Returns milliseconds since boot, not counting time spent in deep sleep.
-			long elapsedRealtime = SystemClock.elapsedRealtime();
-			long uptimeMillis = SystemClock.uptimeMillis();
 			Misc deepSleepUsage = new Misc("Deep Sleep", elapsedRealtime - uptimeMillis, elapsedRealtime);
 			myUsages.add(deepSleepUsage);
 
