@@ -58,6 +58,7 @@ import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.ReadmeActivity;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.betterbatterystats.R;
@@ -184,69 +185,44 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        updater.putString("last_release", strCurrentRelease);
 	        updater.commit();
 
-    		boolean migrated = false;
-    		
-    		//////////////////////////////////////////////////////////////////////////
-    		// Fix for bad migration to 1.12
-    		//////////////////////////////////////////////////////////////////////////    		
-    		if (!sharedPrefs.getString("default_stat_type", "0").startsWith("ref_"))
-    		{
-    			Log.i(TAG, "Migrating default_stat_type, value was " + sharedPrefs.getString("default_stat_type", "0"));
-    	        SharedPreferences.Editor editor = sharedPrefs.edit();
-    	        editor.putString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-    	        editor.commit();
-    	        migrated = true;
-    		}
-    		if (!sharedPrefs.getString("small_widget_default_stat_type", "0").startsWith("ref_"))
-    		{
-    			Log.i(TAG, "Migrating small_widget_default_stat_type, value was " + sharedPrefs.getString("small_widget_default_stat_type", "0"));
-    	        SharedPreferences.Editor editor = sharedPrefs.edit();
-    	        editor.putString("small_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-    	        editor.commit();
-    	        migrated = true;
-    		}
-    		if (!sharedPrefs.getString("widget_fallback_stat_type", "0").startsWith("ref_"))
-    		{
-    			Log.i(TAG, "Migrating widget_fallback_stat_type, value was " + sharedPrefs.getString("widget_fallback_stat_type", "0"));
-    	        SharedPreferences.Editor editor = sharedPrefs.edit();
-    	        editor.putString("widget_fallback_stat_type", Reference.BOOT_REF_FILENAME);
-    	        editor.commit();    		
-    	        migrated = true;
-    		}
-    		if (!sharedPrefs.getString("large_widget_default_stat_type", "0").startsWith("ref_"))
-    		{
-    			Log.i(TAG, "Migrating large_widget_default_stat_type, value was " + sharedPrefs.getString("large_widget_default_stat_type", "0"));
-    	        SharedPreferences.Editor editor = sharedPrefs.edit();
-    	        editor.putString("large_widget_default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
-    	        editor.commit();    		
-    	        migrated = true;
-    		}
-
-    		if (migrated)
-    		{
-    			Log.i(TAG, "Some preferences were migrated");
-    			Toast.makeText(this, "Upgrading data.", Toast.LENGTH_SHORT).show();
-
-    		}
-    		if (strCurrentRelease.equals("38"))
-    		{
-    			// we have changed the serialized format: delete reference and re-create umplugged and boot
-    			Toast.makeText(this, "Deleting and re-creating references", Toast.LENGTH_SHORT).show();
-    			ReferenceStore.deleteAllRefs(this);
-				Intent i = new Intent(this, WriteBootReferenceService.class);
-				this.startService(i);
-				i = new Intent(this, WriteUnpluggedReferenceService.class);
-				this.startService(i);
-
+			Toast.makeText(this, "Deleting and re-creating references", Toast.LENGTH_SHORT).show();
+			ReferenceStore.deleteAllRefs(this);
+			Intent i = new Intent(this, WriteBootReferenceService.class);
+			this.startService(i);
+			i = new Intent(this, WriteUnpluggedReferenceService.class);
+			this.startService(i);
     			
-    		}
-    		
-    			
-    		// show the readme
-	    	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
-	    	intentReleaseNotes.putExtra("filename", "readme.html");
-	        this.startActivity(intentReleaseNotes);
-	        
+			// Show Kitkat info
+			if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(this) )
+			{
+
+				// prepare the alert box
+	            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+	 
+	            // set the message to display
+	            alertbox.setMessage("Since google has revoked rights for apps to access the battery stats without"
+	            		+ " root partial wakelocks will not be available anymore for non rooted users."
+	            		+ " See <a href=\"http://forum.xda-developers.com/showthread.php?t=2529455\">here</a> for more info.");
+	 
+	            // add a neutral button to the alert box and assign a click listener
+	            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
+	            {
+	 
+	                // click listener on the alert box
+	                public void onClick(DialogInterface arg0, int arg1)
+	                {
+	        	        // opt out info was displayed
+	            		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
+	        	        SharedPreferences.Editor editor = prefs.edit();
+	        	        editor.putBoolean("analytics_opt_out", true);
+	        	        editor.commit();
+	
+	                }
+	            });
+	 
+	            // show it
+	            alertbox.show();
+			}	        
     	}
     	else
     	{
