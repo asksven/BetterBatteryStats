@@ -424,6 +424,11 @@
                     android:title="dmesg" />
                 
             </PreferenceScreen>
+            <PreferenceScreen
+        android:title="System App (experimental)" 
+        android:summary="Install as System App">
+        <intent android:action="com.asksven.betterbatterystats.SystemAppActivity"/>
+    </PreferenceScreen>
         </PreferenceScreen>
     </PreferenceCategory>
 

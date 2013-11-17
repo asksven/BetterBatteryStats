@@ -3,13 +3,14 @@
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
     android:versionCode="41"
-    android:versionName="1.15.0.0_RC1" >
+    android:versionName="1.15.0.0_RC2" >
 
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="android.permission.DUMP" />
     <!-- required for writing dump files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- required for accessing the knowledge base, required for analytics -->
@@ -66,6 +67,15 @@
             android:name="com.asksven.betterbatterystats.PreferencesActivity"
             android:theme="@style/Theme.asksven" />
         <activity
+            android:name="com.asksven.betterbatterystats.SystemAppActivity"
+            android:theme="@style/Theme.asksven" >
+            <intent-filter>
+                <action android:name="com.asksven.betterbatterystats.SystemAppActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.asksven.betterbatterystats.HelpActivity"
             android:theme="@style/Theme.asksven" />
         <activity
@@ -102,7 +112,6 @@
         <activity
             android:name="com.asksven.betterbatterystats.ResponsiveListActivity"
             android:theme="@style/Theme.asksven" />
-        
         <activity
             android:name="com.asksven.betterbatterystats.localeplugin.ui.EditActivity"
             android:exported="true"
