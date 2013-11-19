@@ -414,9 +414,12 @@ public class StatsProvider
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
 			Alarm alarm = (Alarm) myAlarms.get(i);
-			if ((!bFilter) || ((alarm.getWakeups()) > 0))
+			if (alarm != null)
 			{
-				myRetAlarms.add(alarm);
+				if ((!bFilter) || ((alarm.getWakeups()) > 0))
+				{
+					myRetAlarms.add(alarm);
+				}
 			}
 		}
 
@@ -1662,7 +1665,8 @@ public class StatsProvider
 		{	
 			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);	
 	
-			long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+			long rawRealtime = SystemClock.elapsedRealtime() * 1000; 
+			
 			long uptime = SystemClock.uptimeMillis();
 			
 			long elaspedRealtime = rawRealtime / 1000;

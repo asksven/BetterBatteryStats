@@ -1,10 +1,17 @@
 package com.asksven.betterbatterystats;
 
+import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+import javax.security.auth.x500.X500Principal;
 
 import com.asksven.android.common.utils.SystemAppInstaller;
 import com.asksven.android.common.utils.SystemAppInstaller.Status;
+import com.asksven.betterbatterystats.R;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +22,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -28,7 +38,15 @@ public class SystemAppActivity extends Activity
 {
 
 	final static String TAG = "BetteryInfoTest.MainActivity";
-	final static String APK = "com.asksven.betterbatterystats";
+//	final static String APK = "com.asksven.betterbatterystats_debug.apk";
+	final static String BBS_SIGNED_APK 	= "com.asksven.betterbatterystats_signed.apk"; 
+	final static String BBS_DEBUG_APK 	= "com.asksven.betterbatterystats_debug.apk";
+	final static String BBS_XDA_APK		= "com.asksven.betterbatterystats_xdaedition.apk";
+
+	String systemAPKName = "";
+
+	final static String PACKAGE = "com.asksven.betterbatterystats";
+
 	
 	Object m_stats = null;
 
@@ -38,6 +56,38 @@ public class SystemAppActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_systemapp);
 
+		// package name is either com.asksven.betterbatterystats or com.asksven.betterbatterystats_xdaedition 
+		String packageName = getPackageName();
+		
+		// now we also need to find out if this build was signed with the debug key
+		boolean debug = isDebuggable(this);
+		
+		// determine the name of the APK to install from assets
+		// if package name does not contain xdaedition
+		//   if package is signed with a debug key
+		//     use BBS_SIGNED_APK
+		//   else
+		//     use BBS_DEBUG_APK
+		// else
+		//    use BBS_XDA_APK
+		if (!packageName.contains("xdaedition"))
+		{
+			if (!debug)
+			{
+				systemAPKName = BBS_SIGNED_APK;
+			}
+			else
+			{
+				systemAPKName = BBS_DEBUG_APK;
+			}
+		}
+		else
+		{
+			systemAPKName = BBS_XDA_APK;
+		}
+		
+		Log.i(TAG, "SystemAPKName = " + systemAPKName);
+		
 		final TextView permBattery = (TextView) findViewById(R.id.textViewPermBATTERY_STATS);
 		if (hasBatteryStatsPermission(this))
 		{
@@ -68,13 +118,14 @@ public class SystemAppActivity extends Activity
 				Status status;
 				try
 				{
-					if (!SystemAppInstaller.isSystemApp(APK))
+					boolean install = !SystemAppInstaller.isSystemApp(systemAPKName); 
+					if (install)
 					{
-						status = SystemAppInstaller.install(APK);
+						status = SystemAppInstaller.install(SystemAppActivity.this, systemAPKName);
 					}
 					else
 					{
-						status = SystemAppInstaller.uninstall(APK);
+						status = SystemAppInstaller.uninstall(PACKAGE);
 					}
 						
 					setButtonText(buttonRemount);
@@ -86,8 +137,15 @@ public class SystemAppActivity extends Activity
 			            AlertDialog.Builder alertbox = new AlertDialog.Builder(SystemAppActivity.this);
 			 
 			            // set the message to display
-			            alertbox.setMessage("Installed as system app. Please reboot to activate.");
-			 
+			            if (install)
+			            {
+			            	alertbox.setMessage("Installed as system app. Please reboot to activate.");
+			            }
+			            else
+			            {
+			            	alertbox.setMessage("Uninstalled as system app. Please reboot to clean up.");
+			   			 
+			            }
 			            // add a neutral button to the alert box and assign a click listener
 			            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
 			            {
@@ -105,6 +163,7 @@ public class SystemAppActivity extends Activity
 					else
 					{
 						Toast.makeText(SystemAppActivity.this, "Failed", Toast.LENGTH_LONG).show();
+						Log.e(TAG,"History: " + status.toString());
 					}						
 				}
 				catch (Exception e)
@@ -123,13 +182,13 @@ public class SystemAppActivity extends Activity
 
 	void setButtonText(Button button)
 	{
-		if (SystemAppInstaller.isSystemApp(APK))
+		if (SystemAppInstaller.isSystemApp(systemAPKName))
 		{
-			button.setText("Installed as system app");
+			button.setText("Uninstall system app");
 		}
 		else
 		{
-			button.setText("Not installed as system app");
+			button.setText("Install as system app");
 		}
 	}
 		
@@ -150,6 +209,38 @@ public class SystemAppActivity extends Activity
 		    permission, 
 		    context.getPackageName());
 		return (hasPerm == PackageManager.PERMISSION_GRANTED);
+	}
+	
+	private static final X500Principal DEBUG_DN = new X500Principal("CN=Android Debug,O=Android,C=US");
+	private boolean isDebuggable(Context ctx)
+	{
+	    boolean debuggable = false;
+
+	    try
+	    {
+	        PackageInfo pinfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(),PackageManager.GET_SIGNATURES);
+	        Signature signatures[] = pinfo.signatures;
+
+	        CertificateFactory cf = CertificateFactory.getInstance("X.509");
+
+	        for ( int i = 0; i < signatures.length;i++)
+	        {   
+	            ByteArrayInputStream stream = new ByteArrayInputStream(signatures[i].toByteArray());
+	            X509Certificate cert = (X509Certificate) cf.generateCertificate(stream);       
+	            debuggable = cert.getSubjectX500Principal().equals(DEBUG_DN);
+	            if (debuggable)
+	                break;
+	        }
+	    }
+	    catch (NameNotFoundException e)
+	    {
+	        //debuggable variable will remain false
+	    }
+	    catch (CertificateException e)
+	    {
+	        //debuggable variable will remain false
+	    }
+	    return debuggable;
 	}
 
 }
