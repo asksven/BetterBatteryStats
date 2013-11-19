@@ -629,6 +629,12 @@ public class StatsProvider
 			Log.d(TAG, "Result " + myProcesses.toString());
 		}
 
+		myProcesses.clear();
+		for (int i=0; i < myRetProcesses.size(); i++)
+		{
+			myProcesses.add(myRetProcesses.get(i));
+		}
+		
 		return myProcesses;
 
 	}
