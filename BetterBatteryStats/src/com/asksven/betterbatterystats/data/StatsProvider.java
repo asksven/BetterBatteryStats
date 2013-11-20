@@ -2408,7 +2408,7 @@ public class StatsProvider
 	{
 		
 		// we are going to retrieve a reference: make sure data does not come from the cache
-		if (Build.VERSION.SDK_INT < 19) BatteryStatsProxy.getInstance(m_context).invalidate();
+		if (SysUtils.hasBatteryStatsPermission(m_context)) BatteryStatsProxy.getInstance(m_context).invalidate();
 		
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);

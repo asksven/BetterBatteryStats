@@ -925,7 +925,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	private void doRefresh(boolean updateCurrent)
 	{
 
-		if (Build.VERSION.SDK_INT < 19) BatteryStatsProxy.getInstance(this).invalidate();
+		if (SysUtils.hasBatteryStatsPermission(this)) BatteryStatsProxy.getInstance(this).invalidate();
 		
 		refreshSpinners();
 		new LoadStatData().execute(updateCurrent);	
