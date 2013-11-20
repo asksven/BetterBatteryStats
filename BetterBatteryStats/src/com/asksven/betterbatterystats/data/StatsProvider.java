@@ -2738,6 +2738,9 @@ public class StatsProvider
 						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
 				Util.run("logcat -v time -d > " + path + "/" + filename);
 				fileUri = Uri.fromFile(new File(path + "/" + filename));
+				
+				// workaround: force mediascanner to run
+				DataStorage.forceMediaScanner(m_context, fileUri);
 
 //				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
 
@@ -2805,6 +2808,9 @@ public class StatsProvider
 					Util.run("dmesg > " + path + "/" + filename);
 				}
 				fileUri = Uri.fromFile(new File(path + "/" + filename));
+				// workaround: force mediascanner to run
+				DataStorage.forceMediaScanner(m_context, fileUri);
+
 //				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
 
 			}
