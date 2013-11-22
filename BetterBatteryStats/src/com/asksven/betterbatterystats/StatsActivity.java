@@ -196,7 +196,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	 
 	            // set the message to display
 	            alertbox.setMessage("Google has revoked rights for apps to access the battery stats without"
-	            		+ " root. Partial wakelocks will not be available anymore for non rooted users. Please make sure to enable the root advanced options if you have root.");
+	            		+ " root. Partial wakelocks will not be available anymore for non rooted users. If you have root please make sure to enable the root features (advanced preferences) and grant root.");
 	 
 	            // add a neutral button to the alert box and assign a click listener
 	            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
