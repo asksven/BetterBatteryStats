@@ -216,6 +216,12 @@ public class SystemAppActivity extends Activity
 
 	void setButtonText(Button button)
 	{
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+
+		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+		if (!rootEnabled) return;
+
 		if (SystemAppInstaller.isSystemApp(systemAPKName))
 		{
 			button.setText("Uninstall system app");

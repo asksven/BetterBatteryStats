@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewPermBATTERY_STATS"
         android:layout_centerHorizontal="true"
-        android:text="Large Text"
+        android:text="Permission..."
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <Button
@@ -32,7 +32,7 @@
         android:layout_below="@+id/textViewPermDUMP"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp"
-        android:text="Mount status....." />
+        android:text="System App..." />
 
     <TextView
         android:id="@+id/textView1"
