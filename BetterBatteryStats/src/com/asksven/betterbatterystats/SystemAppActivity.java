@@ -173,7 +173,7 @@ public class SystemAppActivity extends Activity
 			            // set the message to display
 			            if (install)
 			            {
-			            	alertbox.setMessage("Installed as system app. Please reboot to activate.");
+			            	alertbox.setMessage("Installed as system app. Please reboot to activate.\n\nMake sure to uninstall the system app before uninstalling BetterBatteryStats. ");
 			            }
 			            else
 			            {
