@@ -177,7 +177,7 @@ public class SystemAppActivity extends Activity
 			            }
 			            else
 			            {
-			            	alertbox.setMessage("Uninstalled as system app. Please reboot to clean up.");
+			            	alertbox.setMessage("Uninstalled as system app: your preferences have been reset. Please reboot to clean up and update your preferences.");
 			   			 
 			            }
 			            // add a neutral button to the alert box and assign a click listener
