@@ -38,114 +38,14 @@ BetterBatteryStats does not collect data in the background but uses references s
 <br/><br/>
 <b>As long as those events did not occur or after a reboot BBS will notify you about a missing reference. This is not a bug, it's the way BBS was designed</b>	
 <p>
-<h2>v1.15.0.0_RC8 2013-11-23</h2>
+<h2>v1.15.0.0 2013-11-23</h2>
 <p>
 <ul>
-	<li>Make sure that su access is granted straight away when enabling root features</li>
-	<li>Add a hint about uninstalling the system app when installing it</li>
-	
-</ul>
-
-<h2>v1.15.0.0_RC7 2013-11-23</h2>
-<p>
-<ul>
-	<li>A better fix for blocking call when trying to install as system app without having enabled the root features</li>
-	<li>Fixed the install as system app routine in order to avoid APK deletion when installing from gplay</li>
-	<li>Changed popup text at first install</li>
-</ul>
-
-<h2>v1.15.0.0_RC6 2013-11-22</h2>
-<p>
-<ul>
-	<li>Fixed blocking call when trying to install as system app without having enabled the root features</li>
-</ul>
-
-<h2>v1.15.0.0_RC5 2013-11-20</h2>
-<p>
-<ul>
-	<li>Force mediascanner refresh when writing dumps/logs</li>
-	<li>Recreated all icons</li>
-</ul>
-
-<h2>v1.15.0.0_RC4 2013-11-20</h2>
-<p>
-<ul>
-	<li>Another attempt at fixing xxxhdpi icon</li>
-	<li>Added process stats back to kitkat</li>
-	<li>Fixed inconsistent "other" stats on kitkat</li>
-</ul>
-</p>
-
-<h2>v1.15.0.0_RC3 2013-11-19</h2>
-<p>
-<ul>
-	<li>FIx for installing system app</li>
-</ul>
-</p>
-
-<h2>v1.15.0.0_RC2 2013-11-18</h2>
-<p>
-<ul>
-	<li>Sharpened xxxhdpi icon</li>
-	<li>Ability for root users to install BBS as system app and recover full functionality without workarounds on kitkat</li>
-</ul>
-</p>
-
-<h2>v1.15.0.0_RC1 2013-11-16</h2>
-<p>
-<ul>
-	<li>Added an info message for kitkat users at first start</li>
-	<li>Handle different configurations depending on kitkat and root to show speaking messages</li>
-	<li>Count screen on time by code if 'other' stats are not available</li>
-</ul>
-</p>
-
-<h2>v1.15.0.0_B6 2013-11-15</h2>
-<p>
-<ul>
+	<li>Added support of stats for Kitkat (due to <a href="http://forum.xda-developers.com/showthread.php?t=2529455">major changes by Google</a> BBS now requires root on Kitkat to be fully featured)</li>
+	<li>Added the possibility to install BBS as system app</li>
+	<li>Recreated all icons and support for xxxhdpi densities</li>
 	<li>Fixed alarms parsing on 4.3+</li>
-	<li>Added xxxhdpi icon</li>
-</ul>
-</p>
-
-<h2>v1.15.0.0_B5 2013-11-11</h2>
-<p>
-<ul>
-	<li>Fixed account obfuscation on kitkat</li>
-</ul>
-</p>
-
-<h2>v1.15.0.0_B4 2013-11-10</h2>
-<p>
-<ul>
-	<li>Re-add processes to kitkat stats</li>
-	<li>Fixed potentially missed partial wakelocks</li>
-</ul>
-</p>
-
-<h2>v1.15.0.0_B3 2013-11-07</h2>
-<p>
-<ul>
-	<li>Add hires icons</li>
 	<li>Fixed crash from gplay crash report</li>
-	<li>Add package info (and icons) to kitkat partial wakelocks stat</li>
-</ul>
-</p>
-
-<h2>v1.15.0.0_B2 2013-11-07</h2>
-<p>
-<ul>
-	<li>Add missing other stats (kitkat)</li>
-	<li>Fix potential duplicate partial wakelocks (kitkat)</li>
-</ul>
-</p>
-
-<h2>v1.15.0.0_B1 2013-11-05</h2>
-<p>
-<ul>
-	<li>Fix basic features for kitkat (other, partial wakelocks and processes are still broken)</li>
-	<li>Re-added partial wakelocks for KitKat</li>
-	<li>Re-added very basic other stats (deep sleep only) for kitkat</li>
 </ul>
 </p>
 
