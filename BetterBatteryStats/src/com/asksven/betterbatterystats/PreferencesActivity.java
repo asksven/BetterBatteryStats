@@ -31,6 +31,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 
 import com.asksven.android.common.CommonLogSettings;
+import com.asksven.android.common.RootShell;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
@@ -152,6 +153,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 		               {
 		                   public void onClick(DialogInterface dialog, int id)
 		                   {		                        
+		                	   RootShell.getInstance().run("ls /");
 		                   }
 		               })
 		               .setNegativeButton("No", new DialogInterface.OnClickListener()
