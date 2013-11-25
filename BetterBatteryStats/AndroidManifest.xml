@@ -3,7 +3,7 @@
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
     android:versionCode="44"
-    android:versionName="1.15.0.0" >
+    android:versionName="1.16.0.0_B1" >
 
     <uses-sdk
         android:minSdkVersion="7"
