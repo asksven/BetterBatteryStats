@@ -512,6 +512,10 @@ public class Reading implements Serializable
 				BufferedWriter out = new BufferedWriter(fw);
 				out.write(this.toJson());
 				out.close();
+				
+				// workaround: force mediascanner to run
+				DataStorage.forceMediaScanner(context, fileUri);
+
 			}
 		}
 		catch (Exception e)
@@ -569,6 +573,10 @@ public class Reading implements Serializable
 				BufferedWriter out = new BufferedWriter(fw);
 				out.write(this.toStringText(context));
 				out.close();
+				
+				// workaround: force mediascanner to run
+				DataStorage.forceMediaScanner(context, fileUri);
+
 			}
 		}
 		catch (Exception e)
