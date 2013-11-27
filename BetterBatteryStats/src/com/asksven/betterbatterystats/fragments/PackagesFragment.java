@@ -146,22 +146,30 @@ public class PackagesFragment extends SherlockFragment
 	public static void showAppOps(Context context, String packageName)
 	{
 
-		Intent intent = new Intent("android.settings.APP_OPS_SETTINGS");
-		Uri uri = Uri.fromParts(SCHEME, packageName, null);
+		Intent intent = null;
+		// JB
+		if (Build.VERSION.SDK_INT == 18)
+		{
+			intent = new Intent("android.settings.APP_OPS_SETTINGS");
+			Uri uri = Uri.fromParts(SCHEME, packageName, null);
+		} else if (Build.VERSION.SDK_INT >= 19)
+		{
+			// @see http://brightechno.com/blog/archives/211
+			intent = new Intent();
+			intent.setClassName("com.android.settings",
+			        "com.android.settings.Settings");
+			intent.setAction(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_DEFAULT);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+			        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+			        Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+			intent.putExtra(":android:show_fragment",
+			        "com.android.settings.applications.AppOpsSummary");
+		}
 		// intent.setData(uri);
-		context.startActivity(intent);
-		// }
-		// else
-		// {
-		// // below 2.3
-		// final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22 :
-		// APP_PKG_NAME_21);
-		// intent.setAction(Intent.ACTION_VIEW);
-		// intent.setClassName(APP_DETAILS_PACKAGE_NAME,
-		// APP_DETAILS_CLASS_NAME);
-		// intent.putExtra(appPkgName, packageName);
-		// }
-		// context.startActivity(intent);
+		if (intent != null)
+		{
+			context.startActivity(intent);
+		}
 	}
-
 }
