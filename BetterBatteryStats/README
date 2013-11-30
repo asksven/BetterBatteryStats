@@ -1,3 +1,8 @@
+License:
+This project is licensed under the terms of the Apache License Version 2.0, http://www.apache.org/licenses/
+
+The name "BetterBatteryStats" as well as the icons (graphics/icon.xcf and logo.xcf) as well as their derivates (res) are copyrighted and shall not be reused. 
+
 Credits:
 This project makes use of:
 - google gson (http://code.google.com/p/google-gson/downloads)
