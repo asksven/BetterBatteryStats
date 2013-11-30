@@ -136,7 +136,7 @@ public class WatchdogProcessingService extends IntentService
 
 							// notify the user of the situation
 					    	Notification notification = new Notification(
-					    			R.drawable.icon_notext, "Awake alert", System.currentTimeMillis());
+					    			R.drawable.ic_launcher, "Awake alert", System.currentTimeMillis());
 					    	
 							Intent i = new Intent(Intent.ACTION_MAIN);
 							PackageManager manager = this.getPackageManager();

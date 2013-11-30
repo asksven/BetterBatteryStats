@@ -48,7 +48,7 @@
 		android:required="false"/>
 
     <application
-        android:icon="@drawable/icon_notext"
+        android:icon="@drawable/ic_launcher"
         android:label="BetterBatteryStats"
         android:name="com.asksven.betterbatterystats.BbsApplication">
         <activity
@@ -175,7 +175,7 @@
         <activity
             android:name="com.asksven.betterbatterystats.localeplugin.ui.EditActivity"
             android:exported="true"
-            android:icon="@drawable/icon_notext"
+            android:icon="@drawable/ic_launcher"
             android:label="@string/plugin_name"
             android:theme="@style/Theme.Locale.Dark"
             android:uiOptions="splitActionBarWhenNarrow" >
@@ -199,7 +199,7 @@
         -->
         <receiver
 			android:name="com.asksven.betterbatterystats.widgetproviders.AppWidgetApi16"
-			android:icon="@drawable/icon_notext"
+			android:icon="@drawable/ic_launcher"
 			android:label="@string/app_name"
 			android:enabled="@bool/hasResizableWidgets"> <!-- only starting from Android 4.1 -->
 			<intent-filter>
@@ -301,7 +301,7 @@
         <service android:name="com.asksven.betterbatterystats.services.WatchdogProcessingService" />
         <service
             android:name="com.asksven.betterbatterystats.services.BbsDashClockExtension"
-            android:icon="@drawable/icon_notext"
+            android:icon="@drawable/ic_launcher"
             android:label="BetterBatteryStats"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA" >
             <intent-filter>

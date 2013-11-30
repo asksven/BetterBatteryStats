@@ -28,7 +28,7 @@ public class DashClockSettingsActivity extends PreferenceActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		getActionBar().setIcon(R.drawable.icon_notext);
+		getActionBar().setIcon(R.drawable.ic_launcher);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
