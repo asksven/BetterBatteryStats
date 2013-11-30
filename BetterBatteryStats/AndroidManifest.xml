@@ -2,14 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
-    android:versionCode="40"
-    android:versionName="1.15.0.0B1" >
+    android:versionCode="45"
+    android:versionName="2.0.0.0B1" >
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="android.permission.DUMP" />
     <!-- required for writing dump files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- required for accessing the knowledge base, required for analytics -->
@@ -99,6 +100,15 @@
 	            android:value="com.asksven.betterbatterystats.MainActivity" />
 	    </activity>    
         
+        <activity
+            android:name="com.asksven.betterbatterystats.SystemAppActivity"
+            android:theme="@style/Theme.asksven" >
+            <intent-filter>
+                <action android:name="com.asksven.betterbatterystats.SystemAppActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.asksven.betterbatterystats.HelpActivity"
             android:theme="@style/Theme.asksven" />
