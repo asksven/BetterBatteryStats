@@ -16,6 +16,7 @@
 
 package com.asksven.betterbatterystats;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -183,10 +185,18 @@ public class PackageFragmentActivity extends SherlockFragmentActivity
 			intent.putExtra(":android:show_fragment",
 			        "com.android.settings.applications.AppOpsSummary");
 		}
-		// intent.setData(uri);
+
 		if (intent != null)
 		{
-			context.startActivity(intent);
+			try
+			{
+				context.startActivity(intent);
+			}
+			catch (ActivityNotFoundException e)
+			{
+			    Toast.makeText(context, "AppOps does not exist on your ROM", Toast.LENGTH_SHORT).show();
+			}
+			
 		}
 	}
 
