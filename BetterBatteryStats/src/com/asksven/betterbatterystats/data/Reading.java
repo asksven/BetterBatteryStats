@@ -351,9 +351,9 @@ public class Reading implements Serializable
 		if (bDumpChapter)
 		{
 			// write wakelock info
-			out.write("=========\n");
-			out.write("Wakelocks\n");
-			out.write("=========\n");
+			out.write("======================================================\n");
+			out.write("Wakelocks (requires root / system app on Android 4.4+)\n");
+			out.write("======================================================\n");
 			dumpList(context, partialWakelockStats, out);
 			
 		}
@@ -383,9 +383,9 @@ public class Reading implements Serializable
 		if (bDumpChapter)
 		{
 			// write process info
-			out.write("=========\n");
-			out.write("Processes\n");
-			out.write("=========\n");
+			out.write("======================================================\n");
+			out.write("Processes (requires root / system app on Android 4.4+)\n");
+			out.write("======================================================\n");
 			dumpList(context, processStats, out);
 		}
 
