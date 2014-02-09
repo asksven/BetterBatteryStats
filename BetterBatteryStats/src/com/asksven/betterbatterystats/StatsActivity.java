@@ -56,6 +56,7 @@ import android.widget.Toast;
 import com.asksven.android.common.AppRater;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.ReadmeActivity;
+import com.asksven.android.common.RootShell;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
@@ -164,6 +165,17 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			// nop strCurrentRelease is set to ""
 		}
 		
+		// if root is available use it
+		boolean hasRoot = sharedPrefs.getBoolean("root_features", false);
+		if (!hasRoot && (RootShell.getInstance().rooted()))
+		{
+	        SharedPreferences.Editor updater = sharedPrefs.edit();
+	        updater.putBoolean("root_features", true);
+	        updater.commit();
+			hasRoot = sharedPrefs.getBoolean("root_features", false);
+		}
+			
+		
 		if (strLastRelease.equals("0"))
 		{
 			// show the initial run screen
@@ -188,7 +200,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			this.startService(i);
     			
 			// Show Kitkat info
-			if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(this) )
+			if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(this) && !hasRoot )
 			{
 
 				// prepare the alert box
