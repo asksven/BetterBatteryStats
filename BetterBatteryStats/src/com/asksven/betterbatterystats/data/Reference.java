@@ -15,6 +15,13 @@
  */
 package com.asksven.betterbatterystats.data;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +33,8 @@ import android.util.Log;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.LogSettings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * A serializable value holder for stat references 
@@ -112,6 +121,93 @@ public class Reference implements Serializable
 		}
     }
     
+    private Reference fromJson(String jsonReference)
+    {
+    	Reference ret = null;
+    	ret = new Gson().fromJson(jsonReference, Reference.class);
+    	
+    	return ret;
+    }
+    
+    private String toJson()
+    {
+    	String ret = "";
+		Gson gson = new GsonBuilder().serializeNulls().create();
+		ret = gson.toJson(this);
+    	
+    	return ret;
+    }
+    
+    protected Reference(byte[] serializedReference)
+    {
+    	Reference ret = null;
+		ByteArrayInputStream bis = null;
+		ObjectInput in = null;
+		
+		try
+		{
+			bis = new ByteArrayInputStream(serializedReference);
+			in = null;	
+			in = new ObjectInputStream(bis);
+			Object o = in.readObject();
+			ret = (Reference) o;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				bis.close();
+				in.close();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			catch (NullPointerException e)
+			{
+				// nothing went wrong
+			}
+
+		}
+    }
+    
+    protected byte[] serialize()
+    {
+    	byte[] ret = null;
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out = null;
+		try
+		{
+			out = new ObjectOutputStream(bos);
+			out.writeObject(this);
+			ret = bos.toByteArray();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				out.close();
+				bos.close();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+		}
+		
+    	return ret;
+    }
+
     public void setEmpty()
     {
     	m_creationTime = 0;

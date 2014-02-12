@@ -226,33 +226,7 @@ public class ReferenceDBHelper
 		val.put("ref_type", entry.m_refType);
 		val.put("time_created", entry.m_creationTime);
 		val.put("ref_label", entry.m_refLabel);
-
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-		try
-		{
-			out = new ObjectOutputStream(bos);
-			out.writeObject(entry);
-			byte[] refBytes = bos.toByteArray();
-			val.put("ref_blob", refBytes);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				out.close();
-				bos.close();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			
-		}
+		val.put("ref_blob", entry.serialize());
 
 		try
 		{
@@ -453,40 +427,7 @@ public class ReferenceDBHelper
 
 	private Reference createReferenceFromRow(Cursor c)
 	{
-		ByteArrayInputStream bis = null;
-		ObjectInput in = null;
-		Reference ret = null;
-		
-		try
-		{
-			bis = new ByteArrayInputStream(c.getBlob(c.getColumnIndex("ref_blob")));
-			in = null;	
-			in = new ObjectInputStream(bis);
-			Object o = in.readObject();
-			ret = (Reference) o;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				bis.close();
-				in.close();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			catch (NullPointerException e)
-			{
-				// nothing went wrong
-			}
-
-		}
-		return ret;
+		return new Reference(c.getBlob(c.getColumnIndex("ref_blob")));
 	}
 
     private void migrateDatabase(SQLiteDatabase db, int fromVersion, int toVersion)
