@@ -226,7 +226,8 @@ public class ReferenceDBHelper
 		val.put("ref_type", entry.m_refType);
 		val.put("time_created", entry.m_creationTime);
 		val.put("ref_label", entry.m_refLabel);
-		val.put("ref_blob", entry.serialize());
+//		val.put("ref_blob", entry.serialize());
+		val.put("ref_blob", entry.toReferenceDto().toJson());
 
 		try
 		{
@@ -427,7 +428,9 @@ public class ReferenceDBHelper
 
 	private Reference createReferenceFromRow(Cursor c)
 	{
-		return new Reference(c.getBlob(c.getColumnIndex("ref_blob")));
+//		return Reference.deserialize(c.getBlob(c.getColumnIndex("ref_blob")));
+		return new Reference(ReferenceDto.fromJson(c.getBlob(c.getColumnIndex("ref_blob"))));
+
 	}
 
     private void migrateDatabase(SQLiteDatabase db, int fromVersion, int toVersion)

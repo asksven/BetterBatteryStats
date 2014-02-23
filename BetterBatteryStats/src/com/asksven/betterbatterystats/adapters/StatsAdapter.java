@@ -25,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -45,8 +46,9 @@ import android.provider.Settings;
 
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
+import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
-import com.asksven.android.common.privateapiproxies.Alarm.AlarmItem;
+import com.asksven.android.common.privateapiproxies.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Process;
@@ -129,7 +131,7 @@ public class StatsAdapter extends BaseAdapter
        	KbEntry kbentry = null;
         if (kb != null)
         {
-        	 kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(m_context));
+        	 kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(m_context)));
         }
         
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
@@ -144,7 +146,7 @@ public class StatsAdapter extends BaseAdapter
         	iconKb.setVisibility(View.INVISIBLE);
         }
         TextView tvFqn = (TextView) convertView.findViewById(R.id.TextViewFqn);
-        tvFqn.setText(entry.getFqn(m_context));
+        tvFqn.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
 
         TextView tvData = (TextView) convertView.findViewById(R.id.TextViewData);
         tvData.setText(entry.getData());
@@ -215,7 +217,7 @@ public class StatsAdapter extends BaseAdapter
         else
         {
         	iconView.setVisibility(View.VISIBLE); 
-        	iconView.setImageDrawable(entry.getIcon(m_context));
+        	iconView.setImageDrawable(entry.getIcon(UidNameResolver.getInstance(m_context)));
 	        // set a click listener for the list
 	        iconView.setOnClickListener(new OnPackageClickListener(position));
 
@@ -257,7 +259,7 @@ public class StatsAdapter extends BaseAdapter
         	{
         		return;
         	}
-        	KbEntry kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(StatsAdapter.this.m_context));
+        	KbEntry kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(StatsAdapter.this.m_context)));
   	      	if (kbentry != null)
   	      	{
 	  	      	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsAdapter.this.m_context);
@@ -301,7 +303,7 @@ public class StatsAdapter extends BaseAdapter
         	StatElement entry = (StatElement) getItem(m_iPosition);
         	
         	Context ctx = arg0.getContext();
-        	if (entry.getIcon(ctx) == null)
+        	if (entry.getIcon(UidNameResolver.getInstance(m_context)) == null)
         	{
         		return;
         	}

@@ -38,12 +38,14 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+
 //import com.asksven.andoid.common.contrib.Shell;
 //import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.kernelutils.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
+import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
@@ -172,7 +174,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 				
 				if (tempStats.get(i) instanceof Misc)
 				{
@@ -188,7 +190,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof Wakelock)
 				{
@@ -204,7 +206,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof NativeKernelWakelock)
 				{
@@ -220,7 +222,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof Process)
 				{
@@ -236,7 +238,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof Alarm)
 				{
@@ -252,7 +254,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof NetworkUsage)
 				{
@@ -268,7 +270,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof State)
 				{
@@ -607,7 +609,7 @@ public class Reading implements Serializable
 			{
 				for (int i = 0; i < myList.size(); i++)
 				{
-					out.write(myList.get(i).getDumpData(context) + "\n");
+					out.write(myList.get(i).getDumpData(UidNameResolver.getInstance(context)) + "\n");
 		
 				}
 			}
