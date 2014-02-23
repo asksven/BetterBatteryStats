@@ -137,7 +137,7 @@ public class WatchdogProcessingService extends IntentService
 						
 						if (timeSince > 0)
 						{
-							awakePct = ((int) (timeAwake / timeSince)) * 100;
+							awakePct = Math.max(((int) (timeAwake / timeSince)) * 100, 100);
 						}
 						else
 						{
