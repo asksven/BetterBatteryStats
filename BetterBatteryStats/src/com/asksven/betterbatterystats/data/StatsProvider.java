@@ -396,7 +396,7 @@ public class StatsProvider
 		}
 		else if (rootEnabled)
 		{
-			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasBatteryStatsPermission(m_context));			
+			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
 		}
 		else
 		{
@@ -1646,7 +1646,7 @@ public class StatsProvider
 
 				myUsages = OtherStatsDumpsys.getOtherStats(
 						sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget,
-						sharedPrefs.getBoolean("show_other_bt", true) && !bWidget, !SysUtils.hasBatteryStatsPermission(m_context));
+						sharedPrefs.getBoolean("show_other_bt", true) && !bWidget, !SysUtils.hasDumpsysPermission(m_context));
 			}
 			else
 			{
