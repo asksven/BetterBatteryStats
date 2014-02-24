@@ -396,7 +396,7 @@ public class StatsProvider
 		}
 		else if (rootEnabled)
 		{
-			myAlarms = AlarmsDumpsys.getAlarms();			
+			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasBatteryStatsPermission(m_context));			
 		}
 		else
 		{
@@ -1634,7 +1634,7 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
+		if ( !SysUtils.hasBatteryStatsPermission(m_context) )
 		{
 			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 
@@ -1646,7 +1646,7 @@ public class StatsProvider
 
 				myUsages = OtherStatsDumpsys.getOtherStats(
 						sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget,
-						sharedPrefs.getBoolean("show_other_bt", true) && !bWidget);
+						sharedPrefs.getBoolean("show_other_bt", true) && !bWidget, !SysUtils.hasBatteryStatsPermission(m_context));
 			}
 			else
 			{
