@@ -281,7 +281,9 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-		if (!rootEnabled)
+		
+		// to process alarms we need either root or the perms to access the private API
+		if (!SysUtils.hasBatteryStatsPermission(m_context) || !rootEnabled)
 		{
 			myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
 			return myStats;
@@ -395,15 +397,24 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-		if (!rootEnabled)
+
+		ArrayList<StatElement> myAlarms = null;
+
+		// use Android private API if possible
+		if (SysUtils.hasBatteryStatsPermission(m_context))
+		{
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+			myAlarms = mStats.getWakeupStats(m_context,
+						BatteryStatsTypes.STATS_CURRENT);
+		}
+		else if (rootEnabled)
+		{
+			myAlarms = AlarmsDumpsys.getAlarms();			
+		}
+		else
 		{
 			return myStats;
 		}
-
-		ArrayList<StatElement> myAlarms = null;
-		// get the current value
-		myAlarms = AlarmsDumpsys.getAlarms();
-		//Collections.sort(myAlarms);
 
 		ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
 		// if we are using custom ref. always retrieve "stats current"
