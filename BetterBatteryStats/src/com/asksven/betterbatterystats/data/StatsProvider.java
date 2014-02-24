@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012<Re asksven
+ * Copyright (C) 2011-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,17 @@
  */
 package com.asksven.betterbatterystats.data;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -51,20 +46,12 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
-
-
-
-
-
-
-//import com.asksven.andoid.common.contrib.Shell;
-//import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.OtherStatsDumpsys;
 import com.asksven.android.common.kernelutils.PartialWakelocksDumpsys;

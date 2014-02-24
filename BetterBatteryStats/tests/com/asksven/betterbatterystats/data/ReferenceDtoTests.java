@@ -28,7 +28,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.asksven.android.common.kernelutils.CpuStates;
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.KernelWakelock;

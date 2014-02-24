@@ -45,10 +45,20 @@ Google has made changes to Kitkat that affect the way BBS works and some major c
 <li>If your device is rooted make sure to enable the advanced root features access all features (with some workarounds)</li>
 <li>BBS can now be installed as a system app (advanced preferences). This does not affect updatability and provides you the full feature set (no workarounds) on Kitkat</li>
 </ul>   	
-<h2>v1.16.0.0_B1 2013-11-25</h2>
+<h2>v1.16.0.0_B1 2014-02-23</h2>
 <p>
 <ul>
+	<li>Alarm stats without root</li>
+	<li>Watchdog indocator shall never be > 100% awake</li> 
+	<li>Serialization/deserialization is now JSON based</li>
+	<li>Update note on dumpfile chapters requiring root starting with 4.4</li>
+	<li>Properly handle inexistence of AppOps (avoid crashing)</li>
+	<li>Added dumpfile chapter annotation about changes in root pre-requisite for affected chapters</li>
+	<li>Offer to install as system app if rooted but permissions are missing</li>
 	<li>Fixed app ops call from package view (kitkat)</li>
+	<li>Deleting screen on/off info happens in the service instead of the handler</li>
+	<li>Fix for corrupted stats after uptimes > 25 days</li> 
+	<li>Automatically enable root if available: avoid users to have to go to advanced preferences</li>
 </ul>
 <p>
 

@@ -15,31 +15,16 @@
  */
 package com.asksven.betterbatterystats.data;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-import android.os.SystemClock;
-import android.util.Log;
 
 import com.asksven.android.common.dto.AlarmDto;
 import com.asksven.android.common.dto.MiscDto;
@@ -48,19 +33,6 @@ import com.asksven.android.common.dto.NetworkUsageDto;
 import com.asksven.android.common.dto.ProcessDto;
 import com.asksven.android.common.dto.StateDto;
 import com.asksven.android.common.dto.WakelockDto;
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
-import com.asksven.android.common.kernelutils.State;
-import com.asksven.android.common.privateapiproxies.Alarm;
-import com.asksven.android.common.privateapiproxies.KernelWakelock;
-import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.NetworkUsage;
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.privateapiproxies.Process;
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats.LogSettings;
-import com.asksven.android.common.privateapiproxies.Wakelock;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * A DTO for Reference 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 asksven
+ * Copyright (C) 2011-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,9 @@ package com.asksven.betterbatterystats.data;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +35,8 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
-
-
-//import com.asksven.andoid.common.contrib.Shell;
-//import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.android.common.RootShell;
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.nameutils.UidNameResolver;
