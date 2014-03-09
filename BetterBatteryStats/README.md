@@ -9,7 +9,7 @@ This project makes use of:
   Read this to learn how to integrate/update ActionBarSherlock (in)to this project.
 * AndroidCommon: https://github.com/asksven/AndroidCommon
 * libsuperuser (indirectly through AndroidCommon)
-* LocalepluginLib (http://www.twofortyfouram.com/developer) added as a lib
+* LocalepluginLib (http://www.twofortyfouram.com/developer) added as a sub-project in BetterBatteryStats/LocalePluginLib
 
 [google gson]: http://code.google.com/p/google-gson/downloads/detail?name=google-gson-1.7.1-release.zip
 [achartengine]: http://code.google.com/p/achartengine/
