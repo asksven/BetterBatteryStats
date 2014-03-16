@@ -387,16 +387,16 @@ public class StatsProvider
 
 		ArrayList<StatElement> myAlarms = null;
 
-		// use Android private API if possible
-		if (SysUtils.hasBatteryStatsPermission(m_context))
+		// use root if available as root delivers more data
+		if (rootEnabled)
+		{
+			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
+		}
+		else if (SysUtils.hasBatteryStatsPermission(m_context))
 		{
 			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 			myAlarms = mStats.getWakeupStats(m_context,
 						BatteryStatsTypes.STATS_CURRENT);
-		}
-		else if (rootEnabled)
-		{
-			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
 		}
 		else
 		{
