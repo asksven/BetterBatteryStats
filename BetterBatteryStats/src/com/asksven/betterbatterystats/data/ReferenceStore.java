@@ -123,7 +123,10 @@ public class ReferenceStore
 			{
 				Log.i(TAG, "Reference " + refName + " was not found");
 			}
-			
+		}
+		else
+		{
+			Log.i(TAG, "Retrieved reference from cache: " + m_refStore.get(refName).whoAmI());
 		}
 		Reference ret = m_refStore.get(refName);
 		return ret;
