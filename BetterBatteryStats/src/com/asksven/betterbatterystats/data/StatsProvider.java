@@ -311,11 +311,13 @@ public class StatsProvider
 				if (refFrom.m_refAlarms != null)
 				{
 					strRef = refFrom.m_refAlarms.toString();
-				} else
+				}
+				else
 				{
 					strRef = "Alarms is null";
 				}
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
@@ -496,11 +498,13 @@ public class StatsProvider
 				if (refFrom.m_refProcesses != null)
 				{
 					strRef = refFrom.m_refProcesses.toString();
-				} else
+				}
+				else
 				{
 					strRef = "Process is null";
 				}
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
@@ -697,11 +701,13 @@ public class StatsProvider
 				if (refFrom.m_refWakelocks != null)
 				{
 					strRef = refFrom.m_refWakelocks.toString();
-				} else
+				}
+				else
 				{
 					strRef = "Wakelocks is null";
 				}
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
@@ -913,12 +919,14 @@ public class StatsProvider
 				if (refFrom.m_refKernelWakelocks != null)
 				{
 					strRef = refFrom.m_refKernelWakelocks.toString();
-				} else
+				}
+				else
 				{
 					strRef = "kernel wakelocks is null";
 				}
 
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
@@ -1122,12 +1130,14 @@ public class StatsProvider
 				if (refFrom.m_refNetworkStats != null)
 				{
 					strRef = refFrom.m_refNetworkStats.toString();
-				} else
+				}
+				else
 				{
 					strRef = "Network stats is null";
 				}
 
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
