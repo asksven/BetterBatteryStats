@@ -54,7 +54,7 @@ import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.OtherStatsDumpsys;
-import com.asksven.android.common.kernelutils.PartialWakelocksDumpsys;
+//import com.asksven.android.common.kernelutils.PartialWakelocksDumpsys;
 import com.asksven.android.common.kernelutils.ProcessStatsDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
@@ -386,6 +386,7 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+		
 
 		ArrayList<StatElement> myAlarms = null;
 
@@ -411,6 +412,7 @@ public class StatsProvider
 		// sort @see
 		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 
+		long elapsedRealtime = SystemClock.elapsedRealtime();
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
 			Alarm alarm = (Alarm) myAlarms.get(i);
@@ -418,6 +420,7 @@ public class StatsProvider
 			{
 				if ((!bFilter) || ((alarm.getWakeups()) > 0))
 				{
+					alarm.setTimeRunning(elapsedRealtime);
 					myRetAlarms.add(alarm);
 				}
 			}
@@ -807,18 +810,11 @@ public class StatsProvider
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<StatElement> myWakelocks = null;
 		
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
-		{
-			myWakelocks = PartialWakelocksDumpsys.getPartialWakelocks(m_context);
-		}
-		else
-		{
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-	
-			myWakelocks = mStats.getWakelockStats(m_context,
-					BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-					BatteryStatsTypes.STATS_CURRENT, iPctType);
-		}
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+
+		myWakelocks = mStats.getWakelockStats(m_context,
+				BatteryStatsTypes.WAKE_TYPE_PARTIAL,
+				BatteryStatsTypes.STATS_CURRENT, iPctType);
 		
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 
