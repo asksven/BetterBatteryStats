@@ -110,25 +110,4 @@ public class ReferenceTests extends TestCase
 		assertTrue(ret.length() != 0);
 	}
 
-	/**
-	 * Test method for {@link com.asksven.betterbatterystats.data.Reference#deserialize(byte[])}.
-	 */
-	public void testDeserialize()
-	{
-		Reference testData = new Reference("test", 1);
-		byte[] marshalledData = testData.serialize();
-		Reference result = new Reference("test2", 2);
-		result.deserialize(marshalledData);
-	}
-
-	/**
-	 * Test method for {@link com.asksven.betterbatterystats.data.Reference#serialize()}.
-	 */
-	public void testSerialize()
-	{
-		Reference testData = new Reference("test", 1);
-		byte[] marshalledData = testData.serialize();
-		
-	}
-
 }

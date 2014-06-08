@@ -302,80 +302,8 @@ public class Reference implements Serializable
 			}
 		}
 
-
-
 		return ret;
 	}
-    protected static Reference deserialize (byte[] serializedReference)
-    {
-		ByteArrayInputStream bis = null;
-		ObjectInput in = null;
-		Reference ret = null;
-		
-		try
-		{
-			bis = new ByteArrayInputStream(serializedReference);
-			in = null;	
-			in = new ObjectInputStream(bis);
-			Object o = in.readObject();
-			ret = (Reference) o;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				bis.close();
-				in.close();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			catch (NullPointerException e)
-			{
-				// nothing went wrong
-			}
-		}
-		
-		return ret;
-    }
-    
-    protected byte[] serialize()
-    {
-    	byte[] ret = null;
-
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-		try
-		{
-			out = new ObjectOutputStream(bos);
-			out.writeObject(this);
-			ret = bos.toByteArray();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				out.close();
-				bos.close();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			
-		}
-		
-    	return ret;
-    }
 
     public void setEmpty()
     {

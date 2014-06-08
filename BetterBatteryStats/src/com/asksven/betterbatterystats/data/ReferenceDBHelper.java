@@ -227,7 +227,7 @@ public class ReferenceDBHelper
 		val.put("time_created", entry.m_creationTime);
 		val.put("ref_label", entry.m_refLabel);
 //		val.put("ref_blob", entry.serialize());
-		val.put("ref_blob", entry.toReferenceDto().toJson());
+		val.put("ref_blob", entry.toReferenceDto().marshall());
 
 		try
 		{
@@ -429,7 +429,7 @@ public class ReferenceDBHelper
 	private Reference createReferenceFromRow(Cursor c)
 	{
 //		return Reference.deserialize(c.getBlob(c.getColumnIndex("ref_blob")));
-		return new Reference(ReferenceDto.fromJson(c.getBlob(c.getColumnIndex("ref_blob"))));
+		return new Reference(ReferenceDto.unmarshall(c.getBlob(c.getColumnIndex("ref_blob"))));
 
 	}
 

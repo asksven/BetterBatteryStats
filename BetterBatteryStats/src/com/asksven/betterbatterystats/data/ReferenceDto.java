@@ -15,9 +15,17 @@
  */
 package com.asksven.betterbatterystats.data;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.ArrayList;
+
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
@@ -41,7 +49,7 @@ import com.asksven.android.common.dto.WakelockDto;
  */
 @JsonSerialize(include=JsonSerialize.Inclusion.ALWAYS)
 @JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.ANY, getterVisibility=JsonAutoDetect.Visibility.NONE, setterVisibility=JsonAutoDetect.Visibility.NONE)
-public class ReferenceDto
+public class ReferenceDto implements Serializable
 {
 	@JsonProperty("filename") public String m_fileName													= "";
 	@JsonProperty("creation_time") public long m_creationTime											= 0;
@@ -66,8 +74,33 @@ public class ReferenceDto
 	@JsonProperty("cpu_states") public ArrayList<StateDto> m_refCpuStates								= null;
 	
     
-    
-    protected static ReferenceDto fromJson(byte[] serializedReference)
+	/**
+	 * Deserialize
+	 * @param serializedReference
+	 * @return
+	 */
+    protected static ReferenceDto unmarshall(byte[] serializedReference)
+    {
+    	//return ReferenceDto.fromJson(serializedReference);
+    	return ReferenceDto.deserialize(serializedReference);
+    }
+
+    /**
+     * Serialize
+     * @return
+     */
+	protected byte[] marshall()
+    {
+    	//return toJson();
+		return serialize();
+    }
+	
+	/** 
+	 * Deserialize from JSON
+	 * @param serializedReference
+	 * @return
+	 */
+    private static ReferenceDto fromJson(byte[] serializedReference)
     {
     	ReferenceDto ret = null;
     	ObjectMapper objectMapper = new ObjectMapper();
@@ -94,28 +127,30 @@ public class ReferenceDto
     	return ret;
     }
 
-	protected String toJson()
+    /**
+     * Serialize to JSON
+     * @return
+     */
+	private byte[] toJson()
     {
-    	String ret = "";
+    	byte[] ret = null;
     	StringWriter buffer = new StringWriter();
     	ObjectMapper mapper = new ObjectMapper();
     	
 //    	mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
     	try
 		{
-    		ret = mapper.writeValueAsString(this);
-			mapper.writeValue(buffer, this);
+    		ret = mapper.writeValueAsBytes(this);
+//			mapper.writeValue(buffer, this);
 //    		ret = buffer.toString();
 			
 		}
 		catch (JsonGenerationException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (JsonMappingException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (IOException e)
@@ -127,5 +162,84 @@ public class ReferenceDto
     	return ret;
     }
     
+	/**
+	 * Deserialize from Java serialization
+	 * @param serializedReference
+	 * @return
+	 */
+    private static ReferenceDto deserialize (byte[] serializedReference)
+    {
+		ByteArrayInputStream bis = null;
+		ObjectInput in = null;
+		ReferenceDto ret = null;
+		
+		try
+		{
+			bis = new ByteArrayInputStream(serializedReference);
+			in = null;	
+			in = new ObjectInputStream(bis);
+			Object o = in.readObject();
+			ret = (ReferenceDto) o;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				bis.close();
+				in.close();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			catch (NullPointerException e)
+			{
+				// nothing went wrong
+			}
+		}
+		
+		return ret;
+    }
+    
+    /**
+     * Serialize using Java serialization
+     * @return
+     */
+    private byte[] serialize()
+    {
+    	byte[] ret = null;
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutput out = null;
+		try
+		{
+			out = new ObjectOutputStream(bos);
+			out.writeObject(this);
+			ret = bos.toByteArray();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				out.close();
+				bos.close();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+		}
+		
+    	return ret;
+    }
 
 }

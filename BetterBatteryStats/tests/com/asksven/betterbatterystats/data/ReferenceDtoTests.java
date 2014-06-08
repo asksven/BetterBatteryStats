@@ -51,15 +51,15 @@ public class ReferenceDtoTests extends TestCase
 	/**
 	 * Test method for {@link com.asksven.betterbatterystats.data.Reference#fromJson(byte[])}.
 	 */
-	public void testFromJson()
+	public void testMarshallUnmarshall()
 	{
 		Reference testData = getTestReference();
 		
 		ReferenceDto dto = testData.toReferenceDto();
-		String json = dto.toJson();
-		assertTrue(json.length() != 0);
+		byte[] marshalled = dto.marshall();
+		assertTrue(marshalled.length != 0);
 
-		ReferenceDto result = ReferenceDto.fromJson(json.getBytes());
+		ReferenceDto result = ReferenceDto.unmarshall(marshalled);
 		testData = new Reference(result);		
 		
 		assertTrue(testData.m_fileName.equals("test"));
@@ -70,13 +70,13 @@ public class ReferenceDtoTests extends TestCase
 	/**
 	 * Test method for {@link com.asksven.betterbatterystats.data.Reference#toJson()}.
 	 */
-	public void testToJson()
+	public void testMarshall()
 	{
 		Reference testData = getTestReference();
 		
 		ReferenceDto dto = testData.toReferenceDto();
-		String result = dto.toJson();
-		assertTrue(result.length() != 0);
+		byte[] result = dto.marshall();
+		assertTrue(result.length != 0);
 	}
 
 
