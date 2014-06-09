@@ -15,6 +15,8 @@
  */
 package com.asksven.betterbatterystats.widgets;
 
+import com.asksven.betterbatterystats.R;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -69,6 +71,8 @@ public class GraphablePie extends ImageView
     {
         super(context, attrs);
         m_context = context;
+        
+        sPaint.setColor(m_context.getResources().getColor(R.color.peterriver)); 
 
     }
     
