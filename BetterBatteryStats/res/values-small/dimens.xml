@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <dimen name="widget_margin">8dp</dimen>
-    
     <dimen name="hist_font_size">10dp</dimen>
     <dimen name="thumbnail_size">48dp</dimen>
     <dimen name="row_fqn_text_size">10sp</dimen>
@@ -11,12 +8,8 @@
     <!-- dimensions for overview -->
     <dimen name="graph_height">200dp</dimen>
     <dimen name="legend_margin">16dp</dimen>
-    <dimen name="legend_font_size">18sp</dimen>
+    <dimen name="legend_font_size">12sp</dimen>
     <dimen name="legend_symbol_size">32dp</dimen>
-    
-    <!--  graphs -->
-    <dimen name="tick_label_font_size">13dp</dimen>
-    
     
     
     
