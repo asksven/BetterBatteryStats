@@ -891,7 +891,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		Log.i(TAG, "refreshSpinners result positions: from='" + spinnerStatTypeFrom.getSelectedItemPosition() + "', to='" + spinnerStatTypeTo.getSelectedItemPosition() + "'");
 		
-		if ((spinnerStatTypeFrom.getSelectedItemPosition() == -1)||(spinnerStatTypeTo.getSelectedItemPosition() == -1))
+		if ((spinnerStatTypeTo.isShown()) 
+				&& ((spinnerStatTypeFrom.getSelectedItemPosition() == -1)||(spinnerStatTypeTo.getSelectedItemPosition() == -1)))
 		{
 			Toast.makeText(StatsActivity.this,
 					"Selected 'from' or 'to' reference could not be loaded. Please refresh",
