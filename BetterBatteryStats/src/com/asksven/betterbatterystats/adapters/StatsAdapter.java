@@ -77,9 +77,23 @@ public class StatsAdapter extends BaseAdapter
 	        for (int i = 0; i < m_listData.size(); i++)
 	        {
 	        	StatElement g = m_listData.get(i);
-	        	double[] values = g.getValues();
-	        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
-	            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
+	        	
+	        	
+	        	// @todo refactor Misc instead. For now the change is here as I don't want to break the deserialization
+	        	if (g instanceof Misc)
+	        	{
+	        		m_maxValue = ((Misc)g).getTimeRunning();
+	        	}
+	        	else if (!((g instanceof Process) || (g instanceof Alarm)))
+	        	{
+	        		m_maxValue = g.getTotal();
+	        	}
+	        	else
+	        	{
+	        		double[] values = g.getValues();
+		        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
+		            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
+	        	}
 	        }
         }
     }
