@@ -84,6 +84,11 @@ public class WriteDumpfileService extends IntentService
 			refTo = Reference.CURRENT_REF_FILENAME;
 		}
 		
+		// if we want a reading until "current" make sure to update that ref
+		if (refTo == Reference.CURRENT_REF_FILENAME)
+		{
+			StatsProvider.getInstance(this).setCurrentReference(0);
+		}
 		
 		Log.i(TAG, "Called with extra " + refFrom + " and " + refTo);
 
