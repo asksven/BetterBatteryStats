@@ -45,7 +45,7 @@ public class GraphablePie extends ImageView
     {
         sPaint.setStyle(Paint.Style.STROKE);
         sPaint.setColor(0xFF0080FF);
-        sPaint.setStrokeWidth(STROKE_WIDTH + 2);
+        sPaint.setStrokeWidth(STROKE_WIDTH);
     }
     static Paint sBackground = new Paint();
     static
@@ -104,6 +104,8 @@ public class GraphablePie extends ImageView
 				centerX + radius, 
 				centerY + radius);
 
+        sPaint.setStrokeWidth(getWidth() / 10);
+        sBackground.setStrokeWidth(getWidth() / 10);
     	// draw bg        
         canvas.drawArc(sOval, 0, 360f, false, sBackground);
         // draw gauge

@@ -17,10 +17,25 @@
         android:orientation="vertical"
         android:layout_weight="1">
 
-        <ImageView
+        <!--
+                <ImageView
             android:id="@+id/icon"
             android:layout_width="@dimen/thumbnail_size"
             android:layout_height="@dimen/thumbnail_size"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/clickable"
+            android:paddingBottom="0dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="0dp"
+            android:scaleType="centerCrop"
+            android:layout_weight="10"/>
+         
+         -->
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/clickable"
             android:paddingBottom="0dp"
