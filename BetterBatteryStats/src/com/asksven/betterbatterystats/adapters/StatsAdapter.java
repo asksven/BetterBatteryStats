@@ -167,7 +167,14 @@ public class StatsAdapter extends BaseAdapter
 
         
         GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
-       	gauge.setValue(entry.getValues()[0], m_maxValue);
+        if (entry instanceof Misc)
+        {
+        	gauge.setValue(entry.getValues()[0], ((Misc) entry).getTimeRunning());
+        }
+        else
+        {
+        	gauge.setValue(entry.getValues()[0], m_maxValue);
+        }
         
         ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
                 
