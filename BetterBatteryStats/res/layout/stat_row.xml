@@ -34,7 +34,7 @@
          -->
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/thumbnail_size"
             android:layout_height="0dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/clickable"
