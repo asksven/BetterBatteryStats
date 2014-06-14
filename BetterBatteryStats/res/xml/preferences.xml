@@ -387,6 +387,13 @@
                 android:title="Root features" />
             <CheckBoxPreference
                 android:defaultValue="false"
+                android:key="ignore_system_app"
+                android:summary="Ignore System App detection (for XPosed Module Users)"
+                android:title="Do not detect system app"
+                android:dependency="root_features" />
+            
+            <CheckBoxPreference
+                android:defaultValue="false"
                 android:key="developer"
                 android:summary="Enable stats while charging (at your own risk, stats may be inconsistent)"
                 android:title="Enable while charging" />

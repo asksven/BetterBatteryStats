@@ -167,6 +167,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
 		// if root is available use it
 		boolean hasRoot = sharedPrefs.getBoolean("root_features", false);
+		boolean ignoreSystemApp = sharedPrefs.getBoolean("ignore_system_app", false);
 		if (!hasRoot && (RootShell.getInstance().rooted()))
 		{
 	        SharedPreferences.Editor updater = sharedPrefs.edit();
@@ -176,7 +177,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 			
 		// show install as system app screen if root available but perms missing
-		if (hasRoot && !SysUtils.hasBatteryStatsPermission(this))
+		if (!ignoreSystemApp && hasRoot && !SysUtils.hasBatteryStatsPermission(this))
 		{
         	Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
         	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_PREFERENCES);
