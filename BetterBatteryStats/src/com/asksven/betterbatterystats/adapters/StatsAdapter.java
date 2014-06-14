@@ -124,12 +124,24 @@ public class StatsAdapter extends BaseAdapter
     {
     	StatElement entry = m_listData.get(position);
     	
+    	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
+        boolean bShowBars = sharedPrefs.getBoolean("show_gauge", false);
+        
     	Log.i(TAG, "Values: " +entry.getVals());
         if (convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater) m_context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.stat_row, null);
+            
+            // depending on settings show new pie gauge or old bar gauge
+            if (!bShowBars)
+            {
+            	convertView = inflater.inflate(R.layout.stat_row, null);
+            }
+            else
+            {
+            	convertView = inflater.inflate(R.layout.stat_row_gauge, null);
+            }
         }
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
        	tvName.setText(entry.getName());
@@ -141,7 +153,6 @@ public class StatsAdapter extends BaseAdapter
         	 kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(m_context)));
         }
         
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
         boolean bShowKb = sharedPrefs.getBoolean("enable_kb", true);
         ImageView iconKb = (ImageView) convertView.findViewById(R.id.imageKB);
         if ( (bShowKb) && (kbentry != null))
@@ -165,17 +176,39 @@ public class StatsAdapter extends BaseAdapter
         // long press for "copy to clipboard"
         //myRow.setOnLongClickListener(new OnItemLongClickListener(position));
 
-        
-        GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
-        if (entry instanceof Misc)
+        if (!bShowBars)
         {
-        	gauge.setValue(entry.getValues()[0], ((Misc) entry).getTimeRunning());
+	        GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
+	        if (entry instanceof Misc)
+	        {
+	        	gauge.setValue(entry.getValues()[0], ((Misc) entry).getTimeRunning());
+	        }
+	        else
+	        {
+	        	gauge.setValue(entry.getValues()[0], m_maxValue);
+	        }
         }
         else
         {
-        	gauge.setValue(entry.getValues()[0], m_maxValue);
+        	GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
+        	int iHeight = 10;
+        	try
+    		{
+    			iHeight = Integer.valueOf(sharedPrefs.getString("graph_bar_height", "10"));
+    		}
+    		catch (Exception e)
+    		{
+    			iHeight = 10;
+    		}    		
+        	if (iHeight == 0)
+        	{
+        		iHeight = 10;
+        	}
+
+   			buttonBar.setMinimumHeight(iHeight);
+   			buttonBar.setName(entry.getName());
+        	buttonBar.setValues(entry.getValues(), m_maxValue);        	
         }
-        
         ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
                 
         // add on click listener for the icon only if KB is enabled
