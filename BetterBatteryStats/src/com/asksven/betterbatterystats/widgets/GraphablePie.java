@@ -44,6 +44,7 @@ public class GraphablePie extends ImageView
     static
     {
         sPaint.setStyle(Paint.Style.STROKE);
+        sPaint.setAntiAlias(true);
         sPaint.setColor(0xFF0080FF);
         sPaint.setStrokeWidth(STROKE_WIDTH);
     }
@@ -51,6 +52,7 @@ public class GraphablePie extends ImageView
     static
     {
         sBackground.setStyle(Paint.Style.STROKE);
+        sBackground.setAntiAlias(true);
         sBackground.setStrokeWidth(STROKE_WIDTH);
         sBackground.setColor(0x778B7B8B);
     }
@@ -60,6 +62,7 @@ public class GraphablePie extends ImageView
     {
     	sText.setStyle(Paint.Style.STROKE);
     	sText.setColor(Color.WHITE);
+    	sText.setAntiAlias(true);
 //        sPaint.setStrokeWidth(STROKE_WIDTH + 2);
     }
 

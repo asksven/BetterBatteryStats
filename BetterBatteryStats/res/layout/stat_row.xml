@@ -118,7 +118,7 @@
             android:layout_width="@dimen/thumbnail_size"
             android:layout_height="@dimen/thumbnail_size"
             android:background="@drawable/clickable"
-            android:padding="2dp" />
+            android:padding="4dp" />
     
 
     </LinearLayout>
