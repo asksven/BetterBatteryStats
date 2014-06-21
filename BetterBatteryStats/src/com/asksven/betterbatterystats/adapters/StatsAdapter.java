@@ -174,7 +174,7 @@ public class StatsAdapter extends BaseAdapter
         LinearLayout myRow = (LinearLayout) convertView.findViewById(R.id.LinearLayoutEntry);
         
         // long press for "copy to clipboard"
-        //myRow.setOnLongClickListener(new OnItemLongClickListener(position));
+        convertView.setOnLongClickListener(new OnItemLongClickListener(position));
 
         if (!bShowBars)
         {
