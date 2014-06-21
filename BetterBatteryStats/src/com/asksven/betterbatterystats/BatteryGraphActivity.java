@@ -88,6 +88,7 @@ public class BatteryGraphActivity extends Activity
 	
 	private static final String TAG = "BatteryGraphActivity";
     private static final int FONT_LABEL_SIZE = 13;
+    private int GRAPH_COLOR = 0;
     private XYPlot m_plotCharge;
     private XYPlot m_plotWakelock;
     private XYPlot m_plotScreenOn;
@@ -98,6 +99,8 @@ public class BatteryGraphActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
+        GRAPH_COLOR = getResources().getColor(R.color.peterriver);
         
 		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(this) )
 		{
@@ -295,9 +298,9 @@ public class BatteryGraphActivity extends Activity
         		"Charge");
         
         LineAndPointFormatter formater = new LineAndPointFormatter(
-        		Color.rgb(0, 0, 200),
+        		GRAPH_COLOR,
         		null,
-        		Color.rgb(0, 0, 80));
+        		GRAPH_COLOR);
         formater.getFillPaint().setAlpha(220);
         
         m_plotCharge.addSeries(mySerie, formater);
@@ -319,8 +322,8 @@ public class BatteryGraphActivity extends Activity
         		BatteryGraphSeries.SERIE_WAKELOCK,
         		"Wakelock");
         BarFormatter formater2 = new BarFormatter(
-        		Color.rgb(0, 0, 200),
-        		Color.rgb(0, 0, 80));
+        		GRAPH_COLOR,
+        		GRAPH_COLOR);
         formater2.getFillPaint().setAlpha(220);
 
         m_plotWakelock.addSeries(mySerie2, formater2);	        

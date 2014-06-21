@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013 asksven
+ * Copyright (C) 2011-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,11 +18,9 @@ package com.asksven.betterbatterystats.data;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +35,11 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
-
-//import com.asksven.andoid.common.contrib.Shell;
-//import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.android.common.RootShell;
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
+import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
@@ -172,7 +168,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 				
 				if (tempStats.get(i) instanceof Misc)
 				{
@@ -188,7 +184,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof Wakelock)
 				{
@@ -204,7 +200,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof NativeKernelWakelock)
 				{
@@ -220,7 +216,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof Process)
 				{
@@ -236,7 +232,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof Alarm)
 				{
@@ -252,7 +248,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof NetworkUsage)
 				{
@@ -268,7 +264,7 @@ public class Reading implements Serializable
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(context);
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
 
 				if (tempStats.get(i) instanceof State)
 				{
@@ -351,9 +347,9 @@ public class Reading implements Serializable
 		if (bDumpChapter)
 		{
 			// write wakelock info
-			out.write("=========\n");
-			out.write("Wakelocks\n");
-			out.write("=========\n");
+			out.write("======================================================\n");
+			out.write("Wakelocks (requires root / system app on Android 4.4+)\n");
+			out.write("======================================================\n");
 			dumpList(context, partialWakelockStats, out);
 			
 		}
@@ -383,9 +379,9 @@ public class Reading implements Serializable
 		if (bDumpChapter)
 		{
 			// write process info
-			out.write("=========\n");
-			out.write("Processes\n");
-			out.write("=========\n");
+			out.write("======================================================\n");
+			out.write("Processes (requires root / system app on Android 4.4+)\n");
+			out.write("======================================================\n");
 			dumpList(context, processStats, out);
 		}
 
@@ -607,7 +603,7 @@ public class Reading implements Serializable
 			{
 				for (int i = 0; i < myList.size(); i++)
 				{
-					out.write(myList.get(i).getDumpData(context) + "\n");
+					out.write(myList.get(i).getDumpData(UidNameResolver.getInstance(context)) + "\n");
 		
 				}
 			}

@@ -50,15 +50,17 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
     private XYPlot m_plotCharging;
     private XYPlot m_plotGps;
     private XYPlot m_plotBt;
-
-//    private Viewport m_viewPort; 
-
+    
+    private int GRAPH_COLOR = 0;
 
     private ArrayList<HistoryItem> m_histList;
 	    
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        
+        GRAPH_COLOR = getResources().getColor(R.color.peterriver);
+        
         setContentView(R.layout.batterygraph2);
         m_plotWakelock 	= (XYPlot) findViewById(R.id.wakelockPlot);
         m_plotScreenOn 	= (XYPlot) findViewById(R.id.screenOnPlot);
@@ -154,8 +156,8 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
         		BatteryGraphSeries.SERIE_WAKELOCK,
         		"Wakelock");
         BarFormatter formater2 = new BarFormatter(
-        		Color.rgb(0, 0, 200),
-        		Color.rgb(0, 0, 80));
+        		GRAPH_COLOR,
+        		GRAPH_COLOR);
         formater2.getFillPaint().setAlpha(220);
 
         m_plotWakelock.addSeries(mySerie2, formater2);	        

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 asksven
+ * Copyright (C) 2011-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,48 @@
  */
 package com.asksven.betterbatterystats.data;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.asksven.android.common.dto.AlarmDto;
+import com.asksven.android.common.dto.MiscDto;
+import com.asksven.android.common.dto.NativeKernelWakelockDto;
+import com.asksven.android.common.dto.NetworkUsageDto;
+import com.asksven.android.common.dto.ProcessDto;
+import com.asksven.android.common.dto.StateDto;
+import com.asksven.android.common.dto.WakelockDto;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
+import com.asksven.android.common.kernelutils.State;
+import com.asksven.android.common.privateapiproxies.Alarm;
+import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.LogSettings;
+import com.asksven.android.common.privateapiproxies.Wakelock;
 
 /**
  * A serializable value holder for stat references 
  * @author sven
  *
  */
+@JsonSerialize(include=JsonSerialize.Inclusion.ALWAYS)
+@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.ANY, getterVisibility=JsonAutoDetect.Visibility.NONE, setterVisibility=JsonAutoDetect.Visibility.NONE)
 public class Reference implements Serializable
 {
 	
@@ -83,20 +108,110 @@ public class Reference implements Serializable
 	protected long m_creationTime							= 0;
 	protected int m_refType									= 0;
 	protected String m_refLabel								= "";
+	@JsonDeserialize(contentAs = Wakelock.class)
     protected ArrayList<StatElement> m_refWakelocks 		= null;
+	
+	@JsonDeserialize(contentAs = NativeKernelWakelock.class)
     protected ArrayList<StatElement> m_refKernelWakelocks 	= null;
+	
+	@JsonDeserialize(contentAs = NetworkUsage.class)
     protected ArrayList<StatElement> m_refNetworkStats	 	= null;
+	
+	@JsonDeserialize(contentAs = Alarm.class)
     protected ArrayList<StatElement> m_refAlarms		 	= null;
+	
+	@JsonDeserialize(contentAs = Process.class)
     protected ArrayList<StatElement> m_refProcesses 		= null;
+
+	@JsonDeserialize(contentAs = Misc.class)
     protected ArrayList<StatElement> m_refOther	 			= null;
+	
+	@JsonDeserialize(contentAs = State.class)
     protected ArrayList<StatElement> m_refCpuStates			= null;
-    protected long m_refBatteryRealtime 					= 0;  
+	
+    protected long m_refBatteryRealtime 					= 0;
     protected int m_refBatteryLevel							= 0;
     protected int m_refBatteryVoltage						= 0;
     
     private Reference()
     {
     	
+    }
+
+    public Reference(ReferenceDto source)
+    {		
+		this.m_creationTime 		= source.m_creationTime;
+		this.m_fileName 			= source.m_fileName;
+		this.m_refBatteryLevel 		= source.m_refBatteryLevel;
+		this.m_refBatteryRealtime 	= source.m_refBatteryRealtime;
+		this.m_refBatteryVoltage 	= source.m_refBatteryVoltage;
+		this.m_refLabel 			= source.m_refLabel;
+		this.m_refType 				= source.m_refType;
+		
+		if (source.m_refAlarms != null)
+		{
+			this.m_refAlarms = new ArrayList<StatElement>();
+			for (int i=0; i < source.m_refAlarms.size(); i++)
+			{
+				this.m_refAlarms.add(new Alarm(source.m_refAlarms.get(i)));
+			}
+		}
+
+		if (source.m_refCpuStates != null)
+		{
+			this.m_refCpuStates = new ArrayList<StatElement>();
+			for (int i=0; i < source.m_refCpuStates.size(); i++)
+			{
+				this.m_refCpuStates.add(new State(source.m_refCpuStates.get(i)));
+			}
+		}
+
+		if (source.m_refKernelWakelocks != null)
+		{
+			this.m_refKernelWakelocks = new ArrayList<StatElement>();
+			for (int i=0; i < source.m_refKernelWakelocks.size(); i++)
+			{
+				this.m_refKernelWakelocks.add(new NativeKernelWakelock(source.m_refKernelWakelocks.get(i)));
+			}
+		}
+
+		if (source.m_refNetworkStats != null)
+		{
+			this.m_refNetworkStats = new ArrayList<StatElement>();
+			for (int i=0; i < source.m_refNetworkStats.size(); i++)
+			{
+				this.m_refNetworkStats.add(new NetworkUsage(source.m_refNetworkStats.get(i)));
+			}
+		}
+
+		if (source.m_refOther != null)
+		{
+			this.m_refOther = new ArrayList<StatElement>();
+			for (int i=0; i < source.m_refOther.size(); i++)
+			{
+				this.m_refOther.add(new Misc(source.m_refOther.get(i)));
+			}
+		}
+		
+		if (source.m_refProcesses != null)
+		{
+			this.m_refProcesses = new ArrayList<StatElement>();
+			for (int i=0; i < source.m_refProcesses.size(); i++)
+			{
+				this.m_refProcesses.add(new Process(source.m_refProcesses.get(i)));
+			}
+		}
+
+		if (source.m_refWakelocks != null)
+		{
+			this.m_refWakelocks = new ArrayList<StatElement>();
+			for (int i=0; i < source.m_refWakelocks.size(); i++)
+			{
+				this.m_refWakelocks.add(new Wakelock(source.m_refWakelocks.get(i)));
+			}
+		}
+
+		
     }
 
     public Reference(String fileName, int type)
@@ -112,6 +227,84 @@ public class Reference implements Serializable
 		}
     }
     
+	public ReferenceDto toReferenceDto()
+	{
+		ReferenceDto ret = new ReferenceDto();
+		
+		ret.m_creationTime 			= this.m_creationTime;
+		ret.m_fileName 				= this.m_fileName;
+		ret.m_refBatteryLevel 		= this.m_refBatteryLevel;
+		ret.m_refBatteryRealtime 	= this.m_refBatteryRealtime;
+		ret.m_refBatteryVoltage 	= this.m_refBatteryVoltage;
+		ret.m_refLabel 				= this.m_refLabel;
+		ret.m_refType 				= this.m_refType;
+		
+		if (this.m_refAlarms != null)
+		{
+			ret.m_refAlarms = new ArrayList<AlarmDto>();
+			for (int i=0; i < this.m_refAlarms.size(); i++)
+			{
+				ret.m_refAlarms.add(((Alarm) this.m_refAlarms.get(i)).toDto());
+			}
+		}
+
+		if (this.m_refCpuStates != null)
+		{
+			ret.m_refCpuStates = new ArrayList<StateDto>();
+			for (int i=0; i < this.m_refCpuStates.size(); i++)
+			{
+				ret.m_refCpuStates.add(((State) this.m_refCpuStates.get(i)).toDto());
+			}
+		}
+
+		if (this.m_refKernelWakelocks != null)
+		{
+			ret.m_refKernelWakelocks = new ArrayList<NativeKernelWakelockDto>();
+			for (int i=0; i < this.m_refKernelWakelocks.size(); i++)
+			{
+				ret.m_refKernelWakelocks.add(((NativeKernelWakelock) this.m_refKernelWakelocks.get(i)).toDto());
+			}
+		}
+
+		if (this.m_refNetworkStats != null)
+		{
+			ret.m_refNetworkStats = new ArrayList<NetworkUsageDto>();
+			for (int i=0; i < this.m_refNetworkStats.size(); i++)
+			{
+				ret.m_refNetworkStats.add(((NetworkUsage) this.m_refNetworkStats.get(i)).toDto());
+			}
+		}
+		
+		if (this.m_refOther != null)
+		{
+			ret.m_refOther = new ArrayList<MiscDto>();
+			for (int i=0; i < this.m_refOther.size(); i++)
+			{
+				ret.m_refOther.add(((Misc) this.m_refOther.get(i)).toDto());
+			}
+		}
+		
+		if (this.m_refProcesses != null)
+		{
+			ret.m_refProcesses = new ArrayList<ProcessDto>();
+			for (int i=0; i < this.m_refProcesses.size(); i++)
+			{
+				ret.m_refProcesses.add(((Process) this.m_refProcesses.get(i)).toDto());
+			}
+		}
+
+		if (this.m_refWakelocks != null)
+		{
+			ret.m_refWakelocks = new ArrayList<WakelockDto>();
+			for (int i=0; i < this.m_refWakelocks.size(); i++)
+			{
+				ret.m_refWakelocks.add(((Wakelock) this.m_refWakelocks.get(i)).toDto());
+			}
+		}
+
+		return ret;
+	}
+
     public void setEmpty()
     {
     	m_creationTime = 0;
@@ -121,7 +314,7 @@ public class Reference implements Serializable
     	m_creationTime = SystemClock.elapsedRealtime();
     }
     
-    
+    @JsonIgnore
     public String getMissingRefError()
     {
     	if (m_fileName.equals(CUSTOM_REF_FILENAME))
@@ -168,6 +361,7 @@ public class Reference implements Serializable
 
     }
 
+    @JsonIgnore
     public static String getLabel(String refName)
     {
     	String ret = "";
@@ -192,6 +386,7 @@ public class Reference implements Serializable
     	return ret;
     }
 
+    @JsonIgnore
     public String getLabel()
     {
     	return Reference.getLabel(m_fileName);

@@ -56,6 +56,7 @@ import android.widget.Toast;
 import com.asksven.android.common.AppRater;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.ReadmeActivity;
+import com.asksven.android.common.RootShell;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
@@ -164,6 +165,26 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			// nop strCurrentRelease is set to ""
 		}
 		
+		// if root is available use it
+		boolean hasRoot = sharedPrefs.getBoolean("root_features", false);
+		boolean ignoreSystemApp = sharedPrefs.getBoolean("ignore_system_app", false);
+		if (!hasRoot && (RootShell.getInstance().rooted()))
+		{
+	        SharedPreferences.Editor updater = sharedPrefs.edit();
+	        updater.putBoolean("root_features", true);
+	        updater.commit();
+			hasRoot = sharedPrefs.getBoolean("root_features", false);
+		}
+			
+		// show install as system app screen if root available but perms missing
+		if (!ignoreSystemApp && hasRoot && !SysUtils.hasBatteryStatsPermission(this))
+		{
+        	Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
+        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_PREFERENCES);
+            this.startActivity(intentSystemApp);
+		}
+		
+		// first start
 		if (strLastRelease.equals("0"))
 		{
 			// show the initial run screen
@@ -171,7 +192,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        SharedPreferences.Editor updater = sharedPrefs.edit();
 	        updater.putString("last_release", strCurrentRelease);
 	        updater.commit();
-
 		}
 		else if (!strLastRelease.equals(strCurrentRelease))
     	{
@@ -187,30 +207,6 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			i = new Intent(this, WriteUnpluggedReferenceService.class);
 			this.startService(i);
     			
-			// Show Kitkat info
-			if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(this) )
-			{
-
-				// prepare the alert box
-	            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-	 
-	            // set the message to display
-	            alertbox.setMessage("Google has revoked rights for apps to access the battery stats without"
-	            		+ " root. Partial wakelocks will not be available anymore for non rooted users. If you have root please make sure to enable the root features (advanced preferences) and grant root.");
-	 
-	            // add a neutral button to the alert box and assign a click listener
-	            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
-	            {
-	 
-	                // click listener on the alert box
-	                public void onClick(DialogInterface arg0, int arg1)
-	                {
-	                }
-	            });
-	 
-	            // show it
-	            alertbox.show();
-			}	        
     	}
     	else
     	{
@@ -651,7 +647,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	        	break;	
 	        case R.id.refresh:
             	// Refresh
-	        	ReferenceStore.rebuildCache(this);
+//	        	ReferenceStore.rebuildCache(this);
 	        	doRefresh(true);
             	break;	
             case R.id.custom_ref:
@@ -896,7 +892,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		}
 		Log.i(TAG, "refreshSpinners result positions: from='" + spinnerStatTypeFrom.getSelectedItemPosition() + "', to='" + spinnerStatTypeTo.getSelectedItemPosition() + "'");
 		
-		if ((spinnerStatTypeFrom.getSelectedItemPosition() == -1)||(spinnerStatTypeTo.getSelectedItemPosition() == -1))
+		if ((spinnerStatTypeTo.isShown()) 
+				&& ((spinnerStatTypeFrom.getSelectedItemPosition() == -1)||(spinnerStatTypeTo.getSelectedItemPosition() == -1)))
 		{
 			Toast.makeText(StatsActivity.this,
 					"Selected 'from' or 'to' reference could not be loaded. Please refresh",

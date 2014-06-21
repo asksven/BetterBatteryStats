@@ -29,7 +29,7 @@
 <p>
 BetterBatteryStats does not collect data in the background but uses references saved at specific times (on specific events):
 <ul>
-	<li><b>Boot</b>: is saved when your phone boots, deletes all other refrences</li>
+	<li><b>Boot</b>: is saved when your phone boots, deletes all other references</li>
 	<li><b>Unplug</b>: is saved when you unplug your phone from the charger</li>
 	<li><b>Charged</b>: is saved when your phone gets charged to 100%</li>
 	<li><b>Screen Off</b>: is saved when the screen of your phone goes off</li>
@@ -45,17 +45,86 @@ Google has made changes to Kitkat that affect the way BBS works and some major c
 <li>If your device is rooted make sure to enable the advanced root features access all features (with some workarounds)</li>
 <li>BBS can now be installed as a system app (advanced preferences). This does not affect updatability and provides you the full feature set (no workarounds) on Kitkat</li>
 </ul>   	
-<p>
-<h2>v1.15.0.0 2013-11-23</h2>
+
+
+<h2>v1.16.0.0_RC1 2014-06-21</h2>
 <p>
 <ul>
-	<li>Added support of stats for Kitkat (due to <a href="http://forum.xda-developers.com/showthread.php?t=2529455">major changes by Google</a> BBS now requires root on Kitkat to be fully featured)</li>
-	<li>Added the possibility to install BBS as system app</li>
-	<li>Recreated all icons and support for xxxhdpi densities</li>
-	<li>Fixed alarms parsing on 4.3+</li>
-	<li>Fixed crash from gplay crash report</li>
+	<li>Long press on list element copies it to the clipboard</li>
+	
 </ul>
-</p>
+<p>
+<h2>v1.16.0.0_B7 2014-06-15</h2>
+<p>
+<ul>
+	<li>Fixed pixelated pie graph on certain densities / resolutions</li>
+	
+</ul>
+<p>
+
+<h2>v1.16.0.0_B6 2014-06-14</h2>
+<p>
+<ul>
+	<li>Fixed FC on opening package info - permissions</li>
+	<li>Fixed gauge in "other" stats showing wrong value</li>
+	<li>Fixed pie gauge brush size on low density devices</li>
+	<li>Add Setting to disable system app check (for XPosed Module users)</li>
+	<li>Optionally show "old" bar gauge instead of pie</li>
+	
+</ul>
+<p>
+
+<h2>v1.16.0.0_B5 2014-06-09</h2>
+<p>
+<ul>
+	<li>Fixed tasker plugin not saving current stats</li>
+	<li>Fixed network stats for interface "lo" not being mapped to "Mobile"</li>
+	<li>Merged some graphical elements from 2.0 branch</li>
+	<li>Updated to dashclock API 2.0</li>
+	<li>Do not show spinner refresh Toast if only "from" spinner is visible</li>
+</ul>
+<p>
+<h2>v1.16.0.0_B4 2014-06-08</h2>
+<p>
+<ul>
+	<li>Added counters for alarm frequency (per minute or per hour) to alarm stats</li>
+	<li>Reverted to Java serialization of references instead of JSON</li>
+	<li>Fix for memory leak</li>
+</ul>
+<p>
+
+<h2>v1.16.0.0_B3 2014-03-21</h2>
+<p>
+<ul>
+	<li>Use root / dumpsys for alarms if available as dumpsys data is more complete</li>
+	<li>Avoid flushing cache at refresh</li>
+</ul>
+<p>
+
+<h2>v1.16.0.0_B2 2014-03-10</h2>
+<p>
+<ul>
+	<li>Fixed system APK having wrong signature</li>
+</ul>
+<p>
+
+<h2>v1.16.0.0_B1 2014-03-09</h2>
+<p>
+<ul>
+	<li>Optimized dumpsys usage: if permissions present avoid using root</li>
+	<li>Alarm stats without root</li>
+	<li>Watchdog indocator shall never be > 100% awake</li> 
+	<li>Serialization/deserialization is now JSON based</li>
+	<li>Update note on dumpfile chapters requiring root starting with 4.4</li>
+	<li>Properly handle inexistence of AppOps (avoid crashing)</li>
+	<li>Added dumpfile chapter annotation about changes in root pre-requisite for affected chapters</li>
+	<li>Offer to install as system app if rooted but permissions are missing</li>
+	<li>Fixed app ops call from package view (kitkat)</li>
+	<li>Deleting screen on/off info happens in the service instead of the handler</li>
+	<li>Fix for corrupted stats after uptimes > 25 days</li> 
+	<li>Automatically enable root if available: avoid users to have to go to advanced preferences</li>
+</ul>
+<p>
 
 </div> 
 

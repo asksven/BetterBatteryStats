@@ -20,14 +20,10 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,17 +34,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.provider.Settings;
 
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
+import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
-import com.asksven.android.common.privateapiproxies.Alarm.AlarmItem;
+import com.asksven.android.common.privateapiproxies.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.data.GoogleAnalytics;
@@ -56,6 +50,7 @@ import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
 import com.asksven.betterbatterystats.data.KbReader;
 import com.asksven.betterbatterystats.widgets.GraphableBars;
+import com.asksven.betterbatterystats.widgets.GraphablePie;
 import com.asksven.betterbatterystats.HelpActivity;
 import com.asksven.betterbatterystats.PackageInfoTabsPager;
 import com.asksven.betterbatterystats.R;
@@ -82,9 +77,23 @@ public class StatsAdapter extends BaseAdapter
 	        for (int i = 0; i < m_listData.size(); i++)
 	        {
 	        	StatElement g = m_listData.get(i);
-	        	double[] values = g.getValues();
-	        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
-	            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
+	        	
+	        	
+	        	// @todo refactor Misc instead. For now the change is here as I don't want to break the deserialization
+	        	if (g instanceof Misc)
+	        	{
+	        		m_maxValue = ((Misc)g).getTimeRunning();
+	        	}
+	        	else if (!((g instanceof Process) || (g instanceof Alarm)))
+	        	{
+	        		m_maxValue = g.getTotal();
+	        	}
+	        	else
+	        	{
+	        		double[] values = g.getValues();
+		        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
+		            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
+	        	}
 	        }
         }
     }
@@ -115,12 +124,24 @@ public class StatsAdapter extends BaseAdapter
     {
     	StatElement entry = m_listData.get(position);
     	
+    	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
+        boolean bShowBars = sharedPrefs.getBoolean("show_gauge", false);
+        
     	Log.i(TAG, "Values: " +entry.getVals());
         if (convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater) m_context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.stat_row, null);
+            
+            // depending on settings show new pie gauge or old bar gauge
+            if (!bShowBars)
+            {
+            	convertView = inflater.inflate(R.layout.stat_row, null);
+            }
+            else
+            {
+            	convertView = inflater.inflate(R.layout.stat_row_gauge, null);
+            }
         }
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
        	tvName.setText(entry.getName());
@@ -129,10 +150,9 @@ public class StatsAdapter extends BaseAdapter
        	KbEntry kbentry = null;
         if (kb != null)
         {
-        	 kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(m_context));
+        	 kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(m_context)));
         }
         
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
         boolean bShowKb = sharedPrefs.getBoolean("enable_kb", true);
         ImageView iconKb = (ImageView) convertView.findViewById(R.id.imageKB);
         if ( (bShowKb) && (kbentry != null))
@@ -144,31 +164,33 @@ public class StatsAdapter extends BaseAdapter
         	iconKb.setVisibility(View.INVISIBLE);
         }
         TextView tvFqn = (TextView) convertView.findViewById(R.id.TextViewFqn);
-        tvFqn.setText(entry.getFqn(m_context));
+        tvFqn.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
 
         TextView tvData = (TextView) convertView.findViewById(R.id.TextViewData);
         tvData.setText(entry.getData());
         
-        LinearLayout myLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutBar);
+        //LinearLayout myLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutBar);
         LinearLayout myFqnLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutFqn);
         LinearLayout myRow = (LinearLayout) convertView.findViewById(R.id.LinearLayoutEntry);
         
         // long press for "copy to clipboard"
-        //myRow.setOnLongClickListener(new OnItemLongClickListener(position));
+        convertView.setOnLongClickListener(new OnItemLongClickListener(position));
 
-        
-        GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
-        
-        ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
-        
-        if (sharedPrefs.getBoolean("hide_bars", false))
+        if (!bShowBars)
         {
-        	myLayout.setVisibility(View.GONE);
-        	
+	        GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
+	        if (entry instanceof Misc)
+	        {
+	        	gauge.setValue(entry.getValues()[0], ((Misc) entry).getTimeRunning());
+	        }
+	        else
+	        {
+	        	gauge.setValue(entry.getValues()[0], m_maxValue);
+	        }
         }
         else
         {
-        	myLayout.setVisibility(View.VISIBLE);
+        	GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
         	int iHeight = 10;
         	try
     		{
@@ -187,7 +209,8 @@ public class StatsAdapter extends BaseAdapter
    			buttonBar.setName(entry.getName());
         	buttonBar.setValues(entry.getValues(), m_maxValue);        	
         }
-        
+        ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
+                
         // add on click listener for the icon only if KB is enabled
         if (bShowKb)
         {
@@ -215,7 +238,7 @@ public class StatsAdapter extends BaseAdapter
         else
         {
         	iconView.setVisibility(View.VISIBLE); 
-        	iconView.setImageDrawable(entry.getIcon(m_context));
+        	iconView.setImageDrawable(entry.getIcon(UidNameResolver.getInstance(m_context)));
 	        // set a click listener for the list
 	        iconView.setOnClickListener(new OnPackageClickListener(position));
 
@@ -257,7 +280,7 @@ public class StatsAdapter extends BaseAdapter
         	{
         		return;
         	}
-        	KbEntry kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(StatsAdapter.this.m_context));
+        	KbEntry kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(StatsAdapter.this.m_context)));
   	      	if (kbentry != null)
   	      	{
 	  	      	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsAdapter.this.m_context);
@@ -301,7 +324,7 @@ public class StatsAdapter extends BaseAdapter
         	StatElement entry = (StatElement) getItem(m_iPosition);
         	
         	Context ctx = arg0.getContext();
-        	if (entry.getIcon(ctx) == null)
+        	if (entry.getIcon(UidNameResolver.getInstance(m_context)) == null)
         	{
         		return;
         	}

@@ -1,0 +1,5 @@
+bin/*
+gen/*
+/bin-ant
+/local.properties
+/ant.properties

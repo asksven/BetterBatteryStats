@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012<Re asksven
+ * Copyright (C) 2011-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,17 @@
  */
 package com.asksven.betterbatterystats.data;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -51,23 +46,15 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
-
-
-
-
-
-
-//import com.asksven.andoid.common.contrib.Shell;
-//import com.asksven.andoid.common.contrib.Shell.SU;
 import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
-import com.asksven.android.common.kernelutils.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.OtherStatsDumpsys;
-import com.asksven.android.common.kernelutils.PartialWakelocksDumpsys;
+//import com.asksven.android.common.kernelutils.PartialWakelocksDumpsys;
 import com.asksven.android.common.kernelutils.ProcessStatsDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
@@ -281,7 +268,9 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-		if (!rootEnabled)
+		
+		// to process alarms we need either root or the perms to access the private API
+		if (!SysUtils.hasBatteryStatsPermission(m_context) || !rootEnabled)
 		{
 			myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
 			return myStats;
@@ -322,11 +311,13 @@ public class StatsProvider
 				if (refFrom.m_refAlarms != null)
 				{
 					strRef = refFrom.m_refAlarms.toString();
-				} else
+				}
+				else
 				{
 					strRef = "Alarms is null";
 				}
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
@@ -395,15 +386,25 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-		if (!rootEnabled)
+		
+
+		ArrayList<StatElement> myAlarms = null;
+
+		// use root if available as root delivers more data
+		if (rootEnabled)
+		{
+			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
+		}
+		else if (SysUtils.hasBatteryStatsPermission(m_context))
+		{
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+			myAlarms = mStats.getWakeupStats(m_context,
+						BatteryStatsTypes.STATS_CURRENT);
+		}
+		else
 		{
 			return myStats;
 		}
-
-		ArrayList<StatElement> myAlarms = null;
-		// get the current value
-		myAlarms = AlarmsDumpsys.getAlarms();
-		//Collections.sort(myAlarms);
 
 		ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
 		// if we are using custom ref. always retrieve "stats current"
@@ -411,6 +412,7 @@ public class StatsProvider
 		// sort @see
 		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 
+		long elapsedRealtime = SystemClock.elapsedRealtime();
 		for (int i = 0; i < myAlarms.size(); i++)
 		{
 			Alarm alarm = (Alarm) myAlarms.get(i);
@@ -418,6 +420,7 @@ public class StatsProvider
 			{
 				if ((!bFilter) || ((alarm.getWakeups()) > 0))
 				{
+					alarm.setTimeRunning(elapsedRealtime);
 					myRetAlarms.add(alarm);
 				}
 			}
@@ -498,11 +501,13 @@ public class StatsProvider
 				if (refFrom.m_refProcesses != null)
 				{
 					strRef = refFrom.m_refProcesses.toString();
-				} else
+				}
+				else
 				{
 					strRef = "Process is null";
 				}
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
@@ -699,11 +704,13 @@ public class StatsProvider
 				if (refFrom.m_refWakelocks != null)
 				{
 					strRef = refFrom.m_refWakelocks.toString();
-				} else
+				}
+				else
 				{
 					strRef = "Wakelocks is null";
 				}
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
@@ -803,18 +810,11 @@ public class StatsProvider
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<StatElement> myWakelocks = null;
 		
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
-		{
-			myWakelocks = PartialWakelocksDumpsys.getPartialWakelocks(m_context);
-		}
-		else
-		{
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-	
-			myWakelocks = mStats.getWakelockStats(m_context,
-					BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-					BatteryStatsTypes.STATS_CURRENT, iPctType);
-		}
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+
+		myWakelocks = mStats.getWakelockStats(m_context,
+				BatteryStatsTypes.WAKE_TYPE_PARTIAL,
+				BatteryStatsTypes.STATS_CURRENT, iPctType);
 		
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 
@@ -915,12 +915,14 @@ public class StatsProvider
 				if (refFrom.m_refKernelWakelocks != null)
 				{
 					strRef = refFrom.m_refKernelWakelocks.toString();
-				} else
+				}
+				else
 				{
 					strRef = "kernel wakelocks is null";
 				}
 
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
@@ -1124,12 +1126,14 @@ public class StatsProvider
 				if (refFrom.m_refNetworkStats != null)
 				{
 					strRef = refFrom.m_refNetworkStats.toString();
-				} else
+				}
+				else
 				{
 					strRef = "Network stats is null";
 				}
 
-			} else
+			}
+			else
 			{
 				strRefDescr = "Reference is null";
 			}
@@ -1636,7 +1640,7 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
+		if ( !SysUtils.hasBatteryStatsPermission(m_context) )
 		{
 			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 
@@ -1648,7 +1652,7 @@ public class StatsProvider
 
 				myUsages = OtherStatsDumpsys.getOtherStats(
 						sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget,
-						sharedPrefs.getBoolean("show_other_bt", true) && !bWidget);
+						sharedPrefs.getBoolean("show_other_bt", true) && !bWidget, !SysUtils.hasDumpsysPermission(m_context));
 			}
 			else
 			{

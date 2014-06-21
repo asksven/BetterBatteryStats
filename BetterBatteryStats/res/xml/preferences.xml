@@ -10,9 +10,19 @@
             android:title="Filter stats" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="hide_bars"
-            android:summary="Hide or show the graph bars"
-            android:title="Hide graph bars" />
+            android:key="show_gauge"
+            android:summary="Show bars instead of pie gauge (pre. 1.16 compat.)"
+            android:title="Show Bars" />
+
+        <ListPreference
+            android:defaultValue="10"
+            android:dependency="show_gauge"
+            android:entries="@array/graphBarHeigthLabels"
+            android:entryValues="@array/graphBarHeigthValues"
+            android:key="graph_bar_height"
+            android:summary="If you are using non-default densities you can change the bar height here"
+            android:title="Height for graph bars" />
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="show_batt"
@@ -351,13 +361,6 @@
         </PreferenceScreen>
         <PreferenceScreen android:title="Advanced" >
             <ListPreference
-                android:defaultValue="10"
-                android:entries="@array/graphBarHeigthLabels"
-                android:entryValues="@array/graphBarHeigthValues"
-                android:key="graph_bar_height"
-                android:summary="If you are using non-default densities you can change the bar height here"
-                android:title="Height for graph bars" />
-            <ListPreference
                 android:defaultValue="0"
                 android:entries="@array/orderbyLabels"
                 android:entryValues="@array/orderbyValues"
@@ -385,6 +388,12 @@
                 android:key="root_features"
                 android:summary="Enable network stats and alarms"
                 android:title="Root features" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:dependency="root_features"
+                android:key="ignore_system_app"
+                android:summary="Ignore System App detection (for XPosed Module Users)"
+                android:title="Do not detect system app" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="developer"
@@ -422,13 +431,12 @@
                     android:key="save_dmesg"
                     android:summary="Share dmesg"
                     android:title="dmesg" />
-                
             </PreferenceScreen>
             <PreferenceScreen
-        android:title="System App (experimental)" 
-        android:summary="Install as System App">
-        <intent android:action="com.asksven.betterbatterystats.SystemAppActivity"/>
-    </PreferenceScreen>
+                android:summary="Install as System App"
+                android:title="System App (experimental)" >
+                <intent android:action="com.asksven.betterbatterystats.SystemAppActivity" />
+            </PreferenceScreen>
         </PreferenceScreen>
     </PreferenceCategory>
 

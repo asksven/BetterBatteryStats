@@ -48,6 +48,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.method.TimeKeyListener;
 import android.util.Log;
@@ -83,6 +84,15 @@ public class WriteBootReferenceService extends IntentService
 	    	
 			Wakelock.aquireWakelock(this);
 			StatsProvider.getInstance(this).setReferenceSinceBoot(0);
+			
+			// delete screen on time counters
+	        SharedPreferences.Editor updater = sharedPrefs.edit();
+			long elapsedRealtime = SystemClock.elapsedRealtime();
+	        updater.putLong("time_screen_on", elapsedRealtime);
+	        updater.putLong("screen_on_counter", 0);
+
+	        updater.commit();
+
 
 			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.BOOT_REF_FILENAME);
 		    this.sendBroadcast(i);

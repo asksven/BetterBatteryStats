@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dimensions for devices starting with 600dp (Nexus 7) -->
+    <!-- dimensions for overview -->
+    <dimen name="graph_height">300dp</dimen>
+    <dimen name="legend_margin">144dp</dimen>
+    <dimen name="legend_font_size">18sp</dimen>
+    
+    
+    
+</resources>

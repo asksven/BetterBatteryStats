@@ -226,33 +226,8 @@ public class ReferenceDBHelper
 		val.put("ref_type", entry.m_refType);
 		val.put("time_created", entry.m_creationTime);
 		val.put("ref_label", entry.m_refLabel);
-
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-		try
-		{
-			out = new ObjectOutputStream(bos);
-			out.writeObject(entry);
-			byte[] refBytes = bos.toByteArray();
-			val.put("ref_blob", refBytes);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				out.close();
-				bos.close();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			
-		}
+//		val.put("ref_blob", entry.serialize());
+		val.put("ref_blob", entry.toReferenceDto().marshall());
 
 		try
 		{
@@ -348,7 +323,7 @@ public class ReferenceDBHelper
 		        for (int i = 0; i < numRows; ++i)
 		        {
 		        	String name = c.getString(c.getColumnIndex("ref_name"));
-		        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
+		        	long timeCreated = c.getLong(c.getColumnIndex("time_created"));
 		        	String refName = c.getString(c.getColumnIndex("ref_name"));
 		        	if ((timeCreated > time) || (refName.equals(Reference.CURRENT_REF_FILENAME)))
 		        	{
@@ -384,7 +359,7 @@ public class ReferenceDBHelper
 		        for (int i = 0; i < numRows; ++i)
 		        {
 		        	String name = c.getString(c.getColumnIndex("ref_label"));
-		        	long timeCreated = c.getInt(c.getColumnIndex("time_created"));
+		        	long timeCreated = c.getLong(c.getColumnIndex("time_created"));
 		        	if (timeCreated > time)
 		        	{
 		        		ret.add(name);
@@ -453,40 +428,9 @@ public class ReferenceDBHelper
 
 	private Reference createReferenceFromRow(Cursor c)
 	{
-		ByteArrayInputStream bis = null;
-		ObjectInput in = null;
-		Reference ret = null;
-		
-		try
-		{
-			bis = new ByteArrayInputStream(c.getBlob(c.getColumnIndex("ref_blob")));
-			in = null;	
-			in = new ObjectInputStream(bis);
-			Object o = in.readObject();
-			ret = (Reference) o;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				bis.close();
-				in.close();
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-			catch (NullPointerException e)
-			{
-				// nothing went wrong
-			}
+//		return Reference.deserialize(c.getBlob(c.getColumnIndex("ref_blob")));
+		return new Reference(ReferenceDto.unmarshall(c.getBlob(c.getColumnIndex("ref_blob"))));
 
-		}
-		return ret;
 	}
 
     private void migrateDatabase(SQLiteDatabase db, int fromVersion, int toVersion)

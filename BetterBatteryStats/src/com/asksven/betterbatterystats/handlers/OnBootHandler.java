@@ -51,14 +51,6 @@ public class OnBootHandler extends BroadcastReceiver
  
 		Log.i(TAG, "Received Broadcast " + intent.getAction());
 		
-		// delete screen on time counters
-        SharedPreferences.Editor updater = sharedPrefs.edit();
-		long elapsedRealtime = SystemClock.elapsedRealtime();
-        updater.putLong("time_screen_on", elapsedRealtime);
-        updater.putLong("screen_on_counter", 0);
-
-        updater.commit();
-
 		// delete whatever references we have saved here
 		ReferenceStore.deleteAllRefs(context);
 		

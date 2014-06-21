@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="lib" path="libs/libGoogleAnalytics.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/Androidplot-core-0.4.4-release.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/EasyTracker.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/dashclock-api-r1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/achartengine-0.7.0.jar"/>
+	<classpathentry kind="lib" path="libs/jackson-all-1.9.11.jar"/>
+	<classpathentry kind="lib" path="libs/dashclock-api-r2.0.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
