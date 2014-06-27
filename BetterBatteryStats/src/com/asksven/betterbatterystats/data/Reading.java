@@ -105,6 +105,12 @@ public class Reading implements Serializable
 		cpuStateStats 			= new ArrayList<StatElement>();
 		processStats 			= new ArrayList<StatElement>();
 
+		if ((refFrom == null) || (refTo == null))
+		{
+			Log.e(TAG, "Error: a Reading was instanciated with a null refFrom or refTo");
+			return;
+		}
+		
 		try
 		{
 			PackageInfo pinfo = context.getPackageManager()
