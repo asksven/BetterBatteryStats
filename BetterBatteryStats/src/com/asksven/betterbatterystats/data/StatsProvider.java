@@ -270,7 +270,7 @@ public class StatsProvider
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 		
 		// to process alarms we need either root or the perms to access the private API
-		if (!SysUtils.hasBatteryStatsPermission(m_context) || !rootEnabled)
+		if (!SysUtils.hasBatteryStatsPermission(m_context) || !rootEnabled )
 		{
 			myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
 			return myStats;
@@ -387,6 +387,8 @@ public class StatsProvider
 				.getDefaultSharedPreferences(m_context);
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 		
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		
 
 		ArrayList<StatElement> myAlarms = null;
 
@@ -395,7 +397,7 @@ public class StatsProvider
 		{
 			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
 		}
-		else if (SysUtils.hasBatteryStatsPermission(m_context))
+		else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
 		{
 			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 			myAlarms = mStats.getWakeupStats(m_context,
@@ -455,13 +457,16 @@ public class StatsProvider
 			Reference refFrom, int iSort, Reference refTo) throws Exception
 	{
 
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
+		if (!(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) )
 		{
 			// stop straight away of root features are disabled
-			SharedPreferences sharedPrefs = PreferenceManager
-					.getDefaultSharedPreferences(m_context);
+			
 
 			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 			if (!rootEnabled)
@@ -593,7 +598,7 @@ public class StatsProvider
 		ArrayList<StatElement> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
+		if ( !SysUtils.hasBatteryStatsPermission(m_context) )
 		{
 			myProcesses = ProcessStatsDumpsys.getProcesses(m_context);
 		}
@@ -658,12 +663,14 @@ public class StatsProvider
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+		
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		
+		if ( !(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) )
 		{
 			// stop straight away of root features are disabled
-			SharedPreferences sharedPrefs = PreferenceManager
-					.getDefaultSharedPreferences(m_context);
-
 			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 			if (!rootEnabled)
 			{
@@ -1640,7 +1647,9 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 
-		if ( !SysUtils.hasBatteryStatsPermission(m_context) )
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false); 
+		
+		if ( !SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
 		{
 			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 
@@ -2410,12 +2419,15 @@ public class StatsProvider
 	 */
 	private synchronized Reference populateReference(int iSort, Reference refs)
 	{
-		
-		// we are going to retrieve a reference: make sure data does not come from the cache
-		if (SysUtils.hasBatteryStatsPermission(m_context)) BatteryStatsProxy.getInstance(m_context).invalidate();
-		
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
+		
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		
+		// we are going to retrieve a reference: make sure data does not come from the cache
+		if (SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded ) BatteryStatsProxy.getInstance(m_context).invalidate();
+		
+		
 
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
@@ -2445,7 +2457,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 			
-			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) )
+			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
 			{
 				try
 				{
@@ -2478,7 +2490,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 
-			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) )
+			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
 			{
 				try
 				{
@@ -2579,6 +2591,7 @@ public class StatsProvider
 				.getDefaultSharedPreferences(m_context);
 
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
 				"0"));
 
@@ -2595,7 +2608,7 @@ public class StatsProvider
 			refs.m_refCpuStates 		= null;
 
 			refs.m_refKernelWakelocks 	= getCurrentNativeKernelWakelockStatList(bFilterStats, iPctType, iSort);
-			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) )
+			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded )
 			{
 				refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
 			}
@@ -2638,7 +2651,10 @@ public class StatsProvider
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
 		long whichRealtime = 0;
 		
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) )
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		
+		if (!(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) )
 		{
 			whichRealtime = rawRealtime;
 			return whichRealtime;
@@ -2679,7 +2695,10 @@ public class StatsProvider
 	 */
 	public boolean getIsCharging() throws BatteryInfoUnavailableException
 	{
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(m_context) ) return false;
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		
+		if (!(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) ) return false;
 		
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
