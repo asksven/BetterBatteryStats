@@ -130,8 +130,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		Log.i(TAG, "OnCreated called");
 		super.onCreate(savedInstanceState);
+		Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 				
@@ -270,6 +270,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 			}
 		}
 		
+		Log.i(TAG, "onCreate state from preferences: refFrom=" + m_refFromName + " refTo=" + m_refToName);
 		try
 		{
 			// recover any saved state
@@ -278,6 +279,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				m_iStat 				= (Integer) savedInstanceState.getSerializable("stat");
 				m_refFromName 			= (String) savedInstanceState.getSerializable("stattypeFrom");
 				m_refToName 			= (String) savedInstanceState.getSerializable("stattypeTo");
+				Log.i(TAG, "onCreate retrieved saved state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
 	 			
 			}			
 		}
@@ -296,12 +298,14 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 		// Handle the case the Activity was called from an intent with paramaters
 		Bundle extras = getIntent().getExtras();
-		if (extras != null)
+		if ((extras != null) && !extras.isEmpty())
 		{
 			// Override if some values were passed to the intent
-			m_iStat = extras.getInt(StatsActivity.STAT);
-			m_refFromName = extras.getString(StatsActivity.STAT_TYPE_FROM);
-			m_refToName = extras.getString(StatsActivity.STAT_TYPE_TO);
+			if (extras.containsKey(StatsActivity.STAT)) m_iStat = extras.getInt(StatsActivity.STAT);
+			if (extras.containsKey(StatsActivity.STAT_TYPE_FROM)) m_refFromName = extras.getString(StatsActivity.STAT_TYPE_FROM);
+			if (extras.containsKey(StatsActivity.STAT_TYPE_TO)) m_refToName = extras.getString(StatsActivity.STAT_TYPE_TO);
+			
+			Log.i(TAG, "onCreate state from extra: refFrom=" + m_refFromName + " refTo=" + m_refToName);
 			boolean bCalledFromNotification = extras.getBoolean(StatsActivity.FROM_NOTIFICATION, false);
 			
 			// Clear the notifications that was clicked to call the activity
@@ -445,6 +449,9 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 		
     	// log reference store
     	ReferenceStore.logReferences(this);
+    	
+    	Log.i(TAG, "onCreate final state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+    	Log.i(TAG, "OnCreated end");
 		
 	}
     
@@ -452,10 +459,10 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	@Override
 	protected void onResume()
 	{
-		Log.i(TAG, "OnResume called");
 		super.onResume();
-
+		Log.i(TAG, "OnResume called");
 		
+		Log.i(TAG, "onResume references state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
 		// register the broadcast receiver
 		IntentFilter intentFilter = new IntentFilter(ReferenceStore.REF_UPDATED);
         m_referenceSavedReceiver = new BroadcastReceiver()
@@ -527,7 +534,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 				StatsProvider.scheduleActiveMonAlarm(this);
 			}
 		}
-
+		Log.i(TAG, "OnResume end");
 
 		
 
@@ -541,6 +548,8 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 	{
 		super.onPause();
 		
+		Log.i(TAG, "OnPause called");
+		Log.i(TAG, "onPause reference state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
 		// unregister boradcast receiver for saved references
 		this.unregisterReceiver(this.m_referenceSavedReceiver);
 		
@@ -563,6 +572,7 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
     {
     	super.onSaveInstanceState(savedInstanceState);
         
+    	Log.i(TAG, "onSaveInstanceState references: refFrom=" + m_refFromName + " refTo=" + m_refToName);
     	savedInstanceState.putSerializable("stattypeFrom", m_refFromName);
     	savedInstanceState.putSerializable("stattypeTo", m_refToName); 
 
@@ -870,6 +880,26 @@ public class StatsActivity extends ListActivity implements AdapterView.OnItemSel
 
 	private void refreshSpinners()
 	{
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		if ((m_refFromName == null) && (m_refToName == null))
+		{
+			Toast.makeText(this, "Fallback to default references", Toast.LENGTH_SHORT).show();
+			m_refFromName	= sharedPrefs.getString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
+			m_refToName	= Reference.CURRENT_REF_FILENAME;
+			
+
+			if (!ReferenceStore.hasReferenceByName(m_refFromName, this))
+			{
+				if (sharedPrefs.getBoolean("fallback_to_since_boot", false))
+				{
+					m_refFromName = Reference.BOOT_REF_FILENAME;
+		    		
+				}
+			}
+			Log.e(TAG, "refreshSpinners: reset null references: from='" + m_refFromName + "', to='" + m_refToName + "'");
+					
+		}
 		// reload the spinners to make sure all refs are in the right sequence
 		m_spinnerFromAdapter.refreshFromSpinner(this);
 		m_spinnerToAdapter.filterToSpinner(m_refFromName, this);
