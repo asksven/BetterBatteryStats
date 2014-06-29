@@ -1321,6 +1321,8 @@ public class StatsProvider
 			Log.d(TAG, "from " + strCurrent);
 		}
 
+		ArrayList<State> myResultStates = new ArrayList<State>();
+		
 		for (int i = 0; i < myStates.size(); i++)
 		{
 			State state = ((State) myStates.get(i)).clone();
@@ -1332,14 +1334,22 @@ public class StatsProvider
 				state.substractFromRef(refFrom.m_refCpuStates);
 				if ((!bFilter) || ((state.m_duration) > 0))
 				{
-					myStats.add(state);
+					myResultStates.add(state);
 				}
 			} else
 			{
-				myStats.clear();
-				myStats.add(new State(1, 1));
+				myResultStates.clear();
+				myResultStates.add(new State(1, 1));
 			}
 		}
+		
+		Collections.sort(myResultStates);
+		
+		for (int i=0; i < myResultStates.size(); i++)
+		{
+			myStats.add(myResultStates.get(i));
+		}
+		
 		return myStats;
 
 	}
