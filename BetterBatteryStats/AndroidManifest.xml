@@ -202,7 +202,7 @@
         <receiver
             android:name="com.asksven.betterbatterystats.ActiveMonAlarmReceiver"
             android:process=":remote" />
-        
+
         <service android:name="com.asksven.betterbatterystats.services.UpdateLargeWidgetService" >
         </service>
         <service android:name="com.asksven.betterbatterystats.services.UpdateMediumWidgetService" >
@@ -231,7 +231,10 @@
 
             <meta-data
                 android:name="protocolVersion"
-                android:value="1" />
+                android:value="2" />
+            <meta-data
+                android:name="worldReadable"
+                android:value="true" />
             <meta-data
                 android:name="description"
                 android:value="Show info about awake times and drain per hour" />
