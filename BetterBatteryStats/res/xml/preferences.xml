@@ -392,7 +392,7 @@
                 android:defaultValue="false"
                 android:dependency="root_features"
                 android:key="ignore_system_app"
-                android:summary="Ignore System App detection (for XPosed Module Users)"
+                android:summary="Ignore System App detection (for XPosed Module 'Enable BATTERY_STATS' users)"
                 android:title="Do not detect system app" />
             <CheckBoxPreference
                 android:defaultValue="false"
