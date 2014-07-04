@@ -46,117 +46,34 @@ Google has made changes to Kitkat that affect the way BBS works and some major c
 <li>BBS can now be installed as a system app (advanced preferences). This does not affect updatability and provides you the full feature set (no workarounds) on Kitkat</li>
 </ul>   	
 
-<h2>v1.16.0.0_RC6 2014-07-03</h2>
+<h2>v1.16.0.0 2014-07-05</h2>
 <p>
 <ul>
-	<li>An attempt to fix system app install that fails on certain devices</li>
 	<li>Fixed wording and layout of the system app dialog</li>
-	<li>Fixed Dashclock settings not being inaccessible in xda edition</li> 
-</ul>
-
-<h2>v1.16.0.0_RC5 2014-07-01</h2>
-<p>
-<ul>
 	<li>Fixed other stats for unrooted devices</li>
 	<li>Made description of setting for xposed module more speaking</li>
-	<li>Fixed Dasshclock API 2 extension</li>
-	<li>Fixed alarm parser for pre 4.2</li>
-</ul>
-
-<h2>v1.16.0.0_RC4 2014-06-29</h2>
-<p>
-<ul>
-	<li>Fixed dumpsys alarm parser for L preview</li>
-	<li>Fixed partial wakelocks expressed in milliseconds on L preview</li>
+	<li>Fixed alarm parser for pre android 4.2 devices</li>
+	<li>Now compatible with the L preview</li>
 	<li>Fix exception while parsing network stats</li>
 	<li>Fixed sorting of CPU states (by frequency)</li>
-</ul>
-
-<h2>v1.16.0.0_RC3 2014-06-28</h2>
-<p>
-<ul>
 	<li>Fixed null references when (re)opening BBS on certain launchers</li>
-	<li>Fixed stat service call on L preview</li>
-</ul>
-
-<h2>v1.16.0.0_RC2 2014-06-27</h2>
-<p>
-<ul>
-	<li>Fixed FC condition when saving dumpfile / logcat</li>
-	<li>Set icon height for the case that the package manager returns too large icons</li>
-	<li>Fixed missing icons in network stats</li>
-	<li>Fixed need for system app when xposed module is installed</li>
-</ul>
-<p>
-
-<h2>v1.16.0.0_RC1 2014-06-21</h2>
-<p>
-<ul>
 	<li>Long press on list element copies it to the clipboard</li>
-	<li>Merged into main branch, starting RC cycle</li>
-	
-</ul>
-<p>
-<h2>v1.16.0.0_B7 2014-06-15</h2>
-<p>
-<ul>
-	<li>Fixed pixelated pie graph on certain densities / resolutions</li>
-	
-</ul>
-<p>
-
-<h2>v1.16.0.0_B6 2014-06-14</h2>
-<p>
-<ul>
 	<li>Fixed FC on opening package info - permissions</li>
 	<li>Fixed gauge in "other" stats showing wrong value</li>
-	<li>Fixed pie gauge brush size on low density devices</li>
 	<li>Add Setting to disable system app check (for XPosed Module users)</li>
 	<li>Optionally show "old" bar gauge instead of pie</li>
-	
-</ul>
-<p>
-
-<h2>v1.16.0.0_B5 2014-06-09</h2>
-<p>
-<ul>
 	<li>Fixed tasker plugin not saving current stats</li>
 	<li>Fixed network stats for interface "lo" not being mapped to "Mobile"</li>
 	<li>Merged some graphical elements from 2.0 branch</li>
 	<li>Updated to dashclock API 2.0</li>
 	<li>Do not show spinner refresh Toast if only "from" spinner is visible</li>
-</ul>
-<p>
-<h2>v1.16.0.0_B4 2014-06-08</h2>
-<p>
-<ul>
 	<li>Added counters for alarm frequency (per minute or per hour) to alarm stats</li>
-	<li>Reverted to Java serialization of references instead of JSON</li>
 	<li>Fix for memory leak</li>
-</ul>
-<p>
-
-<h2>v1.16.0.0_B3 2014-03-21</h2>
-<p>
-<ul>
 	<li>Use root / dumpsys for alarms if available as dumpsys data is more complete</li>
 	<li>Avoid flushing cache at refresh</li>
-</ul>
-<p>
-
-<h2>v1.16.0.0_B2 2014-03-10</h2>
-<p>
-<ul>
-	<li>Fixed system APK having wrong signature</li>
-</ul>
-<p>
-
-<h2>v1.16.0.0_B1 2014-03-09</h2>
-<p>
-<ul>
 	<li>Optimized dumpsys usage: if permissions present avoid using root</li>
 	<li>Alarm stats without root</li>
-	<li>Watchdog indocator shall never be > 100% awake</li> 
+	<li>Watchdog indicator shall never be > 100% awake</li> 
 	<li>Serialization/deserialization is now JSON based</li>
 	<li>Update note on dumpfile chapters requiring root starting with 4.4</li>
 	<li>Properly handle inexistence of AppOps (avoid crashing)</li>
