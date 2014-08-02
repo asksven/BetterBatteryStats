@@ -3,11 +3,11 @@
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
     android:versionCode="49"
-    android:versionName="1.16.0.0" >
+    android:versionName="1.16.1.0B1" >
 
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="20" />
 
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <uses-permission android:name="android.permission.DUMP" />
