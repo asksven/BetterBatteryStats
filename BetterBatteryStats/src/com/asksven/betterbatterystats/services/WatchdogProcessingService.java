@@ -116,7 +116,9 @@ public class WatchdogProcessingService extends IntentService
 					{
 						// restore any available since screen reference
 						Reference refFrom = ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, this);
-						Reference refTo = StatsProvider.getInstance(this).getUncachedPartialReference(0);
+						StatsProvider.getInstance(this).setCurrentReference(0);
+						//Reference refTo = StatsProvider.getInstance(this).getUncachedPartialReference(0);
+						Reference refTo = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
 						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, refFrom, false, false, refTo);
 
 						long timeAwake = 0;
@@ -124,20 +126,22 @@ public class WatchdogProcessingService extends IntentService
 
 						if ( (otherStats != null) && ( otherStats.size() > 1) )
 						{
+							
 							timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
 							timeSince = stats.getBatteryRealtime(StatsProvider.STATS_SCREEN_OFF);
-							
+							Log.i(TAG, "Other stats found. Since=" + timeSince + ", Awake=" + timeAwake);
 						}
 						else
 						{
 							// no stats means the phone was awake
 							timeSince = stats.getBatteryRealtime(StatsProvider.STATS_SCREEN_OFF);
 							timeAwake = timeSince;
+							Log.i(TAG, "Other stats do not have any data. Since=" + timeSince + ", Awake=" + timeAwake);
 						}
 						
 						if (timeSince > 0)
 						{
-							awakePct = Math.max(((int) (timeAwake / timeSince)) * 100, 100);
+							awakePct = Math.min(((int) (timeAwake / timeSince)) * 100, 100);
 						}
 						else
 						{
