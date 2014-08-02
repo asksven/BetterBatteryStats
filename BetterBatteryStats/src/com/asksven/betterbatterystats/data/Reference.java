@@ -140,6 +140,11 @@ public class Reference implements Serializable
 
     public Reference(ReferenceDto source)
     {		
+    	if (source == null)
+    	{
+    		return;
+    	}
+    	
 		this.m_creationTime 		= source.m_creationTime;
 		this.m_fileName 			= source.m_fileName;
 		this.m_refBatteryLevel 		= source.m_refBatteryLevel;
