@@ -35,6 +35,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.State;
@@ -48,6 +49,7 @@ import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -80,6 +82,8 @@ public class Reading implements Serializable
 	String buildProduct;
 	String buildRadio;
 	boolean rooted;
+	boolean batteryStatsPermGranted;
+	boolean xposedBatteryStatsEnabled;
 	int batteryLevelLost;
 	int batteryVoltageLost;
 	String batteryLevelLostText;
@@ -155,7 +159,12 @@ public class Reading implements Serializable
 			buildRadio 		= Build.RADIO;
 		}
 
+		SharedPreferences sharedPrefs 	= PreferenceManager.getDefaultSharedPreferences(context);
+		
 		rooted 				= RootShell.getInstance().rooted(); //Shell.SU.available();
+		
+		batteryStatsPermGranted = SysUtils.hasBatteryStatsPermission(context);
+		xposedBatteryStatsEnabled = sharedPrefs.getBoolean("ignore_system_app", false);
 		
 		batteryLevelLost 		= StatsProvider.getInstance(context).getBatteryLevelStat(refFrom, refTo);
 		batteryVoltageLost 		= StatsProvider.getInstance(context).getBatteryVoltageStat(refFrom, refTo);
@@ -163,7 +172,7 @@ public class Reading implements Serializable
 		batteryVoltageLostText 	= StatsProvider.getInstance(context).getBatteryVoltageFromTo(refFrom, refTo);
 
 		// populate the stats
-		SharedPreferences sharedPrefs 	= PreferenceManager.getDefaultSharedPreferences(context);
+		
 		boolean bFilterStats 			= sharedPrefs.getBoolean("filter_data", true);
 		int iPctType 					= Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
 		int iSort 						= 0;
@@ -331,6 +340,9 @@ public class Reading implements Serializable
 		out.write("PRODUCT: " + buildProduct + "\n");
 		out.write("RADIO: " + buildRadio + "\n");
 		out.write("Rooted: " + rooted + "\n");
+		out.write("BATTERY_STATS permission granted: " + batteryStatsPermGranted + "\n");
+		out.write("XPosed BATTERY_STATS module enabled: " + xposedBatteryStatsEnabled + "\n");
+		
 
 		out.write("============\n");
 		out.write("Battery Info\n");
