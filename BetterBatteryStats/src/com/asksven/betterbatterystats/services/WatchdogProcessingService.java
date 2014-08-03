@@ -141,13 +141,14 @@ public class WatchdogProcessingService extends IntentService
 						
 						if (timeSince > 0)
 						{
-							awakePct = Math.min(((int) (timeAwake / timeSince)) * 100, 100);
+							awakePct = (int) ((timeAwake *100 / timeSince));
 						}
 						else
 						{
 							awakePct = 0;
 						}
 
+						Log.i(TAG, "Awake %=" + awakePct);
 						// we issue a warning if awakePct > awakeThresholdPct
 						if (awakePct >= awakeThresholdPct)
 						{
