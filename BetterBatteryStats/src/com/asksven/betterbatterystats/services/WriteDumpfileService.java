@@ -65,6 +65,7 @@ public class WriteDumpfileService extends IntentService
 	private static final String TAG = "WriteDumpfileService";
 	public static final String STAT_TYPE_FROM = "StatTypeFrom";
 	public static final String STAT_TYPE_TO = "StatTypeTo";
+	public static final String OUTPUT = "Output";
 
 	public WriteDumpfileService()
 	{
@@ -79,6 +80,7 @@ public class WriteDumpfileService extends IntentService
 		
 		String refFrom = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_FROM);
 		String refTo = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_TO);
+		String output = intent.getStringExtra(WriteDumpfileService.OUTPUT);
 		if (refTo == null)
 		{
 			refTo = Reference.CURRENT_REF_FILENAME;
@@ -89,6 +91,7 @@ public class WriteDumpfileService extends IntentService
 		{
 			StatsProvider.getInstance(this).setCurrentReference(0);
 		}
+		
 		
 		Log.i(TAG, "Called with extra " + refFrom + " and " + refTo);
 
@@ -101,7 +104,14 @@ public class WriteDumpfileService extends IntentService
 	        	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(refFrom, this);
 	    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(refTo, this);
 	    		Reading data = new Reading(this,myReferenceFrom, myReferenceTo);
-	    		data.writeToFileText(this);
+	    		if ((output == null) || (!output.equals("JSON")))
+	    		{
+	    			data.writeToFileText(this);
+	    		}
+	    		else
+	    		{
+	    			data.writeToFileJson(this);
+	    		}
 	
 			}
 			catch (Exception e)

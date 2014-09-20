@@ -47,6 +47,7 @@ public final class PluginBundleManager
      */
     public static final String BUNDLE_EXTRA_BOOL_SAVE_REF 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_REF"; //$NON-NLS-1$
     public static final String BUNDLE_EXTRA_BOOL_SAVE_STAT 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_STAT"; //$NON-NLS-1$
+    public static final String BUNDLE_EXTRA_BOOL_SAVE_JSON 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_JSON"; //$NON-NLS-1$
     public static final String BUNDLE_EXTRA_STRING_REF_NAME	= "com.asksven.commandcenter.localeplugin.extra.REF_NAME"; //$NON-NLS-1$
 
     
@@ -94,6 +95,14 @@ public final class PluginBundleManager
             if (Constants.IS_LOGGABLE)
             {
                 Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_BOOL_SAVE_STAT)); //$NON-NLS-1$
+            }
+            return false;
+        }
+        if (!bundle.containsKey(BUNDLE_EXTRA_BOOL_SAVE_JSON))
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_BOOL_SAVE_JSON)); //$NON-NLS-1$
             }
             return false;
         }

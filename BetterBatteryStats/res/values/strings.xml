@@ -3,7 +3,8 @@
     <string name="plugin_name">Better Battery Stats</string>
     <string name="message_hint">Scheduled Toast</string>
     <string name="message_hint_saveref">Save a Custom Reference</string>
-    <string name="message_hint_savestat">Save a Dumpfile</string>
+    <string name="message_hint_savestat">Save a Text Dumpfile</string>
+    <string name="message_hint_savestatjson">Save a JSON Dumpfile</string>
     <string name="message_hint_sinceref">Dump Since last Reference</string>
     <string name="message_hint_stat_type">Stat Type</string>
     <string name="app_name">BetterBatteryStats</string>

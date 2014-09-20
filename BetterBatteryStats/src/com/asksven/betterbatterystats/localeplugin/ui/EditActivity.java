@@ -134,6 +134,7 @@ public final class EditActivity extends Activity
             	// 
                 ((CheckBox) findViewById(R.id.CheckBoxSaveRef)).setChecked(forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF));
                 ((CheckBox) findViewById(R.id.CheckBoxSaveStat)).setChecked(forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT));
+                ((CheckBox) findViewById(R.id.CheckBoxSaveStatJson)).setChecked(forwardedBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_JSON));
 
 //                ((Spinner) findViewById(R.id.spinnerStatType)).setSelection(forwardedBundle.getInt(PluginBundleManager.BUNDLE_EXTRA_INT_POSITION));
                 Log.i(TAG, "Retrieved from Bundle: " 
@@ -164,6 +165,7 @@ public final class EditActivity extends Activity
         {
             final boolean saveRef = ((CheckBox) findViewById(R.id.CheckBoxSaveRef)).isChecked();
             final boolean saveStat = ((CheckBox) findViewById(R.id.CheckBoxSaveStat)).isChecked();
+            final boolean saveStatJson = ((CheckBox) findViewById(R.id.CheckBoxSaveStatJson)).isChecked();
              
             int pos = ((Spinner) findViewById(R.id.spinnerStatType)).getSelectedItemPosition();
             final String ref = m_spinnerAdapter.getItemName(pos);
@@ -183,7 +185,8 @@ public final class EditActivity extends Activity
             final Bundle resultBundle = new Bundle();
             resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VERSION_CODE, Constants.getVersionCode(this));
             resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF, saveRef);
-            resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT, saveStat);            
+            resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT, saveStat);
+            resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_JSON, saveStatJson);
             resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_REF_NAME, ref);
             
             Log.i(TAG, "Saved Bundle: " + resultBundle.toString());
