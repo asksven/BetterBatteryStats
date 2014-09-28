@@ -61,7 +61,7 @@ public class GraphablePie extends ImageView
     static
     {
     	sText.setStyle(Paint.Style.STROKE);
-    	sText.setColor(Color.WHITE);
+//    	sText.setColor(Color.WHITE);
     	sText.setAntiAlias(true);
 //        sPaint.setStrokeWidth(STROKE_WIDTH + 2);
     }
