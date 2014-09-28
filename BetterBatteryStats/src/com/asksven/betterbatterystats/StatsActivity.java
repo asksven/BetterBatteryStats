@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 asksven
+ * Copyright (C) 2011-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,7 +78,7 @@ import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 
-public class StatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
+public class StatsActivity extends ActionBarListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
 {    
 	public static String STAT 				= "STAT";
 	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 asksven
+ * Copyright (C) 2012-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +17,19 @@
 package com.asksven.betterbatterystats;
 
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+
 import com.asksven.betterbatterystats.R;
 
 /**
@@ -35,7 +37,7 @@ import com.asksven.betterbatterystats.R;
  * switches between tabs and also allows the user to perform horizontal flicks
  * to move between the tabs.
  */
-public class PackageInfoTabsPager extends SherlockFragmentActivity
+public class PackageInfoTabsPager extends ActionBarActivity
 {
 	TabHost mTabHost;
 	ViewPager mViewPager;

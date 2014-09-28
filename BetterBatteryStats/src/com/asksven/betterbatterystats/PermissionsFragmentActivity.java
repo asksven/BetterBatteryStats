@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 asksven
+ * Copyright (C) 2012-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,15 +23,16 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+
 import com.asksven.betterbatterystats.adapters.PermissionsAdapter;
 import com.asksven.betterbatterystats.data.Permission;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -41,7 +42,7 @@ import com.asksven.betterbatterystats.R;
  * Demonstration of the use of a CursorLoader to load and display contacts data
  * in a fragment.
  */
-public class PermissionsFragmentActivity extends SherlockFragmentActivity
+public class PermissionsFragmentActivity extends ActionBarActivity
 {
 	
 
@@ -60,7 +61,7 @@ public class PermissionsFragmentActivity extends SherlockFragmentActivity
 		}
 	}
 
-	public static class PermissionsListFragment extends SherlockListFragment
+	public static class PermissionsListFragment extends ListFragment
 	{
 
 		/**

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 asksven
+ * Copyright (C) 2011-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +37,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.asksven.betterbatterystats.R;
 
-public class PackageFragmentActivity extends SherlockFragmentActivity
+public class PackageFragmentActivity extends ActionBarActivity
 {
 	
 	static final String TAG = "PackageFragmentActivity";
@@ -60,7 +60,7 @@ public class PackageFragmentActivity extends SherlockFragmentActivity
 
 	}
 
-	public static class PackageFragment extends SherlockFragment
+	public static class PackageFragment extends Fragment
 	{
 		String m_packageName;
 

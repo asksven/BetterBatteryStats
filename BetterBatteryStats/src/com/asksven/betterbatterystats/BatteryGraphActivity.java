@@ -136,6 +136,7 @@ public class BatteryGraphActivity extends Activity
         
 		//new LoadStatData().execute(this);
 		m_histList = this.getHistList();
+
         seriesSetup();
       
         makePlotPretty(m_plotCharge);
@@ -395,6 +396,7 @@ public class BatteryGraphActivity extends Activity
 		try
 		{
 			myRet = mStats.getHistory(this);
+			mStats.dumpHistory(this);
 		}
 		catch (Exception e)
 		{
