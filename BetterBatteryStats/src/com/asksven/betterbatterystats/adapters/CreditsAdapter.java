@@ -29,13 +29,13 @@ public class CreditsAdapter extends ArrayAdapter<String>
 {
 	private final Context m_context;
 	private final String[] m_libs = new String[]
-	{ "ActionBarSherlock", "libsuperuser", "Android Common", "Google gson", "AchartEngine", "AndroidPlot", "DashClock", "RootTools" };
+	{ "libsuperuser", "Android Common", "Google gson", "AchartEngine", "AndroidPlot", "DashClock", "RootTools" };
 	private final String[] m_authors = new String[]
-	{ "Jake Wharton", "Chainfire", "asksven", "", "AchartEngine", "AndroidPlot", "Roman Nurik", "Stericson" };
+	{ "Chainfire", "asksven", "", "AchartEngine", "AndroidPlot", "Roman Nurik", "Stericson" };
 	private final String[] m_licenses = new String[]
-	{ "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0" };
+	{ "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0" };
 	private final String[] m_urls = new String[]
-	{ "Apache 2.0", "Apache 2.0", "Apache 2.0",
+	{ "Apache 2.0", "Apache 2.0",
 			"https://code.google.com/p/google-gson/",
 			"http://www.achartengine.org/index.html",
 			"http://androidplot.com/",

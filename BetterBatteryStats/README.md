@@ -1,12 +1,12 @@
+#License
+BetterBatteryStats is an open source project unter the terms of the Apache 2.0 License. The license does not apply to the use of the names "BetterBatteryStats" and "Better Battery Stats", nor to the icon / artwork created for BetterBatteryStats. 
+
 # Credits
 This project makes use of:
 
 * [google gson][] licensed under the terms of the [Apache License Version][apache-license] 2.0,
   See libs/LICENSE_GSON
 * [achartengine][] and [androidplot][] (see libs/LICENSE_ACHARTENGINE and libs/ANDROIDPLOT)
-* ActionbarSherlock (added to libs). Orginal sources of ActionBarSherlock can be obtained here:
-  https://github.com/JakeWharton/ActionBarSherlock
-  Read this to learn how to integrate/update ActionBarSherlock (in)to this project.
 * AndroidCommon: https://github.com/asksven/AndroidCommon
 * libsuperuser (indirectly through AndroidCommon)
 * LocalepluginLib (http://www.twofortyfouram.com/developer) added as a sub-project in BetterBatteryStats/LocalePluginLib
