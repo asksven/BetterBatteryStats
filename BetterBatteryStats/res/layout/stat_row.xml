@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LinearLayoutEntry"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/clickable"
+    android:layout_height="62dp"
+    android:background="@drawable/card"
     android:orientation="horizontal"
     android:paddingBottom="4dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:paddingTop="4dp" >
+    android:paddingTop="4dp"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+	android:layout_marginRight="@dimen/activity_horizontal_margin" >
 
     <LinearLayout
         android:id="@+id/LinearLayout01"
@@ -47,11 +49,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/LinearLayout01"
+        android:id="@+id/LinearLayout02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:layout_weight="100">
 
         <TextView
@@ -82,7 +85,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/LinearLayout02"
+            android:id="@+id/LinearLayout03"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 

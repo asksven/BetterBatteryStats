@@ -63,7 +63,9 @@
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+		android:dividerHeight="@dimen/activity_vertical_margin" />
 
     <!--
          android:dividerHeight="1dp"
