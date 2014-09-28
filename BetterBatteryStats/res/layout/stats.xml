@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#e5e5e5">
 
     <Spinner
         android:id="@+id/spinnerStat"
@@ -40,8 +41,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Since..."
-            android:textSize="12sp"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:textSize="@dimen/row_name_text_size"/>/>
     </FrameLayout>
     <!--
 		<View android:id="@+id/view_separator" 
@@ -63,9 +66,11 @@
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+		android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_weight="1"
-        android:divider="@android:color/transparent"
-		android:dividerHeight="@dimen/activity_vertical_margin" />
+        android:divider="@null"
+		android:dividerHeight="@dimen/activity_horizontal_margin" />
 
     <!--
          android:dividerHeight="1dp"
