@@ -71,7 +71,6 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
-import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceDBHelper;
@@ -204,7 +203,6 @@ public class StatsActivity extends ActionBarListActivity
 		if (!ignoreSystemApp && hasRoot && !SysUtils.hasBatteryStatsPermission(this))
 		{
         	Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
-        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_PREFERENCES);
             this.startActivity(intentSystemApp);
 		}
 		
@@ -235,46 +233,10 @@ public class StatsActivity extends ActionBarListActivity
     	else
     	{
     		// can't do this at the same time as the popup dialog would be masked by the readme
-			///////////////////////////////////////////////
-			// check if we have shown the opt-out from analytics
-			///////////////////////////////////////////////
-			boolean bWarningShown	= sharedPrefs.getBoolean("analytics_opt_out", false);
-			boolean bAnalyticsEnabled = sharedPrefs.getBoolean("use_analytics", true);
-			if (bAnalyticsEnabled && !bWarningShown)
-			{
-				// prepare the alert box
-	            AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-	 
-	            // set the message to display
-	            alertbox.setMessage("BetterBatteryStats makes use of Google Analytics to collect usage statitics. If you disagree or do not want to participate you can opt-out by disabling \"Google Analytics\" in the \"Advanced Preferences\"");
-	 
-	            // add a neutral button to the alert box and assign a click listener
-	            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
-	            {
-	 
-	                // click listener on the alert box
-	                public void onClick(DialogInterface arg0, int arg1)
-	                {
-	        	        // opt out info was displayed
-	            		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
-	        	        SharedPreferences.Editor editor = prefs.edit();
-	        	        editor.putBoolean("analytics_opt_out", true);
-	        	        editor.commit();
-	
-	                }
-	            });
-	 
-	            // show it
-	            alertbox.show();
-	
-			}
-			else
-			{
-		    	// show "rate" dialog
-		    	// for testing: AppRater.showRateDialog(this, null);
-		    	AppRater.app_launched(this);
+	    	// show "rate" dialog
+	    	// for testing: AppRater.showRateDialog(this, null);
+	    	AppRater.app_launched(this);
 
-			}
     	}
     	
 		///////////////////////////////////////////////
@@ -456,8 +418,6 @@ public class StatsActivity extends ActionBarListActivity
 		///////////////////////////////////////////////
 		m_iSorting = 0;
 
-		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_refFromName, m_refToName, m_iSorting);
-
         // Set up a listener whenever a key changes
     	PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
@@ -619,19 +579,16 @@ public class StatsActivity extends ActionBarListActivity
         {  
 	        case R.id.preferences:  
 	        	Intent intentPrefs = new Intent(this, PreferencesActivity.class);
-	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_PREFERENCES);
 	            this.startActivity(intentPrefs);
 	        	break;	
 
 	        case R.id.graph:  
 	        	Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
-	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_BATTERY_GRAPH);
 	            this.startActivity(intentGraph);
 	        	break;
 	        	
 	        case R.id.rawstats:  
 	        	Intent intentRaw = new Intent(this, RawStatsActivity.class);
-	        	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_RAW);
 	            this.startActivity(intentRaw);
 	        	break;	
 	        case R.id.refresh:
@@ -641,7 +598,6 @@ public class StatsActivity extends ActionBarListActivity
             	break;	
             case R.id.custom_ref:
             	// Set custom reference
-            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTION_SET_CUSTOM_REF);
 
             	// start service to persist reference
         		Intent serviceIntent = new Intent(this, WriteCustomReferenceService.class);
@@ -660,13 +616,11 @@ public class StatsActivity extends ActionBarListActivity
             case R.id.about:
             	// About
             	Intent intentAbout = new Intent(this, AboutActivity.class);
-            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_ABOUT);       	
                 this.startActivity(intentAbout);
             	break;
             case R.id.getting_started:
             	// Help
             	Intent intentHelp = new Intent(this, HelpActivity.class);
-            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_HELP);
             	intentHelp.putExtra("filename", "help.html");
                 this.startActivity(intentHelp);
             	break;	
@@ -674,7 +628,6 @@ public class StatsActivity extends ActionBarListActivity
             case R.id.howto:
             	// How To
             	Intent intentHowTo = new Intent(this, HelpActivity.class);
-            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_HOWTO);
             	intentHowTo.putExtra("filename", "howto.html");
                 this.startActivity(intentHowTo);
             	break;	
@@ -682,7 +635,6 @@ public class StatsActivity extends ActionBarListActivity
             case R.id.releasenotes:
             	// Release notes
             	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
-            	GoogleAnalytics.getInstance(this).trackPage(GoogleAnalytics.ACTIVITY_README);
             	intentReleaseNotes.putExtra("filename", "readme.html");
                 this.startActivity(intentReleaseNotes);
             	break;	
@@ -817,8 +769,6 @@ public class StatsActivity extends ActionBarListActivity
 		//m_listViewAdapter.notifyDataSetChanged();
         if (bChanged)
         {
-        	GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_refFromName, m_refToName, m_iSorting);
-        	//new LoadStatData().execute(this);
         	// as the source changed fetch the data
         	doRefresh(false);
         }
@@ -1117,8 +1067,6 @@ public class StatsActivity extends ActionBarListActivity
 					@Override
 					public void onClick(DialogInterface dialog, int id)
 					{
-		            	GoogleAnalytics.getInstance(StatsActivity.this).trackPage(GoogleAnalytics.ACTION_DUMP);            	
-
 		            	ArrayList<Uri> attachements = new ArrayList<Uri>();
 
 		            	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
@@ -1163,8 +1111,6 @@ public class StatsActivity extends ActionBarListActivity
 					@Override
 					public void onClick(DialogInterface dialog, int id)
 					{
-		            	GoogleAnalytics.getInstance(StatsActivity.this).trackPage(GoogleAnalytics.ACTION_DUMP);            	
-
 
 		            	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
 			    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);

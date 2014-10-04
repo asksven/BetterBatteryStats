@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,20 +36,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
-import com.asksven.betterbatterystats.data.GoogleAnalytics;
-import com.asksven.betterbatterystats.data.Reference;
-import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
 public class RawStatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener

@@ -45,7 +45,6 @@ import com.asksven.android.common.privateapiproxies.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.betterbatterystats.data.GoogleAnalytics;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
 import com.asksven.betterbatterystats.data.KbReader;
@@ -452,7 +451,6 @@ public class StatsAdapter extends BaseAdapter
     {
     	Intent intentPerms = new Intent(context, PackageInfoTabsPager.class); //Activity.class);
     	intentPerms.putExtra("package", packageName);
-    	GoogleAnalytics.getInstance(context).trackPage(GoogleAnalytics.ACTIVITY_PERMS);
         context.startActivity(intentPerms);
     }
 

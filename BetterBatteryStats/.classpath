@@ -3,9 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry exported="true" kind="lib" path="libs/libGoogleAnalytics.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/Androidplot-core-0.4.4-release.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/EasyTracker.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/achartengine-0.7.0.jar"/>
 	<classpathentry kind="lib" path="libs/jackson-all-1.9.11.jar"/>
