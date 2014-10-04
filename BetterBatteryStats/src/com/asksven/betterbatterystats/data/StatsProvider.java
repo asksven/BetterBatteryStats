@@ -2076,7 +2076,7 @@ public class StatsProvider
 	 *            the reference
 	 * @return the lost battery level
 	 */
-	public String getBatteryLevelFromTo(Reference refFrom, Reference refTo)
+	public String getBatteryLevelFromTo(Reference refFrom, Reference refTo, boolean concise)
 	{
 		// deep sleep times are independent of stat type
 		long lLevelTo = 0;
@@ -2118,8 +2118,11 @@ public class StatsProvider
 			Log.e(TAG, "Error retrieving since");
 		}
 		
-		return "Bat.: " + getBatteryLevelStat(refFrom, refTo) + "% (" + levelFrom
-				+ "% to " + levelTo + "%)" + " [" + drop_per_hour + "]";
+		String ret = "Bat.: " + getBatteryLevelStat(refFrom, refTo) + "%";
+		if (!concise) { ret += "(" + levelFrom	+ "% to " + levelTo + "%)"; }
+		ret += " [" + drop_per_hour + "]";
+		
+		return ret;
 	}
 
 	/**

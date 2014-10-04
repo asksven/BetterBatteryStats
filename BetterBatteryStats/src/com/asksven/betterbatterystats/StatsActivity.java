@@ -21,6 +21,7 @@ package com.asksven.betterbatterystats;
  */
 import java.util.ArrayList;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -35,13 +36,18 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -77,14 +83,28 @@ import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
+import com.asksven.betterbatterystats.contrib.ObservableScrollView;
 
-public class StatsActivity extends ActionBarListActivity implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener
+public class StatsActivity extends ActionBarListActivity 
+		implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener, ObservableScrollView.Callbacks
 {    
 	public static String STAT 				= "STAT";
 	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
 	public static String STAT_TYPE_TO		= "STAT_TYPE_TO";
 	public static String FROM_NOTIFICATION 	= "FROM_NOTIFICATION";
 	
+	private static final int STATE_ONSCREEN = 0;
+    private static final int STATE_OFFSCREEN = 1;
+    private static final int STATE_RETURNING = 2;
+    
+    private TextView mQuickReturnView;
+    private View mPlaceholderView;
+    private ObservableScrollView mObservableScrollView;
+    private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
+    private int mMinRawY = 0;
+    private int mState = STATE_ONSCREEN;
+    private int mQuickReturnHeight;
+    private int mMaxScrollY;
 	/**
 	 * The logging TAG
 	 */
@@ -131,6 +151,10 @@ public class StatsActivity extends ActionBarListActivity implements AdapterView.
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setBackgroundDrawable(new ColorDrawable(0xff2ecc71));
+		
 		Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -326,11 +350,11 @@ public class StatsActivity extends ActionBarListActivity implements AdapterView.
             long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
             if (sinceMs != -1)
             {
-    	        String sinceText = DateUtils.formatDuration(sinceMs);
+    	        String sinceText = DateUtils.formatDurationShort(sinceMs);
     			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
     	        if (bShowBatteryLevels)
     	        {
-    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo);
+    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
     	        }
     	        tvSince.setText(sinceText);
     	    	Log.i(TAG, "Since " + sinceText);
@@ -347,8 +371,8 @@ public class StatsActivity extends ActionBarListActivity implements AdapterView.
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);
 		
 		ArrayAdapter spinnerStatAdapter = ArrayAdapter.createFromResource(
-	            this, R.array.stats, android.R.layout.simple_spinner_item);
-		spinnerStatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	            this, R.array.stats, R.layout.bbs_spinner_layout); //android.R.layout.simple_spinner_item);
+		spinnerStatAdapter.setDropDownViewResource(R.layout.bbs_spinner_dropdown_item); // android.R.layout.simple_spinner_dropdown_item);
 	    
 		spinnerStat.setAdapter(spinnerStatAdapter);
 		// setSelection MUST be called after setAdapter
@@ -359,8 +383,8 @@ public class StatsActivity extends ActionBarListActivity implements AdapterView.
 		// Spinner for Selecting the Stat type
 		///////////////////////////////////////////////
 		Spinner spinnerStatType = (Spinner) findViewById(R.id.spinnerStatType);
-		m_spinnerFromAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_item);
-		m_spinnerFromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		m_spinnerFromAdapter = new ReferencesAdapter(this, R.layout.bbs_spinner_layout); //android.R.layout.simple_spinner_item);
+		m_spinnerFromAdapter.setDropDownViewResource(R.layout.bbs_spinner_dropdown_item); //android.R.layout.simple_spinner_dropdown_item);
 		spinnerStatType.setAdapter(m_spinnerFromAdapter);
 
 		try
@@ -392,8 +416,8 @@ public class StatsActivity extends ActionBarListActivity implements AdapterView.
 		// Spinner for Selecting the end sample
 		///////////////////////////////////////////////
 		Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
-		m_spinnerToAdapter = new ReferencesAdapter(this, android.R.layout.simple_spinner_item);
-		m_spinnerToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		m_spinnerToAdapter = new ReferencesAdapter(this, R.layout.bbs_spinner_layout); //android.R.layout.simple_spinner_item);
+		m_spinnerToAdapter.setDropDownViewResource(R.layout.bbs_spinner_dropdown_item); //android.R.layout.simple_spinner_dropdown_item);
 
 		
 		boolean bShowSpinner = sharedPrefs.getBoolean("show_to_ref", true);
@@ -833,7 +857,7 @@ public class StatsActivity extends ActionBarListActivity implements AdapterView.
 	        if (bShowBatteryLevels)
 	        {
 
-        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo);
+        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
 	        }
 	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + sinceText);
@@ -1054,7 +1078,7 @@ public class StatsActivity extends ActionBarListActivity implements AdapterView.
 				boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
 		        if (bShowBatteryLevels)
 		        {
-		        		sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo);
+		        		sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
 		        }
 		        tvSince.setText(sinceText);
 		    	Log.i(TAG, "Since " + sinceText);
@@ -1236,4 +1260,107 @@ public class StatsActivity extends ActionBarListActivity implements AdapterView.
 	
 		return builder.create();
 	}
+	
+	@Override
+    public void onDownMotionEvent() {
+        mScrollSettleHandler.setSettleEnabled(false);
+    }
+	
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	@Override
+    public void onScrollChanged(int scrollY) {
+        scrollY = Math.min(mMaxScrollY, scrollY);
+
+        mScrollSettleHandler.onScroll(scrollY);
+
+        int rawY = mPlaceholderView.getTop() - scrollY;
+        int translationY = 0;
+
+        switch (mState) {
+            case STATE_OFFSCREEN:
+                if (rawY <= mMinRawY) {
+                    mMinRawY = rawY;
+                } else {
+                    mState = STATE_RETURNING;
+                }
+                translationY = rawY;
+                break;
+
+            case STATE_ONSCREEN:
+                if (rawY < -mQuickReturnHeight) {
+                    mState = STATE_OFFSCREEN;
+                    mMinRawY = rawY;
+                }
+                translationY = rawY;
+                break;
+
+            case STATE_RETURNING:
+                translationY = (rawY - mMinRawY) - mQuickReturnHeight;
+                if (translationY > 0) {
+                    translationY = 0;
+                    mMinRawY = rawY - mQuickReturnHeight;
+                }
+
+                if (rawY > 0) {
+                    mState = STATE_ONSCREEN;
+                    translationY = rawY;
+                }
+
+                if (translationY < -mQuickReturnHeight) {
+                    mState = STATE_OFFSCREEN;
+                    mMinRawY = rawY;
+                }
+                break;
+        }
+        mQuickReturnView.animate().cancel();
+        mQuickReturnView.setTranslationY(translationY + scrollY);
+    }
+	
+	@Override
+    public void onUpOrCancelMotionEvent() {
+        mScrollSettleHandler.setSettleEnabled(true);
+        mScrollSettleHandler.onScroll(mObservableScrollView.getScrollY());
+    }
+	
+	
+	private class ScrollSettleHandler extends Handler {
+        private static final int SETTLE_DELAY_MILLIS = 100;
+
+        private int mSettledScrollY = Integer.MIN_VALUE;
+        private boolean mSettleEnabled;
+
+        public void onScroll(int scrollY) {
+            if (mSettledScrollY != scrollY) {
+                 // Clear any pending messages and post delayed
+                removeMessages(0);
+                sendEmptyMessageDelayed(0, SETTLE_DELAY_MILLIS);
+                mSettledScrollY = scrollY;
+            }
+        }
+
+        public void setSettleEnabled(boolean settleEnabled) {
+            mSettleEnabled = settleEnabled;
+        }
+
+        @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+		@Override
+        public void handleMessage(Message msg) {
+            // Handle the scroll settling.
+            if (STATE_RETURNING == mState && mSettleEnabled) {
+                int mDestTranslationY;
+                if (mSettledScrollY - mQuickReturnView.getTranslationY() > mQuickReturnHeight / 2) {
+                    mState = STATE_OFFSCREEN;
+                    mDestTranslationY = Math.max(
+                            mSettledScrollY - mQuickReturnHeight,
+                            mPlaceholderView.getTop());
+                } else {
+                    mDestTranslationY = mSettledScrollY;
+                }
+
+                mMinRawY = mPlaceholderView.getTop() - mQuickReturnHeight - mDestTranslationY;
+                mQuickReturnView.animate().translationY(mDestTranslationY);
+            }
+            mSettledScrollY = Integer.MIN_VALUE; // reset
+        }
+    }
 }

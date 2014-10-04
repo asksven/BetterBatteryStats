@@ -122,7 +122,7 @@ public class PermissionsAdapter extends BaseAdapter
 				color = R.color.signature_color;
 				break;
 			default:
-				color = android.R.color.primary_text_light;
+				color = android.R.color.primary_text_dark;
 				break;
 			}
 	    	LinearLayout nameLayout = (LinearLayout) convertView.findViewById(R.id.LayoutName);

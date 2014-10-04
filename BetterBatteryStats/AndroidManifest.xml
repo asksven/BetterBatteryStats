@@ -6,7 +6,7 @@
     android:versionName="1.17.0.0B1" >
 
     <uses-sdk
-        android:minSdkVersion="7"
+        android:minSdkVersion="8"
         android:targetSdkVersion="20" />
 
     <uses-permission android:name="android.permission.BATTERY_STATS" />

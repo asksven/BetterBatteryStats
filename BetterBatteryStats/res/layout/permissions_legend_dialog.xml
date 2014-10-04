@@ -6,24 +6,26 @@
     android:padding="16dp" >
 
  	<TextView
-        android:id="@+id/title"
+        android:id="@+id/title1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-
         android:background="@color/dangerous_color"
-        android:text="Permission marked as 'dangerous'" />
+        android:text="Permission marked as 'dangerous'"
+        android:fontFamily="sans-serif-condensend"/>
 
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/title2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/signature_color"
-        android:text="Permissions for 'system apps'"/>
+        android:text="Permissions for 'system apps'"
+        android:fontFamily="sans-serif-condensend"/>
 
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/title3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Normal permissions"/>
+        android:text="Normal permissions"
+        android:fontFamily="sans-serif-condensend"/>
     
 </LinearLayout>

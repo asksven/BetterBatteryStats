@@ -168,7 +168,7 @@ public class Reading implements Serializable
 		
 		batteryLevelLost 		= StatsProvider.getInstance(context).getBatteryLevelStat(refFrom, refTo);
 		batteryVoltageLost 		= StatsProvider.getInstance(context).getBatteryVoltageStat(refFrom, refTo);
-		batteryLevelLostText 	= StatsProvider.getInstance(context).getBatteryLevelFromTo(refFrom, refTo);
+		batteryLevelLostText 	= StatsProvider.getInstance(context).getBatteryLevelFromTo(refFrom, refTo, true);
 		batteryVoltageLostText 	= StatsProvider.getInstance(context).getBatteryVoltageFromTo(refFrom, refTo);
 
 		// populate the stats

@@ -5,28 +5,42 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#e5e5e5">
-
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp" >
+    
     <Spinner
         android:id="@+id/spinnerStat"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:drawSelectorOnTop="true"
-        android:text="Spinner1" />
-
+        android:text="Spinner1"/>
+<LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    
     <Spinner
         android:id="@+id/spinnerStatType"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:drawSelectorOnTop="true"
-        android:text="Spinner1" />
+        android:layout_weight="1"
+        android:text="Spinner1"/>
 
     <Spinner
         android:id="@+id/spinnerStatSampleEnd"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:drawSelectorOnTop="true"
-        android:text="Spinner1" />
-
+        android:layout_weight="1"
+        android:text="Spinner1"/>
+</LinearLayout>
     <FrameLayout
         android:id="@+id/FrameLayoutSince"
         android:layout_width="match_parent"
@@ -44,17 +58,9 @@
             tools:ignore="HardcodedText"
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
-            android:textSize="@dimen/row_name_text_size"/>/>
+            android:textSize="@dimen/row_name_text_size"/>
     </FrameLayout>
-    <!--
-		<View android:id="@+id/view_separator" 
-		 android:layout_centerVertical ="true"
-		 android:layout_width = "fill_parent"
-		 android:layout_height="1dp"
-		 android:layout_alignParentTop="true"
-		 android:background="#7798fb98"/>
-    -->
-
+</LinearLayout>
 
     <!-- Set height to 0, and let the weight param expand it -->
     <!--
@@ -70,11 +76,7 @@
 		android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_weight="1"
         android:divider="@null"
-		android:dividerHeight="@dimen/activity_horizontal_margin" />
-
-    <!--
-         android:dividerHeight="1dp"
-        android:divider="#7798fb98"
-    -->
+		android:dividerHeight="@dimen/activity_horizontal_margin"
+		android:background="#e5e5e5"/>
 
 </LinearLayout>

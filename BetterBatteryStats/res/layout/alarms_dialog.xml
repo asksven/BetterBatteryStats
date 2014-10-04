@@ -19,9 +19,9 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"
         android:text="Title"
-        android:textSize="16sp" />
+        android:textSize="@dimen/row_name_text_size"
+        android:fontFamily="sans-serif-light"/>
 <!--
     <TextView
         android:id="@+id/subtitle"
@@ -35,7 +35,7 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"
     	android:text="Text"    
-        android:textSize="10sp" />
+        android:fontFamily="sans-serif-condensend"
+        android:textSize="@dimen/row_fqn_text_size" />
 </LinearLayout>
