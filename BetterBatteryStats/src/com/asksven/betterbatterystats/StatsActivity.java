@@ -454,17 +454,8 @@ public class StatsActivity extends ActionBarListActivity
 		///////////////////////////////////////////////
 		// sorting
 		///////////////////////////////////////////////
-		String strOrderBy = sharedPrefs.getString("default_orderby", "0");
-		try
-		{
-			m_iSorting = Integer.valueOf(strOrderBy);
-		}
-		catch(Exception e)
-		{
-			// handle error here
-			m_iSorting = 0;
-			
-		}
+		m_iSorting = 0;
+
 		GoogleAnalytics.getInstance(this).trackStats(this, GoogleAnalytics.ACTIVITY_STATS, m_iStat, m_refFromName, m_refToName, m_iSorting);
 
         // Set up a listener whenever a key changes
@@ -617,42 +608,6 @@ public class StatsActivity extends ActionBarListActivity
         return true;
     }  
 
-    @Override
-	public boolean onPrepareOptionsMenu(Menu menu)
-    {
-    	boolean bSortingEnabled = true;
-    	    	
-    	MenuItem sortCount = menu.findItem(R.id.by_count_desc);
-    	MenuItem sortTime = menu.findItem(R.id.by_time_desc);
-    	
-    	if (m_iSorting == 0)
-    	{
-    		// sorting is by time
-    		sortTime.setEnabled(false);
-    		sortCount.setEnabled(true);
-    	}
-    	else
-    	{
-    		// sorting is by count
-    		sortTime.setEnabled(true);
-    		sortCount.setEnabled(false);
-    	}
-    	
-		if (m_iStat == 2) // @see arrays.xml, dependency to string-array name="stats"
-		{
-			// disable menu group
-			bSortingEnabled = true;
-		}
-		else
-		{
-			// enable menu group
-			bSortingEnabled = true;
-		}
-		menu.setGroupEnabled(R.id.sorting_group, bSortingEnabled);
-		
-		return true;
-    	
-    }
     /** 
      * Define menu action
      * 
@@ -696,16 +651,6 @@ public class StatsActivity extends ActionBarListActivity
 	        	Intent intentCredits = new Intent(this, CreditsActivity.class);
 	            this.startActivity(intentCredits);
 	        	break;	            	
-            case R.id.by_time_desc:
-            	// Enable "count" option
-            	m_iSorting = 0;            	
-            	doRefresh(false);
-            	break;	
-            case R.id.by_count_desc:
-            	// Enable "count" option
-            	m_iSorting = 1;            	
-            	doRefresh(false);
-            	break;	
 
 //            case R.id.test:
 //    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);

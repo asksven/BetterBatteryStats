@@ -360,14 +360,6 @@
                 robobunny:unitsRight="Min." />
         </PreferenceScreen>
         <PreferenceScreen android:title="Advanced" >
-            <ListPreference
-                android:defaultValue="0"
-                android:entries="@array/orderbyLabels"
-                android:entryValues="@array/orderbyValues"
-                android:key="default_orderby"
-                android:summary="Set the default sorting"
-                android:title="Default order by" />
-
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="use_analytics"

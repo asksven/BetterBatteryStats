@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">    
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
         android:id="@+id/refresh"
         android:icon="@drawable/ic_menu_refresh"
-        app:showAsAction="always"
-        android:title="Refresh"/>
+        android:title="Refresh"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/share"
         android:icon="@drawable/ic_action_share"
-        app:showAsAction="ifRoom"
-        android:title="Share"/>
+        android:title="Share"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/preferences"
         android:icon="@drawable/ic_menu_settings"
-        app:showAsAction="ifRoom"
-        android:title="Settings"/>
-    
+        android:title="Settings"
+        app:showAsAction="ifRoom"/>
+
     <!--
     <item android:id="@+id/test"
     	android:title="Test" />
@@ -26,29 +26,11 @@
         android:id="@+id/custom_ref"
         android:title="Set Custom Ref."/>
     <item
-        android:id="@+id/more_group"
-        android:title="More">
-        <menu>
-            <item
-                android:id="@+id/graph"
-                android:title="Graphs"/>
-            <item
-                android:id="@+id/rawstats"
-                android:title="Raw stats"/>
-            <item
-                android:id="@+id/sorting_group"
-                android:title="Order by...">
-                <menu>
-                    <item
-                        android:id="@+id/by_time_desc"
-                        android:title="By time (DESC)"/>
-                    <item
-                        android:id="@+id/by_count_desc"
-                        android:title="By count (DESC)"/>
-                </menu>
-            </item>
-        </menu>
-    </item>
+        android:id="@+id/graph"
+        android:title="Graphs"/>
+    <item
+        android:id="@+id/rawstats"
+        android:title="Raw stats"/>
     <item
         android:id="@+id/help_group"
         android:title="Help">
