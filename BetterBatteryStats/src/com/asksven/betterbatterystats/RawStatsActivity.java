@@ -83,8 +83,8 @@ public class RawStatsActivity extends ListActivity implements AdapterView.OnItem
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);
 		
 		ArrayAdapter spinnerStatAdapter = ArrayAdapter.createFromResource(
-	            this, R.array.stats, android.R.layout.simple_spinner_item);
-		spinnerStatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	            this, R.array.stats, R.layout.bbs_spinner_layout);
+		spinnerStatAdapter.setDropDownViewResource(R.layout.bbs_spinner_dropdown_item);
 	    
 		spinnerStat.setAdapter(spinnerStatAdapter);
 		// setSelection MUST be called after setAdapter

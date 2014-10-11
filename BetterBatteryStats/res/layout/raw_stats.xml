@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#e5e5e5">
+
     <Spinner
         android:id="@+id/spinnerStat"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:drawSelectorOnTop="true"
         android:text="Spinner1" />
-    
-    
-    <ListView android:id="@android:id/list"
+
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="1" 
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_weight="1"
+        android:background="#e5e5e5"
+        android:divider="@null"
+        android:dividerHeight="@dimen/activity_horizontal_margin" />
          /> 
 
 </LinearLayout>
