@@ -21,7 +21,6 @@
         android:layout_weight="1"
         android:background="#e5e5e5"
         android:divider="@null"
-        android:dividerHeight="@dimen/activity_horizontal_margin" />
-         /> 
+        android:dividerHeight="@dimen/activity_horizontal_margin" /> 
 
 </LinearLayout>

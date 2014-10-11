@@ -3,14 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="#e5e5e5">
 
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="8dp"
-        android:dividerHeight="8dp"/>
+        android:layout_height="0dip"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_weight="1"
+        android:background="#e5e5e5"
+        android:divider="@null"
+        android:dividerHeight="@dimen/activity_horizontal_margin" />
 
 </LinearLayout>

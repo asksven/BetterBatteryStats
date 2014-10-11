@@ -2,47 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:background="@android:color/background_light"
-    android:orientation="vertical" >
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="4dp"
+    android:background="@drawable/card_background"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="4dp" >
 
     <TextView
         android:id="@+id/textViewName"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp"
-        android:text="Title"
         android:ellipsize="end"
         android:fontFamily="sans-serif-light"
         android:maxLines="1"
+        android:text="Title"
         android:textSize="@dimen/text_size_medium" />
 
     <TextView
         android:id="@+id/textViewAuthor"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="Author"
+        android:layout_weight="10"
         android:ellipsize="end"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="sans-serif-condensend"
         android:maxLines="1"
-        android:textSize="@dimen/text_size_tiny"
- />
+        android:text="Author"
+        android:textSize="@dimen/text_size_tiny" />
 
     <TextView
         android:id="@+id/textViewLicense"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:ellipsize="end"
         android:fontFamily="sans-serif-light"
         android:maxLines="1"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:text="License"
         android:textSize="@dimen/text_size_tiny" />
-    
+
 </LinearLayout>
