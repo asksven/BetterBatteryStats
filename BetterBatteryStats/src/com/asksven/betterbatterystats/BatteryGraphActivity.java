@@ -102,7 +102,7 @@ public class BatteryGraphActivity extends Activity
         
         GRAPH_COLOR = getResources().getColor(R.color.peterriver);
         
-		if ( (Build.VERSION.SDK_INT >= 19) && !SysUtils.hasBatteryStatsPermission(this) )
+		if ( !SysUtils.hasBatteryStatsPermission(this) )
 		{
 			// show message that data is not available
 			// prepare the alert box
