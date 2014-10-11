@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/refresh"
-        android:icon="@drawable/ic_menu_refresh"
+        android:icon="@drawable/ic_action_refresh"
         android:title="Refresh"
         app:showAsAction="always"/>
     <item
@@ -14,7 +14,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/preferences"
-        android:icon="@drawable/ic_menu_settings"
+        android:icon="@drawable/ic_action_settings"
         android:title="Settings"
         app:showAsAction="ifRoom"/>
 

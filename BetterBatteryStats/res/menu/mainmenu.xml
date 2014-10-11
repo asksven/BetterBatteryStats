@@ -5,14 +5,18 @@
     <item
         android:id="@+id/refresh"
         android:title="Refresh"
+        android:icon="@drawable/ic_action_refresh"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/share"
         android:title="Share"
+        android:icon="@drawable/ic_action_share"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/preferences"
-        android:title="Preferences"/>
+        android:icon="@drawable/ic_action_settings"
+        android:title="Settings"
+        app:showAsAction="ifRoom"/>
 
     <!--
     <item android:id="@+id/test"    
