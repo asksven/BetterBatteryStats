@@ -68,7 +68,7 @@
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
             android:text="Name"
-            android:textSize="@dimen/row_name_text_size"/>
+            android:textSize="@dimen/text_size_medium"/>
 
         <LinearLayout
             android:id="@+id/LinearLayoutFqn"
@@ -84,7 +84,7 @@
                 android:fontFamily="sans-serif-condensend"
                 android:maxLines="1"
                 android:text="NameGoesHere"
-                android:textSize="@dimen/row_fqn_text_size" />
+                android:textSize="@dimen/text_size_tiny" />
         </LinearLayout>
 
         <LinearLayout
@@ -101,7 +101,7 @@
                 android:fontFamily="sans-serif-light"
                 android:maxLines="1"
                 android:text="DataGoesHere"
-                android:textSize="@dimen/row_data_text_size" />
+                android:textSize="@dimen/text_size_tiny" />
 
             <ImageView
                 android:id="@+id/imageKB"

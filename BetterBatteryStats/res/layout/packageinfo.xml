@@ -28,7 +28,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/FrameLayoutSince"
+        android:id="@+id/FrameLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
@@ -47,7 +47,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/FrameLayoutSince"
+        android:id="@+id/FrameLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"

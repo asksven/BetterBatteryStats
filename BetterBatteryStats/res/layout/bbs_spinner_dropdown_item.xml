@@ -6,4 +6,5 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:ellipsize="marquee"
     android:fontFamily="sans-serif-light"
-    android:textSize="@dimen/row_name_text_size"/>
+    android:maxLines="1"
+    android:textSize="@dimen/text_size_medium"/>

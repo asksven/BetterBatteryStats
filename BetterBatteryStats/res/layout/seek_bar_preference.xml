@@ -1,6 +1,5 @@
 <!-- From http://robobunny.com/wp/2011/08/13/android-seekbar-preference/ -->
- 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/widget_frame"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"

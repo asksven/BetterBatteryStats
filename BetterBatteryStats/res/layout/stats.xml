@@ -58,7 +58,7 @@
             tools:ignore="HardcodedText"
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
-            android:textSize="@dimen/row_name_text_size"/>
+            android:textSize="@dimen/text_size_medium"/>
     </FrameLayout>
 </LinearLayout>
 

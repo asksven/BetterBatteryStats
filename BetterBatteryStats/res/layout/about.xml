@@ -29,7 +29,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -37,7 +37,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -45,7 +45,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -57,6 +57,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        style="?android:attr/buttonStyleSmall"
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="14dp"
@@ -68,6 +69,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        style="?android:attr/buttonStyleSmall"
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

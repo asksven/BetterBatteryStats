@@ -8,34 +8,23 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp" >
 
-<!-- 
-    <ImageView android:id="@+id/image"
-               android:layout_width="wrap_content"
-               android:layout_height="fill_parent"
-               android:layout_marginRight="10dp"
-               />
- -->
  	<TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
-        android:textSize="@dimen/row_name_text_size"
-        android:fontFamily="sans-serif-light"/>
-<!--
-    <TextView
-        android:id="@+id/subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FFF"
-        android:text="Subtitle"
-        android:textSize="13sp" />
--->
-    <TextView
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-light"
+        android:maxLines="1"
+        android:textSize="@dimen/text_size_medium"/>
+
+ 	<TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-    	android:text="Text"    
+    	android:text="Text"
+    	android:ellipsize="end"
         android:fontFamily="sans-serif-condensend"
-        android:textSize="@dimen/row_fqn_text_size" />
+        android:maxLines="1"
+        android:textSize="@dimen/text_size_tiny"/>
 </LinearLayout>
