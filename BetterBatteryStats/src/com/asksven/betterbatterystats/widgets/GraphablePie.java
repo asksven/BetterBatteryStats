@@ -23,9 +23,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.webkit.WebSettings.TextSize;
 import android.widget.ImageView;
 
 /**
@@ -56,12 +58,14 @@ public class GraphablePie extends ImageView
         sBackground.setStrokeWidth(STROKE_WIDTH);
         sBackground.setColor(0x778B7B8B);
     }
-
+    
     static Paint sText = new Paint();
     static
     {
     	sText.setStyle(Paint.Style.STROKE);
 //    	sText.setColor(Color.WHITE);
+    	sText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+    	sText.setTextSize(12);
     	sText.setAntiAlias(true);
 //        sPaint.setStrokeWidth(STROKE_WIDTH + 2);
     }
@@ -76,6 +80,7 @@ public class GraphablePie extends ImageView
         m_context = context;
         
         sPaint.setColor(m_context.getResources().getColor(R.color.peterriver)); 
+    	sText.setTextSize(m_context.getResources().getDimension(R.dimen.text_size_medium));
 
     }
     
