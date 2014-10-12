@@ -13,9 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
-        android:ellipsize="end"
         android:fontFamily="sans-serif-light"
-        android:maxLines="1"
         android:textSize="@dimen/text_size_medium"/>
 
  	<TextView
@@ -23,8 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
     	android:text="Text"
-    	android:ellipsize="end"
         android:fontFamily="sans-serif-condensend"
-        android:maxLines="1"
         android:textSize="@dimen/text_size_tiny"/>
 </LinearLayout>
