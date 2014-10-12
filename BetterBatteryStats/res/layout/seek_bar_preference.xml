@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:textColor="#ffffff"
         android:textSize="22dp"
         android:textStyle="normal"
         android:typeface="sans" />
@@ -51,6 +50,7 @@
     <LinearLayout
         android:id="@+id/seekBarPrefBarContainer"
         android:layout_width="fill_parent"
+        android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
