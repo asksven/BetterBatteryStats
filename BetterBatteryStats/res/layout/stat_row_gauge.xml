@@ -4,11 +4,15 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+	android:background="@drawable/card_background"
     android:paddingBottom="4dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:paddingTop="4dp"
-    android:background="@drawable/clickable">
+        android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
 
     <ImageView
         android:id="@+id/icon"
@@ -33,9 +37,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:typeface="sans" />
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:textSize="@dimen/text_size_medium"/>
 
         <LinearLayout
             android:id="@+id/LinearLayoutFqn"
@@ -48,7 +53,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
                 android:text="NameGoesHere"
-                android:textSize="12sp" >
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-condensend"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size_tiny" >
             </TextView>
         </LinearLayout>
 
@@ -63,7 +71,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="DataGoesHere"
-                android:textSize="12sp" />
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:textSize="@dimen/text_size_tiny"/>
 
             <ImageView
                 android:id="@+id/imageKB"
