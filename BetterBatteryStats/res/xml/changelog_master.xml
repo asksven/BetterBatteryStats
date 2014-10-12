@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+
+    <release version="2.0.0.0B1" versioncode="49" >
+        <change>Totally new and shiny version</change>
+	    <change>Added ability to save dumpfiles in JSON format from tasker plugin</change>
+		<change>Consistent use of ActionBarCompat and new light theme</change>
+		<change>Lots of UI changes</change>
+		<change>Removed sorting</change>
+		<change>Removed google analytics</change>
+		<change>Removed graph zoom</change>
+    </release>
+
+</changelog>

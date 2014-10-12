@@ -84,6 +84,8 @@ import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.asksven.betterbatterystats.contrib.ObservableScrollView;
 
+import de.cketti.library.changelog.ChangeLog;
+
 public class StatsActivity extends ActionBarListActivity 
 		implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener, ObservableScrollView.Callbacks
 {    
@@ -229,6 +231,8 @@ public class StatsActivity extends ActionBarListActivity
 			this.startService(i);
 			i = new Intent(this, WriteUnpluggedReferenceService.class);
 			this.startService(i);
+	        ChangeLog cl = new ChangeLog(this);
+	        cl.getLogDialog().show();
     			
     	}
     	else
@@ -635,9 +639,11 @@ public class StatsActivity extends ActionBarListActivity
 
             case R.id.releasenotes:
             	// Release notes
-            	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
-            	intentReleaseNotes.putExtra("filename", "readme.html");
-                this.startActivity(intentReleaseNotes);
+    	        ChangeLog cl = new ChangeLog(this);
+    	        cl.getLogDialog().show();
+//            	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
+//            	intentReleaseNotes.putExtra("filename", "readme.html");
+//                this.startActivity(intentReleaseNotes);
             	break;	
 
             case R.id.share:
