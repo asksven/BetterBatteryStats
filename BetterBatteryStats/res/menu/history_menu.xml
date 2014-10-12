@@ -11,22 +11,4 @@
       	android:title="Dump to File" />
   	<item android:id="@+id/more"
       	android:title="More Graphs" />    
-    
-  	<!-- Zoom group -->
-    <item android:id="@+id/zoom_group"
-          android:title="Zoom on...">            
-	    <menu>
-		  	<item android:id="@+id/zoomWakelock"
-		      	android:title="Wakelock" /> 
-		  	<item android:id="@+id/zoomScreenOn"
-		      	android:title="Screen On" />
-		  	<item android:id="@+id/zoomWifi"
-		      	android:title="Wifi" /> 
-		  	<item android:id="@+id/zoomGps"
-		      	android:title="GPS" /> 
-		  	<item android:id="@+id/zoomBluetooth"
-		      	android:title="Bluetooth" /> 
-		  	
-	    </menu>
-	</item>	
 </menu>

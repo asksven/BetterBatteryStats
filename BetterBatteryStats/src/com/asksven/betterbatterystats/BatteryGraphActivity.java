@@ -208,51 +208,6 @@ public class BatteryGraphActivity extends Activity
 		        refreshPlot(m_plotScreenOn);
 		        refreshPlot(m_plotWifi);
 		        break;
-			case R.id.zoomWakelock:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_WAKELOCK,
-		        		"Wakelock");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(this);
-				startActivity(myZoomIntent);
-				break;
-			case R.id.zoomScreenOn:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_SCREENON,
-		        		"Screen On");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(this);
-				startActivity(myZoomIntent);
-				break;
-			case R.id.zoomWifi:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_WIFI,
-		        		"Wifi");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(this);
-				startActivity(myZoomIntent);
-				break;
-			case R.id.zoomGps:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_GPS,
-		        		"GPS");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(this);
-				startActivity(myZoomIntent);
-				break;
-			case R.id.zoomBluetooth:
-				myZoomSerie = new BatteryGraphSeries(
-		        		m_histList,
-		        		BatteryGraphSeries.SERIE_BT,
-		        		"Bluetooth");
-				myZoomChart = new ZoomOnSerieChart(myZoomSerie);
-				myZoomIntent = myZoomChart.execute(this);
-				startActivity(myZoomIntent);
-				break;
         }        
         return true;
     }
