@@ -151,7 +151,8 @@ public class StatsActivity extends ActionBarListActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-//		ActionBar actionBar = getSupportActionBar();
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayUseLogoEnabled(true);
 //		actionBar.setBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.nephritis))); 
 		
 		Log.i(TAG, "OnCreated called");
