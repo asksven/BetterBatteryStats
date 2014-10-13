@@ -39,6 +39,8 @@
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_bbs</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Bbs</item>
     </style>
+    
+
 
     <style name="ActionBar.Transparent.Bbs" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/ab_transparent_bbs</item>
