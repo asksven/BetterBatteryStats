@@ -39,7 +39,6 @@
         <item name="progressBarStyle">@style/ProgressBar.Bbs</item>
     </style>
 
-
     <style name="ActionBar.Transparent.Bbs" parent="@style/Widget.AppCompat.Light.ActionBar">
         <item name="background">@drawable/ab_transparent_bbs</item>
         <item name="progressBarStyle">@style/ProgressBar.Bbs</item>

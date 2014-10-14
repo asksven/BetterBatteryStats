@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
+<!--
+     File created by the Android Action Bar Style Generator
 
      Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
@@ -29,8 +30,7 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_bbs</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_bbs</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Bbs</item>
-        
-        
+        <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowStyle.Bbs</item>
     </style>
 
     <style name="ActionBar.Solid.Bbs" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
@@ -39,13 +39,19 @@
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_bbs</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Bbs</item>
         <item name="android:titleTextStyle">@style/ActionBar.Title.Bbs</item>
+        <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowStyle.Bbs</item>
+        
     </style>
-    
-     <style name="ActionBar.Title.Bbs" parent="@style/TextAppearance.AppCompat.Widget.Base.ActionBar.Title">
+
+    <style name="ActionBar.Title.Bbs" parent="@style/TextAppearance.AppCompat.Widget.Base.ActionBar.Title">
         <item name="android:textColor">@android:color/white</item>
     </style>
-    
-      <style name="ActionBarCompat" parent="@style/Widget.AppCompat.Base.ActionBar">
+
+    <style name="ActionBar.OverflowStyle.Bbs" parent="@style/Widget.AppCompat.Light.Base.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_overflow</item>
+    </style>
+
+    <style name="ActionBarCompat" parent="@style/Widget.AppCompat.Base.ActionBar">
         <item name="titleTextStyle">@style/titleStyle</item>
     </style>
 
@@ -57,7 +63,7 @@
         <item name="android:background">@drawable/ab_transparent_bbs</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Bbs</item>
     </style>
-    
+
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Bbs.Widget" parent="@style/Theme.AppCompat">
         <item name="android:popupMenuStyle">@style/PopupMenu.Bbs</item>

@@ -45,7 +45,7 @@
 
     <application
         android:icon="@drawable/icon_notext"
-        android:logo="@drawable/ic_actionbar"
+        android:logo="@drawable/ic_launcher"
         android:label="BetterBatteryStats"
         android:theme="@style/Theme.Bbs">
         <activity
