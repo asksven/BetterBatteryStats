@@ -46,6 +46,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.asksven.andoid.common.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.RootShell;
@@ -76,6 +77,7 @@ import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.ActiveMonAlarmReceiver;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.StatsActivity;
 
 /**
  * Singleton provider for all the statistics
@@ -272,7 +274,7 @@ public class StatsProvider
 		// to process alarms we need either root or the perms to access the private API
 		if (!SysUtils.hasBatteryStatsPermission(m_context) || !rootEnabled )
 		{
-			myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
+			myStats.add(new Misc(Reference.NO_PERM_ERR, 1, 1));
 			return myStats;
 		}
 
@@ -1612,7 +1614,7 @@ public class StatsProvider
 			Misc usage = ((Misc)myUsages.get(i)).clone();
 			if (LogSettings.DEBUG)
 			{
-				Log.d(TAG, "Current value: " + usage.getName() + " " + usage.getData());
+				Log.d(TAG, "Current value: " + usage.getName() + " " + usage.getData(StatsProvider.getInstance(m_context).getSince(refFrom, refTo)));
 			}
 			if ((!bFilter) || (usage.getTimeOn() > 0))
 			{
@@ -1624,7 +1626,7 @@ public class StatsProvider
 					{
 						if (LogSettings.DEBUG)
 						{
-							Log.d(TAG, "Result value: " + usage.getName() + " "	+ usage.getData());
+							Log.d(TAG, "Result value: " + usage.getName() + " "	+ usage.getData(StatsProvider.getInstance(m_context).getSince(refFrom, refTo)));
 						}
 						myStats.add((StatElement) usage);
 					}
@@ -1860,7 +1862,7 @@ public class StatsProvider
 			// SystemClock.elapsedRealtime();
 	
 			Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, elaspedRealtime);
-			Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.getData());
+			Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.toString());
 	
 	
 			if ((!bFilter) || (deepSleepUsage.getTimeOn() > 0))
@@ -2027,7 +2029,7 @@ public class StatsProvider
 			Misc usage = (Misc)myUsages.get(i);
 			if (LogSettings.DEBUG)
 			{
-				Log.d(TAG,	"Current value: " + usage.getName() + " " + usage.getData());
+				Log.d(TAG,	"Current value: " + usage.getName() + " " + usage.toString());
 			}
 			if ((!bFilter) || (usage.getTimeOn() > 0))
 			{

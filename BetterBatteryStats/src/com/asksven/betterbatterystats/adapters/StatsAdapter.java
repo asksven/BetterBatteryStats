@@ -43,8 +43,11 @@ import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.MathUtils;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
 import com.asksven.betterbatterystats.data.KbReader;
@@ -62,6 +65,7 @@ public class StatsAdapter extends BaseAdapter
     private static final String TAG = "StatsAdapter";
 
     private double m_maxValue = 0;
+    private long m_timeSince = 0; 
     
     public StatsAdapter(Context context, List<StatElement> listData)
     {
@@ -71,29 +75,23 @@ public class StatsAdapter extends BaseAdapter
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
         boolean bKbEnabled = sharedPrefs.getBoolean("enable_kb", true);
         
-        if (m_listData != null)
+        if ((m_listData != null) && (!m_listData.isEmpty()))
         {
-	        for (int i = 0; i < m_listData.size(); i++)
-	        {
-	        	StatElement g = m_listData.get(i);
-	        	
-	        	
-	        	// @todo refactor Misc instead. For now the change is here as I don't want to break the deserialization
-	        	if (g instanceof Misc)
-	        	{
-	        		m_maxValue = ((Misc)g).getTimeRunning();
-	        	}
-	        	else if (!((g instanceof Process) || (g instanceof Alarm)))
-	        	{
-	        		m_maxValue = g.getTotal();
-	        	}
-	        	else
-	        	{
+        	if ((m_listData.get(0) instanceof Process) || (m_listData.get(0) instanceof NetworkUsage))
+        	{
+		        for (int i = 0; i < m_listData.size(); i++)
+		        {
+		        	StatElement g = m_listData.get(i);
+		        	
 	        		double[] values = g.getValues();
 		        	m_maxValue = Math.max(m_maxValue, values[values.length - 1]);
 		            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
-	        	}
-	        }
+		        }
+        	}
+        	else
+        	{
+        		m_maxValue = m_timeSince;
+        	}
         }
     }
 
@@ -114,6 +112,17 @@ public class StatsAdapter extends BaseAdapter
         return m_listData.get(position);
     }
 
+    public void setTotalTime(long sinceMs)
+    {
+    	m_timeSince = sinceMs;
+    	if ((m_listData == null) || (m_listData.isEmpty())) return;
+    	
+    	if (!((m_listData.get(0) instanceof Process) || (m_listData.get(0) instanceof NetworkUsage)))
+    	{
+    		m_maxValue = m_timeSince;
+    	}
+    }
+    
     public long getItemId(int position)
     {
         return position;
@@ -166,7 +175,7 @@ public class StatsAdapter extends BaseAdapter
         tvFqn.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
 
         TextView tvData = (TextView) convertView.findViewById(R.id.TextViewData);
-        tvData.setText(entry.getData());
+        tvData.setText(entry.getData((long)m_maxValue));
         
         //LinearLayout myLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutBar);
         LinearLayout myFqnLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutFqn);
@@ -178,13 +187,24 @@ public class StatsAdapter extends BaseAdapter
         if (!bShowBars)
         {
 	        GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
-	        if (entry instanceof Misc)
+	        if (entry instanceof Alarm)
 	        {
-	        	gauge.setValue(entry.getValues()[0], ((Misc) entry).getTimeRunning());
+	        	gauge.setValue(entry.getValues()[0], ((Alarm) entry).getMaxValue());
+	        }
+	        else if (entry instanceof NetworkUsage)
+	        {
+	        	gauge.setValue(entry.getValues()[0], ((NetworkUsage) entry).getTotal());
+	        	
 	        }
 	        else
 	        {
-	        	gauge.setValue(entry.getValues()[0], m_maxValue);
+	        	double max = m_maxValue;
+	        	// avoid rounding errors leading to values > 100 %
+	        	if (entry.getValues()[0] > max)
+	        	{
+	        		max = entry.getValues()[0];
+	        	}
+	        	gauge.setValue(entry.getValues()[0], max);
 	        }
         }
         else
@@ -366,7 +386,7 @@ public class StatsAdapter extends BaseAdapter
 	        	TextView title = (TextView) dialog.findViewById(R.id.title);
 //	        	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
 	        	TextView text = (TextView) dialog.findViewById(R.id.text);
-	        	title.setText(entry.getData());
+	        	title.setText(entry.getData((long)m_maxValue));
 	        	
 	        	String strText = "";
 	        	ArrayList<AlarmItem> myItems = alarmEntry.getItems();
@@ -395,7 +415,7 @@ public class StatsAdapter extends BaseAdapter
             	TextView title = (TextView) dialog.findViewById(R.id.title);
 //            	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
             	TextView text = (TextView) dialog.findViewById(R.id.text);
-            	title.setText(kernelWakelockEntry.getData());
+            	title.setText(kernelWakelockEntry.getData((long)m_maxValue));
             	
             	String strText = "";
             	strText += "Count: " + kernelWakelockEntry.getCount() + "\n";

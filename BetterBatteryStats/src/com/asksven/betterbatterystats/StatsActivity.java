@@ -307,32 +307,32 @@ public class StatsActivity extends ActionBarListActivity
 			}
 		}
 
-		// Display the reference of the stat
-        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-        if (tvSince != null)
-        {
-    		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, this);
-    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, this);
-
-            long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
-            if (sinceMs != -1)
-            {
-    	        String sinceText = DateUtils.formatDurationShort(sinceMs);
-    			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
-    	        if (bShowBatteryLevels)
-    	        {
-    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
-    	        }
-    	        tvSince.setText(sinceText);
-    	    	Log.i(TAG, "Since " + sinceText);
-            }
-            else
-            {
-    	        tvSince.setText("n/a");
-    	    	Log.i(TAG, "Since: n/a ");
-            	
-            }
-        }
+//		// Display the reference of the stat
+//        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
+//        if (tvSince != null)
+//        {
+//    		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, this);
+//    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, this);
+//
+//            long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
+//            if (sinceMs != -1)
+//            {
+//    	        String sinceText = DateUtils.formatDurationShort(sinceMs);
+//    			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
+//    	        if (bShowBatteryLevels)
+//    	        {
+//    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
+//    	        }
+//    	        tvSince.setText(sinceText);
+//    	    	Log.i(TAG, "Since " + sinceText);
+//            }
+//            else
+//            {
+//    	        tvSince.setText("n/a");
+//    	    	Log.i(TAG, "Since: n/a ");
+//            	
+//            }
+//        }
         
 		// Spinner for selecting the stat
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);
@@ -751,12 +751,13 @@ public class StatsActivity extends ActionBarListActivity
 		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, this);
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-//        long sinceMs = getSince();
+
         long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
 
         if (sinceMs != -1)
         {
-	        String sinceText = DateUtils.formatDuration(sinceMs);
+	        String sinceText =  DateUtils.formatDuration(sinceMs);
+	        
 			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
 	        if (bShowBatteryLevels)
 	        {
@@ -870,6 +871,11 @@ public class StatsActivity extends ActionBarListActivity
 		{
 			m_listViewAdapter = new StatsAdapter(this, 
 					StatsProvider.getInstance(this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName));
+    		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
+    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
+
+        	long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(myReferenceFrom, myReferenceTo);
+        	m_listViewAdapter.setTotalTime(sinceMs);
 		
 			setListAdapter(m_listViewAdapter);
 		}
@@ -970,8 +976,12 @@ public class StatsActivity extends ActionBarListActivity
     		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
-	        long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(myReferenceFrom, myReferenceTo);
-
+        	long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(myReferenceFrom, myReferenceTo);
+        	if (o != null)
+        	{
+        		o.setTotalTime(sinceMs);
+        	}
+        	
 	        if (sinceMs != -1)
 	        {
 		        String sinceText = DateUtils.formatDuration(sinceMs);

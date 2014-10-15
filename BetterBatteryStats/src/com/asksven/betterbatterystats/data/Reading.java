@@ -67,6 +67,7 @@ public class Reading implements Serializable
 	String creationDate;
 	String statType;
 	String duration;
+	long totalTime;
 	String buildVersionRelease;
 	String buildBrand;
 	String buildDevice;
@@ -129,7 +130,8 @@ public class Reading implements Serializable
 				
 		creationDate 		= DateUtils.now();
 		statType 			= refFrom.getLabel() + " to "+ refTo.getLabel();
-		duration 			= DateUtils.formatDuration(StatsProvider.getInstance(context).getSince(refFrom, refTo));
+		totalTime			= StatsProvider.getInstance(context).getSince(refFrom, refTo);
+		duration 			= DateUtils.formatDuration(totalTime);
 		buildVersionRelease = Build.VERSION.RELEASE;
 		buildBrand 			= Build.BRAND;
 		buildDevice 		= Build.DEVICE;
@@ -621,7 +623,7 @@ public class Reading implements Serializable
 			{
 				for (int i = 0; i < myList.size(); i++)
 				{
-					out.write(myList.get(i).getDumpData(UidNameResolver.getInstance(context)) + "\n");
+					out.write(myList.get(i).getDumpData(UidNameResolver.getInstance(context), totalTime) + "\n");
 		
 				}
 			}
