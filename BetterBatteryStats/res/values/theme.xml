@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- theme used for widgets -->
 <resources>
-    <style name="Theme.asksven" parent="android:Theme.Black"/>
-    <style name="Theme.asksven.light" parent="android:Theme.Light"/>
-    <style name="Theme.asksven.NoTitleBar" parent="android:Theme.Black.NoTitleBar"/>
-    <style name="Theme.asksven.Fullscreen" parent="android:Theme.Black.NoTitleBar.Fullscreen"/>
+
     <style name="Theme.asksven.TextAppearance.Tiny" parent="@android:style/TextAppearance.Small">
         <item name="android:textSize">10sp</item>
     </style>
