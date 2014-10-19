@@ -155,6 +155,9 @@ public class StatsActivity extends ActionBarListActivity
 		
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setLogo(R.drawable.ic_launcher);
+		
 //		actionBar.setBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.nephritis))); 
 		
 		Log.i(TAG, "OnCreated called");
