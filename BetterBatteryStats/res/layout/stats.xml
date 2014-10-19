@@ -3,64 +3,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#e5e5e5">
+    android:background="#e5e5e5"
+    android:orientation="vertical" >
+
     <LinearLayout
-        android:orientation="vertical"
         android:id="@+id/Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/card_background"
         android:layout_marginBottom="0dp"
-        android:layout_marginTop="0dp" >
-    
-    <Spinner
-        android:id="@+id/spinnerStat"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:drawSelectorOnTop="true"
-        android:text="Spinner1"/>
-<LinearLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    
-    <Spinner
-        android:id="@+id/spinnerStatType"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:drawSelectorOnTop="true"
-        android:layout_weight="1"
-        android:text="Spinner1"/>
+        android:layout_marginTop="0dp"
+        android:background="@drawable/card_background"
+        android:orientation="vertical" >
 
-    <Spinner
-        android:id="@+id/spinnerStatSampleEnd"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:drawSelectorOnTop="true"
-        android:layout_weight="1"
-        android:text="Spinner1"/>
-</LinearLayout>
-    <FrameLayout
-        android:id="@+id/FrameLayoutSince"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="12dp"
-        android:paddingRight="8dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+        <Spinner
+            android:id="@+id/spinnerStat"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:drawSelectorOnTop="true"
+            android:text="Spinner1" />
 
-        <TextView
-            android:id="@+id/TextViewSince"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Since..."
-            tools:ignore="HardcodedText"
-            android:fontFamily="sans-serif-light"
-            android:maxLines="1"
-            android:textSize="@dimen/text_size_medium"/>
-    </FrameLayout>
-</LinearLayout>
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/spinnerStatType"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:drawSelectorOnTop="true"
+                android:text="Spinner1" />
+
+            <Spinner
+                android:id="@+id/spinnerStatSampleEnd"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:drawSelectorOnTop="true"
+                android:text="Spinner1" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/FrameLayoutSince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:id="@+id/TextViewSince"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:text="@string/text_since"
+                android:textSize="@dimen/text_size_medium"/>
+        </FrameLayout>
+    </LinearLayout>
 
     <!-- Set height to 0, and let the weight param expand it -->
     <!--
@@ -73,10 +75,10 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
-		android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_weight="1"
+        android:background="#e5e5e5"
         android:divider="@null"
-		android:dividerHeight="@dimen/activity_horizontal_margin"
-		android:background="#e5e5e5"/>
+        android:dividerHeight="@dimen/activity_horizontal_margin" />
 
 </LinearLayout>

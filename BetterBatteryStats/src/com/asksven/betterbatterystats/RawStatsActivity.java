@@ -27,7 +27,9 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,16 +38,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
-public class RawStatsActivity extends ListActivity implements AdapterView.OnItemSelectedListener
+public class RawStatsActivity extends ActionBarListActivity implements AdapterView.OnItemSelectedListener
 {
 	/**
 	 * The logging TAG
@@ -75,6 +79,12 @@ public class RawStatsActivity extends ListActivity implements AdapterView.OnItem
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayUseLogoEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setLogo(R.drawable.ic_launcher);
+		
 		setContentView(R.layout.raw_stats);
 		
 		setTitle("Raw Stats");
@@ -90,6 +100,24 @@ public class RawStatsActivity extends ListActivity implements AdapterView.OnItem
 		// setSelection MUST be called after setAdapter
 		spinnerStat.setSelection(m_iStat);
 		spinnerStat.setOnItemSelectedListener(this);
+		
+		TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
+
+        long sinceMs = SystemClock.elapsedRealtime();
+
+        if (sinceMs != -1)
+        {
+	        String sinceText =  this.getString(R.string.text_since) + " " + DateUtils.formatDuration(sinceMs);
+	        
+	        tvSince.setText(sinceText);
+	    	Log.i(TAG, "Since " + sinceText);
+        }
+        else
+        {
+	        tvSince.setText("n/a ");
+	    	Log.i(TAG, "Since: n/a ");
+        	
+        }
 
 	}
 	
@@ -298,7 +326,11 @@ public class RawStatsActivity extends ListActivity implements AdapterView.OnItem
 	    			
 	    		}
 	    	}
-
+        	if (o != null)
+        	{
+        		o.setTotalTime(SystemClock.elapsedRealtime());
+        		
+        	}
 	    	RawStatsActivity.this.setListAdapter(o);
 	    }
 //	    @Override

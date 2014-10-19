@@ -2,15 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#e5e5e5">
+    android:background="#e5e5e5"
+    android:orientation="vertical" >
 
-    <Spinner
-        android:id="@+id/spinnerStat"
+    <LinearLayout
+        android:id="@+id/Header"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:drawSelectorOnTop="true"
-        android:text="Spinner1" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/card_background"
+        android:orientation="vertical" >
+
+        <Spinner
+            android:id="@+id/spinnerStat"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:drawSelectorOnTop="true"
+            android:text="Spinner1" />
+
+        <FrameLayout
+            android:id="@+id/FrameLayoutSince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp" >
+
+            <TextView android:id="@+id/TextViewSince"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:text="@string/text_since"
+                android:textSize="@dimen/text_size_medium"/>
+        </FrameLayout>
+    </LinearLayout>
 
     <ListView
         android:id="@android:id/list"
@@ -21,6 +49,6 @@
         android:layout_weight="1"
         android:background="#e5e5e5"
         android:divider="@null"
-        android:dividerHeight="@dimen/activity_horizontal_margin" /> 
+        android:dividerHeight="@dimen/activity_horizontal_margin" />
 
 </LinearLayout>

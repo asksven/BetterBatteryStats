@@ -23,6 +23,7 @@
     <string name="label_button_save">Save</string>
     <string name="label_button_cancel">Cancel</string>
     <string name="title_share_dialog">Share data as...</string>
+    <string name="text_since">Since</string>
     
     
 </resources>
