@@ -309,33 +309,6 @@ public class StatsActivity extends ActionBarListActivity
 		    	nM.cancel(EventWatcherService.NOTFICATION_ID);
 			}
 		}
-
-//		// Display the reference of the stat
-//        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
-//        if (tvSince != null)
-//        {
-//    		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, this);
-//    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, this);
-//
-//            long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
-//            if (sinceMs != -1)
-//            {
-//    	        String sinceText = DateUtils.formatDurationShort(sinceMs);
-//    			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
-//    	        if (bShowBatteryLevels)
-//    	        {
-//    	        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
-//    	        }
-//    	        tvSince.setText(sinceText);
-//    	    	Log.i(TAG, "Since " + sinceText);
-//            }
-//            else
-//            {
-//    	        tvSince.setText("n/a");
-//    	    	Log.i(TAG, "Since: n/a ");
-//            	
-//            }
-//        }
         
 		// Spinner for selecting the stat
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);

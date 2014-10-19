@@ -107,7 +107,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 
         if (sinceMs != -1)
         {
-	        String sinceText =  this.getString(R.string.text_since) + " " + DateUtils.formatDuration(sinceMs);
+	        String sinceText = DateUtils.formatDuration(sinceMs);
 	        
 	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + sinceText);
