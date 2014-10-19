@@ -20,7 +20,7 @@
 
 <resources>
 
-    <style name="Theme.Bbs" parent="@style/Theme.AppCompat.Light">
+    <style name="Theme.Bbs" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="android:actionBarItemBackground">@drawable/selectable_background_bbs</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Bbs</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Bbs</item>
@@ -30,7 +30,9 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_bbs</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_bbs</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Bbs</item>
-        <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowStyle.Bbs</item>
+        <item name="colorPrimary">@color/nephritis</item>
+        <item name="colorPrimaryDark">@color/nephritis</item>
+        <item name="logo">@drawable/ic_launcher</item>
     </style>
 
     <style name="ActionBar.Solid.Bbs" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
@@ -38,25 +40,6 @@
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_bbs</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_bbs</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Bbs</item>
-        <item name="android:titleTextStyle">@style/ActionBar.Title.Bbs</item>
-        <item name="android:actionOverflowButtonStyle">@style/ActionBar.OverflowStyle.Bbs</item>
-        
-    </style>
-
-    <style name="ActionBar.Title.Bbs" parent="@style/TextAppearance.AppCompat.Widget.Base.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="ActionBar.OverflowStyle.Bbs" parent="@style/Widget.AppCompat.Light.Base.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_action_overflow</item>
-    </style>
-
-    <style name="ActionBarCompat" parent="@style/Widget.AppCompat.Base.ActionBar">
-        <item name="titleTextStyle">@style/titleStyle</item>
-    </style>
-
-    <style name="titleStyle" parent="@style/TextAppearance.AppCompat.Widget.Base.ActionBar.Title">
-        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="ActionBar.Transparent.Bbs" parent="@style/Widget.AppCompat.Light.ActionBar">

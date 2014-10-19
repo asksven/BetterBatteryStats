@@ -29,6 +29,7 @@
         <item name="android:actionModeBackground">@drawable/cab_background_top_bbs</item>
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_bbs</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Bbs</item>
+        <item name="logo">@drawable/ic_launcher</item>
         
         
     </style>
