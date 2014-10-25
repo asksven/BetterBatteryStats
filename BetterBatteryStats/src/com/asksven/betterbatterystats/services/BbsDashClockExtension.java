@@ -23,7 +23,7 @@ import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.LogSettings;
-import com.asksven.betterbatterystats.PreferencesActivity;
+import com.asksven.betterbatterystats.PreferencesActivity_V8;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.data.Reference;

@@ -559,7 +559,16 @@ public class StatsActivity extends ActionBarListActivity
         switch (item.getItemId())
         {  
 	        case R.id.preferences:  
-	        	Intent intentPrefs = new Intent(this, PreferencesActivity.class);
+	        	Intent intentPrefs = null;
+	        	
+	        	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+	        	{
+	        		intentPrefs = new Intent(this, PreferencesFragmentActivity_V11.class);
+	        	}
+	        	else
+	        	{
+	        		intentPrefs = new Intent(this, PreferencesActivity_V8.class);
+	        	}
 	            this.startActivity(intentPrefs);
 	        	break;	
 

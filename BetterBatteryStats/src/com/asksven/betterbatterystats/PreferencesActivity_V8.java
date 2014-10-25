@@ -52,7 +52,7 @@ import com.asksven.betterbatterystats.widgetproviders.SmallWidgetProvider;
  * @author sven
  *
  */
-public class PreferencesActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener
+public class PreferencesActivity_V8 extends PreferenceActivity implements OnSharedPreferenceChangeListener
 {
 	
 	/**
@@ -143,7 +143,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     		boolean enabled = sharedPreferences.getBoolean(key, false);
     		if (enabled)
     		{
-		        AlertDialog.Builder builder = new AlertDialog.Builder(PreferencesActivity.this);
+		        AlertDialog.Builder builder = new AlertDialog.Builder(PreferencesActivity_V8.this);
 		        builder.setMessage("Enabling root features assumes that your phone is rooted.\n"
 		        		+ "Please make sure to grant su rights to Alarms and Network stats.\n"
 		        		+ "if those rights do not stick blame the su app, not BBS.\n"
@@ -160,7 +160,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 		               {
 		                   public void onClick(DialogInterface dialog, int id)
 		                   {
-		                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity.this);
+		                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity_V8.this);
 			           	        SharedPreferences.Editor editor = sharedPrefs.edit();	        
 			        	        editor.putBoolean("root_features", false);
 			        			editor.commit();
@@ -180,7 +180,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 
     		if (enabled)
     		{
-		        AlertDialog.Builder builder = new AlertDialog.Builder(PreferencesActivity.this);
+		        AlertDialog.Builder builder = new AlertDialog.Builder(PreferencesActivity_V8.this);
 		        builder.setMessage("Active monitoring results in an overhead in terms of wakeups and processing and should be used with care.\n"
 		        		+ "Continue?")
 		               .setCancelable(false)
@@ -189,7 +189,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 		                   public void onClick(DialogInterface dialog, int id)
 		                   {		           
 		                	   // Fire the alarms
-		                	   StatsProvider.scheduleActiveMonAlarm(PreferencesActivity.this);
+		                	   StatsProvider.scheduleActiveMonAlarm(PreferencesActivity_V8.this);
 		                	   dialog.cancel();
 		                   }
 		               })
@@ -197,7 +197,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
 		               {
 		                   public void onClick(DialogInterface dialog, int id)
 		                   {
-		                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity.this);
+		                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(PreferencesActivity_V8.this);
 			           	        SharedPreferences.Editor editor = sharedPrefs.edit();	        
 			        	        editor.putBoolean("active_mon_enabled", false);
 			        			editor.commit();
@@ -213,7 +213,7 @@ public class PreferencesActivity extends PreferenceActivity implements OnSharedP
     		else
     		{
     			// cancel any existing alarms
-         	   StatsProvider.cancelActiveMonAlarm(PreferencesActivity.this);
+         	   StatsProvider.cancelActiveMonAlarm(PreferencesActivity_V8.this);
 
     		}
     			
