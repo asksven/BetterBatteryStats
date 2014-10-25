@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 asksven
+ * Copyright (C) 2011-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,12 @@
  */
 package com.asksven.betterbatterystats;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +28,7 @@ import android.widget.TextView;
 
 import com.asksven.betterbatterystats.R;
 
-public class AboutActivity extends Activity
+public class AboutActivity extends ActionBarActivity
 {
 
     private static final String TAG = "AboutStatsActivity";
@@ -41,7 +42,13 @@ public class AboutActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
-        setTitle("About");
+        
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		//toolbar.setLogo(R.drawable.ic_launcher);
+		toolbar.setTitle(getString(R.string.label_about));
+
+	    setSupportActionBar(toolbar);
+
         
         // retrieve the version name and display it
         try

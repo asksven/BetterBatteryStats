@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.app.Service;
@@ -36,18 +35,14 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageInfo;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
-import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,7 +56,6 @@ import android.widget.Toast;
 
 import com.asksven.android.common.AppRater;
 import com.asksven.android.common.CommonLogSettings;
-import com.asksven.android.common.ReadmeActivity;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
@@ -73,13 +67,11 @@ import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
-import com.asksven.betterbatterystats.data.ReferenceDBHelper;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
-import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.asksven.betterbatterystats.contrib.ObservableScrollView;
@@ -153,15 +145,15 @@ public class StatsActivity extends ActionBarListActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayUseLogoEnabled(true);
-		actionBar.setHomeButtonEnabled(true);
-		actionBar.setLogo(R.drawable.ic_launcher);
-		
-//		actionBar.setBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.nephritis))); 
-		
 		Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	
+		
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setLogo(R.drawable.ic_launcher);
+		toolbar.setTitle("");
+
+	    setSupportActionBar(toolbar);
+	    
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 				
 		// set debugging

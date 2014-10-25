@@ -62,8 +62,12 @@
             android:name="com.asksven.betterbatterystats.AboutActivity"/>
         <activity
             android:name="com.asksven.betterbatterystats.CreditsActivity"/>
+        <!-- we need both version -->
         <activity
-            android:name="com.asksven.betterbatterystats.PreferencesActivity"/>
+            android:name="com.asksven.betterbatterystats.PreferencesActivity_V8"/>
+        <activity
+            android:name="com.asksven.betterbatterystats.PreferencesFragmentActivity_V11"/>
+        
         <activity
             android:name="com.asksven.betterbatterystats.SystemAppActivity">
             <intent-filter>

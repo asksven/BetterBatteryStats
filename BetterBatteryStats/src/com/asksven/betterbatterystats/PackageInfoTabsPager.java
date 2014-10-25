@@ -25,6 +25,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
@@ -50,6 +51,12 @@ public class PackageInfoTabsPager extends ActionBarActivity
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.package_info_pager);
+		
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		//toolbar.setLogo(R.drawable.ic_launcher);
+		toolbar.setTitle(getString(R.string.label_packageinfo));
+	    setSupportActionBar(toolbar);
+	    
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();
 

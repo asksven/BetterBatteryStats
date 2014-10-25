@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -80,14 +81,13 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 	{
 		super.onCreate(savedInstanceState);
 		
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayUseLogoEnabled(true);
-		actionBar.setHomeButtonEnabled(true);
-		actionBar.setLogo(R.drawable.ic_launcher);
-		
 		setContentView(R.layout.raw_stats);
 		
-		setTitle("Raw Stats");
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		//toolbar.setLogo(R.drawable.ic_launcher);
+		toolbar.setTitle(getString(R.string.label_raw_stats));
+
+	    setSupportActionBar(toolbar);
 		
 		// Spinner for selecting the stat
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);

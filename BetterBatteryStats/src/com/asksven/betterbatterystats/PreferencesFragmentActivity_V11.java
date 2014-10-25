@@ -22,7 +22,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 
 /**
  * Demonstration of the use of a CursorLoader to load and display contacts data
@@ -36,10 +38,15 @@ public class PreferencesFragmentActivity_V11 extends ActionBarActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-
+		
 		// we need a layout to inflate the fragment into
 		setContentView(R.layout.preferences_fragment);
 
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		//toolbar.setLogo(R.drawable.ic_launcher);
+		toolbar.setTitle(getString(R.string.label_preferences));
+	    setSupportActionBar(toolbar);
+	    
 		getFragmentManager().beginTransaction().replace(R.id.prefs, new PrefsFragment())
 				.commit();
 

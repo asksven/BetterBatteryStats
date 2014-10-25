@@ -19,14 +19,16 @@ import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import com.androidplot.xy.*;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.betterbatterystats.R;
- 
+
 import java.util.ArrayList;
 
 
@@ -62,6 +64,13 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
         GRAPH_COLOR = getResources().getColor(R.color.peterriver);
         
         setContentView(R.layout.batterygraph2);
+        
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		//toolbar.setLogo(R.drawable.ic_launcher);
+		toolbar.setTitle(getString(R.string.label_moregraphs));
+
+	    setSupportActionBar(toolbar);
+	    
         m_plotWakelock 	= (XYPlot) findViewById(R.id.wakelockPlot);
         m_plotScreenOn 	= (XYPlot) findViewById(R.id.screenOnPlot);
         m_plotCharging 	= (XYPlot) findViewById(R.id.chargingPlot);

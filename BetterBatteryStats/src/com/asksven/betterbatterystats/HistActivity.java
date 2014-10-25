@@ -31,6 +31,7 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +42,7 @@ import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.HistAdapter;
 
-public class HistActivity extends ListActivity
+public class HistActivity extends ActionBarListActivity
 {
 	/**
 	 * The logging TAG
@@ -66,6 +67,12 @@ public class HistActivity extends ListActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.history);
+		
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		//toolbar.setLogo(R.drawable.ic_launcher);
+		toolbar.setTitle(getString(R.string.label_series));
+
+	    setSupportActionBar(toolbar);
 	}
 	
 	/* Request updates at startup */

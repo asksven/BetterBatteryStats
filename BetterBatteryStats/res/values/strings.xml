@@ -24,6 +24,14 @@
     <string name="label_button_cancel">Cancel</string>
     <string name="title_share_dialog">Share data as...</string>
     <string name="text_since">Since</string>
+    <string name="label_preferences">Settings</string>
+    <string name="label_packageinfo">Package Info</string>
+    <string name="label_graphs">Graphs</string>
+    <string name="label_moregraphs">More Graphs</string>
+    <string name="label_series">History</string>
+    <string name="label_raw_stats">Raw Stats</string>
+    <string name="label_about">About</string>
+    <string name="label_credits">Credits</string>
     
     
 </resources>

@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +31,7 @@ import android.widget.TextView;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.CreditsAdapter;
 
-public class CreditsActivity extends ListActivity
+public class CreditsActivity extends ActionBarListActivity
 {
 
     private static final String TAG = "CreditsActivity";
@@ -42,9 +43,15 @@ public class CreditsActivity extends ListActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.credits);
+        
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		//toolbar.setLogo(R.drawable.ic_launcher);
+		toolbar.setTitle(getString(R.string.label_credits));
+
+	    setSupportActionBar(toolbar);
         CreditsAdapter adapter = new CreditsAdapter(this);
         setListAdapter(adapter);
-        setTitle("Credits");
+
         
 
     }   
