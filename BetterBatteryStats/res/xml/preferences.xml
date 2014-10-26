@@ -383,6 +383,12 @@
                 android:title="Do not detect system app" />
             <CheckBoxPreference
                 android:defaultValue="false"
+                android:dependency="root_features"
+                android:key="use_alarm_api"
+                android:summary="Use API instead of dumpsys to retrieve alarms"
+                android:title="Do not use dumpsys for alarms" />
+            <CheckBoxPreference
+                android:defaultValue="false"
                 android:key="developer"
                 android:summary="Enable stats while charging (at your own risk, stats may be inconsistent)"
                 android:title="Enable while charging" />

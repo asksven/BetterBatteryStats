@@ -390,12 +390,13 @@ public class StatsProvider
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 		
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		boolean useAlarmAPI = sharedPrefs.getBoolean("use_alarm_api", false);
 		
 
 		ArrayList<StatElement> myAlarms = null;
 
 		// use root if available as root delivers more data
-		if (rootEnabled)
+		if (rootEnabled && !useAlarmAPI)
 		{
 			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
 		}
