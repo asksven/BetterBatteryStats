@@ -1,50 +1,54 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="4dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="4dp"
-    tools:context=".SystemAppActivity" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textViewPermBATTERY_STATS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Permission..."
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <include layout="@layout/toolbar_icon" />
 
-    <TextView
-        android:id="@+id/textViewPermDUMP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewPermBATTERY_STATS"
-        android:layout_centerHorizontal="true"
-        android:text="Permission..."
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewPermDUMP"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp"
-        android:text="System App..." />
-
-    <TextView
-        android:id="@+id/textView1"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button2"
-        android:layout_marginTop="21dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:gravity="center_horizontal"
-        android:text="Starting with Android 4.4 Google removed the permission for normal apps to access battery stats.\n\nInstall BetterBatteryStats as a system app (this does not prevent from installing updates).\n\nUninstalling/reinstalling it as a system app may be required if permissions change."
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_height="match_parent"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/textViewPermBATTERY_STATS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Permission..."
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textViewPermDUMP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewPermBATTERY_STATS"
+            android:layout_centerHorizontal="true"
+            android:text="Permission..."
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewPermDUMP"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="47dp"
+            android:text="System App..." />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/button2"
+            android:layout_marginTop="21dp"
+            android:text="@string/expl_system_app"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </RelativeLayout>
+
+</LinearLayout>
