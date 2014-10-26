@@ -152,6 +152,9 @@ public class StatsActivity extends ActionBarListActivity
 		toolbar.setTitle(getString(R.string.app_name));
 
 	    setSupportActionBar(toolbar);
+	    //getSupportActionBar().setDisplayUseLogoEnabled(true);
+	    //getSupportActionBar().setLogo(R.drawable.ic_launcher);
+	    
 	    
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 				
