@@ -32,6 +32,8 @@
     <string name="label_raw_stats">Raw Stats</string>
     <string name="label_about">About</string>
     <string name="label_credits">Credits</string>
+    <string name="label_help">Help</string>
+    <string name="label_howto">How-To</string>
     
     
 </resources>

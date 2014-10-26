@@ -149,8 +149,7 @@ public class StatsActivity extends ActionBarListActivity
 		setContentView(R.layout.stats);	
 		
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setLogo(R.drawable.ic_launcher);
-		toolbar.setTitle("");
+		toolbar.setTitle(getString(R.string.app_name));
 
 	    setSupportActionBar(toolbar);
 	    
@@ -604,6 +603,7 @@ public class StatsActivity extends ActionBarListActivity
             	// Help
             	Intent intentHelp = new Intent(this, HelpActivity.class);
             	intentHelp.putExtra("filename", "help.html");
+            	intentHelp.putExtra("title", getString(R.string.label_help));
                 this.startActivity(intentHelp);
             	break;	
 
@@ -611,6 +611,7 @@ public class StatsActivity extends ActionBarListActivity
             	// How To
             	Intent intentHowTo = new Intent(this, HelpActivity.class);
             	intentHowTo.putExtra("filename", "howto.html");
+            	intentHowTo.putExtra("title", getString(R.string.label_howto));
                 this.startActivity(intentHowTo);
             	break;	
 

@@ -70,6 +70,7 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
 		toolbar.setTitle(getString(R.string.label_moregraphs));
 
 	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	    
         m_plotWakelock 	= (XYPlot) findViewById(R.id.wakelockPlot);
         m_plotScreenOn 	= (XYPlot) findViewById(R.id.screenOnPlot);
@@ -151,7 +152,7 @@ public class BatteryGraph2Activity extends BatteryGraphActivity // implements On
 
         }
         
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 			
 

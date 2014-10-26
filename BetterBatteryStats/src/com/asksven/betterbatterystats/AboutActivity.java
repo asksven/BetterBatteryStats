@@ -48,6 +48,7 @@ public class AboutActivity extends ActionBarActivity
 		toolbar.setTitle(getString(R.string.label_about));
 
 	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         
         // retrieve the version name and display it

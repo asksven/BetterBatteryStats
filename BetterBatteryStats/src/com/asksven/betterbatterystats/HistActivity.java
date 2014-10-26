@@ -73,6 +73,7 @@ public class HistActivity extends ActionBarListActivity
 		toolbar.setTitle(getString(R.string.label_series));
 
 	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	/* Request updates at startup */

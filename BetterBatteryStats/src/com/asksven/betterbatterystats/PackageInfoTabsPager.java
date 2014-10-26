@@ -56,6 +56,7 @@ public class PackageInfoTabsPager extends ActionBarActivity
 		//toolbar.setLogo(R.drawable.ic_launcher);
 		toolbar.setTitle(getString(R.string.label_packageinfo));
 	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	    
 		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup();

@@ -88,6 +88,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 		toolbar.setTitle(getString(R.string.label_raw_stats));
 
 	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		// Spinner for selecting the stat
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);

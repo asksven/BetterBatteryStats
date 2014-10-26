@@ -119,6 +119,7 @@ public class BatteryGraphActivity extends ActionBarActivity
 		toolbar.setTitle(getString(R.string.label_graphs));
 
 	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	    
         m_plotCharge 	= (XYPlot) findViewById(R.id.myBatteryXYPlot);
         m_plotWakelock 	= (XYPlot) findViewById(R.id.wakelockPlot);
@@ -200,7 +201,7 @@ public class BatteryGraphActivity extends ActionBarActivity
 		        refreshPlot(m_plotWifi);
 		        break;
         }        
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 			    
      /**

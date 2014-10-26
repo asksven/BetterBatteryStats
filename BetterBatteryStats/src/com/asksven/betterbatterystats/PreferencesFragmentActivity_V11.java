@@ -45,7 +45,9 @@ public class PreferencesFragmentActivity_V11 extends ActionBarActivity
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		//toolbar.setLogo(R.drawable.ic_launcher);
 		toolbar.setTitle(getString(R.string.label_preferences));
+		
 	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	    
 		getFragmentManager().beginTransaction().replace(R.id.prefs, new PrefsFragment())
 				.commit();

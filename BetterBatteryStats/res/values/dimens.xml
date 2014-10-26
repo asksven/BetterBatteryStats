@@ -5,6 +5,7 @@
     
     <dimen name="hist_font_size">10dp</dimen>
     <dimen name="thumbnail_size">58dp</dimen>
+    <dimen name="toolbar_icon_size">32dp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_tiny">10sp</dimen>
     

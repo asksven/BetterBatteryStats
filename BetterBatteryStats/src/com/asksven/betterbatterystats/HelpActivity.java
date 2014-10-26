@@ -19,10 +19,12 @@ import com.asksven.betterbatterystats.R;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-public class HelpActivity extends Activity
+public class HelpActivity extends ActionBarActivity
 {
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -32,14 +34,24 @@ public class HelpActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		
+		String strTitle = getIntent().getStringExtra("title");
+		
 		setContentView(R.layout.helpwebview);
 		
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setLogo(R.drawable.ic_launcher);
+		toolbar.setTitle(strTitle);
+
+	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    
 		WebView browser = (WebView)findViewById(R.id.webview);
 
 	    WebSettings settings = browser.getSettings();
 	    settings.setJavaScriptEnabled(true);
 	    
 	    // retrieve any passed data (filename)
+	    
 	    String strFilename = getIntent().getStringExtra("filename");
 	    String strURL = getIntent().getStringExtra("url");
 	    

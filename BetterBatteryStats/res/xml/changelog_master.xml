@@ -5,6 +5,8 @@
         <change>Switched to SDK 21</change>
         <change>Fixed missing white heading in RAW stats</change>
         <change>Fixed gauges in raw stats always shown 100%</change>
+        <change>Implemented "back" navigation in toolbar</change>
+        <change>Toolbar follows L guidelines (no logo)</change>
 	    
     </release>
     <release version="2.0.0.0B1" versioncode="49" >

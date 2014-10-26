@@ -49,6 +49,8 @@ public class CreditsActivity extends ActionBarListActivity
 		toolbar.setTitle(getString(R.string.label_credits));
 
 	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    
         CreditsAdapter adapter = new CreditsAdapter(this);
         setListAdapter(adapter);
 
