@@ -1,26 +1,34 @@
+/*
+ * Copyright (C) 2014 asksven
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.asksven.betterbatterystats;
 
 import java.io.ByteArrayInputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import javax.security.auth.x500.X500Principal;
 
-import com.asksven.android.common.utils.SysUtils;
 import com.asksven.android.common.utils.SystemAppInstaller;
 import com.asksven.android.common.utils.SystemAppInstaller.Status;
 import com.asksven.betterbatterystats.R;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,15 +37,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SystemAppActivity extends Activity
+public class SystemAppActivity extends ActionBarActivity
 {
 
 	final static String TAG = "BetteryInfoTest.MainActivity";
@@ -58,6 +66,10 @@ public class SystemAppActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_systemapp);
+		
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		toolbar.setTitle(getString(R.string.label_system_app));
+	    setSupportActionBar(toolbar);
 
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -71,7 +83,7 @@ public class SystemAppActivity extends Activity
             AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
  
             // set the message to display
-            alertbox.setMessage("In order to use this feature 'Root Features must be enabled (Advanced Preferences)");
+            alertbox.setMessage(getString(R.string.info_root_required));
  
             // add a neutral button to the alert box and assign a click listener
             alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
@@ -125,21 +137,21 @@ public class SystemAppActivity extends Activity
 		final TextView permBattery = (TextView) findViewById(R.id.textViewPermBATTERY_STATS);
 		if (hasBatteryStatsPermission(this))
 		{
-			permBattery.setText("BATTERY_STATS Granted");
+			permBattery.setText("BATTERY_STATS " + getString(R.string.label_granted));
 		}
 		else
 		{
-			permBattery.setText("BATTERY_STATS  not granted");
+			permBattery.setText("BATTERY_STATS  " + getString(R.string.label_not_granted));
 		}
 
 		final TextView permDump = (TextView) findViewById(R.id.textViewPermDUMP);
 		if (hasDumpPermission(this))
 		{
-			permDump.setText("DUMP Granted");
+			permDump.setText("DUMP " + getString(R.string.label_granted));
 		}
 		else
 		{
-			permDump.setText("DUMP  not granted");
+			permDump.setText("DUMP  " + getString(R.string.label_not_granted));
 		}
 
 		final Button buttonRemount = (Button) findViewById(R.id.button2);
@@ -166,18 +178,18 @@ public class SystemAppActivity extends Activity
 				
 					if (status.getSuccess())
 					{
-						Toast.makeText(SystemAppActivity.this, "Succeeded", Toast.LENGTH_LONG).show();
+						Toast.makeText(SystemAppActivity.this, getString(R.string.info_succeeded), Toast.LENGTH_LONG).show();
 						// prepare the alert box
 			            AlertDialog.Builder alertbox = new AlertDialog.Builder(SystemAppActivity.this);
 			 
 			            // set the message to display
 			            if (install)
 			            {
-			            	alertbox.setMessage("Installed system app. Please reboot to activate.");
+			            	alertbox.setMessage(getString(R.string.info_installed_system_app));
 			            }
 			            else
 			            {
-			            	alertbox.setMessage("Uninstalled system app: your preferences have been reset. Please reboot to clean up and update your preferences.");
+			            	alertbox.setMessage(getString(R.string.info_uninstalled_system_app));
 			   			 
 			            }
 			            // add a neutral button to the alert box and assign a click listener
@@ -196,14 +208,14 @@ public class SystemAppActivity extends Activity
 					}
 					else
 					{
-						Toast.makeText(SystemAppActivity.this, "Failed", Toast.LENGTH_LONG).show();
+						Toast.makeText(SystemAppActivity.this, getString(R.string.info_failed), Toast.LENGTH_LONG).show();
 						Log.e(TAG,"History: " + status.toString());
 					}						
 				}
 				catch (Exception e)
 				{
 					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
-					Toast.makeText(SystemAppActivity.this, "Failed", Toast.LENGTH_LONG).show();
+					Toast.makeText(SystemAppActivity.this, getString(R.string.info_failed), Toast.LENGTH_LONG).show();
 				}
 				
 				// refresh status of button
@@ -224,11 +236,11 @@ public class SystemAppActivity extends Activity
 
 		if (SystemAppInstaller.isSystemApp(systemAPKName))
 		{
-			button.setText("Uninstall system app");
+			button.setText(getString(R.string.uninstall_system_app));
 		}
 		else
 		{
-			button.setText("Install as system app");
+			button.setText(getString(R.string.install_system_app));
 		}
 	}
 		
