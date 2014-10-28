@@ -7,6 +7,8 @@
         <change>Fixed gauges in raw stats always shown 100%</change>
         <change>Implemented "back" navigation in toolbar</change>
         <change>Toolbar follows L guidelines (no logo)</change>
+        <change>Begun externalization of strings for translation</change>
+        <change>Added advanced settings to avoid using dumpsys for alarms</change>
 	    
     </release>
     <release version="2.0.0.0B1" versioncode="49" >

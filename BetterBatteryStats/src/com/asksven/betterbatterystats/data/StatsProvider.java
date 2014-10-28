@@ -157,8 +157,7 @@ public class StatsProvider
 
 		} 
 		
-		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
-				"0"));
+		int iPctType = 0;
 
 		if ((!developerMode) && (this.getIsCharging()))
 		{
@@ -2446,8 +2445,7 @@ public class StatsProvider
 		
 
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
-		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
-				"0"));
+		int iPctType = 0;
 
 		boolean rootEnabled = sharedPrefs
 				.getBoolean("root_features", false);
@@ -2608,8 +2606,7 @@ public class StatsProvider
 
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-		int iPctType = Integer.valueOf(sharedPrefs.getString("default_wl_ref",
-				"0"));
+		int iPctType = 0;
 
 		boolean rootEnabled = sharedPrefs
 				.getBoolean("root_features", false);

@@ -176,7 +176,7 @@ public class Reading implements Serializable
 		// populate the stats
 		
 		boolean bFilterStats 			= sharedPrefs.getBoolean("filter_data", true);
-		int iPctType 					= Integer.valueOf(sharedPrefs.getString("default_wl_ref", "0"));
+		int iPctType 					= 0;
 		int iSort 						= 0;
 		
 		try
@@ -353,116 +353,82 @@ public class Reading implements Serializable
 		out.write("Voltage lost [mV]: " + batteryVoltageLostText + "\n");
 
 		// write timing info
-		boolean bDumpChapter = sharedPrefs.getBoolean("show_other",
-				true);
-		if (bDumpChapter)
+		out.write("===========\n");
+		out.write("Other Usage\n");
+		out.write("===========\n");
+		dumpList(context, otherStats, out);
+
+		// write wakelock info
+		out.write("======================================================\n");
+		out.write("Wakelocks (requires root / system app on Android 4.4+)\n");
+		out.write("======================================================\n");
+		dumpList(context, partialWakelockStats, out);
+
+		String addendum = "";
+		if (Wakelocks.isDiscreteKwlPatch())
 		{
-			out.write("===========\n");
-			out.write("Other Usage\n");
-			out.write("===========\n");
-			dumpList(context, otherStats, out);
+			addendum = "!!! Discrete !!!";
+		}
+		if (!Wakelocks.fileExists())
+		{
+			addendum = " !!! wakeup_sources !!!";
 		}
 
-		bDumpChapter = sharedPrefs.getBoolean("show_pwl", true);
-		if (bDumpChapter)
+		// write kernel wakelock info
+		out.write("================\n");
+		out.write("Kernel Wakelocks " + addendum + "\n");
+		out.write("================\n");
+
+		dumpList(context, kernelWakelockStats, out);
+
+		// write process info
+		out.write("======================================================\n");
+		out.write("Processes (requires root / system app on Android 4.4+)\n");
+		out.write("======================================================\n");
+		dumpList(context, processStats, out);
+
+		// write alarms info
+		out.write("======================\n");
+		out.write("Alarms (requires root)\n");
+		out.write("======================\n");
+		dumpList(context, alarmStats, out);
+
+		// write alarms info
+		out.write("======================\n");
+		out.write("Network (requires root)\n");
+		out.write("======================\n");
+		dumpList(context, networkStats, out);
+
+		// write alarms info
+		out.write("==========\n");
+		out.write("CPU States\n");
+		out.write("==========\n");
+		dumpList(context, cpuStateStats, out);
+	
+		out.write("========\n");
+		out.write("Services\n");
+		out.write("========\n");
+		out.write("Active since: The time when the service was first made active, either by someone starting or binding to it.\n");
+		out.write("Last activity: The time when there was last activity in the service (either explicit requests to start it or clients binding to it)\n");
+		out.write("See http://developer.android.com/reference/android/app/ActivityManager.RunningServiceInfo.html\n");
+		ActivityManager am = (ActivityManager) context
+				.getSystemService(context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningServiceInfo> rs = am
+				.getRunningServices(50);
+
+		for (int i = 0; i < rs.size(); i++)
 		{
-			// write wakelock info
-			out.write("======================================================\n");
-			out.write("Wakelocks (requires root / system app on Android 4.4+)\n");
-			out.write("======================================================\n");
-			dumpList(context, partialWakelockStats, out);
-			
-		}
-
-		bDumpChapter = sharedPrefs.getBoolean("show_kwl", true);
-		if (bDumpChapter)
-		{
-			String addendum = "";
-			if (Wakelocks.isDiscreteKwlPatch())
-			{
-				addendum = "!!! Discrete !!!";
-			}
-			if (!Wakelocks.fileExists())
-			{
-				addendum = " !!! wakeup_sources !!!";
-			}
-
-			// write kernel wakelock info
-			out.write("================\n");
-			out.write("Kernel Wakelocks " + addendum + "\n");
-			out.write("================\n");
-
-			dumpList(context, kernelWakelockStats, out);
-		}
-
-		bDumpChapter = sharedPrefs.getBoolean("show_proc", false);
-		if (bDumpChapter)
-		{
-			// write process info
-			out.write("======================================================\n");
-			out.write("Processes (requires root / system app on Android 4.4+)\n");
-			out.write("======================================================\n");
-			dumpList(context, processStats, out);
-		}
-
-		bDumpChapter = sharedPrefs.getBoolean("show_alarm", true);
-		if (bDumpChapter)
-		{
-			// write alarms info
-			out.write("======================\n");
-			out.write("Alarms (requires root)\n");
-			out.write("======================\n");
-			dumpList(context, alarmStats, out);
-		}
-
-		bDumpChapter = sharedPrefs.getBoolean("show_network", true);
-		if (bDumpChapter)
-		{
-			// write alarms info
-			out.write("======================\n");
-			out.write("Network (requires root)\n");
-			out.write("======================\n");
-			dumpList(context, networkStats, out);
-		}
-
-		bDumpChapter = sharedPrefs.getBoolean("show_cpustates", true);
-		if (bDumpChapter)
-		{
-			// write alarms info
-			out.write("==========\n");
-			out.write("CPU States\n");
-			out.write("==========\n");
-			dumpList(context, cpuStateStats, out);
-		}
-
-		bDumpChapter = sharedPrefs.getBoolean("show_serv", false);
-		if (bDumpChapter)
-		{
-			out.write("========\n");
-			out.write("Services\n");
-			out.write("========\n");
-			out.write("Active since: The time when the service was first made active, either by someone starting or binding to it.\n");
-			out.write("Last activity: The time when there was last activity in the service (either explicit requests to start it or clients binding to it)\n");
-			out.write("See http://developer.android.com/reference/android/app/ActivityManager.RunningServiceInfo.html\n");
-			ActivityManager am = (ActivityManager) context
-					.getSystemService(context.ACTIVITY_SERVICE);
-			List<ActivityManager.RunningServiceInfo> rs = am
-					.getRunningServices(50);
-
-			for (int i = 0; i < rs.size(); i++)
-			{
-				ActivityManager.RunningServiceInfo rsi = rs.get(i);
-				out.write(rsi.process + " ("
-						+ rsi.service.getClassName() + ")\n");
-				out.write("  Active since: "
-						+ DateUtils.formatDuration(rsi.activeSince)
-						+ "\n");
-				out.write("  Last activity: "
-						+ DateUtils
-								.formatDuration(rsi.lastActivityTime)
-						+ "\n");
-				out.write("  Crash count:" + rsi.crashCount + "\n");
-			}
+			ActivityManager.RunningServiceInfo rsi = rs.get(i);
+			out.write(rsi.process + " ("
+					+ rsi.service.getClassName() + ")\n");
+			out.write("  Active since: "
+					+ DateUtils.formatDuration(rsi.activeSince)
+					+ "\n");
+			out.write("  Last activity: "
+					+ DateUtils
+							.formatDuration(rsi.lastActivityTime)
+					+ "\n");
+			out.write("  Crash count:" + rsi.crashCount + "\n");
 		}
 
 		// add chapter for reference info

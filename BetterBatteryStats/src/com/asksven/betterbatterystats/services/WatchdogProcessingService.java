@@ -79,10 +79,9 @@ public class WatchdogProcessingService extends IntentService
 
 		try
 		{
-			boolean bIssueWarnings = sharedPrefs.getBoolean("watchdog_issue_warnings", false);
-			if (bIssueWarnings)
+
+			if (true)
 			{
-				boolean bShowToast = sharedPrefs.getBoolean("watchdog_show_toasts", false);
 
 				int minScreenOffDurationMin 	= sharedPrefs.getInt("watchdog_duration_threshold", 10);
 				int awakeThresholdPct		= sharedPrefs.getInt("watchdog_awake_threshold", 30);
@@ -94,23 +93,18 @@ public class WatchdogProcessingService extends IntentService
 				// we process only if screenOffDuration is >= minScreenOffDuration
 				if (screenOffDurationMs >= ((long)minScreenOffDurationMin*60*1000))
 				{
-					if (bShowToast)
-					{
-						Toast.makeText(this, "BBS: Watchdog processing...", Toast.LENGTH_SHORT).show();
-					}
+
+					Toast.makeText(this, "BBS: Watchdog processing...", Toast.LENGTH_SHORT).show();
 
 					int awakePct = 0;
 					StatsProvider stats = StatsProvider.getInstance(this);
 					// make sure to flush cache
 					BatteryStatsProxy.getInstance(this).invalidate();
 
-					boolean saveScreenOnRef = sharedPrefs.getBoolean("ref_for_screen_on", false);
-					if (saveScreenOnRef)
-					{
-						// save screen on reference
-						Intent serviceIntent = new Intent(this.getApplicationContext(), WriteScreenOnReferenceService.class);
-						this.startService(serviceIntent);
-					}
+
+					// save screen on reference
+					Intent serviceIntent = new Intent(this.getApplicationContext(), WriteScreenOnReferenceService.class);
+					this.startService(serviceIntent);
 
 					if (stats.hasScreenOffRef())
 					{
@@ -152,10 +146,8 @@ public class WatchdogProcessingService extends IntentService
 						// we issue a warning if awakePct > awakeThresholdPct
 						if (awakePct >= awakeThresholdPct)
 						{
-							if (bShowToast)
-							{
-								Toast.makeText(this, "BBS: Awake alert: " + awakePct + "% awake", Toast.LENGTH_SHORT).show();
-							}
+
+							Toast.makeText(this, "BBS: Awake alert: " + awakePct + "% awake", Toast.LENGTH_SHORT).show();
 
 							// notify the user of the situation
 					    	Notification notification = new Notification(

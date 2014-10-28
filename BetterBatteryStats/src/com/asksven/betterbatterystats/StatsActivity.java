@@ -79,7 +79,7 @@ import com.asksven.betterbatterystats.contrib.ObservableScrollView;
 import de.cketti.library.changelog.ChangeLog;
 
 public class StatsActivity extends ActionBarListActivity 
-		implements AdapterView.OnItemSelectedListener, OnSharedPreferenceChangeListener, ObservableScrollView.Callbacks
+		implements AdapterView.OnItemSelectedListener, ObservableScrollView.Callbacks
 {    
 	public static String STAT 				= "STAT";
 	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
@@ -251,11 +251,9 @@ public class StatsActivity extends ActionBarListActivity
 
 		if (!ReferenceStore.hasReferenceByName(m_refFromName, this))
 		{
-			if (sharedPrefs.getBoolean("fallback_to_since_boot", false))
-			{
-				m_refFromName = Reference.BOOT_REF_FILENAME;
-	    		Toast.makeText(this, "Fallback to 'Since Boot'", Toast.LENGTH_SHORT).show();
-			}
+
+			m_refFromName = Reference.BOOT_REF_FILENAME;
+    		Toast.makeText(this, "Fallback to 'Since Boot'", Toast.LENGTH_SHORT).show();
 		}
 		
 		Log.i(TAG, "onCreate state from preferences: refFrom=" + m_refFromName + " refTo=" + m_refToName);
@@ -356,35 +354,19 @@ public class StatsActivity extends ActionBarListActivity
 		m_spinnerToAdapter = new ReferencesAdapter(this, R.layout.bbs_spinner_layout); //android.R.layout.simple_spinner_item);
 		m_spinnerToAdapter.setDropDownViewResource(R.layout.bbs_spinner_dropdown_item); //android.R.layout.simple_spinner_dropdown_item);
 
-		
-		boolean bShowSpinner = sharedPrefs.getBoolean("show_to_ref", true);
-        if (bShowSpinner)
-        {
-        	spinnerStatSampleEnd.setVisibility(View.VISIBLE);
-    		spinnerStatSampleEnd.setAdapter(m_spinnerToAdapter);
-    		// setSelection must be called after setAdapter
-    		if ((m_refToName != null) && !m_refToName.equals("") )
-    		{
-    			int pos = m_spinnerToAdapter.getPosition(m_refToName);
-    			spinnerStatSampleEnd.setSelection(pos);
-    			
-    		}
-    		else
-    		{
-    			spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
-    		}
-
-        }
-        else
-        {
-        	spinnerStatSampleEnd.setVisibility(View.GONE);
-    		spinnerStatSampleEnd.setAdapter(m_spinnerToAdapter);
-    		// setSelection must be called after setAdapter
-    		spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
-
-        }
-		
+    	spinnerStatSampleEnd.setVisibility(View.VISIBLE);
+		spinnerStatSampleEnd.setAdapter(m_spinnerToAdapter);
+		// setSelection must be called after setAdapter
+		if ((m_refToName != null) && !m_refToName.equals("") )
+		{
+			int pos = m_spinnerToAdapter.getPosition(m_refToName);
+			spinnerStatSampleEnd.setSelection(pos);
 			
+		}
+		else
+		{
+			spinnerStatSampleEnd.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME));
+		}
 
 		spinnerStatSampleEnd.setOnItemSelectedListener(this);
 
@@ -392,10 +374,6 @@ public class StatsActivity extends ActionBarListActivity
 		// sorting
 		///////////////////////////////////////////////
 		m_iSorting = 0;
-
-        // Set up a listener whenever a key changes
-    	PreferenceManager.getDefaultSharedPreferences(this)
-                .registerOnSharedPreferenceChangeListener(this);
 		
     	// log reference store
     	ReferenceStore.logReferences(this);
@@ -738,13 +716,8 @@ public class StatsActivity extends ActionBarListActivity
         if (sinceMs != -1)
         {
 	        String sinceText =  DateUtils.formatDuration(sinceMs);
+        	sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
 	        
-			boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
-	        if (bShowBatteryLevels)
-	        {
-
-        		sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
-	        }
 	        tvSince.setText(sinceText);
 	    	Log.i(TAG, "Since " + sinceText);
         }
@@ -769,23 +742,6 @@ public class StatsActivity extends ActionBarListActivity
 		// do nothing
 	}
 
-	public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
-    {
-    	if (key.equals("show_to_ref"))
-    	{
-    		Spinner spinnerStatSampleEnd = (Spinner) findViewById(R.id.spinnerStatSampleEnd);	
-    		boolean bShowSpinner = prefs.getBoolean("show_to_ref", true);
-            if (bShowSpinner)
-            {
-            	spinnerStatSampleEnd.setVisibility(View.VISIBLE);
-            }
-            else
-            {
-            	spinnerStatSampleEnd.setVisibility(View.GONE);
-            }
-    	}
-    }
-
 	private void refreshSpinners()
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -799,11 +755,7 @@ public class StatsActivity extends ActionBarListActivity
 
 			if (!ReferenceStore.hasReferenceByName(m_refFromName, this))
 			{
-				if (sharedPrefs.getBoolean("fallback_to_since_boot", false))
-				{
-					m_refFromName = Reference.BOOT_REF_FILENAME;
-		    		
-				}
+				m_refFromName = Reference.BOOT_REF_FILENAME;
 			}
 			Log.e(TAG, "refreshSpinners: reset null references: from='" + m_refFromName + "', to='" + m_refToName + "'");
 					
@@ -968,11 +920,8 @@ public class StatsActivity extends ActionBarListActivity
 		        String sinceText = DateUtils.formatDuration(sinceMs);
 		        
 				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
-				boolean bShowBatteryLevels = sharedPrefs.getBoolean("show_batt", true);
-		        if (bShowBatteryLevels)
-		        {
-		        		sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
-		        }
+		        sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
+		        
 		        tvSince.setText(sinceText);
 		    	Log.i(TAG, "Since " + sinceText);
 	        }

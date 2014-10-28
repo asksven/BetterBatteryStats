@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
+
     <string name="plugin_name">Better Battery Stats</string>
     <string name="message_hint">Scheduled Toast</string>
     <string name="message_hint_saveref">Save a Custom Reference</string>
@@ -35,7 +36,7 @@
     <string name="label_help">Help</string>
     <string name="label_howto">How-To</string>
     <string name="label_system_app">Sytem App</string>
-    
+
     <!-- System app activity -->
     <string name="expl_system_app">On Android 4.4 Google removed the permission for normal apps to access battery stats.\n\nIt is recommended to install BetterBatteryStats as a system app (this does not prevent from installing updates).\n\nUninstalling/reinstalling it as a system app may be required if permissions change.</string>
     <string name="install_system_app">Install as system app</string>
@@ -44,7 +45,77 @@
     <string name="info_uninstalled_system_app">Uninstalled system app: your preferences have been reset. Please reboot to clean up and update your preferences.</string>
     <string name="info_succeeded">Succeeded</string>
     <string name="info_failed">Failed</string>
-    <string name="info_root_required">In order to use this feature \'Root\' Features must be enabled (Advanced Preferences)</string> 
+    <string name="info_root_required">In order to use this feature \'Root\' Features must be enabled (Advanced Preferences)</string>
     <string name="label_granted">granted</string>
     <string name="label_not_granted">not granted</string>
+
+    <!-- Preferences labels and texts -->
+    <string name="pref_section_display">Display</string>
+    <string name="pref_filter_data_title">Filter stats</string>
+    <string name="pref_filter_data_summary">Enable the filtering of data to non-zero values</string>
+    <string name="pref_show_gauge_title">Show Bars</string>
+    <string name="pref_show_gauge_summary">Show bars instead of pie gauge</string>
+    <string name="pref_graph_bar_height_title">Height for graph bars</string>
+    <string name="pref_graph_bar_height_summary">If you are using non-default densities you can change the bar height here</string>
+    <string name="pref_section_customize_views">Customize Views</string>
+    <string name="pref_show_other_wifi_title">Show Wifi</string>
+    <string name="pref_show_other_wifi_summary">Show Wifi values</string>
+    <string name="pref_show_other_signal_title">Show signal</string>
+    <string name="pref_show_other_signal_summary">Show signal values</string>
+    <string name="pref_show_other_screen_brightness_title">Show screen</string>
+    <string name="pref_show_other_screen_brightness_summary">Show screen brightness</string>
+    <string name="pref_show_other_connection_title">Show connection</string>
+    <string name="pref_show_other_connection_summary">Show connection values</string>
+    <string name="pref_show_other_bt_title">Show Bluetooth</string>
+    <string name="pref_show_other_bt_summary">Show Bluetooth values</string>
+    <string name="pref_section_defaults">Defaults</string>
+    <string name="pref_default_stat_title">Default stat</string>
+    <string name="pref_default_stat_summary">Set the stat to be shown when starting the app</string>
+    <string name="pref_default_stat_type_title">Default stat type</string>
+    <string name="pref_default_stat_type_summary">Set the stat type to be shown when starting the app</string>
+    <string name="pref_section_watchdog">Watchdog</string>
+    <string name="pref_enable_watchdog_title">Enable</string>
+    <string name="pref_enable_watchdog_summary">Enables watchdog processing</string>
+    <string name="pref_watchdog_on_unlock_title">Watchdog on unlock</string>
+    <string name="pref_watchdog_on_unlock_summary">Watchdog runs upon \'unlock\' (else on \'screen on\')</string>
+    <string name="pref_section_warnings">Warnings</string>
+    <string name="pref_watchdog_awake_threshold_title">Awake threshold</string>
+    <string name="pref_watchdog_awake_threshold_summary">Threshold for warning (awake / total)</string>
+    <string name="pref_ref_for_screen_off_title">Duration threshold [Min.]</string>
+    <string name="pref_ref_for_screen_off_summary">Screen Off duration to trigger</string>
+    <string name="pref_section_active_mon">Active Monitoring</string>
+    <string name="pref_active_mon_enabled_title">Enable</string>
+    <string name="pref_active_mon_enabled_summary">Enables active monitoring. Caution: be aware that active monitoring has costs in terms of battery</string>
+    <string name="pref_active_mon_freq_title">Frequency [Min.]</string>
+    <string name="pref_active_mon_freq_summary">Frequency for saving timer references</string>
+    <string name="pref_section_advanced">Advanced</string>
+
+    <string name="pref_debug_logging_summary">Add debug info to logcat</string>
+    <string name="pref_debug_logging_title">Debug</string>
+    <string name="pref_files_to_private_storage_summary">Write files to /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
+    <string name="pref_files_to_private_storage_title">Private storage</string>
+    <string name="pref_root_features_summary">Enable network stats and alarms</string>
+    <string name="pref_root_features_title">Root features</string>
+    <string name="pref_ignore_system_app_summary">Ignore System App detection (for XPosed Module \'Enable BATTERY_STATS\' users)</string>
+    <string name="pref_ignore_system_app_title">Do not detect system app</string>
+    <string name="pref_use_alarm_api_summary">Use API instead of dumpsys to retrieve alarms</string>
+    <string name="pref_use_alarm_api_title">Do not use dumpsys for alarms</string>
+
+
+    <string name="pref_developer_title">Enable while charging</string>
+    <string name="pref_developer_summary">Enable stats while charging (at your own risk, stats may be inconsistent)</string>
+    <string name="pref_auto_refresh_title">Auto refresh</string>
+    <string name="pref_auto_refresh_summary">Automaticall refresh \'current\'</string>
+    <string name="pref_section_sharing">Sharing options</string>
+    <string name="pref_save_as_text_title">Text</string>
+    <string name="pref_save_as_text_summary">Share dumpfile as text</string>
+    <string name="pref_save_as_json_title">JSON</string>
+    <string name="pref_save_as_json_summary">Share dumpfile as JSON</string>
+    <string name="pref_save_logcat_title">Logcat</string>
+    <string name="pref_save_logcat_summary">Share logcat</string>
+    <string name="pref_save_dmesg_title">dmesg</string>
+    <string name="pref_save_dmesg_summary">Share dmesg</string>
+    <string name="pref_screen_system_app_title">System App</string>
+    <string name="pref_screen_system_app_summary">Install as System App</string>
+
 </resources>
