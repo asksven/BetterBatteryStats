@@ -1,5 +1,5 @@
 /*
- * From http://robobunny.com/wp/2011/08/13/android-seekbar-preference/
+ * From http://robobunny.com/wp/2013/08/24/android-seekbar-preference-v2/
  * 
  */
 package com.asksven.betterbatterystats.contrib;
@@ -11,21 +11,22 @@ import android.content.res.TypedArray;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-public class SeekBarPreference extends Preference implements OnSeekBarChangeListener {
+import android.widget.LinearLayout;
+
+public class SeekBarPreference extends Preference implements OnSeekBarChangeListener
+{
 	
 	private final String TAG = getClass().getName();
 	
 	private static final String ANDROIDNS="http://schemas.android.com/apk/res/android";
-	private static final String ROBOBUNNYNS="http://robobunny.com";
+	private static final String APPLICATIONNS="http://robobunny.com";
 	private static final int DEFAULT_VALUE = 50;
 	
 	private int mMaxValue      = 100;
@@ -53,18 +54,20 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		mSeekBar = new SeekBar(context, attrs);
 		mSeekBar.setMax(mMaxValue - mMinValue);
 		mSeekBar.setOnSeekBarChangeListener(this);
+		
+		setWidgetLayoutResource(R.layout.seek_bar_preference);
 	}
 	
 	private void setValuesFromXml(AttributeSet attrs) {
 		mMaxValue = attrs.getAttributeIntValue(ANDROIDNS, "max", 100);
-		mMinValue = attrs.getAttributeIntValue(ROBOBUNNYNS, "min", 0);
+		mMinValue = attrs.getAttributeIntValue(APPLICATIONNS, "min", 0);
 		
-		mUnitsLeft = getAttributeStringValue(attrs, ROBOBUNNYNS, "unitsLeft", "");
-		String units = getAttributeStringValue(attrs, ROBOBUNNYNS, "units", "");
-		mUnitsRight = getAttributeStringValue(attrs, ROBOBUNNYNS, "unitsRight", units);
+		mUnitsLeft = getAttributeStringValue(attrs, APPLICATIONNS, "unitsLeft", "");
+		String units = getAttributeStringValue(attrs, APPLICATIONNS, "units", "");
+		mUnitsRight = getAttributeStringValue(attrs, APPLICATIONNS, "unitsRight", units);
 		
 		try {
-			String newInterval = attrs.getAttributeValue(ROBOBUNNYNS, "interval");
+			String newInterval = attrs.getAttributeValue(APPLICATIONNS, "interval");
 			if(newInterval != null)
 				mInterval = Integer.parseInt(newInterval);
 		}
@@ -83,71 +86,68 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 	}
 	
 	@Override
-	protected View onCreateView(ViewGroup parent){
+	protected View onCreateView(ViewGroup parent) {
+		View view = super.onCreateView(parent);
 		
-		RelativeLayout layout =  null;
+		// The basic preference layout puts the widget frame to the right of the title and summary,
+		// so we need to change it a bit - the seekbar should be under them.
+		LinearLayout layout = (LinearLayout) view;
+		layout.setOrientation(LinearLayout.VERTICAL);
 		
-		try {
-			LayoutInflater mInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-			layout = (RelativeLayout)mInflater.inflate(R.layout.seek_bar_preference, parent, false);
-		}
-		catch(Exception e)
-		{
-			Log.e(TAG, "Error creating seek bar preference", e);
-		}
-
-		return layout;
-		
+		return view;
 	}
 	
 	@Override
 	public void onBindView(View view) {
 		super.onBindView(view);
 
-		try
-		{
+		try {
 			// move our seekbar to the new view we've been given
-	        ViewParent oldContainer = mSeekBar.getParent();
-	        ViewGroup newContainer = (ViewGroup) view.findViewById(R.id.seekBarPrefBarContainer);
-	        
-	        if (oldContainer != newContainer) {
-	        	// remove the seekbar from the old view
-	            if (oldContainer != null) {
-	                ((ViewGroup) oldContainer).removeView(mSeekBar);
-	            }
-	            // remove the existing seekbar (there may not be one) and add ours
-	            newContainer.removeAllViews();
-	            newContainer.addView(mSeekBar, ViewGroup.LayoutParams.FILL_PARENT,
-	                    ViewGroup.LayoutParams.WRAP_CONTENT);
-	        }
+			ViewParent oldContainer = mSeekBar.getParent();
+			ViewGroup newContainer = (ViewGroup) view.findViewById(R.id.seekBarPrefBarContainer);
+			
+			if (oldContainer != newContainer) {
+				// remove the seekbar from the old view
+				if (oldContainer != null) {
+					((ViewGroup) oldContainer).removeView(mSeekBar);
+				}
+				// remove the existing seekbar (there may not be one) and add ours
+				newContainer.removeAllViews();
+				newContainer.addView(mSeekBar, ViewGroup.LayoutParams.FILL_PARENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+			}
 		}
 		catch(Exception ex) {
 			Log.e(TAG, "Error binding view: " + ex.toString());
 		}
-
+		
+		//if dependency is false from the beginning, disable the seek bar
+		if (view != null && !view.isEnabled())
+		{
+			mSeekBar.setEnabled(false);
+		}
+		
 		updateView(view);
 	}
     
-	/**
+    	/**
 	 * Update a SeekBarPreference view with our current state
 	 * @param view
 	 */
 	protected void updateView(View view) {
 
 		try {
-			RelativeLayout layout = (RelativeLayout)view;
+			mStatusText = (TextView) view.findViewById(R.id.seekBarPrefValue);
 
-			mStatusText = (TextView)layout.findViewById(R.id.seekBarPrefValue);
 			mStatusText.setText(String.valueOf(mCurrentValue));
 			mStatusText.setMinimumWidth(30);
 			
 			mSeekBar.setProgress(mCurrentValue - mMinValue);
 
-			TextView unitsRight = (TextView)layout.findViewById(R.id.seekBarPrefUnitsRight);
+			TextView unitsRight = (TextView)view.findViewById(R.id.seekBarPrefUnitsRight);
 			unitsRight.setText(mUnitsRight);
 			
-			TextView unitsLeft = (TextView)layout.findViewById(R.id.seekBarPrefUnitsLeft);
+			TextView unitsLeft = (TextView)view.findViewById(R.id.seekBarPrefUnitsLeft);
 			unitsLeft.setText(mUnitsLeft);
 			
 		}
@@ -219,10 +219,24 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		
 	}
 	
+	/**
+	* make sure that the seekbar is disabled if the preference is disabled
+	*/
 	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		mSeekBar.setEnabled(enabled);
 	}
 	
+	@Override
+	public void onDependencyChanged(Preference dependency, boolean disableDependent) {
+		super.onDependencyChanged(dependency, disableDependent);
+		
+		//Disable movement of seek bar when dependency is false
+		if (mSeekBar != null)
+		{
+			mSeekBar.setEnabled(!disableDependent);
+		}
+	}
 }
+

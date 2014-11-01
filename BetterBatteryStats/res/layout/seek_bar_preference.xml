@@ -1,5 +1,6 @@
-<!-- From http://robobunny.com/wp/2011/08/13/android-seekbar-preference/ -->
- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- http://robobunny.com/wp/2013/08/24/android-seekbar-preference-v2/ -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/widget_frame"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -9,52 +10,40 @@
     android:paddingTop="5dp" >
 
     <TextView
-        android:id="@android:id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:textSize="22dp"
-        android:textStyle="normal"
-        android:typeface="sans" />
-
-    <TextView
-        android:id="@android:id/summary"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@android:id/title" />
-
-    <TextView
         android:id="@+id/seekBarPrefUnitsRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@android:id/title" />
+        android:layout_alignParentTop="true" >
+    </TextView>
 
     <TextView
         android:id="@+id/seekBarPrefValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@android:id/title"
         android:layout_toLeftOf="@id/seekBarPrefUnitsRight"
-        android:gravity="right" />
+        android:gravity="right" >
+    </TextView>
 
     <TextView
         android:id="@+id/seekBarPrefUnitsLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@android:id/title"
-        android:layout_toLeftOf="@id/seekBarPrefValue" />
+        android:layout_toLeftOf="@id/seekBarPrefValue" >
+    </TextView>
 
     <LinearLayout
         android:id="@+id/seekBarPrefBarContainer"
         android:layout_width="fill_parent"
-        android:orientation="horizontal"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@android:id/summary" >
+        android:layout_below="@+id/seekBarPrefUnitsRight"
+        android:orientation="horizontal" >
+
+        <SeekBar
+            android:id="@+id/seekBarPrefSeekBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>
