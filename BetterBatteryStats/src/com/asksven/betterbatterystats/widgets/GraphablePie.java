@@ -27,6 +27,7 @@ import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.webkit.WebSettings.TextSize;
 import android.widget.ImageView;
 
@@ -79,8 +80,14 @@ public class GraphablePie extends ImageView
         super(context, attrs);
         m_context = context;
         
+        TypedValue tv = new TypedValue();
+        m_context.getTheme().resolveAttribute(android.R.attr.textColorPrimary, tv, true);
+        int color = getResources().getColor(tv.resourceId);
+        
+        
         sPaint.setColor(m_context.getResources().getColor(R.color.peterriver)); 
     	sText.setTextSize(m_context.getResources().getDimension(R.dimen.text_size_medium));
+    	sText.setColor(color); 
 
     }
     

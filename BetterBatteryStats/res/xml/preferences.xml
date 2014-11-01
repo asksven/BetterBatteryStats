@@ -3,6 +3,14 @@
     xmlns:robobunny="http://robobunny.com" >
 
     <PreferenceCategory android:title="@string/pref_section_display" >
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/themeLabels"
+            android:entryValues="@array/themeValues"
+            android:key="theme"
+            android:summary="@string/pref_theme_summary"
+            android:title="@string/pref_theme_title" />
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="filter_data"
@@ -66,9 +74,9 @@
             android:key="default_stat_type"
             android:summary="@string/pref_default_stat_type_summary"
             android:title="@string/pref_default_stat_type_title" />
-
     </PreferenceCategory>
     <PreferenceCategory android:title="Settings" >
+
         <!-- not externalized yet: needs some though -->
         <PreferenceScreen android:title="Knowledge Base" >
             <CheckBoxPreference
@@ -255,7 +263,6 @@
                     robobunny:min="0"
                     robobunny:unitsLeft=""
                     robobunny:unitsRight="Min." />
-
             </PreferenceCategory>
         </PreferenceScreen>
         <PreferenceScreen android:title="@string/pref_section_active_mon" >
@@ -309,7 +316,6 @@
                 android:key="developer"
                 android:summary="@string/pref_developer_summary"
                 android:title="@string/pref_developer_title" />
-
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="auto_refresh"

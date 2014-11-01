@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+    <!-- @drawable/card_background"  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LinearLayoutEntry"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/card_background"
+    android:background="?android:colorForegroundInverse" 
     android:orientation="horizontal"
     android:paddingBottom="4dp"
     android:paddingLeft="8dp"
@@ -13,6 +14,7 @@
     android:layout_marginRight="8dp"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
+    android:baselineAligned="false"
 >
 
     <LinearLayout

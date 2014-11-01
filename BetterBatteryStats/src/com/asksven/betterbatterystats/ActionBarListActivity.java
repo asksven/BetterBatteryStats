@@ -21,7 +21,7 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-public abstract class ActionBarListActivity extends ActionBarActivity
+public abstract class ActionBarListActivity extends BaseActivity
 {
 
 	private ListView mListView;

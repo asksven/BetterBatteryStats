@@ -55,7 +55,16 @@
     <color name="concrete">#95a5a6</color>
     <color name="asbestos">#7f8c8d</color>
     
-
+	<!-- colors for the cards in light and dark themes -->
+	<color name="card_shadow_light">#ccc</color>
+	<color name="card_foreground_light">@android:color/white</color>
+	<color name="cardlist_background_light">#e5e5e5</color>
+		
+	<color name="card_shadow_dark">#ccc</color>
+	<color name="card_foreground_dark">@android:color/black</color>
+	<color name="cardlist_background_dark">#2d2d2d</color>
+			
+	
     
     
     

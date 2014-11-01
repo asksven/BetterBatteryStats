@@ -38,7 +38,7 @@ import com.asksven.betterbatterystats.R;
  * switches between tabs and also allows the user to perform horizontal flicks
  * to move between the tabs.
  */
-public class PackageInfoTabsPager extends ActionBarActivity
+public class PackageInfoTabsPager extends BaseActivity
 {
 	TabHost mTabHost;
 	ViewPager mViewPager;

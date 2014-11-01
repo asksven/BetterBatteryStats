@@ -143,6 +143,17 @@ public class StatsActivity extends ActionBarListActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+//		String theme = sharedPrefs.getString("theme", "1");
+//		if (theme.equals("1"))
+//		{
+//			this.setTheme(R.style.Theme_Bbs);
+//		}
+//		else
+//		{
+//			this.setTheme(R.style.Theme_Bbs_Dark);
+//		}
+		
 		super.onCreate(savedInstanceState);
 		
 		Log.i(TAG, "OnCreated called");
@@ -154,9 +165,7 @@ public class StatsActivity extends ActionBarListActivity
 	    setSupportActionBar(toolbar);
 	    //getSupportActionBar().setDisplayUseLogoEnabled(true);
 	    //getSupportActionBar().setLogo(R.drawable.ic_launcher);
-	    
-	    
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+	   
 				
 		// set debugging
 		if (sharedPrefs.getBoolean("debug_logging", false))

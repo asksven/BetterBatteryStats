@@ -16,9 +16,11 @@
 package com.asksven.betterbatterystats;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,7 +30,7 @@ import android.widget.TextView;
 
 import com.asksven.betterbatterystats.R;
 
-public class AboutActivity extends ActionBarActivity
+public class AboutActivity extends BaseActivity
 {
 
     private static final String TAG = "AboutStatsActivity";
@@ -40,6 +42,16 @@ public class AboutActivity extends ActionBarActivity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		String theme = sharedPrefs.getString("theme", "1");
+		if (theme.equals("1"))
+		{
+			this.setTheme(R.style.Theme_Bbs);
+		}
+		else
+		{
+			this.setTheme(R.style.Theme_Bbs);
+		}
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
         

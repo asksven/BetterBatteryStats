@@ -24,7 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-public class HelpActivity extends ActionBarActivity
+public class HelpActivity extends BaseActivity
 {
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)

@@ -45,7 +45,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SystemAppActivity extends ActionBarActivity
+public class SystemAppActivity extends BaseActivity
 {
 
 	final static String TAG = "BetteryInfoTest.MainActivity";

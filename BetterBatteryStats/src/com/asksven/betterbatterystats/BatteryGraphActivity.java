@@ -63,7 +63,7 @@ import java.util.ArrayList;
 
 import android.support.v7.app.ActionBarActivity;
 
-public class BatteryGraphActivity extends ActionBarActivity
+public class BatteryGraphActivity extends BaseActivity
 {
 	/**
 	 * a progess dialog to be used for long running tasks

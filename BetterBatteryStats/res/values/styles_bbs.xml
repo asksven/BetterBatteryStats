@@ -23,6 +23,9 @@
     <style name="Theme.Bbs" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/nephritis</item>
         <item name="logo">@drawable/ic_launcher</item>
+
+
+        
     </style>
 
 </resources>

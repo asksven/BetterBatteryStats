@@ -40,7 +40,7 @@ import android.widget.Toast;
 
 import com.asksven.betterbatterystats.R;
 
-public class PackageFragmentActivity extends ActionBarActivity
+public class PackageFragmentActivity extends BaseActivity
 {
 	
 	static final String TAG = "PackageFragmentActivity";

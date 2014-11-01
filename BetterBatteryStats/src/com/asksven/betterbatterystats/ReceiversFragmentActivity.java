@@ -32,7 +32,7 @@ import com.asksven.betterbatterystats.R;
  * Demonstration of the use of a CursorLoader to load and display contacts data
  * in a fragment.
  */
-public class ReceiversFragmentActivity extends ActionBarActivity
+public class ReceiversFragmentActivity extends BaseActivity
 {
 	
 
