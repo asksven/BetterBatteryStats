@@ -68,6 +68,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.Notification;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
@@ -164,7 +165,7 @@ public class StatsProvider
 		if ((!developerMode) && (this.getIsCharging(m_context)))
 		{
 			ArrayList<StatElement> myRet = new ArrayList<StatElement>();
-			myRet.add(new Misc(Reference.NO_STATS_WHEN_CHARGING, 0, 0));
+			myRet.add(new Notification(Reference.NO_STATS_WHEN_CHARGING));
 			return myRet;
 		}
 		// try

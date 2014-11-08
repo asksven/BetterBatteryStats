@@ -44,6 +44,7 @@ import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.Notification;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
@@ -77,6 +78,15 @@ public class StatsAdapter extends BaseAdapter
         
         if ((m_listData != null) && (!m_listData.isEmpty()))
         {
+        	// handle notification
+        	if (m_listData.get(0) instanceof Notification)
+			{
+        		// show notification panel
+			}
+        	else
+        	{
+        		// hide notifcation panel
+        	}
         	if ((m_listData.get(0) instanceof Process) || (m_listData.get(0) instanceof NetworkUsage))
         	{
 		        for (int i = 0; i < m_listData.size(); i++)
@@ -92,6 +102,8 @@ public class StatsAdapter extends BaseAdapter
         	{
         		m_maxValue = m_timeSince;
         	}
+        	
+        	
         }
     }
 
@@ -151,6 +163,9 @@ public class StatsAdapter extends BaseAdapter
             	convertView = inflater.inflate(R.layout.stat_row_gauge, null);
             }
         }
+        
+        
+        
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
        	tvName.setText(entry.getName());
 

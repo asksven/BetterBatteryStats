@@ -50,6 +50,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +64,8 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
+import com.asksven.android.common.privateapiproxies.Notification;
+import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
@@ -808,11 +812,38 @@ public class StatsActivity extends ActionBarListActivity
 	 */
 	private void setListViewAdapter() throws Exception
 	{
+		LinearLayout notificationPanel = (LinearLayout) findViewById(R.id.Notification);
+		ListView listView = (ListView) findViewById(android.R.id.list);
+		
+		ArrayList<StatElement> myStats = StatsProvider.getInstance(this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
+		if ((myStats != null) && (!myStats.isEmpty()))
+		{
+			// check if notification
+			if (myStats.get(0) instanceof Notification)
+			{
+				// Show Panel
+				notificationPanel.setVisibility(View.VISIBLE);
+				// Hide list
+				listView.setVisibility(View.GONE);
+				
+				// set Text
+				TextView tvNotification = (TextView) findViewById(R.id.TextViewNotification);
+				tvNotification.setText(myStats.get(0).getName());
+			}
+			else
+			{
+				// hide Panel
+				notificationPanel.setVisibility(View.GONE);
+				// Show list
+				// Hide list
+				listView.setVisibility(View.VISIBLE);
+			}
+		}
+		
 		// make sure we only instanciate when the reference does not exist
 		if (m_listViewAdapter == null)
 		{
-			m_listViewAdapter = new StatsAdapter(this, 
-					StatsProvider.getInstance(this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName));
+			m_listViewAdapter = new StatsAdapter(this, myStats);
     		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
