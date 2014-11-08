@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
     <!-- @drawable/card_background"  -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+<LinearLayout 
     android:id="@+id/LinearLayoutEntry"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="?android:colorForegroundInverse" 
+    android:elevation="8dp"
     android:orientation="horizontal"
     android:paddingBottom="4dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:paddingTop="4dp"
-        android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
+
     android:baselineAligned="false"
 >
-
+        
     <LinearLayout
         android:id="@+id/LinearLayout01"
         android:layout_width="wrap_content"
@@ -24,21 +28,7 @@
         android:orientation="vertical"
         android:layout_weight="1">
 
-        <!--
-                <ImageView
-            android:id="@+id/icon"
-            android:layout_width="@dimen/thumbnail_size"
-            android:layout_height="@dimen/thumbnail_size"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/clickable"
-            android:paddingBottom="0dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingTop="0dp"
-            android:scaleType="centerCrop"
-            android:layout_weight="10"/>
-         
-         -->
+
         <ImageView
             android:id="@+id/icon"
             android:layout_width="@dimen/thumbnail_size"
@@ -129,6 +119,8 @@
             android:padding="4dp" />
     
 
+
     </LinearLayout>
     
 </LinearLayout>
+    </android.support.v7.widget.CardView>

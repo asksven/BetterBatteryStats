@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#e5e5e5"
+    android:background="?android:attr/colorBackground"
     android:orientation="vertical" >
 
     <include layout="@layout/toolbar_icon"/>
@@ -14,7 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/card_background"
+                android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="?android:colorForegroundInverse"
+        android:elevation="8dp"
         android:orientation="vertical" >
 
         <Spinner
@@ -29,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
+            android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="4dp" >
 
@@ -48,10 +51,8 @@
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_weight="1"
-        android:background="#e5e5e5"
+        android:background="?android:attr/colorBackground"
         android:divider="@null"
         android:dividerHeight="@dimen/activity_horizontal_margin" />
 
