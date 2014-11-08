@@ -848,9 +848,15 @@ public class StatsProvider
 			throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+		if (!(Wakelocks.fileExists() || WakeupSources.fileExists()))
+		{
+			myStats.add(new Notification(m_context.getString(R.string.FILE_ACCESS_ERROR)));
+			return myStats;
+		}
+		
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+			myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
