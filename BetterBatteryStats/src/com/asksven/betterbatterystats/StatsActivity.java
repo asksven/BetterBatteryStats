@@ -835,7 +835,6 @@ public class StatsActivity extends ActionBarListActivity
 				// hide Panel
 				notificationPanel.setVisibility(View.GONE);
 				// Show list
-				// Hide list
 				listView.setVisibility(View.VISIBLE);
 			}
 		}
@@ -971,7 +970,42 @@ public class StatsActivity extends ActionBarListActivity
 		    	Log.i(TAG, "Since: n/a ");
 	        	
 	        }
-
+			LinearLayout notificationPanel = (LinearLayout) findViewById(R.id.Notification);
+			ListView listView = (ListView) findViewById(android.R.id.list);
+			
+			ArrayList<StatElement> myStats;
+			try
+			{
+				myStats = StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
+				
+				if ((myStats != null) && (!myStats.isEmpty()))
+				{
+					// check if notification
+					if (myStats.get(0) instanceof Notification)
+					{
+						// Show Panel
+						notificationPanel.setVisibility(View.VISIBLE);
+						// Hide list
+						listView.setVisibility(View.GONE);
+						
+						// set Text
+						TextView tvNotification = (TextView) findViewById(R.id.TextViewNotification);
+						tvNotification.setText(myStats.get(0).getName());
+					}
+					else
+					{
+						// hide Panel
+						notificationPanel.setVisibility(View.GONE);
+						// Show list
+						listView.setVisibility(View.VISIBLE);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    	StatsActivity.this.setListAdapter(o);
 	    }
 //	    @Override
