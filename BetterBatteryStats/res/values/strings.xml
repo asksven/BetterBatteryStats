@@ -122,5 +122,16 @@
     <string name="pref_save_dmesg_summary">Share dmesg</string>
     <string name="pref_screen_system_app_title">System App</string>
     <string name="pref_screen_system_app_summary">Install as System App</string>
+    
+    <!-- stats error / warnings -->
+    <string name="NO_STATS_WHEN_CHARGING">Device is plugged in: no stats</string>
+    <string name="NO_ROOT_ERR">This stat requires root</string>
+    <string name="NO_PERM_ERR">This stat requires BATTERY_STATS Permission</string>
+    <string name="NO_REF_ERR">No reference set yet</string>
+    <string name="NO_STATS">No stats have been collected yet</string>
+
+    
+
+    
 
 </resources>

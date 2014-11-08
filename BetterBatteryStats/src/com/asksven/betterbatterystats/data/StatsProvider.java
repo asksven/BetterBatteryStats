@@ -165,7 +165,7 @@ public class StatsProvider
 		if ((!developerMode) && (this.getIsCharging(m_context)))
 		{
 			ArrayList<StatElement> myRet = new ArrayList<StatElement>();
-			myRet.add(new Notification(Reference.NO_STATS_WHEN_CHARGING));
+			myRet.add(new Notification(m_context.getString(R.string.NO_STATS_WHEN_CHARGING)));
 			return myRet;
 		}
 		// try
@@ -276,25 +276,26 @@ public class StatsProvider
 		// to process alarms we need either root or the perms to access the private API
 		if (!SysUtils.hasBatteryStatsPermission(m_context) || !rootEnabled )
 		{
-			myStats.add(new Misc(Reference.NO_PERM_ERR, 1, 1));
+			myStats.add(new Notification(m_context.getString(R.string.NO_PERM_ERR)));
 			return myStats;
 		}
 
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
 		ArrayList<StatElement> myAlarms = null;
 //		// get the current value
-		if ((refTo != null) && (refTo.m_refAlarms != null))
+		if ((refTo.m_refAlarms != null) && (!refTo.m_refAlarms.isEmpty()))
 		{
 			myAlarms = refTo.m_refAlarms;	
 		}
 		else
 		{
-			return null;
+			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			return myStats;
 		}
 		//Collections.sort(myAlarms);
 
@@ -339,29 +340,14 @@ public class StatsProvider
 			Alarm alarm = ((Alarm) myAlarms.get(i)).clone();
 			if ((!bFilter) || ((alarm.getWakeups()) > 0))
 			{
-				if ((refFrom != null)
-						&& (refFrom.m_refAlarms != null))
-				{
-					alarm.substractFromRef(refFrom.m_refAlarms);
 
-					// we must recheck if the delta process is still above
-					// threshold
-					if ((!bFilter) || ((alarm.getWakeups()) > 0))
-					{
-						myRetAlarms.add(alarm);
-					}
-				} else
+				alarm.substractFromRef(refFrom.m_refAlarms);
+
+				// we must recheck if the delta process is still above
+				// threshold
+				if ((!bFilter) || ((alarm.getWakeups()) > 0))
 				{
-					myRetAlarms.clear();
-					if (refFrom != null)
-					{
-						myRetAlarms.add(new Alarm(refFrom
-								.getMissingRefError()));
-					} else
-					{
-						myRetAlarms.add(new Alarm(
-								Reference.GENERIC_REF_ERR));
-					}
+					myRetAlarms.add(alarm);
 				}
 			}
 		}
@@ -476,29 +462,30 @@ public class StatsProvider
 			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 			if (!rootEnabled)
 			{
-				myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
+				myStats.add(new Notification(m_context.getString(R.string.NO_ROOT_ERR)));
 				return myStats;
 			}
 		}
 		
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
 		ArrayList<StatElement> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 
-		if ((refTo != null) && (refTo.m_refProcesses != null))
+		if ((refTo.m_refProcesses != null) && (!refTo.m_refProcesses.isEmpty()))
 		{
 			myProcesses = refTo.m_refProcesses;
 		}
 		else
 		{
-			return null;
+			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			return myStats;
 		}
-
+		
 		String strCurrent = myProcesses.toString();
 		String strRef = "";
 		String strRefDescr = "";
@@ -538,30 +525,15 @@ public class StatsProvider
 				// we must distinguish two situations
 				// a) we use custom stat type
 				// b) we use regular stat type
-				if ((refFrom != null)
-						&& (refFrom.m_refProcesses != null))
-				{
-					ps.substractFromRef(refFrom.m_refProcesses);
 
-					// we must recheck if the delta process is still above
-					// threshold
-					if ((!bFilter)
-							|| ((ps.getSystemTime() + ps.getUserTime()) > 0))
-					{
-						myRetProcesses.add(ps);
-					}
-				} else
+				ps.substractFromRef(refFrom.m_refProcesses);
+
+				// we must recheck if the delta process is still above
+				// threshold
+				if ((!bFilter)
+						|| ((ps.getSystemTime() + ps.getUserTime()) > 0))
 				{
-					myRetProcesses.clear();
-					if (refFrom != null)
-					{
-						myRetProcesses.add(new Process(refFrom
-								.getMissingRefError(), 1, 1, 1));
-					} else
-					{
-						myRetProcesses.add(new Process(
-								Reference.GENERIC_REF_ERR, 1, 1, 1));
-					}
+					myRetProcesses.add(ps);
 				}
 			}
 		}
@@ -679,28 +651,29 @@ public class StatsProvider
 			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 			if (!rootEnabled)
 			{
-				myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
+				myStats.add(new Notification(m_context.getString(R.string.NO_ROOT_ERR)));
 				return myStats;
 			}
 		}
 
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
 
 		ArrayList<StatElement> myWakelocks = null;
-		if ((refTo != null) && (refTo.m_refWakelocks != null))
+		if ((refTo.m_refWakelocks != null) && (!refTo.m_refWakelocks.isEmpty()))
 		{
 			myWakelocks = refTo.m_refWakelocks;
 		}
 		else
 		{
-			return null;
+			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			return myStats;
 		}
-		
+
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 
 		String strCurrent = myWakelocks.toString();
@@ -749,35 +722,19 @@ public class StatsProvider
 				// a) we use custom stat type
 				// b) we use regular stat type
 
-				if ((refFrom != null)
-						&& (refFrom.m_refWakelocks != null))
-				{
-					wl.substractFromRef(refFrom.m_refWakelocks);
+				wl.substractFromRef(refFrom.m_refWakelocks);
 
-					// we must recheck if the delta process is still above
-					// threshold
-					if ((!bFilter) || ((wl.getDuration() / 1000) > 0))
-					{
-						myRetWakelocks.add(wl);
-					} else
-					{
-						if (LogSettings.DEBUG)
-						{
-							Log.i(TAG, "Skipped " + wl.toString()
-									+ " because duration < 1s");
-						}
-					}
+				// we must recheck if the delta process is still above
+				// threshold
+				if ((!bFilter) || ((wl.getDuration() / 1000) > 0))
+				{
+					myRetWakelocks.add(wl);
 				} else
 				{
-					myRetWakelocks.clear();
-					if (refFrom != null)
+					if (LogSettings.DEBUG)
 					{
-						myRetWakelocks.add(new Wakelock(1, refFrom
-								.getMissingRefError(), 1, 1, 1));
-					} else
-					{
-						myRetWakelocks.add(new Wakelock(1,
-								Reference.GENERIC_REF_ERR, 1, 1, 1));
+						Log.i(TAG, "Skipped " + wl.toString()
+								+ " because duration < 1s");
 					}
 				}
 			}
@@ -893,19 +850,20 @@ public class StatsProvider
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
 		ArrayList<StatElement> myKernelWakelocks = null;
 		
-		if ((refTo != null) && (refTo.m_refKernelWakelocks != null))
+		if ((refTo.m_refKernelWakelocks != null) && (!refTo.m_refKernelWakelocks.isEmpty()))
 		{ 
 			myKernelWakelocks = refTo.m_refKernelWakelocks;
 		}
 		else
 		{
-			return null;
+			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			return myStats;
 		}
 		
 		ArrayList<NativeKernelWakelock> myRetKernelWakelocks = new ArrayList<NativeKernelWakelock>();
@@ -953,32 +911,14 @@ public class StatsProvider
 			NativeKernelWakelock wl = ((NativeKernelWakelock) myKernelWakelocks.get(i)).clone();
 			if ((!bFilter) || ((wl.getDuration()) > 0))
 			{
-				if ((refFrom != null) && (refFrom.m_refKernelWakelocks != null))
-				{
-					wl.substractFromRef(refFrom.m_refKernelWakelocks);
 
-					// we must recheck if the delta process is still above
-					// threshold
-					if ((!bFilter) || ((wl.getDuration()) > 0))
-					{
-						myRetKernelWakelocks.add(wl);
-					}
-				}
-				else
-				{
-					myRetKernelWakelocks.clear();
-					if (refFrom != null)
-					{
-						myRetKernelWakelocks.add(new NativeKernelWakelock(
-								refFrom.getMissingRefError(), "", 1, 1,
-								1, 1, 1, 1, 1, 1, 1));
-					} else
-					{
-						myRetKernelWakelocks.add(new NativeKernelWakelock(
-								Reference.GENERIC_REF_ERR, "", 1, 1, 1, 1,
-								1, 1, 1, 1, 1));
+				wl.substractFromRef(refFrom.m_refKernelWakelocks);
 
-					}
+				// we must recheck if the delta process is still above
+				// threshold
+				if ((!bFilter) || ((wl.getDuration()) > 0))
+				{
+					myRetKernelWakelocks.add(wl);
 				}
 			}
 		}
@@ -1096,7 +1036,7 @@ public class StatsProvider
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 		if (!rootEnabled)
 		{
-			myStats.add(new Misc(Reference.NO_ROOT_ERR, 1, 1));
+			myStats.add(new Notification(m_context.getString(R.string.NO_ROOT_ERR)));
 			return myStats;
 		}
 
@@ -1104,19 +1044,20 @@ public class StatsProvider
 		
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
 		ArrayList<StatElement> myNetworkStats = null;
 		
-		if ((refTo != null) && (refTo.m_refNetworkStats != null))
+		if ((refTo.m_refNetworkStats != null) && (!refTo.m_refNetworkStats.isEmpty()))
 		{
 			myNetworkStats = refTo.m_refNetworkStats;
 		}
 		else
 		{
-			myNetworkStats = Netstats.parseNetstats();
+			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			return myStats;
 		}
 
 		ArrayList<NetworkUsage> myRetNetworkStats = new ArrayList<NetworkUsage>();
@@ -1163,30 +1104,13 @@ public class StatsProvider
 			NetworkUsage netStat = ((NetworkUsage) myNetworkStats.get(i)).clone();
 			if ((!bFilter) || ((netStat.getTotalBytes()) > 0))
 			{
-				if ((refFrom != null)
-						&& (refFrom.m_refNetworkStats != null))
-				{
-					netStat.substractFromRef(refFrom.m_refNetworkStats);
+				netStat.substractFromRef(refFrom.m_refNetworkStats);
 
-					// we must recheck if the delta process is still above
-					// threshold
-					if ((!bFilter) || ((netStat.getTotalBytes()) > 0))
-					{
-						myRetNetworkStats.add(netStat);
-					}
-				} else
+				// we must recheck if the delta process is still above
+				// threshold
+				if ((!bFilter) || ((netStat.getTotalBytes()) > 0))
 				{
-					myRetNetworkStats.clear();
-					if (refFrom != null)
-					{
-						myRetNetworkStats.add(new NetworkUsage(refFrom
-								.getMissingRefError(), -1, 1, 0));
-					} else
-					{
-						myRetNetworkStats.add(new NetworkUsage(
-								Reference.GENERIC_REF_ERR, -1, 1, 0));
-
-					}
+					myRetNetworkStats.add(netStat);
 				}
 			}
 		}
@@ -1290,12 +1214,13 @@ public class StatsProvider
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
-		if (myStates == null)
+		if (refTo.m_refCpuStates == null)
 		{
+			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
 			return myStats;
 		}
 
@@ -1332,19 +1257,10 @@ public class StatsProvider
 		{
 			State state = ((State) myStates.get(i)).clone();
 
-
-			if ((refFrom != null)
-					&& (refFrom.m_refCpuStates != null))
+			state.substractFromRef(refFrom.m_refCpuStates);
+			if ((!bFilter) || ((state.m_duration) > 0))
 			{
-				state.substractFromRef(refFrom.m_refCpuStates);
-				if ((!bFilter) || ((state.m_duration) > 0))
-				{
-					myResultStates.add(state);
-				}
-			} else
-			{
-				myResultStates.clear();
-				myResultStates.add(new State(1, 1));
+				myResultStates.add(state);
 			}
 		}
 		
@@ -1553,20 +1469,21 @@ public class StatsProvider
 		// if on of the refs is null return
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1, 1));
+				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 		
 		// List to store the other usages to
 		ArrayList<StatElement> myUsages = new ArrayList<StatElement>();
 
-		if ((refTo != null) && (refTo.m_refOther != null))
+		if ((refTo.m_refOther != null) && (!refTo.m_refOther.isEmpty()))
 		{
 			myUsages = refTo.m_refOther;
 		}
 		else
 		{
-			return null;
+			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			return myStats;
 		}
 
 		String strRefFrom = "";
@@ -1621,30 +1538,14 @@ public class StatsProvider
 			}
 			if ((!bFilter) || (usage.getTimeOn() > 0))
 			{
-				if ((refFrom != null)
-						&& (refFrom.m_refOther != null))
+				usage.substractFromRef(refFrom.m_refOther);
+				if ((!bFilter) || (usage.getTimeOn() > 0))
 				{
-					usage.substractFromRef(refFrom.m_refOther);
-					if ((!bFilter) || (usage.getTimeOn() > 0))
+					if (LogSettings.DEBUG)
 					{
-						if (LogSettings.DEBUG)
-						{
-							Log.d(TAG, "Result value: " + usage.getName() + " "	+ usage.getData(StatsProvider.getInstance(m_context).getSince(refFrom, refTo)));
-						}
-						myStats.add((StatElement) usage);
+						Log.d(TAG, "Result value: " + usage.getName() + " "	+ usage.getData(StatsProvider.getInstance(m_context).getSince(refFrom, refTo)));
 					}
-				}
-				else
-				{
-					myStats.clear();
-					if (refFrom != null)
-					{
-						myStats.add(new Misc(refFrom.getMissingRefError(), 1, 1));
-					} else
-					{
-						myStats.add(new Misc(Reference.GENERIC_REF_ERR, 1,
-								1));
-					}
+					myStats.add((StatElement) usage);
 				}
 			}
 		}

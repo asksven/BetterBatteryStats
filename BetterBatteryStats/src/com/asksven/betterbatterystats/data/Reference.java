@@ -84,10 +84,6 @@ public class Reference implements Serializable
 	
 	protected static final String[] FILES = {CUSTOM_REF_FILENAME, CURRENT_REF_FILENAME, UNPLUGGED_REF_FILENAME, CHARGED_REF_FILENAME, SCREEN_OFF_REF_FILENAME, SCREEN_ON_REF_FILENAME, BOOT_REF_FILENAME};
 
-	protected static final String NO_STATS_WHEN_CHARGING		= "Device is plugged in: no stats";
-	protected static final String GENERIC_REF_ERR 				= "No reference set yet";
-	protected static final String NO_ROOT_ERR 					= "This stat requires root";
-	protected static final String NO_PERM_ERR 					= "This stat requires BATTERY_STATS Permission";
 	protected static final String CUSTOM_REF_ERR 				= "No custom reference was set. Please use the menu to do so";
 	protected static final String UNPLUGGED_REF_ERR 			= "No reference unplugged was saved yet, plug/unplug you phone";
 	protected static final String CHARGED_REF_ERR 				= "No reference charged was saved yet, it will the next time you charge to 100%";
