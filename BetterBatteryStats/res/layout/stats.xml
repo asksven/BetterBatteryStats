@@ -68,7 +68,10 @@
                 android:textSize="@dimen/text_size_medium" />
         </FrameLayout>
 
-        <!-- Hidden Notification Panel -->
+ 
+
+    </LinearLayout>
+       <!-- Hidden Notification Panel -->
 
         <LinearLayout
             android:id="@+id/Notification"
@@ -106,9 +109,6 @@
                 android:textSize="@dimen/text_size_medium" />
         </LinearLayout>
         <!-- End Hidden Notification Panel -->
-
-    </LinearLayout>
-
     <!-- Set height to 0, and let the weight param expand it -->
     <!--
          Note the use of the default ID! This lets us use a 
