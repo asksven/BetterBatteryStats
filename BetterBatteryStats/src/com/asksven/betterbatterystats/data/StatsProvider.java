@@ -41,6 +41,8 @@ import android.content.pm.ServiceInfo;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -159,7 +161,7 @@ public class StatsProvider
 		
 		int iPctType = 0;
 
-		if ((!developerMode) && (this.getIsCharging()))
+		if ((!developerMode) && (this.getIsCharging(m_context)))
 		{
 			ArrayList<StatElement> myRet = new ArrayList<StatElement>();
 			myRet.add(new Misc(Reference.NO_STATS_WHEN_CHARGING, 0, 0));
@@ -2699,29 +2701,42 @@ public class StatsProvider
 		return whichRealtime;
 	}
 
-	/**
-	 * Returns the battery realtime since a given reference
-	 * 
-	 * @param iStatType
-	 *            the reference
-	 * @return the battery realtime
-	 */
-	public boolean getIsCharging() throws BatteryInfoUnavailableException
+//	/**
+//	 * Returns the battery realtime since a given reference
+//	 * 
+//	 * @param iStatType
+//	 *            the reference
+//	 * @return the battery realtime
+//	 */
+//	public boolean getIsCharging() throws BatteryInfoUnavailableException
+//	{
+//		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
+//		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+//		
+//		if (!(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) ) return false;
+//		
+//		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+//
+//		if (mStats == null)
+//		{
+//			// an error has occured
+//			return false;
+//		}
+//		
+//		return !mStats.getIsOnBattery(m_context);
+//	}
+	
+	public static boolean getIsCharging(Context context)
 	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-		
-		if (!(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) ) return false;
-		
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-
-		if (mStats == null)
-		{
-			// an error has occured
-			return false;
-		}
-		
-		return !mStats.getIsOnBattery(m_context);
+	    boolean isPlugged= false;
+	    Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+	    int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+	    isPlugged = plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB;
+	    if (VERSION.SDK_INT > VERSION_CODES.JELLY_BEAN)
+	    {
+	        isPlugged = isPlugged || plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS;
+	    }
+	    return isPlugged;
 	}
 
 	/**
