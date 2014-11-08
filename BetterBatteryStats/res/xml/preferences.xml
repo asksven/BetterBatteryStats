@@ -307,12 +307,6 @@
                 android:title="@string/pref_ignore_system_app_title" />
             <CheckBoxPreference
                 android:defaultValue="false"
-                android:dependency="root_features"
-                android:key="use_alarm_api"
-                android:summary="@string/pref_use_alarm_api_title"
-                android:title="@string/pref_use_alarm_api_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
                 android:key="developer"
                 android:summary="@string/pref_developer_summary"
                 android:title="@string/pref_developer_title" />

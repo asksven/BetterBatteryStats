@@ -377,19 +377,18 @@ public class StatsProvider
 				.getDefaultSharedPreferences(m_context);
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 		
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-		boolean useAlarmAPI = sharedPrefs.getBoolean("use_alarm_api", false);
-		
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
 		ArrayList<StatElement> myAlarms = null;
 
 		// use root if available as root delivers more data
-		if (rootEnabled && !useAlarmAPI)
+		if (rootEnabled && AlarmsDumpsys.alarmsAccessible())
 		{
 			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
 		}
 		else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
 		{
+			Log.i(TAG, "Accessing Alarms in API mode");
 			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 			myAlarms = mStats.getWakeupStats(m_context,
 						BatteryStatsTypes.STATS_CURRENT);

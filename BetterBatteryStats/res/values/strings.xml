@@ -103,8 +103,6 @@
     <string name="pref_root_features_title">Root features</string>
     <string name="pref_ignore_system_app_summary">Ignore System App detection (for XPosed Module \'Enable BATTERY_STATS\' users)</string>
     <string name="pref_ignore_system_app_title">Do not detect system app</string>
-    <string name="pref_use_alarm_api_summary">Use API instead of dumpsys to retrieve alarms</string>
-    <string name="pref_use_alarm_api_title">Do not use dumpsys for alarms</string>
 
 
     <string name="pref_developer_title">Enable while charging</string>
@@ -129,7 +127,7 @@
     <string name="NO_PERM_ERR">This stat requires BATTERY_STATS Permission</string>
     <string name="NO_REF_ERR">No reference set yet</string>
     <string name="NO_STATS">No stats have been collected yet</string>
-
+	<string name="FILE_ACCESS_ERROR">File could not be read</string>
     
 
     
