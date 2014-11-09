@@ -36,6 +36,10 @@
     <string name="label_help">Help</string>
     <string name="label_howto">How-To</string>
     <string name="label_system_app">Sytem App</string>
+    <string name="label_refresh">Refresh</string>
+    <string name="label_share">Share</string>
+    <string name="label_custom_ref">Set Custom Ref.</string>
+    <string name="label_release_notes">Release Notes</string>
     
     <string name="label_theme_dark">Dark</string>
     <string name="label_theme_light">Light</string>
