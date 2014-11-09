@@ -593,22 +593,27 @@ public class StatsActivity extends ActionBarListActivity
             	Intent intentAbout = new Intent(this, AboutActivity.class);
                 this.startActivity(intentAbout);
             	break;
-            case R.id.getting_started:
-            	// Help
-            	Intent intentHelp = new Intent(this, HelpActivity.class);
-            	intentHelp.putExtra("filename", "help.html");
-            	intentHelp.putExtra("title", getString(R.string.label_help));
-                this.startActivity(intentHelp);
-            	break;	
-
-            case R.id.howto:
-            	// How To
-            	Intent intentHowTo = new Intent(this, HelpActivity.class);
-            	intentHowTo.putExtra("filename", "howto.html");
-            	intentHowTo.putExtra("title", getString(R.string.label_howto));
-                this.startActivity(intentHowTo);
-            	break;	
-
+//            case R.id.getting_started:
+//            	// Help
+//            	Intent intentHelp = new Intent(this, HelpActivity.class);
+//            	intentHelp.putExtra("filename", "help.html");
+//            	intentHelp.putExtra("title", getString(R.string.label_help));
+//                this.startActivity(intentHelp);
+//            	break;	
+//
+//            case R.id.howto:
+//            	// How To
+//            	Intent intentHowTo = new Intent(this, HelpActivity.class);
+//            	intentHowTo.putExtra("filename", "howto.html");
+//            	intentHowTo.putExtra("title", getString(R.string.label_howto));
+//                this.startActivity(intentHowTo);
+//            	break;	
+            case R.id.help:
+            	String url = "http://better.asksven.org/bbs-help/";
+            	Intent i = new Intent(Intent.ACTION_VIEW);
+            	i.setData(Uri.parse(url));
+            	startActivity(i);
+            	break;
             case R.id.releasenotes:
             	// Release notes
     	        ChangeLog cl = new ChangeLog(this);
