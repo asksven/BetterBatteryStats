@@ -6,7 +6,7 @@ This project makes use of:
 
 * [google gson][] licensed under the terms of the [Apache License Version][apache-license] 2.0,
   See libs/LICENSE_GSON
-* [achartengine][] and [androidplot][] (see libs/LICENSE_ACHARTENGINE and libs/ANDROIDPLOT)
+* [androidplot][] (see libs/LICENSE_ACHARTENGINE and libs/ANDROIDPLOT)
 * AndroidCommon: https://github.com/asksven/AndroidCommon
 * libsuperuser (indirectly through AndroidCommon)
 * LocalepluginLib (http://www.twofortyfouram.com/developer) added as a sub-project in BetterBatteryStats/LocalePluginLib

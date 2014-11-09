@@ -172,9 +172,6 @@ public class BatteryGraphActivity extends BaseActivity
      */
     public boolean onOptionsItemSelected(MenuItem item)
     {  
-    	BatteryGraphSeries myZoomSerie = null;
-		ZoomOnSerieChart myZoomChart = null;
-		Intent myZoomIntent = null;
 		
         switch (item.getItemId())
         {  
