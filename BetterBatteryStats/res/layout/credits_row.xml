@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="4dp"
-    android:background="@drawable/card_background"
-    android:orientation="vertical"
-    android:paddingBottom="4dp"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp"
-    android:paddingTop="4dp" >
+    android:layout_weight="1"
+    android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="match_parent"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-light"
-        android:maxLines="1"
-        android:text="Title"
-        android:textSize="@dimen/text_size_medium" />
+        android:background="?android:colorForegroundInverse" 
+        android:orientation="vertical"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp" >
 
-    <TextView
-        android:id="@+id/textViewAuthor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="10"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-condensend"
-        android:maxLines="1"
-        android:text="Author"
-        android:textSize="@dimen/text_size_tiny" />
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:text="Title"
+            android:textSize="@dimen/text_size_medium" />
 
-    <TextView
-        android:id="@+id/textViewLicense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-light"
-        android:maxLines="1"
-        android:text="License"
-        android:textSize="@dimen/text_size_tiny" />
+        <TextView
+            android:id="@+id/textViewAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensend"
+            android:maxLines="1"
+            android:text="Author"
+            android:textSize="@dimen/text_size_tiny" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textViewLicense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:text="License"
+            android:textSize="@dimen/text_size_tiny" />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
