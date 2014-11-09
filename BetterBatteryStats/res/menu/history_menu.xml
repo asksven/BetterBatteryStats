@@ -3,7 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"> 
     <item android:id="@+id/refresh"
 		android:title="@string/label_refresh"
-		android:icon="@drawable/ic_action_refresh"
+		android:icon="@drawable/ic_refresh_white_48dp"
 		app:showAsAction="ifRoom"/>
     <item android:id="@+id/view_serie"
     	android:title="@string/label_series" />  
