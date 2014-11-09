@@ -78,15 +78,6 @@ public class StatsAdapter extends BaseAdapter
         
         if ((m_listData != null) && (!m_listData.isEmpty()))
         {
-        	// handle notification
-        	if (m_listData.get(0) instanceof Notification)
-			{
-        		// show notification panel
-			}
-        	else
-        	{
-        		// hide notifcation panel
-        	}
         	if ((m_listData.get(0) instanceof Process) || (m_listData.get(0) instanceof NetworkUsage))
         	{
 		        for (int i = 0; i < m_listData.size(); i++)
@@ -98,6 +89,18 @@ public class StatsAdapter extends BaseAdapter
 		            m_maxValue = Math.max(m_maxValue, g.getMaxValue());
 		        }
         	}
+        	else if (m_listData.get(0) instanceof Alarm)
+        	{
+		        for (int i = 0; i < m_listData.size(); i++)
+		        {
+		        	StatElement g = m_listData.get(i);
+		        	
+	        		double[] values = g.getValues();
+		        	m_maxValue += values[0];
+		        	Log.i(TAG, "Summing up " + values[0] + ", may is now " + m_maxValue);
+		        }
+        	}
+
         	else
         	{
         		m_maxValue = m_timeSince;
@@ -129,7 +132,7 @@ public class StatsAdapter extends BaseAdapter
     	m_timeSince = sinceMs;
     	if ((m_listData == null) || (m_listData.isEmpty())) return;
     	
-    	if (!((m_listData.get(0) instanceof Process) || (m_listData.get(0) instanceof NetworkUsage)))
+    	if (!((m_listData.get(0) instanceof Process) || (m_listData.get(0) instanceof NetworkUsage) || (m_listData.get(0) instanceof Alarm)))
     	{
     		m_maxValue = m_timeSince;
     	}
@@ -202,11 +205,7 @@ public class StatsAdapter extends BaseAdapter
         if (!bShowBars)
         {
 	        GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
-	        if (entry instanceof Alarm)
-	        {
-	        	gauge.setValue(entry.getValues()[0], ((Alarm) entry).getMaxValue());
-	        }
-	        else if (entry instanceof NetworkUsage)
+	        if (entry instanceof NetworkUsage)
 	        {
 	        	gauge.setValue(entry.getValues()[0], ((NetworkUsage) entry).getTotal());
 	        	
@@ -218,7 +217,9 @@ public class StatsAdapter extends BaseAdapter
 	        	if (entry.getValues()[0] > max)
 	        	{
 	        		max = entry.getValues()[0];
+	        		Log.i(TAG, "Upping gauge max to " + max);
 	        	}
+	        	Log.i(TAG, "Setting gauge: " + entry.getValues()[0] + " / " + max);
 	        	gauge.setValue(entry.getValues()[0], max);
 	        }
         }
