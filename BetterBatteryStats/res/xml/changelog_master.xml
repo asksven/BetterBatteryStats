@@ -8,6 +8,7 @@
         <change>Surface errors that may occur while processing stats</change>
         <change>Work around kernel wakelock file not being accessible if SELinux is not permissive</change>
         <change>Automatically fall back to API mode for alarms if SELinux is not permissive</change>
+        <change>Fixed infinite values of gauges in Alarms</change>
     </release>    
     <release version="2.0.0.0B2" versioncode="50" >
         <change>Switched to SDK 21</change>
