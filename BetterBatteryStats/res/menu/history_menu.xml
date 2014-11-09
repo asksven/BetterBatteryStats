@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"> 
     <item android:id="@+id/refresh"
-		android:title="Refresh"
+		android:title="@string/label_refresh"
 		android:icon="@drawable/ic_action_refresh"
 		app:showAsAction="ifRoom"/>
     <item android:id="@+id/view_serie"
-    	android:title="View Serie" />  
+    	android:title="@string/label_series" />  
   	<item android:id="@+id/dump"
-      	android:title="Dump to File" />
+      	android:title="@string/label_button_save" />
   	<item android:id="@+id/more"
-      	android:title="More Graphs" />    
+      	android:title="@string/label_moregraphs" />    
 </menu>

@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"> 
     <item android:id="@+id/legend"
-		android:title="Legend"
+		android:title="@string/label_legend"
 		app:showAsAction="ifRoom"/>
 </menu>

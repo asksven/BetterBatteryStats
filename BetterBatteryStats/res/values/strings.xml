@@ -40,6 +40,7 @@
     <string name="label_share">Share</string>
     <string name="label_custom_ref">Set Custom Ref.</string>
     <string name="label_release_notes">Release Notes</string>
+    <string name="label_legend">Legend</string>
     
     <string name="label_theme_dark">Dark</string>
     <string name="label_theme_light">Light</string>
