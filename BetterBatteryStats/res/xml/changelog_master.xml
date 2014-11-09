@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
-    <release version="2.0.0.0B2" versioncode="49" >
+    <release version="2.0.0.0B3" versioncode="51" >
+        <change>Fixed broken changelog</change>
+        <change>Add dark Theme</change>
+        <change>An attempt to work around BATTERY_INFO service not being reachable on some devices</change>
+        <change>Surface errors that may occur while processing stats</change>
+        <change>Work around kernel wakelock file not being accessible if SELinux is not permissive</change>
+        <change>Automatically fall back to API mode for alarms if SELinux is not permissive</change>
+    </release>    
+    <release version="2.0.0.0B2" versioncode="50" >
         <change>Switched to SDK 21</change>
         <change>Fixed missing white heading in RAW stats</change>
         <change>Fixed gauges in raw stats always shown 100%</change>
         <change>Implemented "back" navigation in toolbar</change>
         <change>Toolbar follows L guidelines (no logo)</change>
         <change>Begun externalization of strings for translation</change>
-        <change>Added advanced settings to avoid using dumpsys for alarms</change>
-	    
+        <change>Added advanced settings to avoid using dumpsys for alarms (bypasses the need for permissive SELinux)</change>
     </release>
     <release version="2.0.0.0B1" versioncode="49" >
         <change>Totally new and shiny</change>
