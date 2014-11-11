@@ -63,6 +63,8 @@
     <string name="pref_section_display">Display</string>
     <string name="pref_filter_data_title">Filter stats</string>
     <string name="pref_filter_data_summary">Enable the filtering of data to non-zero values</string>
+    <string name="pref_show_bat_details_title">Battery Details</string>
+    <string name="pref_show_bat_details_summary">Show battery from/to % on screen</string>
     <string name="pref_show_gauge_title">Show Bars</string>
     <string name="pref_show_gauge_summary">Show bars instead of pie gauge</string>
     <string name="pref_graph_bar_height_title">Height for graph bars</string>

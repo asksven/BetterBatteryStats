@@ -18,6 +18,11 @@
             android:title="@string/pref_filter_data_title" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="show_bat_details"
+            android:summary="@string/pref_show_bat_details_summary"
+            android:title="@string/pref_show_bat_details_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="show_gauge"
             android:summary="@string/pref_show_gauge_summary"
             android:title="@string/pref_show_gauge_title" />

@@ -964,7 +964,7 @@ public class StatsActivity extends ActionBarListActivity
 		        String sinceText = DateUtils.formatDuration(sinceMs);
 		        
 				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
-		        sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
+		        sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
 		        
 		        tvSince.setText(sinceText);
 		    	Log.i(TAG, "Since " + sinceText);
