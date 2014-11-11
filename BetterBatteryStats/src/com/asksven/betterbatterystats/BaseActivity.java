@@ -41,7 +41,7 @@ public class BaseActivity extends ActionBarActivity
 	@Override
 	protected void onResume()
 	{
-		super.onResume();
+		
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String theme = sharedPrefs.getString("theme", "0");
 		if (theme.equals("0"))
@@ -51,6 +51,7 @@ public class BaseActivity extends ActionBarActivity
 		{
 			this.setTheme(R.style.Theme_Bbs_Dark);
 		}
+		super.onResume();
 
 	}
 	@Override
