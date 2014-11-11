@@ -231,7 +231,6 @@ public class StatsAdapter extends BaseAdapter
 	        		max = entry.getValues()[0];
 	        		Log.i(TAG, "Upping gauge max to " + max);
 	        	}
-	        	Log.i(TAG, "Setting gauge: " + entry.getValues()[0] + " / " + max);
 	        	gauge.setValue(entry.getValues()[0], max);
 	        }
         }
