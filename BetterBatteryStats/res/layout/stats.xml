@@ -17,8 +17,8 @@
         android:background="?android:colorForegroundInverse"
         android:elevation="8dp"
         android:orientation="vertical"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" >
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp" >
 
         <Spinner
             android:id="@+id/spinnerStat"
@@ -83,8 +83,8 @@
             android:background="@color/state_yellow"
             android:elevation="8dp"
             android:orientation="horizontal"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:visibility="gone">
 
             <ImageView
