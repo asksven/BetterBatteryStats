@@ -172,28 +172,40 @@ public class StatsAdapter extends BaseAdapter
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
        	tvName.setText(entry.getName());
 
-       	KbData kb = KbReader.getInstance().read(m_context);
-       	KbEntry kbentry = null;
-        if (kb != null)
-        {
-        	 kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(m_context)));
-        }
+//       	KbData kb = KbReader.getInstance().read(m_context);
+//       	KbEntry kbentry = null;
+//        if (kb != null)
+//        {
+//        	 kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(m_context)));
+//        }
         
         boolean bShowKb = sharedPrefs.getBoolean("enable_kb", true);
         ImageView iconKb = (ImageView) convertView.findViewById(R.id.imageKB);
-        if ( (bShowKb) && (kbentry != null))
-        {
-        	iconKb.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-        	iconKb.setVisibility(View.INVISIBLE);
-        }
+        
+        // for now we always hide the KB
+        iconKb.setVisibility(View.INVISIBLE);
+//        if ( (bShowKb) && (kbentry != null))
+//        {
+//        	iconKb.setVisibility(View.VISIBLE);
+//        }
+//        else
+//        {
+//        	iconKb.setVisibility(View.INVISIBLE);
+//        }
         TextView tvFqn = (TextView) convertView.findViewById(R.id.TextViewFqn);
         tvFqn.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
 
         TextView tvData = (TextView) convertView.findViewById(R.id.TextViewData);
-        tvData.setText(entry.getData((long)m_maxValue));
+
+        // for alarms the values is wakeups per hour so we need to take the time as reference for the text
+        if (entry instanceof Alarm)
+        {
+        	tvData.setText(entry.getData((long)m_timeSince));
+        }
+        else
+        {
+        	tvData.setText(entry.getData((long)m_maxValue));
+        }
         
         //LinearLayout myLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutBar);
         LinearLayout myFqnLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutFqn);
