@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+     <release version="2.0.0.0B4" versioncode="52" >
+        <change>Some internal house-keeping and clean-up</change>
+        <change>Fixed theme switch</change>
+        <change>Added batter from/to % back to screen (optionally)</change>
+        <change>Notification area should be invisible by default</change>
+        <change>Fixed infinite alarm per hour</change>
+    </release>    
     <release version="2.0.0.0B3" versioncode="51" >
         <change>Fixed broken changelog</change>
         <change>Add dark Theme</change>

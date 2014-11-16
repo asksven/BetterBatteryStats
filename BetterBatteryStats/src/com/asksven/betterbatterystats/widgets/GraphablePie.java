@@ -112,7 +112,7 @@ public class GraphablePie extends ImageView
     	float centerX, centerY, radius;
 		centerX = getWidth() / 2;
 		centerY = getHeight() / 2;
-		radius = getWidth() / 2 - getPaddingLeft();
+		radius = getWidth() / 2 - getPaddingLeft() -1;
         
         sOval.set(centerX - radius, 
 				centerY - radius, 

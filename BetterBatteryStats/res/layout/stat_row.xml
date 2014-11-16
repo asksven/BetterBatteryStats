@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <!-- @drawable/card_background"  -->
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
 
-<LinearLayout 
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/LinearLayoutEntry"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="?android:colorForegroundInverse" 
-    android:elevation="8dp"
+    android:elevation="0dp"
     android:orientation="horizontal"
-    android:paddingBottom="4dp"
+    android:paddingBottom="2dp"
     android:paddingLeft="4dp"
-    android:paddingRight="4dp"
-    android:paddingTop="4dp"
+    android:paddingRight="2dp"
+    android:paddingTop="2dp"
 
     android:baselineAligned="false"
 >
@@ -123,4 +118,3 @@
     </LinearLayout>
     
 </LinearLayout>
-    </android.support.v7.widget.CardView>

@@ -165,7 +165,10 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 	{
 		BatteryStatsProxy.getInstance(this).invalidate();
 		new LoadStatData().execute(this);
-    	m_listViewAdapter.notifyDataSetChanged();
+		if (m_listViewAdapter != null)
+		{
+			m_listViewAdapter.notifyDataSetChanged();
+		}
 	}
 	
 	/**
