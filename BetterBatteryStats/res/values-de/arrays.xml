@@ -6,10 +6,10 @@
         <item>Other</item>
         <item>Kernel Wakelock</item>
         <item>Partial Wakelocks</item>
-        <item>Alarms</item>
-        <item>Network</item>
-        <item>CPU States</item>
-        <item>Process</item>
+        <item>Alarme</item>
+        <item>Nezwerk</item>
+        <item>CPU Status</item>
+        <item>Prozesse</item>
     </string-array>
 
     <!-- Values for the preferences -->
@@ -18,9 +18,9 @@
         <item name="1">Kernel Wakelock</item>
         <item name="2">Partial Wakelocks</item>
         <item name="3">Alarms</item>
-        <item name="4">Network</item>
-        <item name="5">CPU States</item>
-        <item name="6">Process</item>
+        <item name="4">Netzwerk</item>
+        <item name="5">CPU Status</item>
+        <item name="6">Prozesse</item>
     </string-array>
 
     <!-- Values for the preferences -->
@@ -40,11 +40,11 @@
         <item name="6">6</item>
     </string-array>
     <string-array name="statTypeLabels">
-        <item name="0">Since charged</item>
-        <item name="1">Since unplugged</item>
-        <item name="2">Since Custom Ref.</item>
-        <item name="3">Since Screen Off</item>
-        <item name="4">Since Boot</item>
+        <item name="0">Seit geladen</item>
+        <item name="1">Seit Stecker aus</item>
+        <item name="2">Seit Custom Ref.</item>
+        <item name="3">Seit Aus</item>
+        <item name="4">Seit Boot</item>
     </string-array>
     <string-array name="statTypeValues">
         <item name="0">ref_charged</item>
@@ -53,6 +53,7 @@
         <item name="3">ref_screen_off</item>
         <item name="4">ref_boot</item>
     </string-array>
+    
     <!-- 
     <string-array name="wlRefLabels">
         <item name="0">% of time on battery</item>
@@ -92,11 +93,11 @@
         <item name="4">60</item>
     </string-array>
     <string-array name="widgetFontSizeLabels">
-        <item name="0">X-Large (16)</item>
-        <item name="1">Large (14)</item>
+        <item name="0">X-Groß (16)</item>
+        <item name="1">Groß (14)</item>
         <item name="2">Normal (12)</item>
-        <item name="3">*Small (10)</item>
-        <item name="4">Tiny (8)</item>
+        <item name="3">*Klein (10)</item>
+        <item name="4">Kleiner (8)</item>
     </string-array>
     <string-array name="widgetFontSizeValues">
         <item name="0">16</item>
