@@ -83,7 +83,8 @@
         </activity>
         <activity
             android:name="com.asksven.betterbatterystats.PreferencesFragmentActivity_V11"
-            android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
+            android:parentActivityName="com.asksven.betterbatterystats.StatsActivity"
+            android:configChanges="orientation|screenSize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StatsActivity" />

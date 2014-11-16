@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+
+     <release version="2.0.0.0B4" versioncode="52" >
+        <change>Einiges aufgeräumt</change>
+        <change>Gefixt: Theme Wechsel</change>
+        <change>Batterie von/bis % wieder sichtbar auf dem Bildschirm (optional)</change>
+        <change>Berich für Meldung ist nicht sichtbar per default</change>
+        <change>Gefixt: unendlich alarm pro Stunde</change>
+        <change>Cards Layout zurückgebaut: bessere Nutzung der Fläche für kleinere Geräte</change>
+        <change>Gefixt partial wakelocks on Android 5.0</change>
+        <change>Erste deutsche Version des Changelogs</change>
+    </release>    
+
+
+</changelog>

@@ -9,6 +9,7 @@
         <change>Fixed infinite alarm per hour</change>
         <change>Ditched cards for a better use of the real estate</change>
         <change>A first shot at german I18N</change>
+        <change>Fixed partial wakelocks on Android 5.0</change>
     </release>    
     <release version="2.0.0.0B3" versioncode="51" >
         <change>Fixed broken changelog</change>
