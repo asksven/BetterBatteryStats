@@ -42,6 +42,13 @@
     <string name="label_release_notes">Release Notes</string>
     <string name="label_legend">Legend</string>
     
+    <!-- About screen -->
+    <string name="label_about_author">By asksven</string>
+    <string name="label_about_courtesy">Graphics courtesy to @cri</string>
+    <string name="label_about_follow">Follow me on Twitter</string>
+    <string name="label_about_rate">Rate / Review on Google Play</string>
+    
+    <!-- Preferences -->
     <string name="label_theme_dark">Dark</string>
     <string name="label_theme_light">Light</string>
     <string name="pref_theme_title">Theme</string>
@@ -127,6 +134,33 @@
     <string name="pref_save_dmesg_summary">Share dmesg</string>
     <string name="pref_screen_system_app_title">System App</string>
     <string name="pref_screen_system_app_summary">Install as System App</string>
+    
+    <string name="pref_section_settings">Settings</string>
+    <string name="pref_screen_widgets_title">Widgets</string>
+    <string name="widget_refresh_freq_title">Refresh Frequency</string>
+    <string name="widget_refresh_freq_summary">Set how often the Widgets will update (they always will when screen is turned on)</string>
+    <string name="widget_refresh_on_screen_on_title">Screen on refresh</string>
+    <string name="widget_refresh_on_screen_on_summary">Refresh when screen goes on</string>
+    <string name="widget_default_stat_title">Default stat to open</string>
+    <string name="widget_default_stat_summary">Set the stat to be called from widget</string>    
+    <string name="widget_show_stat_type_title">Show Title</string>
+    <string name="widget_show_stat_type_summary">Show Stat Type</string>
+    <string name="widget_fallback_stat_type_title">Fallback stat type</string>
+    <string name="widget_fallback_stat_type_summary">Set the fallback stat type to be shown in the widget if the primary one has no reference</string>
+    <string name="pref_category_widgets_2x2_and_2x1">2x2 ad 2x1 Widgets</string>
+    <string name="widget_default_stat_type_title">Stat type</string>
+    <string name="widget_default_stat_type_summary">Set the stat type to be shown in the widget</string>
+    <string name="large_widget_font_size_title">Font Size</string>
+    <string name="large_widget_font_size_summary">Set the font size to be used in the widget</string>
+    <string name="large_widget_show_pct_title">Show %</string>
+    <string name="large_widget_show_pct_summary">Show durations in % of total time</string>
+    <string name="widget_opacity_title">Opacity</string>
+    <string name="widget_opacity_summary">Adjust the widget opacity</string>
+    <string name="widget_bg_opacity_title">Background Opacity</string>
+    <string name="widget_bg_opacity_summary">Adjust the background opacity</string>
+    <string name="pref_category_widget_1x1">1x1 Widget</string>
+    <string name="small_widget_refresh_on_tap_title">Refresh on tap</string>
+    <string name="small_widget_refresh_on_tap_summary">Tapping the widget refreshes it (if disabled tapping opens the app)</string>
     
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Device is plugged in: no stats</string>

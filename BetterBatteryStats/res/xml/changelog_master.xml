@@ -4,9 +4,11 @@
      <release version="2.0.0.0B4" versioncode="52" >
         <change>Some internal house-keeping and clean-up</change>
         <change>Fixed theme switch</change>
-        <change>Added batter from/to % back to screen (optionally)</change>
+        <change>Added battery from/to % back to screen (optionally)</change>
         <change>Notification area should be invisible by default</change>
         <change>Fixed infinite alarm per hour</change>
+        <change>Ditched cards for a better use of the real estate</change>
+        <change>A first shot at german I18N</change>
     </release>    
     <release version="2.0.0.0B3" versioncode="51" >
         <change>Fixed broken changelog</change>

@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="By asksven"
+        android:text="@string/label_about_author"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Graphics courtesy to @cri"
+        android:text="@string/label_about_courtesy"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
@@ -64,7 +64,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="14dp"
         android:layout_marginTop="4dp"
-        android:text="Follow me on Twitter" />
+        android:text="@string/label_about_follow" />
 
     <Button
         android:id="@+id/buttonRate"
@@ -76,6 +76,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="4dp"
-        android:text="Rate / Review on Google Play" />
+        android:text="@string/label_about_rate" />
 
 </LinearLayout>

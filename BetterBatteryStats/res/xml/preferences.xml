@@ -80,9 +80,10 @@
             android:summary="@string/pref_default_stat_type_summary"
             android:title="@string/pref_default_stat_type_title" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Settings" >
+    <PreferenceCategory android:title="pref_section_settings" >
 
         <!-- not externalized yet: needs some though -->
+        <!-- 
         <PreferenceScreen android:title="Knowledge Base" >
             <CheckBoxPreference
                 android:defaultValue="true"
@@ -107,76 +108,76 @@
                 android:summary="Cache the knowledge base locally"
                 android:title="Cache KB" />
         </PreferenceScreen>
-
+ -->
         <!-- This chapter needs some redesign as well -->
-        <PreferenceScreen android:title="Widgets" >
+        <PreferenceScreen android:title="@string/pref_screen_widgets_title" >
             <ListPreference
                 android:defaultValue="30"
                 android:entries="@array/widgetUpdateFreqLabels"
                 android:entryValues="@array/widgetUpdateFreqValues"
                 android:key="widget_refresh_freq"
-                android:summary="Set how often the Widgets will update (they always will when screen is turned on)"
-                android:title="Refresh Frequency" />
+                android:summary="@string/widget_refresh_freq_summary"
+                android:title="@string/widget_refresh_freq_title" />
 
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:enabled="true"
                 android:key="widget_refresh_on_screen_on"
-                android:summary="Refresh when screen goes on"
-                android:title="Screen on refresh" />
+                android:summary="@string/widget_refresh_on_screen_on_summary"
+                android:title="@string/widget_refresh_on_screen_on_title" />
 
             <ListPreference
                 android:defaultValue="0"
                 android:entries="@array/statLabels"
                 android:entryValues="@array/statValues"
                 android:key="widget_default_stat"
-                android:summary="Set the stat to be called from widget"
-                android:title="Default stat to open" />
+                android:summary="@string/widget_default_stat_summary"
+                android:title="@string/widget_default_stat_title" />
 
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:enabled="true"
                 android:key="widget_show_stat_type"
-                android:summary="Show Stat Type"
-                android:title="Show Title" />
+                android:summary="@string/widget_show_stat_type_summary"
+                android:title="@string/widget_show_stat_type_title" />
 
             <ListPreference
                 android:defaultValue="ref_boot"
                 android:entries="@array/statTypeLabels"
                 android:entryValues="@array/statTypeValues"
                 android:key="widget_fallback_stat_type"
-                android:summary="Set the fallback stat type to be shown in the widget if the primary one has no reference"
-                android:title="Fallback stat type" />
+                android:summary="@string/widget_fallback_stat_type_summary"
+                android:title="@string/widget_fallback_stat_type_title" />
 
-            <PreferenceCategory android:title="2x2 ad 2x1 Widgets" >
+            <PreferenceCategory android:title="@string/pref_category_widgets_2x2_and_2x1" >
                 <ListPreference
                     android:defaultValue="ref_unplugged"
                     android:entries="@array/statTypeLabels"
                     android:entryValues="@array/statTypeValues"
                     android:key="large_widget_default_stat_type"
-                    android:summary="Set the stat type to be shown in the widget"
-                    android:title="Stat type" />
+                    android:summary="@string/widget_default_stat_type_summary"
+                    android:title="@string/widget_default_stat_type_title" />
                 <ListPreference
                     android:defaultValue="10"
                     android:entries="@array/widgetFontSizeLabels"
                     android:entryValues="@array/widgetFontSizeValues"
                     android:key="large_widget_font_size"
-                    android:summary="Set the font size to be used in the widget"
-                    android:title="Font Size" />
+                    android:summary="@string/large_widget_font_size_summary"
+                    android:title="@string/large_widget_font_size_title" />
 
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:enabled="true"
                     android:key="large_widget_show_pct"
-                    android:summary="Show durations in % of total time"
-                    android:title="Show %" />
+                    android:summary="@string/large_widget_show_pct_summary"
+                    android:title="@string/large_widget_show_pct_title" />
 
                 <com.asksven.betterbatterystats.contrib.SeekBarPreference
                     android:defaultValue="80"
                     android:key="large_widget_opacity"
                     android:max="100"
-                    android:summary="Adjust the widget opacity"
-                    android:title="Opacity"
+                    android:summary="@string/widget_opacity_summary"
+                    android:title="@string/widget_opacity_title"
                     robobunny:interval="10"
                     robobunny:min="10"
                     robobunny:unitsLeft=""
@@ -185,8 +186,8 @@
                     android:defaultValue="20"
                     android:key="large_widget_bg_opacity"
                     android:max="100"
-                    android:summary="Adjust the background opacity"
-                    android:title="Background Opacity"
+                    android:summary="@string/widget_bg_opacity_summary"
+                    android:title="@string/widget_bg_opacity_title"
                     robobunny:interval="10"
                     robobunny:min="0"
                     robobunny:unitsLeft=""
@@ -198,22 +199,22 @@
                     android:entries="@array/statTypeLabels"
                     android:entryValues="@array/statTypeValues"
                     android:key="small_widget_default_stat_type"
-                    android:summary="Set the stat type to be shown in the widget"
-                    android:title="Stat type" />
+                    android:summary="@string/widget_default_stat_type_summary"
+                    android:title="@string/widget_default_stat_type_title" />
 
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:enabled="true"
                     android:key="small_widget_refresh_on_tap"
-                    android:summary="Tapping the widget refreshes it (if disabled tapping opens the app)"
-                    android:title="Refresh on tap" />
+                    android:summary="@string/small_widget_refresh_on_tap_summary"
+                    android:title="@string/small_widget_refresh_on_tap_title" />
 
                 <com.asksven.betterbatterystats.contrib.SeekBarPreference
                     android:defaultValue="80"
                     android:key="small_widget_opacity"
                     android:max="100"
-                    android:summary="Adjust the widget opacity"
-                    android:title="Opacity"
+                    android:summary="@string/widget_opacity_summary"
+                    android:title="@string/widget_opacity_title"
                     robobunny:interval="10"
                     robobunny:min="10"
                     robobunny:unitsLeft=""
@@ -222,8 +223,8 @@
                     android:defaultValue="20"
                     android:key="small_widget_bg_opacity"
                     android:max="100"
-                    android:summary="Adjust the background opacity"
-                    android:title="Background Opacity"
+                    android:summary="@string/widget_bg_opacity_summary"
+                    android:title="@string/widget_bg_opacity_title"
                     robobunny:interval="10"
                     robobunny:min="0"
                     robobunny:unitsLeft=""
