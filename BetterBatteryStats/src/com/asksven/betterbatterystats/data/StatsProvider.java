@@ -66,6 +66,7 @@ import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
+import com.asksven.android.common.privateapiproxies.BatteryStatsTypesLolipop;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Notification;
@@ -780,10 +781,19 @@ public class StatsProvider
 		
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
-		myWakelocks = mStats.getWakelockStats(m_context,
-				BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-				BatteryStatsTypes.STATS_CURRENT, iPctType);
-		
+		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)
+		{
+			myWakelocks = mStats.getWakelockStats(m_context,
+					BatteryStatsTypes.WAKE_TYPE_PARTIAL,
+					BatteryStatsTypesLolipop.STATS_CURRENT, iPctType);
+
+		}
+		else
+		{
+			myWakelocks = mStats.getWakelockStats(m_context,
+					BatteryStatsTypes.WAKE_TYPE_PARTIAL,
+					BatteryStatsTypes.STATS_CURRENT, iPctType);
+		}		
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 
 
