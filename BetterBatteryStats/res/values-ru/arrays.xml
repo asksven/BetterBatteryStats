@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="stats">
+        <item>Другое</item>
+        <item>Вэйклоки ядра</item>
+        <item>Частичные вэйклоки</item>
+        <item>Сигналы</item>
+        <item>Сеть</item>
+        <item>Статистика CPU</item>
+        <item>Процессы</item>
+    </string-array>
+    <string-array name="statLabels">
+        <item>Другое</item>
+        <item>Вэйклоки ядра</item>
+        <item>Частичные вэйклоки</item>
+        <item>Сигналы</item>
+        <item>Сеть</item>
+        <item>Статистика CPU</item>
+        <item>Процессы</item>
+    </string-array>
+	<string-array name="saveAsLabels">
+        <item>Дамп текст</item>
+        <item>Дамп JSON</item>
+        <item>Логкат</item>
+        <item>dmesg</item>
+    </string-array>
+    <string-array name="statValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+    <string-array name="statTypeLabels">
+        <item>От полн.зарядки</item>
+        <item>От отключения</item>
+        <item>От метки</item>
+        <item>От откл.экрана</item>
+        <item>От загрузки</item>
+    </string-array>
+    <string-array name="statTypeValues">
+        <item>ref_charged</item>
+        <item>ref_unplugged</item>
+        <item>ref_custom</item>
+        <item>ref_screen_off</item>
+        <item>ref_boot</item>
+    </string-array>
+    <string-array name="wlRefLabels">
+        <item>% времени батареи</item>
+        <item>% времени бодрствования</item>
+        <item>% времени бодрствования без времени вкл.экрана</item>
+    </string-array>
+    <string-array name="wlRefValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="graphBarHeigthLabels">
+        <item>4</item>
+        <item>8</item>
+        <item>*10</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="graphBarHeigthValues">
+        <item>4</item>
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+    </string-array>
+    <string-array name="widgetUpdateFreqLabels">
+        <item>Нет</item>
+        <item>5 мин.</item>
+        <item>15 мин.</item>
+        <item>*30 мин.</item>
+        <item>60 мин.</item>
+    </string-array>
+    <string-array name="widgetUpdateFreqValues">
+        <item>0</item>
+        <item>5</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+    <string-array name="widgetFontSizeLabels">
+        <item>Оч.большой (16)</item>
+        <item>Большой (14)</item>
+        <item>Нормальный (12)</item>
+        <item>*Маленький (10)</item>
+        <item>Оч.маленький (8)</item>
+    </string-array>
+    <string-array name="widgetFontSizeValues">
+        <item>16</item>
+        <item>14</item>
+        <item>12</item>
+        <item>10</item>
+        <item>8</item>
+    </string-array>
+    <string-array name="themeLabels">
+        <item>@string/label_theme_light</item>
+        <item>@string/label_theme_dark</item>
+    </string-array>
+    <string-array name="themeValues">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+</resources>
