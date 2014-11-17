@@ -7,7 +7,14 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp" >
-
+ 	<TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dialog Title"
+        android:fontFamily="sans-serif-light-bold"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/highlighted_text_material_light"/>
  	<TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"

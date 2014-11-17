@@ -42,15 +42,7 @@ public class BaseActivity extends ActionBarActivity
 	protected void onResume()
 	{
 		
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String theme = sharedPrefs.getString("theme", "0");
-		if (theme.equals("0"))
-		{
-			this.setTheme(R.style.Theme_Bbs);
-		} else
-		{
-			this.setTheme(R.style.Theme_Bbs_Dark);
-		}
+		this.setTheme(BaseActivity.getTheme(this));
 		super.onResume();
 
 	}
@@ -68,6 +60,19 @@ public class BaseActivity extends ActionBarActivity
 			this.setTheme(R.style.Theme_Bbs_Dark);
 		}
 		super.onCreate(savedInstanceState);
+	}
+	
+	public final static int getTheme(Context ctx)
+	{
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+		String theme = sharedPrefs.getString("theme", "0");
+		if (theme.equals("0"))
+		{
+			return R.style.Theme_Bbs;
+		} else
+		{
+			return R.style.Theme_Bbs_Dark;
+		}
 	}
 }
 

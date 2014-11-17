@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 asksven
+ * Copyright (C) 2011-2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,11 +45,8 @@ import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
-import com.asksven.android.common.privateapiproxies.Notification;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.MathUtils;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
 import com.asksven.betterbatterystats.data.KbReader;
@@ -395,7 +393,8 @@ public class StatsAdapter extends BaseAdapter
                 m_iPosition = position;
         }
         
-        @Override
+        @SuppressLint("NewApi")
+		@Override
         public void onClick(View arg0)
         {
         	
@@ -406,12 +405,12 @@ public class StatsAdapter extends BaseAdapter
 	        	Alarm alarmEntry = (Alarm) getItem(m_iPosition);
 	            
 	        	Dialog dialog = new Dialog(m_context);
-	
-	        	dialog.setContentView(R.layout.alarms_dialog);
-	        	dialog.setTitle(entry.getName());
-	
+	        	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	        	dialog.setContentView(R.layout.details_dialog);
+	        	
+	        	TextView dialogTitle = (TextView) dialog.findViewById(R.id.dialog_title);
+	        	dialogTitle.setText(entry.getName());
 	        	TextView title = (TextView) dialog.findViewById(R.id.title);
-//	        	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
 	        	TextView text = (TextView) dialog.findViewById(R.id.text);
 	        	title.setText(entry.getData((long)m_timeSince));
 	        	
@@ -429,16 +428,19 @@ public class StatsAdapter extends BaseAdapter
 	        	}
 	        	text.setText(strText);
 	        	dialog.show();
+	        	
 	        }
         	if (entry instanceof NativeKernelWakelock)
         	{
         		NativeKernelWakelock kernelWakelockEntry = (NativeKernelWakelock) getItem(m_iPosition);
                 
             	Dialog dialog = new Dialog(m_context);
-
-            	dialog.setContentView(R.layout.alarms_dialog);
+            	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            	dialog.setContentView(R.layout.details_dialog);
             	dialog.setTitle(kernelWakelockEntry.getName());
 
+            	TextView dialogTitle = (TextView) dialog.findViewById(R.id.dialog_title);
+	        	dialogTitle.setText(kernelWakelockEntry.getName());
             	TextView title = (TextView) dialog.findViewById(R.id.title);
 //            	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
             	TextView text = (TextView) dialog.findViewById(R.id.text);

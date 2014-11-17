@@ -213,8 +213,9 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 	        if (key.equals("theme"))
 	        {
 	        	Intent intent = new Intent(getActivity(), PreferencesFragmentActivity_V11.class);
-	        	startActivity(intent);
 	        	getActivity().finish();
+	        	startActivity(intent);
+	        	
 	        }
 	}
 	
