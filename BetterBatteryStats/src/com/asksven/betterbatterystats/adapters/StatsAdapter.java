@@ -413,7 +413,7 @@ public class StatsAdapter extends BaseAdapter
 	        	TextView title = (TextView) dialog.findViewById(R.id.title);
 //	        	TextView subtitle = (TextView) dialog.findViewById(R.id.subtitle);
 	        	TextView text = (TextView) dialog.findViewById(R.id.text);
-	        	title.setText(entry.getData((long)m_maxValue));
+	        	title.setText(entry.getData((long)m_timeSince));
 	        	
 	        	String strText = "";
 	        	ArrayList<AlarmItem> myItems = alarmEntry.getItems();
