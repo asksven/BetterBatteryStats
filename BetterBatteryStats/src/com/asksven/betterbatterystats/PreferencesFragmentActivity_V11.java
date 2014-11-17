@@ -212,9 +212,13 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 	        }
 	        if (key.equals("theme"))
 	        {
-	        	Intent intent = new Intent(getActivity(), PreferencesFragmentActivity_V11.class);
-	        	getActivity().finish();
-	        	startActivity(intent);
+	        	//Intent intent = new Intent(getActivity(), PreferencesFragmentActivity_V11.class);
+	        	//getActivity().finish();
+	        	//startActivity(intent);
+	        	Intent i = getActivity().getBaseContext().getPackageManager()
+	                    .getLaunchIntentForPackage( getActivity().getBaseContext().getPackageName() );
+	       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	       startActivity(i);
 	        	
 	        }
 	}
