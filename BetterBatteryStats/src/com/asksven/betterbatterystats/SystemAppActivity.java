@@ -23,6 +23,7 @@ import java.security.cert.X509Certificate;
 
 import javax.security.auth.x500.X500Principal;
 
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.android.common.utils.SystemAppInstaller;
 import com.asksven.android.common.utils.SystemAppInstaller.Status;
 import com.asksven.betterbatterystats.R;
@@ -154,6 +155,9 @@ public class SystemAppActivity extends BaseActivity
 			permDump.setText("DUMP  " + getString(R.string.label_not_granted));
 		}
 
+		final TextView seLinux = (TextView) findViewById(R.id.textViewSELinux);
+		seLinux.setText("SELinux: " + SysUtils.getSELinuxPolicy());
+		
 		final Button buttonRemount = (Button) findViewById(R.id.button2);
 		setButtonText(buttonRemount);
 

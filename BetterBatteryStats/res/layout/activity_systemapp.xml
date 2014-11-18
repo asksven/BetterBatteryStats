@@ -12,7 +12,7 @@
         android:paddingBottom="4dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="4dp">
+        android:paddingTop="4dp" >
 
         <TextView
             android:id="@+id/textViewPermBATTERY_STATS"
@@ -29,6 +29,15 @@
             android:layout_below="@+id/textViewPermBATTERY_STATS"
             android:layout_centerHorizontal="true"
             android:text="Permission..."
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textViewSELinux"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewPermDUMP"
+            android:layout_centerHorizontal="true"
+            android:text="SELinux Policy..."
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button

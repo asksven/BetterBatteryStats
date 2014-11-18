@@ -85,6 +85,7 @@ public class Reading implements Serializable
 	boolean rooted;
 	boolean batteryStatsPermGranted;
 	boolean xposedBatteryStatsEnabled;
+	String seLinuxPolicy;
 	int batteryLevelLost;
 	int batteryVoltageLost;
 	String batteryLevelLostText;
@@ -167,6 +168,7 @@ public class Reading implements Serializable
 		
 		batteryStatsPermGranted = SysUtils.hasBatteryStatsPermission(context);
 		xposedBatteryStatsEnabled = sharedPrefs.getBoolean("ignore_system_app", false);
+		seLinuxPolicy = SysUtils.getSELinuxPolicy();
 		
 		batteryLevelLost 		= StatsProvider.getInstance(context).getBatteryLevelStat(refFrom, refTo);
 		batteryVoltageLost 		= StatsProvider.getInstance(context).getBatteryVoltageStat(refFrom, refTo);
@@ -342,6 +344,7 @@ public class Reading implements Serializable
 		out.write("PRODUCT: " + buildProduct + "\n");
 		out.write("RADIO: " + buildRadio + "\n");
 		out.write("Rooted: " + rooted + "\n");
+		out.write("SELinux Policy: " + seLinuxPolicy + "\n");
 		out.write("BATTERY_STATS permission granted: " + batteryStatsPermGranted + "\n");
 		out.write("XPosed BATTERY_STATS module enabled: " + xposedBatteryStatsEnabled + "\n");
 		
