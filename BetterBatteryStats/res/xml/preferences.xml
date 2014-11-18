@@ -321,7 +321,16 @@
                 android:key="auto_refresh"
                 android:summary="@string/pref_auto_refresh_summary"
                 android:title="@string/pref_auto_refresh_title" />
-
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="force_alarms_api"
+                    android:summary="@string/pref_force_alarms_api_summary"
+                    android:title="@string/pref_force_alarms_api_title" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="force_kwl_api"
+                    android:summary="@string/pref_force_kwl_api_summary"
+                    android:title="@string/pref_force_kwl_api_title" />
             <PreferenceScreen android:title="@string/pref_section_sharing" >
                 <CheckBoxPreference
                     android:defaultValue="true"
@@ -343,16 +352,6 @@
                     android:key="save_dmesg"
                     android:summary="@string/pref_save_dmesg_summary"
                     android:title="@string/pref_save_dmesg_title" />
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:key="force_alarms_api"
-                    android:summary="@string/pref_force_alarms_api_summary"
-                    android:title="@string/pref_force_alarms_api_title" />
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:key="force_kwl_api"
-                    android:summary="@string/pref_force_kwl_api_summary"
-                    android:title="@string/pref_force_kwl_api_title" />
             </PreferenceScreen>
             <PreferenceScreen
                 android:summary="@string/pref_screen_system_app_summary"
