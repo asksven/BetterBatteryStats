@@ -80,7 +80,7 @@
             android:summary="@string/pref_default_stat_type_summary"
             android:title="@string/pref_default_stat_type_title" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="pref_section_settings" >
+    <PreferenceCategory android:title="@string/pref_section_settings" >
 
         <!-- not externalized yet: needs some though -->
         <!-- 
@@ -193,7 +193,7 @@
                     robobunny:unitsLeft=""
                     robobunny:unitsRight="%" />
             </PreferenceCategory>
-            <PreferenceCategory android:title="1x1 Widget" >
+            <PreferenceCategory android:title=" @string/pref_category_widget_1x1" >
                 <ListPreference
                     android:defaultValue="ref_unplugged"
                     android:entries="@array/statTypeLabels"
