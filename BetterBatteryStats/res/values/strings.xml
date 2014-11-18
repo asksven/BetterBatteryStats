@@ -35,7 +35,7 @@
     <string name="label_credits">Credits</string>
     <string name="label_help">Help</string>
     <string name="label_howto">How-To</string>
-    <string name="label_system_app">Sytem App</string>
+    <string name="label_system_app">System App</string>
     <string name="label_refresh">Refresh</string>
     <string name="label_share">Share</string>
     <string name="label_custom_ref">Set Custom Ref.</string>
@@ -63,6 +63,15 @@
     <string name="info_succeeded">Succeeded</string>
     <string name="info_failed">Failed</string>
     <string name="info_root_required">In order to use this feature \'Root\' Features must be enabled (Advanced Preferences)</string>
+    <string name="info_unknown_state">Error: could not resolve what changed</string>
+    <string name="info_service_connection_error">BatteryInfo Service could not be contacted</string>
+    <string name="info_loading_refs_error">Selected \'from\' or \'to\' reference could not be loaded. Please refresh</string>
+    <string name="info_unknown_stat_error">An unknown error occured while retrieving stats. Please check your logcat</string>
+    <string name="info_state_recovery_error">An error occured while recovering the previous state</string>
+    
+    <string name="info_deleting_refs">Deleting and re-creating references</string>
+    <string name="info_fallback_to_boot">Fallback to \'Since Boot\'</string>
+    <string name="info_fallback_to_default">Fallback to default reference</string>
     <string name="label_granted">granted</string>
     <string name="label_not_granted">not granted</string>
 
@@ -122,7 +131,6 @@
     <string name="pref_developer_title">Enable while charging</string>
     <string name="pref_developer_summary">Enable stats while charging (at your own risk, stats may be inconsistent)</string>
     <string name="pref_auto_refresh_title">Auto refresh</string>
-    <string name="pref_auto_refresh_summary">Automaticall refresh \'current\'</string>
     <string name="pref_section_sharing">Sharing options</string>
     <string name="pref_save_as_text_title">Text</string>
     <string name="pref_save_as_text_summary">Share dumpfile as text</string>
@@ -147,7 +155,7 @@
     <string name="widget_show_stat_type_summary">Show Stat Type</string>
     <string name="widget_fallback_stat_type_title">Fallback stat type</string>
     <string name="widget_fallback_stat_type_summary">Set the fallback stat type to be shown in the widget if the primary one has no reference</string>
-    <string name="pref_category_widgets_2x2_and_2x1">2x2 ad 2x1 Widgets</string>
+    <string name="pref_category_widgets_2x2_and_2x1">2x2 and 2x1 Widgets</string>
     <string name="widget_default_stat_type_title">Stat type</string>
     <string name="widget_default_stat_type_summary">Set the stat type to be shown in the widget</string>
     <string name="large_widget_font_size_title">Font Size</string>

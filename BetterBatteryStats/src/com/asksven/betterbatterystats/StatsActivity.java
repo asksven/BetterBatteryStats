@@ -235,7 +235,7 @@ public class StatsActivity extends ActionBarListActivity
 	        updater.putString("last_release", strCurrentRelease);
 	        updater.commit();
 
-			Toast.makeText(this, "Deleting and re-creating references", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
 			ReferenceStore.deleteAllRefs(this);
 			Intent i = new Intent(this, WriteBootReferenceService.class);
 			this.startService(i);
@@ -266,7 +266,7 @@ public class StatsActivity extends ActionBarListActivity
 		{
 
 			m_refFromName = Reference.BOOT_REF_FILENAME;
-    		Toast.makeText(this, "Fallback to 'Since Boot'", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, getString(R.string.info_fallback_to_boot), Toast.LENGTH_SHORT).show();
 		}
 		
 		Log.i(TAG, "onCreate state from preferences: refFrom=" + m_refFromName + " refTo=" + m_refToName);
@@ -292,7 +292,7 @@ public class StatsActivity extends ActionBarListActivity
     		DataStorage.LogToFile(LOGFILE, e.getMessage());
     		DataStorage.LogToFile(LOGFILE, e.getStackTrace());
     		
-    		Toast.makeText(this, "An error occured while recovering the previous state", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, getString(R.string.info_state_recovery_error), Toast.LENGTH_SHORT).show();
 		}
 
 		// Handle the case the Activity was called from an intent with paramaters
@@ -344,7 +344,7 @@ public class StatsActivity extends ActionBarListActivity
 //			Log.e(TAG, e.getMessage(), e.fillInStackTrace());
 			Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
 			Toast.makeText(this,
-					"BatteryInfo Service could not be contacted.",
+					getString(R.string.info_service_connection_error),
 					Toast.LENGTH_LONG).show();
 			
 		}
@@ -353,7 +353,7 @@ public class StatsActivity extends ActionBarListActivity
 			//Log.e(TAG, e.getMessage(), e.fillInStackTrace());
 			Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
 			Toast.makeText(this,
-					"An unhandled error occured. Please check your logcat",
+					getString(R.string.info_unknown_stat_error),
 					Toast.LENGTH_LONG).show();
 		}
 		// setSelection MUST be called after setAdapter
@@ -711,7 +711,7 @@ public class StatsActivity extends ActionBarListActivity
 				if ((m_iStat == 4) || (m_iStat == 3)) 
 				{
 					Toast.makeText(this,
-							"This function requires root access. Check \"Advanced\" preferences",
+							getString(R.string.info_root_required),
 							Toast.LENGTH_LONG).show();
 				}
 			}
@@ -720,7 +720,7 @@ public class StatsActivity extends ActionBarListActivity
 		else
 		{
     		Log.e(TAG, "ProcessStatsActivity.onItemSelected error. ID could not be resolved");
-    		Toast.makeText(this, "Error: could not resolve what changed", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, getString(R.string.info_unknown_state), Toast.LENGTH_SHORT).show();
 
 		}
 
@@ -766,7 +766,7 @@ public class StatsActivity extends ActionBarListActivity
 		
 		if ((m_refFromName == null) && (m_refToName == null))
 		{
-			Toast.makeText(this, "Fallback to default references", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.info_fallback_to_default), Toast.LENGTH_SHORT).show();
 			m_refFromName	= sharedPrefs.getString("default_stat_type", Reference.UNPLUGGED_REF_FILENAME);
 			m_refToName	= Reference.CURRENT_REF_FILENAME;
 			
@@ -804,7 +804,7 @@ public class StatsActivity extends ActionBarListActivity
 				&& ((spinnerStatTypeFrom.getSelectedItemPosition() == -1)||(spinnerStatTypeTo.getSelectedItemPosition() == -1)))
 		{
 			Toast.makeText(StatsActivity.this,
-					"Selected 'from' or 'to' reference could not be loaded. Please refresh",
+					getString(R.string.info_loading_refs_error),
 					Toast.LENGTH_LONG).show();
 		}
 			
@@ -937,14 +937,14 @@ public class StatsActivity extends ActionBarListActivity
 	    		if (m_exception instanceof BatteryInfoUnavailableException)
 	    		{
 	    			Toast.makeText(StatsActivity.this,
-	    					"BatteryInfo Service could not be contacted.",
+	    					getString(R.string.info_service_connection_error),
 	    					Toast.LENGTH_LONG).show();
 
 	    		}
 	    		else
 	    		{
 	    			Toast.makeText(StatsActivity.this,
-	    					"An unknown error occured while retrieving stats.",
+	    					getString(R.string.info_unknown_stat_error),
 	    					Toast.LENGTH_LONG).show();
 	    			
 	    		}

@@ -204,7 +204,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 				if ((m_iStat == 4) || (m_iStat == 3)) 
 				{
 					Toast.makeText(this,
-							"This function requires root access. Check \"Advanced\" preferences",
+							getString(R.string.info_root_required),
 							Toast.LENGTH_LONG).show();
 				}
 			}
@@ -213,7 +213,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 		else
 		{
     		Log.e(TAG, "RawStatsActivity.onItemSelected error. ID could not be resolved");
-    		Toast.makeText(this, "Error: could not resolve what changed", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, getString(R.string.info_unknown_state), Toast.LENGTH_SHORT).show();
 
 		}
 
@@ -318,14 +318,14 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 	    		if (m_exception instanceof BatteryInfoUnavailableException)
 	    		{
 	    			Toast.makeText(RawStatsActivity.this,
-	    					"BatteryInfo Service could not be contacted.",
+	    					getString(R.string.info_service_connection_error),
 	    					Toast.LENGTH_LONG).show();
 
 	    		}
 	    		else
 	    		{
 	    			Toast.makeText(RawStatsActivity.this,
-	    					"An unknown error occured while retrieving stats.",
+	    					getString(R.string.info_unknown_stat_error),
 	    					Toast.LENGTH_LONG).show();
 	    			
 	    		}
