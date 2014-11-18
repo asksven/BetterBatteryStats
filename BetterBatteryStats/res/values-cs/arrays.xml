@@ -53,16 +53,18 @@
         <item name="3">ref_screen_off</item>
         <item name="4">ref_boot</item>
     </string-array>
+    <!-- 
     <string-array name="wlRefLabels">
         <item name="0">% času na baterii</item>
         <item name="1">% času probuzení</item>
-        <item name="2">% času probuzení bez času zapnuté obrazovky</item>
+        <item name="2">% času probuzení bez času zapnutí obrazovky</item>
     </string-array>
     <string-array name="wlRefValues">
         <item name="0">0</item>
         <item name="1">1</item>
         <item name="2">2</item>
     </string-array>
+     -->
     <string-array name="graphBarHeigthLabels">
         <item name="0">4</item>
         <item name="1">8</item>

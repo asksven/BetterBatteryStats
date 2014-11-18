@@ -62,7 +62,16 @@
     <string name="info_uninstalled_system_app">Systémová aplikace odinstalována: vaše nastavení byla vymazána. Prosím restartujte pro dokončení a poté proveďte nové nastavení.</string>
     <string name="info_succeeded">Uspělo</string>
     <string name="info_failed">Selhalo</string>
-    <string name="info_root_required">Pro využití této funkce je vyžadováno povolení \'Root\' funkcí (Pokročilá nastavení)</string>
+    <string name="info_root_required">Tato funkce vyžaduje povolení \'Root\' funkcí (Pokročilá nastavení)</string>
+    <string name="info_unknown_state">Chyba: nepodařilo se rozlišit co se změnilo</string>
+    <string name="info_service_connection_error">Nepodařilo se kontaktovat službu BatteryInfo Service</string>
+    <string name="info_loading_refs_error">Nepodařilo se načíst vybrané ref. body \'od\', nebo \'do\'. Prosím obnovte zobrazení.</string>
+    <string name="info_unknown_stat_error">Při získávání statistik došlo k neznámé chybě. Prosím zkontrolujte váš logcat log.</string>
+    <string name="info_state_recovery_error">Během zotavení z předchozího stavu došlo k neznámé chybě</string>
+    
+    <string name="info_deleting_refs">Mažu a obnovuji ref. body</string>
+    <string name="info_fallback_to_boot">Záložní přechod k \'Od zapnutí\'</string>
+    <string name="info_fallback_to_default">Záložní přechod k výchozímu ref. bodu</string>
     <string name="label_granted">přiděleno</string>
     <string name="label_not_granted">nepřiděleno</string>
 
@@ -122,7 +131,6 @@
     <string name="pref_developer_title">Povolit během nabíjení</string>
     <string name="pref_developer_summary">Povolit statistiky během nabíjení (na vlastní riziko, statistiky mohou být nekonzistentní)</string>
     <string name="pref_auto_refresh_title">Automatické obnovení</string>
-    <string name="pref_auto_refresh_summary">Automaticky obnovit \'aktuální\' ref.</string>
     <string name="pref_section_sharing">Možnosti sdílení</string>
     <string name="pref_save_as_text_title">Text</string>
     <string name="pref_save_as_text_summary">Sdílet textový výpis</string>
