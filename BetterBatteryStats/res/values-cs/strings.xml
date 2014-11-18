@@ -116,8 +116,8 @@
     <string name="pref_active_mon_enabled_summary">Povolit aktivní monitorování. Pozor: aktivní monitorování zvyšuje spotřebu energie</string>
     <string name="pref_active_mon_freq_title">Frekvence [Min.]</string>
     <string name="pref_active_mon_freq_summary">Frekvence ukládání časových ref. bodů</string>
-    <string name="pref_section_advanced">Pokročilé</string>
 
+    <string name="pref_section_advanced">Pokročilé</string>
     <string name="pref_debug_logging_summary">Přidávat debug informace do logcat logu</string>
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Zapisovat soubory do /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
@@ -140,6 +140,10 @@
     <string name="pref_save_logcat_summary">Sdílet logcat log</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Sdílet dmesg</string>
+    <string name="pref_force_alarms_api_title">Alarmy pomocí API</string>
+    <string name="pref_force_alarms_api_summary">Vynutit získávání statistik Alarmů prostřednictvím API</string>
+    <string name="pref_force_kwl_api_title">Wakelocky jádra pomocí API</string>
+    <string name="pref_force_kwl_api_summary">Vynutit získávání statistik Wakelocků jádra prostřednictvím API</string>
     <string name="pref_screen_system_app_title">Systémová aplikace</string>
     <string name="pref_screen_system_app_summary">Instalovat jako systémovou aplikaci</string>
 
