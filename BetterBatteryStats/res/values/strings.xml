@@ -116,8 +116,8 @@
     <string name="pref_active_mon_enabled_summary">Enables active monitoring. Caution: be aware that active monitoring has costs in terms of battery</string>
     <string name="pref_active_mon_freq_title">Frequency [Min.]</string>
     <string name="pref_active_mon_freq_summary">Frequency for saving timer references</string>
+    
     <string name="pref_section_advanced">Advanced</string>
-
     <string name="pref_debug_logging_summary">Add debug info to logcat</string>
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Write files to /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
@@ -140,6 +140,10 @@
     <string name="pref_save_logcat_summary">Share logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Share dmesg</string>
+    <string name="pref_force_alarms_api_title">Alarms using API</string>
+    <string name="pref_force_alarms_api_summary">Force to retrieve Alarms using the API</string>
+    <string name="pref_force_kwl_api_title">Kernel Wakelocks using API</string>
+    <string name="pref_force_kwl_api_summary">Force to retrieve Kernel Wakelocks using the API</string>
     <string name="pref_screen_system_app_title">System App</string>
     <string name="pref_screen_system_app_summary">Install as System App</string>
     
