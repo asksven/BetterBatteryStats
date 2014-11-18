@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+     <release version="2.0.0.0B5" versioncode="53" >
+         <change>Externalized more strings</change>
+         <change>Fixed Alarms details dialog showing infinite/Hr.</change>
+         <change>Themed dialogs</change>
+     </release>
      <release version="2.0.0.0B4" versioncode="52" >
         <change>Some internal house-keeping and clean-up</change>
         <change>Fixed theme switch</change>
