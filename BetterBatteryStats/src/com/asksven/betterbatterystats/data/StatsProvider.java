@@ -382,23 +382,51 @@ public class StatsProvider
 
 		ArrayList<StatElement> myAlarms = null;
 
-		// use root if available as root delivers more data
-		if (rootEnabled && AlarmsDumpsys.alarmsAccessible())
+		if (sharedPrefs.getBoolean("force_alarms_api", false))
 		{
-			myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
-		}
-		else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
-		{
-			Log.i(TAG, "Accessing Alarms in API mode");
+			Log.i(TAG, "Setting set to force the use of the API for alarms");
 			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-			myAlarms = mStats.getWakeupStats(m_context,
-						BatteryStatsTypes.STATS_CURRENT);
+			int statsType = 0;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			{
+				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+			}
+			else
+			{
+				statsType = BatteryStatsTypes.STATS_CURRENT;
+			}		
+			
+			myAlarms = mStats.getWakeupStats(m_context, statsType);
 		}
 		else
 		{
-			return myStats;
-		}
+			// use root if available as root delivers more data
+			if (rootEnabled && AlarmsDumpsys.alarmsAccessible())
+			{
+				myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
+			}
+			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
+			{
+				Log.i(TAG, "Accessing Alarms in API mode");
+				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+				int statsType = 0;
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+				{
+					statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+				}
+				else
+				{
+					statsType = BatteryStatsTypes.STATS_CURRENT;
+				}		
 
+				myAlarms = mStats.getWakeupStats(m_context, statsType);
+			}
+			else
+			{
+				return myStats;
+			}
+		}
+		
 		ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
 		// if we are using custom ref. always retrieve "stats current"
 
@@ -582,8 +610,17 @@ public class StatsProvider
 		else
 		{
 			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-			myProcesses = mStats.getProcessStats(m_context,
-					BatteryStatsTypes.STATS_CURRENT);
+			int statsType = 0;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			{
+				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+			}
+			else
+			{
+				statsType = BatteryStatsTypes.STATS_CURRENT;
+			}		
+
+			myProcesses = mStats.getProcessStats(m_context, statsType);
 		}
 
 		for (int i = 0; i < myProcesses.size(); i++)
@@ -781,19 +818,21 @@ public class StatsProvider
 		
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)
+		int statsType = 0;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
-			myWakelocks = mStats.getWakelockStats(m_context,
-					BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-					BatteryStatsTypesLolipop.STATS_CURRENT, iPctType);
-
+			statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
 		}
 		else
 		{
-			myWakelocks = mStats.getWakelockStats(m_context,
-					BatteryStatsTypes.WAKE_TYPE_PARTIAL,
-					BatteryStatsTypes.STATS_CURRENT, iPctType);
+			statsType = BatteryStatsTypes.STATS_CURRENT;
 		}		
+
+		myWakelocks = mStats.getWakelockStats(m_context,
+				BatteryStatsTypes.WAKE_TYPE_PARTIAL,
+				statsType, iPctType);
+
+
 		ArrayList<Wakelock> myRetWakelocks = new ArrayList<Wakelock>();
 
 
@@ -973,16 +1012,39 @@ public class StatsProvider
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<StatElement> myKernelWakelocks = null;
 		
-		// we must support both "old" (/proc/wakelocks) and "new formats
-		if (Wakelocks.fileExists())
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+
+		
+		if (sharedPrefs.getBoolean("force_kwl_api", false))
 		{
-			myKernelWakelocks = Wakelocks.parseProcWakelocks(m_context);	
+			Log.i(TAG, "Setting set to force the use of the API for kernel wakelocks");
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+			
+			int statsType = 0;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			{
+				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+			}
+			else
+			{
+				statsType = BatteryStatsTypes.STATS_CURRENT;
+			}		
+
+			myKernelWakelocks = mStats.getKernelWakelockStats(m_context, statsType, 0, false);
 		}
 		else
 		{
-			myKernelWakelocks = WakeupSources.parseWakeupSources(m_context);
-		}
-		
+			// we must support both "old" (/proc/wakelocks) and "new formats
+			if (Wakelocks.fileExists())
+			{
+				myKernelWakelocks = Wakelocks.parseProcWakelocks(m_context);	
+			}
+			else
+			{
+				myKernelWakelocks = WakeupSources.parseWakeupSources(m_context);
+			}
+		}		
 		
 		ArrayList<NativeKernelWakelock> myRetKernelWakelocks = new ArrayList<NativeKernelWakelock>();
 		// if we are using custom ref. always retrieve "stats current"
@@ -1632,22 +1694,28 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}		
 	
-			long whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
-					BatteryStatsTypes.STATS_CURRENT) / 1000;
+			int statsType = 0;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			{
+				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+			}
+			else
+			{
+				statsType = BatteryStatsTypes.STATS_CURRENT;
+			}		
+
+			long whichRealtime = mStats.computeBatteryRealtime(rawRealtime, statsType) / 1000;
 			
 			long timeBatteryUp = mStats.computeBatteryUptime(
-					SystemClock.uptimeMillis() * 1000,
-					BatteryStatsTypes.STATS_CURRENT) / 1000;
+					SystemClock.uptimeMillis() * 1000, statsType) / 1000;
 			
 			if (CommonLogSettings.DEBUG)
 			{
 				Log.i(TAG, "whichRealtime = " + whichRealtime + " batteryRealtime = " + batteryRealtime + " timeBatteryUp=" + timeBatteryUp);
 			}
 			
-			long timeScreenOn = mStats.getScreenOnTime(batteryRealtime,
-					BatteryStatsTypes.STATS_CURRENT) / 1000;
-			long timePhoneOn = mStats.getPhoneOnTime(batteryRealtime,
-					BatteryStatsTypes.STATS_CURRENT) / 1000;
+			long timeScreenOn = mStats.getScreenOnTime(batteryRealtime, statsType) / 1000;
+			long timePhoneOn = mStats.getPhoneOnTime(batteryRealtime, statsType) / 1000;
 	
 			long timeWifiOn = 0;
 			long timeWifiRunning = 0;
@@ -1655,10 +1723,9 @@ public class StatsProvider
 			{
 				try
 				{
-					timeWifiOn = mStats.getWifiOnTime(batteryRealtime,
-							BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeWifiOn = mStats.getWifiOnTime(batteryRealtime, statsType) / 1000;
 					timeWifiRunning = mStats.getGlobalWifiRunningTime(
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					// long timeWifiMulticast =
 					// mStats.getWifiMulticastTime(m_context, batteryRealtime,
 					// BatteryStatsTypes.STATS_CURRENT) / 1000;
@@ -1683,8 +1750,7 @@ public class StatsProvider
 			{
 				try
 				{
-					timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime,
-							BatteryStatsTypes.STATS_CURRENT) / 1000;
+					timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, statsType) / 1000;
 				} catch (BatteryInfoUnavailableException e)
 				{
 					timeBluetoothOn = 0;
@@ -1706,22 +1772,22 @@ public class StatsProvider
 				{
 					timeNoDataConnection = mStats.getPhoneDataConnectionTime(
 							BatteryStatsTypes.DATA_CONNECTION_NONE,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					timeSignalNone = mStats.getPhoneSignalStrengthTime(
 							BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					timeSignalPoor = mStats.getPhoneSignalStrengthTime(
 							BatteryStatsTypes.SIGNAL_STRENGTH_POOR,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					timeSignalModerate = mStats.getPhoneSignalStrengthTime(
 							BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					timeSignalGood = mStats.getPhoneSignalStrengthTime(
 							BatteryStatsTypes.SIGNAL_STRENGTH_GOOD,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					timeSignalGreat = mStats.getPhoneSignalStrengthTime(
 							BatteryStatsTypes.SIGNAL_STRENGTH_GREAT,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 				} catch (BatteryInfoUnavailableException e)
 				{
 					timeNoDataConnection = 0;
@@ -1746,19 +1812,19 @@ public class StatsProvider
 				{
 					timeScreenDark = mStats.getScreenBrightnessTime(
 							BatteryStatsTypes.SCREEN_BRIGHTNESS_DARK,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					timeScreenDim = mStats.getScreenBrightnessTime(
 							BatteryStatsTypes.SCREEN_BRIGHTNESS_DIM,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					timeScreenMedium = mStats.getScreenBrightnessTime(
 							BatteryStatsTypes.SCREEN_BRIGHTNESS_MEDIUM,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					timeScreenLight = mStats.getScreenBrightnessTime(
 							BatteryStatsTypes.SCREEN_BRIGHTNESS_LIGHT,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 					timeScreenBright = mStats.getScreenBrightnessTime(
 							BatteryStatsTypes.SCREEN_BRIGHTNESS_BRIGHT,
-							batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
+							batteryRealtime, statsType) / 1000;
 				}
 				catch (BatteryInfoUnavailableException e)
 				{
@@ -2358,6 +2424,17 @@ public class StatsProvider
 		
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		
+		int statsType = 0;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+		}
+		else
+		{
+			statsType = BatteryStatsTypes.STATS_CURRENT;
+		}		
+
+		
 		// we are going to retrieve a reference: make sure data does not come from the cache
 		if (SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded ) BatteryStatsProxy.getInstance(m_context).invalidate();
 		
@@ -2437,7 +2514,7 @@ public class StatsProvider
 			}
 			try
 			{
-				refs.m_refBatteryRealtime = getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+				refs.m_refBatteryRealtime = getBatteryRealtime(statsType);
 			}
 			catch (Exception e)
 			{
@@ -2522,6 +2599,17 @@ public class StatsProvider
 		
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
+		
+		int statsType = 0;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+		}
+		else
+		{
+			statsType = BatteryStatsTypes.STATS_CURRENT;
+		}		
+
 
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
@@ -2545,7 +2633,7 @@ public class StatsProvider
 				refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
 			}
 			refs.m_refOther 			= getCurrentOtherUsageStatList(bFilterStats, false, false);
-			refs.m_refBatteryRealtime 	= getBatteryRealtime(BatteryStatsTypes.STATS_CURRENT);
+			refs.m_refBatteryRealtime 	= getBatteryRealtime(statsType);
 
 
 			try
@@ -2583,6 +2671,16 @@ public class StatsProvider
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
 		long whichRealtime = 0;
 		
+		int statsType = 0;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+		}
+		else
+		{
+			statsType = BatteryStatsTypes.STATS_CURRENT;
+		}		
+
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		
@@ -2595,7 +2693,7 @@ public class StatsProvider
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 
 		whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
-				BatteryStatsTypes.STATS_CURRENT) / 1000;
+				statsType) / 1000;
 
 		if ((iStatType == StatsProvider.STATS_CUSTOM) && (ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context) != null))
 		{			
