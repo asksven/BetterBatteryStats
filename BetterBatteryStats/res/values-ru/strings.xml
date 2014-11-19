@@ -1,53 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"standalone="no"?>
 <resources>
+        
+    <string name="plugin_name">BetterBatteryStats</string>
+    <string name="message_hint">Программное сообщение</string>
+    <string name="message_hint_saveref">Сохранить польз. метку</string>
+    <string name="message_hint_savestat">Сохранить текст. дамп</string>
+    <string name="message_hint_savestatjson">Сохранить дамп JSON</string>
+    <string name="message_hint_sinceref">Дамп от посл. метки</string>
+    <string name="message_hint_stat_type">Тип статистики</string>
     <string name="app_name">BetterBatteryStats</string>
-    <string name="abc_action_mode_done">Готово</string>
-    <string name="abc_action_bar_home_description">Домой</string>
-    <string name="abc_action_bar_up_description">Вверх</string>
-    <string name="abc_action_menu_overflow_description">Больше опций</string>
-    <string name="abc_action_bar_home_description_format">%1$s, %2$s</string>
-    <string name="abc_action_bar_home_subtitle_description_format">%1$s, %2$s, %3$s</string>
-    <string name="abc_searchview_description_search">Поиск</string>
-    <string name="abc_searchview_description_query">Поисковый запрос</string>
-    <string name="abc_searchview_description_clear">Очистить запрос</string>
-    <string name="abc_searchview_description_submit">Подать запрос</string>
-    <string name="abc_searchview_description_voice">Голосовой поиск</string>
-    <string name="abc_activitychooserview_choose_application">Выбрать приложение</string>
-    <string name="abc_activity_chooser_view_see_all">См. все</string>
-    <string name="abc_shareactionprovider_share_with_application">Поделиться через %s</string>
-    <string name="abc_shareactionprovider_share_with">Поделиться через</string>
-    <string name="changelog_full_title">Изменения</string>
-    <string name="changelog_title">"Что нового"</string>
-    <string name="changelog_ok_button">OK</string>
-    <string name="changelog_show_full">Ещё…</string>
-    <string name="changelog_version_format">Версия %s</string>
-    <string name="hello">Привет, мир!</string>
-    <string name="twofortyfouram_locale_application_not_available">Приложение недоступно.</string>
-    <string name="twofortyfouram_locale_breadcrumb_format">%1$s%2$s%3$s</string>
-    <string name="twofortyfouram_locale_breadcrumb_separator">" > "</string>
-    <string name="twofortyfouram_locale_marketactivity_dialog_title">Необходим Locale</string>
-    <string name="twofortyfouram_locale_marketactivity_dialog_message">Для использования плагина необходим Locale. Хотите найти Locale в Play Store?</string>
-    <string name="twofortyfouram_locale_marketactivity_dialog_button_search">Поиск</string>
-    <string name="twofortyfouram_locale_menu_dontsave">Отмена</string>
-    <string name="twofortyfouram_locale_menu_help">Помощь</string>
-    <string name="twofortyfouram_locale_menu_save">Готово</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Напомнить позже</string>
     <string name="label_button_rate">Оценить</string>
     <string name="label_button_no">Нет, спасибо</string>
     <string name="text_dialog_rate">Если Вам нравится %s, пожалуйста, уделите время, чтобы оценить его. Спасибо за Вашу поддержку!</string>
-    <string name="twitter_link">https://twitter.com/#!/asksven</string>
-    <string name="market_link">market://search?q=com.asksven</string>
-    <string name="dialog_apps">Другие</string>
-    <string name="dialog_dismiss">Назад</string>
-    <string name="dialog_follow_me">Твиттер</string>
-    <string name="plugin_name">Better Battery Stats</string>
-    <string name="message_hint">Всплывающее уведомление</string>
-    <string name="message_hint_saveref">Сохранить польз. метку</string>
-    <string name="message_hint_savestat">Сохранить текст. дамп</string>
-    <string name="message_hint_savestatjson">Сохранить дамп JSON</string>
-    <string name="message_hint_sinceref">Дамп от последней метки</string>
-    <string name="message_hint_stat_type">Тип статистики</string>
     <string name="label_stat_type">Тип статистики</string>
     <string name="label_since">От</string>
     <string name="label_fallback_stat_type">Сброс типа статистики</string>
@@ -75,28 +41,41 @@
     <string name="label_custom_ref">Установить польз. метку</string>
     <string name="label_release_notes">О релизе</string>
     <string name="label_legend">Легенда</string>
+                
+    <!-- About screen -->
     <string name="label_about_author">Разработка asksven</string>
-    <string name="label_about_courtesy">Графика @cri, перевод @gaich</string>
-    <string name="label_about_follow">Следить на Твиттере</string>
+    <string name="label_about_courtesy">Графика @cri</string>
+    <string name="label_about_follow">Твиттер</string>
     <string name="label_about_rate">Оценка / отзыв на Google Play</string>
+               
+    <!-- Preferences -->
     <string name="label_theme_dark">Тёмная</string>
     <string name="label_theme_light">Светлая</string>
     <string name="pref_theme_title">Тема</string>
     <string name="pref_theme_summary">Переключить тему</string>
-    <string name="expl_system_app">"На Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.
-
-Рекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).
-
-Удаление/повторная установка системного приложения может понадобиться при изменении разрешений."</string>
+               
+    <!-- System app activity -->
+    <string name="expl_system_app">"На Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений."</string>
     <string name="install_system_app">Установить как системное</string>
     <string name="uninstall_system_app">Удалить системное</string>
     <string name="info_installed_system_app">Установлено системное приложение. Пожалуйста, перезагрузите устройство для активации.</string>
     <string name="info_uninstalled_system_app">Удалено системное приложение: Ваши настройки сброшены. Пожалуйста, перезагрузите устройство для очистки и обновления настроек.</string>
     <string name="info_succeeded">Успешно</string>
     <string name="info_failed">Сбой</string>
-    <string name="info_root_required">"Для использования данного параметра должны быть включены рут-функции (дополнительные настройки)"</string>
+    <string name="info_root_required">Для использования данного параметра должны быть включены рут-функции (дополнительные настройки)</string>
+    <string name="info_unknown_state">Ошибка: невозможно определить изменение</string>
+    <string name="info_service_connection_error">Нет связи со службой информации батареи</string>
+    <string name="info_loading_refs_error">Выбранные метки \'от\' или \'до\' не могут быть загружены. Пожалуйста, обновите</string>
+    <string name="info_unknown_stat_error">При получении статистики произошла неизвестная ошибка. Пожалуйста, проверьте логкат</string>
+    <string name="info_state_recovery_error">Произошла ошибка при восстановлении предыдущего состояния</string>
+    
+    <string name="info_deleting_refs">Удаление и повторное создание меток</string>
+    <string name="info_fallback_to_boot">Сброс к \'От загрузки\'</string>
+    <string name="info_fallback_to_default">Сброс к метке по умолчанию</string>
     <string name="label_granted">предоставлено</string>
     <string name="label_not_granted">не предоставлено</string>
+	
+    <!-- Preferences labels and texts -->
     <string name="pref_section_display">Отображение</string>
     <string name="pref_filter_data_title">Статистика фильтров</string>
     <string name="pref_filter_data_summary">Включить фильтрацию данных по ненулевым значениям</string>
@@ -137,6 +116,7 @@
     <string name="pref_active_mon_enabled_summary">Включение активного мониторинга. Предупреждение: активный мониторинг может уменьшить жизнь батареи</string>
     <string name="pref_active_mon_freq_title">Частота [мин.]</string>
     <string name="pref_active_mon_freq_summary">Частота сохранения меток таймера</string>
+        
     <string name="pref_section_advanced">Дополнительно</string>
     <string name="pref_debug_logging_summary">Добавить информацию об отладке в логкат</string>
     <string name="pref_debug_logging_title">Отладка</string>
@@ -146,10 +126,11 @@
     <string name="pref_root_features_title">Рут-функции</string>
     <string name="pref_ignore_system_app_summary">"Игнорировать обнаружение системного приложения (для пользователей модуля XPosed 'Enable BATTERY_STATS')"</string>
     <string name="pref_ignore_system_app_title">Не обнаруживать системное</string>
+    
+    
     <string name="pref_developer_title">Включить при зарядке</string>
     <string name="pref_developer_summary">Включить статистику при зарядке (на Ваш риск, статистика может быть нестабильной)</string>
     <string name="pref_auto_refresh_title">Автообновление</string>
-    <string name="pref_auto_refresh_summary">"Автоматическое обновление 'текущего'"</string>
     <string name="pref_section_sharing">Опции вывода</string>
     <string name="pref_save_as_text_title">Текст</string>
     <string name="pref_save_as_text_summary">Поделиться дампом в текст. формате</string>
@@ -159,8 +140,13 @@
     <string name="pref_save_logcat_summary">Поделиться логкатом</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Поделиться dmesg</string>
+    <string name="pref_force_alarms_api_title">Сигналы с использованием API</string>
+    <string name="pref_force_alarms_api_summary">Принудительное использование API для получения сигналов</string>
+    <string name="pref_force_kwl_api_title">Вэйклоки ядра с использованием API</string>
+    <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
     <string name="pref_screen_system_app_title">Системное</string>
     <string name="pref_screen_system_app_summary">Установить как системное приложение</string>
+        
     <string name="pref_section_settings">Настройки</string>
     <string name="pref_screen_widgets_title">Виджеты</string>
     <string name="widget_refresh_freq_title">Частота обновления</string>
@@ -187,10 +173,16 @@
     <string name="pref_category_widget_1x1">Виджет 1x1</string>
     <string name="small_widget_refresh_on_tap_title">Обновить нажатием</string>
     <string name="small_widget_refresh_on_tap_summary">Нажатие на виджете обновляет его (если отключено открытие приложения по нажатию)</string>
+	
+    <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Устройство подключено к ЗУ: нет статистики</string>
     <string name="NO_ROOT_ERR">Для данной статистики требуется рут-доступ</string>
     <string name="NO_PERM_ERR">Для данной статистики требуется разрешение BATTERY_STATS</string>
     <string name="NO_REF_ERR">Метки ещё не установлено</string>
     <string name="NO_STATS">Статистика ещё не собрана</string>
     <string name="FILE_ACCESS_ERROR">Файл невозможно прочитать</string>
+    
+
+    
+
 </resources>
