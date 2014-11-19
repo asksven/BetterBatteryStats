@@ -32,13 +32,14 @@ public class Wakelock
 	private static WakeLock m_saveWakelock;
 	static final String WAKELOCK = "BBS_WAKELOCK_WHILE_SAVING_REF";
 	static final String TAG = "Globals";
+	static final long TIMEOUT = 30 * 1000; // we should not hold a wakelock for longer that 30s
 	
     public static void aquireWakelock(Context ctx)
     {
     	PowerManager powerManager = (PowerManager) ctx.getApplicationContext().getSystemService(Context.POWER_SERVICE);
     	releaseWakelock();
     	m_saveWakelock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, WAKELOCK);
-    	m_saveWakelock.acquire();
+    	m_saveWakelock.acquire(TIMEOUT);
     	Log.d(TAG, "Wakelock " + WAKELOCK + " aquired");
     }
     
