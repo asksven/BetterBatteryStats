@@ -175,6 +175,6 @@ public class HistActivity extends ActionBarListActivity
 	 */
 	private ArrayList<HistoryItem> getHistList()
 	{
-		return BatteryGraphActivity.m_histList;
+		return NewGraphActivity.m_histList;
 	}
 }

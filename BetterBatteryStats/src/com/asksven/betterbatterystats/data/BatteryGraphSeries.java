@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.asksven.betterbatterystats;
+package com.asksven.betterbatterystats.data;
 
 import java.util.ArrayList;
 
@@ -93,11 +93,51 @@ public class BatteryGraphSeries implements XYSeries
     		case SERIE_BT:
     			ret = m_dataSource.get(index).getBluetoothOnInt();
     			break;
-
-    			
     	}
     	
     	return ret;
-    }	
+    }
+    
+    
+    public ArrayList<Datapoint> getValues()
+    {
+    	ArrayList<Datapoint> ret = new ArrayList<Datapoint>();
+    	for (int index = 0; index < m_dataSource.size(); index++)
+    	{
+    		Datapoint data = new Datapoint();
+    		data.mX = getX(index);
+    		
+        	switch (m_iSerie)
+        	{
+        		case SERIE_CHARGE:
+        			data.mY = m_dataSource.get(index).getBatteryLevelInt();
+        			break;
+        		case SERIE_WAKELOCK:
+        			data.mY = m_dataSource.get(index).getWakelockInt();
+        			break;
+        		case SERIE_SCREENON:	
+        			data.mY = m_dataSource.get(index).getScreenOnInt();
+        			break;
+        		case SERIE_CHARGING:
+        			data.mY = m_dataSource.get(index).getChargingInt();
+        			break;
+        		case SERIE_WIFI:
+        			data.mY = m_dataSource.get(index).getWifiRunningInt();
+        			break;
+        		case SERIE_GPS:
+        			data.mY = m_dataSource.get(index).getGpsOnInt(); 
+        			break;
+        		case SERIE_BT:
+        			data.mY = m_dataSource.get(index).getBluetoothOnInt();
+        			break;
+        	}
+        	
+        	ret.add(data);
+    	}
+    	
+    	return ret;
+    }
+    
+
 
 }

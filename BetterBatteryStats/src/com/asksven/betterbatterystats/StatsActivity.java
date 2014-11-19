@@ -558,7 +558,8 @@ public class StatsActivity extends ActionBarListActivity
 	        	break;	
 
 	        case R.id.graph:  
-	        	Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
+	        	//Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
+	        	Intent intentGraph = new Intent(this, NewGraphActivity.class);
 	            this.startActivity(intentGraph);
 	        	break;
 	        	
