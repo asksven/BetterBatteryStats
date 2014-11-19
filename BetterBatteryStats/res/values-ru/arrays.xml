@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Values for the statistic. -->
-    <string-array name="stats"translatable="false">
+    <string-array name="stats" translatable="false">
         <item>Другое</item>
         <item>Вэйклоки ядра</item>
         <item>Частичные вэйклоки</item>
@@ -109,7 +109,7 @@
         <item>@string/label_theme_light</item>
         <item>@string/label_theme_dark</item>
     </string-array>
-    <string-array name="themeValues"translatable="false">
+    <string-array name="themeValues" translatable="false">
         <item name="1">0</item>
         <item name="2">1</item>
     </string-array>
