@@ -21,15 +21,15 @@ package com.asksven.betterbatterystats.data;
  */
 public class Datapoint
 {
-	public Number mX;
-	public Number mY;
+	public long mX;
+	public long mY;
 	
 	public Datapoint()
 	{
 		
 	}
 	
-	public Datapoint(Number x, Number y)
+	public Datapoint(long x, long y)
 	{
 		mX = x;
 		mY = y;

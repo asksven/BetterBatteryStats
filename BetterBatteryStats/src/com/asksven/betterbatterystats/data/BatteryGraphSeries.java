@@ -17,6 +17,8 @@ package com.asksven.betterbatterystats.data;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import com.androidplot.series.XYSeries;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
 import com.asksven.betterbatterystats.R;
@@ -25,11 +27,12 @@ import com.asksven.betterbatterystats.R;
  * The data source for all series to plot
  * @author sven
  */
-public class BatteryGraphSeries implements XYSeries
+public class BatteryGraphSeries
 {	
 	ArrayList<HistoryItem> m_dataSource;
 	private int m_iSerie;
     private String m_title;
+    static final String TAG = "BatteryGraphSeries";
     
     public static final int SERIE_CHARGE	= 1;
     public static final int SERIE_WAKELOCK 	= 2;
@@ -47,29 +50,25 @@ public class BatteryGraphSeries implements XYSeries
         m_title 		= title;
     }
     
-    @Override
     public String getTitle()
     {
         return m_title;
     }
  
-    @Override
     public int size()
     {
         return m_dataSource.size();
     }
  
-    @Override
-    public Number getX(int index)
+    public long getX(int index)
     {
         return m_dataSource.get(index).getNormalizedTimeLong();
     }
  
-    @Override
-    public Number getY(int index)
+    public long getY(int index)
     {
     	// return the Y data depending on the m_iSerie
-    	Number ret = 0;
+    	long ret = 0;
     	switch (m_iSerie)
     	{
     		case SERIE_CHARGE:
@@ -111,24 +110,31 @@ public class BatteryGraphSeries implements XYSeries
         	{
         		case SERIE_CHARGE:
         			data.mY = m_dataSource.get(index).getBatteryLevelInt();
+        			Log.i(TAG, "Charge: x=" + data.mX + ", y=" + data.mY);
         			break;
         		case SERIE_WAKELOCK:
         			data.mY = m_dataSource.get(index).getWakelockInt();
+        			Log.i(TAG, "Awake: x=" + data.mX + ", y=" + data.mY);
         			break;
         		case SERIE_SCREENON:	
         			data.mY = m_dataSource.get(index).getScreenOnInt();
+        			Log.i(TAG, "Screen on: x=" + data.mX + ", y=" + data.mY);
         			break;
         		case SERIE_CHARGING:
         			data.mY = m_dataSource.get(index).getChargingInt();
+        			Log.i(TAG, "Charging: x=" + data.mX + ", y=" + data.mY);
         			break;
         		case SERIE_WIFI:
         			data.mY = m_dataSource.get(index).getWifiRunningInt();
+        			Log.i(TAG, "Wifi: x=" + data.mX + ", y=" + data.mY);
         			break;
         		case SERIE_GPS:
         			data.mY = m_dataSource.get(index).getGpsOnInt(); 
+        			Log.i(TAG, "GPS: x=" + data.mX + ", y=" + data.mY);
         			break;
         		case SERIE_BT:
         			data.mY = m_dataSource.get(index).getBluetoothOnInt();
+        			Log.i(TAG, "BT: x=" + data.mX + ", y=" + data.mY);
         			break;
         	}
         	
