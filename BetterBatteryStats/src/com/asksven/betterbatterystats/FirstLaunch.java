@@ -67,10 +67,10 @@ public class FirstLaunch
 	public static void showInfoDialog(final Activity ctx)
 	{		
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
-        builder.setMessage("A reference 'unplugged' is being created now. When you plug/unplug your phone this reference will be overwritten.")
+        builder.setMessage(ctx.getString(R.string.message_first_launch))
                .setCancelable(false)
                .setTitle("Welcome to " + ctx.getString(R.string.app_name))
-               .setPositiveButton("OK", new DialogInterface.OnClickListener()
+               .setPositiveButton(ctx.getString(R.string.label_button_ok), new DialogInterface.OnClickListener()
                {
                    public void onClick(DialogInterface dialog, int id)
                    {		           

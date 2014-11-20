@@ -144,19 +144,16 @@ public class PreferencesActivity_V8 extends PreferenceActivity implements OnShar
     		if (enabled)
     		{
 		        AlertDialog.Builder builder = new AlertDialog.Builder(PreferencesActivity_V8.this);
-		        builder.setMessage("Enabling root features assumes that your phone is rooted.\n"
-		        		+ "Please make sure to grant su rights to Alarms and Network stats.\n"
-		        		+ "if those rights do not stick blame the su app, not BBS.\n"
-		        		+ "Continue?")
+		        builder.setMessage(getString(R.string.message_enable_root))
 		               .setCancelable(false)
-		               .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		               .setPositiveButton(getString(R.string.label_button_yes), new DialogInterface.OnClickListener()
 		               {
 		                   public void onClick(DialogInterface dialog, int id)
 		                   {		                        
 		                	   RootShell.getInstance().run("ls /");
 		                   }
 		               })
-		               .setNegativeButton("No", new DialogInterface.OnClickListener()
+		               .setNegativeButton(getString(R.string.label_button_no), new DialogInterface.OnClickListener()
 		               {
 		                   public void onClick(DialogInterface dialog, int id)
 		                   {
@@ -181,10 +178,9 @@ public class PreferencesActivity_V8 extends PreferenceActivity implements OnShar
     		if (enabled)
     		{
 		        AlertDialog.Builder builder = new AlertDialog.Builder(PreferencesActivity_V8.this);
-		        builder.setMessage("Active monitoring results in an overhead in terms of wakeups and processing and should be used with care.\n"
-		        		+ "Continue?")
+		        builder.setMessage(getString(R.string.message_enable_active_mon))
 		               .setCancelable(false)
-		               .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+		               .setPositiveButton(getString(R.string.label_button_yes), new DialogInterface.OnClickListener()
 		               {
 		                   public void onClick(DialogInterface dialog, int id)
 		                   {		           
@@ -193,7 +189,7 @@ public class PreferencesActivity_V8 extends PreferenceActivity implements OnShar
 		                	   dialog.cancel();
 		                   }
 		               })
-		               .setNegativeButton("No", new DialogInterface.OnClickListener()
+		               .setNegativeButton(getString(R.string.label_button_no), new DialogInterface.OnClickListener()
 		               {
 		                   public void onClick(DialogInterface dialog, int id)
 		                   {

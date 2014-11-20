@@ -8,6 +8,9 @@
     <string name="message_hint_savestatjson">Save a JSON Dumpfile</string>
     <string name="message_hint_sinceref">Dump Since last Reference</string>
     <string name="message_hint_stat_type">Stat Type</string>
+    <string name="message_enable_root">Enabling root features assumes that your phone is rooted.\nPlease make sure to grant su rights to Alarms and Network stats.\nIf those rights do not stick blame the su app, not BBS.\nContinue?</string>
+    <string name="message_enable_active_mon">Active monitoring results in an overhead in terms of wakeups and processing and should be used with care.\nContinue?</string>
+    <string name="message_first_launch">A reference \'unplugged\' is being created now. When you plug/unplug your phone this reference will be overwritten</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Remind me later</string>
@@ -41,6 +44,8 @@
     <string name="label_custom_ref">Set Custom Ref.</string>
     <string name="label_release_notes">Release Notes</string>
     <string name="label_legend">Legend</string>
+    <string name="label_button_yes">Yes</string>
+    <string name="label_button_ok">OK</string>
     
     <!-- About screen -->
     <string name="label_about_author">By asksven</string>
@@ -131,6 +136,7 @@
     <string name="pref_developer_title">Enable while charging</string>
     <string name="pref_developer_summary">Enable stats while charging (at your own risk, stats may be inconsistent)</string>
     <string name="pref_auto_refresh_title">Auto refresh</string>
+    <string name="pref_auto_refresh_summary">Automatically reload \'current\' when switching screens/settings</string>
     <string name="pref_section_sharing">Sharing options</string>
     <string name="pref_save_as_text_title">Text</string>
     <string name="pref_save_as_text_summary">Share dumpfile as text</string>
