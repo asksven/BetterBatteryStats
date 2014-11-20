@@ -193,7 +193,7 @@
                     robobunny:unitsLeft=""
                     robobunny:unitsRight="%" />
             </PreferenceCategory>
-            <PreferenceCategory android:title=" @string/pref_category_widget_1x1" >
+            <PreferenceCategory android:title="@string/pref_category_widget_1x1" >
                 <ListPreference
                     android:defaultValue="ref_unplugged"
                     android:entries="@array/statTypeLabels"
