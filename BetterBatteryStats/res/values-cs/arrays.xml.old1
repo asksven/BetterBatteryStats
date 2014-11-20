@@ -28,7 +28,7 @@
         <item name="0">Textový výpis</item>
         <item name="1">JSON výpis</item>
         <item name="2">logcat log</item>
-        <item name="3">dmesg</item>
+        <item name="3">dmesg výpis</item>
     </string-array>
     <string-array name="statValues">
         <item name="0">0</item>
@@ -40,11 +40,11 @@
         <item name="6">6</item>
     </string-array>
     <string-array name="statTypeLabels">
-        <item name="0">Od nabití</item>
-        <item name="1">Od odpojení</item>
-        <item name="2">Od vlastního ref. bodu</item>
-        <item name="3">Od vyp. obrazovky</item>
-        <item name="4">Od zapnutí</item>
+        <item name="0">@string/stat_type_label_since_charged</item>
+        <item name="1">@string/stat_type_label_since_unplugged</item>
+        <item name="2">@string/stat_type_label_since_custom</item>
+        <item name="3">@string/stat_type_label_since_screen_off</item>
+        <item name="4">@string/stat_type_label_since_boot</item>
     </string-array>
     <string-array name="statTypeValues">
         <item name="0">ref_charged</item>
@@ -53,18 +53,7 @@
         <item name="3">ref_screen_off</item>
         <item name="4">ref_boot</item>
     </string-array>
-    <!-- 
-    <string-array name="wlRefLabels">
-        <item name="0">% času na baterii</item>
-        <item name="1">% času probuzení</item>
-        <item name="2">% času probuzení bez času zapnutí obrazovky</item>
-    </string-array>
-    <string-array name="wlRefValues">
-        <item name="0">0</item>
-        <item name="1">1</item>
-        <item name="2">2</item>
-    </string-array>
-     -->
+
     <string-array name="graphBarHeigthLabels">
         <item name="0">4</item>
         <item name="1">8</item>
@@ -78,11 +67,11 @@
         <item name="3">12</item>
     </string-array>
     <string-array name="widgetUpdateFreqLabels">
-        <item name="0">Žádná</item>
-        <item name="1">5 Min.</item>
-        <item name="2">15 Min.</item>
-        <item name="3">*30 Min.</item>
-        <item name="4">60 Min.</item>
+        <item name="0">@string/widget_freq_label_none</item>
+        <item name="1">@string/widget_freq_label_5</item>
+        <item name="2">@string/widget_freq_label_15</item>
+        <item name="3">@string/widget_freq_label_30</item>
+        <item name="4">@string/widget_freq_label_60</item>
     </string-array>
     <string-array name="widgetUpdateFreqValues">
         <item name="0">0</item>
@@ -92,11 +81,11 @@
         <item name="4">60</item>
     </string-array>
     <string-array name="widgetFontSizeLabels">
-        <item name="0">Velmi velké (16)</item>
-        <item name="1">Velké (14)</item>
-        <item name="2">Standardní (12)</item>
-        <item name="3">*Malé (10)</item>
-        <item name="4">Velmi malé (8)</item>
+        <item name="0">@string/widget_fontsize_16</item>
+        <item name="1">@string/widget_fontsize_14</item>
+        <item name="2">@string/widget_fontsize_12</item>
+        <item name="3">@string/widget_fontsize_10</item>
+        <item name="4">@string/widget_fontsize_8</item>
     </string-array>
     <string-array name="widgetFontSizeValues">
         <item name="0">16</item>

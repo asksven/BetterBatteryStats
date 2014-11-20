@@ -8,6 +8,9 @@
     <string name="message_hint_savestatjson">Uložit JSON výpis</string>
     <string name="message_hint_sinceref">Výpis od posledního ref. bodu</string>
     <string name="message_hint_stat_type">Typ statistiky</string>
+    <string name="message_enable_root">Povolení root funkcí předpokládá, že zařízení je "rootnuto".\nZajistěte, že aplikace bude mít trvale přidělena \'su\' oprávnění kvůli statistikám Alarmů a Sítě.\nPokud se tato oprávnění neuchovají trvale, je to problém \'su\' aplikace, ne BBS.\nPokračovat?</string>
+    <string name="message_enable_active_mon">Aktivní monitorování zvyšuje spotřebu a zátěž a proto by mělo být používáno uváženě.\nPokračovat?</string>
+    <string name="message_first_launch">Nyní je vytvářen ref. bod \'odpojeno\'. Pokud znovu připojíte a poté odpojíte zařízení, tento ref. bod se zaktualizuje.</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Připomenout později</string>
@@ -17,31 +20,32 @@
     <string name="label_stat_type">Typ statistiky</string>
     <string name="label_since">Od</string>
     <string name="label_fallback_stat_type">Záložní typ statistiky</string>
-    <string name="pref_dashclock_default_stat_type_summary">Nastavit typ statistiky k zobrazení na DashClock obrazovce</string>
-    <string name="pref_dashclock_fallback_stat_type_summary">Nastavit záložní typ statistiky k zobrazení na DashClock obrazovce, pokud primární statistika nemá ref. bod</string>
+    <string name="pref_dashclock_default_stat_type_summary">Nastavit typ statistiky pro zobrazení na DashClock obrazovce</string>
+    <string name="pref_dashclock_fallback_stat_type_summary">Nastavit záložní typ statistiky pro zobrazení na DashClock obrazovce, pokud primární nemá ref. bod</string>
     <string name="label_awake_abbrev">prob.</string>
-    <string name="label_button_share">Sdílet...</string>
+    <string name="label_button_share">Sdílet (uložit)...</string>
     <string name="label_button_save">Uložit</string>
     <string name="label_button_cancel">Zrušit</string>
-    <string name="title_share_dialog">Sdílet data jako...</string>
+    <string name="title_share_dialog">Sdílet (uložit) data jako...</string>
     <string name="text_since">Od</string>
     <string name="label_preferences">Nastavení</string>
     <string name="label_packageinfo">Informace</string>
     <string name="label_graphs">Grafy</string>
     <string name="label_moregraphs">Více grafů</string>
     <string name="label_series">Historie</string>
-    <string name="label_raw_stats">Surové statistiky</string>
+    <string name="label_raw_stats">Nezpracované statistiky</string>
     <string name="label_about">O programu</string>
     <string name="label_credits">Poděkování</string>
     <string name="label_help">Pomoc</string>
     <string name="label_howto">How-To</string>
     <string name="label_system_app">Systémová aplikace</string>
     <string name="label_refresh">Obnovit</string>
-    <string name="label_share">Sdílet</string>
+    <string name="label_share">Sdílet (uložit)</string>
     <string name="label_custom_ref">Nastavit vlastní ref. bod</string>
     <string name="label_release_notes">Poznámky k vydání</string>
     <string name="label_legend">Legenda</string>
-
+    <string name="label_button_yes">Ano</string>
+    <string name="label_button_ok">OK</string>
     <!-- About screen -->
     <string name="label_about_author">Autor: asksven</string>
     <string name="label_about_courtesy">Grafika: @cri</string>
@@ -68,7 +72,7 @@
     <string name="info_loading_refs_error">Nepodařilo se načíst vybrané ref. body \'od\', nebo \'do\'. Prosím obnovte zobrazení.</string>
     <string name="info_unknown_stat_error">Při získávání statistik došlo k neznámé chybě. Prosím zkontrolujte váš logcat log.</string>
     <string name="info_state_recovery_error">Během zotavení z předchozího stavu došlo k neznámé chybě</string>
-    
+
     <string name="info_deleting_refs">Mažu a obnovuji ref. body</string>
     <string name="info_fallback_to_boot">Záložní přechod k \'Od zapnutí\'</string>
     <string name="info_fallback_to_default">Záložní přechod k výchozímu ref. bodu</string>
@@ -82,12 +86,12 @@
     <string name="pref_show_bat_details_title">Detaily baterie</string>
     <string name="pref_show_bat_details_summary">Zobrazit od/do % baterie na obrazovce</string>
     <string name="pref_show_gauge_title">Zobrazit sloupce</string>
-    <string name="pref_show_gauge_summary">Zobrazit sloupcový diagram místo kruhového měřidla</string>
-    <string name="pref_graph_bar_height_title">Tloušťka sloupcového diagramu</string>
-    <string name="pref_graph_bar_height_summary">Pokud používáte upravené rozlišení, můžete zde změnit tloušťku sloupcových diagramů</string>
+    <string name="pref_show_gauge_summary">Zobrazit pruhový místo výsečového grafu</string>
+    <string name="pref_graph_bar_height_title">Tloušťka pruhového grafu</string>
+    <string name="pref_graph_bar_height_summary">Pokud používáte upravené rozlišení, můžete zde změnit tloušťku pruhů</string>
     <string name="pref_section_customize_views">Upravit zobrazení</string>
     <string name="pref_show_other_wifi_title">Zobrazit Wifi</string>
-    <string name="pref_show_other_wifi_summary">Zobrazit Wifi data</string>
+    <string name="pref_show_other_wifi_summary">Zobrazit data Wifi</string>
     <string name="pref_show_other_signal_title">Zobrazit signál</string>
     <string name="pref_show_other_signal_summary">Zobrazit data o signálu</string>
     <string name="pref_show_other_screen_brightness_title">Zobrazit obrazovku</string>
@@ -95,7 +99,7 @@
     <string name="pref_show_other_connection_title">Zobrazit připojení</string>
     <string name="pref_show_other_connection_summary">Zobrazit data o připojení</string>
     <string name="pref_show_other_bt_title">Zobrazit Bluetooth</string>
-    <string name="pref_show_other_bt_summary">Zobrazit Bluetooth data</string>
+    <string name="pref_show_other_bt_summary">Zobrazit data Bluetooth</string>
     <string name="pref_section_defaults">Výchozí</string>
     <string name="pref_default_stat_title">Výchozí statistika</string>
     <string name="pref_default_stat_summary">Nastavit statistiku zobrazenou po startu aplikace</string>
@@ -124,22 +128,23 @@
     <string name="pref_files_to_private_storage_title">Privátní uložiště</string>
     <string name="pref_root_features_summary">Povolit statistiky sítě a alarmy</string>
     <string name="pref_root_features_title">Root funkce</string>
-    <string name="pref_ignore_system_app_summary">Ignorovat detekci systémové aplikace (pro uživatele XPosed modulu \'Enable BATTERY_STATS\')</string>
-    <string name="pref_ignore_system_app_title">Nezjišťovat instalaci systémové aplikace</string>
+    <string name="pref_ignore_system_app_summary">Neprovádět detekci systémové aplikace (pro uživatele XPosed modulu \'Enable BATTERY_STATS\')</string>
+    <string name="pref_ignore_system_app_title">Nezjišťovat instalaci syst. aplikace</string>
 
 
     <string name="pref_developer_title">Povolit během nabíjení</string>
     <string name="pref_developer_summary">Povolit statistiky během nabíjení (na vlastní riziko, statistiky mohou být nekonzistentní)</string>
     <string name="pref_auto_refresh_title">Automatické obnovení</string>
-    <string name="pref_section_sharing">Možnosti sdílení</string>
+    <string name="pref_auto_refresh_summary">Při změně zobrazení automaticky obnovit \'aktuální\' ref. bod</string>
+    <string name="pref_section_sharing">Možnosti sdílení (ukládání)</string>
     <string name="pref_save_as_text_title">Text</string>
-    <string name="pref_save_as_text_summary">Sdílet textový výpis</string>
+    <string name="pref_save_as_text_summary">Sdílet (ukládat) textový výpis</string>
     <string name="pref_save_as_json_title">JSON</string>
-    <string name="pref_save_as_json_summary">Sdílet JSON výpis</string>
+    <string name="pref_save_as_json_summary">Sdílet (ukládat) JSON výpis</string>
     <string name="pref_save_logcat_title">Logcat</string>
-    <string name="pref_save_logcat_summary">Sdílet logcat log</string>
+    <string name="pref_save_logcat_summary">Sdílet (ukládat) logcat log</string>
     <string name="pref_save_dmesg_title">dmesg</string>
-    <string name="pref_save_dmesg_summary">Sdílet dmesg</string>
+    <string name="pref_save_dmesg_summary">Sdílet (ukládat) dmesg výpis</string>
     <string name="pref_force_alarms_api_title">Alarmy pomocí API</string>
     <string name="pref_force_alarms_api_summary">Vynutit získávání statistik Alarmů prostřednictvím API</string>
     <string name="pref_force_kwl_api_title">Wakelocky jádra pomocí API</string>
@@ -150,7 +155,7 @@
     <string name="pref_section_settings">Nastavení</string>
     <string name="pref_screen_widgets_title">Widgety</string>
     <string name="widget_refresh_freq_title">Frekvence obnovení</string>
-    <string name="widget_refresh_freq_summary">Nastavit jak často se widgety aktualizují (aktualizují se vždy když je obrazovka zapnuta)</string>
+    <string name="widget_refresh_freq_summary">Nastavit jak často se widgety aktualizují (aktualizují se pokud je obrazovka zapnuta)</string>
     <string name="widget_refresh_on_screen_on_title">Obnovit při zapnutí obrazovky</string>
     <string name="widget_refresh_on_screen_on_summary">Obnovit ihned po zapnutí obrazovky</string>
     <string name="widget_default_stat_title">Výchozí statistika k otevření</string>
@@ -158,7 +163,7 @@
     <string name="widget_show_stat_type_title">Zobrazit titulek</string>
     <string name="widget_show_stat_type_summary">Zobrazit typ statistiky</string>
     <string name="widget_fallback_stat_type_title">Záložní typ statistiky</string>
-    <string name="widget_fallback_stat_type_summary">Nastavit záložní typ statistiky k zobrazení na widgetu, pokud primární statistika nemá ref. bod</string>
+    <string name="widget_fallback_stat_type_summary">Nastavit záložní typ statistiky pro zobrazení na widgetu, pokud primární nemá ref. bod</string>
     <string name="pref_category_widgets_2x2_and_2x1">2x2 a 2x1 Widgety</string>
     <string name="widget_default_stat_type_title">Typ statistiky</string>
     <string name="widget_default_stat_type_summary">Nastavit typ statistiky zobrazené widgetem</string>
@@ -182,7 +187,23 @@
     <string name="NO_STATS">Prozatím nebyly získány žádné statistiky</string>
     <string name="FILE_ACCESS_ERROR">Soubor se nepodařilo přečíst</string>
 
+	<!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">Od nabití</string>
+    <string name="stat_type_label_since_unplugged">Od odpojení</string>
+    <string name="stat_type_label_since_custom">Od vlastního ref. bodu</string>
+    <string name="stat_type_label_since_screen_off">Od vyp. obrazovky</string>
+    <string name="stat_type_label_since_boot">Od zapnutí</string>
 
+    <string name="widget_freq_label_none">Žádná</string>
+    <string name="widget_freq_label_5">5 Min.</string>
+    <string name="widget_freq_label_15">15 Min.</string>
+    <string name="widget_freq_label_30">*30 Min.</string>
+    <string name="widget_freq_label_60">60 Min.</string>
 
+    <string name="widget_fontsize_16">Velmi velké (16)</string>
+    <string name="widget_fontsize_14">Velké (14)</string>
+    <string name="widget_fontsize_12">Standardní (12)</string>
+    <string name="widget_fontsize_10">*Malé (10)</string>
+    <string name="widget_fontsize_8">Velmi malé (8)</string>
 
 </resources>
