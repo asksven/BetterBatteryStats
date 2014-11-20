@@ -188,7 +188,23 @@
     <string name="NO_STATS">No stats have been collected yet</string>
 	<string name="FILE_ACCESS_ERROR">File could not be read</string>
     
-
+	<!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">Since charged</string>
+    <string name="stat_type_label_since_unplugged">Since unplugged</string>
+    <string name="stat_type_label_since_custom">Since Custom Ref.</string>
+    <string name="stat_type_label_since_screen_off">Since Screen Off</string>
+    <string name="stat_type_label_since_boot">Since Boot</string>
     
+    <string name="widget_freq_label_none">None</string>
+    <string name="widget_freq_label_5">5 Min.</string>
+    <string name="widget_freq_label_15">15 Min.</string>
+    <string name="widget_freq_label_30">*30 Min.</string>
+    <string name="widget_freq_label_60">60 Min.</string>
+    
+    <string name="widget_fontsize_16">X-Large (16)</string>
+    <string name="widget_fontsize_14">Large (14)</string>
+    <string name="widget_fontsize_12">Normal (12)</string>
+    <string name="widget_fontsize_10">*Small (10)</string>
+    <string name="widget_fontsize_8">Tiny (8)</string>
 
 </resources>
