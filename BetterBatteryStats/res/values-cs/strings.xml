@@ -8,7 +8,7 @@
     <string name="message_hint_savestatjson">Uložit JSON výpis</string>
     <string name="message_hint_sinceref">Výpis od posledního ref. bodu</string>
     <string name="message_hint_stat_type">Typ statistiky</string>
-    <string name="message_enable_root">Povolení root funkcí předpokládá, že zařízení je "rootnuto".\nZajistěte, že aplikace bude mít trvale přidělena \'su\' oprávnění kvůli statistikám Alarmů a Sítě.\nPokud se tato oprávnění neuchovají trvale, je to problém \'su\' aplikace, ne BBS.\nPokračovat?</string>
+    <string name="message_enable_root">Povolení root funkcí předpokládá, že zařízení je "rootnuto".\nZajistěte, že aplikace bude mít trvale přidělena \'su\' oprávnění kvůli statistikám Alarmů a Sítě.\nPokud se oprávnění nezachovají trvale, je to problém \'su\' aplikace, ne BBS.\nPokračovat?</string>
     <string name="message_enable_active_mon">Aktivní monitorování zvyšuje spotřebu a zátěž a proto by mělo být používáno uváženě.\nPokračovat?</string>
     <string name="message_first_launch">Nyní je vytvářen ref. bod \'odpojeno\'. Pokud znovu připojíte a poté odpojíte zařízení, tento ref. bod se zaktualizuje.</string>
     <string name="app_name">BetterBatteryStats</string>
