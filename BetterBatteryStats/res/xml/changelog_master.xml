@@ -6,7 +6,7 @@
          <change>Fixed Alarms details dialog showing infinite/Hr.</change>
          <change>Themed dialogs</change>
          <change>Show SELinux Policy on System App dialog and Dumpfile</change>
-         <change>Inoduced settings to force the use of the API for Alarms and Kernel Wakelocks</change>
+         <change>Introduced settings to force the use of the API for Alarms and Kernel Wakelocks</change>
          <change>Replaced graphs</change>
      </release>
      <release version="2.0.0.0B4" versioncode="52" >
