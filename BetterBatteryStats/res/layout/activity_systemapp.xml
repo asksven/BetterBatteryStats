@@ -6,6 +6,7 @@
 
     <include layout="@layout/toolbar_icon" />
 
+    <!-- do not translate: strings are set in SystemAppActivity -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

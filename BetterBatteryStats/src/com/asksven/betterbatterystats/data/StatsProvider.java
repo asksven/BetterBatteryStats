@@ -157,7 +157,7 @@ public class StatsProvider
 		}
 		if (refFrom.equals(refToName))
 		{
-			Toast.makeText(m_context, "An error occured. Both stats are identical (" + refFromName + ")", Toast.LENGTH_LONG).show();			
+			Toast.makeText(m_context, m_context.getString(R.string.message_identical_references, refFromName, refToName), Toast.LENGTH_LONG).show();			
 
 		} 
 		
@@ -2770,7 +2770,7 @@ public class StatsProvider
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
-			Toast.makeText(m_context, "External Storage can not be written",
+			Toast.makeText(m_context, m_context.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
 		try
@@ -2834,7 +2834,7 @@ public class StatsProvider
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
-			Toast.makeText(m_context, "External Storage can not be written",
+			Toast.makeText(m_context, m_context.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
 		try

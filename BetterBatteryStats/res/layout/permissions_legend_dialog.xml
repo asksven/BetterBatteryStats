@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/dangerous_color"
-        android:text="Permission marked as 'dangerous'"
+        android:text="@string/label_permisions_dangerous"
         android:fontFamily="sans-serif-condensend"/>
 
     <TextView
@@ -18,14 +18,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/signature_color"
-        android:text="Permissions for 'system apps'"
+        android:text="@string/label_permisions_system"
         android:fontFamily="sans-serif-condensend"/>
 
     <TextView
         android:id="@+id/title3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Normal permissions"
+        android:text="@string/label_permisions_normal"
         android:fontFamily="sans-serif-condensend"/>
     
 </LinearLayout>

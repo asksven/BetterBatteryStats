@@ -19,7 +19,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout">
+        android:id="@+id/layout2">
 
 		    <TextView
 		        android:id="@+id/staticSince"
@@ -27,7 +27,7 @@
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="5dip"
-		        android:text="Since:" />
+		        android:text="@string/label_widget_since" />
 		        
 			<TextView
 		        android:id="@+id/since"
@@ -45,7 +45,7 @@
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="Deep Sleep:"
+		        android:text="@string/label_widget_deep_sleep"
 		        android:layout_below="@id/since"
 		        android:layout_marginLeft="5dip"/>
 		    <TextView
@@ -64,7 +64,7 @@
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="Awake:"
+		        android:text="@string/label_widget_awake"
 		        android:layout_below="@id/deep_sleep"
 		        android:layout_marginLeft="5dip"/>
 		    		    
@@ -84,7 +84,7 @@
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="Screen on:"
+		        android:text="@string/label_widget_screen_on"
 		        android:layout_below="@id/awake"
 		        android:layout_marginLeft="5dip"/>
 		    <TextView
@@ -104,7 +104,7 @@
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="KWL:"
+		        android:text="@string/label_widget_kernel_wakelock"
 		        android:layout_below="@id/screen_on"		        
 		        android:layout_marginLeft="5dip"/>
     
@@ -125,7 +125,7 @@
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="PWL:"
+		        android:text="@string/label_widget_partial_wakelock"
 		        android:layout_below="@id/kwl"
 		        android:layout_marginLeft="5dip"/>		        
     

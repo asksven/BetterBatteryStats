@@ -1024,7 +1024,7 @@ public class StatsActivity extends ActionBarListActivity
 	    		try
 	    		{
 			    	m_progressDialog = new ProgressDialog(StatsActivity.this);
-			    	m_progressDialog.setMessage("Computing...");
+			    	m_progressDialog.setMessage(getString(R.string.message_computing));
 			    	m_progressDialog.setIndeterminate(true);
 			    	m_progressDialog.setCancelable(false);
 			    	m_progressDialog.show();

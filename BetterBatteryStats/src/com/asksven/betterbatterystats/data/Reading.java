@@ -50,6 +50,7 @@ import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
+import com.asksven.betterbatterystats.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -461,7 +462,7 @@ public class Reading implements Serializable
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
-			Toast.makeText(context, "External Storage can not be written",
+			Toast.makeText(context, context.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
 		try
@@ -522,7 +523,7 @@ public class Reading implements Serializable
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
-			Toast.makeText(context, "External Storage can not be written",
+			Toast.makeText(context, context.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
 		try

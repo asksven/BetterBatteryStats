@@ -347,7 +347,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 	    		try
 	    		{
 			    	m_progressDialog = new ProgressDialog(RawStatsActivity.this);
-			    	m_progressDialog.setMessage("Computing...");
+			    	m_progressDialog.setMessage(getString(R.string.message_computing));
 			    	m_progressDialog.setIndeterminate(true);
 			    	m_progressDialog.setCancelable(false);
 			    	m_progressDialog.show();

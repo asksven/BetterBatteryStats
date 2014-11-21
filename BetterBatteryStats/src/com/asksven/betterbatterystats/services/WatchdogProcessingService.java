@@ -76,7 +76,7 @@ public class WatchdogProcessingService extends IntentService
 				if (screenOffDurationMs >= ((long)minScreenOffDurationMin*60*1000))
 				{
 
-					Toast.makeText(this, "BBS: Watchdog processing...", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this, getString(R.string.message_watchdog_processing), Toast.LENGTH_SHORT).show();
 
 					int awakePct = 0;
 					StatsProvider stats = StatsProvider.getInstance(this);
@@ -129,7 +129,7 @@ public class WatchdogProcessingService extends IntentService
 						if (awakePct >= awakeThresholdPct)
 						{
 
-							Toast.makeText(this, "BBS: Awake alert: " + awakePct + "% awake", Toast.LENGTH_SHORT).show();
+							Toast.makeText(this, getString(R.string.message_watchdog_awake_alert, awakePct), Toast.LENGTH_SHORT).show();
 
 							// notify the user of the situation
 					    	Notification notification = new Notification(

@@ -123,7 +123,7 @@ public class ServicesFragmentActivity extends BaseActivity
 		    	if (m_progressDialog == null)
 		    	{
 			    	m_progressDialog = new ProgressDialog(getActivity());
-			    	m_progressDialog.setMessage("Computing...");
+			    	m_progressDialog.setMessage(getString(R.string.message_computing));
 			    	m_progressDialog.setIndeterminate(true);
 			    	m_progressDialog.setCancelable(false);
 			    	m_progressDialog.show();
