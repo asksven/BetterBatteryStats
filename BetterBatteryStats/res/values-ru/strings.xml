@@ -8,6 +8,9 @@
     <string name="message_hint_savestatjson">Сохранить дамп JSON</string>
     <string name="message_hint_sinceref">Дамп от посл. метки</string>
     <string name="message_hint_stat_type">Тип статистики</string>
+    <string name="message_enable_root">Включение функций рута предполагает, что устройство имеет рут-доступ.\nПожалуйста, убедитесь, что права su предоставлены для получения статистики сигналов и сети.\nEсли права не предоставляются, виновато приложение суперпользователя, а не BBS.\nПродолжить?</string>
+    <string name="message_enable_active_mon">Активный мониторинг приводит к увеличению пробуждений и объёма обработки данных и должен быть использован с осторожностью.\nПродолжить?</string>
+    <string name="message_first_launch">Создаётся метка \'отключено\'. При подключении/отключении телефона от ЗУ данная метка будет переписана</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Напомнить позже</string>
@@ -41,6 +44,8 @@
     <string name="label_custom_ref">Установить польз. метку</string>
     <string name="label_release_notes">О релизе</string>
     <string name="label_legend">Легенда</string>
+    <string name="label_button_yes">Да</string>
+    <string name="label_button_ok">OK</string>
                 
     <!-- About screen -->
     <string name="label_about_author">Разработка asksven</string>
@@ -131,6 +136,7 @@
     <string name="pref_developer_title">Включить при зарядке</string>
     <string name="pref_developer_summary">Включить статистику при зарядке (на Ваш риск, статистика может быть нестабильной)</string>
     <string name="pref_auto_refresh_title">Автообновление</string>
+    <string name="pref_auto_refresh_summary">Автоматическая перезагрузка метки\'текущее\' при переключении экранов/настроек</string>
     <string name="pref_section_sharing">Опции вывода</string>
     <string name="pref_save_as_text_title">Текст</string>
     <string name="pref_save_as_text_summary">Поделиться дампом в текст. формате</string>
@@ -183,6 +189,24 @@
     <string name="FILE_ACCESS_ERROR">Файл невозможно прочитать</string>
     
 
+    <!-- from arrays.xml -->
     
+    <string name="stat_type_label_since_charged">От заряжено</string>
+    <string name="stat_type_label_since_unplugged">От отключено</string>
+    <string name="stat_type_label_since_custom">От польз. метки.</string>
+    <string name="stat_type_label_since_screen_off">От экран вкл</string>
+    <string name="stat_type_label_since_boot">От загрузки</string>
+    
+    <string name="widget_freq_label_none">Нет</string>
+    <string name="widget_freq_label_5">5 мин.</string>
+    <string name="widget_freq_label_15">15 мин.</string>
+    <string name="widget_freq_label_30">*30 мин.</string>
+    <string name="widget_freq_label_60">60 мин.</string>
+    
+    <string name="widget_fontsize_16">Оч.большой (16)</string>
+    <string name="widget_fontsize_14">Большой (14)</string>
+    <string name="widget_fontsize_12">Нормальный (12)</string>
+    <string name="widget_fontsize_10">*Маленький (10)</string>
+    <string name="widget_fontsize_8">Оч.маленький (8)</string>
 
 </resources>
