@@ -7,7 +7,7 @@
         <item>Kernel Wakelock</item>
         <item>Partial Wakelocks</item>
         <item>Alarme</item>
-        <item>Nezwerk</item>
+        <item>Netzwerk</item>
         <item>CPU Status</item>
         <item>Prozesse</item>
     </string-array>

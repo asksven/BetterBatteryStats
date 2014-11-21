@@ -113,7 +113,7 @@
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Dateien nach /sdcard/Android/data/com.asksven.betterbatterystats/files/Download schreiben</string>
     <string name="pref_files_to_private_storage_title">Privater Storage</string>
-    <string name="pref_root_features_summary">Netzwert und Alarm Statistiken</string>
+    <string name="pref_root_features_summary">Netzwerk und Alarm Statistiken</string>
     <string name="pref_root_features_title">Root Features</string>
     <string name="pref_ignore_system_app_summary">System App Prüfung ignorieren (wenn das XPosed Module \'Enable BATTERY_STATS\' genutzt wird)</string>
     <string name="pref_ignore_system_app_title">System App nicht prüfen</string>
