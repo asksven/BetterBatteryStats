@@ -11,6 +11,14 @@
     <string name="message_enable_root">Povolení root funkcí předpokládá, že zařízení je "rootnuto".\nZajistěte, že aplikace bude mít trvale přidělena \'su\' oprávnění kvůli statistikám Alarmů a Sítě.\nPokud se oprávnění nezachovají trvale, je to problém \'su\' aplikace, ne BBS.\nPokračovat?</string>
     <string name="message_enable_active_mon">Aktivní monitorování zvyšuje spotřebu a zátěž a proto by mělo být používáno uváženě.\nPokračovat?</string>
     <string name="message_first_launch">Nyní je vytvářen ref. bod \'odpojeno\'. Pokud znovu připojíte a poté odpojíte zařízení, tento ref. bod se zaktualizuje.</string>
+    <string name="message_copied_to_clipboard">%s byl zkopírován do schránky</string>
+    <string name="message_no_hist_froyo">Android 2,2 (Froyo) bohužel nepodporuje historická data</string>
+    <string name="message_no_appops">App Ops neexistují ve vaší ROM</string>
+    <string name="message_external_storage_write_error">Nepodařilo se zapsat na externí uložiště</string>
+    <string name="message_identical_references">Došlo k chybě. Obě statistiky jsou shodné (%1$1, %2$s)</string>
+    <string name="message_watchdog_processing">BBS: Zpracovávání Watchdog...</string>
+    <string name="message_watchdog_awake_alert">BBS: Varování pro probuzení: %d \%% probuzen</string>
+    <string name="message_computing">Výpočet...</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Připomenout později</string>
@@ -20,12 +28,48 @@
     <string name="label_stat_type">Typ statistiky</string>
     <string name="label_since">Od</string>
     <string name="label_fallback_stat_type">Záložní typ statistiky</string>
+    <string name="label_title">Název</string>
+    <string name="label_author">Autor</string>
+    <string name="label_license">Licence</string>
+
+    <string name="label_hist_time">Čas</string>
+	<string name="label_hist_battery">Bat</string>
+	<string name="label_hist_power">Přip</string>
+	<string name="label_hist_screen">Obr</string>
+	<string name="label_hist_wakelock">WL</string>
+	<string name="label_hist_wifi">Wifi</string>
+	<string name="label_hist_gps">GPS</string>
+	<string name="label_hist_bluetooth">BT</string>
+	<string name="label_hist_incall">Hovor</string>
+	<string name="label_hist_scanning">Hled</string>
+
+	<string name="label_widget_since">Od:</string>
+	<string name="label_widget_deep_sleep">Spánek</string>
+	<string name="label_widget_awake">Probuzen:</string>
+	<string name="label_widget_screen_on">Obr. zap.:</string>
+	<string name="label_widget_kernel_wakelock">WLJ:</string>
+	<string name="label_widget_partial_wakelock">ČWL:</string>
+
+	<string name="label_battery">Baterie</string>
+	<string name="label_name">Jméno</string>
+    <string name="label_description">Popis</string>
+    <string name="label_package_name">Jméno balíčku</string>
+    <string name="label_on_on_android_4_3plus">Dostupné pouze na Android 4.3+</string>
+
+    <string name="label_permisions_dangerous">Oprávnění označená jako \'nebezpečná\'</string>
+    <string name="label_permisions_system">Oprávnění pro \'systémové aplikace\'</string>
+    <string name="label_permisions_normal">Běžná oprávnění</string>
+
     <string name="pref_dashclock_default_stat_type_summary">Nastavit typ statistiky pro zobrazení na DashClock obrazovce</string>
     <string name="pref_dashclock_fallback_stat_type_summary">Nastavit záložní typ statistiky pro zobrazení na DashClock obrazovce, pokud primární nemá ref. bod</string>
     <string name="label_awake_abbrev">prob.</string>
     <string name="label_button_share">Sdílet (uložit)...</string>
     <string name="label_button_save">Uložit</string>
     <string name="label_button_cancel">Zrušit</string>
+    <string name="label_button_application_settings">Nastavení aplikace</string>
+    <string name="label_button_appops">App Ops</string>
+
+
     <string name="title_share_dialog">Sdílet (uložit) data jako...</string>
     <string name="text_since">Od</string>
     <string name="label_preferences">Nastavení</string>
@@ -36,8 +80,8 @@
     <string name="label_raw_stats">Nezpracované statistiky</string>
     <string name="label_about">O programu</string>
     <string name="label_credits">Poděkování</string>
-    <string name="label_help">Pomoc</string>
-    <string name="label_howto">How-To</string>
+    <string name="label_help">Nápověda</string>
+    <string name="label_howto">Jak na</string>
     <string name="label_system_app">Systémová aplikace</string>
     <string name="label_refresh">Obnovit</string>
     <string name="label_share">Sdílet (uložit)</string>
@@ -45,7 +89,12 @@
     <string name="label_release_notes">Poznámky k vydání</string>
     <string name="label_legend">Legenda</string>
     <string name="label_button_yes">Ano</string>
+    <string name="label_button_no">Ne</string>
     <string name="label_button_ok">OK</string>
+    <string name="label_tab_package">Balíček</string>
+    <string name="label_tab_permissions">Oprávnění</string>
+    <string name="label_tab_services">Služby</string>
+
     <!-- About screen -->
     <string name="label_about_author">Autor: asksven</string>
     <string name="label_about_courtesy">Grafika: @cri</string>
@@ -185,7 +234,7 @@
     <string name="NO_PERM_ERR">Tato statistika vyžaduje oprávnění BATTERY_STATS</string>
     <string name="NO_REF_ERR">Prozatím nenastaven žádný ref. bod</string>
     <string name="NO_STATS">Prozatím nebyly získány žádné statistiky</string>
-    <string name="FILE_ACCESS_ERROR">Soubor se nepodařilo přečíst</string>
+    <string name="FILE_ACCESS_ERROR">Nepodařilo se přečíst soubor</string>
 
 	<!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">Od nabití</string>
