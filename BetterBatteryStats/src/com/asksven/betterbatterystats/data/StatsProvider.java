@@ -1031,7 +1031,7 @@ public class StatsProvider
 				statsType = BatteryStatsTypes.STATS_CURRENT;
 			}		
 
-			myKernelWakelocks = mStats.getKernelWakelockStats(m_context, statsType, 0, false);
+			myKernelWakelocks = mStats.getKernelWakelockStats(m_context, statsType, false);
 		}
 		else
 		{
