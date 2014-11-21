@@ -117,7 +117,7 @@ public class NewGraphActivity extends ActionBarListActivity
 	{
 		if (AndroidVersion.isFroyo())
 		{
-			Toast.makeText(this, "Unfortunately Froyo does not support history data.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.message_no_hist_froyo), Toast.LENGTH_SHORT).show();
 		}
 		ArrayList<HistoryItem> myRet = new ArrayList<HistoryItem>();
 

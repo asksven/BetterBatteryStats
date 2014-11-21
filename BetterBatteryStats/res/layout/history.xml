@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="10"
             android:gravity="left"
-            android:text="Time"
+            android:text="@string/label_hist_time"
             android:textSize="@dimen/hist_font_size" />
 
         <TextView
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:gravity="left"
-            android:text="Bat"
+            android:text="@string/label_hist_battery"
             android:textSize="@dimen/hist_font_size" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:gravity="left"
-            android:text="Pow"
+            android:text="@string/label_hist_power"
             android:textSize="@dimen/hist_font_size" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:gravity="left"
-            android:text="Scr"
+            android:text="@string/label_hist_screen"
             android:textSize="@dimen/hist_font_size" />
 
         <TextView
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:gravity="left"
-            android:text="WL"
+            android:text="@string/label_hist_wakelock"
             android:textSize="@dimen/hist_font_size" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:gravity="left"
-            android:text="Wifi"
+            android:text="@string/label_hist_wifi"
             android:textSize="@dimen/hist_font_size" />
 
         <TextView
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:gravity="left"
-            android:text="GPS"
+            android:text="@string/label_hist_gps"
             android:textSize="@dimen/hist_font_size" />
 
         <TextView
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:gravity="left"
-            android:text="BT"
+            android:text="@string/label_hist_bluetooth"
             android:textSize="@dimen/hist_font_size" />
 
         <TextView
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:gravity="left"
-            android:text="Call"
+            android:text="@string/label_hist_incall"
             android:textSize="@dimen/hist_font_size" />
 
         <TextView
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="15"
             android:gravity="left"
-            android:text="Scan"
+            android:text="@string/label_hist_scanning"
             android:textSize="@dimen/hist_font_size" />
     </LinearLayout>
 

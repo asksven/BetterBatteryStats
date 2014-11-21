@@ -87,7 +87,7 @@ public class SystemAppActivity extends BaseActivity
             alertbox.setMessage(getString(R.string.info_root_required));
  
             // add a neutral button to the alert box and assign a click listener
-            alertbox.setNeutralButton("Ok", new DialogInterface.OnClickListener()
+            alertbox.setNeutralButton(getString(R.string.label_button_ok), new DialogInterface.OnClickListener()
             {
  
                 // click listener on the alert box

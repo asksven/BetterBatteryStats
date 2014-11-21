@@ -65,11 +65,11 @@ public class PackageInfoTabsPager extends BaseActivity
 
 		mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
 
-		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Package"),
+		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator(getString(R.string.label_tab_package)),
 				PackageFragmentActivity.PackageFragment.class, null);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Permissions"),
+		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator(getString(R.string.label_tab_permissions)),
 				PermissionsFragmentActivity.PermissionsListFragment.class, null);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Services"),
+		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator(getString(R.string.label_tab_services)),
 				ServicesFragmentActivity.ServicesListFragment.class, null);
 //		mTabsAdapter.addTab(mTabHost.newTabSpec("simple").setIndicator("Receivers"),
 //				ReceiversFragmentActivity.ReceiversListFragment.class, null);

@@ -161,7 +161,7 @@ public class HistActivity extends ActionBarListActivity
 	    	if (m_progressDialog == null)
 	    	{
 		    	m_progressDialog = new ProgressDialog(HistActivity.this);
-		    	m_progressDialog.setMessage("Computing...");
+		    	m_progressDialog.setMessage(getString(R.string.message_computing));
 		    	m_progressDialog.setIndeterminate(true);
 		    	m_progressDialog.setCancelable(false);
 		    	m_progressDialog.show();

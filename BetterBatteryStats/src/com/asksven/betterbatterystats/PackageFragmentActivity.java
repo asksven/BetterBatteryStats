@@ -195,7 +195,7 @@ public class PackageFragmentActivity extends BaseActivity
 			}
 			catch (ActivityNotFoundException e)
 			{
-			    Toast.makeText(context, "AppOps does not exist on your ROM", Toast.LENGTH_SHORT).show();
+			    Toast.makeText(context, context.getString(R.string.message_no_appops), Toast.LENGTH_SHORT).show();
 			}
 			
 		}

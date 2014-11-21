@@ -27,7 +27,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
-            android:text="Battery"
+            android:text="@string/label_battery"
             android:textSize="@dimen/text_size_medium" />
 
         <com.asksven.betterbatterystats.widgets.GraphableBarsTimeline

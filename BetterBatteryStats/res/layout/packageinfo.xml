@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Package Name"
+            android:text="@string/label_package_name"
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Application Settings" />
+            android:text="@string/label_button_application_settings" />
     </FrameLayout>
 
     <FrameLayout
@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="App Ops" />
+            android:text="label_button_appops" />
     </FrameLayout>
     <FrameLayout
         android:id="@+id/FrameLayoutOnly4_3"
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Only available on Android 4.3+"
+            android:text="@string/label_on_on_android_4_3plus"
             android:textSize="16sp" />
 
     </FrameLayout>
