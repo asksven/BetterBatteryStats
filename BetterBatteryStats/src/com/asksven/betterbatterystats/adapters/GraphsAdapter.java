@@ -98,7 +98,7 @@ public class GraphsAdapter extends ArrayAdapter<String>
         BatteryGraphSeries mySerie1 = new BatteryGraphSeries(
         		m_histList,
         		BatteryGraphSeries.SERIE_WAKELOCK,
-        		"Wakelock");
+        		m_context.getString(R.string.label_graph_battery));
 
         m_graphs.add(mySerie1);	        
 
@@ -107,7 +107,7 @@ public class GraphsAdapter extends ArrayAdapter<String>
 		BatteryGraphSeries mySerie2 = new BatteryGraphSeries(
 				m_histList,
 				BatteryGraphSeries.SERIE_SCREENON,
-				"Screen On");
+				m_context.getString(R.string.label_graph_screen));
 		m_graphs.add(mySerie2);	        
 
 
@@ -115,7 +115,7 @@ public class GraphsAdapter extends ArrayAdapter<String>
 		BatteryGraphSeries mySerie3 = new BatteryGraphSeries(
 				m_histList,
 				BatteryGraphSeries.SERIE_WIFI,
-				"Wifi");
+				m_context.getString(R.string.label_graph_wifi));
 		m_graphs.add(mySerie3);	        
 
 
@@ -123,23 +123,14 @@ public class GraphsAdapter extends ArrayAdapter<String>
 		BatteryGraphSeries mySerie4 = new BatteryGraphSeries(
 				m_histList,
 				BatteryGraphSeries.SERIE_CHARGING,
-				"Charging");
-		m_graphs.add(mySerie4);	        
-
-
-        // SERIES #5:
-		BatteryGraphSeries mySerie5 = new BatteryGraphSeries(
-				m_histList,
-				BatteryGraphSeries.SERIE_WIFI,
-				"Wifi");
-		m_graphs.add(mySerie5);	        
-
+				m_context.getString(R.string.label_graph_power));
+		m_graphs.add(mySerie4);	                
 
         // SERIES #6:
 		BatteryGraphSeries mySerie6 = new BatteryGraphSeries(
 				m_histList,
 				BatteryGraphSeries.SERIE_GPS,
-				"GPS");
+				m_context.getString(R.string.label_graph_gps));
 		m_graphs.add(mySerie6);	        
 
 
@@ -147,7 +138,7 @@ public class GraphsAdapter extends ArrayAdapter<String>
 		BatteryGraphSeries mySerie7 = new BatteryGraphSeries(
 				m_histList,
 				BatteryGraphSeries.SERIE_BT,
-				"Bluetooth");
+				m_context.getString(R.string.label_graph_bluetooth));
 		m_graphs.add(mySerie7);	        
 
 

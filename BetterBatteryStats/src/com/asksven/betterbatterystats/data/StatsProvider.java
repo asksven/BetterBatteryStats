@@ -407,7 +407,7 @@ public class StatsProvider
 			}
 			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
 			{
-				Log.i(TAG, "Accessing Alarms in API mode");
+				Log.i(TAG, "Accessing Alarms in API mode as dumpsys has failed");
 				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
 				int statsType = 0;
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)

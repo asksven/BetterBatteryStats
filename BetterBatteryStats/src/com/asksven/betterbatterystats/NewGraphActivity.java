@@ -160,7 +160,7 @@ public class NewGraphActivity extends ActionBarListActivity
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
-    		Toast.makeText(this, "External Storage can not be written", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, getString(R.string.message_external_storage_write_error), Toast.LENGTH_SHORT).show();
 		}
 		try
     	{		
@@ -213,7 +213,7 @@ public class NewGraphActivity extends ActionBarListActivity
     	catch (Exception e)
     	{
     		Log.e(TAG, "Exception: " + e.getMessage());
-    		Toast.makeText(this, "an error occured while dumping the history", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, getString(R.string.message_error_writing_dumpfile), Toast.LENGTH_SHORT).show();
     	}	
 	}
 
