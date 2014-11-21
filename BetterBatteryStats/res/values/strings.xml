@@ -14,7 +14,8 @@
     <string name="message_copied_to_clipboard">%s was copied to the clipboard</string>
     <string name="message_no_hist_froyo">Unfortunately Froyo does not support history data</string>
     <string name="message_no_appops">AppOps does not exist on your ROM</string>
-    <string name="message_external_storage_write_error">External Storage can not be written"</string>
+    <string name="message_external_storage_write_error">External Storage can not be written</string>
+    <string name="message_error_writing_dumpfile">An error occured while dumping the history</string>
     <string name="message_identical_references">An error occurred. Both stats are identical (%1$1, %2$s)</string>
     <string name="message_watchdog_processing">BBS: Watchdog processing...</string>
     <string name="message_watchdog_awake_alert">BBS: Awake alert: %d \%% awake</string>
@@ -34,7 +35,7 @@
     
     <string name="label_hist_time">Time</string>
 	<string name="label_hist_battery">Bat</string>
-	<string name="label_hist_power">Pow</string>
+	<string name="label_hist_power">Chrg</string>
 	<string name="label_hist_screen">Scr</string>
 	<string name="label_hist_wakelock">WL</string>
 	<string name="label_hist_wifi">Wifi</string>
@@ -42,6 +43,17 @@
 	<string name="label_hist_bluetooth">BT</string>
 	<string name="label_hist_incall">Call</string>
 	<string name="label_hist_scanning">Scan</string>
+
+	<string name="label_graph_battery">Battery</string>
+	<string name="label_graph_power">Charging</string>
+	<string name="label_graph_screen">Screen On</string>
+	<string name="label_graph_wakelock">Wakelock</string>
+	<string name="label_graph_wifi">Wifi</string>
+	<string name="label_graph_gps">GPS</string>
+	<string name="label_graph_bluetooth">Bluetooth</string>
+	<string name="label_graph_incall">In Call</string>
+	<string name="label_graph_scanning">Scanning</string>
+		
 	
 	<string name="label_widget_since">Since:</string>
 	<string name="label_widget_deep_sleep">Deep Sleep</string>
