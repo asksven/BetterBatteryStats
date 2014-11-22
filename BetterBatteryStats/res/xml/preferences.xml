@@ -374,6 +374,11 @@
                 android:title="@string/pref_screen_system_app_title" >
                 <intent android:action="com.asksven.betterbatterystats.SystemAppActivity" />
             </PreferenceScreen>
+            <PreferenceScreen
+                android:summary="@string/pref_screen_import_export_summary"
+                android:title="@string/pref_screen_import_export_title" >
+                <intent android:action="com.asksven.betterbatterystats.ImportExportPreferencesActivity" />
+            </PreferenceScreen>
         </PreferenceScreen>
     </PreferenceCategory>
 
