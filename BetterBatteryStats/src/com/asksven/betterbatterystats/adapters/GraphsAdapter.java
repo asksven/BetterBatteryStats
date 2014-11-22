@@ -98,7 +98,7 @@ public class GraphsAdapter extends ArrayAdapter<String>
         BatteryGraphSeries mySerie1 = new BatteryGraphSeries(
         		m_histList,
         		BatteryGraphSeries.SERIE_WAKELOCK,
-        		m_context.getString(R.string.label_graph_battery));
+        		m_context.getString(R.string.label_graph_wakelock));
 
         m_graphs.add(mySerie1);	        
 
