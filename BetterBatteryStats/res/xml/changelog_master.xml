@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-
+     <release version="2.0.0.0B6" versioncode="54" >
+         <change>Externalized more strings</change>
+         <change>Fixed kernel wakelocks on Lolipop</change>
+         <change>Added preferences to change font-size and icon-size</change>
+     </release>
      <release version="2.0.0.0B5" versioncode="53" >
          <change>Externalized more strings</change>
          <change>Fixed Alarms details dialog showing infinite/Hr.</change>
