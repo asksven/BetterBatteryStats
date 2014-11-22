@@ -208,8 +208,8 @@
     <string name="pref_save_dmesg_summary">Sdílet (ukládat) dmesg výpis</string>
     <string name="pref_force_alarms_api_title">Alarmy pomocí API</string>
     <string name="pref_force_alarms_api_summary">Vynutit získávání statistik Alarmů prostřednictvím API</string>
-    <string name="pref_force_kwl_api_title">Wakelocky jádra pomocí API</string>
-    <string name="pref_force_kwl_api_summary">Vynutit získávání statistik Wakelocků jádra prostřednictvím API</string>
+    <string name="pref_force_kwl_api_title">Wakelocky jádra (kernel) pomocí API</string>
+    <string name="pref_force_kwl_api_summary">Vynutit získávání statistik Wakelocků jádra (kernel) prostřednictvím API</string>
     <string name="pref_screen_system_app_title">Systémová aplikace</string>
     <string name="pref_screen_system_app_summary">Instalovat jako systémovou aplikaci</string>
 
