@@ -25,6 +25,7 @@
     <string name="label_button_remind">Remind me later</string>
     <string name="label_button_rate">Rate</string>
     <string name="label_button_no_thanks">No, thanks</string>
+    <string name="label_button_recovery">Download Recovery ZIP</string>
     <string name="text_dialog_rate">If you enjoy using %s, please take a moment to rate it. Thanks for your support!</string>
     <string name="label_stat_type">Stat type</string>
     <string name="label_since">Since</string>
@@ -126,7 +127,7 @@
     <string name="info_installed_system_app">Installed system app. Please reboot to activate.</string>
     <string name="info_uninstalled_system_app">Uninstalled system app: your preferences have been reset. Please reboot to clean up and update your preferences.</string>
     <string name="info_succeeded">Succeeded</string>
-    <string name="info_failed">Failed</string>
+    <string name="info_failed">Failed, try recovery ZIP</string>
     <string name="info_root_required">In order to use this feature \'Root\' Features must be enabled (Advanced Preferences)</string>
     <string name="info_unknown_state">Error: could not resolve what changed</string>
     <string name="info_service_connection_error">BatteryInfo Service could not be contacted</string>
