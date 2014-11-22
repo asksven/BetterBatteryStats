@@ -8,21 +8,68 @@
     <string name="message_hint_savestatjson">Сохранить дамп JSON</string>
     <string name="message_hint_sinceref">Дамп от посл. метки</string>
     <string name="message_hint_stat_type">Тип статистики</string>
+    <string name="message_enable_root">Включение функций рута предполагает, что устройство имеет рут-доступ.\nПожалуйста, убедитесь, что права su предоставлены для получения статистики сигналов и сети.\nEсли права не предоставляются, виновато приложение суперпользователя, а не BBS.\nПродолжить?</string>
+    <string name="message_enable_active_mon">Активный мониторинг приводит к увеличению пробуждений и объёма обработки данных и должен быть использован с осторожностью.\nПродолжить?</string>
+    <string name="message_first_launch">Создаётся метка \'отключено\'. При подключении/отключении телефона от ЗУ данная метка будет переписана</string>
+    <string name="message_copied_to_clipboard">%s скопировано в буфер</string>
+    <string name="message_no_hist_froyo">К сожалению, Froyo не поддерживает данные истории</string>
+    <string name="message_no_appops">В Вашей прошивке отсутствуют операции в приложениях</string>
+    <string name="message_external_storage_write_error">Невозможно записать во внешнюю память</string>
+    <string name="message_identical_references">Произошла ошибка. Обе статистики идентичны (%1$1, %2$s)</string>
+    <string name="message_watchdog_processing">BBS: обработка в дежурном режиме...</string>
+    <string name="message_watchdog_awake_alert">BBS: уведомление о бодрствовании: %d \%% бодрств.</string>
+    <string name="message_computing">Вычисление...</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Напомнить позже</string>
     <string name="label_button_rate">Оценить</string>
-    <string name="label_button_no">Нет, спасибо</string>
+    <string name="label_button_no_thanks">Нет, спасибо</string>
     <string name="text_dialog_rate">Если Вам нравится %s, пожалуйста, уделите время, чтобы оценить его. Спасибо за Вашу поддержку!</string>
     <string name="label_stat_type">Тип статистики</string>
     <string name="label_since">От</string>
     <string name="label_fallback_stat_type">Сброс типа статистики</string>
+    <string name="label_title">Название</string>
+    <string name="label_author">Автор</string>
+    <string name="label_license">Лицензия</string>
+    
+    <string name="label_hist_time">Время</string>
+    <string name="label_hist_battery">Бат</string>
+    <string name="label_hist_power">Пит</string>
+    <string name="label_hist_screen">Экр</string>
+    <string name="label_hist_wakelock">ВЛ</string>
+    <string name="label_hist_wifi">Wifi</string>
+    <string name="label_hist_gps">GPS</string>
+    <string name="label_hist_bluetooth">BT</string>
+    <string name="label_hist_incall">Вызов</string>
+    <string name="label_hist_scanning">Скан</string>
+	
+    <string name="label_widget_since">От:</string>
+    <string name="label_widget_deep_sleep">Глубокий сон</string>
+    <string name="label_widget_awake">Бодрствование:</string>
+    <string name="label_widget_screen_on">Экран вкл:</string>
+    <string name="label_widget_kernel_wakelock">ВЛЯ:</string>
+    <string name="label_widget_partial_wakelock">ЧВЛ:</string>
+	
+    <string name="label_battery">Батарея</string>
+    <string name="label_name">Имя</string>
+    <string name="label_description">Описание</string>
+    <string name="label_package_name">Имя пакета</string>
+    <string name="label_on_on_android_4_3plus">Доступно только на Андроид 4.3+</string>
+    
+    <string name="label_permisions_dangerous">Разрешение отмечено как \'опасное\'</string>
+    <string name="label_permisions_system">Разрешения для \'системных приложений\'</string>
+    <string name="label_permisions_normal">Обычные разрешения</string>
+    
     <string name="pref_dashclock_default_stat_type_summary">Установить тип статистики для дашклока</string>
     <string name="pref_dashclock_fallback_stat_type_summary">Установить сброс типа статистики для дашклока, если основной не имеет метки</string>
     <string name="label_awake_abbrev">проб.</string>
     <string name="label_button_share">Поделиться...</string>
     <string name="label_button_save">Сохранить</string>
     <string name="label_button_cancel">Отмена</string>
+    <string name="label_button_application_settings">Настройки приложения</string>
+    <string name="label_button_appops">Операции в приложениях</string>
+    
+    
     <string name="title_share_dialog">Поделиться данными в...</string>
     <string name="text_since">От</string>
     <string name="label_preferences">Настройки</string>
@@ -41,7 +88,13 @@
     <string name="label_custom_ref">Установить польз. метку</string>
     <string name="label_release_notes">О релизе</string>
     <string name="label_legend">Легенда</string>
-                
+    <string name="label_button_yes">Да</string>
+    <string name="label_button_no">Нет</string>
+    <string name="label_button_ok">OK</string>
+    <string name="label_tab_package">Пакет</string>
+    <string name="label_tab_permissions">Разрешения</string>
+    <string name="label_tab_services">Службы</string>
+    
     <!-- About screen -->
     <string name="label_about_author">Разработка asksven</string>
     <string name="label_about_courtesy">Графика @cri</string>
@@ -124,13 +177,14 @@
     <string name="pref_files_to_private_storage_title">Частное хранилище</string>
     <string name="pref_root_features_summary">Включить статистику сети и сигналов</string>
     <string name="pref_root_features_title">Рут-функции</string>
-    <string name="pref_ignore_system_app_summary">"Игнорировать обнаружение системного приложения (для пользователей модуля XPosed 'Enable BATTERY_STATS')"</string>
+    <string name="pref_ignore_system_app_summary">Игнорировать обнаружение системного приложения (для пользователей модуля XPosed 'Enable BATTERY_STATS')</string>
     <string name="pref_ignore_system_app_title">Не обнаруживать системное</string>
     
     
     <string name="pref_developer_title">Включить при зарядке</string>
     <string name="pref_developer_summary">Включить статистику при зарядке (на Ваш риск, статистика может быть нестабильной)</string>
     <string name="pref_auto_refresh_title">Автообновление</string>
+    <string name="pref_auto_refresh_summary">Автоматическая перезагрузка метки\'текущее\' при переключении экранов/настроек</string>
     <string name="pref_section_sharing">Опции вывода</string>
     <string name="pref_save_as_text_title">Текст</string>
     <string name="pref_save_as_text_summary">Поделиться дампом в текст. формате</string>
@@ -182,7 +236,23 @@
     <string name="NO_STATS">Статистика ещё не собрана</string>
     <string name="FILE_ACCESS_ERROR">Файл невозможно прочитать</string>
     
-
+    <!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">От заряжено</string>
+    <string name="stat_type_label_since_unplugged">От отключено</string>
+    <string name="stat_type_label_since_custom">От польз. метки.</string>
+    <string name="stat_type_label_since_screen_off">От экран вкл</string>
+    <string name="stat_type_label_since_boot">От загрузки</string>
     
+    <string name="widget_freq_label_none">Нет</string>
+    <string name="widget_freq_label_5">5 мин.</string>
+    <string name="widget_freq_label_15">15 мин.</string>
+    <string name="widget_freq_label_30">*30 мин.</string>
+    <string name="widget_freq_label_60">60 мин.</string>
+    
+    <string name="widget_fontsize_16">Оч.большой (16)</string>
+    <string name="widget_fontsize_14">Большой (14)</string>
+    <string name="widget_fontsize_12">Нормальный (12)</string>
+    <string name="widget_fontsize_10">*Маленький (10)</string>
+    <string name="widget_fontsize_8">Оч.маленький (8)</string>
 
 </resources>
