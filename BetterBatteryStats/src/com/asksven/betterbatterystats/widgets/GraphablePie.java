@@ -19,6 +19,7 @@ import com.asksven.betterbatterystats.R;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -37,9 +38,10 @@ import android.widget.ImageView;
 public class GraphablePie extends ImageView
 {
     private static final String TAG = "GraphablePie";
+    private static final String ASKSVENNS="http://asksven.net";
     private Context m_context;
     
-    private static final int STROKE_WIDTH = 8;
+    private static final int STROKE_WIDTH = 6;
 
     static RectF sOval = new RectF();
     
@@ -57,14 +59,14 @@ public class GraphablePie extends ImageView
         sBackground.setStyle(Paint.Style.STROKE);
         sBackground.setAntiAlias(true);
         sBackground.setStrokeWidth(STROKE_WIDTH);
-        sBackground.setColor(0x778B7B8B);
+        sBackground.setColor(0x7795a5a6);
     }
     
     static Paint sText = new Paint();
     static
     {
     	sText.setStyle(Paint.Style.STROKE);
-//    	sText.setColor(Color.WHITE);
+    	sText.setColor(Color.BLACK);
     	sText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
     	sText.setTextSize(12);
     	sText.setAntiAlias(true);
@@ -72,6 +74,7 @@ public class GraphablePie extends ImageView
     }
 
     double mValue = 0.5;
+    
     String mLabelPct = String.format("%.0f", mValue * 100) + "%";
     String m_name;
     
@@ -80,14 +83,23 @@ public class GraphablePie extends ImageView
         super(context, attrs);
         m_context = context;
         
-        TypedValue tv = new TypedValue();
-        m_context.getTheme().resolveAttribute(android.R.attr.textColorPrimary, tv, true);
-        int color = getResources().getColor(tv.resourceId);
-        
-        
+        int color = 0;
+        try
+        {
+	        TypedValue tv = new TypedValue();
+	        m_context.getTheme().resolveAttribute(android.R.attr.textColorPrimary, tv, true);
+	        color = getResources().getColor(tv.resourceId);
+        }
+        catch (Exception e)
+        {
+        	color = Color.BLACK;
+        }
+
         sPaint.setColor(m_context.getResources().getColor(R.color.peterriver)); 
-    	sText.setTextSize(m_context.getResources().getDimension(R.dimen.text_size_medium));
+    	//sText.setTextSize(m_context.getResources().getDimension(R.dimen.text_size_medium));
     	sText.setColor(color); 
+
+
 
     }
     
@@ -119,17 +131,27 @@ public class GraphablePie extends ImageView
 				centerX + radius, 
 				centerY + radius);
 
-        sPaint.setStrokeWidth(getWidth() / 10);
-        sBackground.setStrokeWidth(getWidth() / 10);
+        sPaint.setStrokeWidth((getWidth() - (2 * getPaddingLeft())) / 10);
+        sBackground.setStrokeWidth((getWidth() - (2 * getPaddingLeft())) / 10);
     	// draw bg        
         canvas.drawArc(sOval, 0, 360f, false, sBackground);
         // draw gauge
         canvas.drawArc(sOval, -90, (float)(360 * mValue), false, sPaint);
 
-        long textSize = getHeight() / 3;
+        // calculate a size that will not overlap with the circle, whatever the size is
+        long textSize =  (getHeight()- (2 * getPaddingLeft())) / 3 ;
         sText.setTextSize(textSize);
+        
+        // when rendering in editor make sure the color is set to something
+        if (sText.getColor() == 0)
+        {
+        	sText.setColor(Color.BLACK);
+        }
+        
         float width = sText.measureText(mLabelPct);
         canvas.drawText(mLabelPct, getWidth() / 2 - width / 2, getHeight() / 2 + textSize / 3, sText);
+        //canvas.drawText("n/a%", getWidth() / 2 - width / 2, getHeight() / 2 + textSize / 3, sText);
+        
         super.onDraw(canvas);
     }
 }

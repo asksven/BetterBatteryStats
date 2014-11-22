@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-     <release version="2.0.0.0B6" versioncode="54" >
+     <release version="2.0.0.0B7" versioncode="55" >
+         <change>Fixed kernel wakelocks on Lolipop (again)</change>
+         <change>Better scaling and font size for gauges</change>
+         <change>More strings / I18N</change>
+         <change>Fixed battery graph</change>
+         <change>Primary dark color for notification bar on Lolipop</change>
+         <change>System app dialog now links to the recovery ZIPs to be used as workaround</change>
+     </release>
+    <release version="2.0.0.0B6" versioncode="54" >
          <change>Externalized more strings</change>
          <change>Fixed kernel wakelocks on Lolipop</change>
          <change>Added preferences to change font-size and icon-size</change>

@@ -15,6 +15,7 @@
     <string name="message_no_hist_froyo">К сожалению, Froyo не поддерживает данные истории</string>
     <string name="message_no_appops">В Вашей прошивке отсутствуют операции в приложениях</string>
     <string name="message_external_storage_write_error">Невозможно записать во внешнюю память</string>
+    <string name="message_error_writing_dumpfile">Произошла ошибка при получении дампа истории</string>
     <string name="message_identical_references">Произошла ошибка. Обе статистики идентичны (%1$1, %2$s)</string>
     <string name="message_watchdog_processing">BBS: обработка в дежурном режиме...</string>
     <string name="message_watchdog_awake_alert">BBS: уведомление о бодрствовании: %d \%% бодрств.</string>
@@ -34,14 +35,25 @@
     
     <string name="label_hist_time">Время</string>
     <string name="label_hist_battery">Бат</string>
-    <string name="label_hist_power">Пит</string>
+    <string name="label_hist_power">Зар</string>
     <string name="label_hist_screen">Экр</string>
     <string name="label_hist_wakelock">ВЛ</string>
     <string name="label_hist_wifi">Wifi</string>
     <string name="label_hist_gps">GPS</string>
     <string name="label_hist_bluetooth">BT</string>
-    <string name="label_hist_incall">Вызов</string>
+    <string name="label_hist_incall">Выз</string>
     <string name="label_hist_scanning">Скан</string>
+    
+    <string name="label_graph_battery">Батарея</string>
+    <string name="label_graph_power">Заряжается</string>
+    <string name="label_graph_screen">Экран вкл</string>
+    <string name="label_graph_wakelock">Вэйклок</string>
+    <string name="label_graph_wifi">Wifi</string>
+    <string name="label_graph_gps">GPS</string>
+    <string name="label_graph_bluetooth">Bluetooth</string>
+    <string name="label_graph_incall">Вызов</string>
+    <string name="label_graph_scanning">Сканирование</string>
+		
 	
     <string name="label_widget_since">От:</string>
     <string name="label_widget_deep_sleep">Глубокий сон</string>
@@ -49,7 +61,7 @@
     <string name="label_widget_screen_on">Экран вкл:</string>
     <string name="label_widget_kernel_wakelock">ВЛЯ:</string>
     <string name="label_widget_partial_wakelock">ЧВЛ:</string>
-	
+
     <string name="label_battery">Батарея</string>
     <string name="label_name">Имя</string>
     <string name="label_description">Описание</string>
@@ -108,7 +120,7 @@
     <string name="pref_theme_summary">Переключить тему</string>
                
     <!-- System app activity -->
-    <string name="expl_system_app">"На Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений."</string>
+    <string name="expl_system_app">На Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений.</string>
     <string name="install_system_app">Установить как системное</string>
     <string name="uninstall_system_app">Удалить системное</string>
     <string name="info_installed_system_app">Установлено системное приложение. Пожалуйста, перезагрузите устройство для активации.</string>
@@ -158,7 +170,7 @@
     <string name="pref_enable_watchdog_title">Включить</string>
     <string name="pref_enable_watchdog_summary">Включить обработку в дежурном режиме</string>
     <string name="pref_watchdog_on_unlock_title">Дежурный режим при разблокировке</string>
-    <string name="pref_watchdog_on_unlock_summary">"Дежурный режим работает после 'разблокировки' (также как и после 'экран вкл')"</string>
+    <string name="pref_watchdog_on_unlock_summary">Дежурный режим работает после \'разблокировки\' (также как и после \'экран вкл\')</string>
     <string name="pref_section_warnings">Предупреждения</string>
     <string name="pref_watchdog_awake_threshold_title">Порог бодрствования</string>
     <string name="pref_watchdog_awake_threshold_summary">Порог предупреждения (бодрствование / всего)</string>
@@ -194,9 +206,9 @@
     <string name="pref_save_logcat_summary">Поделиться логкатом</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Поделиться dmesg</string>
-    <string name="pref_force_alarms_api_title">Сигналы с использованием API</string>
+    <string name="pref_force_alarms_api_title">Сигналы с API</string>
     <string name="pref_force_alarms_api_summary">Принудительное использование API для получения сигналов</string>
-    <string name="pref_force_kwl_api_title">Вэйклоки ядра с использованием API</string>
+    <string name="pref_force_kwl_api_title">Вэйклоки ядра с API</string>
     <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
     <string name="pref_screen_system_app_title">Системное</string>
     <string name="pref_screen_system_app_summary">Установить как системное приложение</string>

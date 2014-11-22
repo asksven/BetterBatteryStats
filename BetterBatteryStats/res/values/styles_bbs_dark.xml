@@ -22,6 +22,7 @@
 
     <style name="Theme.Bbs.Dark" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/nephritis</item>
+        <item name="colorPrimaryDark">#0A883F</item>
         <item name="logo">@drawable/ic_launcher</item>
     </style>
 

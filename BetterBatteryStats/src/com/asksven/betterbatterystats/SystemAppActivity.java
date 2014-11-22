@@ -28,11 +28,13 @@ import com.asksven.android.common.utils.SystemAppInstaller;
 import com.asksven.android.common.utils.SystemAppInstaller.Status;
 import com.asksven.betterbatterystats.R;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -54,7 +56,10 @@ public class SystemAppActivity extends BaseActivity
 	final static String BBS_SIGNED_APK 	= "com.asksven.betterbatterystats_signed.apk"; 
 	final static String BBS_DEBUG_APK 	= "com.asksven.betterbatterystats_debug.apk";
 	final static String BBS_XDA_APK		= "com.asksven.betterbatterystats_xdaedition.apk";
-
+	
+	final static String RECOVERY_GPLAY = "http://better.asksven.org/bbs-systemapp/";
+	final static String RECOVERY_XDA = "http://forum.xda-developers.com/showpost.php?p=15869904&postcount=3";
+	
 	String systemAPKName = "";
 
 	final static String PACKAGE = "com.asksven.betterbatterystats";
@@ -225,6 +230,30 @@ public class SystemAppActivity extends BaseActivity
 				// refresh status of button
 				setButtonText(buttonRemount);
 
+			}
+		});
+
+		final Button buttonRecovery = (Button) findViewById(R.id.button3);
+
+
+		buttonRecovery.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				String url = "";
+				if (isDebuggable(SystemAppActivity.this))
+				{
+					// use XDA
+					url = RECOVERY_XDA;
+				}
+				else
+				{
+					url = RECOVERY_GPLAY;
+				}
+				
+            	Intent i = new Intent(Intent.ACTION_VIEW);
+            	i.setData(Uri.parse(url));
+            	startActivity(i);
 			}
 		});
 
