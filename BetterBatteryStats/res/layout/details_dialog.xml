@@ -16,7 +16,7 @@
         android:text="Dialog Title"
         android:fontFamily="sans-serif-light-bold"
         android:textSize="@dimen/text_size_large"
-        android:textColor="@color/highlighted_text_material_light"/>
+        android:textColor="@color/color_accent"/>
  	<TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"

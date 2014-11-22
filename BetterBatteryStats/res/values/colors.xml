@@ -63,6 +63,8 @@
 	<color name="card_shadow_dark">#ccc</color>
 	<color name="card_foreground_dark">@android:color/black</color>
 	<color name="cardlist_background_dark">#2d2d2d</color>
+	
+	<color name="color_accent">#27ae60</color>
 			
 	
     
