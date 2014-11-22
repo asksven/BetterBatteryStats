@@ -15,10 +15,11 @@
     <string name="message_no_hist_froyo">Android 2,2 (Froyo) bohužel nepodporuje historická data</string>
     <string name="message_no_appops">App Ops neexistují ve vaší ROM</string>
     <string name="message_external_storage_write_error">Nepodařilo se zapsat na externí uložiště</string>
+    <string name="message_error_writing_dumpfile">Došlo k chybě při čtení historie</string>
     <string name="message_identical_references">Došlo k chybě. Obě statistiky jsou shodné (%1$1, %2$s)</string>
     <string name="message_watchdog_processing">BBS: Zpracovávání Watchdog...</string>
     <string name="message_watchdog_awake_alert">BBS: Varování pro probuzení: %d \%% probuzen</string>
-    <string name="message_computing">Výpočet...</string>
+    <string name="message_computing">Výpočítávám...</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Připomenout později</string>
@@ -34,14 +35,25 @@
 
     <string name="label_hist_time">Čas</string>
 	<string name="label_hist_battery">Bat</string>
-	<string name="label_hist_power">Přip</string>
+	<string name="label_hist_power">Nab</string>
 	<string name="label_hist_screen">Obr</string>
 	<string name="label_hist_wakelock">WL</string>
 	<string name="label_hist_wifi">Wifi</string>
 	<string name="label_hist_gps">GPS</string>
 	<string name="label_hist_bluetooth">BT</string>
 	<string name="label_hist_incall">Hovor</string>
-	<string name="label_hist_scanning">Hled</string>
+	<string name="label_hist_scanning">Vyhl</string>
+
+	<string name="label_graph_battery">Baterie</string>
+	<string name="label_graph_power">Nabíjení</string>
+	<string name="label_graph_screen">Obr. zap.</string>
+	<string name="label_graph_wakelock">Wakelock</string>
+	<string name="label_graph_wifi">Wifi</string>
+	<string name="label_graph_gps">GPS</string>
+	<string name="label_graph_bluetooth">Bluetooth</string>
+	<string name="label_graph_incall">Hovor</string>
+	<string name="label_graph_scanning">Vyhl. sig.</string>
+
 
 	<string name="label_widget_since">Od:</string>
 	<string name="label_widget_deep_sleep">Spánek</string>
