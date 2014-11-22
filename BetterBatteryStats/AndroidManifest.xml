@@ -83,12 +83,21 @@
         </activity>
         <activity
             android:name="com.asksven.betterbatterystats.PreferencesFragmentActivity_V11"
-            android:parentActivityName="com.asksven.betterbatterystats.StatsActivity"
-            android:configChanges="orientation|screenSize" >
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StatsActivity" />
         </activity>
+        <activity
+            android:name="com.asksven.betterbatterystats.ImportExportPreferencesActivity"
+            android:configChanges="orientation|screenSize" >
+            <intent-filter>
+                <action android:name="com.asksven.betterbatterystats.ImportExportPreferencesActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
         <activity android:name="com.asksven.betterbatterystats.SystemAppActivity" >
             <intent-filter>
                 <action android:name="com.asksven.betterbatterystats.SystemAppActivity" />
@@ -136,7 +145,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StatsActivity" />
         </activity>
-
         <activity
             android:name="com.asksven.betterbatterystats.NewGraphActivity"
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
@@ -144,7 +152,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StatsActivity" />
         </activity>
-
         <activity android:name="com.asksven.betterbatterystats.ResponsiveListActivity" />
         <activity
             android:name="com.asksven.betterbatterystats.localeplugin.ui.EditActivity"
