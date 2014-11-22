@@ -105,7 +105,7 @@
     
     <string-array name="thumbnailSizeLabels">
         <item name="0">58dp*</item>
-        <item name="1">52dp*</item>
+        <item name="1">52dp</item>
         <item name="2">48dp</item>
         <item name="3">36dp</item>
     </string-array>
