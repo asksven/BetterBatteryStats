@@ -37,6 +37,21 @@
             android:title="@string/pref_graph_bar_height_title" />
 
         <PreferenceScreen android:title="@string/pref_section_customize_views" >
+            <ListPreference
+                android:defaultValue="58"
+                android:entries="@array/thumbnailSizeLabels"
+                android:entryValues="@array/thumbnailSizeValues"
+                android:key="thumbnail_size"
+                android:summary=""
+                android:title="Thumbnail Size" />
+            <ListPreference
+                android:defaultValue="16"
+                android:entries="@array/mediumFontSizeLabels"
+                android:entryValues="@array/mediumFontSizeValues"
+                android:key="medium_font_size"
+                android:summary=""
+                android:title="Medium Font Size" />
+
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="show_other_wifi"
@@ -83,7 +98,7 @@
     <PreferenceCategory android:title="@string/pref_section_settings" >
 
         <!-- not externalized yet: needs some though -->
-        <!-- 
+        <!--
         <PreferenceScreen android:title="Knowledge Base" >
             <CheckBoxPreference
                 android:defaultValue="true"
@@ -108,7 +123,7 @@
                 android:summary="Cache the knowledge base locally"
                 android:title="Cache KB" />
         </PreferenceScreen>
- -->
+        -->
         <!-- This chapter needs some redesign as well -->
         <PreferenceScreen android:title="@string/pref_screen_widgets_title" >
             <ListPreference
@@ -321,16 +336,17 @@
                 android:key="auto_refresh"
                 android:summary="@string/pref_auto_refresh_summary"
                 android:title="@string/pref_auto_refresh_title" />
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:key="force_alarms_api"
-                    android:summary="@string/pref_force_alarms_api_summary"
-                    android:title="@string/pref_force_alarms_api_title" />
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:key="force_kwl_api"
-                    android:summary="@string/pref_force_kwl_api_summary"
-                    android:title="@string/pref_force_kwl_api_title" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="force_alarms_api"
+                android:summary="@string/pref_force_alarms_api_summary"
+                android:title="@string/pref_force_alarms_api_title" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="force_kwl_api"
+                android:summary="@string/pref_force_kwl_api_summary"
+                android:title="@string/pref_force_kwl_api_title" />
+
             <PreferenceScreen android:title="@string/pref_section_sharing" >
                 <CheckBoxPreference
                     android:defaultValue="true"

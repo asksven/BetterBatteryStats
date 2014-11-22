@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -165,9 +166,20 @@ public class StatsAdapter extends BaseAdapter
             }
         }
         
+        final float scale = this.m_context.getResources().getDisplayMetrics().density;
         
         
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
+        
+        /////////////////////////////////////////
+		// we do some stuff here to handle settings about font size and thumbnail size
+		String fontSize = sharedPrefs.getString("medium_font_size", "16");
+		int mediumFontSize = Integer.parseInt(fontSize);
+
+		//we need to change "since" fontsize
+		tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, mediumFontSize);
+		
+		////////////////////////////////////////////////////////////////////////////////////
        	tvName.setText(entry.getName());
 
 //       	KbData kb = KbReader.getInstance().read(m_context);
@@ -215,6 +227,18 @@ public class StatsAdapter extends BaseAdapter
         if (!bShowBars)
         {
 	        GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
+	        
+	        /////////////////////////////////////////
+			// we do some stuff here to handle settings about font size and thumbnail size
+			String iconDim = sharedPrefs.getString("thumbnail_size", "56");
+			int iconSize = Integer.parseInt(iconDim);
+			int pixels = (int) (iconSize * scale + 0.5f);
+			//we need to change "since" fontsize
+			gauge.getLayoutParams().height = pixels;
+			gauge.getLayoutParams().width = pixels;
+			gauge.requestLayout();
+			
+			////////////////////////////////////////////////////////////////////////////////////
 	        if (entry instanceof NetworkUsage)
 	        {
 	        	gauge.setValue(entry.getValues()[0], ((NetworkUsage) entry).getTotal());
@@ -254,6 +278,19 @@ public class StatsAdapter extends BaseAdapter
         	buttonBar.setValues(entry.getValues(), m_maxValue);        	
         }
         ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
+        
+        /////////////////////////////////////////
+		// we do some stuff here to handle settings about font size and thumbnail size
+		String iconDim = sharedPrefs.getString("thumbnail_size", "56");
+		int iconSize = Integer.parseInt(iconDim);
+		int pixels = (int) (iconSize * scale + 0.5f);
+		//we need to change "since" fontsize
+		iconView.getLayoutParams().width = pixels;
+		iconView.getLayoutParams().height = pixels;
+		iconView.requestLayout();
+		//n 20;setLay.setTextSize(TypedValue.COMPLEX_UNIT_DIP, iconSize);
+		
+		////////////////////////////////////////////////////////////////////////////////////
                 
         // add on click listener for the icon only if KB is enabled
         if (bShowKb)

@@ -44,6 +44,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -477,7 +478,13 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		Log.i(TAG, "OnResume end");
 
-		
+		// we do some stuff here to handle settings about font size
+		String fontSize = sharedPrefs.getString("medium_font_size", "16");
+		int mediumFontSize = Integer.parseInt(fontSize);
+
+		//we need to change "since" fontsize
+		TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
+		tvSince.setTextSize(TypedValue.COMPLEX_UNIT_SP, mediumFontSize);
 
 		
 		
