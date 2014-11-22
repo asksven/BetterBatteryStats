@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-
+    <release version="2.0.0.0B6" versioncode="54" >
+         <change>Вывод для перевода дополнительных строк</change>
+         <change>Исправление вэйклоков ядра на Lolipop</change>
+         <change>Добавление настроек изменения размера шрифта и значков</change>
+    </release>
     <release version="2.0.0.0B5" versioncode="53" >
          <change>Вывод для перевода дополнительных строк</change>
          <change>Исправление отображения бесконечности/ч в окне подробностей сигналов</change>
