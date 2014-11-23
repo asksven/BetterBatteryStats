@@ -160,6 +160,8 @@
     <string name="pref_graph_bar_height_title">Height for graph bars</string>
     <string name="pref_graph_bar_height_summary">If you are using non-default densities you can change the bar height here</string>
     <string name="pref_section_customize_views">Customize Views</string>
+    <string name="pref_show_from_to_ref_title">From/To References</string>
+    <string name="pref_show_from_to_ref_summary">Show the spinners for selecting the references</string>
     <string name="pref_show_other_wifi_title">Show Wifi</string>
     <string name="pref_show_other_wifi_summary">Show Wifi values</string>
     <string name="pref_show_other_signal_title">Show signal</string>
