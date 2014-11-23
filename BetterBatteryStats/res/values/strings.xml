@@ -8,7 +8,7 @@
     <string name="message_hint_savestatjson">Salva il Dumpfile in formato JSON</string>
     <string name="message_hint_sinceref">Scarica dall'ultimo Riferimento</string>
     <string name="message_hint_stat_type">Tipo Statistica</string>
-    <string name="message_enable_root">Abilitando le funzioni di root si assume che il telefono sia rootato.\nSiate sicuri di dare i diritti SU alle statistiche di Allarmi e Network.\nSe tali diritti non permangono è colpa dell'app SU e non di BBS.\nContinuare?</string>
+    <string name="message_enable_root">Abilitando le funzioni di root si assume che il telefono sia rootato.\nSiate sicuri di dare i diritti SU alle statistiche di Allarmi e Rete.\nSe tali diritti non permangono è colpa dell'app SU e non di BBS.\nContinuare?</string>
     <string name="message_enable_active_mon">Il monitoraggio Attivo causa un incremento dei wakeup e dei calcoli, utilizzare con cautela.\nContinuare?</string>
     <string name="message_first_launch">Un riferimento \'sconnesso\' è stato creato. Ogni volta che connetti/sconnetti il telefono questo riferimento viene sovrascritto</string>
     <string name="message_copied_to_clipboard">%s è stato copiato negli appunti</string>
@@ -196,7 +196,7 @@
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Scrivere file in /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Memoria interna</string>
-    <string name="pref_root_features_summary">Abilita statistiche di network e allarmi</string>
+    <string name="pref_root_features_summary">Abilita statistiche della rete e allarmi</string>
     <string name="pref_root_features_title">Funzioni di Root</string>
     <string name="pref_ignore_system_app_summary">Ignora la rilevazione dell'app di sistema (per modulo XPosed \'Abilita BATTERY_STATS\' utenti)</string>
     <string name="pref_ignore_system_app_title">Non rilevare app di sistema</string>
