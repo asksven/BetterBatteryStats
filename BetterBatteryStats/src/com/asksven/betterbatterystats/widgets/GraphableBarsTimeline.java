@@ -69,31 +69,33 @@ public class GraphableBarsTimeline extends ImageView
 
 	public void setValues(ArrayList<Datapoint> values)
 	{
-		mValues = (ArrayList<Datapoint>) values.clone();
-		if (values.size() > 0)
+		// we can skip the "0" values as they will not be painted
+		mValues = new ArrayList<Datapoint>();
+		for (int i=0; i < values.size(); i++)
 		{
-			mMinX = mValues.get(0).mX;
+			if (i == 1)
+			{
+				mMinX = values.get(i).mX;
+			}
+			
+			if (values.get(i).mY != 0)
+			{
+				mValues.add(values.get(i));
+				if (values.get(i).mX > mMaxX)
+				{
+					mMaxX = values.get(i).mX;
+				}
+				if (values.get(i).mY < mMinY)
+				{
+					mMinY = values.get(i).mY;
+				}
+
+				if (values.get(i).mY > mMaxY)
+				{
+					mMaxY = values.get(i).mY;
+				}
+			}
 		}
-
-		for (int i = 0; i < values.size(); i++)
-		{
-			if (mValues.get(i).mX > mMaxX)
-			{
-				mMaxX = mValues.get(i).mX;
-			}
-			if (mValues.get(i).mY < mMinY)
-			{
-				mMinY = mValues.get(i).mY;
-			}
-
-			if (mValues.get(i).mY > mMaxY)
-			{
-				mMaxY = mValues.get(i).mY;
-			}
-
-		}
-		Log.i(TAG, "Read values and tetermined mMinX=" + mMinX + ", mMaxX=" + mMaxX + ", mMinY=" + mMinY + ", mMaxY="
-				+ mMaxY);
 		// we must force onDraw by invalidating the View (see
 		// http://wing-linux.sourceforge.net/guide/topics/graphics/index.html)
 		this.invalidate();
@@ -107,7 +109,6 @@ public class GraphableBarsTimeline extends ImageView
     	{
     		mValues = new ArrayList<Datapoint>();
     		
-
     		mValues.add(new Datapoint(1416405215261L, 100));
     		mValues.add(new Datapoint(1416405215465L, 100));
 			mValues.add(new Datapoint(1416405224514L, 100));
@@ -133,7 +134,6 @@ public class GraphableBarsTimeline extends ImageView
     		mMinY = 0;
     		mMaxY = 3;
     	}
-//        Log.d(TAG, "onDraw: w = " + getWidth() + ", h = " + getHeight());
         
         int xmin = getPaddingLeft();
         int xmax = getWidth() - getPaddingRight();
