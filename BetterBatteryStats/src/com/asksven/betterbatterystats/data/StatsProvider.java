@@ -377,6 +377,7 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
+		boolean useSuContext = sharedPrefs.getBoolean("use_su_context", false);
 		
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
@@ -403,7 +404,12 @@ public class StatsProvider
 			// use root if available as root delivers more data
 			if (rootEnabled && AlarmsDumpsys.alarmsAccessible())
 			{
-				myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));			
+				myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context), false);			
+			}
+			else if (rootEnabled && useSuContext)
+			{
+				Log.i(TAG, "Accessing Alarms passing the SELinux context");
+				myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context), true);
 			}
 			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
 			{
