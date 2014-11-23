@@ -160,6 +160,8 @@
     <string name="pref_graph_bar_height_title">Высота полос графика</string>
     <string name="pref_graph_bar_height_summary">Если Вы используете значения плотности не по умолчанию, здесь Вы можете изменить высоту полос</string>
     <string name="pref_section_customize_views">Настройка вида</string>
+    <string name="pref_show_from_to_ref_title">Метки от/до</string>
+    <string name="pref_show_from_to_ref_summary">Отображение выбора меток</string>
     <string name="pref_show_other_wifi_title">Показать Wifi</string>
     <string name="pref_show_other_wifi_summary">Показать значения Wifi</string>
     <string name="pref_show_other_signal_title">Показать сигнал</string>
@@ -219,6 +221,8 @@
     <string name="pref_force_alarms_api_summary">Принудительное использование API для получения сигналов</string>
     <string name="pref_force_kwl_api_title">Вэйклоки ядра с API</string>
     <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
+    <string name="pref_use_su_context_title">Использовать su --context</string>
+    <string name="pref_use_su_context_summary">Экспериментальная функция: использование su --context (может быть медленным)</string>
     <string name="pref_screen_system_app_title">Системное</string>
     <string name="pref_screen_system_app_summary">Установить как системное приложение</string>
     <string name="pref_screen_import_export_title">Импорт/экспорт</string>
