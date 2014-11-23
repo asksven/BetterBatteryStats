@@ -219,6 +219,8 @@
     <string name="pref_force_alarms_api_summary">Vynutit získávání statistik Alarmů prostřednictvím API</string>
     <string name="pref_force_kwl_api_title">Wakelocky jádra (kernel) pomocí API</string>
     <string name="pref_force_kwl_api_summary">Vynutit získávání statistik Wakelocků jádra (kernel) prostřednictvím API</string>
+    <string name="pref_use_su_context_title">Použít \'su --context\'</string>
+    <string name="pref_use_su_context_summary">Experimentální: použít volání \'su --context\' (pro nastavení SELinux: Enforcing, může být velmi pomalé)</string>
     <string name="pref_screen_system_app_title">Systémová aplikace</string>
     <string name="pref_screen_system_app_summary">Instalovat jako systémovou aplikaci</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
