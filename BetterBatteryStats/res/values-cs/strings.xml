@@ -19,12 +19,13 @@
     <string name="message_identical_references">Došlo k chybě. Obě statistiky jsou shodné (%1$1, %2$s)</string>
     <string name="message_watchdog_processing">BBS: Zpracovávání Watchdog...</string>
     <string name="message_watchdog_awake_alert">BBS: Varování pro probuzení: %d \%% probuzen</string>
-    <string name="message_computing">Výpočítávám...</string>
+    <string name="message_computing">Počítám...</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Připomenout později</string>
     <string name="label_button_rate">Hodnotit</string>
     <string name="label_button_no">Ne, děkuji</string>
+    <string name="label_button_recovery">Stáhnout Recovery ZIP</string>
     <string name="text_dialog_rate">Pokud jste spokojeni s %s, věnujte prosím chvíli jejímu ohodnocení. Děkuji za vaši podporu!</string>
     <string name="label_stat_type">Typ statistiky</string>
     <string name="label_since">Od</string>
@@ -32,6 +33,9 @@
     <string name="label_title">Název</string>
     <string name="label_author">Autor</string>
     <string name="label_license">Licence</string>
+    <string name="label_import_export_prefs">Importovat/Exportovat nastavení z/do %s</string>
+    <string name="label_import_prefs">Importovat</string>
+    <string name="label_export_prefs">Exportovat</string>
 
     <string name="label_hist_time">Čas</string>
 	<string name="label_hist_battery">Bat</string>
@@ -95,6 +99,7 @@
     <string name="label_help">Nápověda</string>
     <string name="label_howto">Jak na</string>
     <string name="label_system_app">Systémová aplikace</string>
+    <string name="label_import_export">Import/Export</string>
     <string name="label_refresh">Obnovit</string>
     <string name="label_share">Sdílet (uložit)</string>
     <string name="label_custom_ref">Nastavit vlastní ref. bod</string>
@@ -121,18 +126,22 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">Ve verzi Android 4.4 odebral Google oprávnění běžných aplikací pro přístup ke statistikám využití baterie.\n\nJe doporučeno nainstalovat BetterBatteryStats jako systémovou aplikaci (toto neznemožní instalaci aktualizací).\n\nPokud se oprávnění v budoucnu změní, muže být vyžadováno odinstalování, nebo opětovná instalace jako systémové aplikace.</string>
+    <string name="expl_system_app_workaround">Pokud instalace přímo z aplikace selže, zkuste prosím tuto možnost</string>
     <string name="install_system_app">Instalovat jako systémovou apl.</string>
     <string name="uninstall_system_app">Odinstalovat systémovou apl.</string>
     <string name="info_installed_system_app">Systémová aplikace nainstalována. Prosím restartujte pro aktivaci.</string>
     <string name="info_uninstalled_system_app">Systémová aplikace odinstalována: vaše nastavení byla vymazána. Prosím restartujte pro dokončení a poté proveďte nové nastavení.</string>
     <string name="info_succeeded">Uspělo</string>
-    <string name="info_failed">Selhalo</string>
+    <string name="info_failed">Selhalo, zkuste Recovery ZIP</string>
     <string name="info_root_required">Tato funkce vyžaduje povolení \'Root\' funkcí (Pokročilá nastavení)</string>
     <string name="info_unknown_state">Chyba: nepodařilo se rozlišit co se změnilo</string>
     <string name="info_service_connection_error">Nepodařilo se kontaktovat službu BatteryInfo Service</string>
     <string name="info_loading_refs_error">Nepodařilo se načíst vybrané ref. body \'od\', nebo \'do\'. Prosím obnovte zobrazení.</string>
     <string name="info_unknown_stat_error">Při získávání statistik došlo k neznámé chybě. Prosím zkontrolujte váš logcat log.</string>
     <string name="info_state_recovery_error">Během zotavení z předchozího stavu došlo k neznámé chybě</string>
+    <string name="info_pref_export_success">Nastavení bylo uloženo do %s</string>
+    <string name="info_pref_import_success">Nastavení bylo načteno z %s</string>
+    <string name="info_pref_import_export_failed">Operace selhala</string>
 
     <string name="info_deleting_refs">Mažu a obnovuji ref. body</string>
     <string name="info_fallback_to_boot">Záložní přechod k \'Od zapnutí\'</string>
@@ -208,10 +217,12 @@
     <string name="pref_save_dmesg_summary">Sdílet (ukládat) dmesg výpis</string>
     <string name="pref_force_alarms_api_title">Alarmy pomocí API</string>
     <string name="pref_force_alarms_api_summary">Vynutit získávání statistik Alarmů prostřednictvím API</string>
-    <string name="pref_force_kwl_api_title">Wakelocky jádra pomocí API</string>
-    <string name="pref_force_kwl_api_summary">Vynutit získávání statistik Wakelocků jádra prostřednictvím API</string>
+    <string name="pref_force_kwl_api_title">Wakelocky jádra (kernel) pomocí API</string>
+    <string name="pref_force_kwl_api_summary">Vynutit získávání statistik Wakelocků jádra (kernel) prostřednictvím API</string>
     <string name="pref_screen_system_app_title">Systémová aplikace</string>
     <string name="pref_screen_system_app_summary">Instalovat jako systémovou aplikaci</string>
+    <string name="pref_screen_import_export_title">Import/Export</string>
+    <string name="pref_screen_import_export_summary">Importovat a exportovat nastavení</string>
 
     <string name="pref_section_settings">Nastavení</string>
     <string name="pref_screen_widgets_title">Widgety</string>
