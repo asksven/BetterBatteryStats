@@ -9,6 +9,7 @@
          <change>System app dialog now links to the recovery ZIPs to be used as workaround</change>
          <change>Added import/export of preferences</change>
          <change>Added fix for native alarms on Lolipop. Experimental, may cause slow calls</change>
+         <change>Fixed white-on-white theme when calling prefs after fresh install</change>
      </release>
     <release version="2.0.0.0B6" versioncode="54" >
          <change>Externalized more strings</change>
