@@ -160,6 +160,8 @@
     <string name="pref_graph_bar_height_title">Tloušťka pruhového grafu</string>
     <string name="pref_graph_bar_height_summary">Pokud používáte upravené rozlišení, můžete zde změnit tloušťku pruhů</string>
     <string name="pref_section_customize_views">Upravit zobrazení</string>
+    <string name="pref_show_from_to_ref_title">Ref. body Od/Do</string>
+    <string name="pref_show_from_to_ref_summary">Zobrazit prvky pro výběr ref. bodů</string>
     <string name="pref_show_other_wifi_title">Zobrazit Wifi</string>
     <string name="pref_show_other_wifi_summary">Zobrazit data Wifi</string>
     <string name="pref_show_other_signal_title">Zobrazit signál</string>
