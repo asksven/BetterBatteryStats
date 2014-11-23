@@ -278,7 +278,7 @@ public class StatsAdapter extends BaseAdapter
         	buttonBar.setValues(entry.getValues(), m_maxValue);        	
         }
         ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
-        
+        LinearLayout iconLayout = (LinearLayout) convertView.findViewById(R.id.LayoutIcon);
         /////////////////////////////////////////
 		// we do some stuff here to handle settings about font size and thumbnail size
 		String iconDim = sharedPrefs.getString("thumbnail_size", "56");
@@ -293,11 +293,11 @@ public class StatsAdapter extends BaseAdapter
 		////////////////////////////////////////////////////////////////////////////////////
                 
         // add on click listener for the icon only if KB is enabled
-        if (bShowKb)
-        {
-	        // set a click listener for the list
-	        iconKb.setOnClickListener(new OnIconClickListener(position));
-        }
+//        if (bShowKb)
+//        {
+//	        // set a click listener for the list
+//	        iconKb.setOnClickListener(new OnIconClickListener(position));
+//        }
 
         // show / hide fqn text
         if ((entry instanceof Process) || (entry instanceof Alarm) || (entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc))
@@ -309,7 +309,7 @@ public class StatsAdapter extends BaseAdapter
         	myFqnLayout.setVisibility(View.VISIBLE);
         }
 
-        // show / hide package icons
+        // show / hide package icons (we show / hide the whole layout as it contains a margin that must be hidded as well
         if ((entry instanceof NativeKernelWakelock) || (entry instanceof State) || (entry instanceof Misc))
         {
 

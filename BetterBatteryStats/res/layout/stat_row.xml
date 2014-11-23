@@ -9,7 +9,7 @@
     android:elevation="0dp"
     android:orientation="horizontal"
     android:paddingBottom="2dp"
-    android:paddingLeft="4dp"
+    android:paddingLeft="8dp"
     android:paddingRight="2dp"
     android:paddingTop="2dp"
 
@@ -17,7 +17,7 @@
 >
         
     <LinearLayout
-        android:id="@+id/LinearLayout01"
+        android:id="@+id/LayoutIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -34,6 +34,7 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:paddingTop="0dp"
+            android:layout_marginRight="2dp"
             android:scaleType="centerCrop"
             android:layout_weight="10"/>
     </LinearLayout>
