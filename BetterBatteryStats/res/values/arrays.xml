@@ -14,19 +14,19 @@
 
     <!-- Values for the preferences -->
     <string-array name="statLabels">
-        <item name="0">Other</item>
-        <item name="1">Kernel Wakelock</item>
-        <item name="2">Partial Wakelocks</item>
-        <item name="3">Alarms</item>
-        <item name="4">Network</item>
-        <item name="5">CPU States</item>
-        <item name="6">Process</item>
+        <item name="0">Altro</item>
+        <item name="1">Wakelock del Kernel</item>
+        <item name="2">Wakelock parziali</item>
+        <item name="3">Allarmi</item>
+        <item name="4">Rete</item>
+        <item name="5">Stati CPU</item>
+        <item name="6">Processi</item>
     </string-array>
 
     <!-- Values for the preferences -->
     <string-array name="saveAsLabels">
-        <item name="0">Text Dumpfile</item>
-        <item name="1">JSON Dumpfile</item>
+        <item name="0">Dumpfile in Testo</item>
+        <item name="1">Dumpfile in JSON</item>
         <item name="2">logcat</item>
         <item name="3">dmesg</item>
     </string-array>
