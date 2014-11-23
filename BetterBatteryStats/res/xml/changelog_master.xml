@@ -10,6 +10,8 @@
          <change>Added import/export of preferences</change>
          <change>Added fix for native alarms on Lolipop. Experimental, may cause slow calls</change>
          <change>Fixed white-on-white theme when calling prefs after fresh install</change>
+         <change>Improved graph performance</change>
+         <change>Added option to shopw/hide spinners</change>
      </release>
     <release version="2.0.0.0B6" versioncode="54" >
          <change>Externalized more strings</change>
