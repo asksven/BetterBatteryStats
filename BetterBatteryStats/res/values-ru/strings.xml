@@ -25,6 +25,7 @@
     <string name="label_button_remind">Напомнить позже</string>
     <string name="label_button_rate">Оценить</string>
     <string name="label_button_no_thanks">Нет, спасибо</string>
+    <string name="label_button_recovery">Загрузить ZIP для рекавери</string>
     <string name="text_dialog_rate">Если Вам нравится %s, пожалуйста, уделите время, чтобы оценить его. Спасибо за Вашу поддержку!</string>
     <string name="label_stat_type">Тип статистики</string>
     <string name="label_since">От</string>
@@ -32,6 +33,9 @@
     <string name="label_title">Название</string>
     <string name="label_author">Автор</string>
     <string name="label_license">Лицензия</string>
+    <string name="label_import_export_prefs">Импорт/экспорт настроек из/в %s</string>
+    <string name="label_import_prefs">Импорт</string>
+    <string name="label_export_prefs">Экспорт</string>
     
     <string name="label_hist_time">Время</string>
     <string name="label_hist_battery">Бат</string>
@@ -95,6 +99,7 @@
     <string name="label_help">Помощь</string>
     <string name="label_howto">Как</string>
     <string name="label_system_app">Системное приложение</string>
+    <string name="label_import_export">Импорт/экспорт</string>
     <string name="label_refresh">Обновить</string>
     <string name="label_share">Поделиться</string>
     <string name="label_custom_ref">Установить польз. метку</string>
@@ -120,7 +125,8 @@
     <string name="pref_theme_summary">Переключить тему</string>
                
     <!-- System app activity -->
-    <string name="expl_system_app">На Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений.</string>
+    <string name="expl_system_app">OНа Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений.</string>
+    <string name="expl_system_app_workaround">При сбое установки приложения, пожалуйста, используйте этот метод</string>
     <string name="install_system_app">Установить как системное</string>
     <string name="uninstall_system_app">Удалить системное</string>
     <string name="info_installed_system_app">Установлено системное приложение. Пожалуйста, перезагрузите устройство для активации.</string>
@@ -133,6 +139,9 @@
     <string name="info_loading_refs_error">Выбранные метки \'от\' или \'до\' не могут быть загружены. Пожалуйста, обновите</string>
     <string name="info_unknown_stat_error">При получении статистики произошла неизвестная ошибка. Пожалуйста, проверьте логкат</string>
     <string name="info_state_recovery_error">Произошла ошибка при восстановлении предыдущего состояния</string>
+    <string name="info_pref_export_success">Настройки были сохранены в %s</string>
+    <string name="info_pref_import_success">Настройки были импортированы из %s</string>
+    <string name="info_pref_import_export_failed">Сбой операции</string>
     
     <string name="info_deleting_refs">Удаление и повторное создание меток</string>
     <string name="info_fallback_to_boot">Сброс к \'От загрузки\'</string>
@@ -212,6 +221,8 @@
     <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
     <string name="pref_screen_system_app_title">Системное</string>
     <string name="pref_screen_system_app_summary">Установить как системное приложение</string>
+    <string name="pref_screen_import_export_title">Импорт/экспорт</string>
+    <string name="pref_screen_import_export_summary">Импорт и экспорт настроек</string>
         
     <string name="pref_section_settings">Настройки</string>
     <string name="pref_screen_widgets_title">Виджеты</string>
