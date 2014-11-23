@@ -160,6 +160,8 @@
     <string name="pref_graph_bar_height_title">Tloušťka pruhového grafu</string>
     <string name="pref_graph_bar_height_summary">Pokud používáte upravené rozlišení, můžete zde změnit tloušťku pruhů</string>
     <string name="pref_section_customize_views">Upravit zobrazení</string>
+    <string name="pref_show_from_to_ref_title">Ref. body Od/Do</string>
+    <string name="pref_show_from_to_ref_summary">Zobrazit prvky pro výběr ref. bodů</string>
     <string name="pref_show_other_wifi_title">Zobrazit Wifi</string>
     <string name="pref_show_other_wifi_summary">Zobrazit data Wifi</string>
     <string name="pref_show_other_signal_title">Zobrazit signál</string>
@@ -219,6 +221,8 @@
     <string name="pref_force_alarms_api_summary">Vynutit získávání statistik Alarmů prostřednictvím API</string>
     <string name="pref_force_kwl_api_title">Wakelocky jádra (kernel) pomocí API</string>
     <string name="pref_force_kwl_api_summary">Vynutit získávání statistik Wakelocků jádra (kernel) prostřednictvím API</string>
+    <string name="pref_use_su_context_title">Použít \'su --context\'</string>
+    <string name="pref_use_su_context_summary">Experimentální: použít volání \'su --context\' (pro nastavení SELinux: Enforcing, může být velmi pomalé)</string>
     <string name="pref_screen_system_app_title">Systémová aplikace</string>
     <string name="pref_screen_system_app_summary">Instalovat jako systémovou aplikaci</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
