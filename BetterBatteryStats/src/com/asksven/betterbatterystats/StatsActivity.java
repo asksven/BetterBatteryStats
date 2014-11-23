@@ -435,6 +435,18 @@ public class StatsActivity extends ActionBarListActivity
 		// we need to run the service also if we are on kitkat without root
 		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 
+		// show/hide spinners
+		boolean showSpinners = sharedPrefs.getBoolean("show_from_to_ref", true);
+		if (!showSpinners)
+		{
+			LinearLayout spinnerLayout = (LinearLayout) this.findViewById(R.id.LayoutSpinners);
+			if (spinnerLayout != null)
+			{
+				spinnerLayout.setVisibility(View.GONE);
+			}
+	        
+		}
+
 		// if on kitkat make sure that we always collect screen on time: if no root then count the time
 		if ( !rootEnabled && !SysUtils.hasBatteryStatsPermission(this) )
 		{

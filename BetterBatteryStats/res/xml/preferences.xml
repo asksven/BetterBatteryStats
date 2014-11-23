@@ -51,7 +51,11 @@
                 android:key="medium_font_size"
                 android:summary=""
                 android:title="Medium Font Size" />
-
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_from_to_ref"
+                android:summary="@string/pref_show_from_to_ref_summary"
+                android:title="@string/pref_show_from_to_ref_title" />
             <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="show_other_wifi"
