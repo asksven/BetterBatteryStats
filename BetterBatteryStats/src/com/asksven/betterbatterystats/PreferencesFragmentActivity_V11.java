@@ -40,29 +40,28 @@ import com.asksven.betterbatterystats.services.EventWatcherService;
  * Demonstration of the use of a CursorLoader to load and display contacts data
  * in a fragment.
  */
-public class PreferencesFragmentActivity_V11 extends BaseActivity 
+public class PreferencesFragmentActivity_V11 extends BaseActivity
 {
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		
+
 		super.onCreate(savedInstanceState);
-		
+
 		// we need a layout to inflate the fragment into
 		setContentView(R.layout.preferences_fragment);
 
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); 
-		//toolbar.setLogo(R.drawable.ic_launcher);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		// toolbar.setLogo(R.drawable.ic_launcher);
 		toolbar.setTitle(getString(R.string.label_preferences));
-		
-	    setSupportActionBar(toolbar);
-	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	    
-		getFragmentManager().beginTransaction().replace(R.id.prefs, new PrefsFragment())
-				.commit();
-		
+
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		getFragmentManager().beginTransaction().replace(R.id.prefs, new PrefsFragment()).commit();
+
 	}
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -78,149 +77,150 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.preferences);
-			
+
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 			prefs.registerOnSharedPreferenceChangeListener(this);
 		}
-		
+
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
 		{
-	        if (key.equals("ref_for_screen_off"))
-	        {
-	    		boolean serviceShouldBeRunning = sharedPreferences.getBoolean(key, false);
-	    		
-	    		if (serviceShouldBeRunning)
-	    		{
-	    			if (!EventWatcherService.isServiceRunning(getActivity()))
-	    			{
-	    				Intent i = new Intent(getActivity(), EventWatcherService.class);
-	    				getActivity().startService(i);
-	    			}    				
-	    		}
-	    		else
-	    		{
-	    			if (EventWatcherService.isServiceRunning(getActivity()))
-	    			{
-	    				Intent i = new Intent(getActivity(), EventWatcherService.class);
-	    				getActivity().stopService(i);
+			if (key.equals("ref_for_screen_off"))
+			{
+				boolean serviceShouldBeRunning = sharedPreferences.getBoolean(key, false);
 
-	    			}
-	    			
-	    		}
-	    		
-	    		// enable / disable sliders
-				// enable sliders 
-	    		findPreference("watchdog_awake_threshold").setEnabled(serviceShouldBeRunning);
-	    		findPreference("watchdog_duration_threshold").setEnabled(serviceShouldBeRunning);
-	    		
+				if (serviceShouldBeRunning)
+				{
+					if (!EventWatcherService.isServiceRunning(getActivity()))
+					{
+						Intent i = new Intent(getActivity(), EventWatcherService.class);
+						getActivity().startService(i);
+					}
+				} else
+				{
+					if (EventWatcherService.isServiceRunning(getActivity()))
+					{
+						Intent i = new Intent(getActivity(), EventWatcherService.class);
+						getActivity().stopService(i);
 
-	        }
-	        
-	        if (key.equals("debug_logging"))
-	        {
-	    		boolean enabled = sharedPreferences.getBoolean(key, false);
-	    		if (enabled)
-	    		{
-	    			LogSettings.DEBUG=true;
-	    			CommonLogSettings.DEBUG=true;
-	    		}
-	    		else
-	    		{
-	    			LogSettings.DEBUG=true;
-	    			CommonLogSettings.DEBUG=true;
-	    		}
-	        }
+					}
 
-	        if (key.equals("root_features"))
-	        {
-	    		boolean enabled = sharedPreferences.getBoolean(key, false);
-	    		if (enabled)
-	    		{
-			        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			        builder.setMessage(getString(R.string.message_enable_root))
-			               .setCancelable(false)
-			               .setPositiveButton(getString(R.string.label_button_yes), new DialogInterface.OnClickListener()
-			               {
-			                   public void onClick(DialogInterface dialog, int id)
-			                   {		                        
-			                	   RootShell.getInstance().run("ls /");
-			                   }
-			               })
-			               .setNegativeButton(getString(R.string.label_button_no), new DialogInterface.OnClickListener()
-			               {
-			                   public void onClick(DialogInterface dialog, int id)
-			                   {
-			                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-				           	        SharedPreferences.Editor editor = sharedPrefs.edit();	        
-				        	        editor.putBoolean("root_features", false);
-				        			editor.commit();
-					    	        CheckBoxPreference checkboxPref = (CheckBoxPreference) getPreferenceManager().findPreference("root_features");
-					    	        checkboxPref.setChecked(false);
+				}
 
-			                        dialog.cancel();
-			                   }
-			               });
-			        builder.create().show();
-	    		}
-	        }
-	        
-	        if (key.equals("active_mon_enabled"))
-	        {
-	    		boolean enabled = sharedPreferences.getBoolean(key, false);
+				// enable / disable sliders
+				// enable sliders
+				findPreference("watchdog_awake_threshold").setEnabled(serviceShouldBeRunning);
+				findPreference("watchdog_duration_threshold").setEnabled(serviceShouldBeRunning);
 
-	    		if (enabled)
-	    		{
-			        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			        builder.setMessage(getString(R.string.message_enable_active_mon))
-			               .setCancelable(false)
-			               .setPositiveButton(getString(R.string.label_button_yes), new DialogInterface.OnClickListener()
-			               {
-			                   public void onClick(DialogInterface dialog, int id)
-			                   {		           
-			                	   // Fire the alarms
-			                	   StatsProvider.scheduleActiveMonAlarm(getActivity());
-			                	   dialog.cancel();
-			                   }
-			               })
-			               .setNegativeButton(getString(R.string.label_button_no), new DialogInterface.OnClickListener()
-			               {
-			                   public void onClick(DialogInterface dialog, int id)
-			                   {
-			                	   SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-				           	        SharedPreferences.Editor editor = sharedPrefs.edit();	        
-				        	        editor.putBoolean("active_mon_enabled", false);
-				        			editor.commit();
-					    	        CheckBoxPreference checkboxPref = (CheckBoxPreference) getPreferenceManager().findPreference("root_features");
-					    	        checkboxPref.setChecked(false);
+			}
 
-			                        dialog.cancel();
-			                   }
-			               });
-			        builder.create().show();
+			if (key.equals("debug_logging"))
+			{
+				boolean enabled = sharedPreferences.getBoolean(key, false);
+				if (enabled)
+				{
+					LogSettings.DEBUG = true;
+					CommonLogSettings.DEBUG = true;
+				} else
+				{
+					LogSettings.DEBUG = true;
+					CommonLogSettings.DEBUG = true;
+				}
+			}
 
-	    		}
+			if (key.equals("root_features"))
+			{
+				boolean enabled = sharedPreferences.getBoolean(key, false);
+				if (enabled)
+				{
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setMessage(getString(R.string.message_enable_root))
+							.setCancelable(false)
+							.setPositiveButton(getString(R.string.label_button_yes),
+									new DialogInterface.OnClickListener()
+									{
+										public void onClick(DialogInterface dialog, int id)
+										{
+											RootShell.getInstance().run("ls /");
+										}
+									})
+							.setNegativeButton(getString(R.string.label_button_no),
+									new DialogInterface.OnClickListener()
+									{
+										public void onClick(DialogInterface dialog, int id)
+										{
+											SharedPreferences sharedPrefs = PreferenceManager
+													.getDefaultSharedPreferences(getActivity());
+											SharedPreferences.Editor editor = sharedPrefs.edit();
+											editor.putBoolean("root_features", false);
+											editor.commit();
+											CheckBoxPreference checkboxPref = (CheckBoxPreference) getPreferenceManager()
+													.findPreference("root_features");
+											checkboxPref.setChecked(false);
 
-	    		else
-	    		{
-	    			// cancel any existing alarms
-	         	   StatsProvider.cancelActiveMonAlarm(getActivity());
+											dialog.cancel();
+										}
+									});
+					builder.create().show();
+				}
+			}
 
-	    		}
-	    			
-	        }
-	        if (key.equals("theme"))
-	        {
-	        	//Intent intent = new Intent(getActivity(), PreferencesFragmentActivity_V11.class);
-	        	//getActivity().finish();
-	        	//startActivity(intent);
-	        	Intent i = getActivity().getBaseContext().getPackageManager()
-	                    .getLaunchIntentForPackage( getActivity().getBaseContext().getPackageName() );
-	       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	       startActivity(i);
-	        	
-	        }
-	}
-	
-	
+			if (key.equals("active_mon_enabled"))
+			{
+				boolean enabled = sharedPreferences.getBoolean(key, false);
+
+				if (enabled)
+				{
+					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+					builder.setMessage(getString(R.string.message_enable_active_mon))
+							.setCancelable(false)
+							.setPositiveButton(getString(R.string.label_button_yes),
+									new DialogInterface.OnClickListener()
+									{
+										public void onClick(DialogInterface dialog, int id)
+										{
+											// Fire the alarms
+											StatsProvider.scheduleActiveMonAlarm(getActivity());
+											dialog.cancel();
+										}
+									})
+							.setNegativeButton(getString(R.string.label_button_no),
+									new DialogInterface.OnClickListener()
+									{
+										public void onClick(DialogInterface dialog, int id)
+										{
+											SharedPreferences sharedPrefs = PreferenceManager
+													.getDefaultSharedPreferences(getActivity());
+											SharedPreferences.Editor editor = sharedPrefs.edit();
+											editor.putBoolean("active_mon_enabled", false);
+											editor.commit();
+											CheckBoxPreference checkboxPref = (CheckBoxPreference) getPreferenceManager()
+													.findPreference("root_features");
+											checkboxPref.setChecked(false);
+
+											dialog.cancel();
+										}
+									});
+					builder.create().show();
+
+				}
+
+				else
+				{
+					// cancel any existing alarms
+					StatsProvider.cancelActiveMonAlarm(getActivity());
+
+				}
+
+			}
+			if (key.equals("theme"))
+			{
+				Intent i = getActivity().getBaseContext().getPackageManager()
+						.getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
+
+			}
+		}
+
 	}
 }

@@ -192,7 +192,8 @@
     <string name="pref_active_mon_enabled_summary">Enables active monitoring. Caution: be aware that active monitoring has costs in terms of battery</string>
     <string name="pref_active_mon_freq_title">Frequency [Min.]</string>
     <string name="pref_active_mon_freq_summary">Frequency for saving timer references</string>
-    
+    <string name="pref_force_en_title">Force English</string>
+    <string name="pref_force_en_summary">Force BBS to be in English (requires restart)</string>
     <string name="pref_section_advanced">Advanced</string>
     <string name="pref_debug_logging_summary">Add debug info to logcat</string>
     <string name="pref_debug_logging_title">Debug</string>

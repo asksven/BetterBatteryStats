@@ -187,6 +187,8 @@ Eine Neusinstallation kann erforderlich werden falls Berechtigungen sich veränd
 <string name="pref_active_mon_enabled_summary">"Aktives Monitoriing an. Achtung: das aktive Monitoring verursacht einen Overhead"</string>
 <string name="pref_active_mon_freq_title">"Frequenz [Min.]"</string>
 <string name="pref_active_mon_freq_summary">"Frequenz mit der Referenzen gespeichert werden"</string>
+<string name="pref_force_en_title">Englisch erzwingen</string>
+<string name="pref_force_en_summary">Erzwingt Englisch (erfordert Neustart)</string>
 <string name="pref_section_advanced">"Fortgeschritten"</string>
 <string name="pref_debug_logging_summary">"Debug info für logcat"</string>
 <string name="pref_debug_logging_title">"Debug"</string>
