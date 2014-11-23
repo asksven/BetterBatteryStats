@@ -4,7 +4,7 @@
 
     <PreferenceCategory android:title="@string/pref_section_display" >
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="0"
             android:entries="@array/themeLabels"
             android:entryValues="@array/themeValues"
             android:key="theme"

@@ -47,6 +47,7 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		
 		super.onCreate(savedInstanceState);
 		
 		// we need a layout to inflate the fragment into
@@ -74,6 +75,7 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 		@Override
 		public void onCreate(Bundle savedInstanceState)
 		{
+
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.preferences);
 			
