@@ -163,7 +163,7 @@
     <string name="small_widget_refresh_on_tap_summary">Das Widget wird bei Berührung aktualisiert (wenn nicht wird die App geöffnet)</string>
     
     <!-- stats error / warnings -->
-    <string name="NO_STATS_WHEN_CHARGING">am Ladegerät angeschlossen: keine Werte</string>
+    <string name="NO_STATS_WHEN_CHARGING">am Ladegerät: keine Werte</string>
     <string name="NO_ROOT_ERR">Diese Statistik benötigt root</string>
     <string name="NO_PERM_ERR">Diese Statistik benötigt BATTERY_STATS Rechte</string>
     <string name="NO_REF_ERR">Noch keine Referenz gesetzt</string>
