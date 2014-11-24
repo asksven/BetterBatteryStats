@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+     <release version="2.0.0.0RC1" versioncode="56" >
+        <change>Dodana opcija za forsiranje engleskog</change>
+     </release>
      <release version="2.0.0.0B7" versioncode="55" >
          <change>Popravljeni kernel wakelock-ovi na Lolipop-u (ponovno)</change>
          <change>Bolje skaliranje i veličine fontova za pokazivače</change>
