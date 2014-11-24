@@ -20,6 +20,8 @@
     <string name="message_watchdog_processing">BBS: Watchdog processing...</string>
     <string name="message_watchdog_awake_alert">BBS: Awake alert: %d \%% awake</string>
     <string name="message_computing">Computing...</string>
+    <string name="message_awake_alert">Awake alert</string>
+    <string name="message_awake_info">%s %% awake while screen off</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_welcome">Welcome to %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>

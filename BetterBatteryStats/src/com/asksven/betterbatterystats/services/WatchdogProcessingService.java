@@ -133,7 +133,7 @@ public class WatchdogProcessingService extends IntentService
 
 							// notify the user of the situation
 					    	Notification notification = new Notification(
-					    			R.drawable.icon_notext, "Awake alert", System.currentTimeMillis());
+					    			R.drawable.ic_launcher, getString(R.string.message_awake_alert), System.currentTimeMillis());
 					    	
 							Intent i = new Intent(Intent.ACTION_MAIN);
 							PackageManager manager = this.getPackageManager();
@@ -149,8 +149,7 @@ public class WatchdogProcessingService extends IntentService
 					    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
 					    	notification.setLatestEventInfo(
-					    			this, this.getText(R.string.app_name), 
-					    			awakePct + "% awake while screen off", contentIntent);
+					    			this, this.getText(R.string.app_name), getString(R.string.message_awake_info, awakePct), contentIntent);
 					    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
 					    	nM.notify(EventWatcherService.NOTFICATION_ID, notification);
 						}
