@@ -43,14 +43,14 @@
                 android:entryValues="@array/thumbnailSizeValues"
                 android:key="thumbnail_size"
                 android:summary=""
-                android:title="Thumbnail Size" />
+                android:title="@string/thumbnail_size_title" />
             <ListPreference
                 android:defaultValue="16"
                 android:entries="@array/mediumFontSizeLabels"
                 android:entryValues="@array/mediumFontSizeValues"
                 android:key="medium_font_size"
                 android:summary=""
-                android:title="Medium Font Size" />
+                android:title="@string/medium_font_size_title" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="force_en"

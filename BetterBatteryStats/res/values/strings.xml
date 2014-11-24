@@ -21,6 +21,7 @@
     <string name="message_watchdog_awake_alert">BBS: Awake alert: %d \%% awake</string>
     <string name="message_computing">Computing...</string>
     <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Welcome to %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Remind me later</string>
     <string name="label_button_rate">Rate</string>
@@ -255,6 +256,8 @@
     <string name="pref_category_widget_1x1">1x1 Widget</string>
     <string name="small_widget_refresh_on_tap_title">Refresh on tap</string>
     <string name="small_widget_refresh_on_tap_summary">Tapping the widget refreshes it (if disabled tapping opens the app)</string>
+    <string name="thumbnail_size_title">Thumbnail Size</string>
+    <string name="medium_font_size_title">Medium Font Size</string>
     
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Device is plugged in: no stats</string>

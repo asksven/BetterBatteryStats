@@ -69,7 +69,7 @@ public class FirstLaunch
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
         builder.setMessage(ctx.getString(R.string.message_first_launch))
                .setCancelable(false)
-               .setTitle("Welcome to " + ctx.getString(R.string.app_name))
+               .setTitle(ctx.getString(R.string.app_welcome, ctx.getString(R.string.app_name)))
                .setPositiveButton(ctx.getString(R.string.label_button_ok), new DialogInterface.OnClickListener()
                {
                    public void onClick(DialogInterface dialog, int id)
