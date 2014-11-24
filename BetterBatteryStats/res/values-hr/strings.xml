@@ -191,6 +191,8 @@
     <string name="pref_active_mon_freq_title">Frekvencija [Min.]</string>
     <string name="pref_active_mon_freq_summary">Frekvencija za spremanje vremenskih referenci</string>
     
+    <string name="pref_force_en_title">Forsiraj Engleski</string>
+    <string name="pref_force_en_summary">Forsiraj BBS da bude na engleskom (zahtjeva ponovno pokretanje)</string>
     <string name="pref_section_advanced">Napredno</string>
     <string name="pref_debug_logging_summary">Dodaj debug info u logcat</string>
     <string name="pref_debug_logging_title">Debug</string>
