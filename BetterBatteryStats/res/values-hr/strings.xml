@@ -180,7 +180,7 @@
     <string name="pref_section_watchdog">Čuvar</string>
     <string name="pref_enable_watchdog_title">Omogući</string>
     <string name="pref_enable_watchdog_summary">Omogući čuvarevo procesuiranje</string>
-    <string name="pref_watchdog_on_unlock_title">Čuvar radi kad je otključan uređaj/string>
+    <string name="pref_watchdog_on_unlock_title">Čuvar radi kad je otključan uređaj</string>
     <string name="pref_watchdog_on_unlock_summary">Čuvar radi kada je uređaj otključan (ako ne, onda kad je ekran upaljen)</string>
     <string name="pref_section_warnings">Upozorenja</string>
     <string name="pref_watchdog_awake_threshold_title">Granica za budnost</string>
