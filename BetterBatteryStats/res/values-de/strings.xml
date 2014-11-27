@@ -9,7 +9,7 @@
 <string name="message_hint_stat_type">"Stat. Typ"</string>
 <string name="message_enable_root">"Die root features setzen ein gerootetes Gerät voraus.
 Weiter? "</string>
-<string name="message_enable_active_mon">"Das aktive Monitoring erzeugt ein bestimmtes Overhead und sollte mir Vorsicht genutzt werden.
+<string name="message_enable_active_mon">"Das aktive Monitoring erzeugt ein bestimmtes Overhead und sollte mit Vorsicht genutzt werden.
 Weiter?"</string>
 <string name="message_first_launch">"Eine Referenz 'unplugged' wird nun erzeugt. Diese wird überschrieben wenn das Gerät das nächste mal vom Ladegerät entfernt wird"</string>
 <string name="message_copied_to_clipboard">"% wurde in die Zwischenablage kopiert"</string>
@@ -20,7 +20,7 @@ Weiter?"</string>
 <string name="message_identical_references">"Ein Fehler ist aufgetreten. Beide Statistiken sind identisch (%1$s, %2$s)"</string>
 <string name="message_watchdog_processing">"BBS: Watchdog wird verarbeitet..."</string>
 <string name="message_watchdog_awake_alert">"BBS: Wachzustand Alarm: %d \%% Wachzustand"</string>
-<string name="message_computing">"Verarbeitet..."</string>
+<string name="message_computing">"Aktualisiere Berechnung..."</string>
 <string name="app_name">"BetterBatteryStats"</string>
 <string name="app_pname">"com.asksven.betterbatterystats"</string>
 <string name="label_button_remind">"Später erinnern"</string>
@@ -42,7 +42,7 @@ Weiter?"</string>
 <string name="label_hist_power">"Lad"</string>
 <string name="label_hist_screen">"Bild"</string>
 <string name="label_hist_wakelock">"WL"</string>
-<string name="label_hist_wifi">"Wifi"</string>
+<string name="label_hist_wifi">"WLAN"</string>
 <string name="label_hist_gps">"GPS"</string>
 <string name="label_hist_bluetooth">"BT"</string>
 <string name="label_hist_incall">"Anr"</string>
@@ -51,13 +51,13 @@ Weiter?"</string>
 <string name="label_graph_power">"Laden"</string>
 <string name="label_graph_screen">"Bildschirm an"</string>
 <string name="label_graph_wakelock">"Wakelock"</string>
-<string name="label_graph_wifi">"Wifi"</string>
+<string name="label_graph_wifi">"WLAN"</string>
 <string name="label_graph_gps">"GPS"</string>
 <string name="label_graph_bluetooth">"Bluetooth"</string>
 <string name="label_graph_incall">"Anruf"</string>
 <string name="label_graph_scanning">"Scannt"</string>
 <string name="label_widget_since">"Seit:"</string>
-<string name="label_widget_deep_sleep">"Deep Sleep"</string>
+<string name="label_widget_deep_sleep">"Tiefschlaf"</string>
 <string name="label_widget_awake">"Wach:"</string>
 <string name="label_widget_screen_on">"Bidlschirm an:"</string>
 <string name="label_widget_kernel_wakelock">"KWL:"</string>
@@ -71,7 +71,7 @@ Weiter?"</string>
 <string name="label_permisions_system">"Berechtigungen für System Apps"</string>
 <string name="label_permisions_normal">"Normale Berechtigungen"</string>
 <string name="pref_dashclock_default_stat_type_summary">"Stat. Typ für Anzeige in Dashclock"</string>
-<string name="pref_dashclock_fallback_stat_type_summary">"Set the fallback stat type to be shown in the dashclock if the primary one has no reference"</string>
+<string name="pref_dashclock_fallback_stat_type_summary">"Stellen Sie den Fallback-stat-Typ in der Dashclock ein, wenn der primäre keinen Bezug hat."</string>
 <string name="label_awake_abbrev">"Wach"</string>
 <string name="label_button_share">"Teilen..."</string>
 <string name="label_button_save">"Speichern"</string>
@@ -100,7 +100,7 @@ Weiter?"</string>
 <string name="label_button_yes">"Ja"</string>
 <string name="label_button_no">"Nein danke"</string>
 <string name="label_button_ok">"OK"</string>
-<string name="label_tab_package">"Package"</string>
+<string name="label_tab_package">"Paket"</string>
 <string name="label_tab_permissions">"Berechtigungen"</string>
 <string name="label_tab_services">"Dienste"</string>
 
@@ -124,9 +124,9 @@ Deswegen ist es erforderlich BetterBatteryStats ass System App zu installieren (
 Eine Neusinstallation kann erforderlich werden falls Berechtigungen sich verändern sollten."</string>
 <string name="expl_system_app_workaround">"Falls die Installation nicht gelingt bitte diesen Link nutzen"</string>
 <string name="install_system_app">"System App installieren"</string>
-<string name="uninstall_system_app">"System App delinstallieren"</string>
+<string name="uninstall_system_app">"System App deinstallieren"</string>
 <string name="info_installed_system_app">"System App wurde installiert. Bitte neustarten zum aktivieren."</string>
-<string name="info_uninstalled_system_app">"System App deinistalliert: einstellungen wurden zurückgesetzt. Bitte neu starten."</string>
+<string name="info_uninstalled_system_app">"System App deinistalliert: Einstellungen wurden zurückgesetzt. Bitte neu starten."</string>
 <string name="info_succeeded">"Erfolgreich"</string>
 <string name="info_failed">"Nicht erfolgreich"</string>
 <string name="info_root_required">"Um dieses Feature zu nutzen müssen 'Root' Features aktiviert werden (Fortgeschrittene Einstellungen)"</string>
@@ -139,7 +139,7 @@ Eine Neusinstallation kann erforderlich werden falls Berechtigungen sich veränd
 <string name="info_pref_import_success">"Einstellungen wurden aus %s importiert"</string>
 <string name="info_pref_import_export_failed">"Die Aktion ist fehlgeschlagen"</string>
 <string name="info_deleting_refs">"Referenzen werden gelöscht und wieder erzeugt"</string>
-<string name="info_fallback_to_boot">"Auf 'Since Boot' zurücfallen"</string>
+<string name="info_fallback_to_boot">"Auf 'Since Boot' zurückfallen"</string>
 <string name="info_fallback_to_default">"Auf die Default-Referenz zurückfallen"</string>
 <string name="label_granted">"berechtigt"</string>
 <string name="label_not_granted">"nicht berechtigt"</string>
@@ -157,8 +157,8 @@ Eine Neusinstallation kann erforderlich werden falls Berechtigungen sich veränd
 <string name="pref_section_customize_views">"Darstellung anpassen"</string>
 <string name="pref_show_from_to_ref_title">"Von/bis Referenzen"</string>
 <string name="pref_show_from_to_ref_summary">"Zeige die Refrenz-Auswahl"</string>
-<string name="pref_show_other_wifi_title">"Wifi zeigen"</string>
-<string name="pref_show_other_wifi_summary">"Zeige Wifi-Werte"</string>
+<string name="pref_show_other_wifi_title">"WLAN zeigen"</string>
+<string name="pref_show_other_wifi_summary">"Zeige WLAN-Werte"</string>
 <string name="pref_show_other_signal_title">"Signal zeigen"</string>
 <string name="pref_show_other_signal_summary">"Zeige Signalwerte"</string>
 <string name="pref_show_other_screen_brightness_title">"Bildschrim zeigen"</string>
@@ -170,8 +170,8 @@ Eine Neusinstallation kann erforderlich werden falls Berechtigungen sich veränd
 <string name="pref_section_defaults">"Standards"</string>
 <string name="pref_default_stat_title">"Standard-Statistik"</string>
 <string name="pref_default_stat_summary">"Statistik die beim Start angezeigt werden soll"</string>
-<string name="pref_default_stat_type_title">"Standard Stat. Type"</string>
-<string name="pref_default_stat_type_summary">"Statistik-Type der beim Start anzegeigt werden soll"</string>
+<string name="pref_default_stat_type_title">"Standard Stat. Typ"</string>
+<string name="pref_default_stat_type_summary">"Statistik-Typ der beim Start anzegeigt werden soll"</string>
 <string name="pref_section_watchdog">"Watchdog"</string>
 <string name="pref_enable_watchdog_title">"Aktivieren"</string>
 <string name="pref_enable_watchdog_summary">"Aktiviert den Watchdog"</string>
@@ -182,7 +182,7 @@ Eine Neusinstallation kann erforderlich werden falls Berechtigungen sich veränd
 <string name="pref_watchdog_awake_threshold_summary">"Grenzwert für Warnung (wach / total)"</string>
 <string name="pref_ref_for_screen_off_title">"Grenzwert Dauer [Min.]"</string>
 <string name="pref_ref_for_screen_off_summary">"Ab wie lange aus wird ausgelöst"</string>
-<string name="pref_section_active_mon">"Actives Monitoring"</string>
+<string name="pref_section_active_mon">"Aktives Monitoring"</string>
 <string name="pref_active_mon_enabled_title">"Aktivieren"</string>
 <string name="pref_active_mon_enabled_summary">"Aktives Monitoriing an. Achtung: das aktive Monitoring verursacht einen Overhead"</string>
 <string name="pref_active_mon_freq_title">"Frequenz [Min.]"</string>
@@ -216,7 +216,7 @@ Eine Neusinstallation kann erforderlich werden falls Berechtigungen sich veränd
 <string name="pref_force_kwl_api_title">"API für Kernel Wakelocks"</string>
 <string name="pref_force_kwl_api_summary">"Erzwingt die Nutzung der API für Kernel Wakelocks"</string>
 <string name="pref_use_su_context_title">"su --context nutzen"</string>
-<string name="pref_use_su_context_summary">"Expermientell: kann zu langen Autwurtzeiten führen"</string>
+<string name="pref_use_su_context_summary">"Expermientell: kann zu langen Antwortzeiten führen"</string>
 <string name="pref_screen_system_app_title">"System App"</string>
 <string name="pref_screen_system_app_summary">"Als System App installieren"</string>
 <string name="pref_screen_import_export_title">"Import/Export"</string>
@@ -237,7 +237,7 @@ Eine Neusinstallation kann erforderlich werden falls Berechtigungen sich veränd
 <string name="widget_default_stat_type_title">"Stat Typ"</string>
 <string name="widget_default_stat_type_summary">"Definiert welcher Stat. Typ angeziegt wird"</string>
 <string name="large_widget_font_size_title">"Schriftgröße"</string>
-<string name="large_widget_font_size_summary">"Sets die zu verwendende Schriftgröße"</string>
+<string name="large_widget_font_size_summary">"Setzt die zu verwendende Schriftgröße"</string>
 <string name="large_widget_show_pct_title">"Zeige %"</string>
 <string name="large_widget_show_pct_summary">"Zeige Dauern in % von Gesamtzeit"</string>
 <string name="widget_opacity_title">"Opazität"</string>

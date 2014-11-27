@@ -192,7 +192,8 @@
     <string name="pref_active_mon_enabled_summary">Включение активного мониторинга. Предупреждение: активный мониторинг может уменьшить жизнь батареи</string>
     <string name="pref_active_mon_freq_title">Частота [мин.]</string>
     <string name="pref_active_mon_freq_summary">Частота сохранения меток таймера</string>
-        
+    <string name="pref_force_en_title">Английский принудительно</string>
+    <string name="pref_force_en_summary">Включение английского для BBS (необходим перезапуск)</string>    
     <string name="pref_section_advanced">Дополнительно</string>
     <string name="pref_debug_logging_summary">Добавить информацию об отладке в логкат</string>
     <string name="pref_debug_logging_title">Отладка</string>
