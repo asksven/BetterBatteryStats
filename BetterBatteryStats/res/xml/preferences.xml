@@ -350,11 +350,6 @@
                 android:key="force_alarms_api"
                 android:summary="@string/pref_force_alarms_api_summary"
                 android:title="@string/pref_force_alarms_api_title" />
-                        <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="use_su_context"
-                android:summary="@string/pref_use_su_context_summary"
-                android:title="@string/pref_use_su_context_title" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="force_kwl_api"
