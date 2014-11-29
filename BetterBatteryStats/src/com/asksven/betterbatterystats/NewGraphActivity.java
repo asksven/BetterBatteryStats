@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
@@ -41,13 +42,14 @@ import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.GraphsAdapter;
 import com.asksven.betterbatterystats.data.BatteryGraphSeries;
 import com.asksven.betterbatterystats.widgets.GraphableBarsPlot;
-import com.asksven.betterbatterystats.widgets.GraphableBarsTimeline;
 
 public class NewGraphActivity extends ActionBarListActivity
 {
 
 	private static final String TAG = "NewGraphActivity";
 	protected static ArrayList<HistoryItem> m_histList;
+	GraphsAdapter m_adapter = null;
+	ProgressDialog m_progressDialog;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -63,15 +65,17 @@ public class NewGraphActivity extends ActionBarListActivity
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		m_histList = getHistList();
+		m_histList = null; //getHistList();
 
-		GraphsAdapter adapter = new GraphsAdapter(this, m_histList);
-		setListAdapter(adapter);
+		m_adapter = new GraphsAdapter(this, m_histList);
+		setListAdapter(m_adapter);
 
 		BatteryGraphSeries mySerie1 = new BatteryGraphSeries(m_histList, BatteryGraphSeries.SERIE_CHARGE, "Battery");
 
 		GraphableBarsPlot bars = (GraphableBarsPlot) this.findViewById(R.id.Battery);
 		bars.setValues(mySerie1.getValues());
+		
+		new LoadSerieData().execute();
 
 	}
 	/** 
@@ -151,6 +155,86 @@ public class NewGraphActivity extends ActionBarListActivity
 	        // update hourglass
 	    }
 	}
+	
+	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
+		// for more details
+		private class LoadSerieData extends AsyncTask<Void, Void, ArrayList<HistoryItem>>
+		{
+			@Override
+		    protected ArrayList<HistoryItem> doInBackground(Void... params)
+		    {
+
+				ArrayList<HistoryItem> list = null;
+				try
+				{
+					Log.i(TAG, "LoadSerieData: refreshing series");
+					list = getHistList();
+				}
+				catch (Exception e)
+				{
+					//Log.e(TAG, e.getMessage(), e.fillInStackTrace());
+					Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
+
+				}
+
+		    	//StatsActivity.this.setListAdapter(m_listViewAdapter);
+		        // getStatList();
+		        return list;
+		    }
+			
+//			@Override
+			protected void onPostExecute(ArrayList<HistoryItem> list)
+		    {
+//				super.onPostExecute(o);
+		        // update hourglass
+				try
+				{
+			    	if (m_progressDialog != null)
+			    	{
+			    		m_progressDialog.dismiss(); //hide();
+			    		m_progressDialog = null;
+			    	}
+				}
+				catch (Exception e)
+				{
+					// nop
+				}
+				finally 
+				{
+					m_progressDialog = null;
+				}
+
+		    	
+		    	m_adapter.setList(list);
+		    	m_adapter.notifyDataSetChanged();
+		    	BatteryGraphSeries mySerie1 = new BatteryGraphSeries(list, BatteryGraphSeries.SERIE_CHARGE, "Battery");
+
+				GraphableBarsPlot bars = (GraphableBarsPlot) NewGraphActivity.this.findViewById(R.id.Battery);
+				bars.setValues(mySerie1.getValues());
+
+		    }
+//		    @Override
+		    protected void onPreExecute()
+		    {
+		        // update hourglass
+		    	// @todo this code is only there because onItemSelected is called twice
+		    	if (m_progressDialog == null)
+		    	{
+		    		try
+		    		{
+				    	m_progressDialog = new ProgressDialog(NewGraphActivity.this);
+				    	m_progressDialog.setMessage(getString(R.string.message_computing));
+				    	m_progressDialog.setIndeterminate(true);
+				    	m_progressDialog.setCancelable(false);
+				    	m_progressDialog.show();
+		    		}
+		    		catch (Exception e)
+		    		{
+		    			m_progressDialog = null;
+		    		}
+		    	}
+		    }
+		}
 	/** 
 	 * Dumps relevant data to an output file
 	 * 

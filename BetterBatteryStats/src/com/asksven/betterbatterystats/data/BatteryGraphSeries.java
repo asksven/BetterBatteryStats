@@ -101,6 +101,10 @@ public class BatteryGraphSeries
     public ArrayList<Datapoint> getValues()
     {
     	ArrayList<Datapoint> ret = new ArrayList<Datapoint>();
+    	
+    	if (m_dataSource == null)
+    		return ret;
+    	
     	for (int index = 0; index < m_dataSource.size(); index++)
     	{
     		Datapoint data = new Datapoint();

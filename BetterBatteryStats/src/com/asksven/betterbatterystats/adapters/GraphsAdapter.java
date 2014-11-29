@@ -49,6 +49,13 @@ public class GraphsAdapter extends ArrayAdapter<String>
 		this.seriesSetup();
 	}
 
+	public void setList(ArrayList<HistoryItem> history)
+	{
+		m_histList = history;
+		m_graphs.clear();
+		this.seriesSetup();
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
