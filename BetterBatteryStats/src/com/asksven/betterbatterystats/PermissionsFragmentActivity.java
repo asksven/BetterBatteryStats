@@ -141,7 +141,7 @@ public class PermissionsFragmentActivity extends BaseActivity
 	    	Dialog dialog = new Dialog(context);
 	    	
 	    	dialog.setContentView(R.layout.permissions_legend_dialog);
-	    	dialog.setTitle("Legend");
+	    	dialog.setTitle(getString(R.string.label_legend));
 	
 	    	dialog.show();
 		}
