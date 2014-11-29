@@ -23,7 +23,7 @@
         android:text="Title"
         android:textSize="@dimen/text_size_medium" />
 
-    <com.asksven.betterbatterystats.widgets.GraphableBarsTimeline
+    <com.asksven.betterbatterystats.widgets.GraphableBarsPlot
         android:id="@+id/Timeline"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/thumbnail_size"

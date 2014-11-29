@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 asksven
+ * Copyright (C) 2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,15 +40,17 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.GraphsAdapter;
-import com.asksven.betterbatterystats.data.BatteryGraphSeries;
+import com.asksven.betterbatterystats.data.GraphSerie;
+import com.asksven.betterbatterystats.data.GraphSeriesFactory;
 import com.asksven.betterbatterystats.widgets.GraphableBarsPlot;
 
 public class NewGraphActivity extends ActionBarListActivity
 {
 
 	private static final String TAG = "NewGraphActivity";
-	protected static ArrayList<HistoryItem> m_histList;
+	//protected static ArrayList<HistoryItem> m_histList;
 	GraphsAdapter m_adapter = null;
+	//GraphSeriesFactory m_series = null;
 	ProgressDialog m_progressDialog;
 
 	/** Called when the activity is first created. */
@@ -65,15 +67,15 @@ public class NewGraphActivity extends ActionBarListActivity
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		m_histList = null; //getHistList();
+		//m_histList = null; //getHistList();
 
-		m_adapter = new GraphsAdapter(this, m_histList);
+		m_adapter = new GraphsAdapter(this, null); //m_histList);
 		setListAdapter(m_adapter);
 
-		BatteryGraphSeries mySerie1 = new BatteryGraphSeries(m_histList, BatteryGraphSeries.SERIE_CHARGE, "Battery");
+		//BatteryGraphSeries mySerie1 = new BatteryGraphSeries(m_histList, BatteryGraphSeries.SERIE_CHARGE, "Battery");
 
-		GraphableBarsPlot bars = (GraphableBarsPlot) this.findViewById(R.id.Battery);
-		bars.setValues(mySerie1.getValues());
+		//GraphableBarsPlot bars = (GraphableBarsPlot) this.findViewById(R.id.Battery);
+		//bars.setValues(mySerie1.getValues());
 		
 		new LoadSerieData().execute();
 
@@ -130,7 +132,7 @@ public class NewGraphActivity extends ActionBarListActivity
 		try
 		{
 			myRet = mStats.getHistory(this);
-			mStats.dumpHistory(this);
+			//mStats.dumpHistory(this);
 		}
 		catch (Exception e)
 		{
@@ -158,32 +160,29 @@ public class NewGraphActivity extends ActionBarListActivity
 	
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 		// for more details
-		private class LoadSerieData extends AsyncTask<Void, Void, ArrayList<HistoryItem>>
+		private class LoadSerieData extends AsyncTask<Void, Void, GraphSeriesFactory>
 		{
 			@Override
-		    protected ArrayList<HistoryItem> doInBackground(Void... params)
+		    protected GraphSeriesFactory doInBackground(Void... params)
 		    {
 
-				ArrayList<HistoryItem> list = null;
+				//ArrayList<HistoryItem> list = null;
+				GraphSeriesFactory store = null; 
 				try
 				{
 					Log.i(TAG, "LoadSerieData: refreshing series");
-					list = getHistList();
+					store = new GraphSeriesFactory(getHistList());
 				}
 				catch (Exception e)
 				{
-					//Log.e(TAG, e.getMessage(), e.fillInStackTrace());
 					Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
-
 				}
 
-		    	//StatsActivity.this.setListAdapter(m_listViewAdapter);
-		        // getStatList();
-		        return list;
+		        return store;
 		    }
 			
 //			@Override
-			protected void onPostExecute(ArrayList<HistoryItem> list)
+			protected void onPostExecute(GraphSeriesFactory list)
 		    {
 //				super.onPostExecute(o);
 		        // update hourglass
@@ -191,7 +190,7 @@ public class NewGraphActivity extends ActionBarListActivity
 				{
 			    	if (m_progressDialog != null)
 			    	{
-			    		m_progressDialog.dismiss(); //hide();
+			    		m_progressDialog.dismiss();
 			    		m_progressDialog = null;
 			    	}
 				}
@@ -205,9 +204,12 @@ public class NewGraphActivity extends ActionBarListActivity
 				}
 
 		    	
-		    	m_adapter.setList(list);
+		    	m_adapter.setSeries(list);
 		    	m_adapter.notifyDataSetChanged();
-		    	BatteryGraphSeries mySerie1 = new BatteryGraphSeries(list, BatteryGraphSeries.SERIE_CHARGE, "Battery");
+		    	GraphSerie mySerie1 = new GraphSerie(
+		    			NewGraphActivity.this.getString(R.string.label_graph_battery),
+		    			list.getValues(GraphSeriesFactory.SERIE_CHARGE));
+		   
 
 				GraphableBarsPlot bars = (GraphableBarsPlot) NewGraphActivity.this.findViewById(R.id.Battery);
 				bars.setValues(mySerie1.getValues());
@@ -272,10 +274,10 @@ public class NewGraphActivity extends ActionBarListActivity
 						+ "Wakelock;BT On;In Call;"
 						+ "Phone Scanning"
 						+ "\n");
-				
-				for (int i=0; i < m_histList.size(); i++)
+				ArrayList<HistoryItem> histList = getHistList();
+				for (int i=0; i < histList.size(); i++)
 				{
-			    	HistoryItem entry = m_histList.get(i);
+			    	HistoryItem entry = histList.get(i);
 			    	
 			       	out.write(
 			       			entry.getNormalizedTime() + ";"

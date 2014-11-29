@@ -2,6 +2,10 @@
 <changelog>
     <release version="2.0.0.0RC1" versioncode="56" >
         <change>Added pref to force EN</change>
+        <change>Removed experimental su --context option</change>
+        <change>More language fixes and new translations</change>
+        <change>Updated to latest appcompat libs</change>
+        <change>Fixed battery graph always showing the same values</change>
 	</release>
     <release version="2.0.0.0B7" versioncode="55" >
          <change>Fixed kernel wakelocks on Lolipop (again)</change>

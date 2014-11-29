@@ -36,9 +36,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.HistoryItem;
+import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.HistAdapter;
 
@@ -171,10 +173,27 @@ public class HistActivity extends ActionBarListActivity
 	
 	/**
 	 * Get the Stat to be displayed
+	 * 
 	 * @return a List of StatElements sorted (descending)
 	 */
-	private ArrayList<HistoryItem> getHistList()
+	protected ArrayList<HistoryItem> getHistList()
 	{
-		return NewGraphActivity.m_histList;
+		if (AndroidVersion.isFroyo())
+		{
+			Toast.makeText(this, getString(R.string.message_no_hist_froyo), Toast.LENGTH_SHORT).show();
+		}
+		ArrayList<HistoryItem> myRet = new ArrayList<HistoryItem>();
+
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(this);
+		try
+		{
+			myRet = mStats.getHistory(this);
+			//mStats.dumpHistory(this);
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, "An error occured while retrieving history. No result");
+		}
+		return myRet;
 	}
 }

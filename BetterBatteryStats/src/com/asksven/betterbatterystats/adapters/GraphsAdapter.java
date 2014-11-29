@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 asksven
+ * Copyright (C) 2014 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,41 +17,47 @@ package com.asksven.betterbatterystats.adapters;
 
 import java.util.ArrayList;
 
-import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.android.common.privateapiproxies.HistoryItem;
-import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.data.BatteryGraphSeries;
-import com.asksven.betterbatterystats.widgets.GraphableBarsTimeline;
-
+import com.asksven.betterbatterystats.data.GraphSerie;
+import com.asksven.betterbatterystats.data.GraphSeriesFactory;
+import com.asksven.betterbatterystats.widgets.GraphableBarsPlot;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class GraphsAdapter extends ArrayAdapter<String>
 {
 	private static final String TAG = "GraphsAdapter";
 	private final Context m_context;
-	private ArrayList<BatteryGraphSeries> m_graphs = new ArrayList<BatteryGraphSeries>();
+	private ArrayList<GraphSerie> m_graphs = new ArrayList<GraphSerie>();
+	private GraphSeriesFactory m_series = null;
+	//protected static ArrayList<HistoryItem> m_histList;
 
-	protected static ArrayList<HistoryItem> m_histList;
-
-	public GraphsAdapter(Context context, ArrayList<HistoryItem> history)
+	public GraphsAdapter(Context context, GraphSeriesFactory history)
 	{
 		super(context, R.layout.credits_row);
 		this.m_context = context;
-		m_histList = history;
-		this.seriesSetup();
+		//m_histList = history;
+		m_series = history;
+		if (m_series != null)
+		{
+			this.seriesSetup();
+		}
 	}
 
-	public void setList(ArrayList<HistoryItem> history)
+//	public void setList(ArrayList<HistoryItem> history)
+//	{
+//		m_histList = history;
+//		m_graphs.clear();
+//		this.seriesSetup();
+//	}
+	
+	public void setSeries(GraphSeriesFactory series)
 	{
-		m_histList = history;
+		m_series = series;
 		m_graphs.clear();
 		this.seriesSetup();
 	}
@@ -70,7 +76,7 @@ public class GraphsAdapter extends ArrayAdapter<String>
 		TextView textViewTitle = (TextView) convertView.findViewById(R.id.textViewTitle);
 		textViewTitle.setText(m_graphs.get(position).getTitle());
 		
-        GraphableBarsTimeline bars = (GraphableBarsTimeline) convertView.findViewById(R.id.Timeline);	
+        GraphableBarsPlot bars = (GraphableBarsPlot) convertView.findViewById(R.id.Timeline);	
         bars.setValues(m_graphs.get(position).getValues());
 
 
@@ -102,50 +108,49 @@ public class GraphsAdapter extends ArrayAdapter<String>
 	private void seriesSetup()
     {
         // SERIES #2:
-        BatteryGraphSeries mySerie1 = new BatteryGraphSeries(
-        		m_histList,
-        		BatteryGraphSeries.SERIE_WAKELOCK,
-        		m_context.getString(R.string.label_graph_wakelock));
+        GraphSerie mySerie1 = new GraphSerie(
+        		m_context.getString(R.string.label_graph_wakelock),
+        		m_series.getValues(GraphSeriesFactory.SERIE_WAKELOCK));
 
         m_graphs.add(mySerie1);	        
 
         
         // SERIES #3:
-		BatteryGraphSeries mySerie2 = new BatteryGraphSeries(
-				m_histList,
-				BatteryGraphSeries.SERIE_SCREENON,
-				m_context.getString(R.string.label_graph_screen));
+        GraphSerie mySerie2 = new GraphSerie(
+        		m_context.getString(R.string.label_graph_screen),
+        		m_series.getValues(GraphSeriesFactory.SERIE_SCREENON));
+
 		m_graphs.add(mySerie2);	        
 
 
         // SERIES #4:
-		BatteryGraphSeries mySerie3 = new BatteryGraphSeries(
-				m_histList,
-				BatteryGraphSeries.SERIE_WIFI,
-				m_context.getString(R.string.label_graph_wifi));
+		GraphSerie mySerie3 = new GraphSerie(
+        		m_context.getString(R.string.label_graph_wifi),
+        		m_series.getValues(GraphSeriesFactory.SERIE_WIFI));
+
 		m_graphs.add(mySerie3);	        
 
 
         // SERIES #4:
-		BatteryGraphSeries mySerie4 = new BatteryGraphSeries(
-				m_histList,
-				BatteryGraphSeries.SERIE_CHARGING,
-				m_context.getString(R.string.label_graph_power));
+		GraphSerie mySerie4 = new GraphSerie(
+        		m_context.getString(R.string.label_graph_power),
+        		m_series.getValues(GraphSeriesFactory.SERIE_CHARGING));
+
 		m_graphs.add(mySerie4);	                
 
         // SERIES #6:
-		BatteryGraphSeries mySerie6 = new BatteryGraphSeries(
-				m_histList,
-				BatteryGraphSeries.SERIE_GPS,
-				m_context.getString(R.string.label_graph_gps));
+		GraphSerie mySerie6 = new GraphSerie(
+        		m_context.getString(R.string.label_graph_gps),
+        		m_series.getValues(GraphSeriesFactory.SERIE_GPS));
+
 		m_graphs.add(mySerie6);	        
 
 
         // SERIES #7:
-		BatteryGraphSeries mySerie7 = new BatteryGraphSeries(
-				m_histList,
-				BatteryGraphSeries.SERIE_BT,
-				m_context.getString(R.string.label_graph_bluetooth));
+		GraphSerie mySerie7 = new GraphSerie(
+        		m_context.getString(R.string.label_graph_bluetooth),
+        		m_series.getValues(GraphSeriesFactory.SERIE_BT));
+
 		m_graphs.add(mySerie7);	        
 
 

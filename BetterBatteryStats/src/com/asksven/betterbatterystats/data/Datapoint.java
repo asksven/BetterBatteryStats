@@ -34,4 +34,9 @@ public class Datapoint
 		mX = x;
 		mY = y;
 	}
+	
+	public String toString()
+	{
+		return "X=" + mX + ", Y=" + mY;
+	}
 }
