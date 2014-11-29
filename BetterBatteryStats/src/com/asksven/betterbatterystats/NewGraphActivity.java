@@ -40,6 +40,7 @@ import com.asksven.android.system.AndroidVersion;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.GraphsAdapter;
 import com.asksven.betterbatterystats.data.BatteryGraphSeries;
+import com.asksven.betterbatterystats.widgets.GraphableBarsPlot;
 import com.asksven.betterbatterystats.widgets.GraphableBarsTimeline;
 
 public class NewGraphActivity extends ActionBarListActivity
@@ -69,7 +70,7 @@ public class NewGraphActivity extends ActionBarListActivity
 
 		BatteryGraphSeries mySerie1 = new BatteryGraphSeries(m_histList, BatteryGraphSeries.SERIE_CHARGE, "Battery");
 
-		GraphableBarsTimeline bars = (GraphableBarsTimeline) this.findViewById(R.id.Battery);
+		GraphableBarsPlot bars = (GraphableBarsPlot) this.findViewById(R.id.Battery);
 		bars.setValues(mySerie1.getValues());
 
 	}

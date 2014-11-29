@@ -30,7 +30,7 @@ import android.widget.ImageView;
 /**
  * @author sven
  */
-public class GraphableBarsPlot extends GraphableBarsTimeline
+public class GraphableBarsPlot extends ImageView
 {
 	private static final String TAG = "GraphableBarsPlot";
 	private Context m_context;
@@ -67,6 +67,39 @@ public class GraphableBarsPlot extends GraphableBarsTimeline
 		sPaint.setColor(m_context.getResources().getColor(R.color.peterriver));
 	}
 
+	public void setValues(ArrayList<Datapoint> values)
+	{
+		// we can skip the "0" values as they will not be painted
+		mValues = new ArrayList<Datapoint>();
+		for (int i=0; i < values.size(); i++)
+		{
+			if (i == 1)
+			{
+				mMinX = values.get(i).mX;
+			}
+			
+			if (values.get(i).mY != 0)
+			{
+				mValues.add(values.get(i));
+				if (values.get(i).mX > mMaxX)
+				{
+					mMaxX = values.get(i).mX;
+				}
+				if (values.get(i).mY < mMinY)
+				{
+					mMinY = values.get(i).mY;
+				}
+
+				if (values.get(i).mY > mMaxY)
+				{
+					mMaxY = values.get(i).mY;
+				}
+			}
+		}
+		// we must force onDraw by invalidating the View (see
+		// http://wing-linux.sourceforge.net/guide/topics/graphics/index.html)
+		this.invalidate();
+	}
 
 	@Override
     public void onDraw(Canvas canvas)
@@ -74,6 +107,7 @@ public class GraphableBarsPlot extends GraphableBarsTimeline
     	// set some values for the gauge to get painted in the res editor
     	if (mValues == null)
     	{
+    		
     		mValues = new ArrayList<Datapoint>();
     		
 
@@ -136,6 +170,7 @@ public class GraphableBarsPlot extends GraphableBarsTimeline
         	prevY = posY;
             //canvas.drawLine(posX, ymax, posX, ymax - posY, sPaint);
         }
-        //super.onDraw(canvas);
+        
+        super.onDraw(canvas);
     }
 }
