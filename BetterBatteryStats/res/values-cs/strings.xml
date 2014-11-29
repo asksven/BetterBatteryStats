@@ -192,7 +192,8 @@
     <string name="pref_active_mon_enabled_summary">Povolit aktivní monitorování. Pozor: aktivní monitorování zvyšuje spotřebu energie</string>
     <string name="pref_active_mon_freq_title">Frekvence [Min.]</string>
     <string name="pref_active_mon_freq_summary">Frekvence ukládání časových ref. bodů</string>
-
+    <string name="pref_force_en_title">Vynutit angličtinu</string>
+    <string name="pref_force_en_summary">Vynutit použití anglického jazyka (vyžaduje restart aplikace)</string>
     <string name="pref_section_advanced">Pokročilé</string>
     <string name="pref_debug_logging_summary">Přidávat debug informace do logcat logu</string>
     <string name="pref_debug_logging_title">Debug</string>
