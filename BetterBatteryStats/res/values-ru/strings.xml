@@ -18,10 +18,10 @@
     <string name="message_error_writing_dumpfile">Произошла ошибка при получении дампа истории</string>
     <string name="message_identical_references">Произошла ошибка. Обе статистики идентичны (%1$1, %2$s)</string>
     <string name="message_watchdog_processing">BBS: обработка в дежурном режиме...</string>
-    <string name="message_watchdog_awake_alert">BBS: уведомление о бодрствовании: %d \%% бодрств.</string>
+    <string name="message_watchdog_awake_alert">BBS: уведомление о бодрствовании: %1$d%% бодрств.</string>
     <string name="message_computing">Вычисление...</string>
     <string name="message_awake_alert">Предупр. о бодрствовании</string>
-    <string name="message_awake_info">%s %% бодрств. при выкл. экране</string>
+    <string name="message_awake_info">%1$d%% бодрств. при выкл. экране</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_welcome">Добро пожаловать в %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>

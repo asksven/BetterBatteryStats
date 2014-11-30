@@ -18,13 +18,12 @@
     <string name="message_error_writing_dumpfile">Došlo k chybě při čtení historie</string>
     <string name="message_identical_references">Došlo k chybě. Obě statistiky jsou shodné (%1$1, %2$s)</string>
     <string name="message_watchdog_processing">BBS: Zpracovávání Watchdog...</string>
-    <string name="message_watchdog_awake_alert">BBS: Varování pro probuzení: %d \%% probuzen</string>
+    <string name="message_watchdog_awake_alert">BBS: Varování pro probuzení: %1$d%% probuzen</string>
     <string name="message_computing">Počítám...</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Připomenout později</string>
     <string name="label_button_rate">Hodnotit</string>
-    <string name="label_button_no">Ne, děkuji</string>
     <string name="label_button_recovery">Stáhnout Recovery ZIP</string>
     <string name="text_dialog_rate">Pokud jste spokojeni s %s, věnujte prosím chvíli jejímu ohodnocení. Děkuji za vaši podporu!</string>
     <string name="label_stat_type">Typ statistiky</string>

@@ -18,7 +18,7 @@
     <string name="message_error_writing_dumpfile">Dogodila se greška za vrijeme izbacivanja povijesti</string>
     <string name="message_identical_references">Dogodila se greška. Obje statistike su jednake (%1$1, %2$s)</string>
     <string name="message_watchdog_processing">BBS: Čuvar procesuira...</string>
-    <string name="message_watchdog_awake_alert">BBS: Uzbuna o buđenju: %d \%% budna.</string>
+    <string name="message_watchdog_awake_alert">BBS: Uzbuna o buđenju: %1$d%% budna.</string>
     <string name="message_computing">Računam...</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>

@@ -129,7 +129,7 @@ public class WatchdogProcessingService extends IntentService
 						if (awakePct >= awakeThresholdPct)
 						{
 
-							Toast.makeText(this, getString(R.string.message_watchdog_awake_alert, awakePct), Toast.LENGTH_SHORT).show();
+							//Toast.makeText(this, getString(R.string.message_watchdog_awake_alert, awakePct), Toast.LENGTH_SHORT).show();
 
 							// notify the user of the situation
 					    	Notification notification = new Notification(
@@ -148,8 +148,17 @@ public class WatchdogProcessingService extends IntentService
 
 					    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
+					    	String alertText = "";
+					    	try
+					    	{
+					    		alertText = getString(R.string.message_awake_info, awakePct);
+					    	}
+					    	catch (Exception e)
+					    	{
+					    		alertText = getString(R.string.message_awake_alert);
+					    	}
 					    	notification.setLatestEventInfo(
-					    			this, this.getText(R.string.app_name), getString(R.string.message_awake_info, awakePct), contentIntent);
+					    			this, this.getText(R.string.app_name), alertText, contentIntent);
 					    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
 					    	nM.notify(EventWatcherService.NOTFICATION_ID, notification);
 						}

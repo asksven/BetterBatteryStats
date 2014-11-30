@@ -19,7 +19,7 @@ Weiter?"</string>
 <string name="message_error_writing_dumpfile">"Ein Fehler ist beim speichern aufgetreten"</string>
 <string name="message_identical_references">"Ein Fehler ist aufgetreten. Beide Statistiken sind identisch (%1$s, %2$s)"</string>
 <string name="message_watchdog_processing">"BBS: Watchdog wird verarbeitet..."</string>
-<string name="message_watchdog_awake_alert">"BBS: Wachzustand Alarm: %d \%% Wachzustand"</string>
+<string name="message_watchdog_awake_alert">"BBS: Wachzustand Alarm: %1$d%% Wachzustand"</string>
 <string name="message_computing">"Aktualisiere Berechnung..."</string>
 <string name="app_name">"BetterBatteryStats"</string>
 <string name="app_pname">"com.asksven.betterbatterystats"</string>

@@ -17,7 +17,7 @@
 <string name="message_error_writing_dumpfile">Si è verificato un errore scaricando lo storico dei dati</string>
 <string name="message_identical_references">Si è verificato un errore. Le statistiche sono identiche (%1$1, %2$s)</string>
 <string name="message_watchdog_processing">BBS: Processamento watchdog...</string>
-<string name="message_watchdog_awake_alert">BBS: Allarme attività: %d \%% awake</string>
+<string name="message_watchdog_awake_alert">BBS: Allarme attività: %1$d%% awake</string>
 <string name="message_computing">Calcolando...</string>
 <string name="app_name">BetterBatteryStats</string>
 <string name="app_pname">com.asksven.betterbatterystats</string>
