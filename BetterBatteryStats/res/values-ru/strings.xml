@@ -20,7 +20,10 @@
     <string name="message_watchdog_processing">BBS: обработка в дежурном режиме...</string>
     <string name="message_watchdog_awake_alert">BBS: уведомление о бодрствовании: %d \%% бодрств.</string>
     <string name="message_computing">Вычисление...</string>
+    <string name="message_awake_alert">Предупр. о бодрствовании</string>
+    <string name="message_awake_info">%s %% бодрств. при выкл. экране</string>
     <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Добро пожаловать в %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Напомнить позже</string>
     <string name="label_button_rate">Оценить</string>
@@ -125,7 +128,7 @@
     <string name="pref_theme_summary">Переключить тему</string>
                
     <!-- System app activity -->
-    <string name="expl_system_app">OНа Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений.</string>
+    <string name="expl_system_app">На Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений.</string>
     <string name="expl_system_app_workaround">При сбое установки приложения, пожалуйста, используйте этот метод</string>
     <string name="install_system_app">Установить как системное</string>
     <string name="uninstall_system_app">Удалить системное</string>
@@ -161,7 +164,7 @@
     <string name="pref_graph_bar_height_summary">Если Вы используете значения плотности не по умолчанию, здесь Вы можете изменить высоту полос</string>
     <string name="pref_section_customize_views">Настройка вида</string>
     <string name="pref_show_from_to_ref_title">Метки от/до</string>
-    <string name="pref_show_from_to_ref_summary">Отображение выбора меток</string>
+    <string name="pref_show_from_to_ref_summary">Показать выбор меток</string>
     <string name="pref_show_other_wifi_title">Показать Wifi</string>
     <string name="pref_show_other_wifi_summary">Показать значения Wifi</string>
     <string name="pref_show_other_signal_title">Показать сигнал</string>
@@ -222,8 +225,6 @@
     <string name="pref_force_alarms_api_summary">Принудительное использование API для получения сигналов</string>
     <string name="pref_force_kwl_api_title">Вэйклоки ядра с API</string>
     <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
-    <string name="pref_use_su_context_title">Использовать su --context</string>
-    <string name="pref_use_su_context_summary">Экспериментальная функция: использование su --context (может быть медленным)</string>
     <string name="pref_screen_system_app_title">Системное</string>
     <string name="pref_screen_system_app_summary">Установить как системное приложение</string>
     <string name="pref_screen_import_export_title">Импорт/экспорт</string>
@@ -255,6 +256,8 @@
     <string name="pref_category_widget_1x1">Виджет 1x1</string>
     <string name="small_widget_refresh_on_tap_title">Обновить нажатием</string>
     <string name="small_widget_refresh_on_tap_summary">Нажатие на виджете обновляет его (если отключено открытие приложения по нажатию)</string>
+    <string name="thumbnail_size_title">Размер эскизов</string>
+    <string name="medium_font_size_title">Средний размер шрифта</string>
 	
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Устройство подключено к ЗУ: нет статистики</string>
