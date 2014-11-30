@@ -17,13 +17,7 @@ package com.asksven.betterbatterystats.data;
 
 import java.util.ArrayList;
 
-import org.junit.experimental.theories.DataPoint;
-
 import android.util.Log;
-
-import com.androidplot.series.XYSeries;
-import com.asksven.android.common.privateapiproxies.HistoryItem;
-import com.asksven.betterbatterystats.R;
 
 /**
  * The data source for all series to plot

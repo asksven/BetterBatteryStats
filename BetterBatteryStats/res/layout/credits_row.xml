@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:orientation="vertical" >
+
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -49,4 +45,3 @@
             android:textSize="@dimen/text_size_tiny" />
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
