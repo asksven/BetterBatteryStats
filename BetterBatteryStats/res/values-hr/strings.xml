@@ -10,7 +10,7 @@
     <string name="message_hint_stat_type">Vrsta statistike</string>
     <string name="message_enable_root">Omogućavanje root postavki podrazumjeva root-an uređaj.\nMolim Vas, dozvolite SU dozvole Alarmima i Stanjima mreže.\nAko te dozvole ne uspijevaju okrivite SU aplikaciju, ne BBS.\nNastaviti?</string>
     <string name="message_enable_active_mon">Aktivno motrenje može izazvati wakelockove i koristiti procesor, stoga nastavite s oprezom.\nNastaviti?</string>
-    <string name="message_first_launch">Referenca \'isključen s punjača\' se u procesu kreiranja. Kada uključite/ isključite uređaj ta referenca će biti zamjenjena novom</string>
+    <string name="message_first_launch">Referenca \'isključen s punjača\' se u procesu kreiranja. Kada uključite/ isključite uređaj ta referenca će biti zamjenjena novom</string>		
     <string name="message_copied_to_clipboard">%s je kopiran u međuspremnik</string>
     <string name="message_no_hist_froyo">Na žalost, Froyo ne omoćuje povijest podataka</string>
     <string name="message_no_appops">AppOps ne postoji na Vašem ROM-u</string>
@@ -20,7 +20,10 @@
     <string name="message_watchdog_processing">BBS: Čuvar procesuira...</string>
     <string name="message_watchdog_awake_alert">BBS: Uzbuna o buđenju: %1$d%% budna.</string>
     <string name="message_computing">Računam...</string>
+    <string name="message_awake_alert">Uzbuna o buđenju</string>
+    <string name="message_awake_info">%1$d%% budan dok je zaslon ugašen</string>
     <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Dobrodošli u %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Podsjeti me kasnije</string>
     <string name="label_button_rate">Ocijeni</string>
@@ -222,9 +225,9 @@
     <string name="pref_force_alarms_api_summary">Forsiraj brojenje alarma koji koriste API</string>
     <string name="pref_force_kwl_api_title">Kernel Wakelocks koji koriste API</string>
     <string name="pref_force_kwl_api_summary">Forsiraj brojenje Kernel Wakelocks koji koriste API</string>
-    <string name="pref_use_su_context_title">Koristi su --context</string>
-    <string name="pref_use_su_context_summary">Eksperimanetalno: koristi su --context (moguće jako usporenje)</string>
-    <string name="pref_screen_system_app_title">Sistemska aplikacija</string>
+  
+
+     <string name="pref_screen_system_app_title">Sistemska aplikacija</string>
     <string name="pref_screen_system_app_summary">Instaliraj kao sistemsku aplikaciju</string>
     <string name="pref_screen_import_export_title">Uvezi/izvezi</string>
     <string name="pref_screen_import_export_summary">Postavke uvoza i izvoza</string>
@@ -255,6 +258,8 @@
     <string name="pref_category_widget_1x1">1x1 Widget</string>
     <string name="small_widget_refresh_on_tap_title">Osvježi na dodir</string>
     <string name="small_widget_refresh_on_tap_summary">Dodirivanje widgeta ga osvježuje (ako je onemogućeno, dodirivanje otvara aplikaciju)</string>
+    <string name="thumbnail_size_title">Veličina thumbnail-a</string>
+    <string name="medium_font_size_title">Veličina srednjeg fonta</string>
     
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Uređaj se puni: nema statistika</string>
