@@ -23,6 +23,9 @@ import java.util.Map;
 
 //import com.asksven.android.common.utils.DataStorage;
 
+
+import com.asksven.betterbatterystats.LogSettings;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -115,18 +118,23 @@ public class ReferenceStore
 			Reference thisRef = db.fetchReferenceByKey(refName);
 			m_refStore.put(refName, thisRef);
 		
-			if (thisRef != null)
+			if (LogSettings.DEBUG)
 			{
-				Log.i(TAG, "Retrieved reference from storage: " + thisRef.whoAmI());
-			}
-			else
-			{
-				Log.i(TAG, "Reference " + refName + " was not found");
+				if (thisRef != null)
+				{
+					
+					Log.i(TAG, "Retrieved reference from storage: " + thisRef.whoAmI());
+				}
+				else
+				{
+					Log.i(TAG, "Reference " + refName + " was not found");
+				}
 			}
 		}
 		else
 		{
-			Log.i(TAG, "Retrieved reference from cache: " + m_refStore.get(refName).whoAmI());
+			if (LogSettings.DEBUG)
+				Log.i(TAG, "Retrieved reference from cache: " + m_refStore.get(refName).whoAmI());
 		}
 		Reference ret = m_refStore.get(refName);
 		return ret;
@@ -141,7 +149,8 @@ public class ReferenceStore
 	public static synchronized void put(String refName, final Reference ref, final Context ctx)
 	{
 		m_refStore.put(refName, ref);
-		Log.i(TAG, "Serializing reference " + refName);
+		if (LogSettings.DEBUG)
+			Log.i(TAG, "Serializing reference " + refName);
 		
 		// Do this asynchronously as the data is already in the cache
 	    Runnable runnable = new Runnable()
@@ -224,13 +233,18 @@ public class ReferenceStore
 	{
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 		List<String> refs = db.fetchAllKeys(0);
-		Log.i(TAG, "Populating cache");
+		if (LogSettings.DEBUG)
+			Log.i(TAG, "Populating cache");
+		
 		for (int i=0; i < refs.size(); i++)
 		{
 			m_refStore.put(refs.get(i), null);
-			Log.i(TAG, "Added ref " + refs.get(i));
+			if (LogSettings.DEBUG)
+				Log.i(TAG, "Added ref " + refs.get(i));
 		}
-		Log.i(TAG, "Finished populating cache");
+		
+		if (LogSettings.DEBUG)
+			Log.i(TAG, "Finished populating cache");
 	}
 	
 	/**
@@ -239,7 +253,9 @@ public class ReferenceStore
 	 */
 	public static void deleteAllRefs(Context ctx)
 	{
-		Log.i(TAG, "Deleting all references");
+		if (LogSettings.DEBUG)
+			Log.i(TAG, "Deleting all references");
+		
 		ReferenceDBHelper db = ReferenceDBHelper.getInstance(ctx);
 		db.deleteReferences();
 		m_refStore.clear();

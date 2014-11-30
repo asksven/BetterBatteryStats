@@ -161,7 +161,7 @@ public class StatsActivity extends ActionBarListActivity
 		
 		super.onCreate(savedInstanceState);
 		
-		Log.i(TAG, "OnCreated called");
+		//Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	
 		
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -270,7 +270,9 @@ public class StatsActivity extends ActionBarListActivity
     		Toast.makeText(this, getString(R.string.info_fallback_to_boot), Toast.LENGTH_SHORT).show();
 		}
 		
-		Log.i(TAG, "onCreate state from preferences: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+		if (LogSettings.DEBUG)
+			Log.i(TAG, "onCreate state from preferences: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+		
 		try
 		{
 			// recover any saved state
@@ -279,7 +281,9 @@ public class StatsActivity extends ActionBarListActivity
 				m_iStat 				= (Integer) savedInstanceState.getSerializable("stat");
 				m_refFromName 			= (String) savedInstanceState.getSerializable("stattypeFrom");
 				m_refToName 			= (String) savedInstanceState.getSerializable("stattypeTo");
-				Log.i(TAG, "onCreate retrieved saved state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+				
+				if (LogSettings.DEBUG)
+					Log.i(TAG, "onCreate retrieved saved state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
 	 			
 			}			
 		}
@@ -305,7 +309,9 @@ public class StatsActivity extends ActionBarListActivity
 			if (extras.containsKey(StatsActivity.STAT_TYPE_FROM)) m_refFromName = extras.getString(StatsActivity.STAT_TYPE_FROM);
 			if (extras.containsKey(StatsActivity.STAT_TYPE_TO)) m_refToName = extras.getString(StatsActivity.STAT_TYPE_TO);
 			
-			Log.i(TAG, "onCreate state from extra: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+			if (LogSettings.DEBUG)
+				Log.i(TAG, "onCreate state from extra: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+			
 			boolean bCalledFromNotification = extras.getBoolean(StatsActivity.FROM_NOTIFICATION, false);
 			
 			// Clear the notifications that was clicked to call the activity
@@ -392,8 +398,11 @@ public class StatsActivity extends ActionBarListActivity
     	// log reference store
     	ReferenceStore.logReferences(this);
     	
-    	Log.i(TAG, "onCreate final state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
-    	Log.i(TAG, "OnCreated end");
+    	if (LogSettings.DEBUG)
+    	{
+    		Log.i(TAG, "onCreate final state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+    		Log.i(TAG, "OnCreated end");
+    	}
 		
 	}
     
@@ -415,7 +424,9 @@ public class StatsActivity extends ActionBarListActivity
                 //extract our message from intent
                 String refName = intent.getStringExtra(Reference.EXTRA_REF_NAME);
                 //log our message value
-                Log.i(TAG, "Received broadcast, reference was updated:" + refName);
+                
+                if (LogSettings.DEBUG)
+                	Log.i(TAG, "Received broadcast, reference was updated:" + refName);
                 
                 // reload the spinners to make sure all refs are in the right sequence when current gets refreshed
 //                if (refName.equals(Reference.CURRENT_REF_FILENAME))
@@ -488,7 +499,7 @@ public class StatsActivity extends ActionBarListActivity
 				StatsProvider.scheduleActiveMonAlarm(this);
 			}
 		}
-		Log.i(TAG, "OnResume end");
+		//Log.i(TAG, "OnResume end");
 
 		// we do some stuff here to handle settings about font size
 		String fontSize = sharedPrefs.getString("medium_font_size", "16");
@@ -508,8 +519,8 @@ public class StatsActivity extends ActionBarListActivity
 	{
 		super.onPause();
 		
-		Log.i(TAG, "OnPause called");
-		Log.i(TAG, "onPause reference state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+//		Log.i(TAG, "OnPause called");
+//		Log.i(TAG, "onPause reference state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
 		// unregister boradcast receiver for saved references
 		this.unregisterReceiver(this.m_referenceSavedReceiver);
 		
@@ -532,7 +543,7 @@ public class StatsActivity extends ActionBarListActivity
     {
     	super.onSaveInstanceState(savedInstanceState);
         
-    	Log.i(TAG, "onSaveInstanceState references: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+    	//Log.i(TAG, "onSaveInstanceState references: refFrom=" + m_refFromName + " refTo=" + m_refToName);
     	savedInstanceState.putSerializable("stattypeFrom", m_refFromName);
     	savedInstanceState.putSerializable("stattypeTo", m_refToName); 
 
@@ -670,7 +681,9 @@ public class StatsActivity extends ActionBarListActivity
 			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
 			if ((m_refFromName != null) && ( !m_refFromName.equals(newStat) ))
 			{
-				Log.i(TAG, "Spinner from changed from " + m_refFromName + " to " + newStat);
+				if (LogSettings.DEBUG)
+					Log.i(TAG, "Spinner from changed from " + m_refFromName + " to " + newStat);
+				
 				m_refFromName = newStat;
 				bChanged = true;
 				// we need to update the second spinner
@@ -700,7 +713,9 @@ public class StatsActivity extends ActionBarListActivity
 			String newStat = (String) ( (ReferencesAdapter) parent.getAdapter()).getItemName(position);
 			if ((m_refFromName != null) && ( !m_refToName.equals(newStat) ))
 			{
-				Log.i(TAG, "Spinner to changed from " + m_refToName + " to " + newStat);
+				if (LogSettings.DEBUG)
+					Log.i(TAG, "Spinner to changed from " + m_refToName + " to " + newStat);
+				
 				m_refToName = newStat;
 				bChanged = true;
 			}
@@ -757,12 +772,12 @@ public class StatsActivity extends ActionBarListActivity
         	sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
 	        
 	        tvSince.setText(sinceText);
-	    	Log.i(TAG, "Since " + sinceText);
+	        if (LogSettings.DEBUG) Log.i(TAG, "Since " + sinceText);
         }
         else
         {
 	        tvSince.setText("n/a ");
-	    	Log.i(TAG, "Since: n/a ");
+	        if (LogSettings.DEBUG) Log.i(TAG, "Since: n/a ");
         	
         }
 		// @todo fix this: this method is called twice
@@ -804,10 +819,13 @@ public class StatsActivity extends ActionBarListActivity
 		// after we reloaded the spinners we need to reset the selections
 		Spinner spinnerStatTypeFrom = (Spinner) findViewById(R.id.spinnerStatType);
 		Spinner spinnerStatTypeTo = (Spinner) findViewById(R.id.spinnerStatSampleEnd);
-		Log.i(TAG, "refreshSpinners: reset spinner selections: from='" + m_refFromName + "', to='" + m_refToName + "'");
-		Log.i(TAG, "refreshSpinners Spinner values: SpinnerFrom=" + m_spinnerFromAdapter.getNames() + " SpinnerTo=" + m_spinnerToAdapter.getNames());
-		Log.i(TAG, "refreshSpinners: request selections: from='" + m_spinnerFromAdapter.getPosition(m_refFromName) + "', to='" + m_spinnerToAdapter.getPosition(m_refToName) + "'");
-
+		if (LogSettings.DEBUG)
+		{
+			Log.i(TAG, "refreshSpinners: reset spinner selections: from='" + m_refFromName + "', to='" + m_refToName + "'");
+			Log.i(TAG, "refreshSpinners Spinner values: SpinnerFrom=" + m_spinnerFromAdapter.getNames() + " SpinnerTo=" + m_spinnerToAdapter.getNames());
+			Log.i(TAG, "refreshSpinners: request selections: from='" + m_spinnerFromAdapter.getPosition(m_refFromName) + "', to='" + m_spinnerToAdapter.getPosition(m_refToName) + "'");
+		}
+		
 		// restore positions
 		spinnerStatTypeFrom.setSelection(m_spinnerFromAdapter.getPosition(m_refFromName), true);
 		if (spinnerStatTypeTo.isShown())
@@ -818,7 +836,9 @@ public class StatsActivity extends ActionBarListActivity
 		{
 			spinnerStatTypeTo.setSelection(m_spinnerToAdapter.getPosition(Reference.CURRENT_REF_FILENAME), true);
 		}
-		Log.i(TAG, "refreshSpinners result positions: from='" + spinnerStatTypeFrom.getSelectedItemPosition() + "', to='" + spinnerStatTypeTo.getSelectedItemPosition() + "'");
+		
+		if (LogSettings.DEBUG)
+			Log.i(TAG, "refreshSpinners result positions: from='" + spinnerStatTypeFrom.getSelectedItemPosition() + "', to='" + spinnerStatTypeTo.getSelectedItemPosition() + "'");
 		
 		if ((spinnerStatTypeTo.isShown()) 
 				&& ((spinnerStatTypeFrom.getSelectedItemPosition() == -1)||(spinnerStatTypeTo.getSelectedItemPosition() == -1)))
@@ -905,7 +925,7 @@ public class StatsActivity extends ActionBarListActivity
 			m_listViewAdapter = null;
 			try
 			{
-				Log.i(TAG, "LoadStatData: refreshing display for stats " + m_refFromName + " to " + m_refToName);
+				if (LogSettings.DEBUG) Log.i(TAG, "LoadStatData: refreshing display for stats " + m_refFromName + " to " + m_refToName);
 				m_listViewAdapter = new StatsAdapter(
 						StatsActivity.this,
 						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName));
@@ -987,12 +1007,12 @@ public class StatsActivity extends ActionBarListActivity
 		        sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
 		        
 		        tvSince.setText(sinceText);
-		    	Log.i(TAG, "Since " + sinceText);
+		        if (LogSettings.DEBUG) Log.i(TAG, "Since " + sinceText);
 	        }
 	        else
 	        {
 		        tvSince.setText("n/a");
-		    	Log.i(TAG, "Since: n/a ");
+		        if (LogSettings.DEBUG) Log.i(TAG, "Since: n/a ");
 	        	
 	        }
 			LinearLayout notificationPanel = (LinearLayout) findViewById(R.id.Notification);

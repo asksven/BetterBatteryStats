@@ -54,6 +54,7 @@ import com.asksven.betterbatterystats.data.KbReader;
 import com.asksven.betterbatterystats.widgets.GraphableBars;
 import com.asksven.betterbatterystats.widgets.GraphablePie;
 import com.asksven.betterbatterystats.HelpActivity;
+import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.PackageInfoTabsPager;
 import com.asksven.betterbatterystats.R;
 
@@ -149,7 +150,11 @@ public class StatsAdapter extends BaseAdapter
     	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
         boolean bShowBars = sharedPrefs.getBoolean("show_gauge", false);
         
-    	Log.i(TAG, "Values: " +entry.getVals());
+        if (LogSettings.DEBUG)
+        {
+        	Log.i(TAG, "Values: " +entry.getVals());
+        }
+        
         if (convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater) m_context

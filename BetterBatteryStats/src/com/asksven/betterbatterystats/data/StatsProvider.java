@@ -1846,8 +1846,10 @@ public class StatsProvider
 			// SystemClock.elapsedRealtime();
 	
 			Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, elaspedRealtime);
-			Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.toString());
-	
+			if (LogSettings.DEBUG)
+			{
+				Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.toString());
+			}
 	
 			if ((!bFilter) || (deepSleepUsage.getTimeOn() > 0))
 			{
