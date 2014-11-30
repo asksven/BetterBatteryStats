@@ -20,10 +20,14 @@
     <string name="message_watchdog_processing">BBS: Zpracovávání Watchdog...</string>
     <string name="message_watchdog_awake_alert">BBS: Varování pro probuzení: %1$d%% probuzen</string>
     <string name="message_computing">Počítám...</string>
+    <string name="message_awake_alert">Varování pro probuzení</string>
+    <string name="message_awake_info">%1$d%% probuzen při vypnuté obrazovce</string>
     <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Vítejte v %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Připomenout později</string>
     <string name="label_button_rate">Hodnotit</string>
+    <string name="label_button_no_thanks">Ne, děkuji</string>
     <string name="label_button_recovery">Stáhnout Recovery ZIP</string>
     <string name="text_dialog_rate">Pokud jste spokojeni s %s, věnujte prosím chvíli jejímu ohodnocení. Děkuji za vaši podporu!</string>
     <string name="label_stat_type">Typ statistiky</string>
@@ -221,8 +225,6 @@
     <string name="pref_force_alarms_api_summary">Vynutit získávání statistik Alarmů prostřednictvím API</string>
     <string name="pref_force_kwl_api_title">Wakelocky jádra (kernel) pomocí API</string>
     <string name="pref_force_kwl_api_summary">Vynutit získávání statistik Wakelocků jádra (kernel) prostřednictvím API</string>
-    <string name="pref_use_su_context_title">Použít \'su --context\'</string>
-    <string name="pref_use_su_context_summary">Experimentální: použít volání \'su --context\' (pro nastavení SELinux: Enforcing, může být velmi pomalé)</string>
     <string name="pref_screen_system_app_title">Systémová aplikace</string>
     <string name="pref_screen_system_app_summary">Instalovat jako systémovou aplikaci</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
@@ -254,6 +256,8 @@
     <string name="pref_category_widget_1x1">1x1 Widget</string>
     <string name="small_widget_refresh_on_tap_title">Obnovit klepnutím</string>
     <string name="small_widget_refresh_on_tap_summary">Klepnutí na widget jej obnoví (pokud je zakázáno, spustí se aplikace)</string>
+    <string name="thumbnail_size_title">Velikost náhledu</string>
+    <string name="medium_font_size_title">Střední velikost písma</string>
 
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Zařízení připojeno: žádné statistiky</string>
