@@ -90,7 +90,7 @@ Weiter?"</string>
 <string name="label_credits">"Credits"</string>
 <string name="label_help">"Hilfe"</string>
 <string name="label_howto">"How-To"</string>
-<string name="label_system_app">"Sytem App"</string>
+<string name="label_system_app">"System App"</string>
 <string name="label_import_export">"Import/Export"</string>
 <string name="label_refresh">"Aktualisieren"</string>
 <string name="label_share">"Teilen"</string>
@@ -215,8 +215,6 @@ Eine Neusinstallation kann erforderlich werden falls Berechtigungen sich veränd
 <string name="pref_force_alarms_api_summary">"Erzwingt die Nutzung der API für Alarms"</string>
 <string name="pref_force_kwl_api_title">"API für Kernel Wakelocks"</string>
 <string name="pref_force_kwl_api_summary">"Erzwingt die Nutzung der API für Kernel Wakelocks"</string>
-<string name="pref_use_su_context_title">"su --context nutzen"</string>
-<string name="pref_use_su_context_summary">"Expermientell: kann zu langen Antwortzeiten führen"</string>
 <string name="pref_screen_system_app_title">"System App"</string>
 <string name="pref_screen_system_app_summary">"Als System App installieren"</string>
 <string name="pref_screen_import_export_title">"Import/Export"</string>

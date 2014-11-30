@@ -273,6 +273,7 @@
     <string name="stat_type_label_since_custom">Since Custom Ref.</string>
     <string name="stat_type_label_since_screen_off">Since Screen Off</string>
     <string name="stat_type_label_since_boot">Since Boot</string>
+
     
     <string name="widget_freq_label_none">None</string>
     <string name="widget_freq_label_5">5 Min.</string>
