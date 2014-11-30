@@ -256,7 +256,7 @@
     <string name="pref_category_widget_1x1">1x1 Widget</string>
     <string name="small_widget_refresh_on_tap_title">Obnovit klepnutím</string>
     <string name="small_widget_refresh_on_tap_summary">Klepnutí na widget jej obnoví (pokud je zakázáno, spustí se aplikace)</string>
-    <string name="thumbnail_size_title">Velikost náhnedu</string>
+    <string name="thumbnail_size_title">Velikost náhledu</string>
     <string name="medium_font_size_title">Střední velikost písma</string>
 
     <!-- stats error / warnings -->
