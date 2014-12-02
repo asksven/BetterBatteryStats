@@ -121,6 +121,25 @@ public class GraphSeriesFactory
 	                		if (prev.mY != -1)
 	                		{
 	                			m_serieStore.get(iSerie).add(new Datapoint(prev.mX, prev.mY));
+	                			
+	                			// we need to consider a special case for when we represent binary (0|1) values
+	                			if ((prev.mY == 1) || (prev.mY == 0))
+	                			{
+	                				// the binary representation can not connect datapoint with anything else than 
+	                				// vertical or horizontal lines. In this case as Y varies
+	                				// we need to add a datapoint to make sure that we do not draw 45° lines:
+	                				// descending: on the previous datapoint
+	                				// ascending: on the current datapoint
+	                				if (prev.mY == 1)
+	                				{
+	                					m_serieStore.get(iSerie).add(new Datapoint(prev.mX, 0));		
+	                				}
+	                				else
+	                				{
+	                					m_serieStore.get(iSerie).add(new Datapoint(data.mX, 0));
+	                				}
+	                					
+	                			}
 	                		}
 	            			m_serieStore.get(iSerie).add(new Datapoint(data.mX, data.mY));
 	            			prev_my[iSerie-1] = data.mY;
