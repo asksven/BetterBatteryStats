@@ -11,15 +11,18 @@
 <string name="message_enable_active_mon">Il monitoraggio Attivo causa un incremento dei wakeup e dei calcoli, utilizzare con cautela.\nContinuare?</string>
 <string name="message_first_launch">Un riferimento \'sconnesso\' è stato creato. Ogni volta che connetti/sconnetti il telefono questo riferimento viene sovrascritto</string>
 <string name="message_copied_to_clipboard">%s è stato copiato negli appunti</string>
-<string name="message_no_hist_froyo">Sfotunatamente Froyo non supporta lo storico dei dati</string>
+<string name="message_no_hist_froyo">Sfortunatamente Froyo non supporta lo storico dei dati</string>
 <string name="message_no_appops">AppOps non esiste sulla tua ROM</string>
 <string name="message_external_storage_write_error">La Memoria Esterna non può essere scritta</string>
 <string name="message_error_writing_dumpfile">Si è verificato un errore scaricando lo storico dei dati</string>
 <string name="message_identical_references">Si è verificato un errore. Le statistiche sono identiche (%1$1, %2$s)</string>
 <string name="message_watchdog_processing">BBS: Processamento watchdog...</string>
-<string name="message_watchdog_awake_alert">BBS: Allarme attività: %1$d%% awake</string>
+<string name="message_watchdog_awake_alert">BBS: Allarme attività: %1$d%% attivo</string>
 <string name="message_computing">Calcolando...</string>
+<string name="message_awake_alert">Allarme Attivo</string>
+<string name="message_awake_info">%1$d%% attivo con schermo acceso</string>
 <string name="app_name">BetterBatteryStats</string>
+<string name="app_welcome">Benvenuti a %s</string>
 <string name="app_pname">com.asksven.betterbatterystats</string>
 <string name="label_button_remind">Ricordamelo dopo</string>
 <string name="label_button_rate">Valuta</string>
@@ -47,7 +50,7 @@
 <string name="label_hist_scanning">Ricerca</string>
 <string name="label_graph_battery">Batteria</string>
 <string name="label_graph_power">In carica</string>
-<string name="label_graph_screen">Schermo on</string>
+<string name="label_graph_screen">Schermo On</string>
 <string name="label_graph_wakelock">Wakelock</string>
 <string name="label_graph_wifi">Wifi</string>
 <string name="label_graph_gps">GPS</string>
@@ -55,9 +58,9 @@
 <string name="label_graph_incall">In chiamata</string>
 <string name="label_graph_scanning">In ricerca</string>
 <string name="label_widget_since">Da:</string>
-<string name="label_widget_deep_sleep">Deep Sleep</string>
+<string name="label_widget_deep_sleep">Inattivo</string>
 <string name="label_widget_awake">Attivo:</string>
-<string name="label_widget_screen_on">Schermo on:</string>
+<string name="label_widget_screen_on">Schermo On:</string>
 <string name="label_widget_kernel_wakelock">KWL:</string>
 <string name="label_widget_partial_wakelock">PWL:</string>
 <string name="label_battery">Batteria</string>
@@ -70,7 +73,7 @@
 <string name="label_permisions_normal">Permessi normali</string>
 <string name="pref_dashclock_default_stat_type_summary">Imposta la statistica da mostrare nel dashclock</string>
 <string name="pref_dashclock_fallback_stat_type_summary">Imposta la statistica secondaria da mostrare nel dashclock se la primaria non ha un riferimento</string>
-<string name="label_awake_abbrev">at.</string>
+<string name="label_awake_abbrev">att.</string>
 <string name="label_button_share">Condividi...</string>
 <string name="label_button_save">Salva</string>
 <string name="label_button_cancel">Cancella</string>
@@ -84,7 +87,7 @@
 <string name="label_moregraphs">Altri Grafici</string>
 <string name="label_series">Storico</string>
 <string name="label_raw_stats">Statistiche Raw</string>
-<string name="label_about">INfo</string>
+<string name="label_about">Info</string>
 <string name="label_credits">Crediti</string>
 <string name="label_help">Aiuto</string>
 <string name="label_howto">Come-Fare</string>
@@ -203,8 +206,8 @@
 <string name="pref_save_dmesg_summary">Condividi il dmesg</string>
 <string name="pref_force_alarms_api_title">Usare API per gli allarmi</string>
 <string name="pref_force_alarms_api_summary">Forza l\'uso dell\'API per ottenere gli Allarmi</string>
-<string name="pref_force_kwl_api_title">Usare API per i wakelocks del Kernel</string>
-<string name="pref_force_kwl_api_summary">Forza l\'uso dell\'API per ottenere i wakelocks del Kernel</string>
+<string name="pref_force_kwl_api_title">Usare API per i wakelock del Kernel</string>
+<string name="pref_force_kwl_api_summary">Forza l\'uso dell\'API per ottenere i wakelock del Kernel</string>
 <string name="pref_screen_system_app_title">App di sistema</string>
 <string name="pref_screen_system_app_summary">Installa come App di Sistema</string>
 <string name="pref_screen_import_export_title">Importa/Esporta</string>
@@ -235,13 +238,15 @@
 <string name="pref_category_widget_1x1">Widget 1x1</string>
 <string name="small_widget_refresh_on_tap_title">Refresh al tocco</string>
 <string name="small_widget_refresh_on_tap_summary">Toccando il widget si effettua il refresh (se disabilitato, viene invece aperta l\'app)</string>
+<string name="thumbnail_size_title">Dimensione Thumbnail</string>
+<string name="medium_font_size_title">Dimensione Font Medio</string>
 <!-- stats error / warnings -->
-<string name="NO_STATS_WHEN_CHARGING">Connesso: nessuna statistiche</string>
+<string name="NO_STATS_WHEN_CHARGING">Connesso: nessuna statistica</string>
 <string name="NO_ROOT_ERR">Questa statistica richiede il root</string>
 <string name="NO_PERM_ERR">Questa statistica richiede il permesso BATTERY_STATS</string>
 <string name="NO_REF_ERR">Nessun riferimento è stato ancora impostato</string>
 <string name="NO_STATS">Nessuna statistica è stata ancora raccolta</string>
-<string name="FILE_ACCESS_ERROR">il File non può esssere letto</string>
+<string name="FILE_ACCESS_ERROR">Il file non può esssere letto</string>
 <!-- from arrays.xml -->
 <string name="stat_type_label_since_charged">Da carico</string>
 <string name="stat_type_label_since_unplugged">Da sconnesso</string>
