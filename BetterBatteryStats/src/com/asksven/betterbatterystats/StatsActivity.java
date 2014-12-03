@@ -915,6 +915,7 @@ public class StatsActivity extends ActionBarListActivity
 		@Override
 	    protected StatsAdapter doInBackground(Boolean... refresh)
 	    {
+			if (LogSettings.DEBUG) Log.i(TAG, "LoadStatData: was called with refresh=" + refresh[0]);
 			// do we need to refresh current
 			if (refresh[0])
 			{

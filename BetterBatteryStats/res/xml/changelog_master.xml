@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.0.0.0RC2" versioncode="57" >
+        <change>Fixed graphs showing oblique lines</change>
+        <changes>Fixed light overflow menu in dark theme</changes>
+        <changes>I18N fixes</changes>
+    </release>
+    
     <release version="2.0.0.0RC1" versioncode="56" >
         <change>Added pref to force EN</change>
         <change>Removed experimental su --context option</change>
