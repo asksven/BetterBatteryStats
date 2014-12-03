@@ -48,7 +48,7 @@
 	<string name="label_hist_wifi">Wifi</string>
 	<string name="label_hist_gps">GPS</string>
 	<string name="label_hist_bluetooth">BT</string>
-	<string name="label_hist_incall">Hovor</string>
+	<string name="label_hist_incall">Hov</string>
 	<string name="label_hist_scanning">Vyhl</string>
 
 	<string name="label_graph_battery">Baterie</string>
@@ -118,7 +118,7 @@
     <!-- About screen -->
     <string name="label_about_author">Autor: asksven</string>
     <string name="label_about_courtesy">Grafika: @cri</string>
-    <string name="label_about_follow">Sledovat na Twitteru</string>
+    <string name="label_about_follow">Následovat na Twitteru</string>
     <string name="label_about_rate">Hodnotit na Google Play</string>
 
     <!-- Preferences -->
@@ -273,6 +273,7 @@
     <string name="stat_type_label_since_custom">Od vlastního ref. bodu</string>
     <string name="stat_type_label_since_screen_off">Od vyp. obrazovky</string>
     <string name="stat_type_label_since_boot">Od zapnutí</string>
+
 
     <string name="widget_freq_label_none">Žádná</string>
     <string name="widget_freq_label_5">5 Min.</string>
