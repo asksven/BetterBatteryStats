@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 <release version="2.0.0.0RC1" versioncode="56" >
-<change>Added pref to force EN</change>
+<change>Aggiunta preferenza per forzare inglese</change>
 </release>
 <release version="2.0.0.0B7" versioncode="55" >
-<change>Fixed kernel wakelocks on Lolipop (again)</change>
-<change>Better scaling and font size for gauges</change>
-<change>More strings / I18N</change>
-<change>Fixed battery graph</change>
-<change>Primary dark color for notification bar on Lolipop</change>
-<change>System app dialog now links to the recovery ZIPs to be used as workaround</change>
-<change>Added import/export of preferences</change>
-<change>Added fix for native alarms on Lolipop. Experimental, may cause slow calls</change>
-<change>Fixed white-on-white theme when calling prefs after fresh install</change>
-<change>Improved graph performance</change>
-<change>Added option to shopw/hide spinners</change>
+<change>Ri-corretti i kernel wakelock su Lollipop</change>
+<change>Miglior scalatura e dimensione caratteri dei diagrammi circolari</change>
+<change>Più stringhe di commento/ I18N</change>
+<change>Corretto grafico batteria</change>
+<change>Colore scuro per la barra di notifica su Lollipop</change>
+<change>Aggiunta opzione per recovery ZIP a usare come workaround</change>
+<change>Aggiunta opzione import/export delle preferenze</change>
+<change>Aggiunta correzione degli allarmi su Lollipop. Sperimentale, può causare rallentamenti</change>
+<change>Corretto tema bianco-su-bianco quando si selezionano le preferenze dopo un\'installazione da zero</change>
+<change>Migliorate performance dei grafici</change>
+<change>Aggiunta opzione per mostrare/nascondere i diagrammi circolari</change>
 </release>
 <release version="2.0.0.0B6" versioncode="54" >
-<change>Externalized more strings</change>
-<change>Fixed kernel wakelocks on Lolipop</change>
-<change>Added preferences to change font-size and icon-size</change>
+<change>Esternalizzate più stringhe di commento</change>
+<change>Corretti i kernel wakelock su Lollipop</change>
+<change>Aggiunte opzioni per cambiare dimensioni di font ed icone</change>
 </release>
 <release version="2.0.0.0B5" versioncode="53" >
-<change>Externalized more strings</change>
-<change>Fixed Alarms details dialog showing infinite/Hr.</change>
-<change>Themed dialogs</change>
-<change>Show SELinux Policy on System App dialog and Dumpfile</change>
-<change>Introduced settings to force the use of the API for Alarms and Kernel Wakelocks</change>
-<change>Replaced graphs</change>
+<change>Esternalizzate più stringhe di commento</change>
+<change>Corretti dettagli Allarmi che mostravano infinito/ora</change>
+<change>Temi applicati ai menù</change>
+<change>Mostra SELinux Policy nei menù App di Sistema e Dumpfile</change>
+<change>Introdotta opzione per forzare l\'uso delle API per gli Allarmi e Wakelock del Kernel</change>
+<change>Sostituiti i grafici</change>
 </release>
 <release version="2.0.0.0B4" versioncode="52" >
-<change>Some internal house-keeping and clean-up</change>
-<change>Fixed theme switch</change>
-<change>Added battery from/to % back to screen (optionally)</change>
-<change>Notification area should be invisible by default</change>
-<change>Fixed infinite alarm per hour</change>
-<change>Ditched cards for a better use of the real estate</change>
-<change>A first shot at german I18N</change>
-<change>Fixed partial wakelocks on Android 5.0</change>
+<change>Varie ottimizzazioni del codice</change>
+<change>Corretto cambio dei Temi</change>
+<change>Aggiunta opzione per mostrare i dettagli batteria da/a %</change>
+<change>Area di notifica dovrebbe essere invisibile di default</change>
+<change>Corretto Allarme infinito/ora</change>
+<change>Adattati i pannelli per un uso migliore dello spazio</change>
+<change>Prima versione tedesco I18N</change>
+<change>Corretti wakelock parziali su Lollipop 5.0</change>
 </release>
 <release version="2.0.0.0B3" versioncode="51" >
-<change>Fixed broken changelog</change>
-<change>Add dark Theme</change>
-<change>An attempt to work around BATTERY_INFO service not being reachable on some devices</change>
-<change>Surface errors that may occur while processing stats</change>
-<change>Work around kernel wakelock file not being accessible if SELinux is not permissive</change>
-<change>Automatically fall back to API mode for alarms if SELinux is not permissive</change>
-<change>Fixed infinite values of gauges in Alarms</change>
+<change>Corretto changelog</change>
+<change>Aggiunto Tema scuro</change>
+<change>Tentativo per correggere il servizio BATTERY_INFO non raggiungibile su alcuni device</change>
+<change>Corretto errore che potrebbe verificarsi nel processamento delle statistiche</change>
+<change>Correzione per file dei wakelock del kernel non accessibile se SElinux non da i permessi</change>
+<change>Uso automatico dell\'API per gli Allarmi se SElinux non da i permessi</change>
+<change>Corretti valori infinito nei diagrammi circolari per gli Allarmi</change>
 </release>
 <release version="2.0.0.0B2" versioncode="50" >
-<change>Switched to SDK 21</change>
-<change>Fixed missing white heading in RAW stats</change>
-<change>Fixed gauges in raw stats always shown 100%</change>
-<change>Implemented "back" navigation in toolbar</change>
-<change>Toolbar follows L guidelines (no logo)</change>
-<change>Begun externalization of strings for translation</change>
-<change>Added advanced settings to avoid using dumpsys for alarms (bypasses the need for permissive SELinux)</change>
+<change>Passaggio a SDK 21</change>
+<change>Corretta intestazione bianca mancante per le statistiche RAW</change>
+<change>Corretti diagrammi circolari nelle statistiche raw che mostravano sempre 100%</change>
+<change>Aggiunta freccia "indietro" nella toolbar</change>
+<change>Toolbar segue la direttive  L (senza logo)</change>
+<change>Inizio esternalizzazione delle stringhe per le traduzioni</change>
+<change>Aggiunto opzione avanzata per evitare di usare dumpsys per gli allarmi (aggira la necessità dei permessi in SELinux)</change>
 </release>
 <release version="2.0.0.0B1" versioncode="49" >
-<change>Totally new and shiny</change>
-<change>Refactored time and timespan calculations: should avoid any rounding error</change>
-<change>Added ability to save dumpfiles in JSON format from tasker plugin</change>
-<change>Removed sorting</change>
-<change>Removed google analytics</change>
-<change>Removed graph zoom</change>
+<change>Versione completamente nuova e luccicante</change>
+<change>Aggiornati calcoli di tempo ed intervalli: dovrebbe evitare errori di arrotondamento</change>
+<change>Aggiunta possibilità di salvare i dumpfile in formato JSON dal plugin di Tasker</change>
+<change>Eliminato l\'ordinamento</change>
+<change>Elimnato google analytics</change>
+<change>Eliminato zoom del grafico</change>
 </release>
 </changelog>
