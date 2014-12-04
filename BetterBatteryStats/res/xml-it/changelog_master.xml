@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 <release version="2.0.0.0RC1" versioncode="56" >
-<change>Aggiunta preferenza per forzare inglese</change>
+<change>Aggiunta preferenza per forzare l'inglese</change>
 </release>
 <release version="2.0.0.0B7" versioncode="55" >
 <change>Ri-corretti i kernel wakelock su Lollipop</change>
