@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.0.0.0RC3" versioncode="58" >
+        <change>Исправление истории изменений</change>
+        <change>Дополнительные исправления в переводе</change>
+        <change>Добавление языков</change>
+        <change>Исправление параметров Dashclock</change>
+        <change>Добавление деталей о статистике API в дамп</change>
+        <change>Исправление графика батареи при уровне 100% в течение всего времени</change>
+        <change>Замена тактильного отклика holo на эффект пульсации материального дизайна</change>
+    </release>
     <release version="2.0.0.0RC2" versioncode="57" >
         <change>Исправление отклонений линий графиков</change>
         <change>Исправление светлого выпадающего меню в тёмной теме</change>
