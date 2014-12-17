@@ -368,19 +368,32 @@ public class Reading implements Serializable
 		out.write("======================================================\n");
 		dumpList(context, partialWakelockStats, out);
 
-		String addendum = "";
+		String addendumKwl = "";
 		if (Wakelocks.isDiscreteKwlPatch())
 		{
-			addendum = "!!! Discrete !!!";
+			addendumKwl = "!!! Discrete !!!";
 		}
 		if (!Wakelocks.fileExists())
 		{
-			addendum = " !!! wakeup_sources !!!";
+			addendumKwl = " !!! wakeup_sources !!!";
+		}
+
+		boolean alarmsUseAPI = sharedPrefs.getBoolean("force_alarms_api", false);
+		boolean kwlsUseAPI = sharedPrefs.getBoolean("force_kwl_api", false);
+
+		String addendumAlarms = "";
+		if (alarmsUseAPI)
+		{
+			addendumAlarms = "(uses API)";
+		}
+		if (kwlsUseAPI)
+		{
+			addendumKwl += "(uses API)";
 		}
 
 		// write kernel wakelock info
 		out.write("================\n");
-		out.write("Kernel Wakelocks " + addendum + "\n");
+		out.write("Kernel Wakelocks " + addendumKwl + "\n");
 		out.write("================\n");
 
 		dumpList(context, kernelWakelockStats, out);
@@ -393,7 +406,7 @@ public class Reading implements Serializable
 
 		// write alarms info
 		out.write("======================\n");
-		out.write("Alarms (requires root)\n");
+		out.write("Alarms (requires BATTERY_STATS permissions)" + addendumAlarms + "\n");
 		out.write("======================\n");
 		dumpList(context, alarmStats, out);
 
@@ -415,6 +428,7 @@ public class Reading implements Serializable
 		out.write("Active since: The time when the service was first made active, either by someone starting or binding to it.\n");
 		out.write("Last activity: The time when there was last activity in the service (either explicit requests to start it or clients binding to it)\n");
 		out.write("See http://developer.android.com/reference/android/app/ActivityManager.RunningServiceInfo.html\n");
+		
 		ActivityManager am = (ActivityManager) context
 				.getSystemService(context.ACTIVITY_SERVICE);
 		List<ActivityManager.RunningServiceInfo> rs = am
