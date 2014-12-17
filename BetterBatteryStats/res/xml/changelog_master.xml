@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.0.0.0RC3" versioncode="58" >
+        <change>Fixed changelog</change>
+        <change>More I18N fixes</change>
+        <change>More languages</change>
+        <change>Fixed Dashclock Settings</change>
+        <change>Added details about API stats to dumpfile</change>
+        <change>Fixed battery graph if battery is 100% over the whole time</change>
+        <change>Replaced holo touch feedback with material design ripple effect</change>
+    </release>
+    
     <release version="2.0.0.0RC2" versioncode="57" >
         <change>Fixed graphs showing oblique lines</change>
         <change>Fixed light overflow menu in dark theme</change>
