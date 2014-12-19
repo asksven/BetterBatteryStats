@@ -118,6 +118,11 @@
     <!-- About screen -->
     <string name="label_about_author">By asksven</string>
     <string name="label_about_courtesy">Graphics courtesy to @cri</string>
+    <string name="label_about_translations">Translations</string>
+    <string name="label_about_translation1">Russian by gaich @ xda</string>
+    <string name="label_about_translation2">Spanish by @vldesco</string>
+    <string name="label_about_translation3">Italian by code010101 @ xda</string>
+    <string name="label_about_translation4">Croatian by seky2205 @ xda</string>
     <string name="label_about_follow">Follow me on Twitter</string>
     <string name="label_about_rate">Rate / Review on Google Play</string>
     
