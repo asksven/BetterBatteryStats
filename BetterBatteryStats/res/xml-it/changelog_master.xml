@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
 <release version="2.0.0.0RC3" versioncode="58" >
 <change>Aggiornato il changelog</change>
 <change>Correzioni I18N</change>
