@@ -222,8 +222,6 @@
     <string name="pref_force_alarms_api_summary">Forzar la recuperación de Alarmas usando el API</string>
     <string name="pref_force_kwl_api_title">Usar API para Kernel Wakelocks</string>
     <string name="pref_force_kwl_api_summary">Forzar la recuperación de Kernel Wakelocks usando el API</string>
-    <string name="pref_use_su_context_title">Usar su --context</string>
-    <string name="pref_use_su_context_summary">Experimental: usar su --context (puede ser muy lento)</string>
     <string name="pref_screen_system_app_title">Aplicación de Sistema</string>
     <string name="pref_screen_system_app_summary">Instalar como Aplicación de Sistema</string>
     <string name="pref_screen_import_export_title">Importar/Exportar</string>
