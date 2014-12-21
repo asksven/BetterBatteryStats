@@ -5,7 +5,7 @@
     android:id="@+id/LinearLayoutEntry"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/clickable" 
+    android:background="?android:colorForegroundInverse" 
     android:elevation="0dp"
     android:orientation="horizontal"
     android:paddingBottom="2dp"
