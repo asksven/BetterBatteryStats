@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.0.0.0RC4" versioncode="59" >
+        <change>Fixed possible FC when long-pressing a list element</change>
+    </release>
     <release version="2.0.0.0RC3" versioncode="58" >
         <change>Fixed changelog</change>
         <change>More I18N fixes</change>
