@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+<release version="2.0.0.0RC4" versioncode="59" >
+<change>Aggiornato il changelog</change>
+<change>Correzioni I18N</change>
+<change>Più lingue</change>
+<change>Corretti impostazion del Dashclock</change>
+<change>Aggiunti dettagli sulle statistiche API al dumpfile</change>
+<change>Corretto grafico batteria se 100% per tutto il tempo</change>
+<change>Sostituito feedback holo touch con effetto ripple del material design</change>
+</release>
+<release version="2.0.0.0RC2" versioncode="57" >
+<change>Corretti grafici con linee oblique</change>
+<change>Corretta dimensione menù nel tema dark</change>
+<change>Correzioni I18N</change>
+</release>
 <release version="2.0.0.0RC1" versioncode="56" >
 <change>Aggiunta preferenza per forzare l'inglese</change>
 </release>

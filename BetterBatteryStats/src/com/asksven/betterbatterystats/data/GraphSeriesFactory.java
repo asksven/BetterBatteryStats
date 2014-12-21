@@ -68,6 +68,7 @@ public class GraphSeriesFactory
 	            	{
 	            		case SERIE_CHARGE:
 	            			data.mY = item.getBatteryLevelInt();
+	            			//data.mY = 100;
 	            			//Log.i(TAG, "Charge: x=" + data.mX + ", y=" + data.mY);
 	            			break;
 	            		case SERIE_WAKELOCK:
@@ -111,9 +112,9 @@ public class GraphSeriesFactory
 	            	}
 	            	else
 	            	{
-	            		// does the last stored value have the same Y?
+	            		// does the last stored value have a different Y or is the last of the serie?
 	            		//Datapoint lastValue = m_serieStore.get(iSerie).get(m_serieStore.get(iSerie).size()-1);
-	            		if (prev_my[iSerie-1] != data.mY) 
+	            		if ((prev_my[iSerie-1] != data.mY) || (index == m_dataSource.size() - 1)) 
 	            		{
 	                		Datapoint prev = new Datapoint();
 	                		prev.mX = prev_mx[iSerie-1];

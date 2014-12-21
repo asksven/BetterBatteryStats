@@ -532,8 +532,14 @@ public class StatsAdapter extends BaseAdapter
         	    android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", entry.getName());
         	            clipboard.setPrimaryClip(clip);
         	}
-			Toast.makeText(m_context, m_context.getString(R.string.message_copied_to_clipboard, entry.getName()), Toast.LENGTH_LONG).show();
-        	
+        	try
+        	{
+        		Toast.makeText(m_context, m_context.getString(R.string.message_copied_to_clipboard, entry.getName()), Toast.LENGTH_LONG).show();
+        	}
+        	finally
+        	{
+        		// can normally not fail, if it still does it's only the toast
+        	}
         	return true;
         }
     }
