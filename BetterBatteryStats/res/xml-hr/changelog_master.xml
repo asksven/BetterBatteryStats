@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
- <release version="2.0.0.0RC3" versioncode="58" >
+ <release version="2.0.0.0RC4" versioncode="59" >
         <change>Popravljena lista promjena</change>
 
         <change>Još I18N popravaka</change>
