@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+
+    <string name="plugin_name">Better Battery Stats</string>
+    <string name="message_hint">Scheduled Toast</string>
+    <string name="message_hint_saveref">Sauvegarder une référence personnalisée</string>
+    <string name="message_hint_savestat">Sauvegarder un fichier dump en texte</string>
+    <string name="message_hint_savestatjson">Sauvegarder un fichier dump en JSON</string>
+    <string name="message_hint_sinceref">Dump depuis la dernière référence</string>
+    <string name="message_hint_stat_type">Type de statistiques</string>
+    <string name="message_enable_root">Activer les fonctionnalités root nécessite que votre téléphone soit rooté.\nSoyez sûr d\'accorder les droits root aux statistiques Alarmes et Réseau.\nSi ces droits ne tiennent pas, mettez en cause l\'application su, pas BBS.\nContinuer?</string>
+    <string name="message_enable_active_mon">La surveillance active sont coûteuse en termes de réveils et de traitement et doit être utilisée avec précaution.\nContinuer?</string>
+    <string name="message_first_launch">Une référence \'débranché\' vient d'être créée. Lorsque vous brancherez/débrancherez votre téléphone cette référence sera écrasée.</string>
+    <string name="message_copied_to_clipboard">%s a été copié dans le presse-papiers</string>
+    <string name="message_no_hist_froyo">Malheureusement Froyo ne supporte pas la collecte de données</string>
+    <string name="message_no_appops">AppOps n\'existe pas sur votre ROM</string>
+    <string name="message_external_storage_write_error">Impossible d\'écrire sur le stockage externe</string>
+    <string name="message_error_writing_dumpfile">Une erreur est survenue lors du dump de l\'historique</string>
+    <string name="message_identical_references">Une erreur est survenue. Les deux statistiques sont identiques (%1$1, %2$s)</string>
+    <string name="message_watchdog_processing">BBS: Le watchdog traite...</string>
+    <string name="message_watchdog_awake_alert">BBS: Éveil : %1$d%% éveillé</string>
+    <string name="message_computing">Calcule...</string>
+    <string name="message_awake_alert">Éveil</string>
+    <string name="message_awake_info">%1$d%% éveillé quand l\'écran était éteint</string>
+    <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Bonjour à %s</string>
+    <string name="app_pname">com.asksven.betterbatterystats</string>
+    <string name="label_button_remind">Rappelez-le moi plus tard</string>
+    <string name="label_button_rate">Noter</string>
+    <string name="label_button_no_thanks">Non, merci</string>
+    <string name="label_button_recovery">Télécharger le ZIP pour recovery</string>
+    <string name="text_dialog_rate">Si vous appréciez %s, veuillez prendre un moment pour le noter. Merci pour votre encouragement !</string>
+    <string name="label_stat_type">Type de statistiques</string>
+    <string name="label_since">Depuis</string>
+    <string name="label_fallback_stat_type">Type de statistiques de repli</string>
+    <string name="label_title">Titre</string>
+    <string name="label_author">Auteur</string>
+    <string name="label_license">Licence</string>
+    <string name="label_import_export_prefs">Importer/Exporter vos préférences depuis/vers %s</string>
+    <string name="label_import_prefs">Importer</string>
+    <string name="label_export_prefs">Exporter</string>
+    
+    <string name="label_hist_time">Temps</string>
+	<string name="label_hist_battery">Bat</string>
+	<string name="label_hist_power">Chrg</string>
+	<string name="label_hist_screen">Ecr</string>
+	<string name="label_hist_wakelock">WL</string>
+	<string name="label_hist_wifi">Wifi</string>
+	<string name="label_hist_gps">GPS</string>
+	<string name="label_hist_bluetooth">BT</string>
+	<string name="label_hist_incall">Appel</string>
+	<string name="label_hist_scanning">Scan</string>
+
+	<string name="label_graph_battery">Batterie</string>
+	<string name="label_graph_power">En charge</string>
+	<string name="label_graph_screen">Écran allumé</string>
+	<string name="label_graph_wakelock">Wakelock</string>
+	<string name="label_graph_wifi">Wifi</string>
+	<string name="label_graph_gps">GPS</string>
+	<string name="label_graph_bluetooth">Bluetooth</string>
+	<string name="label_graph_incall">En appel</string>
+	<string name="label_graph_scanning">En scan</string>
+		
+	
+	<string name="label_widget_since">Depuis:</string>
+	<string name="label_widget_deep_sleep">Veille profonde</string>
+	<string name="label_widget_awake">Éveillé:</string>
+	<string name="label_widget_screen_on">Écran allumé:</string>
+	<string name="label_widget_kernel_wakelock">KWL:</string>
+	<string name="label_widget_partial_wakelock">PWL:</string>
+	
+	<string name="label_battery">Batterie</string>
+	<string name="label_name">Nom</string>
+    <string name="label_description">Description</string>
+    <string name="label_package_name">Nom du paquet</string>
+    <string name="label_on_on_android_4_3plus">Seulement disponible sur Android 4.3+</string>
+    
+    <string name="label_permisions_dangerous">Permission signalée comme \'dangereuse\'</string>
+    <string name="label_permisions_system">Permissions pour les \'applications systèmes\'</string>
+    <string name="label_permisions_normal">Permissions standards</string>
+    
+    <string name="pref_dashclock_default_stat_type_summary">Configurer le type de statistiques pour qu\'elles soient présentes dans DashClock</string>
+    <string name="pref_dashclock_fallback_stat_type_summary">Configurer le type de statistiques de repli pour qu'elles soient présentes dans DashClock si celui par défaut n'a pas de référence</string>
+    <string name="label_awake_abbrev">ev.</string>
+    <string name="label_button_share">Partager...</string>
+    <string name="label_button_save">Sauvegarder</string>
+    <string name="label_button_cancel">Annuler</string>
+    <string name="label_button_application_settings">Paramètres de l\'application</string>
+    <string name="label_button_appops">App Ops</string>
+    
+    
+    <string name="title_share_dialog">Partager les données comme...</string>
+    <string name="text_since">Depuis</string>
+    <string name="label_preferences">Paramètres</string>
+    <string name="label_packageinfo">Informations du paquet</string>
+    <string name="label_graphs">Graphiques</string>
+    <string name="label_moregraphs">Plus de graphiques</string>
+    <string name="label_series">Historique</string>
+    <string name="label_raw_stats">Statistiques brutes</string>
+    <string name="label_about">A propos</string>
+    <string name="label_credits">Crédits</string>
+    <string name="label_help">Aide</string>
+    <string name="label_howto">Guide</string>
+    <string name="label_system_app">Application système</string>
+    <string name="label_import_export">Importer/Exporter</string>
+    <string name="label_refresh">Actualiser</string>
+    <string name="label_share">Partager</string>
+    <string name="label_custom_ref">Configurer une réf. perso.</string>
+    <string name="label_release_notes">Notes de release</string>
+    <string name="label_legend">Légende</string>
+    <string name="label_button_yes">Oui</string>
+    <string name="label_button_no">Non</string>
+    <string name="label_button_ok">OK</string>
+    <string name="label_tab_package">Paquet</string>
+    <string name="label_tab_permissions">Permissions</string>
+    <string name="label_tab_services">Services</string>
+    
+    <!-- About screen -->
+    <string name="label_about_author">Par asksven</string>
+    <string name="label_about_courtesy">Autorisations pour les graphiques de @cri</string>
+    <string name="label_about_follow">Suivez-moi sur Twitter</string>
+    <string name="label_about_rate">Noter / Annoter on Google Play</string>
+    
+    <!-- Preferences -->
+    <string name="label_theme_dark">Sombre</string>
+    <string name="label_theme_light">Clair</string>
+    <string name="pref_theme_title">Thème</string>
+    <string name="pref_theme_summary">Changer de thème</string>
+
+    <!-- System app activity -->
+    <string name="expl_system_app">Sur Android 4.4, Google a retiré la permission aux applications utilisateurs d\'accéder aux statistiques de la batterie.\n\nIl est recommandé d\'installer BetterBatteryStats comme une application système (cela n\'empêche pas d\'installer les mises à jour).\n\Désinstaller/réinstaller comme application système peut être nécessaire si els permissions changent.</string>
+    <string name="expl_system_app_workaround">Si l\'application interne échoue, utiliser une solution de contournement</string>
+    <string name="install_system_app">Installer comme application système</string>
+    <string name="uninstall_system_app">Désinstaller l\'application système</string>
+    <string name="info_installed_system_app">Installé comme application système. Veuillez redémarrer.</string>
+    <string name="info_uninstalled_system_app">Application système désinstallée : vos préférences ont été réinitialisées. Veuillez redémarrer pour nettoyer et mettre à jour vos préférences.</string>
+    <string name="info_succeeded">Réussi</string>
+    <string name="info_failed">Échoué, essayez le ZIP pour recovery</string>
+    <string name="info_root_required">Afin d\'utiliser cette fonctionnalité, les fonctionnalités \'Root\' doivent être activées. (Paramètres avancés)</string>
+    <string name="info_unknown_state">Erreur: ne peut pas déterminer ce qui a changé</string>
+    <string name="info_service_connection_error">Le service BatteryInfo n\'a pas pu être contacté</string>
+    <string name="info_loading_refs_error">La référence \'de\' or \'à\' n\'a pas pu être chargée. Veuillez actualiser</string>
+    <string name="info_unknown_stat_error">Une erreur inconnue est survenue lors de la récupération des statistiques. Veuillez consulter le logcat.</string>
+    <string name="info_state_recovery_error">Une erreur est survenue lors de la récupération de l\'état précédent.</string>
+    <string name="info_pref_export_success">Préférences sauvegardées vers %s</string>
+    <string name="info_pref_import_success">Préférences importées depuis %s</string>
+    <string name="info_pref_import_export_failed">The operation failed</string>
+    
+    <string name="info_deleting_refs">Suppression et re-création des références</string>
+    <string name="info_fallback_to_boot">Repli vers \'Depuis Démarrage\'</string>
+    <string name="info_fallback_to_default">Repli vers la référence par défaut</string>
+    <string name="label_granted">accordés</string>
+    <string name="label_not_granted">non accordés</string>
+
+    <!-- Preferences labels and texts -->
+    <string name="pref_section_display">Affichage</string>
+    <string name="pref_filter_data_title">Filtrer par</string>
+    <string name="pref_filter_data_summary">Activer la filtration des données non nulles</string>
+    <string name="pref_show_bat_details_title">Détails de la batterie</string>
+    <string name="pref_show_bat_details_summary">Afficher % de/à sur l\'écran</string>
+    <string name="pref_show_gauge_title">Afficher les barres</string>
+    <string name="pref_show_gauge_summary">Afficher les barres au lieu des jauges circulaires</string>
+    <string name="pref_graph_bar_height_title">Hauteur pour les barres de graphes</string>
+    <string name="pref_graph_bar_height_summary">Si vous utilisez une densité non-standard, vous pouvez modifier la hauteur des barres ici</string>
+    <string name="pref_section_customize_views">Personnaliser les vues</string>
+    <string name="pref_show_from_to_ref_title">Référence de/à</string>
+    <string name="pref_show_from_to_ref_summary">Afficher le sélecteur de références</string>
+    <string name="pref_show_other_wifi_title">Afficher le Wifi</string>
+    <string name="pref_show_other_wifi_summary">Afficher les valeurs pour le Wifi</string>
+    <string name="pref_show_other_signal_title">Afficher le signal</string>
+    <string name="pref_show_other_signal_summary">Afficher les valeurs pour le signal</string>
+    <string name="pref_show_other_screen_brightness_title">Afficher l\'écran</string>
+    <string name="pref_show_other_screen_brightness_summary">Afficher la luminosité de l\'écran</string>
+    <string name="pref_show_other_connection_title">Afficher les connexions</string>
+    <string name="pref_show_other_connection_summary">Afficher les valeurs pour les connexions</string>
+    <string name="pref_show_other_bt_title">Afficher le Bluetooth</string>
+    <string name="pref_show_other_bt_summary">Afficher les valeurs pour le Bluetooth</string>
+    <string name="pref_section_defaults">Défauts</string>
+    <string name="pref_default_stat_title">Statistique par défaut</string>
+    <string name="pref_default_stat_summary">Configurer la statistique affichée au démarrage de l\'application</string>
+    <string name="pref_default_stat_type_title">Type de statistiques par défaut</string>
+    <string name="pref_default_stat_type_summary">Configurer le type de statistiques affiché au démarrage de l\'application</string>
+    <string name="pref_section_watchdog">Watchdog</string>
+    <string name="pref_enable_watchdog_title">Activer</string>
+    <string name="pref_enable_watchdog_summary">Activer le traitement du Watchdog</string>
+    <string name="pref_watchdog_on_unlock_title">Watchdog au déverrouillage</string>
+    <string name="pref_watchdog_on_unlock_summary">Le Watchdog se lance lors d\'un \'déverrouillage\' (sinon à \'écran allumé\')</string>
+    <string name="pref_section_warnings">Avertissements</string>
+    <string name="pref_watchdog_awake_threshold_title">Seuil d\'éveil</string>
+    <string name="pref_watchdog_awake_threshold_summary">Seuil d\'avertissement (éveil / total)</string>
+    <string name="pref_ref_for_screen_off_title">Seuil de durée [Min.]</string>
+    <string name="pref_ref_for_screen_off_summary">Durée d\'écran éteint de déclenchement</string>
+    <string name="pref_section_active_mon">Surveillance active</string>
+    <string name="pref_active_mon_enabled_title">Activer</string>
+    <string name="pref_active_mon_enabled_summary">Activer la surveillance active. Attention : soyez conscient que la surveillance active a un coût en terme de batterie.</string>
+    <string name="pref_active_mon_freq_title">Fréquence [Min.]</string>
+    <string name="pref_active_mon_freq_summary">Fréquence de sauvegarde des références de minuterie</string>
+    <string name="pref_force_en_title">Forcer l\'Anglais</string>
+    <string name="pref_force_en_summary">Forcer BBS a être en Anglais (requiert un redémarrage)</string>
+    <string name="pref_section_advanced">Avancé</string>
+    <string name="pref_debug_logging_summary">Ajouter les informations de débuggage dans le logcat</string>
+    <string name="pref_debug_logging_title">Debug</string>
+    <string name="pref_files_to_private_storage_summary">Écrire les fichier vers /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
+    <string name="pref_files_to_private_storage_title">Stockage privé</string>
+    <string name="pref_root_features_summary">Activer les statistique de réseau et les réveils</string>
+    <string name="pref_root_features_title">Fonctionnalités Root</string>
+    <string name="pref_ignore_system_app_summary">Ignorer la détection pour application système (pour les utilisateurs du module XPosed \'Enable BATTERY_STATS\')</string>
+    <string name="pref_ignore_system_app_title">Ne pas détecter comme application système</string>
+
+
+    <string name="pref_developer_title">Activer pendant le chargement</string>
+    <string name="pref_developer_summary">Activer les statistiques pendant le chargement (à vos risques et périls, les statistiques peuvent être incohérentes)</string>
+    <string name="pref_auto_refresh_title">Actualisation automatique</string>
+    <string name="pref_auto_refresh_summary">Recharge automatiquement \'courant\' lors du changement d\'écrans/de paramètres</string>
+    <string name="pref_section_sharing">Options de partage</string>
+    <string name="pref_save_as_text_title">Texte</string>
+    <string name="pref_save_as_text_summary">Partager le fichier dump comme un texte</string>
+    <string name="pref_save_as_json_title">JSON</string>
+    <string name="pref_save_as_json_summary">Partager le fichier dump comme un JSON</string>
+    <string name="pref_save_logcat_title">Logcat</string>
+    <string name="pref_save_logcat_summary">Partager le logcat</string>
+    <string name="pref_save_dmesg_title">dmesg</string>
+    <string name="pref_save_dmesg_summary">Partager le dmesg</string>
+    <string name="pref_force_alarms_api_title">Réveils en utilisant les API</string>
+    <string name="pref_force_alarms_api_summary">Forcer la récupération des Réveils en utilisant les API</string>
+    <string name="pref_force_kwl_api_title">Kernel Wakelocks en utilisant les API</string>
+    <string name="pref_force_kwl_api_summary">Forcer la récupération des Kernel Wakelocks using the API</string>
+    <string name="pref_screen_system_app_title">Application système</string>
+    <string name="pref_screen_system_app_summary">Installer comme application système</string>
+    <string name="pref_screen_import_export_title">Importer/Exporter</string>
+    <string name="pref_screen_import_export_summary">Importer et Exporter les préférences</string>
+    
+    <string name="pref_section_settings">Paramètres</string>
+    <string name="pref_screen_widgets_title">Widgets</string>
+    <string name="widget_refresh_freq_title">Fréquence d\'actualisation</string>
+    <string name="widget_refresh_freq_summary">Configurer la fréquence d\'actualisation des Widgets (ils s\'actualisent automatiquement lorsque l\'écran est allumé)</string>
+    <string name="widget_refresh_on_screen_on_title">Actualisation allumage écran</string>
+    <string name="widget_refresh_on_screen_on_summary">Actualiser lorsque l\'écran s\'allume</string>
+    <string name="widget_default_stat_title">Statistique à ouvrir par défaut</string>
+    <string name="widget_default_stat_summary">Configurer la statistiques appelée par le widget</string>    
+    <string name="widget_show_stat_type_title">Afficher le titre</string>
+    <string name="widget_show_stat_type_summary">Afficher le type de statistiques</string>
+    <string name="widget_fallback_stat_type_title">Type de statistiques de repli</string>
+    <string name="widget_fallback_stat_type_summary">Configurer le type de statistiques de repli pour le widget si celui par défaut n\'a pas de référence</string>
+    <string name="pref_category_widgets_2x2_and_2x1">Widgets 2x2 et 2x1</string>
+    <string name="widget_default_stat_type_title">Type de statistiques</string>
+    <string name="widget_default_stat_type_summary">Configurer le type de statistiques affichées dans le widget</string>
+    <string name="large_widget_font_size_title">Taille de la police</string>
+    <string name="large_widget_font_size_summary">Configurer la taille de la police utilisée dans le widget</string>
+    <string name="large_widget_show_pct_title">Afficher %</string>
+    <string name="large_widget_show_pct_summary">Afficher les durées en % de temps total</string>
+    <string name="widget_opacity_title">Opacité</string>
+    <string name="widget_opacity_summary">Ajuster l\'opacité du widget</string>
+    <string name="widget_bg_opacity_title">Opacité du fond</string>
+    <string name="widget_bg_opacity_summary">Ajuster l\'opacité du fond</string>
+    <string name="pref_category_widget_1x1">Widget 1x1</string>
+    <string name="small_widget_refresh_on_tap_title">Actualiser au tap</string>
+    <string name="small_widget_refresh_on_tap_summary">Tapoter le widget l\'actualise (sinon tapoter ouvre l\'application)</string>
+    <string name="thumbnail_size_title">Taille des aperçus</string>
+    <string name="medium_font_size_title">Taille moyenne de la police</string>
+    
+    <!-- stats error / warnings -->
+    <string name="NO_STATS_WHEN_CHARGING">L\'appareil est branché : pas de statistiques</string>
+    <string name="NO_ROOT_ERR">Cette statistique requiert le root</string>
+    <string name="NO_PERM_ERR">Cette statistique requiert la permission BATTERY_STATS</string>
+    <string name="NO_REF_ERR">Pas encore de référence configurée</string>
+    <string name="NO_STATS">Aucune statistique n\'a encore été collectée</string>
+	<string name="FILE_ACCESS_ERROR">Le fichier ne peut pas être lu</string>
+    
+	<!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">Depuis chargé</string>
+    <string name="stat_type_label_since_unplugged">Depuis débranché</string>
+    <string name="stat_type_label_since_custom">Depuis référence perso.</string>
+    <string name="stat_type_label_since_screen_off">Depuis écran éteint</string>
+    <string name="stat_type_label_since_boot">Depuis démarrage</string>
+
+    
+    <string name="widget_freq_label_none">Aucune</string>
+    <string name="widget_freq_label_5">5 Min.</string>
+    <string name="widget_freq_label_15">15 Min.</string>
+    <string name="widget_freq_label_30">*30 Min.</string>
+    <string name="widget_freq_label_60">60 Min.</string>
+    
+    <string name="widget_fontsize_16">Très grande (16)</string>
+    <string name="widget_fontsize_14">Grande (14)</string>
+    <string name="widget_fontsize_12">Normale (12)</string>
+    <string name="widget_fontsize_10">*Petite (10)</string>
+    <string name="widget_fontsize_8">Très petite (8)</string>
+
+</resources>
