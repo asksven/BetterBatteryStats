@@ -57,26 +57,6 @@ public class PermissionsAdapter extends BaseAdapter
 
     }
 
-    public void setSelectedPosition(int position)
-    {
-    	// behavior: one click on any item opens the drawer. Clicking on an open item again closes it
-    	if (m_selectedPosition == position)
-    	{
-    		toggleExpand();
-    	}
-    	else
-    	{
-    		m_expanded = true;
-    	}
-    	m_selectedPosition = position;
-    	notifyDataSetChanged();
-    }
-    
-    private void toggleExpand()
-    {
-    	m_expanded = !m_expanded;
-    	notifyDataSetChanged();
-    }
 
     public int getCount()
     {
@@ -112,44 +92,23 @@ public class PermissionsAdapter extends BaseAdapter
 	        tvDescription.setText(permData.description);
 		        
 	        int color;
+	        LinearLayout nameLayout = (LinearLayout) convertView.findViewById(R.id.LayoutName);
 	       	switch(permData.level)
 	       	{
-			case PermissionInfo.PROTECTION_DANGEROUS:
-				color = R.color.dangerous_color;
-				break;
-			case PermissionInfo.PROTECTION_SIGNATURE:
-			case PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM:
-				color = R.color.signature_color;
-				break;
-			default:
-				color = android.R.color.primary_text_dark;
-				break;
+				case PermissionInfo.PROTECTION_DANGEROUS:
+					color = R.color.dangerous_color;
+					nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
+					break;
+				case PermissionInfo.PROTECTION_SIGNATURE:
+				case PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM:
+					color = R.color.signature_color;
+					nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
+					break;
 			}
-	    	LinearLayout nameLayout = (LinearLayout) convertView.findViewById(R.id.LayoutName);
-
-			nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
 
         }
         
     	LinearLayout descriptionLayout = (LinearLayout) convertView.findViewById(R.id.LayoutDescription);
-
-       	if (m_selectedPosition == position)
-       	{
-       		if (m_expanded)
-       		{
-        		descriptionLayout.setVisibility(View.VISIBLE);
-       		}
-       		else
-       		{
-        		descriptionLayout.setVisibility(View.GONE);
-       		}
-       	}
-       	else
-       	{
-    		descriptionLayout.setVisibility(View.GONE);
-       	}
-
-
 
         return convertView;
     }
