@@ -118,6 +118,11 @@
     <!-- About screen -->
     <string name="label_about_author">Autor: asksven</string>
     <string name="label_about_courtesy">Grafika: @cri</string>
+    <string name="label_about_translations">Lokalizace</string>
+    <string name="label_about_translation1">Ruština: gaich @ xda</string>
+    <string name="label_about_translation2">Španělština: @vldesco</string>
+    <string name="label_about_translation3">Italština: code010101 @ xda</string>
+    <string name="label_about_translation4">Chorvatština: seky2205 @ xda</string>
     <string name="label_about_follow">Následovat na Twitteru</string>
     <string name="label_about_rate">Hodnotit na Google Play</string>
 
