@@ -92,7 +92,9 @@ public class ServicesAdapter extends BaseAdapter
         }
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
        	tvName.setText(entry);
+       	LinearLayout descriptionLayout = (LinearLayout) convertView.findViewById(R.id.LayoutDescription);
 
+  		descriptionLayout.setVisibility(View.GONE);
         return convertView;
     }
 }
