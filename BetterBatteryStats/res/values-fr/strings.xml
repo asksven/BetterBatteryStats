@@ -10,7 +10,7 @@
     <string name="message_hint_stat_type">Type de statistiques</string>
     <string name="message_enable_root">Activer les fonctionnalités root nécessite que votre téléphone soit rooté.\nSoyez sûr d\'accorder les droits root aux statistiques Alarmes et Réseau.\nSi ces droits ne tiennent pas, mettez en cause l\'application su, pas BBS.\nContinuer?</string>
     <string name="message_enable_active_mon">La surveillance active sont coûteuse en termes de réveils et de traitement et doit être utilisée avec précaution.\nContinuer?</string>
-    <string name="message_first_launch">Une référence \'débranché\' vient d'être créée. Lorsque vous brancherez/débrancherez votre téléphone cette référence sera écrasée.</string>
+    <string name="message_first_launch">Une référence \'débranché\' vient d\'être créée. Lorsque vous brancherez/débrancherez votre téléphone cette référence sera écrasée.</string>
     <string name="message_copied_to_clipboard">%s a été copié dans le presse-papiers</string>
     <string name="message_no_hist_froyo">Malheureusement Froyo ne supporte pas la collecte de données</string>
     <string name="message_no_appops">AppOps n\'existe pas sur votre ROM</string>
@@ -80,7 +80,7 @@
     <string name="label_permisions_normal">Permissions standards</string>
     
     <string name="pref_dashclock_default_stat_type_summary">Configurer le type de statistiques pour qu\'elles soient présentes dans DashClock</string>
-    <string name="pref_dashclock_fallback_stat_type_summary">Configurer le type de statistiques de repli pour qu'elles soient présentes dans DashClock si celui par défaut n'a pas de référence</string>
+    <string name="pref_dashclock_fallback_stat_type_summary">Configurer le type de statistiques de repli pour qu\'elles soient présentes dans DashClock si celui par défaut n\'a pas de référence</string>
     <string name="label_awake_abbrev">ev.</string>
     <string name="label_button_share">Partager...</string>
     <string name="label_button_save">Sauvegarder</string>
