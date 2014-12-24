@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    
+    <release version="2.0.0.0RC5" versioncode="60" >
+        <change>More I18N fixes and added french</change>
+        <change>Fixes on package details dialogs</change>
+        <change>A first attempt to right-to-left languages with arabic</change>
+    </release>
+    
     <release version="2.0.0.0RC4" versioncode="59" >
         <change>Fixed changelog</change>
         <change>More I18N fixes</change>

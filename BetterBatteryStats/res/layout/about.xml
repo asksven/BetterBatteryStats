@@ -83,7 +83,13 @@
         android:layout_gravity="center"
         android:text="@string/label_about_translation4"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/label_about_translation5"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageView
         android:id="@+id/imageView4"
