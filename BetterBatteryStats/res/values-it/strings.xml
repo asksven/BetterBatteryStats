@@ -107,6 +107,11 @@
 <!-- About screen -->
 <string name="label_about_author">di asksven</string>
 <string name="label_about_courtesy">Grafici grazie a @cri</string>
+<string name="label_about_translations">Traduzioni:</string>
+<string name="label_about_translation1">Russo by gaich @ xda</string>
+<string name="label_about_translation2">Spagnolo by @vldesco</string>
+<string name="label_about_translation3">Italiano by code010101 @ xda</string>
+<string name="label_about_translation4">Croato by seky2205 @ xda</string>
 <string name="label_about_follow">Seguitemi su Twitter</string>
 <string name="label_about_rate">Valuta / Commenta su Google Play</string>
 <!-- Preferences -->
@@ -115,7 +120,7 @@
 <string name="pref_theme_title">Tema</string>
 <string name="pref_theme_summary">Cambia tema</string>
 <!-- System app activity -->
-<string name="expl_system_app">In Android 4.4 Google ha rimosso il permesso alle app normali di accedere alle statistiche della batteria.\n\nSi raccomanda di installare BetterBatteryStats come app di sistema(non impedisce di intallare aggiornamenti).\n\nPotrebbe essere necessario disinstallare/reinstallare come app di sistema se i permessi cambiano.</string>
+<string name="expl_system_app">In Android 4.4 Google ha rimosso il permesso alle app normali di accedere alle statistiche della batteria.\n\nSi raccomanda di installare BetterBatteryStats come app di sistema (non impedisce di intallare aggiornamenti).\n\nPotrebbe essere necessario disinstallare/reinstallare come app di sistema se i permessi cambiano.</string>
 <string name="expl_system_app_workaround">Se l\'installazione diretta dall\'app fallisce provate questa soluzione</string>
 <string name="install_system_app">Installa come app di sistema</string>
 <string name="uninstall_system_app">Disinstalla come app di sistema</string>
@@ -172,7 +177,7 @@
 <string name="pref_watchdog_on_unlock_summary">Watchdog fino a \'sblocco\' (oppure a \'schermo on\')</string>
 <string name="pref_section_warnings">Avvisi</string>
 <string name="pref_watchdog_awake_threshold_title">Soglia attivo</string>
-<string name="pref_watchdog_awake_threshold_summary">Soglia per avviso (attivo / totale)</string>
+<string name="pref_watchdog_awake_threshold_summary">Soglia per avviso (attivo/totale)</string>
 <string name="pref_ref_for_screen_off_title">Durata soglia [Min.]</string>
 <string name="pref_ref_for_screen_off_summary">Durata schermo Off per iniziare</string>
 <string name="pref_section_active_mon">Monitoraggio Attivo</string>
