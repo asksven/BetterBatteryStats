@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    
+    <release version="2.0.0.0RC5" versioncode="60" >
+        <change>Corrections : I18N et Ajout du Français</change>
+        <change>Corrections : Dialogues des détails de paquets (couleur, longs libellés)</change>
+        <change>Premier essai pour les langages avec écriture de la droite vers la gauche avec l\'Arabe</change>
+    </release>
+    
     <release version="2.0.0.0RC4" versioncode="59" >
         <change>Correction : Changelog</change>
         <change>Correction : I18N</change>
