@@ -8,6 +8,7 @@
     <string name="message_hint_savestatjson">Spremi JSON Dumpfile</string>
     <string name="message_hint_sinceref">Dump od zadnje reference</string>
     <string name="message_hint_stat_type">Vrsta statistike</string>
+
     <string name="message_enable_root">Omogućavanje root postavki podrazumjeva root-an uređaj.\nMolim Vas, dozvolite SU dozvole Alarmima i Stanjima mreže.\nAko te dozvole ne uspijevaju okrivite SU aplikaciju, ne BBS.\nNastaviti?</string>
     <string name="message_enable_active_mon">Aktivno motrenje može izazvati wakelockove i koristiti procesor, stoga nastavite s oprezom.\nNastaviti?</string>
     <string name="message_first_launch">Referenca \'isključen s punjača\' se u procesu kreiranja. Kada uključite/ isključite uređaj ta referenca će biti zamjenjena novom</string>		
@@ -18,7 +19,7 @@
     <string name="message_error_writing_dumpfile">Dogodila se greška za vrijeme izbacivanja povijesti</string>
     <string name="message_identical_references">Dogodila se greška. Obje statistike su jednake (%1$1, %2$s)</string>
     <string name="message_watchdog_processing">BBS: Čuvar procesuira...</string>
-    <string name="message_watchdog_awake_alert">BBS: Uzbuna o buđenju: %1$d%% budna.</string>
+    <string name="message_watchdog_awake_alert">BBS: Uzbuna o buđenju: %d \%% budna.</string>
     <string name="message_computing">Računam...</string>
     <string name="message_awake_alert">Uzbuna o buđenju</string>
     <string name="message_awake_info">%1$d%% budan dok je zaslon ugašen</string>
@@ -118,6 +119,11 @@
     <!-- About screen -->
     <string name="label_about_author">Izradio asksven</string>
     <string name="label_about_courtesy">Grafiku izradio @cri</string>
+    <string name="label_about_translations">Prijevodi</string>
+    <string name="label_about_translation1">Ruski: gaich @ xda</string>
+    <string name="label_about_translation2">Španjolski: @vldesco</string>
+    <string name="label_about_translation3">Talijanski: code010101 @ xda</string>
+    <string name="label_about_translation4">Hrvatski: seky2205 @ xda</string>
     <string name="label_about_follow">Prati me na Twitter-u</string>
     <string name="label_about_rate">Ocijeni/ recenziraj na Google Play</string>
     
@@ -128,11 +134,13 @@
     <string name="pref_theme_summary">Promjeni temu</string>
 	
     <!-- System app activity -->
+
     <string name="expl_system_app">Na Android-u 4.4 Google je skinuo ovlasti s normalnih aplikacija da pristupe bateriji.\n\nPreporučeno je instalirati BetterBatteryStats kao sistemsku aplikaciju (ovo ne priječi nadogradnju aplikacije).\n\nDeinstaliranje/reinstaliranje aplikacije kao sistemske datoteke će biti potrebno ako se ovlasti promjene.</string>
     <string name="expl_system_app_workaround">Ako instalacija unutar aplikacije ne uspijeva, iskoristite ovu zaobilaznicu</string>
     <string name="install_system_app">Instaliraj kao sistemsku datoteku</string>	
     <string name="uninstall_system_app">Deinstaliraj kao sistemsku datoteku</string>
     <string name="info_installed_system_app">Instalirana sistemska datoteka. Ponovno pokrenite uređaj za aktivaciju.</string>
+
     <string name="info_uninstalled_system_app">Deinstalirana sistemska aplikacija: Vaše postavke su izbrisane. Molim Vas, ponovno pokrenite i iznova odaberite Vaše postavke.</string>
     <string name="info_succeeded">Uspijelo je</string>
     <string name="info_failed">Nije uspijelo</string>
@@ -225,6 +233,10 @@
     <string name="pref_force_alarms_api_summary">Forsiraj brojenje alarma koji koriste API</string>
     <string name="pref_force_kwl_api_title">Kernel Wakelocks koji koriste API</string>
     <string name="pref_force_kwl_api_summary">Forsiraj brojenje Kernel Wakelocks koji koriste API</string>
+
+
+
+
   
 
      <string name="pref_screen_system_app_title">Sistemska aplikacija</string>
@@ -275,11 +287,12 @@
     <string name="stat_type_label_since_custom">Od vlastite reference</string>
     <string name="stat_type_label_since_screen_off">Od kad je ugašen zaslon</string>
     <string name="stat_type_label_since_boot">Od zadnjeg podizanja sustava</string>
+
     
     <string name="widget_freq_label_none">Ništa</string>
     <string name="widget_freq_label_5">5 min</string>
     <string name="widget_freq_label_15">15 min</string>
-    <string name="widget_freq_label_30">*30 min</string>
+    <string name="widget_freq_label_30">30 min</string>
     <string name="widget_freq_label_60">60 min</string>
     
     <string name="widget_fontsize_16">Jako veliko (16)</string>
@@ -287,5 +300,4 @@
     <string name="widget_fontsize_12">Normalno(12)</string>
     <string name="widget_fontsize_10">Malo (10)</string>
     <string name="widget_fontsize_8">Sičušno (8)</string>
-    
 </resources>
