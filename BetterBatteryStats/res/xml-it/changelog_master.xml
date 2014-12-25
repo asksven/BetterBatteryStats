@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+<release version="2.0.0.0RC5" versioncode="60" >
+<change>Correzioni I18N e aggiunta lingua Francese</change>
+<change>Correzioni dettagli finestre di dialogo (colore, etichette lunghe)</change>
+<change>Supporto preliminare per lingua araba (da destra a sinistra)</change>
+</release>
 <release version="2.0.0.0RC4" versioncode="59" >
 <change>Aggiornato il changelog</change>
 <change>Correzioni I18N</change>
