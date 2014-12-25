@@ -116,13 +116,14 @@
     <string name="label_tab_services">Службы</string>
     
     <!-- About screen -->
-    <string name="label_about_author">Разработка asksven</string>
-    <string name="label_about_courtesy">Графика @cri</string>
+    <string name="label_about_author">Разработка: asksven</string>
+    <string name="label_about_courtesy">Графика: @cri</string>
     <string name="label_about_translations">Переводы</string>
-    <string name="label_about_translation1">Русский gaich @ xda</string>
-    <string name="label_about_translation2">Испанский @vldesco</string>
-    <string name="label_about_translation3">Итальянский code010101 @ xda</string>
-    <string name="label_about_translation4">Хорватский seky2205 @ xda</string>
+    <string name="label_about_translation1">Русский: gaich @ xda</string>
+    <string name="label_about_translation2">Испанский: @vldesco</string>
+    <string name="label_about_translation3">Итальянский: code010101 @ xda</string>
+    <string name="label_about_translation4">Хорватский: seky2205 @ xda</string>
+    <string name="label_about_translation5">Французcкий: xavihernandez @ xda</string>
     <string name="label_about_follow">Твиттер</string>
     <string name="label_about_rate">Оценка / отзыв на Google Play</string>
                
