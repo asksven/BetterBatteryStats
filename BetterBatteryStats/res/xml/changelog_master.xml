@@ -3,7 +3,7 @@
     
     <release version="2.0.0.0RC5" versioncode="60" >
         <change>More I18N fixes and added french</change>
-        <change>Fixes on package details dialogs</change>
+        <change>Fixes on package details dialogs (color, long labels)</change>
         <change>A first attempt to right-to-left languages with arabic</change>
     </release>
     
