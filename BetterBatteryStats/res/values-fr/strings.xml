@@ -2,7 +2,7 @@
 <resources>
 
     <string name="plugin_name">Better Battery Stats</string>
-    <string name="message_hint">Scheduled Toast</string>
+    <string name="message_hint">Toast programé</string>
     <string name="message_hint_saveref">Sauvegarder une référence personnalisée</string>
     <string name="message_hint_savestat">Sauvegarder un fichier dump en texte</string>
     <string name="message_hint_savestatjson">Sauvegarder un fichier dump en JSON</string>
@@ -118,6 +118,12 @@
     <!-- About screen -->
     <string name="label_about_author">Par asksven</string>
     <string name="label_about_courtesy">Autorisations pour les graphiques de @cri</string>
+    <string name="label_about_translations">Traductions</string>
+    <string name="label_about_translation1">Russe par gaich @ xda</string>
+    <string name="label_about_translation2">Espagnol par @vldesco</string>
+    <string name="label_about_translation3">Italien par code010101 @ xda</string>
+    <string name="label_about_translation4">Croate par seky2205 @ xda</string>
+    <string name="label_about_translation5">Français par xavihernandez @ xda</string>
     <string name="label_about_follow">Suivez-moi sur Twitter</string>
     <string name="label_about_rate">Noter / Annoter on Google Play</string>
     
