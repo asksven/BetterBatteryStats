@@ -12,7 +12,7 @@ Weiter? "</string>
 <string name="message_enable_active_mon">"Das aktive Monitoring erzeugt ein bestimmtes Overhead und sollte mit Vorsicht genutzt werden.
 Weiter?"</string>
 <string name="message_first_launch">"Eine Referenz 'unplugged' wird nun erzeugt. Diese wird überschrieben wenn das Gerät das nächste mal vom Ladegerät entfernt wird"</string>
-<string name="message_copied_to_clipboard">"% wurde in die Zwischenablage kopiert"</string>
+<string name="message_copied_to_clipboard">%s wurde in die Zwischenablage kopiert</string>
 <string name="message_no_hist_froyo">"Leider unterstützt Froyo keine historischen Daten"</string>
 <string name="message_no_appops">"AppOps existiert nicht in diesem ROM"</string>
 <string name="message_external_storage_write_error">"Externer Speicher kann nicht beschrieben werden"</string>

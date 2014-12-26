@@ -536,7 +536,7 @@ public class StatsAdapter extends BaseAdapter
         	{
         		Toast.makeText(m_context, m_context.getString(R.string.message_copied_to_clipboard, entry.getName()), Toast.LENGTH_LONG).show();
         	}
-        	finally
+        	catch (Exception e)
         	{
         		// can normally not fail, if it still does it's only the toast
         	}
