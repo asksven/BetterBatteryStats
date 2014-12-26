@@ -17,7 +17,6 @@
 package com.asksven.betterbatterystats;
 
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.R.color;
 import com.asksven.betterbatterystats.contrib.SlidingTabLayout;
 
 import android.content.Context;

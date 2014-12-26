@@ -105,11 +105,12 @@
 <!-- About screen -->
 <string name="label_about_author">Von asksven</string>
 <string name="label_about_courtesy">Grafiken von @cri</string>
-    <string name="label_about_translations">Übersetzungen</string>
-    <string name="label_about_translation1">Russisch by gaich @ xda</string>
-    <string name="label_about_translation2">Spanisch by @vldesco</string>
-    <string name="label_about_translation3">Italienisch by code010101 @ xda</string>
-    <string name="label_about_translation4">Croatisch by seky2205 @ xda</string>
+<string name="label_about_translations">Übersetzungen</string>
+<string name="label_about_translation1">Russisch von gaich @ xda</string>
+<string name="label_about_translation2">Spanisch von @vldesco</string>
+<string name="label_about_translation3">Italienisch von code010101 @ xda</string>
+<string name="label_about_translation4">Croatisch von seky2205 @ xda</string>
+<string name="label_about_translation5">Französisch von xavihernandez @ xda</string>    
 <string name="label_about_follow">Bei Twitter folgen</string>
 <string name="label_about_rate">Bewerten bei Google Play</string>
 
