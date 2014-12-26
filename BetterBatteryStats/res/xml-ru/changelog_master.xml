@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+        <release version="2.0.0.0RC5" versioncode="60" >
+        <change>Исправления в переводах и добавление французского</change>
+        <change>Исправления в окнах подробностей пакетов (цвет, большие ярлыки)</change>
+        <change>Первая попытка добавления языка с написанием справа налево (арабский)</change>
+    </release>
     <release version="2.0.0.0RC4" versioncode="59" >
         <change>Исправление истории изменений</change>
         <change>Дополнительные исправления в переводе</change>
