@@ -227,10 +227,10 @@
     <string name="pref_save_logcat_summary">Partager le logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Partager le dmesg</string>
-    <string name="pref_force_alarms_api_title">Réveils en utilisant l\'API</string>
-    <string name="pref_force_alarms_api_summary">Forcer la récupération des Réveils en utilisant l\'API</string>
-    <string name="pref_force_kwl_api_title">Réveils Kernel en utilisant l\'API</string>
-    <string name="pref_force_kwl_api_summary">Forcer la récupération des Réveils Kernel en utilisant l\'API</string>
+    <string name="pref_force_alarms_api_title">Alarmes en utilisant l\'API</string>
+    <string name="pref_force_alarms_api_summary">Forcer la récupération des Alarmes en utilisant l\'API</string>
+    <string name="pref_force_kwl_api_title">Wakelocks Kernel en utilisant l\'API</string>
+    <string name="pref_force_kwl_api_summary">Forcer la récupération des Wakelocks Kernel en utilisant l\'API</string>
     <string name="pref_screen_system_app_title">Application système</string>
     <string name="pref_screen_system_app_summary">Installer comme application système</string>
     <string name="pref_screen_import_export_title">Importer/Exporter</string>
