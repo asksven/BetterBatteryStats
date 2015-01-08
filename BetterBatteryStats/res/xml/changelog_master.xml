@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     
+    <release version="2.0.0.0RC6" versioncode="61">
+        <change>Fixed touch feedback color for pre-lolipop to a more decent transparent grey</change>
+    </release>
     <release version="2.0.0.0RC5" versioncode="60" >
         <change>More I18N fixes and added french</change>
         <change>Fixes on package details dialogs (color, long labels)</change>
