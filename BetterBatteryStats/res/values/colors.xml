@@ -65,6 +65,7 @@
 	<color name="cardlist_background_dark">#2d2d2d</color>
 	
 	<color name="color_accent">#27ae60</color>
+	<color name="color_clickable_compat">#50CCCCCC</color>
 			
 	
     
