@@ -2,96 +2,16 @@
 <changelog>
     
     <release version="2.0.0.0RC6" versioncode="61">
-        <change>Fixed touch feedback color for pre-lolipop to a more decent transparent grey</change>
-    </release>
-    <release version="2.0.0.0RC5" versioncode="60" >
-        <change>More I18N fixes and added french</change>
-        <change>Fixes on package details dialogs (color, long labels)</change>
-        <change>A first attempt to right-to-left languages with arabic</change>
-    </release>
-    
-    <release version="2.0.0.0RC4" versioncode="59" >
-        <change>Fixed changelog</change>
-        <change>More I18N fixes</change>
-        <change>More languages</change>
-        <change>Fixed Dashclock Settings</change>
+        <change>Totally new and shiny, wit light and dark themes</change>
+        <change>Full Lolipop support</change>
+        <change>Lots of I18N (see about dialog for credits)</change>
         <change>Added details about API stats to dumpfile</change>
-        <change>Fixed battery graph if battery is 100% over the whole time</change>
-        <change>Replaced holo touch feedback with material design ripple effect</change>
-    </release>
-    
-    <release version="2.0.0.0RC2" versioncode="57" >
-        <change>Fixed graphs showing oblique lines</change>
-        <change>Fixed light overflow menu in dark theme</change>
-        <change>I18N fixes</change>
-    </release>
-    
-    <release version="2.0.0.0RC1" versioncode="56" >
-        <change>Added pref to force EN</change>
-        <change>Removed experimental su --context option</change>
-        <change>More language fixes and new translations</change>
-        <change>Updated to latest appcompat libs</change>
-        <change>Fixed battery graph always showing the same values</change>
-        <change>Fixed slowness in graphs</change>
-        <change>Fixed FC when opening credits</change>
-        <change>Fixed watchdog not showing alerts</change>
-	</release>
-    <release version="2.0.0.0B7" versioncode="55" >
-         <change>Fixed kernel wakelocks on Lolipop (again)</change>
-         <change>Better scaling and font size for gauges</change>
-         <change>More strings / I18N</change>
-         <change>Fixed battery graph</change>
-         <change>Primary dark color for notification bar on Lolipop</change>
-         <change>System app dialog now links to the recovery ZIPs to be used as workaround</change>
-         <change>Added import/export of preferences</change>
-         <change>Added fix for native alarms on Lolipop. Experimental, may cause slow calls</change>
-         <change>Fixed white-on-white theme when calling prefs after fresh install</change>
-         <change>Improved graph performance</change>
-         <change>Added option to shopw/hide spinners</change>
-     </release>
-    <release version="2.0.0.0B6" versioncode="54" >
-         <change>Externalized more strings</change>
-         <change>Fixed kernel wakelocks on Lolipop</change>
-         <change>Added preferences to change font-size and icon-size</change>
-     </release>
-     <release version="2.0.0.0B5" versioncode="53" >
-         <change>Externalized more strings</change>
-         <change>Fixed Alarms details dialog showing infinite/Hr.</change>
-         <change>Themed dialogs</change>
-         <change>Show SELinux Policy on System App dialog and Dumpfile</change>
-         <change>Introduced settings to force the use of the API for Alarms and Kernel Wakelocks</change>
-         <change>Replaced graphs</change>
-     </release>
-     <release version="2.0.0.0B4" versioncode="52" >
-        <change>Some internal house-keeping and clean-up</change>
-        <change>Fixed theme switch</change>
-        <change>Added battery from/to % back to screen (optionally)</change>
-        <change>Notification area should be invisible by default</change>
-        <change>Fixed infinite alarm per hour</change>
-        <change>Ditched cards for a better use of the real estate</change>
-        <change>A first shot at german I18N</change>
-        <change>Fixed partial wakelocks on Android 5.0</change>
-    </release>    
-    <release version="2.0.0.0B3" versioncode="51" >
-        <change>Fixed broken changelog</change>
-        <change>Add dark Theme</change>
+        <change>System app dialog now links to the recovery ZIPs to be used as workaround</change>
+        <change>Added import/export of preferences</change>
+        <change>Added option to show/hide spinners</change>
+        <change>Show SELinux Policy on System App dialog and Dumpfile</change>
         <change>An attempt to work around BATTERY_INFO service not being reachable on some devices</change>
         <change>Surface errors that may occur while processing stats</change>
-        <change>Work around kernel wakelock file not being accessible if SELinux is not permissive</change>
-        <change>Automatically fall back to API mode for alarms if SELinux is not permissive</change>
-        <change>Fixed infinite values of gauges in Alarms</change>
-    </release>    
-    <release version="2.0.0.0B2" versioncode="50" >
-        <change>Switched to SDK 21</change>
-        <change>Fixed missing white heading in RAW stats</change>
-        <change>Fixed gauges in raw stats always shown 100%</change>
-        <change>Implemented "back" navigation in toolbar</change>
-        <change>Toolbar follows L guidelines (no logo)</change>
-        <change>Begun externalization of strings for translation</change>
-        <change>Added advanced settings to avoid using dumpsys for alarms (bypasses the need for permissive SELinux)</change>
-    </release>
-    <release version="2.0.0.0B1" versioncode="49" >
-        <change>Totally new and shiny</change>
         <change>Refactored time and timespan calculations: should avoid any rounding error</change>
 	    <change>Added ability to save dumpfiles in JSON format from tasker plugin</change>
 		<change>Removed sorting</change>
