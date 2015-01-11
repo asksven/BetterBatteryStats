@@ -1,39 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <changelog>
-    <release version="2.0.0.0B7" versioncode="55" >
-         <change>Fix für Kernel Wakelocks unter Lolipop (nochmal)</change>
-         <change>Optimierung der Schriftgrößen und Werteanzeige</change>
-         <change>I18N</change>
-         <change>Batterie Grafik sieht nun besser aus</change>
-         <change>Grüne Farbe in Dialogen zu dunken im dunklen Theme</change>
-         <change>System App Dialog linkt zu den Recovery ZIPs</change>
-         <change>Einstellungen importieren/exportieren</change>
-         <change>Fix für Alarms unter Lolipop. Experimentell, kann sehr lange dauern</change>
-         <change>Weiß and Weiß in Einstellungen beim ersten Start gefixt</change>
-         <change>Performance der Grafiken verbessert</change>
-         <change>Option und die Referenz-Spinner ein- und auszublenden</change>
-     </release>
-    <release version="2.0.0.0B6" versioncode="54" >
-         <change>I18N</change>
-         <change>Kernel wakelocks unter Lolipop gefixt</change>
-         <change>Einstellungen für Schrift- und Icongröße</change>
-     </release>
-     <release version="2.0.0.0B5" versioncode="53" >
-         <change>I18N</change>
-         <change>Alarms Details zeigten unendlich/Hr.</change>
-         <change>Dialoge mit Theme</change>
-         <change>SELinux Policy im System App Dialog und Dumpfile anzeigen</change>
-         <change>Einstellungen um die Nutzung der API für Alarms und Kernel Wakelocks</change>
-         <change>Grafiken ersetzt</change>
-     </release>
-     <release version="2.0.0.0B4" versioncode="52" >
-        <change>Einiges aufgeräumt</change>
-        <change>Gefixt: Theme Wechsel</change>
-        <change>Batterie von/bis % wieder sichtbar auf dem Bildschirm (optional)</change>
-        <change>Berich für Meldung ist nicht sichtbar per default</change>
-        <change>Gefixt: unendlich alarm pro Stunde</change>
-        <change>Cards Layout zurückgebaut: bessere Nutzung der Fläche für kleinere Geräte</change>
-        <change>Gefixt partial wakelocks on Android 5.0</change>
-        <change>Erste deutsche Version des Changelogs</change>
-    </release>    
-</changelog>
+    
+    <release version="2.0.0.0" versioncode="62">
+        <change>Alle neu, helles und dunkles Theme</change>
+        <change>Lollipop support</change>
+        <change>I18N</change>
+        <change>API-Details in Dumpfile hinzugefügt</change>
+        <change>Link zum Recovery ZIP im System Spp Dialog als Fallback</change>
+        <change>Import/Export von EInstellungen</change>
+        <change>Option um die Spinner ein- und auszublenden</change>
+        <change>Anzeige der SELinux Policy in System App Dialog und Dumpfile</change>
+        <change>Ein Versuch die Fehleranfälligkeit vom nicht erreichbaren BATTERY_INFO Service auf einige Geräte</change>
+        <change>Fehler beim Berechnen der Status werden angezeigt</change>
+        <change>Neue Berechnungen um Rundungsdifferenzen zu vermeiden</change>
+	    <change>Dumpfiles im JSON-Format können aus Tasker gespeichert werden</change>
+		<change>Sortierung entfernt</change>
+		<change>Google Analytics entfernt</change>
+		<change>Zoon in Grafiken entfernt</change>
+    </release>
+
+</changelog>   

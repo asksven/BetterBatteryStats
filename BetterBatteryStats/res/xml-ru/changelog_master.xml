@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.0.0.0RC6" versioncode="61" >
+    <release version="2.0.0.0" versioncode="62" >
         <change>Полностью новое и яркое, со светлой и тёмной темами</change>
         <change>Полная поддержка Lolipop</change>
         <change>Переводы (см. вкладку о приложении для информации об переводчиках)</change>
