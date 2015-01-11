@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-<release version="2.0.0.0RC6" versioncode="61">
+<release version="2.0.0.0" versioncode="62">
 <change>Completamente nuova e luccicante, con temi chiaro e scuro</change>
 <change>Lollipop completamente supportato</change>
 <change>Molte I18N (vedi Info per i ringraziamenti)</change>
@@ -15,90 +15,7 @@
 <change>Aggiunta possibilità di salvare i dumpfile in formato JSON dal plugin di Tasker</change>
 <change>Rimosso riordinamento</change>
 <change>Rimosso Google analytics</change>
-<change>Rimosso zoom del grafico/change>
+<change>Rimosso zoom del grafico</change>
 </release>
-<release version="2.0.0.0RC5" versioncode="60" >
-<change>Correzioni I18N e aggiunta lingua Francese</change>
-<change>Correzioni dettagli finestre di dialogo (colore, etichette lunghe)</change>
-<change>Supporto preliminare per lingua araba (da destra a sinistra)</change>
-</release>
-<release version="2.0.0.0RC4" versioncode="59" >
-<change>Aggiornato il changelog</change>
-<change>Correzioni I18N</change>
-<change>Più lingue</change>
-<change>Corretti impostazioni del Dashclock</change>
-<change>Aggiunti dettagli sulle statistiche API al dumpfile</change>
-<change>Corretto grafico batteria se 100% per tutto il tempo</change>
-<change>Sostituito feedback holo touch con effetto ripple del material design</change>
-</release>
-<release version="2.0.0.0RC2" versioncode="57" >
-<change>Corretti grafici con linee oblique</change>
-<change>Corretta dimensione menù nel tema dark</change>
-<change>Correzioni I18N</change>
-</release>
-<release version="2.0.0.0RC1" versioncode="56" >
-<change>Aggiunta preferenza per forzare l'inglese</change>
-</release>
-<release version="2.0.0.0B7" versioncode="55" >
-<change>Ri-corretti i kernel wakelock su Lollipop</change>
-<change>Miglior scalatura e dimensione caratteri degli indicatori circolari</change>
-<change>Più stringhe di commento/ I18N</change>
-<change>Corretto grafico batteria</change>
-<change>Colore scuro per la barra di notifica su Lollipop</change>
-<change>Aggiunta opzione per file ZIP di recovery a usare come workaround</change>
-<change>Aggiunta opzione import/export delle preferenze</change>
-<change>Aggiunta correzione degli allarmi su Lollipop. Sperimentale, può causare rallentamenti</change>
-<change>Corretto tema bianco-su-bianco quando si selezionano le preferenze dopo un\'installazione da zero</change>
-<change>Migliorate performance dei grafici</change>
-<change>Aggiunta opzione per mostrare/nascondere gli indicatori circolari</change>
-</release>
-<release version="2.0.0.0B6" versioncode="54" >
-<change>Esternalizzate più stringhe di commento</change>
-<change>Corretti i kernel wakelock su Lollipop</change>
-<change>Aggiunte opzioni per cambiare dimensioni di font ed icone</change>
-</release>
-<release version="2.0.0.0B5" versioncode="53" >
-<change>Esternalizzate più stringhe di commento</change>
-<change>Corretti dettagli Allarmi che mostravano infinito/ora</change>
-<change>Temi applicati ai menù</change>
-<change>Mostra SELinux Policy nei menù App di Sistema e Dumpfile</change>
-<change>Introdotta opzione per forzare l\'uso delle API per gli Allarmi e Wakelock del Kernel</change>
-<change>Sostituiti i grafici</change>
-</release>
-<release version="2.0.0.0B4" versioncode="52" >
-<change>Varie ottimizzazioni del codice</change>
-<change>Corretto cambio dei Temi</change>
-<change>Aggiunta opzione per mostrare i dettagli batteria da/a %</change>
-<change>Area di notifica dovrebbe essere invisibile di default</change>
-<change>Corretto Allarme infinito/ora</change>
-<change>Adattati i pannelli per un uso migliore dello spazio</change>
-<change>Prima versione tedesco I18N</change>
-<change>Corretti wakelock parziali su Lollipop 5.0</change>
-</release>
-<release version="2.0.0.0B3" versioncode="51" >
-<change>Corretto changelog</change>
-<change>Aggiunto Tema scuro</change>
-<change>Tentativo per correggere il servizio BATTERY_INFO non raggiungibile su alcuni device</change>
-<change>Corretto errore che potrebbe verificarsi nell\'elaborazione delle statistiche</change>
-<change>Correzione per file dei wakelock del kernel non accessibile se SElinux non da i permessi</change>
-<change>Uso automatico dell\'API per gli Allarmi se SElinux non da i permessi</change>
-<change>Corretti valori infinito negli indicatori circolari per gli Allarmi</change>
-</release>
-<release version="2.0.0.0B2" versioncode="50" >
-<change>Passaggio a SDK 21</change>
-<change>Corretta intestazione bianca mancante per le statistiche RAW</change>
-<change>Corretti indicatori circolari nelle statistiche raw che mostravano sempre 100%</change>
-<change>Aggiunta freccia "indietro" nella toolbar</change>
-<change>Toolbar segue la direttive  L (senza logo)</change>
-<change>Inizio esternalizzazione delle stringhe per le traduzioni</change>
-<change>Aggiunto opzione avanzata per evitare di usare dumpsys per gli allarmi (aggira la necessità dei permessi in SELinux)</change>
-</release>
-<release version="2.0.0.0B1" versioncode="49" >
-<change>Versione completamente nuova e luccicante</change>
-<change>Aggiornati calcoli di tempo ed intervalli: dovrebbe evitare errori di arrotondamento</change>
-<change>Aggiunta possibilità di salvare i dumpfile in formato JSON dal plugin di Tasker</change>
-<change>Eliminato l\'ordinamento</change>
-<change>Eliminato google analytics</change>
-<change>Eliminato zoom del grafico</change>
-</release>
+
 </changelog>

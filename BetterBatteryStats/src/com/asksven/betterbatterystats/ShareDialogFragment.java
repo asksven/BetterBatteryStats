@@ -16,12 +16,11 @@
 package com.asksven.betterbatterystats;
 
 import java.util.ArrayList;
-
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
-
+import com.asksven.betterbatterystats.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;

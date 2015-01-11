@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     
-    <release version="2.0.0.0RC6" versioncode="61">
-        <change>Totally new and shiny, wit light and dark themes</change>
-        <change>Full Lolipop support</change>
+    <release version="2.0.0.0" versioncode="62">
+        <change>Totally new and shiny, with light and dark themes</change>
+        <change>Full Lollipop support</change>
         <change>Lots of I18N (see about dialog for credits)</change>
         <change>Added details about API stats to dumpfile</change>
         <change>System app dialog now links to the recovery ZIPs to be used as workaround</change>
