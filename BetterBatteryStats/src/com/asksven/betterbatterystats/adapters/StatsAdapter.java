@@ -55,7 +55,7 @@ import com.asksven.betterbatterystats.widgets.GraphableBars;
 import com.asksven.betterbatterystats.widgets.GraphablePie;
 import com.asksven.betterbatterystats.HelpActivity;
 import com.asksven.betterbatterystats.LogSettings;
-import com.asksven.betterbatterystats.PackageInfoTabsPager;
+import com.asksven.betterbatterystats.PackageInfoActivity;
 import com.asksven.betterbatterystats.R;
 
 public class StatsAdapter extends BaseAdapter
@@ -536,7 +536,7 @@ public class StatsAdapter extends BaseAdapter
         	{
         		Toast.makeText(m_context, m_context.getString(R.string.message_copied_to_clipboard, entry.getName()), Toast.LENGTH_LONG).show();
         	}
-        	finally
+        	catch (Exception e)
         	{
         		// can normally not fail, if it still does it's only the toast
         	}
@@ -546,7 +546,11 @@ public class StatsAdapter extends BaseAdapter
 
     public static void showInstalledPackageDetails(Context context, String packageName)
     {
-    	Intent intentPerms = new Intent(context, PackageInfoTabsPager.class); //Activity.class);
+//    	Intent intentPerms = new Intent(context, PackageInfoTabsPager.class); //Activity.class);
+//    	intentPerms.putExtra("package", packageName);
+//        context.startActivity(intentPerms);
+        
+    	Intent intentPerms = new Intent(context, PackageInfoActivity.class); //Activity.class);
     	intentPerms.putExtra("package", packageName);
         context.startActivity(intentPerms);
     }

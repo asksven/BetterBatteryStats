@@ -20,7 +20,10 @@
     <string name="message_watchdog_processing">BBS: Watchdog procesando...</string>
     <string name="message_watchdog_awake_alert">BBS: Alerta Awake: %d \%% despierto</string>
     <string name="message_computing">Calculando...</string>
+    <string name="message_awake_alert">Alerta Awake</string>
+    <string name="message_awake_info">%1$d%% despierto mientras la pantalla está apagada</string>
     <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Bienvenido a %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Recordarmelo después</string>
     <string name="label_button_rate">Calificar</string>
@@ -115,6 +118,12 @@
     <!-- About screen -->
     <string name="label_about_author">Por asksven</string>
     <string name="label_about_courtesy">Gráficos cortesía de @cri</string>
+    <string name="label_about_translations">Traducciones</string>
+    <string name="label_about_translation1">Ruso por gaich @ xda</string>
+    <string name="label_about_translation2">Español por @vldesco</string>
+    <string name="label_about_translation3">Italiano por code010101 @ xda</string>
+    <string name="label_about_translation4">Croata por seky2205 @ xda</string>
+    <string name="label_about_translation5">Francés por xavihernandez @ xda</string>
     <string name="label_about_follow">Sígueme en Twitter</string>
     <string name="label_about_rate">Califica / Revisa en Google Play</string>
     
@@ -154,7 +163,7 @@
     <string name="pref_filter_data_title">Filtrar estadísticas</string>
     <string name="pref_filter_data_summary">Habilitar el filtrado de datos a valores no cero</string>
     <string name="pref_show_bat_details_title">Detalles de batería</string>
-    <string name="pref_show_bat_details_summary">Mostrar Batería de/a % en pantalla</string>
+    <string name="pref_show_bat_details_summary">Mostrar Batería de/a %% en pantalla</string>
     <string name="pref_show_gauge_title">Mostrar barras</string>
     <string name="pref_show_gauge_summary">Mostrar barras en lugar de medidor Gauge</string>
     <string name="pref_graph_bar_height_title">Altura para gráfico de barras</string>
@@ -253,6 +262,8 @@
     <string name="pref_category_widget_1x1">1x1 Widget</string>
     <string name="small_widget_refresh_on_tap_title">Refrescar al tocar</string>
     <string name="small_widget_refresh_on_tap_summary">Refrescar el widget al tocarlo (si se deshabilita, tocar el widget abre la aplicación)</string>
+    <string name="thumbnail_size_title">Tamaño de Thumbnail</string>
+    <string name="medium_font_size_title">Tamaño de fuente mediana</string>
     
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">El dispositivo está conectado: no estadísticas</string>
@@ -269,6 +280,7 @@
     <string name="stat_type_label_since_screen_off">Desde que se apagó la pantalla</string>
     <string name="stat_type_label_since_boot">Desde reinicio</string>
     
+	
     <string name="widget_freq_label_none">Ninguno</string>
     <string name="widget_freq_label_5">5 Min.</string>
     <string name="widget_freq_label_15">15 Min.</string>

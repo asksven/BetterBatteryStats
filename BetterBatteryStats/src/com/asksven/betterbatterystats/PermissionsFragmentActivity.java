@@ -102,14 +102,6 @@ public class PermissionsFragmentActivity extends BaseActivity
 
 		}
 
-
-		@Override
-		public void onListItemClick(ListView l, View v, int position, long id)
-		{
-			 // user clicked a list item, make it "selected"
-			 m_listViewAdapter.setSelectedPosition(position);
-		}
-
 	    /** 
 	     * Add menu items
 	     * 

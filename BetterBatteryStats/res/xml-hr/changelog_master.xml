@@ -1,47 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
- <release version="2.0.0.0RC4" versioncode="59" >
+   
+    <release version="2.0.0.0RC5" versioncode="60" >
+        <change>Još I18N popravaka i dodan francuski</change>
+        <change>Popravci na prozorima detalja (boja, duge oznake)</change>
+        <change>Prvi pokušaj za jezik koji se čita s desna na lijevo s arapskim prijevodom</change>
+    </release>
+    
+ <release version="2.0.0.0RC4" versioncode="58" >
         <change>Popravljena lista promjena</change>
-
         <change>Još I18N popravaka</change>
         <change>Prijevod na više jezika</change>
         <change>Popravljene Dashclock opcije</change>
         <change>Dodani detalji o API statusima u dumpfile</change>
         <change>Popravljen graf baterije ako je baterija na 100% cijelo vrijeme</change>
         <change>Zamijen holo dodirni odziv sa mreškajućim efektom</change>
-
-
     </release>
     
     <release version="2.0.0.0RC2" versioncode="57" >
         <change>Popravljeno da graf pokazuje posredne linije</change>
         <change>Popravljen svijetli plutajući izbornik u tamnoj temi</change>
-
-
         <change>I18N popravci</change>
     </release>
-
     <release version="2.0.0.0RC1" versioncode="56" >
         <change>Dodana opcija za forsiranje engleskog</change>
         <change>Uklonjena opcija za eksperimentalni su --contekts</change>
         <change>Bolji prijevodi i veći izbor</change>
-
-
-
         <change>Nadogradnja na najnovije appcompat libs</change>
         <change>Popravljeno da graf za bateriju uvijek pokazuje iste vrijednosti</change>
         <change>Popravljena sporost grafova</change>
         <change>Popravljen FC kod otvaranja zasluga</change>
         <change>Popravljeno da čuvar ne pokazuje upozorenja</change>
-
-
-
-
 	</release>
      <release version="2.0.0.0B7" versioncode="55" >
          <change>Popravljeni kernel wakelock-ovi na Lolipop-u (ponovno)</change>
          <change>Bolje skaliranje i veličine fontova za pokazivače</change>
-
          <change>Više stringova / I18N</change>
          <change>Popravljen graf za bateriju</change>
          <change>Primarna tamna boja za statusnu traku na Lolipop-u</change>
@@ -51,83 +44,52 @@
          <change>Popravljena bijela na bijeloj tema kada se uđe u postavke nakon friške instalacije</change>
          <change>Povećane performanse grafova</change>
          <change>Dodana opcija za prikaz/skrivanje okruglih barova</change>
-
-
-
-
-
-
-
-
      </release>
     <release version="2.0.0.0B6" versioncode="54" >
          <change>Eksternalizirano još stringova</change>
-
          <change>Popravljeni kernel wakelock-ovi na Lolipop-u</change>
          <change>Dodane opcije za mjenjanje veličine fontova i ikona</change>
-
      </release>
      <release version="2.0.0.0B5" versioncode="53" >
          <change>Eksternalizirano još stringova</change>
          <change>Popravljeno da kod alarma pokazuje beskonačno po satu</change>
-
-
          <change>Dijalozi su tematski</change>
          <change>Prikaži SELinux Policy na dijalozima sistemskih aplikacija i kod  Dumpfile-ova</change>
          <change>Uvedena opcija da se forsira korištenje API kod Alarma i Kernel Wakelock-ova</change>
-
          <change>Zamjenjeni grafovi</change>
      </release>
      <release version="2.0.0.0B4" versioncode="52" >
         <change>Malo unutarnjeg ušminkavanja i čišćenja</change>
-
         <change>Popravljena promjena tema</change>
         <change>Dodano od/do % baterije antrag na zaslon(opcionalno)</change>
         <change>Statusna traka bi trebala biti nevidljiva tvornički</change>
         <change>Popravljeno beskonačno alarma po satu</change>
         <change>Napuštene kartice za bolju uporabu nekretnina</change>
-
-
-
-
         <change>Prvi pokušaj s njemačkim I18N</change>
         <change>Popravljeni partial wakelock-ovi na Android 5.0</change>
     </release>    
     <release version="2.0.0.0B3" versioncode="51" >
         <change>Popravljen dnevnih promjena</change>
-
         <change>Dodana tamna tema</change>
         <change>Pokušaj da se zaobiđe BATTERY_INFO service koji nije dostupan na nekim uređajima</change>
         <change>Površinske pogreške koje se mogu pojaviti za vrijeme obrađivanja statistika</change>
         <change>Zaobilazak za wakelock datoteku koja nije bila dostupna ako SELinux nije dopušten</change>
         <change>Automatsko povlačenje na API mod za alarme ako SELinux nije dopušten</change>
         <change>Popravljene beskonačne vrijednosti na pokazivačima alarma</change>
-
-
-
-
-
     </release>    
     <release version="2.0.0.0B2" versioncode="50" >
         <change>Prebačeno na SDK 21</change>
         <change>Popravljen nedostatak bijelog zaglavlja u sirovim podacima</change>
         <change>Popravljeno da pokazivači u sirovim podacima uvijek pokazuju 100%</change>
         <change>Ubačen gumb za nazad u alatnu traku</change>
-
-
-
         <change>Alatna traka ide u L (bez loga)</change>
         <change>Početak eksternizacije stringova za prevođenje</change>
         <change>Dodane napredne postavke da bi se izbjeglo korištenje dumpsys za alarme (izbjegnuta potreba za dozvolom SELinux)</change>
-
-
     </release>
     <release version="2.0.0.0B1" versioncode="49" >
         <change>Totalno nov i sjajan</change>
         <change>Promjenjeno vrijeme i način ralunanja: trebale bi se izbjeći pogreške kod zaokruživanja</change>
 	    <change>Dodana mogućnost spremanja dumpfile-ova u JSON formatu iz tasker proširenja</change>
-
-
 		<change>Uklonjeno sortiranje</change>
 		<change>Uklonjene googlove analitike</change>
 		<change>Uklonjeno zumiranje grafa</change>

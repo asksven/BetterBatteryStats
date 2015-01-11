@@ -123,6 +123,7 @@
     <string name="label_about_translation2">Španělština: @vldesco</string>
     <string name="label_about_translation3">Italština: code010101 @ xda</string>
     <string name="label_about_translation4">Chorvatština: seky2205 @ xda</string>
+    <string name="label_about_translation5">Francouzština: xavihernandez @ xda</string>
     <string name="label_about_follow">Následovat na Twitteru</string>
     <string name="label_about_rate">Hodnotit na Google Play</string>
 
@@ -162,7 +163,7 @@
     <string name="pref_filter_data_title">Filtrovat statistiky</string>
     <string name="pref_filter_data_summary">Povolit filtrování dat na nenulové hodnoty</string>
     <string name="pref_show_bat_details_title">Detaily baterie</string>
-    <string name="pref_show_bat_details_summary">Zobrazit od/do % baterie na obrazovce</string>
+    <string name="pref_show_bat_details_summary">Zobrazit od/do %% baterie na obrazovce</string>
     <string name="pref_show_gauge_title">Zobrazit sloupce</string>
     <string name="pref_show_gauge_summary">Zobrazit pruhový místo výsečového grafu</string>
     <string name="pref_graph_bar_height_title">Tloušťka pruhového grafu</string>

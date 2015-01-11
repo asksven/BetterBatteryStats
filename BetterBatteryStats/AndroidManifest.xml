@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
-    android:versionCode="59"
-    android:versionName="2.0.0.0RC4" >
+    android:versionCode="61"
+    android:versionName="2.0.0.0RC6" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -132,14 +132,6 @@
         </activity>
         <activity
             android:name="com.asksven.betterbatterystats.PackageInfoActivity"
-            android:configChanges="orientation"
-            android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StatsActivity" />
-        </activity>
-        <activity
-            android:name="com.asksven.betterbatterystats.PackageInfoTabsPager"
             android:configChanges="orientation"
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
