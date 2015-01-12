@@ -1,98 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     
-    <release version="2.0.0.0RC5" versioncode="60" >
-        <change>Correction : I18N et Ajout du Français</change>
-        <change>Correction : Dialogues des détails de paquets (couleur, longs libellés)</change>
-        <change>Premier essai pour les langages avec écriture de la droite vers la gauche avec l\'Arabe</change>
+    <release version="2.0.0.0" versioncode="62">
+        <change>Tout nouveau tout beau, avec thèmes clair et sombre</change>
+        <change>Support complet de Lollipop</change>
+        <change>Beaucoup de I18N (voir l\'à-propos pour les crédits)</change>
+        <change>Ajout des détails sur les API des statistiques au fichier dump</change>
+        <change>Le dialogue de conversion en application système renvoie maintenant au ZIPs comme solution de contournement</change>
+        <change>Ajout de l\'import/export pour les préférences</change>
+        <change>Ajout de l\'option pour montrer/cacher les compteurs</change>
+        <change>Inclusion de la politique SELinux dans le dialogue de conversion en application système et le fichier dump</change>
+        <change>Tentative de contournement pour le service BATTERY_INFO inaccessible sur certains appareils</change>
+        <change>Possibilité d\'erreurs de surface lors du traitement des statistiques</change>
+        <change>Probable suppression des erreurs d\'arrondis grâce aux temps remaniés et aux calculs de durées</change>
+	    <change>Ajout de la sauvegarde du fichier dump en JSON depuis le plugin Tasker</change>
+		<change>Suppression du tri</change>
+		<change>Suppression des Google Analytics</change>
+		<change>Suppression du zoom sur les graphes</change>
     </release>
-    
-    <release version="2.0.0.0RC4" versioncode="59" >
-        <change>Correction : Changelog</change>
-        <change>Correction : I18N</change>
-        <change>Plus de langages</change>
-        <change>Correction : Paramètres DashClock</change>
-        <change>Ajout : Détails à propos des API des statistiques pour le fichier dump</change>
-        <change>Correction : Graphe de la batterie si la batterie est à 100% tout le temps</change>
-        <change>Remplacement du retour de tactile Holo par l\'effet d\'ondulation du Material Design</change>
-    </release>
-    
-    <release version="2.0.0.0RC2" versioncode="57" >
-        <change>Correction : Graphes affichant des lignes obliques</change>
-        <change>Correction : Menu additionnel clair sur thème sombre</change>
-        <change>Correction : I18N</change>
-    </release>
-    
-    <release version="2.0.0.0RC1" versioncode="56" >
-        <change>Ajout : Forcer l\'Anglais dans les paramètres</change>
-        <change>Retrait : Option expérimentale su --context</change>
-        <change>Correction : Plus de langages et nouvelles traductions</change>
-        <change>Mise à jour : Dernières bibliothèques appcompat</change>
-        <change>Correction : Graphe de la batterie affichant toujours les mêmes valeurs</change>
-        <change>Correction : Ralentissement dans les graphes</change>
-        <change>Correction : FC lors de l\'ouverture des Crédits</change>
-        <change>Correction : Watchdog n\'affichant pas les réveils</change>
-	</release>
-    <release version="2.0.0.0B7" versioncode="55" >
-         <change>Correction : Kernel wakelocks sur Lollipop (à nouveau)</change>
-         <change>Amélioration : Meilleure mise à l\'échelle et taille de police pour les jauges</change>
-         <change>Ajout : chaînes de caractères / I18N</change>
-         <change>Correction : Graphe de la battery</change>
-         <change>Couleur primaire sombre pour la barre de notifications sur Lollipop</change>
-         <change>Contournement : Le dialogue pour application système mène maintenant au ZIPs pour recovery</change>
-         <change>Ajout : Import et export des paramètres</change>
-         <change>Ajout : Correctif pour les réveil natifs sur Lollipop. Expérimental, peut cause des appels lents</change>
-         <change>Correction : Blanc sur blanc pour le menu des paramètres après une nouvelle installation</change>
-         <change>Amélioration : Performance des graphes</change>
-         <change>Ajout : Option pour afficher ou cacher les sélecteurs</change>
-     </release>
-    <release version="2.0.0.0B6" versioncode="54" >
-         <change>Externalized more strings</change>
-         <change>Fixed kernel wakelocks on Lolipop</change>
-         <change>Added preferences to change font-size and icon-size</change>
-     </release>
-     <release version="2.0.0.0B5" versioncode="53" >
-         <change>Plus de chaînes de caractères externalisées</change>
-         <change>Correction : Le détail des réveils affiche infini/h</change>
-         <change>Ajout : Dialogues dans le thème</change>
-         <change>Affiche la politique SELinux au moment du prompt Application Système et du fichier dump</change>
-         <change>Ajout : Paramètre pour forcer l\'utilisation des API pour les Réveils et les Kernel Wakelocks</change>
-         <change>Graphes remplacés</change>
-     </release>
-     <release version="2.0.0.0B4" versioncode="52" >
-        <change>Correction : Maintenance et nettoyage</change>
-        <change>Correction : Changement de thèmes</change>
-        <change>Ajout : % de/à de retour sur l\'écran (optionnel)</change>
-        <change>Correction : La zone de notifications doit être invisible par défaut</change>
-        <change>Correction : Réveils infini/h</change>
-        <change>Retrait : Cartes oubliées pour une meilleurs gestion de l\'espace</change>
-        <change>Ajout : Premier essai pour l\'Allemand I18N</change>
-        <change>Correction : Partial Wakelocks sur Android 5.0</change>
-    </release>    
-    <release version="2.0.0.0B3" versioncode="51" >
-        <change>Correction : Changelog erroné</change>
-        <change>Ajout : Thème sombre</change>
-        <change>Contournement : Le service BATTERY_INFO n\'est pas accessible sur certains appareils</change>
-        <change>Correction : Possibles erreurs de surface lors du traitement des statistiques</change>
-        <change>Contournement : Fichier des Kernel wakelock non accessible si SELinux n\'est pas permissif</change>
-        <change>Repli vers le mode API pour les Réveils si SELinux n\'est pas permissif</change>
-        <change>Correciton : Valeurs infinies dans les jauges de Réveils</change>
-    </release>    
-    <release version="2.0.0.0B2" versioncode="50" >
-        <change>Passage au SDK 21</change>
-        <change>Correction : En têtes blancs manquand dans les statistiques brutes</change>
-        <change>Correction : Les jauges des statistiques brutes affichent toujours 100%</change>
-        <change>Ajout : Navigation \"retour\" dans la barre d\'outils</change>
-        <change>Amélioration : La barre d\'outils suit les lignes directrice de Android L (pas de logo)</change>
-        <change>Ajout : Début de l\'externalisation des chaînes de caractère pour la traduction</change>
-        <change>Ajout : Paramètres avancés pour éviter d\'utiliser dupsys pour les Réveils (contourne la nécessité d\'un SELinux permissif)</change>
-    </release>
-    <release version="2.0.0.0B1" versioncode="49" >
-        <change>Tout beau tout neuf</change>
-        <change>Amélioraiton : Refactorisation du calcul des temps et durées : devrait éviter les erreurs d\'arrondis</change>
-	    <change>Ajout : Possibilité de sauvegarder les fichiers de dump en JSON depuis le complément de Tasker</change>
-		<change>Retrait : Tri</change>
-		<change>Retrait : Google analytics</change>
-		<change>Retrait : Zoom sur les graphes</change>
-    </release>
+
 </changelog>
