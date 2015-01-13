@@ -134,8 +134,8 @@
     <string name="pref_theme_summary">Changer de thème</string>
 
     <!-- System app activity -->
-    <string name="expl_system_app">Sur Android 4.4, Google a retiré l\'autorisation aux applications utilisateurs d\'accéder aux statistiques de la batterie.\n\nIl est recommandé d\'installer BetterBatteryStats comme une application système (cela n\'empêche pas d\'installer les mises à jour).\n\Désinstaller/réinstaller comme application système peut être nécessaire si les autorisations changent.</string>
-    <string name="expl_system_app_workaround">Si l\'application interne échoue, utiliser une solution de contournement</string>
+    <string name="expl_system_app">Sur Android 4.4, Google a retiré l\'autorisation aux applications utilisateurs d\'accéder aux statistiques de la batterie.\n\nIl est recommandé d\'installer BetterBatteryStats comme une application système (cela n\'empêche pas d\'installer les mises à jour).\n\nDésinstaller/réinstaller comme application système peut être nécessaire si les autorisations changent.</string>
+    <string name="expl_system_app_workaround">Si l\'installation via l\'application échoue, utiliser cette solution</string>
     <string name="install_system_app">Installer comme application système</string>
     <string name="uninstall_system_app">Désinstaller l\'application système</string>
     <string name="info_installed_system_app">Installé comme application système. Veuillez redémarrer.</string>
@@ -155,8 +155,8 @@
     <string name="info_deleting_refs">Suppression et re-création des références</string>
     <string name="info_fallback_to_boot">Repli vers \'Depuis Démarrage\'</string>
     <string name="info_fallback_to_default">Repli vers la référence par défaut</string>
-    <string name="label_granted">accordés</string>
-    <string name="label_not_granted">non accordés</string>
+    <string name="label_granted">accordé</string>
+    <string name="label_not_granted">non accordé</string>
 
     <!-- Preferences labels and texts -->
     <string name="pref_section_display">Affichage</string>
