@@ -35,7 +35,15 @@ public class GraphSerie
     {
     	m_serie	 	= serie;
         m_title 	= title;
-        Log.i(TAG, "Added Serie " + m_title + " with " + m_serie.size() + " entries");
+        
+        if (m_serie != null)
+        {
+        	Log.i(TAG, "Added Serie " + m_title + " with " + m_serie.size() + " entries");
+        }
+        else
+        {
+        	Log.i(TAG, "Added Serie was null");
+        }
     }
     
     public String getTitle()
