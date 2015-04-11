@@ -245,7 +245,6 @@
     <string name="pref_screen_legacy_widgets_title">Legacy Widgets</string>
     <string name="widget_refresh_freq_title">Refresh Frequency</string>
     <string name="widget_refresh_freq_summary">Set how often the Widgets will update (they always will when screen is turned on)</string>
-    <string name="widget_refresh_on_screen_on_title">Screen on refresh</string>
     <string name="widget_refresh_on_screen_on_summary">Refresh when screen goes on</string>
     <string name="widget_default_stat_title">Default stat to open</string>
     <string name="widget_default_stat_summary">Set the stat to be called from widget</string>    

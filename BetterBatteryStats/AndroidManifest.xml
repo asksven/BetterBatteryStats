@@ -240,11 +240,11 @@
             android:process=":remote" />
         <receiver
             android:name="com.asksven.betterbatterystats.widgetproviders.AppWidget"
-            android:icon="@drawable/ic_launcher"
             android:label="BBS Widget (responsive)" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.APPWIDGET_OPTIONS_CHANGED" />
+                <action android:name="BBS_WIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data

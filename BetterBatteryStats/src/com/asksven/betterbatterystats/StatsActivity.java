@@ -458,21 +458,13 @@ public class StatsActivity extends ActionBarListActivity
 	        
 		}
 
-		// if on kitkat make sure that we always collect screen on time: if no root then count the time
-		if ( !rootEnabled && !SysUtils.hasBatteryStatsPermission(this) )
-		{
-			serviceShouldBeRunning = true;
-		}
 
-		if (serviceShouldBeRunning)
+		if (!EventWatcherService.isServiceRunning(this))
 		{
-			if (!EventWatcherService.isServiceRunning(this))
-			{
-				Intent i = new Intent(this, EventWatcherService.class);
-				this.startService(i);
-			}    				
-		}
-		
+			Intent i = new Intent(this, EventWatcherService.class);
+			this.startService(i);
+		}    				
+
 		// make sure to create a valid "current" stat if none exists
 		// or if prefs re set to auto refresh
 		boolean bAutoRefresh = sharedPrefs.getBoolean("auto_refresh", true);

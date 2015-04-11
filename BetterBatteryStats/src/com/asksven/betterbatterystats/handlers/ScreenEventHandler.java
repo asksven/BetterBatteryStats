@@ -119,13 +119,9 @@ public class ScreenEventHandler extends BroadcastReceiver
 
 			}
 
-			if (sharedPrefs.getBoolean("widget_refresh_on_screen_on", true))
-			{
-				// Build the intent to update widgets
-				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
-				context.sendBroadcast(intentRefreshWidgets);
-			}
-
+			// Build the intent to update widgets
+			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+			context.sendBroadcast(intentRefreshWidgets);
 			
 		}
         
