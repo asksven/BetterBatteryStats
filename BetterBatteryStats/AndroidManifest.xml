@@ -13,9 +13,7 @@
     <uses-permission android:name="android.permission.DUMP" />
     <!-- required for writing dump files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- required for accessing the knowledge base, required for analytics -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- required for analytics -->
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- store kernel wakelock ref boot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -197,7 +195,7 @@
         </receiver>
         <receiver
             android:name="com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider"
-            android:label="BBS 2 x 2 Widget" >
+            android:label="BBS 2 x 2 Widget (legacy)" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -211,7 +209,7 @@
         </receiver>
         <receiver
             android:name="com.asksven.betterbatterystats.widgetproviders.MediumWidgetProvider"
-            android:label="BBS 2 x 1 Widget" >
+            android:label="BBS 2 x 1 Widget (legacy)" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -225,7 +223,7 @@
         </receiver>
         <receiver
             android:name="com.asksven.betterbatterystats.widgetproviders.SmallWidgetProvider"
-            android:label="BBS 1 x 1 Widget" >
+            android:label="BBS 1 x 1 Widget (legacy)" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -243,7 +241,7 @@
         <receiver
             android:name="com.asksven.betterbatterystats.widgetproviders.AppWidget"
             android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name" >
+            android:label="BBS Widget (responsive)" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.APPWIDGET_OPTIONS_CHANGED" />
