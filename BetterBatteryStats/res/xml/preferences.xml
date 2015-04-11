@@ -51,6 +51,7 @@
                 android:key="medium_font_size"
                 android:summary=""
                 android:title="@string/medium_font_size_title" />
+
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="force_en"
@@ -157,14 +158,6 @@
                 android:key="widget_default_stat"
                 android:summary="@string/widget_default_stat_summary"
                 android:title="@string/widget_default_stat_title" />
-
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:enabled="true"
-                android:key="widget_show_stat_type"
-                android:summary="@string/widget_show_stat_type_summary"
-                android:title="@string/widget_show_stat_type_title" />
-
             <ListPreference
                 android:defaultValue="ref_boot"
                 android:entries="@array/statTypeLabels"
@@ -172,88 +165,115 @@
                 android:key="widget_fallback_stat_type"
                 android:summary="@string/widget_fallback_stat_type_summary"
                 android:title="@string/widget_fallback_stat_type_title" />
+            <ListPreference
+                android:defaultValue="ref_unplugged"
+                android:entries="@array/statTypeLabels"
+                android:entryValues="@array/statTypeValues"
+                android:key="new_widget_default_stat_type"
+                android:summary="@string/widget_default_stat_type_summary"
+                android:title="@string/widget_default_stat_type_title" />
+            
+             <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                        android:defaultValue="80"
+                        android:key="new_widget_bg_opacity"
+                        android:max="100"
+                        android:summary="@string/widget_opacity_summary"
+                        android:title="@string/widget_opacity_title"
+                        robobunny:interval="10"
+                        robobunny:min="10"
+                        robobunny:unitsLeft=""
+                        robobunny:unitsRight="%" />
 
-            <PreferenceCategory android:title="@string/pref_category_widgets_2x2_and_2x1" >
-                <ListPreference
-                    android:defaultValue="ref_unplugged"
-                    android:entries="@array/statTypeLabels"
-                    android:entryValues="@array/statTypeValues"
-                    android:key="large_widget_default_stat_type"
-                    android:summary="@string/widget_default_stat_type_summary"
-                    android:title="@string/widget_default_stat_type_title" />
-                <ListPreference
-                    android:defaultValue="10"
-                    android:entries="@array/widgetFontSizeLabels"
-                    android:entryValues="@array/widgetFontSizeValues"
-                    android:key="large_widget_font_size"
-                    android:summary="@string/large_widget_font_size_summary"
-                    android:title="@string/large_widget_font_size_title" />
-
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:enabled="true"
-                    android:key="large_widget_show_pct"
-                    android:summary="@string/large_widget_show_pct_summary"
-                    android:title="@string/large_widget_show_pct_title" />
-
-                <com.asksven.betterbatterystats.contrib.SeekBarPreference
-                    android:defaultValue="80"
-                    android:key="large_widget_opacity"
-                    android:max="100"
-                    android:summary="@string/widget_opacity_summary"
-                    android:title="@string/widget_opacity_title"
-                    robobunny:interval="10"
-                    robobunny:min="10"
-                    robobunny:unitsLeft=""
-                    robobunny:unitsRight="%" />
-                <com.asksven.betterbatterystats.contrib.SeekBarPreference
-                    android:defaultValue="20"
-                    android:key="large_widget_bg_opacity"
-                    android:max="100"
-                    android:summary="@string/widget_bg_opacity_summary"
-                    android:title="@string/widget_bg_opacity_title"
-                    robobunny:interval="10"
-                    robobunny:min="0"
-                    robobunny:unitsLeft=""
-                    robobunny:unitsRight="%" />
-            </PreferenceCategory>
-            <PreferenceCategory android:title="@string/pref_category_widget_1x1" >
-                <ListPreference
-                    android:defaultValue="ref_unplugged"
-                    android:entries="@array/statTypeLabels"
-                    android:entryValues="@array/statTypeValues"
-                    android:key="small_widget_default_stat_type"
-                    android:summary="@string/widget_default_stat_type_summary"
-                    android:title="@string/widget_default_stat_type_title" />
-
+            <PreferenceScreen android:title="@string/pref_screen_legacy_widgets_title" >
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:enabled="true"
-                    android:key="small_widget_refresh_on_tap"
-                    android:summary="@string/small_widget_refresh_on_tap_summary"
-                    android:title="@string/small_widget_refresh_on_tap_title" />
+                    android:key="widget_show_stat_type"
+                    android:summary="@string/widget_show_stat_type_summary"
+                    android:title="@string/widget_show_stat_type_title" />
 
-                <com.asksven.betterbatterystats.contrib.SeekBarPreference
-                    android:defaultValue="80"
-                    android:key="small_widget_opacity"
-                    android:max="100"
-                    android:summary="@string/widget_opacity_summary"
-                    android:title="@string/widget_opacity_title"
-                    robobunny:interval="10"
-                    robobunny:min="10"
-                    robobunny:unitsLeft=""
-                    robobunny:unitsRight="%" />
-                <com.asksven.betterbatterystats.contrib.SeekBarPreference
-                    android:defaultValue="20"
-                    android:key="small_widget_bg_opacity"
-                    android:max="100"
-                    android:summary="@string/widget_bg_opacity_summary"
-                    android:title="@string/widget_bg_opacity_title"
-                    robobunny:interval="10"
-                    robobunny:min="0"
-                    robobunny:unitsLeft=""
-                    robobunny:unitsRight="%" />
-            </PreferenceCategory>
+                <PreferenceCategory android:title="@string/pref_category_widgets_2x2_and_2x1" >
+                    <ListPreference
+                        android:defaultValue="ref_unplugged"
+                        android:entries="@array/statTypeLabels"
+                        android:entryValues="@array/statTypeValues"
+                        android:key="large_widget_default_stat_type"
+                        android:summary="@string/widget_default_stat_type_summary"
+                        android:title="@string/widget_default_stat_type_title" />
+                    <ListPreference
+                        android:defaultValue="10"
+                        android:entries="@array/widgetFontSizeLabels"
+                        android:entryValues="@array/widgetFontSizeValues"
+                        android:key="large_widget_font_size"
+                        android:summary="@string/large_widget_font_size_summary"
+                        android:title="@string/large_widget_font_size_title" />
+
+                    <CheckBoxPreference
+                        android:defaultValue="false"
+                        android:enabled="true"
+                        android:key="large_widget_show_pct"
+                        android:summary="@string/large_widget_show_pct_summary"
+                        android:title="@string/large_widget_show_pct_title" />
+
+                    <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                        android:defaultValue="80"
+                        android:key="large_widget_opacity"
+                        android:max="100"
+                        android:summary="@string/widget_opacity_summary"
+                        android:title="@string/widget_opacity_title"
+                        robobunny:interval="10"
+                        robobunny:min="10"
+                        robobunny:unitsLeft=""
+                        robobunny:unitsRight="%" />
+                    <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                        android:defaultValue="20"
+                        android:key="large_widget_bg_opacity"
+                        android:max="100"
+                        android:summary="@string/widget_bg_opacity_summary"
+                        android:title="@string/widget_bg_opacity_title"
+                        robobunny:interval="10"
+                        robobunny:min="0"
+                        robobunny:unitsLeft=""
+                        robobunny:unitsRight="%" />
+                </PreferenceCategory>
+                <PreferenceCategory android:title="@string/pref_category_widget_1x1" >
+                    <ListPreference
+                        android:defaultValue="ref_unplugged"
+                        android:entries="@array/statTypeLabels"
+                        android:entryValues="@array/statTypeValues"
+                        android:key="small_widget_default_stat_type"
+                        android:summary="@string/widget_default_stat_type_summary"
+                        android:title="@string/widget_default_stat_type_title" />
+
+                    <CheckBoxPreference
+                        android:defaultValue="true"
+                        android:enabled="true"
+                        android:key="small_widget_refresh_on_tap"
+                        android:summary="@string/small_widget_refresh_on_tap_summary"
+                        android:title="@string/small_widget_refresh_on_tap_title" />
+
+                    <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                        android:defaultValue="80"
+                        android:key="small_widget_opacity"
+                        android:max="100"
+                        android:summary="@string/widget_opacity_summary"
+                        android:title="@string/widget_opacity_title"
+                        robobunny:interval="10"
+                        robobunny:min="10"
+                        robobunny:unitsLeft=""
+                        robobunny:unitsRight="%" />
+                    <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                        android:defaultValue="20"
+                        android:key="small_widget_bg_opacity"
+                        android:max="100"
+                        android:summary="@string/widget_bg_opacity_summary"
+                        android:title="@string/widget_bg_opacity_title"
+                        robobunny:interval="10"
+                        robobunny:min="0"
+                        robobunny:unitsLeft=""
+                        robobunny:unitsRight="%" />
+                </PreferenceCategory>
+            </PreferenceScreen>
         </PreferenceScreen>
         <PreferenceScreen android:title="@string/pref_section_watchdog" >
             <CheckBoxPreference

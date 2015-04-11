@@ -66,6 +66,15 @@
 	
 	<color name="color_accent">#27ae60</color>
 	<color name="color_clickable_compat">#50CCCCCC</color>
+	
+	<!-- widget colors -->
+	<color name="deep_sleep">#2ecc71</color>
+	<color name="awake">#e74c3c</color>
+	<color name="screen_on">#f1c40f</color>
+	<color name="kwl">#e67e22</color>
+	<color name="pwl">#54acd2</color>
+	
+	
 			
 	
     
