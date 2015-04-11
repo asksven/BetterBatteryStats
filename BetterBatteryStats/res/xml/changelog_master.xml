@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     
-    <release version="2.0.0.0" versioncode="62">
-        <change>Totally new and shiny, with light and dark themes</change>
-        <change>Full Lollipop support</change>
-        <change>Lots of I18N (see about dialog for credits)</change>
-        <change>Added details about API stats to dumpfile</change>
-        <change>System app dialog now links to the recovery ZIPs to be used as workaround</change>
-        <change>Added import/export of preferences</change>
-        <change>Added option to show/hide spinners</change>
-        <change>Show SELinux Policy on System App dialog and Dumpfile</change>
-        <change>An attempt to work around BATTERY_INFO service not being reachable on some devices</change>
-        <change>Surface errors that may occur while processing stats</change>
-        <change>Refactored time and timespan calculations: should avoid any rounding error</change>
-	    <change>Added ability to save dumpfiles in JSON format from tasker plugin</change>
-		<change>Removed sorting</change>
-		<change>Removed google analytics</change>
-		<change>Removed graph zoom</change>
+    <release version="2.1.0.0_B1" versioncode="63">
+        <change>New responsive widget</change>
+        <change>New version of the system app (no need to update)</change>
     </release>
 
 </changelog>
