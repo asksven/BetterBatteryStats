@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
-    android:versionCode="63"
-    android:versionName="2.1.0.0_B1" >
+    android:versionCode="64"
+    android:versionName="2.1.0.0_B2" >
 
     <uses-sdk
         android:minSdkVersion="8"

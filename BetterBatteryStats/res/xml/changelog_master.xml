@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+
+    <release version="2.1.0.0_B2" versioncode="64">
+        <change>I18N</change>
+        <change>Fixed missing "since" in old widget</change>
+        <change>Fixed fontsize on widget for short times</change>
+        <change>Fixed widget opacity</change>
+        <change>Fixed rate dialog</change>
+        <change>Reverted call to AppOps back to 1.15</change>
+    </release>
     
     <release version="2.1.0.0_B1" versioncode="63">
         <change>New responsive widget</change>
