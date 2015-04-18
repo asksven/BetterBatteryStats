@@ -15,6 +15,8 @@
  */
 package com.asksven.betterbatterystats.services;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -38,6 +40,8 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -45,6 +49,7 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.RemoteViews;
 
 /**
@@ -111,8 +116,7 @@ public class UpdateWidgetService extends Service
 			int opacity	= sharedPrefs.getInt("new_widget_bg_opacity", 20);
 			opacity = (255 * opacity) / 100; 
 			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
-
-
+			//remoteViews.setInt(R.id.layoutBackground, "setImageAlpha", opacity);
 
 			long timeAwake 		= 0;
 			long timeSince		= 0;
