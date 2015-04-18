@@ -221,13 +221,13 @@ public class WidgetSummary
         // calculate a size that will not overlap with the circle, whatever the size is
         String labelDuration = AppWidget.formatDuration(m_duration);
         long textSize =  (m_bitmapSizePx - (2 * PADDING)) / 3 ;
-        sText.setTextSize(textSize);
         
         // calculate the containing rectangle size
         Rect bounds = new Rect();
         // ask the paint for the bounding rect if it were to draw this
         // text.
-        sText.getTextBounds(labelDuration, 0, labelDuration.length(), bounds);
+        // if the text is short, e.g. 12m then calculate with a longer text: 1h12m
+        sText.getTextBounds(labelDuration, 0, Math.max(labelDuration.length(), 5), bounds);
         // determine the width
         int w = bounds.right - bounds.left;
         // calculate the baseline to use so that the
