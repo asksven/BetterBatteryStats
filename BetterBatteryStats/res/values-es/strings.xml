@@ -23,8 +23,8 @@
     <string name="message_awake_alert">Alerta Awake</string>
     <string name="message_awake_info">%1$d%% despierto mientras la pantalla estaba apagada</string>
     <string name="app_name">BetterBatteryStats</string>
-    <string name="app_welcome">Bienvenido a %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
+    <string name="app_welcome">Bienvenido a %s</string>
     <string name="label_button_remind">Recordarmelo después</string>
     <string name="label_button_rate">Calificar</string>
     <string name="label_button_no_thanks">No, gracias</string>
@@ -127,7 +127,6 @@
     <string name="label_theme_light">Claro</string>
     <string name="pref_theme_title">Tema</string>
     <string name="pref_theme_summary">Cambiar temas</string>
-
     <!-- System app activity -->
     <string name="expl_system_app">En Android 4.4 Google removió el permiso para que aplicaciones normales accesen las estadísticas de batería.\n\nEs recomendable instalar BetterBatteryStats como aplicación de sistema (esto no previene la instalación de actualizaciones).\n\nDesinstalar/Reinstalar BBS como aplicación de sistema puede ser necesario si los permisos cambian.</string>
     <string name="expl_system_app_workaround">Si la opción de instalación desde la aplicación falla, por favor use esta alternativa</string>
@@ -151,7 +150,6 @@
     <string name="info_fallback_to_default">Fallback a referencia por defecto</string>
     <string name="label_granted">otorgado</string>
     <string name="label_not_granted">no otorgado</string>
-
     <!-- Preferences labels and texts -->
     <string name="pref_section_display">Pantalla</string>
     <string name="pref_filter_data_title">Filtrar estadísticas</string>
