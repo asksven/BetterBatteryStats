@@ -62,6 +62,7 @@
 	<string name="label_graph_scanning">Scanning</string>
 		
 	<string name="label_widget_deep_sleep">Deep Sleep</string>
+	<string name="label_widget_since">Since</string>
 	<string name="label_widget_awake">Awake</string>
 	<string name="label_widget_screen_on">Screen on</string>
 	<string name="label_widget_kernel_wakelock">KWL</string>
