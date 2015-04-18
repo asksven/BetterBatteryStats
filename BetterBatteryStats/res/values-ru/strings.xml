@@ -61,14 +61,18 @@
     <string name="label_graph_incall">Вызов</string>
     <string name="label_graph_scanning">Сканирование</string>
 		
-	
-    <string name="label_widget_since">От:</string>
     <string name="label_widget_deep_sleep">Глубокий сон</string>
     <string name="label_widget_awake">Бодрствование:</string>
     <string name="label_widget_screen_on">Экран вкл:</string>
     <string name="label_widget_kernel_wakelock">ВЛЯ:</string>
     <string name="label_widget_partial_wakelock">ЧВЛ:</string>
+    <string name="label_widget_deep_sleep_short">ГС</string>
+    <string name="label_widget_awake_short">Бод</string>
+    <string name="label_widget_screen_on_short">Экр</string>
+    <string name="label_widget_kernel_wakelock_short">ВЛЯ</string>
+    <string name="label_widget_partial_wakelock_short">ЧВЛ</string>
 
+    
     <string name="label_battery">Батарея</string>
     <string name="label_name">Имя</string>
     <string name="label_description">Описание</string>
@@ -238,9 +242,9 @@
         
     <string name="pref_section_settings">Настройки</string>
     <string name="pref_screen_widgets_title">Виджеты</string>
+    <string name="pref_screen_legacy_widgets_title">Старые виджеты</string>
     <string name="widget_refresh_freq_title">Частота обновления</string>
     <string name="widget_refresh_freq_summary">Установить период обновления виджетов (постоянное обновление при включенном экране)</string>
-    <string name="widget_refresh_on_screen_on_title">Обновление при вкл. экрана</string>
     <string name="widget_refresh_on_screen_on_summary">Обновлять при включении экрана</string>
     <string name="widget_default_stat_title">Статистика по умолчанию при открытии</string>
     <string name="widget_default_stat_summary">Установить статистику, которую открывает виджет</string>
