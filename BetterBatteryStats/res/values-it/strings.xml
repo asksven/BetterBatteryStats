@@ -117,7 +117,7 @@
 <string name="label_button_ok">OK</string>
 <string name="label_tab_package">Paccetto</string>
 <string name="label_tab_permissions">Permessi</string>
-<string name="label_tab_services">Servizi</string
+<string name="label_tab_services">Servizi</string>
 
 <!-- About screen -->
 <string name="label_about_author">di asksven</string>
