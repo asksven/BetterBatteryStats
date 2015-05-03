@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
-    android:versionCode="64"
-    android:versionName="2.1.0.0_B2" >
+    android:versionCode="65"
+    android:versionName="2.1.0.0_B3" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -66,14 +66,14 @@
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StatsActivity" />
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
             android:name="com.asksven.betterbatterystats.CreditsActivity"
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StatsActivity" />
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
 
         <!-- we need both version -->
@@ -82,7 +82,7 @@
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StatsActivity" />
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
             android:name="com.asksven.betterbatterystats.PreferencesFragmentActivity_V11"
@@ -90,7 +90,7 @@
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StatsActivity" />
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
             android:name="com.asksven.betterbatterystats.ImportExportPreferencesActivity"
@@ -113,7 +113,7 @@
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StatsActivity" />
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity android:name="com.asksven.android.common.ReadmeActivity" />
         <activity
@@ -122,7 +122,7 @@
             android:parentActivityName="com.asksven.betterbatterystats.NewGraphActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NewGraphActivity" />
+                android:value="com.asksven.betterbatterystats.NewGraphActivity" />
         </activity>
         <activity
             android:name="com.asksven.betterbatterystats.RawStatsActivity"
@@ -130,7 +130,7 @@
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StatsActivity" />
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
             android:name="com.asksven.betterbatterystats.PackageInfoActivity"
@@ -138,14 +138,14 @@
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StatsActivity" />
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
             android:name="com.asksven.betterbatterystats.NewGraphActivity"
             android:parentActivityName="com.asksven.betterbatterystats.StatsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StatsActivity" />
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity android:name="com.asksven.betterbatterystats.ResponsiveListActivity" />
         <activity
