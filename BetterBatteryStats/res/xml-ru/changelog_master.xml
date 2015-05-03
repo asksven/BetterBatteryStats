@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     
+    <release version="2.1.0.0_B2" versioncode="64">
+        <change>I18N</change>
+        <change>Исправление отсутствия "от" в старом виджете</change>
+        <change>Исправление размера шрифта в виджете при коротких промежутках</change>
+        <change>Исправление прозрачности виджета</change>
+        <change>Исправление диалога оценки</change>
+        <change>Возврат вызова операций в приложениях к 1.15</change>
+    </release>
+    
     <release version="2.1.0.0_B1" versioncode="63">
         <change>Новый адаптивный виджет</change>
         <change>Новая версия системного приложения (обновлять не нужно)</change>
