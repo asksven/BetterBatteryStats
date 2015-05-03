@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_B3" versioncode="65">
+        <string>Reverted system apps back to fix crashes on CM</string>
+        <string>I18N</string>
+        <string>Fixed FC condition when releasing save wakelock</string>
+        <string>Fixed behavior of the "back" icon in older android versions</string>
+    </release>
     <release version="2.1.0.0_B2" versioncode="64">
         <change>I18N</change>
         <change>Fixed missing "since" in old widget</change>
