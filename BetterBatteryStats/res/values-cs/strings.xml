@@ -61,13 +61,18 @@
 	<string name="label_graph_incall">Hovor</string>
 	<string name="label_graph_scanning">Vyhl. sig.</string>
 
-
-	<string name="label_widget_since">Od:</string>
 	<string name="label_widget_deep_sleep">Spánek</string>
-	<string name="label_widget_awake">Probuzen:</string>
-	<string name="label_widget_screen_on">Obr. zap.:</string>
-	<string name="label_widget_kernel_wakelock">WLJ:</string>
-	<string name="label_widget_partial_wakelock">ČWL:</string>
+	<string name="label_widget_since">Od</string>
+	<string name="label_widget_awake">Probuzen</string>
+	<string name="label_widget_screen_on">Obr. zap.</string>
+	<string name="label_widget_kernel_wakelock">WLJ</string>
+	<string name="label_widget_partial_wakelock">ČWL</string>
+	<string name="label_widget_deep_sleep_short">Sp</string>
+	<string name="label_widget_awake_short">Pr</string>
+	<string name="label_widget_screen_on_short">Obr</string>
+	<string name="label_widget_kernel_wakelock_short">WLJ</string>
+	<string name="label_widget_partial_wakelock_short">ČWL</string>
+
 
 	<string name="label_battery">Baterie</string>
 	<string name="label_name">Jméno</string>
@@ -124,6 +129,7 @@
     <string name="label_about_translation3">Italština: code010101 @ xda</string>
     <string name="label_about_translation4">Chorvatština: seky2205 @ xda</string>
     <string name="label_about_translation5">Francouzština: xavihernandez @ xda</string>
+    <string name="label_about_translation6">Němčina: Minty123 @ xda</string>
     <string name="label_about_follow">Následovat na Twitteru</string>
     <string name="label_about_rate">Hodnotit na Google Play</string>
 
@@ -238,6 +244,7 @@
 
     <string name="pref_section_settings">Nastavení</string>
     <string name="pref_screen_widgets_title">Widgety</string>
+    <string name="pref_screen_legacy_widgets_title">Staré Widgety</string>
     <string name="widget_refresh_freq_title">Frekvence obnovení</string>
     <string name="widget_refresh_freq_summary">Nastavit jak často se widgety aktualizují (aktualizují se pokud je obrazovka zapnuta)</string>
     <string name="widget_refresh_on_screen_on_title">Obnovit při zapnutí obrazovky</string>
