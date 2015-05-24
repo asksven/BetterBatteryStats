@@ -62,6 +62,7 @@ import com.asksven.android.common.kernelutils.ProcessStatsDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
+import com.asksven.android.common.kernelutils.WakeupSourcesLgG3;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -1041,7 +1042,18 @@ public class StatsProvider
 			}
 			else
 			{
-				myKernelWakelocks = WakeupSources.parseWakeupSources(m_context);
+				// check if we have a LG G3 on version 5
+				// Build.VERSION.RELEASE: 5.0
+				// Build.BRAND: lge
+				// Build.DEVICE: g3
+				if ((Build.VERSION.RELEASE.equals("5.0")) && (Build.BRAND.equals("lge")) && (Build.DEVICE.equals("g3")))
+				{
+					myKernelWakelocks = WakeupSourcesLgG3.parseWakeupSources(m_context);
+				}
+				else
+				{
+					myKernelWakelocks = WakeupSources.parseWakeupSources(m_context);
+				}
 			}
 		}		
 		
