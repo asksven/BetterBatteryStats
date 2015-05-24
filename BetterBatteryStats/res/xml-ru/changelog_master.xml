@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     
+    <release version="2.1.0.0_B3" versioncode="65">
+        <string>Возврат к старому системному приложению для исправления сбоев на CM</string>
+        <string>Переводы</string>
+        <string>Исправление вылета приложения при завершении вэйклока сохранения метки</string>
+        <string>Исправление поведения значка "назад" на старых версиях Андроида</string>
+    </release>
+    
     <release version="2.1.0.0_B2" versioncode="64">
-        <change>I18N</change>
+        <change>Переводы</change>
         <change>Исправление отсутствия "от" в старом виджете</change>
         <change>Исправление размера шрифта в виджете при коротких промежутках</change>
         <change>Исправление прозрачности виджета</change>
