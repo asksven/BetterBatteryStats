@@ -22,6 +22,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.PreferencesActivity_V8;
 import com.asksven.betterbatterystats.R;
@@ -126,7 +127,8 @@ public class BbsDashClockExtension extends DashClockExtension
 				
 			}
 
-			strAwake = DateUtils.formatDurationCompressed(timeAwake);
+			//strAwake = DateUtils.formatDurationCompressed(timeAwake);
+			strAwake = StringUtils.formatRatio(timeAwake, timeSince);
 			if (timeSince != 0)
 			{
 				float pct = drain / ((float)timeSince / 1000F / 60F / 60F);
@@ -140,7 +142,7 @@ public class BbsDashClockExtension extends DashClockExtension
 
 		String refs = getString(R.string.label_since) + " " + Reference.getLabel(refFrom);
 		// Publish the extension data update.
-		publishUpdate(new ExtensionData().visible(true).icon(R.drawable.icon_notext).status(strDrain)
+		publishUpdate(new ExtensionData().visible(true).icon(R.drawable.icon_notext).status(strDrain + ", " + strAwake)
 				.expandedTitle(strAwake + " " + getString(R.string.label_awake_abbrev) + ", " + strDrain).expandedBody(refs)
 				.clickIntent(new Intent(this, StatsActivity.class)));
 	}
