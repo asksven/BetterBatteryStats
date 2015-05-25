@@ -142,7 +142,7 @@ public class BbsDashClockExtension extends DashClockExtension
 
 		String refs = getString(R.string.label_since) + " " + Reference.getLabel(refFrom);
 		// Publish the extension data update.
-		publishUpdate(new ExtensionData().visible(true).icon(R.drawable.icon_notext).status(strDrain + ", " + strAwake)
+		publishUpdate(new ExtensionData().visible(true).icon(R.drawable.ic_dashclock).status(strDrain + ", " + strAwake)
 				.expandedTitle(strAwake + " " + getString(R.string.label_awake_abbrev) + ", " + strDrain).expandedBody(refs)
 				.clickIntent(new Intent(this, StatsActivity.class)));
 	}
