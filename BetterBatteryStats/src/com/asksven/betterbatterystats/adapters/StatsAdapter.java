@@ -19,12 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -64,14 +67,17 @@ public class StatsAdapter extends BaseAdapter
 
     private List<StatElement> m_listData;
     private static final String TAG = "StatsAdapter";
+    public static final String TRANSITION_NAME = "icon_transition";
 
     private double m_maxValue = 0;
     private long m_timeSince = 0; 
+    private Activity m_parent = null;
     
-    public StatsAdapter(Context context, List<StatElement> listData)
+    public StatsAdapter(Context context, List<StatElement> listData, Activity parent)
     {
         this.m_context = context;
         this.m_listData = listData;
+        this.m_parent = parent;
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
         boolean bKbEnabled = sharedPrefs.getBoolean("enable_kb", true);
@@ -417,7 +423,7 @@ public class StatsAdapter extends BaseAdapter
         	
 //        	ctx.startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS));
         	String packageName = entry.getPackageName();
-        	showInstalledPackageDetails(ctx, packageName);
+        	showInstalledPackageDetails(ctx, packageName, arg0);
         	
         }
     }
@@ -544,15 +550,17 @@ public class StatsAdapter extends BaseAdapter
         }
     }
 
-    public static void showInstalledPackageDetails(Context context, String packageName)
-    {
-//    	Intent intentPerms = new Intent(context, PackageInfoTabsPager.class); //Activity.class);
-//    	intentPerms.putExtra("package", packageName);
-//        context.startActivity(intentPerms);
-        
-    	Intent intentPerms = new Intent(context, PackageInfoActivity.class); //Activity.class);
+    public void showInstalledPackageDetails(Context context, String packageName, View view)
+    {       
+    	Intent intentPerms = new Intent(context, PackageInfoActivity.class);
     	intentPerms.putExtra("package", packageName);
-        context.startActivity(intentPerms);
+        //context.startActivity(intentPerms);
+        View source_icon = view.findViewById(R.id.icon);
+        
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                m_parent, source_icon, TRANSITION_NAME);
+        ActivityCompat.startActivity(m_parent, intentPerms, options.toBundle());
+        
     }
 
     

@@ -879,7 +879,7 @@ public class StatsActivity extends ActionBarListActivity
 		// make sure we only instanciate when the reference does not exist
 		if (m_listViewAdapter == null)
 		{
-			m_listViewAdapter = new StatsAdapter(this, myStats);
+			m_listViewAdapter = new StatsAdapter(this, myStats, StatsActivity.this);
     		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
@@ -921,7 +921,8 @@ public class StatsActivity extends ActionBarListActivity
 				if (LogSettings.DEBUG) Log.i(TAG, "LoadStatData: refreshing display for stats " + m_refFromName + " to " + m_refToName);
 				m_listViewAdapter = new StatsAdapter(
 						StatsActivity.this,
-						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName));
+						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName),
+						StatsActivity.this);
 			}
 			catch (BatteryInfoUnavailableException e)
 			{

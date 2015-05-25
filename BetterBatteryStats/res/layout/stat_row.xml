@@ -36,7 +36,8 @@
             android:paddingTop="0dp"
             android:layout_marginRight="2dp"
             android:scaleType="centerCrop"
-            android:layout_weight="10"/>
+            android:layout_weight="10"
+            android:transitionName="icon_transition"/>
     </LinearLayout>
 
     <LinearLayout

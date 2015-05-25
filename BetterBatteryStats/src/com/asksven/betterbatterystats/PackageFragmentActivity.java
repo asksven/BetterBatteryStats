@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -39,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.adapters.StatsAdapter;
 
 public class PackageFragmentActivity extends BaseActivity
 {
@@ -74,6 +76,7 @@ public class PackageFragmentActivity extends BaseActivity
 			super.onCreate(savedInstanceState);
 			Bundle b = getActivity().getIntent().getExtras();
 			m_packageName = b.getString("package");
+			
 		}
 
 		/**
@@ -86,6 +89,22 @@ public class PackageFragmentActivity extends BaseActivity
 			View v = inflater.inflate(R.layout.packageinfo, container, false);
 			Bundle b = getActivity().getIntent().getExtras();
 			m_packageName = b.getString("package");
+			
+			ImageView iconView = (ImageView) v.findViewById(R.id.icon);
+			Drawable icon;
+			PackageManager manager = getActivity().getPackageManager();
+			try
+			{
+				icon = manager.getApplicationIcon(m_packageName);
+				ViewCompat.setTransitionName(iconView, StatsAdapter.TRANSITION_NAME);
+				iconView.setImageDrawable(icon);
+				
+			}
+			catch (Exception e)
+			{
+				// nop: no icon found
+				icon = null;
+			}
 
 			TextView pName = (TextView) v.findViewById(R.id.TextViewPName);
 			pName.setText(m_packageName);
@@ -118,19 +137,7 @@ public class PackageFragmentActivity extends BaseActivity
 				buttonAppOps.setEnabled(false);
 			}
 
-			ImageView iconView = (ImageView) v.findViewById(R.id.icon);
-			Drawable icon;
-			PackageManager manager = getActivity().getPackageManager();
-			try
-			{
-				icon = manager.getApplicationIcon(m_packageName);
-				iconView.setImageDrawable(icon);
-			}
-			catch (Exception e)
-			{
-				// nop: no icon found
-				icon = null;
-			}
+
 
 			return v;
 		}

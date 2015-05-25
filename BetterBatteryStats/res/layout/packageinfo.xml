@@ -15,7 +15,8 @@
             android:id="@+id/icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_margin="16dp" />
+            android:layout_margin="16dp"
+            android:transitionName="icon_transition" />
 
         <TextView
             android:id="@+id/TextViewPName"

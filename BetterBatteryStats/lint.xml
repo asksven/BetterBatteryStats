@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="InvalidPackage">
+        <ignore path="libs/jackson-all-1.9.11.jar" />
+    </issue>
+    <issue id="MissingRegistered">
+        <ignore path="AndroidManifest.xml" />
+    </issue>
     <issue id="MissingTranslation" severity="ignore" />
+    <issue id="ProtectedPermissions">
+        <ignore path="AndroidManifest.xml" />
+    </issue>
+    <issue id="StringFormatInvalid">
+        <ignore path="res/values-cs/strings.xml" />
+        <ignore path="res/values-es/strings.xml" />
+        <ignore path="res/values-it/strings.xml" />
+    </issue>
 </lint>

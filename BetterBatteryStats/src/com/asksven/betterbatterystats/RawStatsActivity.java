@@ -269,7 +269,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 						stats = provider.getCurrentProcessStatList(false, 0);
 						break;
 				}
-				m_listViewAdapter = new StatsAdapter(RawStatsActivity.this, stats);
+				m_listViewAdapter = new StatsAdapter(RawStatsActivity.this, stats, RawStatsActivity.this);
 			}
 			catch (BatteryInfoUnavailableException e)
 			{
