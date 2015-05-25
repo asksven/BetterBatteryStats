@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_B4" versioncode="66">
+        <string>I18N</string>
+        <string>Optimized System-App size</string>
+        <string>Updated AppCompat to current version</string>
+        <string>Specific parser for LG G3 kernel wakelocks</string>
+        <string>New icons</string>
+        <string>New system app version</string>
+        <string>Changed awake time to awake ratio in dashclock</string>
+    </release>
     <release version="2.1.0.0_B3" versioncode="65">
         <string>Reverted system apps back to fix crashes on CM</string>
         <string>I18N</string>
