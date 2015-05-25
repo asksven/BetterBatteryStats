@@ -117,7 +117,7 @@
     
     <!-- About screen -->
     <string name="label_about_author">Par asksven</string>
-    <string name="label_about_courtesy">Accord pour les graphiques de @cri</string>
+    <string name="label_about_courtesy">Graphiques par Javi</string>
     <string name="label_about_translations">Traductions</string>
     <string name="label_about_translation1">Russe par gaich @ xda</string>
     <string name="label_about_translation2">Espagnol par @vldesco</string>

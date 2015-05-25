@@ -117,7 +117,7 @@
     
     <!-- About screen -->
     <string name="label_about_author">Izradio asksven</string>
-    <string name="label_about_courtesy">Grafiku izradio @cri</string>
+    <string name="label_about_courtesy">Grafiku izradio Javi</string>
     <string name="label_about_translations">Prijevodi</string>
     <string name="label_about_translation1">Ruski: gaich @ xda</string>
     <string name="label_about_translation2">Španjolski: @vldesco</string>
