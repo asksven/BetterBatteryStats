@@ -104,6 +104,9 @@ public class PermissionsAdapter extends BaseAdapter
 					color = R.color.signature_color;
 					nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
 					break;
+				default:
+					color = R.color.normal_color;
+					nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
 			}
 
         }
