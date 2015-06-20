@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
-    android:versionCode="66"
-    android:versionName="2.1.0.0_B4" >
+    android:versionCode="67"
+    android:versionName="2.1.0.0_B5" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -13,6 +13,9 @@
     <uses-permission android:name="android.permission.DUMP" />
     <!-- required for writing dump files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
+    <!-- required by M-preview -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- store kernel wakelock ref boot -->
