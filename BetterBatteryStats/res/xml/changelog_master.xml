@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_B5" versioncode="67">
+        <string>Added transition animation</string>
+        <string>Fixed permissions screen scrolling issue</string>
+        <string>Experimental M-preview support</string>
+    </release>
+    
     <release version="2.1.0.0_B4" versioncode="66">
         <string>I18N</string>
         <string>Optimized System-App size</string>
