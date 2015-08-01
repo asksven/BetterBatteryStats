@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+
+    <release version="2.1.0.0_B5" versioncode="67">
+        <string>Добавлена анимация перехода</string>
+        <string>Исправлена проблема с прокруткой экрана разрешений</string>
+        <string>Экспериментальная поддержка M-preview</string>
+    </release>
+    
+    <release version="2.1.0.0_B4" versioncode="66">
+        <string>Переводы</string>
+        <string>Оптимизирован размер системного приложения</string>
+        <string>AppCompat обновлен до текущей версии</string>
+        <string>Исправление вейклоков ядра для LG G3</string>
+        <string>Новые значки</string>
+        <string>Новая версия системного приложения</string>
+        <string>В dashclock изменено время бодрствования на соотношение бодрствования</string>
+    </release>
     
     <release version="2.1.0.0_B3" versioncode="65">
         <string>Возврат к старому системному приложению для исправления сбоев на CM</string>
