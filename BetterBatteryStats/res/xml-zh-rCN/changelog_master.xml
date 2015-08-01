@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+
+    <release version="2.1.0.0_B5" versioncode="67">
+        <string>增加过渡动画</string>
+        <string>修复屏幕滚动时权限问题</string>
+        <string>试验性支持Android M预览版</string>
+    </release>
+    
+    <release version="2.1.0.0_B4" versioncode="66">
+        <string>I18N多语言更新</string>
+        <string>优化系统应用大小</string>
+        <string>为当前版本提高系统版本兼容库</string>
+        <string>特殊解析LG G3内核的唤醒</string>
+        <string>新的图标</string>
+        <string>新的系统应用版本</string>
+        <string>更改亮屏时间在锁屏时钟插件里所占的比例</string>
+    </release>
+    <release version="2.1.0.0_B3" versioncode="65">
+        <string>取消系统应用的更改以修复在CM系统上的崩溃</string>
+        <string>I18N多语言更新</string>
+        <string>修复释放已保存唤醒锁时的强制关闭条件</string>
+        <string>修复在旧系统上返回按钮的行为</string>
+    </release>
+    <release version="2.1.0.0_B2" versioncode="64">
+        <change>I18N多语言更新</change>
+        <change>修复在旧小部件上丢失的"since"基准点</change>
+        <change>暂时修复小部件的字体大小</change>
+        <change>修复小部件透明度</change>
+        <change>修复速率会话</change>
+        <change>召唤权限管理回退到1.15</change>
+    </release>
+    
+    <release version="2.1.0.0_B1" versioncode="63">
+        <change>新的交互式小部件New responsive widget</change>
+        <change>新的系统应用版本（无需更新）</change>
+        <change>修复小部件不能在亮屏时一直刷新</change>
+        <change>修复崩溃报告反馈回来的不同问题</change>
+        <change>修复5.1上图表关闭问题F</change>
+    </release>
+
+</changelog>
