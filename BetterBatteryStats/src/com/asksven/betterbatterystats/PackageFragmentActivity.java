@@ -172,7 +172,27 @@ public class PackageFragmentActivity extends BaseActivity
 
 	public static void showAppOps(Context context, String packageName)
 	{
-		Intent intent = new Intent("android.settings.APP_OPS_SETTINGS");
+		
+		Intent intent = null;
+		// JB
+		if (Build.VERSION.SDK_INT == 18)
+		{
+			intent = new Intent("android.settings.APP_OPS_SETTINGS");
+			Uri uri = Uri.fromParts(SCHEME, packageName, null);
+		} else if (Build.VERSION.SDK_INT >= 19)
+		{
+			// @see http://brightechno.com/blog/archives/211
+			intent = new Intent();
+			intent.setClassName("com.android.settings",
+			        "com.android.settings.Settings");
+			intent.setAction(Intent.ACTION_MAIN);
+			intent.addCategory(Intent.CATEGORY_DEFAULT);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+			        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+			        Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+			intent.putExtra(":android:show_fragment",
+			        "com.android.settings.applications.AppOpsSummary");
+		}
 
 		if (intent != null)
 		{
@@ -187,5 +207,4 @@ public class PackageFragmentActivity extends BaseActivity
 			
 		}
 	}
-
 }
