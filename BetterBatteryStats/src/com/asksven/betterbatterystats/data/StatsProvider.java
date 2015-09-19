@@ -545,45 +545,32 @@ public class StatsProvider
 			Log.d(TAG, "from " + strCurrent);
 		}
 
+		// add relevant elements and recalculate the total
+		long total = 0;
 		for (int i = 0; i < myProcesses.size(); i++)
 		{
 			Process ps = ((Process) myProcesses.get(i)).clone();
 			if ((!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0))
 			{
-				// we must distinguish two situations
-				// a) we use custom stat type
-				// b) we use regular stat type
-
 				ps.substractFromRef(refFrom.m_refProcesses);
 
 				// we must recheck if the delta process is still above
 				// threshold
-				if ((!bFilter)
-						|| ((ps.getSystemTime() + ps.getUserTime()) > 0))
+				if ((!bFilter)	|| ((ps.getSystemTime() + ps.getUserTime()) > 0))
 				{
+					total += ps.getSystemTime() + ps.getUserTime();
 					myRetProcesses.add(ps);
 				}
 			}
 		}
 
-		// sort @see
-		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		switch (iSort)
-		{
-		case 0:
-			// by Duration
-			Comparator<Process> myCompTime = new Process.ProcessTimeComparator();
-			Collections.sort(myRetProcesses, myCompTime);
-			break;
-		case 1:
-			// by Count
-			Comparator<Process> myCompCount = new Process.ProcessCountComparator();
-			Collections.sort(myRetProcesses, myCompCount);
-			break;
-		}
+		// sort by Duration
+		Comparator<Process> myCompTime = new Process.ProcessTimeComparator();
+		Collections.sort(myRetProcesses, myCompTime);
 
 		for (int i = 0; i < myRetProcesses.size(); i++)
 		{
+			myRetProcesses.get(i).setTotal(total);
 			myStats.add((StatElement) myRetProcesses.get(i));
 		}
 
@@ -623,30 +610,21 @@ public class StatsProvider
 			myProcesses = mStats.getProcessStats(m_context, statsType);
 		}
 
+		// add elements and recalculate the total
+		long total = 0;
 		for (int i = 0; i < myProcesses.size(); i++)
 		{
 			Process ps = (Process) myProcesses.get(i);
 			if ((!bFilter) || ((ps.getSystemTime() + ps.getUserTime()) > 0))
 			{
+				total += ps.getSystemTime() + ps.getSystemTime();
 				myRetProcesses.add(ps);
 			}
 		}
-
-		// sort @see
-		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-		switch (iSort)
-		{
-		case 0:
-			// by Duration
-			Comparator<Process> myCompTime = new Process.ProcessTimeComparator();
-			Collections.sort(myRetProcesses, myCompTime);
-			break;
-		case 1:
-			// by Count
-			Comparator<Process> myCompCount = new Process.ProcessCountComparator();
-			Collections.sort(myRetProcesses, myCompCount);
-			break;
-		}
+		
+		// sort by Duration
+		Comparator<Process> myCompTime = new Process.ProcessTimeComparator();
+		Collections.sort(myRetProcesses, myCompTime);
 
 		if (LogSettings.DEBUG)
 		{
@@ -656,6 +634,7 @@ public class StatsProvider
 		myProcesses.clear();
 		for (int i=0; i < myRetProcesses.size(); i++)
 		{
+			myRetProcesses.get(i).setTotal(total);
 			myProcesses.add(myRetProcesses.get(i));
 		}
 		
