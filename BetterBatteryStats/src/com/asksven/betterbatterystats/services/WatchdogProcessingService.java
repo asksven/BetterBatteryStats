@@ -16,6 +16,7 @@
 package com.asksven.betterbatterystats.services;
 
 import java.util.ArrayList;
+
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
@@ -28,15 +29,16 @@ import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
 
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -128,14 +130,25 @@ public class WatchdogProcessingService extends IntentService
 						// we issue a warning if awakePct > awakeThresholdPct
 						if (awakePct >= awakeThresholdPct)
 						{
-
-							//Toast.makeText(this, getString(R.string.message_watchdog_awake_alert, awakePct), Toast.LENGTH_SHORT).show();
-
-							// notify the user of the situation
-					    	Notification notification = new Notification(
-					    			R.drawable.ic_notification, getString(R.string.message_awake_alert), System.currentTimeMillis());
+					    	// Instantiate a Builder object.
+					    	NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 					    	
-							Intent i = new Intent(Intent.ACTION_MAIN);
+					    	String alertText = "";
+					    	try
+					    	{
+					    		alertText = getString(R.string.message_awake_info, awakePct);
+					    	}
+					    	catch (Exception e)
+					    	{
+					    		alertText = getString(R.string.message_awake_alert);
+					    	}
+					    	
+					    	builder.setSmallIcon(R.drawable.ic_stat_notification);
+					        builder.setContentTitle(this.getText(R.string.app_name));
+					        builder.setContentText(alertText);
+					    	
+					    	// Creates an Intent for the Activity
+					    	Intent i = new Intent(Intent.ACTION_MAIN);
 							PackageManager manager = this.getPackageManager();
 							
 							i = manager.getLaunchIntentForPackage(this.getPackageName());
@@ -148,19 +161,16 @@ public class WatchdogProcessingService extends IntentService
 
 					    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-					    	String alertText = "";
-					    	try
-					    	{
-					    		alertText = getString(R.string.message_awake_info, awakePct);
-					    	}
-					    	catch (Exception e)
-					    	{
-					    		alertText = getString(R.string.message_awake_alert);
-					    	}
-					    	notification.setLatestEventInfo(
-					    			this, this.getText(R.string.app_name), alertText, contentIntent);
-					    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
-					    	nM.notify(EventWatcherService.NOTFICATION_ID, notification);
+					    	// Puts the PendingIntent into the notification builder
+					    	builder.setContentIntent(contentIntent);
+					    	// Notifications are issued by sending them to the
+					    	// NotificationManager system service.
+					    	NotificationManager mNotificationManager =
+					    	    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+					    	// Builds an anonymous Notification object from the builder, and
+					    	// passes it to the NotificationManager
+					    	mNotificationManager.notify(EventWatcherService.NOTFICATION_ID, builder.build());
+
 						}
 					}
 				}
