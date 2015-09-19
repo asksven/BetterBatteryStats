@@ -53,7 +53,6 @@ import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.data.KbData;
 import com.asksven.betterbatterystats.data.KbEntry;
-import com.asksven.betterbatterystats.data.KbReader;
 import com.asksven.betterbatterystats.widgets.GraphableBars;
 import com.asksven.betterbatterystats.widgets.GraphablePie;
 import com.asksven.betterbatterystats.HelpActivity;
@@ -349,56 +348,56 @@ public class StatsAdapter extends BaseAdapter
         return convertView;
     }
     
-    /**
-     * Handler for on click of the KB icon
-     * @author sven
-     *
-     */
-    private class OnIconClickListener implements OnClickListener
-    {           
-        private int m_iPosition;
-        OnIconClickListener(int position)
-        {
-                m_iPosition = position;
-        }
-        
-        @Override
-        public void onClick(View arg0)
-        {
-        	StatElement entry = (StatElement) getItem(m_iPosition);
-            KbData kb = KbReader.getInstance().read(m_context);
-        	// the timing may lead to m_kb not being initialized yet, it must be checked
-        	if (kb == null)
-        	{
-        		return;
-        	}
-        	KbEntry kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(StatsAdapter.this.m_context)));
-  	      	if (kbentry != null)
-  	      	{
-	  	      	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsAdapter.this.m_context);
-	  	      	
-	  	      	String url = kbentry.getUrl();
-	  	      	
-	  	        if (sharedPrefs.getBoolean("kb_ext_browser", true))
-	  	        {
-					
-					Intent intent = new Intent("android.intent.action.VIEW",
-							Uri.parse(url)); 
-					StatsAdapter.this.m_context.startActivity(intent);
-	  	        }
-	  	        else
-	  	        {
-		  	      	Intent intentKB = new Intent(StatsAdapter.this.m_context,
-		  	      			HelpActivity.class);
-		  	      	intentKB.putExtra("url", url);
-		  	        StatsAdapter.this.m_context.startActivity(intentKB);
-	  	        }           
-  	      	}
-        }
-    }
+//    /**
+//     * Handler for on click of the KB icon
+//     * @author sven
+//     *
+//     */
+//    private class OnIconClickListener implements OnClickListener
+//    {           
+//        private int m_iPosition;
+//        OnIconClickListener(int position)
+//        {
+//                m_iPosition = position;
+//        }
+//        
+//        @Override
+//        public void onClick(View arg0)
+//        {
+//        	StatElement entry = (StatElement) getItem(m_iPosition);
+//            KbData kb = KbReader.getInstance().read(m_context);
+//        	// the timing may lead to m_kb not being initialized yet, it must be checked
+//        	if (kb == null)
+//        	{
+//        		return;
+//        	}
+//        	KbEntry kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(StatsAdapter.this.m_context)));
+//  	      	if (kbentry != null)
+//  	      	{
+//	  	      	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsAdapter.this.m_context);
+//	  	      	
+//	  	      	String url = kbentry.getUrl();
+//	  	      	
+//	  	        if (sharedPrefs.getBoolean("kb_ext_browser", true))
+//	  	        {
+//					
+//					Intent intent = new Intent("android.intent.action.VIEW",
+//							Uri.parse(url)); 
+//					StatsAdapter.this.m_context.startActivity(intent);
+//	  	        }
+//	  	        else
+//	  	        {
+//		  	      	Intent intentKB = new Intent(StatsAdapter.this.m_context,
+//		  	      			HelpActivity.class);
+//		  	      	intentKB.putExtra("url", url);
+//		  	        StatsAdapter.this.m_context.startActivity(intentKB);
+//	  	        }           
+//  	      	}
+//        }
+//    }
 
     /**
-     * Handler for on click of the KB icon
+     * Handler for on click of the icon
      * @author sven
      *
      */
