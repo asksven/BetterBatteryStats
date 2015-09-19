@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_B6" versioncode="68">
+        <string>I18N</string>
+        <string>Fixed graphs mismatching series on 5.1.1</string>
+        <string>Updated to current toolchain</string>
+        <string>Reverted back to 2.0 implementation of AppOPS</string>
+        <string>New icons</string>
+        <string>New system app version</string>
+    </release>
+    
     <release version="2.1.0.0_B5" versioncode="67">
         <string>Added transition animation</string>
         <string>Fixed permissions screen scrolling issue</string>
