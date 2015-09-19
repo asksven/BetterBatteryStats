@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dip"
-        android:src="@drawable/icon_notext" />
+        android:src="@mipmap/ic_launcher" />
 
     <Button
         android:id="@+id/buttonTwitter"
