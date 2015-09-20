@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 asksven
+ * Copyright (C) 2014-2015 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,11 +61,11 @@ public class NewGraphActivity extends ActionBarListActivity
 		setContentView(R.layout.newgraphs);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		// toolbar.setLogo(R.drawable.ic_launcher);
 		toolbar.setTitle(getString(R.string.label_graphs));
 
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
 
 		//m_histList = null; //getHistList();
 

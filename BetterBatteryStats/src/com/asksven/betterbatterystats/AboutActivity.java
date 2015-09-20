@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 asksven
+ * Copyright (C) 2011-2015 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,25 +42,15 @@ public class AboutActivity extends BaseActivity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String theme = sharedPrefs.getString("theme", "1");
-		if (theme.equals("1"))
-		{
-			this.setTheme(R.style.Theme_Bbs);
-		}
-		else
-		{
-			this.setTheme(R.style.Theme_Bbs);
-		}
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
         
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		//toolbar.setLogo(R.drawable.ic_launcher);
 		toolbar.setTitle(getString(R.string.label_about));
 
 	    setSupportActionBar(toolbar);
 	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    getSupportActionBar().setDisplayUseLogoEnabled(false);
 
         
         // retrieve the version name and display it

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 asksven
+ * Copyright (C) 2014-2015 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,10 @@ public class SystemAppActivity extends BaseActivity
 		
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.label_system_app));
+		
 	    setSupportActionBar(toolbar);
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    getSupportActionBar().setDisplayUseLogoEnabled(false);
 
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(this);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012-2014 asksven
+ * Copyright (C) 2012-2015 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,12 +54,12 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 		setContentView(R.layout.preferences_fragment);
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		// toolbar.setLogo(R.drawable.ic_launcher);
 		toolbar.setTitle(getString(R.string.label_preferences));
 
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		
 		getFragmentManager().beginTransaction().replace(R.id.prefs, new PrefsFragment()).commit();
 
 	}

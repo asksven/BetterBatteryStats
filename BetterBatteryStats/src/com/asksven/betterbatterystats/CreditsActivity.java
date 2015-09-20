@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 asksven
+ * Copyright (C) 2011-2015 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,11 +45,11 @@ public class CreditsActivity extends ActionBarListActivity
         setContentView(R.layout.credits);
         
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		//toolbar.setLogo(R.drawable.ic_launcher);
 		toolbar.setTitle(getString(R.string.label_credits));
 
 	    setSupportActionBar(toolbar);
 	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    getSupportActionBar().setDisplayUseLogoEnabled(false);
 	    
         CreditsAdapter adapter = new CreditsAdapter(this);
         setListAdapter(adapter);

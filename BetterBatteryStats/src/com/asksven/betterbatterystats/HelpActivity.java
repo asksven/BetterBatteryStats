@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2011-2015 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,11 +39,11 @@ public class HelpActivity extends BaseActivity
 		setContentView(R.layout.helpwebview);
 		
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setLogo(R.drawable.ic_launcher);
 		toolbar.setTitle(strTitle);
 
 	    setSupportActionBar(toolbar);
 	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    getSupportActionBar().setDisplayUseLogoEnabled(false);
 	    
 		WebView browser = (WebView)findViewById(R.id.webview);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 asksven
+ * Copyright (C) 2014-2015 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,8 +65,8 @@ public class ImportExportPreferencesActivity extends BaseActivity
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.label_import_export));
 	    setSupportActionBar(toolbar);
-
-
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    getSupportActionBar().setDisplayUseLogoEnabled(false);
 		
 		final TextView explanation = (TextView) findViewById(R.id.textView1);
 		explanation.setText(getString(R.string.label_import_export_prefs, BACKUP_FILE));

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2011-2015 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,11 +71,11 @@ public class HistActivity extends ActionBarListActivity
 		setContentView(R.layout.history);
 		
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		//toolbar.setLogo(R.drawable.ic_launcher);
 		toolbar.setTitle(getString(R.string.label_series));
 
 	    setSupportActionBar(toolbar);
 	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    getSupportActionBar().setDisplayUseLogoEnabled(false);
 	}
 	
 	/* Request updates at startup */

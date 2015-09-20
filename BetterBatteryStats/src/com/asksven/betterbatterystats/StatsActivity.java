@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 asksven
+ * Copyright (C) 2011-2015 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -149,15 +149,6 @@ public class StatsActivity extends ActionBarListActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-//		String theme = sharedPrefs.getString("theme", "1");
-//		if (theme.equals("1"))
-//		{
-//			this.setTheme(R.style.Theme_Bbs);
-//		}
-//		else
-//		{
-//			this.setTheme(R.style.Theme_Bbs_Dark);
-//		}
 		
 		super.onCreate(savedInstanceState);
 		
@@ -168,10 +159,8 @@ public class StatsActivity extends ActionBarListActivity
 		toolbar.setTitle(getString(R.string.app_name));
 
 	    setSupportActionBar(toolbar);
-	    //getSupportActionBar().setDisplayUseLogoEnabled(true);
-	    //getSupportActionBar().setLogo(R.drawable.ic_launcher);
-	   
-				
+	    getSupportActionBar().setDisplayUseLogoEnabled(false);
+	   		
 		// set debugging
 		if (sharedPrefs.getBoolean("debug_logging", false))
 		{
