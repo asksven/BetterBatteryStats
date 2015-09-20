@@ -15,19 +15,13 @@
  */
 package com.asksven.betterbatterystats.widgets;
 
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats.R;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.TextView;
 
 /**
  * @author sven

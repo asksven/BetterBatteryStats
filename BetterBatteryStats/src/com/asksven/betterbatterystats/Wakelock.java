@@ -1,6 +1,5 @@
 package com.asksven.betterbatterystats;
 
-import com.asksven.betterbatterystats.R;
 /*
  * Copyright (C) 2012 asksven
  *

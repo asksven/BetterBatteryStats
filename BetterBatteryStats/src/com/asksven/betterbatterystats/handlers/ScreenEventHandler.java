@@ -15,37 +15,18 @@
  */
 package com.asksven.betterbatterystats.handlers;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
-import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.SysUtils;
-import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WatchdogProcessingService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
-import com.asksven.betterbatterystats.services.WriteScreenOnReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
-import com.asksven.betterbatterystats.R;
-
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * @author sven

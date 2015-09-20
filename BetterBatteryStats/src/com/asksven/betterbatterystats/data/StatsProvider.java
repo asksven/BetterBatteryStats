@@ -57,7 +57,6 @@ import com.asksven.android.common.kernelutils.CpuStates;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.OtherStatsDumpsys;
-//import com.asksven.android.common.kernelutils.PartialWakelocksDumpsys;
 import com.asksven.android.common.kernelutils.ProcessStatsDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
@@ -82,7 +81,6 @@ import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.ActiveMonAlarmReceiver;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.StatsActivity;
 
 /**
  * Singleton provider for all the statistics

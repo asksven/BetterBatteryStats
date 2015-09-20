@@ -25,15 +25,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-
 import com.asksven.betterbatterystats.adapters.PermissionsAdapter;
 import com.asksven.betterbatterystats.data.Permission;
 import com.asksven.betterbatterystats.data.StatsProvider;

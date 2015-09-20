@@ -19,12 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.experimental.theories.DataPoint;
-
 import android.util.Log;
 
 import com.asksven.android.common.privateapiproxies.HistoryItem;
-import com.asksven.betterbatterystats.R;
 
 /**
  * The data source for all series to plot

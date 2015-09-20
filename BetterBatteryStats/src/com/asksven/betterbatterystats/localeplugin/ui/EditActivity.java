@@ -26,27 +26,19 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
-import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.localeplugin.Constants;
 import com.asksven.betterbatterystats.localeplugin.bundle.BundleScrubber;
 import com.asksven.betterbatterystats.localeplugin.bundle.PluginBundleManager;
 import com.twofortyfouram.locale.BreadCrumber;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.StatsActivity;
 
 /**
  * This is the "Edit" activity for a Locale Plug-in.

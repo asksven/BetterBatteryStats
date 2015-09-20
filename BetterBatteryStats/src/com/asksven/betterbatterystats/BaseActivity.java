@@ -15,25 +15,12 @@
  */
 package com.asksven.betterbatterystats;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.data.Reference;
-import com.asksven.betterbatterystats.data.ReferenceStore;
 
 public class BaseActivity extends ActionBarActivity
 {

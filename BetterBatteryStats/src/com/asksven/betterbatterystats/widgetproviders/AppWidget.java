@@ -15,19 +15,14 @@
  */
 package com.asksven.betterbatterystats.widgetproviders;
 
-import java.util.Locale;
-
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.services.UpdateLargeWidgetService;
-import com.asksven.betterbatterystats.services.UpdateSmallWidgetService;
 import com.asksven.betterbatterystats.services.UpdateWidgetService;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;

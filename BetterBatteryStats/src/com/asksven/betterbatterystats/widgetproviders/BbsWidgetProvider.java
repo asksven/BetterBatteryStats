@@ -15,9 +15,6 @@
  */
 package com.asksven.betterbatterystats.widgetproviders;
 
-import java.util.Calendar;
-import java.util.Random;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -26,17 +23,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.RemoteViews;
-import android.widget.Toast;
-
 import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.betterbatterystats.LogSettings;
-import com.asksven.betterbatterystats.R;
 
 /**
  * @author sven

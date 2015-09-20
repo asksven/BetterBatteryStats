@@ -4,28 +4,16 @@
 package com.asksven.betterbatterystats;
 
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.data.ReferenceStore;
-import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.preference.CheckBoxPreference;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 /**
  * @author sven 

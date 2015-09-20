@@ -15,11 +15,7 @@
  */
 package com.asksven.betterbatterystats.widgets;
 
-import java.util.ArrayList;
-
-import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 import android.content.Context;
@@ -32,9 +28,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 
 /**
  * @author sven

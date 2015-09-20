@@ -16,34 +16,14 @@
 
 package com.asksven.betterbatterystats;
 
-import java.io.ByteArrayInputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-
-import javax.security.auth.x500.X500Principal;
-
 import com.asksven.android.common.utils.SharedPreferencesUtils;
-import com.asksven.android.common.utils.SysUtils;
-import com.asksven.android.common.utils.SystemAppInstaller;
-import com.asksven.android.common.utils.SystemAppInstaller.Status;
 import com.asksven.betterbatterystats.R;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;

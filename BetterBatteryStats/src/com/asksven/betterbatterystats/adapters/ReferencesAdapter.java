@@ -15,31 +15,10 @@
  */
 package com.asksven.betterbatterystats.adapters;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PermissionInfo;
-import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.provider.ContactsContract.Contacts;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.data.Permission;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 
