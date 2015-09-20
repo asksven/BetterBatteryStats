@@ -629,7 +629,7 @@ public class StatsActivity extends ActionBarListActivity
             case R.id.releasenotes:
             	// Release notes
     	        ChangeLog cl = new ChangeLog(this);
-    	        cl.getLogDialog().show();
+    	        cl.getFullLogDialog().show();
 //            	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
 //            	intentReleaseNotes.putExtra("filename", "readme.html");
 //                this.startActivity(intentReleaseNotes);
