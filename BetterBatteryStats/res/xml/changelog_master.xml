@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
-    <release version="2.1.0.0_B6" versioncode="68">
+    <release version="2.1.0.0_RC1" versioncode="68">
         <change>I18N</change>
         <change>Fixed graphs mismatching series on 5.1.1</change>
         <change>Updated to current toolchain</change>
@@ -9,6 +9,7 @@
         <change>New icons</change>
         <change>New system app version</change>
         <change>Fixed totals in process views</change>
+        <change>Fixed changelog being incomplete</change>
     </release>
     
     <release version="2.1.0.0_B5" versioncode="67">
