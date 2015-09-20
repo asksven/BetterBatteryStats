@@ -8,6 +8,7 @@
         <string>Reverted back to 2.0 implementation of AppOPS</string>
         <string>New icons</string>
         <string>New system app version</string>
+        <string>Fixed totals in process views</string>
     </release>
     
     <release version="2.1.0.0_B5" versioncode="67">

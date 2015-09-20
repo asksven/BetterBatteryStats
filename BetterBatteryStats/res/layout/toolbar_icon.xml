@@ -7,15 +7,5 @@
     android:background="?attr/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
-<!--     <ImageView
-        android:id="@+id/icon"
-        android:layout_width="@dimen/toolbar_icon_size"
-        android:layout_height="@dimen/toolbar_icon_size"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="10"
-        android:background="@drawable/ic_launcher"
-        android:contentDescription="Icon"
-        android:scaleType="centerCrop" />
- -->
 
 </android.support.v7.widget.Toolbar>
