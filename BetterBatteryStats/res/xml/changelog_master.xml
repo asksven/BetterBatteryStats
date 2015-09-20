@@ -2,35 +2,35 @@
 <changelog>
 
     <release version="2.1.0.0_B6" versioncode="68">
-        <string>I18N</string>
-        <string>Fixed graphs mismatching series on 5.1.1</string>
-        <string>Updated to current toolchain</string>
-        <string>Reverted back to 2.0 implementation of AppOPS</string>
-        <string>New icons</string>
-        <string>New system app version</string>
-        <string>Fixed totals in process views</string>
+        <change>I18N</change>
+        <change>Fixed graphs mismatching series on 5.1.1</change>
+        <change>Updated to current toolchain</change>
+        <change>Reverted back to 2.0 implementation of AppOPS</change>
+        <change>New icons</change>
+        <change>New system app version</change>
+        <change>Fixed totals in process views</change>
     </release>
     
     <release version="2.1.0.0_B5" versioncode="67">
-        <string>Added transition animation</string>
-        <string>Fixed permissions screen scrolling issue</string>
-        <string>Experimental M-preview support</string>
+        <change>Added transition animation</change>
+        <change>Fixed permissions screen scrolling issue</change>
+        <change>Experimental M-preview support</change>
     </release>
     
     <release version="2.1.0.0_B4" versioncode="66">
-        <string>I18N</string>
-        <string>Optimized System-App size</string>
-        <string>Updated AppCompat to current version</string>
-        <string>Specific parser for LG G3 kernel wakelocks</string>
-        <string>New icons</string>
-        <string>New system app version</string>
-        <string>Changed awake time to awake ratio in dashclock</string>
+        <change>I18N</change>
+        <change>Optimized System-App size</change>
+        <change>Updated AppCompat to current version</change>
+        <change>Specific parser for LG G3 kernel wakelocks</change>
+        <change>New icons</change>
+        <change>New system app version</change>
+        <change>Changed awake time to awake ratio in dashclock</change>
     </release>
     <release version="2.1.0.0_B3" versioncode="65">
-        <string>Reverted system apps back to fix crashes on CM</string>
-        <string>I18N</string>
-        <string>Fixed FC condition when releasing save wakelock</string>
-        <string>Fixed behavior of the "back" icon in older android versions</string>
+        <change>Reverted system apps back to fix crashes on CM</change>
+        <change>I18N</change>
+        <change>Fixed FC condition when releasing save wakelock</change>
+        <change>Fixed behavior of the "back" icon in older android versions</change>
     </release>
     <release version="2.1.0.0_B2" versioncode="64">
         <change>I18N</change>
