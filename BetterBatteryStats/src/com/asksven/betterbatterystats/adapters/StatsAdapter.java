@@ -83,7 +83,7 @@ public class StatsAdapter extends BaseAdapter
         
         if ((m_listData != null) && (!m_listData.isEmpty()))
         {
-        	if ((m_listData.get(0) instanceof Process) || (m_listData.get(0) instanceof NetworkUsage))
+        	if (m_listData.get(0) instanceof NetworkUsage)
         	{
 		        for (int i = 0; i < m_listData.size(); i++)
 		        {
@@ -104,6 +104,13 @@ public class StatsAdapter extends BaseAdapter
 		        	m_maxValue += values[0];
 		        	Log.i(TAG, "Summing up " + values[0] + ", may is now " + m_maxValue);
 		        }
+        	}
+        	else if (m_listData.get(0) instanceof Process)
+        	{
+	        	StatElement g = m_listData.get(0);
+	        	
+	        	m_maxValue = g.getTotal();
+	        	Log.i(TAG, "Total is " + m_maxValue);
         	}
 
         	else
