@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_RC2" versioncode="69">
+        <change>I18N</change>
+        <change>Fixed widget real estate</change>
+    </release>
+    
     <release version="2.1.0.0_RC1" versioncode="68">
         <change>I18N</change>
         <change>Fixed graphs mismatching series on 5.1.1</change>
