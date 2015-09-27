@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_RC1" versioncode="68">
+        <change>Переводы</change>
+        <change>Исправление несовпадения в графиках на 5.1.1</change>
+        <change>Обновление до новых инструментов</change>
+        <change>Возврат к старому (2.0) входу в операции в приложениях</change>
+        <change>Новые значки</change>
+        <change>Новая версия системного приложения</change>
+        <change>Исправление отображения итоговых показателей в процессах</change>
+        <change>Исправление вывода неполной истории изменений</change>
+    </release>
+
     <release version="2.1.0.0_B5" versioncode="67">
-        <string>Добавлена анимация перехода</string>
-        <string>Исправлена проблема с прокруткой экрана разрешений</string>
-        <string>Экспериментальная поддержка M-preview</string>
+        <change>Добавлена анимация перехода</change>
+        <change>Исправлена проблема с прокруткой экрана разрешений</change>
+        <change>Экспериментальная поддержка M-preview</change>
     </release>
     
     <release version="2.1.0.0_B4" versioncode="66">
-        <string>Переводы</string>
-        <string>Оптимизирован размер системного приложения</string>
-        <string>AppCompat обновлен до текущей версии</string>
-        <string>Исправление вейклоков ядра для LG G3</string>
-        <string>Новые значки</string>
-        <string>Новая версия системного приложения</string>
-        <string>В dashclock изменено время бодрствования на соотношение бодрствования</string>
+        <change>Переводы</change>
+        <change>Оптимизирован размер системного приложения</change>
+        <change>AppCompat обновлен до текущей версии</change>
+        <change>Исправление вейклоков ядра для LG G3</change>
+        <change>Новые значки</change>
+        <change>Новая версия системного приложения</change>
+        <change>В dashclock изменено время бодрствования на соотношение бодрствования</change>
     </release>
     
     <release version="2.1.0.0_B3" versioncode="65">
-        <string>Возврат к старому системному приложению для исправления сбоев на CM</string>
-        <string>Переводы</string>
-        <string>Исправление вылета приложения при завершении вэйклока сохранения метки</string>
-        <string>Исправление поведения значка "назад" на старых версиях Андроида</string>
+        <change>Возврат к старому системному приложению для исправления сбоев на CM</change>
+        <change>Переводы</change>
+        <change>Исправление вылета приложения при завершении вэйклока сохранения метки</change>
+        <change>Исправление поведения значка "назад" на старых версиях Андроида</change>
     </release>
     
     <release version="2.1.0.0_B2" versioncode="64">
