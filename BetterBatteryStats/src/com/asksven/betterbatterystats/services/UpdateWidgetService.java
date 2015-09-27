@@ -84,24 +84,40 @@ public class UpdateWidgetService extends Service
 			final int cellSize = 40;
 			int width = 3;
 			int height = 2;
+			int widthDim = 0;
+			int heightDim = 0;
 			
 			if (Build.VERSION.SDK_INT >= 16)
 			{
 				Bundle widgetOptions = appWidgetManager.getAppWidgetOptions(widgetId);
-				width = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) / cellSize;
-				height = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)) / cellSize;
+//				width = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) / cellSize;
+//				height = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)) / cellSize;
+				width = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) - 1;
+				height = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
+				widthDim = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+				heightDim = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
 				
-				if ((height <= 3) && (width >= 6))
+				Log.i(TAG, "[" + widgetId + "] height=" + height + " (" + widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) + ")");
+				Log.i(TAG, "[" + widgetId + "] width=" + width + "(" + widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) + ")");
+				remoteViews = new RemoteViews(this.getPackageName(), R.layout.widget_horz);
+				if ((height <= 2) && (width <= 2)) 
+				{
+					// switch to image only
+					Log.i(TAG, "[" + widgetId + "] using image-only layout");
+					remoteViews = new RemoteViews(this.getPackageName(), R.layout.widget);
+				}
+				else if (height < width)
 				{
 					// switch to horizontal
+					Log.i(TAG, "[" + widgetId + "] using horizontal layout");
 					remoteViews = new RemoteViews(this.getPackageName(), R.layout.widget_horz);
 				}
 				else
 				{
-					// switch to horizontal
-					remoteViews = new RemoteViews(this.getPackageName(), R.layout.widget);
+					// switch to vertical
+					Log.i(TAG, "[" + widgetId + "] using vertical layout");
+					remoteViews = new RemoteViews(this.getPackageName(), R.layout.widget_vert);
 				}
-
 			}
 			
 			
@@ -210,7 +226,8 @@ public class UpdateWidgetService extends Service
 				
 				
 		    	DisplayMetrics metrics = this.getResources().getDisplayMetrics();
-		        Float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Math.min(width, height) * cellSize, metrics);
+		        //Float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Math.min(width, height) * cellSize, metrics);
+		    	Float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Math.min(widthDim, heightDim), metrics);
 		        Log.i(TAG, "BitmapDip=" + Math.min(width, height) * cellSize + ", BitmapPx=" + px.intValue());
 				graph.setBitmapSizePx(px.intValue());
 	

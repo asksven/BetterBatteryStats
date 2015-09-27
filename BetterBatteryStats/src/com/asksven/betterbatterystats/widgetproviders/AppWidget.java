@@ -140,38 +140,59 @@ public class AppWidget extends BbsWidgetProvider
 			Bundle widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
 	
 			
-			int width = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) / cellSize;
-			int height = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)) / cellSize;
-			Log.i(TAG, "height=" + height);
-			Log.i(TAG, "width=" + width);
+			int width = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) - 1;
+			int height = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
+			//int width = AppWidget.sizeToCells(widgetOptions.getInt("widgetspanx", 0));
+	        //int height = AppWidget.sizeToCells(widgetOptions.getInt("widgetspany", 0)) - 1;
+			Log.i(TAG, "[" + appWidgetId + "] height=" + height + " (" + widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) + ")");
+			Log.i(TAG, "[" + appWidgetId + "] width=" + width + "(" + widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) + ")");
+			//Log.i(TAG, "[" + appWidgetId + "] spanHeight=" + spanHeight);
+			//Log.i(TAG, "[" + appWidgetId + "] spanWidth=" + spanWidth);
 			
-			if ((height <= 3) && (width >= 6))
+			// responsive rules
+			// if (height > width) -> vertial layout
+			// else -> horizontal layout
+					
+			// if (1 x 1, 1 x 2, 2 x 1, 2 x 2) -> Only the graph is visible
+			// if (higher than 2 and wider than 2) -> show the graph
+			if ((height <= 2) && (width <= 2)) 
+			{
+				// switch to image-only
+				Log.i(TAG, "[" + appWidgetId + "] using image-only layout");
+				updateViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+			}
+			else if (height < width)
 			{
 				// switch to horizontal
+				Log.i(TAG, "[" + appWidgetId + "] using horizontal layout");
 				updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_horz);
 			}
 			else
 			{
-				// switch to horizontal
-				updateViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+				// switch to normal
+				Log.i(TAG, "[" + appWidgetId + "] using vertical layout");
+				updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_vert);
 			}
 			
-			// height 1
-			if ((height <= 3) && (width <= 3)) 
-			{
-				updateViews.setViewVisibility(R.id.layoutLegend, View.GONE);
-			}
-			else
-			{
-				updateViews.setViewVisibility(R.id.layoutLegend, View.VISIBLE);
-			}
+//			// show only graph
+//			if ((height <= 2) && (width <= 2)) 
+//			{
+//				Log.i(TAG, "[" + appWidgetId + "] Setting legend to invisible");
+//				updateViews.setViewVisibility(R.id.layoutLegend, View.GONE);
+//			}
+//			else
+//			{
+//				Log.i(TAG, "[" + appWidgetId + "] Setting legend to visible");
+//				updateViews.setViewVisibility(R.id.layoutLegend, View.VISIBLE);
+//			}
 			
 
 			
 			// check for legend text size
-			if ((width == 3)) 
+			if ((width <= 4)) 
 			{
 				// set the Labels
+				Log.i(TAG, "[" + appWidgetId + "] using short labels");
 				updateViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake_short));
 				updateViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep_short));
 				updateViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on_short));
@@ -181,6 +202,7 @@ public class AppWidget extends BbsWidgetProvider
 			else
 			{
 				// set the Labels
+				Log.i(TAG, "[" + appWidgetId + "] using long labels");
 				updateViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake));
 				updateViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep));
 				updateViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on));
@@ -205,5 +227,16 @@ public class AppWidget extends BbsWidgetProvider
 	public static String formatDuration(long timeMs)
 	{
 		return DateUtils.formatDurationCompressed(timeMs);
+	}
+	
+	public static int sizeToCells(int size)
+	{
+		// width = 70 × n − 30
+		// n = (width + 30) / 70
+		float ratio = ((float)size + (float)30) / (float)70;
+		int cells = Math.round(ratio);
+		Log.i(TAG, "Ratio: " + ratio + ", rounded:" + cells);
+		
+		return (cells); 
 	}
 }
