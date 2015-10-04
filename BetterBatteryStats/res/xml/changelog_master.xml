@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_RC3" versioncode="70">
+        <change>More widget tuning</change>
+        <change>I18N</change>
+    </release>
+    
     <release version="2.1.0.0_RC2" versioncode="69">
         <change>I18N</change>
         <change>Fixed widget real estate</change>
