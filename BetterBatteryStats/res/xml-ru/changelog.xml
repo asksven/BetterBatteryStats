@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_RC2" versioncode="69">
+        <change>Переводы</change>
+        <change>Исправление проблем с виджетом</change>
+    </release>
+
     <release version="2.1.0.0_RC1" versioncode="68">
         <change>Переводы</change>
         <change>Исправление несовпадения в графиках на 5.1.1</change>
