@@ -21,6 +21,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -234,11 +235,16 @@ public class UpdateWidgetService extends Service
 				remoteViews.setImageViewBitmap(R.id.imageView1, graph.getBitmap(this));
 				
 				// set the Values
-				remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake-timeScreenOn));
-				remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep));
-				remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn));
-				remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL));
-				remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL));
+				remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake-timeScreenOn)
+						+ " (" + StringUtils.formatRatio(timeAwake-timeScreenOn, timeSince) + ")");
+				remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep)
+				 		+ " (" + StringUtils.formatRatio(timeDeepSleep, timeSince) + ")");
+				remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn)
+						 + " (" + StringUtils.formatRatio(timeScreenOn, timeSince) + ")");
+				remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL)
+						+ " (" + StringUtils.formatRatio(timeKWL, timeSince) + ")");
+				remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL)
+						 + " (" + StringUtils.formatRatio(timePWL, timeSince) + ")");
 				
 				// tap zones
 

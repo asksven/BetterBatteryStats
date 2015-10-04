@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_shape"
-    android:orientation="horizontal"
-    android:padding="@dimen/widget_margin" >
+    android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/layout"
@@ -14,10 +13,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/large_widget_shape"
         android:orientation="vertical"
-        android:paddingBottom="4dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:paddingTop="4dp" >
+        android:padding="@dimen/widget_margin">
 
         <LinearLayout
             android:id="@+id/layoutImages"
@@ -27,11 +23,11 @@
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="15dp"
-                android:minWidth="15dp" />
+                android:minHeight="32dp"
+            	android:minWidth="32dp"
+                android:layout_weight="1"/>
 
             <ImageView
                 android:id="@+id/imageViewRefresh"

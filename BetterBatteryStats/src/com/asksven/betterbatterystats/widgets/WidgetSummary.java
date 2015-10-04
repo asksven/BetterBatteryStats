@@ -213,6 +213,7 @@ public class WidgetSummary
 
         // calculate a size that will not overlap with the circle, whatever the size is
         String labelDuration = AppWidget.formatDuration(m_duration);
+
         long textSize =  (m_bitmapSizePx - (2 * PADDING)) / 3 ;
         sText.setTextSize(textSize);
         
@@ -228,16 +229,17 @@ public class WidgetSummary
         {
         	sText.getTextBounds(labelDuration, 0, labelDuration.length(), bounds);
         }
-        // determine the width
+        // determine the width and height
         int w = bounds.right - bounds.left;
+        int h = bounds.bottom - bounds.top;
         // calculate the baseline to use so that the
         // entire text is visible including the descenders
-        int text_w = bounds.right-bounds.left;
-        
+
         // determine how much to scale the width to fit the view
-        float xscale = ((float) (m_bitmapSizePx-PADDING) / text_w);
+    	float xscaleW = ((float) (m_bitmapSizePx-PADDING) / w);
+    	float xscaleH = ((float) (m_bitmapSizePx/2-PADDING) / h);
         
-        sText.setTextSize(textSize * xscale);
+        sText.setTextSize(textSize * Math.min(xscaleW, xscaleH));
         // when rendering in editor make sure the color is set to something
         if (sText.getColor() == 0)
         {
