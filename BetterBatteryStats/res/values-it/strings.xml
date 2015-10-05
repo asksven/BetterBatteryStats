@@ -17,7 +17,7 @@
 <string name="message_external_storage_write_error">La Memoria Esterna non può essere scritta</string>
 <string name="message_error_writing_dumpfile">Si è verificato un errore scaricando lo storico dei dati</string>
 <string name="message_identical_references">Si è verificato un errore. Le statistiche sono identiche (%1$1, %2$s)</string>
-<string name="message_watchdog_processing">BBS: Processamento watchdog...</string>
+<string name="message_watchdog_processing">BBS: Elaborazione watchdog...</string>
 <string name="message_watchdog_awake_alert">BBS: Allarme attività: %1$d%% attivo</string>
 <string name="message_computing">Calcolando...</string>
 <string name="message_awake_alert">Allarme Attivo</string>
@@ -62,6 +62,7 @@
 <string name="label_graph_scanning">In ricerca</string>
 
 <string name="label_widget_deep_sleep">Deep Sleep</string>
+<string name="label_widget_since">Da</string>
 <string name="label_widget_awake">Attivo</string>
 <string name="label_widget_screen_on">Schermo on</string>
 <string name="label_widget_kernel_wakelock">KWL</string>
@@ -89,13 +90,13 @@
 <string name="label_button_share">Condividi...</string>
 <string name="label_button_save">Salva</string>
 <string name="label_button_cancel">Cancella</string>
-<string name="label_button_application_settings">Settaggi Apllicazione</string>
+<string name="label_button_application_settings">Impostazioni Applicazione</string>
 <string name="label_button_appops">App Ops</string>
 
 
 <string name="title_share_dialog">Condividi dati come...</string>
 <string name="text_since">Da</string>
-<string name="label_preferences">Settaggi</string>
+<string name="label_preferences">Impostazioni</string>
 <string name="label_packageinfo">Info Pacchetto</string>
 <string name="label_graphs">Grafici</string>
 <string name="label_moregraphs">Altri Grafici</string>
@@ -115,21 +116,22 @@
 <string name="label_button_yes">Si</string>
 <string name="label_button_no">No</string>
 <string name="label_button_ok">OK</string>
-<string name="label_tab_package">Paccetto</string>
+<string name="label_tab_package">Pacchetto</string>
 <string name="label_tab_permissions">Permessi</string>
 <string name="label_tab_services">Servizi</string>
 
 <!-- About screen -->
-<string name="label_about_author">di asksven</string>
-<string name="label_about_courtesy">Grafici grazie a Javi</string>
-<string name="label_about_translations">Translations</string>
-<string name="label_about_translation1">Russian by gaich @ xda</string>
-<string name="label_about_translation2">Spanish by @vldesco</string>
-<string name="label_about_translation3">Italian by code010101 @ xda</string>
-<string name="label_about_translation4">Croatian by seky2205 @ xda</string>
-<string name="label_about_translation5">French by xavihernandez @ xda</string>
+<string name="label_about_author">Di asksven</string>
+<string name="label_about_courtesy">Grafici di Javi</string>
+<string name="label_about_translations">Traduzioni</string>
+<string name="label_about_translation1">Russo di gaich @ xda</string>
+<string name="label_about_translation2">Spagnolo di @vldesco</string>
+<string name="label_about_translation3">Italiano di code010101 @ xda</string>
+<string name="label_about_translation4">Croato di seky2205 @ xda</string>
+<string name="label_about_translation5">Francese di xavihernandez @ xda</string>
+<string name="label_about_translation6">Tedesco di Minty123 @ xda</string>
 <string name="label_about_follow">Seguitemi su Twitter</string>
-<string name="label_about_rate">Dai una Valutazione/Commenta su Google Play</string>
+<string name="label_about_rate">Valuta / Recensisci su Google Play</string>
 
 <!-- Preferences -->
 <string name="label_theme_dark">Scuro</string>
@@ -138,7 +140,7 @@
 <string name="pref_theme_summary">Cambia tema</string>
 
 <!-- System app activity -->
-<string name="expl_system_app">In Android 4.4 Google ha rimosso il permesso alle app normali di accedere alle statistiche della batteria.\n\nSi raccomanda di installare BetterBatteryStats come app di sistema(non impedisce di intallare aggiornamenti).\n\nPotrebbe essere necessario disinstallare/reinstallare BBS come app di sistema se i permessi cambiano.</string>
+<string name="expl_system_app">In Android 4.4 Google ha rimosso il permesso alle app normali di accedere alle statistiche della batteria.\n\nSi raccomanda di installare BetterBatteryStats come app di sistema(non impedisce di installare aggiornamenti).\n\nPotrebbe essere necessario disinstallare/reinstallare BBS come app di sistema se i permessi cambiano.</string>
 <string name="expl_system_app_workaround">Se l\'installazione diretta dall\'app fallisce provate questa soluzione</string>
 <string name="install_system_app">Installa come app di sistema</string>
 <string name="uninstall_system_app">Disinstalla come app di sistema</string>
@@ -174,7 +176,7 @@
 <string name="pref_graph_bar_height_summary">Se usi densità non di default puoi cambiare l\'altezza delle barre qui</string>
 <string name="pref_section_customize_views">Personalizza visualizzazioni</string>
 <string name="pref_show_from_to_ref_title">Da/A Riferimenti</string>
-<string name="pref_show_from_to_ref_summary">Mostra i menu per selezionare i riferimenti</string>
+<string name="pref_show_from_to_ref_summary">Mostra i menu\' per selezionare i riferimenti</string>
 <string name="pref_show_other_wifi_title">Mostra Wifi</string>
 <string name="pref_show_other_wifi_summary">Mostra valori Wifi</string>
 <string name="pref_show_other_signal_title">Mostra segnale</string>
@@ -185,10 +187,10 @@
 <string name="pref_show_other_connection_summary">Mostra valori connessione</string>
 <string name="pref_show_other_bt_title">Mostra Bluetooth</string>
 <string name="pref_show_other_bt_summary">Mostra valori Bluetooth</string>
-<string name="pref_section_defaults">Defaults</string>
-<string name="pref_default_stat_title">Statistica di Default</string>
+<string name="pref_section_defaults">Predefiniti</string>
+<string name="pref_default_stat_title">Statistica Predefinita</string>
 <string name="pref_default_stat_summary">Seleziona la statistica da mostrare all\'avvio dell\'app</string>
-<string name="pref_default_stat_type_title">Tipo statistica di Default</string>
+<string name="pref_default_stat_type_title">Tipo statistica Predefinita</string>
 <string name="pref_default_stat_type_summary">Seleziona la statistica da mostrare all\'avvio</string>
 <string name="pref_section_watchdog">Watchdog</string>
 <string name="pref_enable_watchdog_title">Abilita</string>
@@ -202,7 +204,7 @@
 <string name="pref_ref_for_screen_off_summary">Durata schermo Off per iniziare</string>
 <string name="pref_section_active_mon">Monitoraggio Attivo</string>
 <string name="pref_active_mon_enabled_title">Abilita</string>
-<string name="pref_active_mon_enabled_summary">Abilita monitoraggio attivo. Attenzione: il monitoraggio attivo causa un consumo maggiore di batteria</string>
+<string name="pref_active_mon_enabled_summary">Abilita monitoraggio attivo. Attenzione: il monitoraggio attivo causa un consumo maggiore della batteria</string>
 <string name="pref_active_mon_freq_title">Frequenza [Min.]</string>
 <string name="pref_active_mon_freq_summary">Frequenza di salvataggio dei riferimenti</string>
 <string name="pref_force_en_title">Forza Inglese</string>
@@ -220,8 +222,8 @@
 
 <string name="pref_developer_title">Abilita durante la carica</string>
 <string name="pref_developer_summary">Abilita statistiche durante la carica (attenzione, le statistiche potrebbero essere inconsistenti)</string>
-<string name="pref_auto_refresh_title">Auto refresh</string>
-<string name="pref_auto_refresh_summary">Ricarica automaticamente \'corrente\' quando si cambia schermi/settaggi</string>
+<string name="pref_auto_refresh_title">Auto aggiornamento</string>
+<string name="pref_auto_refresh_summary">Ricarica automaticamente \'corrente\' quando si cambiano schermi/impostazioni</string>
 <string name="pref_section_sharing">Opzione condivisione</string>
 <string name="pref_save_as_text_title">Testo</string>
 <string name="pref_save_as_text_summary">Condividi il dumpfile in formato testo</string>
@@ -240,12 +242,13 @@
 <string name="pref_screen_import_export_title">Importa/Esporta</string>
 <string name="pref_screen_import_export_summary">Importa e Esporta le Impostazioni</string>
 
-<string name="pref_section_settings">Settaggi</string>
+<string name="pref_section_settings">Impostazioni</string>
 <string name="pref_screen_widgets_title">Widgets</string>
-<string name="widget_refresh_freq_title">Frequenza di Refresh</string>
+<string name="pref_screen_legacy_widgets_title">Widget vecchi</string>
+<string name="widget_refresh_freq_title">Frequenza di Aggiornamento</string>
 <string name="widget_refresh_freq_summary">Imposta la frequenza di aggiornamento dei Widgets (si aggiornano sempre all\'accensione dello schermo)</string>
-<string name="widget_refresh_on_screen_on_title">Refresh all\'accensione dello schermo</string>
-<string name="widget_refresh_on_screen_on_summary">Refresh quando lo schermo viene acceso</string>
+<string name="widget_refresh_on_screen_on_title">Aggiornamento all\'accensione dello schermo</string>
+<string name="widget_refresh_on_screen_on_summary">Aggiornamento quando lo schermo viene acceso</string>
 <string name="widget_default_stat_title">Statistica di Default da aprire</string>
 <string name="widget_default_stat_summary">Imposta la statistica mostrata dal widget</string>
 <string name="widget_show_stat_type_title">Mostra Titolo</string>
@@ -264,9 +267,9 @@
 <string name="widget_bg_opacity_title">Opacità dello sfondo</string>
 <string name="widget_bg_opacity_summary">Imposta l\'opacità dello sfondo</string>
 <string name="pref_category_widget_1x1">Widget 1x1</string>
-<string name="small_widget_refresh_on_tap_title">Refresh al tocco</string>
-<string name="small_widget_refresh_on_tap_summary">Toccando il widget si effettua il refresh (se disabilitato, viene invece aperta l\'app)</string>
-<string name="thumbnail_size_title">Dimensione Thumbnail</string>
+<string name="small_widget_refresh_on_tap_title">Aggiornamento al tocco</string>
+<string name="small_widget_refresh_on_tap_summary">Toccando il widget si effettua l\'aggiornamento (se disabilitato, viene invece aperta l\'app)</string>
+<string name="thumbnail_size_title">Dimensione iconcine</string>
 <string name="medium_font_size_title">Dimensione Font Medio</string>
 
 <!-- stats error / warnings -->
