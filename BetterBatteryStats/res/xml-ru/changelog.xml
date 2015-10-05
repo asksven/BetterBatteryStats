@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_RC4" versioncode="71">
+        <change>Значение бодрствования теперь подразумевает бодрствование при откл. экране</change>
+        <change>Переводы</change>
+    </release>
+    
+    <release version="2.1.0.0_RC3" versioncode="70">
+        <change>Дополнительные исправления виджета</change>
+        <change>Переводы</change>
+    </release>
+
     <release version="2.1.0.0_RC2" versioncode="69">
         <change>Переводы</change>
         <change>Исправление проблем с виджетом</change>
