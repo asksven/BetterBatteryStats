@@ -119,7 +119,7 @@ public class UpdateSmallWidgetService extends Service
 				if ( (otherStats != null) && ( otherStats.size() > 1) )
 				{
 
-					Misc timeAwakeStat = (Misc) stats.getElementByKey(otherStats, "Awake");
+					Misc timeAwakeStat = (Misc) stats.getElementByKey(otherStats, StatsProvider.LABEL_MISC_AWAKE);
 					if (timeAwakeStat != null)
 					{
 						timeAwake = timeAwakeStat.getTimeOn();

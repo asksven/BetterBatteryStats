@@ -128,7 +128,7 @@ public class UpdateLargeWidgetService extends Service
 				{
 					try
 					{
-						timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
+						timeAwake = ((Misc) stats.getElementByKey(otherStats, StatsProvider.LABEL_MISC_AWAKE)).getTimeOn();
 						timeScreenOn = ((Misc) stats.getElementByKey(otherStats, "Screen On")).getTimeOn();
 					}
 					catch (Exception e)

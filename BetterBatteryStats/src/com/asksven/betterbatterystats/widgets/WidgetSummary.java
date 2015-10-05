@@ -192,7 +192,7 @@ public class WidgetSummary
 
         // draw gauge
         float angleDeepSleep 		= (float)m_deepSleep / (float)m_duration;
-        float angleAwakeScreenOff	= (float)(m_awake - m_screenOn) / (float)m_duration;
+        float angleAwakeScreenOff	= (float)m_awake / (float)m_duration;
         float angleScreenOn			= (float)m_screenOn / (float)m_duration;
         float angleKWL				= (float)m_kwl / (float)m_duration;
         float anglePWL				= (float)m_pwl / (float)m_duration;

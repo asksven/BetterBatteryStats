@@ -104,7 +104,7 @@ public class WatchdogProcessingService extends IntentService
 						if ( (otherStats != null) && ( otherStats.size() > 1) )
 						{
 							
-							timeAwake = ((Misc) stats.getElementByKey(otherStats, "Awake")).getTimeOn();
+							timeAwake = ((Misc) stats.getElementByKey(otherStats, StatsProvider.LABEL_MISC_AWAKE)).getTimeOn();
 							timeSince = stats.getBatteryRealtime(StatsProvider.STATS_SCREEN_OFF);
 							Log.i(TAG, "Other stats found. Since=" + timeSince + ", Awake=" + timeAwake);
 						}

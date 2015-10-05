@@ -103,6 +103,8 @@ public class StatsProvider
 	public final static int STATS_CUSTOM 		= 4;
 	public final static int STATS_SCREEN_OFF 	= 5;
 	public final static int STATS_BOOT 			= 6;
+	
+	public final static String LABEL_MISC_AWAKE = "Awake (Screen Off)";
 
 	/** the logger tag */
 	static String TAG = "StatsProvider";
@@ -1657,7 +1659,7 @@ public class StatsProvider
 			Misc deepSleepUsage = new Misc("Deep Sleep", elapsedRealtime - uptimeMillis, elapsedRealtime);
 			myUsages.add(deepSleepUsage);
 
-			Misc awakeUsage = new Misc("Awake", uptimeMillis, elapsedRealtime);
+			Misc awakeUsage = new Misc(LABEL_MISC_AWAKE, uptimeMillis, elapsedRealtime);
 			myUsages.add(awakeUsage);
 			
 		}
@@ -1847,7 +1849,7 @@ public class StatsProvider
 	
 			if (timeBatteryUp > 0)
 			{
-				myUsages.add(new Misc("Awake", timeBatteryUp, elaspedRealtime));
+				myUsages.add(new Misc(LABEL_MISC_AWAKE, timeBatteryUp - timeScreenOn, elaspedRealtime));
 			}
 	
 			if (timeScreenOn > 0)

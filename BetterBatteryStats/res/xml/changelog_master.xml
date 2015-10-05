@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
 
+    <release version="2.1.0.0_RC4" versioncode="71">
+        <change>Awake values are now consistently awake when screen off</change>
+        <change>I18N</change>
+    </release>
+    
     <release version="2.1.0.0_RC3" versioncode="70">
         <change>More widget tuning</change>
         <change>I18N</change>
