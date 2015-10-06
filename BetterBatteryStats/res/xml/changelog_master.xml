@@ -1,68 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-
-    <release version="2.1.0.0_RC4" versioncode="71">
-        <change>Awake values are now consistently awake when screen off</change>
-        <change>I18N</change>
-    </release>
-    
-    <release version="2.1.0.0_RC3" versioncode="70">
-        <change>More widget tuning</change>
-        <change>I18N</change>
-    </release>
-    
-    <release version="2.1.0.0_RC2" versioncode="69">
-        <change>I18N</change>
-        <change>Fixed widget real estate</change>
-    </release>
-    
-    <release version="2.1.0.0_RC1" versioncode="68">
-        <change>I18N</change>
-        <change>Fixed graphs mismatching series on 5.1.1</change>
-        <change>Updated to current toolchain</change>
-        <change>Reverted back to 2.0 implementation of AppOPS</change>
-        <change>New icons</change>
-        <change>New system app version</change>
-        <change>Fixed totals in process views</change>
-        <change>Fixed changelog being incomplete</change>
-    </release>
-    
-    <release version="2.1.0.0_B5" versioncode="67">
-        <change>Added transition animation</change>
-        <change>Fixed permissions screen scrolling issue</change>
-        <change>Experimental M-preview support</change>
-    </release>
-    
-    <release version="2.1.0.0_B4" versioncode="66">
-        <change>I18N</change>
-        <change>Optimized System-App size</change>
-        <change>Updated AppCompat to current version</change>
-        <change>Specific parser for LG G3 kernel wakelocks</change>
-        <change>New icons</change>
-        <change>New system app version</change>
-        <change>Changed awake time to awake ratio in dashclock</change>
-    </release>
-    <release version="2.1.0.0_B3" versioncode="65">
-        <change>Reverted system apps back to fix crashes on CM</change>
-        <change>I18N</change>
-        <change>Fixed FC condition when releasing save wakelock</change>
-        <change>Fixed behavior of the "back" icon in older android versions</change>
-    </release>
-    <release version="2.1.0.0_B2" versioncode="64">
-        <change>I18N</change>
-        <change>Fixed missing "since" in old widget</change>
-        <change>Fixed fontsize on widget for short times</change>
-        <change>Fixed widget opacity</change>
-        <change>Fixed rate dialog</change>
-        <change>Reverted call to AppOps back to 1.15</change>
-    </release>
-    
-    <release version="2.1.0.0_B1" versioncode="63">
+    <release version="2.1.0.0" versioncode="72">
+        <change>Android Marshmallow Support</change>
+        <change>New Artwork</change>
         <change>New responsive widget</change>
-        <change>New version of the system app (no need to update)</change>
+        <change>Optimized legacy widgets</change>
+        <change>New version of the system app</change>
         <change>Fixed Widget not always refreshing at screen on</change>
         <change>Fixed various bugs from crash reports</change>
         <change>Fixed graphs being off on 5.1</change>
+        <change>Fixed rate dialog</change>
+        <change>Fixed totals in process views</change>
+        <change>Specific parser for LG G3 kernel wakelocks</change>        
     </release>
 
 </changelog>
