@@ -140,8 +140,9 @@ public class AppWidget extends BbsWidgetProvider
 			Bundle widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
 	
 			
-			int width = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) - 1;
+			int width = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
 			int height = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
+			
 			//int width = AppWidget.sizeToCells(widgetOptions.getInt("widgetspanx", 0));
 	        //int height = AppWidget.sizeToCells(widgetOptions.getInt("widgetspany", 0)) - 1;
 			Log.i(TAG, "[" + appWidgetId + "] height=" + height + " (" + widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) + ")");
@@ -233,10 +234,11 @@ public class AppWidget extends BbsWidgetProvider
 	{
 		// width = 70 × n − 30
 		// n = (width + 30) / 70
-		float ratio = ((float)size + (float)30) / (float)70;
-		int cells = Math.round(ratio);
-		Log.i(TAG, "Ratio: " + ratio + ", rounded:" + cells);
+		int ratio = (size + 30) / 70;
+		//int cells = (int) (Math.floor(ratio));
+		Log.i(TAG, "size=" + size);
+		Log.i(TAG, "Ratio: " + ratio);//, rounded:" + cells);
 		
-		return (cells); 
+		return (ratio); 
 	}
 }
