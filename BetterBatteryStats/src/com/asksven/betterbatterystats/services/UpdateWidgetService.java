@@ -93,8 +93,8 @@ public class UpdateWidgetService extends Service
 				Bundle widgetOptions = appWidgetManager.getAppWidgetOptions(widgetId);
 //				width = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) / cellSize;
 //				height = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)) / cellSize;
-				width = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) - 1;
-				height = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
+				width = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH ) - 10);
+				height = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) + 10);
 				widthDim = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
 				heightDim = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
 				
@@ -126,7 +126,7 @@ public class UpdateWidgetService extends Service
 			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 			int opacity	= sharedPrefs.getInt("new_widget_bg_opacity", 20);
 			opacity = (255 * opacity) / 100; 
-			remoteViews.setInt(R.id.layout, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
+			remoteViews.setInt(R.id.background, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
 			//remoteViews.setInt(R.id.layoutBackground, "setImageAlpha", opacity);
 
 			long timeAwake 		= 0;
@@ -228,23 +228,35 @@ public class UpdateWidgetService extends Service
 				
 		    	DisplayMetrics metrics = this.getResources().getDisplayMetrics();
 		        //Float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Math.min(width, height) * cellSize, metrics);
-		    	Float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Math.min(widthDim, heightDim), metrics);
-		        Log.i(TAG, "BitmapDip=" + Math.min(width, height) * cellSize + ", BitmapPx=" + px.intValue());
+		    	Log.i(TAG, "Widget Dimensions: height=" + heightDim + " width=" + widthDim);
+		    	Float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Math.min(Math.max(Math.min(widthDim, heightDim),80),160), metrics);
+		        Log.i(TAG, "BitmapDip=" + Math.min(Math.max(Math.min(widthDim, heightDim),80),160) + ", BitmapPx=" + px.intValue());
 				graph.setBitmapSizePx(px.intValue());
 	
 				remoteViews.setImageViewBitmap(R.id.imageView1, graph.getBitmap(this));
 				
-				// set the Values
-				remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake-timeScreenOn)
-						+ " (" + StringUtils.formatRatio(timeAwake-timeScreenOn, timeSince) + ")");
-				remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep)
-				 		+ " (" + StringUtils.formatRatio(timeDeepSleep, timeSince) + ")");
-				remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn)
-						 + " (" + StringUtils.formatRatio(timeScreenOn, timeSince) + ")");
-				remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL)
-						+ " (" + StringUtils.formatRatio(timeKWL, timeSince) + ")");
-				remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL)
-						 + " (" + StringUtils.formatRatio(timePWL, timeSince) + ")");
+				// Show % depending on width and if vertical or horz
+				if ((width > height) && (width <= 4)) 
+				{					
+				remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake-timeScreenOn));
+				remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep));
+				remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn));
+				remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL));
+				remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL));
+				}
+				else
+				{
+					remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake-timeScreenOn)
+							+ " (" + StringUtils.formatRatio(timeAwake-timeScreenOn, timeSince) + ")");
+					remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep)
+					 		+ " (" + StringUtils.formatRatio(timeDeepSleep, timeSince) + ")");
+					remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn)
+							 + " (" + StringUtils.formatRatio(timeScreenOn, timeSince) + ")");
+					remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL)
+							+ " (" + StringUtils.formatRatio(timeKWL, timeSince) + ")");
+					remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL)
+							 + " (" + StringUtils.formatRatio(timePWL, timeSince) + ")");
+				}
 				
 				// tap zones
 
