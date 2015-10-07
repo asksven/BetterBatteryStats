@@ -1,70 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-
-    <release version="2.1.0.0_RC4" versioncode="71">
-        <change>Значение бодрствования теперь подразумевает бодрствование при откл. экране</change>
-        <change>Переводы</change>
-    </release>
-    
-    <release version="2.1.0.0_RC3" versioncode="70">
-        <change>Дополнительные исправления виджета</change>
-        <change>Переводы</change>
-    </release>
-
-    <release version="2.1.0.0_RC2" versioncode="69">
-        <change>Переводы</change>
-        <change>Исправление проблем с виджетом</change>
-    </release>
-
-    <release version="2.1.0.0_RC1" versioncode="68">
-        <change>Переводы</change>
-        <change>Исправление несовпадения в графиках на 5.1.1</change>
-        <change>Обновление до новых инструментов</change>
-        <change>Возврат к старому (2.0) входу в операции в приложениях</change>
-        <change>Новые значки</change>
-        <change>Новая версия системного приложения</change>
-        <change>Исправление отображения итоговых показателей в процессах</change>
-        <change>Исправление вывода неполной истории изменений</change>
-    </release>
-
-    <release version="2.1.0.0_B5" versioncode="67">
-        <change>Добавлена анимация перехода</change>
-        <change>Исправлена проблема с прокруткой экрана разрешений</change>
-        <change>Экспериментальная поддержка M-preview</change>
-    </release>
-    
-    <release version="2.1.0.0_B4" versioncode="66">
-        <change>Переводы</change>
-        <change>Оптимизирован размер системного приложения</change>
-        <change>AppCompat обновлен до текущей версии</change>
-        <change>Исправление вейклоков ядра для LG G3</change>
-        <change>Новые значки</change>
-        <change>Новая версия системного приложения</change>
-        <change>В dashclock изменено время бодрствования на соотношение бодрствования</change>
-    </release>
-    
-    <release version="2.1.0.0_B3" versioncode="65">
-        <change>Возврат к старому системному приложению для исправления сбоев на CM</change>
-        <change>Переводы</change>
-        <change>Исправление вылета приложения при завершении вэйклока сохранения метки</change>
-        <change>Исправление поведения значка "назад" на старых версиях Андроида</change>
-    </release>
-    
-    <release version="2.1.0.0_B2" versioncode="64">
-        <change>Переводы</change>
-        <change>Исправление отсутствия "от" в старом виджете</change>
-        <change>Исправление размера шрифта в виджете при коротких промежутках</change>
-        <change>Исправление прозрачности виджета</change>
-        <change>Исправление диалога оценки</change>
-        <change>Возврат вызова операций в приложениях к 1.15</change>
-    </release>
-    
-    <release version="2.1.0.0_B1" versioncode="63">
+    <release version="2.1.0.0" versioncode="72">
+        <change>Поддержка Android Marshmallow</change>
+        <change>Новое оформление</change>
         <change>Новый адаптивный виджет</change>
-        <change>Новая версия системного приложения (обновлять не нужно)</change>
+        <change>Оптимизация старых виджетов</change>
+        <change>Новая версия системного приложения</change>
         <change>Исправление ошибки обновления виджета при включенном экране</change>
         <change>Различные исправления сообщённых ошибок</change>
         <change>Исправление отсутствия графиков на 5.1</change>
+        <change>Исправление диалога оценки</change>
+        <change>Исправление отображения итоговых показателей в процессах</change>
+        <change>Исправление вейклоков ядра для LG G3</change>        
     </release>
 
 </changelog>
