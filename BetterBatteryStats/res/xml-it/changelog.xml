@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-<release version="2.0.0.0" versioncode="62">
-<change>Completamente nuova e luccicante, con temi chiaro e scuro</change>
-<change>Lollipop completamente supportato</change>
-<change>Molte I18N (vedi Info per i ringraziamenti)</change>
-<change>Aggiunti dettagli delle statistiche API al dumpfile</change>
-<change>L\'installazione come App di Sistema ora rimanda al file ZIP di recovery come soluzione alternativa</change>
-<change>Aggiunta importazione/esportazione delle preferenze</change>
-<change>Aggiunta opzione per mostrare/nascondere gli indicatori circolari</change>
-<change>Mostra i criteri SELinux nell'installazione come App di Sistema e nel dumpfile</change>
-<change>Tentativo di soluzione per il servizio BATTERY_INFO non contattabile su alcuni dispositivi</change>
-<change>Corretti errori di visualizzazione che potrebbero avvenire durante l\'elaborazione delle statistiche</change>
-<change>Modificato il calcolo di tempi ed intervalli: dovrebbe evitare qualsiasi errore di arrotondamento</change>
-<change>Aggiunta possibilità di salvare i dumpfile in formato JSON dal plugin di Tasker</change>
-<change>Rimosso riordinamento</change>
-<change>Rimosso Google analytics</change>
-<change>Rimosso zoom del grafico</change>
-</release>
+    <release version="2.1.0.0" versioncode="72">
+        <change>supporto per Android Marshmallow</change>
+        <change>nuova icona</change>
+        <change>nuovo widget reattivo</change>
+        <change>ottimizzazione dei vecchi widget</change>
+        <change>nuova versione della app di sistema</change>
+        <change>corretto mancato aggiornamento del widget a schermo acceso</change>
+        <change>corretti vari bug riportati nei crash report</change>
+        <change>corretti grafici non funzionanti in 5.1</change>
+        <change>corretta finestra di dialogo per la valutazione</change>
+        <change>corretti i totali mostrati nella finestra Processi</change>
+        <change>nuova decodifica per i kernel wakelock di LG G3</change>        
+    </release>
 
 </changelog>
