@@ -3,8 +3,8 @@
     <release version="2.1.0.0" versioncode="72">
         <change>Support d''Android Marshmallow</change>
         <change>Tout nouveau</change>
-        <change>Noueau widget réactif</change>
-        <change>WIdgets existants optimisés</change>
+        <change>Nouveau widget réactif</change>
+        <change>WIigets existants optimisés</change>
         <change>Nouvelle version de l''application système</change>
         <change>Correction du widget qui ne s''actualisait pas lors de l''allumage de l''écran</change>
         <change>Correction de plusieurs bugs provenant du brapport de bugs</change>
