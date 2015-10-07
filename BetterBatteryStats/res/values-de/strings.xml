@@ -4,18 +4,17 @@
 	<string name="plugin_name">Better Battery Stats</string>
 	<string name="message_hint">Geplanter Toast</string>
 	<string name="message_hint_saveref">Eigene Referenz speichern</string>
-	<string name="message_hint_savestat">Text-Dump abspeichern</string>
-	<string name="message_hint_savestatjson">JSON-Dump abspeichern</string>
+	<string name="message_hint_savestat">Text-Dump speichern</string>
+	<string name="message_hint_savestatjson">JSON-Dump speichern</string>
 	<string name="message_hint_sinceref">Dump seit letzter Referenz</string>
 	<string name="message_hint_stat_type">Art der Statistik</string>
-	<string name="message_enable_root">Der Root-Zugriff bedarf einem gerooteten Gerät.\nStellen Sie sicher, dass BBS SU-Rechte erhält.\nOhne diese Rechte kann BBS nicht korrekt funktionieren.\nMöchten Sie fortfahren?</string>
-	<string name="message_enable_active_mon">Aktives Überwachen weckt das Gerät öfter und erhöht die Prozessorlast. Verwenden Sie es mit Bedacht.\nMöchten Sie fortfahren?</string>
-	<string name="message_first_launch">
-Die Referenz \'Getrennt\' wird nun erstellt. Erneutes Abstecken von einem Ladegerät überschreibt diese Referenz.</string>
+	<string name="message_enable_root">Der Root-Zugriff benötigt ein gerootetes Gerät.\nStellen Sie sicher, dass BBS SU-Rechte erhält.\nOhne diese Rechte kann BBS nicht korrekt funktionieren.\nMöchten Sie fortfahren?</string>
+	<string name="message_enable_active_mon">Beim aktiven Überwachen wird das Gerät öfter geweckt und die Prozessorlast erhöht. Verwenden Sie es mit Bedacht.\nMöchten Sie fortfahren?</string>
+	<string name="message_first_launch">Die Referenz \'Getrennt\' wird erstellt. Das Trennen von einer Ladequelle überschreibt diese Referenz.</string>
 	<string name="message_copied_to_clipboard">%s wurde in die Zwischenablage kopiert</string>
-	<string name="message_no_hist_froyo">Der Verlauf wird von Froyo nicht unterstützt.</string>
+	<string name="message_no_hist_froyo">Verlaufsdaten werden von Froyo nicht unterstützt.</string>
 	<string name="message_no_appops">AppOps wurde nicht gefunden</string>
-	<string name="message_external_storage_write_error">Auf den ext. Speicher konnte nicht zugegriffen werden</string>
+	<string name="message_external_storage_write_error">Zugriff auf den externen Speicher schlug fehl</string>
 	<string name="message_error_writing_dumpfile">Beim Speichern des Verlaufs ist ein Fehler aufgetreten</string>
 	<string name="message_identical_references">Ein Fehler ist aufgetreten. Die Werte sind identisch (%1$1, %2$s)</string>
 	<string name="message_watchdog_processing">BBS: Watchdog wird ausgeführt...</string>
@@ -135,20 +134,19 @@ Die Referenz \'Getrennt\' wird nun erstellt. Erneutes Abstecken von einem Ladege
 	<string name="pref_theme_summary">Thema der App auswählen</string>
 
 	<!-- System app activity -->
-	<string name="expl_system_app">Normale Apps haben seit Android 4.4 keinen Zugriff auf die Akku-Statistiken.
-\n\n BetterBatteryStats sollte daher als System-App installiert werden. Die App wird dadurch nicht beeinträchtigt.\n\nÄndern der Berechtigungen kann ein erneutes Installieren als System-App erfordern.</string>
-	<string name="expl_system_app_workaround">Schlägt die Installation fehl, versuchen Sie folgendes.</string>
+	<string name="expl_system_app">Seit Android 4.4 haben ausschließlich System-Apps Zugriff auf Akku-Statistiken. BetterBatteryStats sollte daher als System-App installiert werden. Dadurch wird die App nicht beeinträchtigt.Wenn sich die Berechtigungen der App ändern, kann ein erneutes Installieren als System-App erforderlich werden.</string>
+	<string name="expl_system_app_workaround">Schlägt die Installation fehl, versuchen Sie eine Installation mittels der Recovery.zip.</string>
 	<string name="install_system_app">In System-App umwandeln</string>
 	<string name="uninstall_system_app">System-App entfernen</string>
 	<string name="info_installed_system_app">Installation abgeschlossen. Bitte starten Sie Ihr Gerät neu.</string>
 	<string name="info_uninstalled_system_app">System-App entfernt: Ihre Einstellungen wurden zurückgesetzt. Bitte starten Sie Ihr Gerät neu.</string>
 	<string name="info_succeeded">Erfolgreich</string>
-	<string name="info_failed">Fehlgeschlagen. Probieren Sie die Recovery-ZIP</string>
+	<string name="info_failed">Ein Fehler ist aufgetreten. Versuchen Sie die Installation per Recovery-ZIP</string>
 	<string name="info_root_required">Für diese Funktion muss der Root-Zugriff in den erweiterten Einstellungen aktiviert sein.</string>
 	<string name="info_unknown_state">Fehler: Änderung wurden nicht erkannt</string>
 	<string name="info_service_connection_error">Der Dienst BatteryInfo ist nicht erreichbar.</string>
 	<string name="info_loading_refs_error">Die Referenz \'von\' oder \'bis\' konnte nicht geladen werden. Bitte nehmen Sie eine Aktualisierung vor.</string>
-	<string name="info_unknown_stat_error">Ein Fehler ist beim Abrufen der Statistik aufgetreten. Bitte prüfen Sie das Logcat.</string>
+	<string name="info_unknown_stat_error">Beim Abrufen der Statistik trat ein Fehler auf. Bitte prüfen Sie das Logcat.</string>
 	<string name="info_state_recovery_error">Beim Wiederherstellen des letzten Zustands trat ein Fehler auf.</string>
 	<string name="info_pref_export_success">Einstellungen wurden in %s gespeichert</string>
 	<string name="info_pref_import_success">Einstellungen wurden von %s geladen</string>
@@ -157,8 +155,8 @@ Die Referenz \'Getrennt\' wird nun erstellt. Erneutes Abstecken von einem Ladege
 	<string name="info_deleting_refs">Referenzen werden entfernt und neu erzeugt</string>
 	<string name="info_fallback_to_boot">Ausgewichen auf \'Seit Systemstart\'</string>
 	<string name="info_fallback_to_default">Ausgewichen auf Standard</string>
-	<string name="label_granted">gewährt</string>
-	<string name="label_not_granted">nicht gewährt</string>
+	<string name="label_granted">abrufbar</string>
+	<string name="label_not_granted">nicht abrufbar</string>
 
 	<!-- Preferences labels and texts -->
 	<string name="pref_section_display">Anzeige</string>
@@ -198,7 +196,7 @@ Die Referenz \'Getrennt\' wird nun erstellt. Erneutes Abstecken von einem Ladege
 	<string name="pref_watchdog_awake_threshold_summary">Wert ab dem Warnungen gezeigt werden (wach / gesamt)</string>
 	<string name="pref_ref_for_screen_off_title">Schwellwert für Dauer in Minuten</string>
 	<string name="pref_ref_for_screen_off_summary">Dauer bis zur Auslösung</string>
-	<string name="pref_section_active_mon">Actives Überwachen</string>
+	<string name="pref_section_active_mon">Aktives Überwachen</string>
 	<string name="pref_active_mon_enabled_title">Aktivies Überwachen verwenden</string>
 	<string name="pref_active_mon_enabled_summary">Aktives überwachen starten. Achtung: Erhöht den Akkuverbrauch</string>
 	<string name="pref_active_mon_freq_title">Frequenz in Minuten</string>
@@ -281,7 +279,6 @@ Die Referenz \'Getrennt\' wird nun erstellt. Erneutes Abstecken von einem Ladege
 	<string name="stat_type_label_since_custom">Seit eigener Referenz</string>
 	<string name="stat_type_label_since_screen_off">Seit inaktivem Bildschirm</string>
 	<string name="stat_type_label_since_boot">Seit Systemstart</string>
-
     
 	<string name="widget_freq_label_none">Keine</string>
 	<string name="widget_freq_label_5">5 Min.</string>
@@ -289,7 +286,7 @@ Die Referenz \'Getrennt\' wird nun erstellt. Erneutes Abstecken von einem Ladege
 	<string name="widget_freq_label_30">*30 Min.</string>
 	<string name="widget_freq_label_60">60 Min.</string>
     
-	<string name="widget_fontsize_16">Extra groß (16)</string>
+	<string name="widget_fontsize_16">Sehr groß (16)</string>
 	<string name="widget_fontsize_14">Groß (14)</string>
 	<string name="widget_fontsize_12">Normal (12)</string>
 	<string name="widget_fontsize_10">*Klein (10)</string>
