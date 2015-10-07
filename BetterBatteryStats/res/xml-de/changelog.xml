@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <changelog>
-    
-    <release version="2.0.0.0" versioncode="62">
-        <change>Alle neu, helles und dunkles Theme</change>
-        <change>Lollipop support</change>
-        <change>I18N</change>
-        <change>API-Details in Dumpfile hinzugefügt</change>
-        <change>Link zum Recovery ZIP im System Spp Dialog als Fallback</change>
-        <change>Import/Export von EInstellungen</change>
-        <change>Option um die Spinner ein- und auszublenden</change>
-        <change>Anzeige der SELinux Policy in System App Dialog und Dumpfile</change>
-        <change>Ein Versuch die Fehleranfälligkeit vom nicht erreichbaren BATTERY_INFO Service auf einige Geräte</change>
-        <change>Fehler beim Berechnen der Status werden angezeigt</change>
-        <change>Neue Berechnungen um Rundungsdifferenzen zu vermeiden</change>
-	    <change>Dumpfiles im JSON-Format können aus Tasker gespeichert werden</change>
-		<change>Sortierung entfernt</change>
-		<change>Google Analytics entfernt</change>
-		<change>Zoon in Grafiken entfernt</change>
+    <release version="2.1.0.0" versioncode="72">
+        <change>Android Marshmallow wird jetzt unterstützt</change>
+        <change>Neue Grafiken</change>
+        <change>Neu: Responsives Widget</change>
+        <change>Optimiert: Alte Widgets</change>
+        <change>Neu: Version der System-App</change>
+        <change>Behoben: Fehler bei der Widget-Aktualisierung</change>
+        <change>Behoben: Zahlreiche Fehlerberichte</change>
+        <change>Behoben: Ungenauigkeiten der Graphen mit Android 5.1</change>
+        <change>Behoben: Bewerten-Dialog</change>
+        <change>Behoben: Falsche Gesamtzahl in der Prozessansicht</change>
+        <change>Neu: Eigener Parser zum Erkennen von LG G3 Kernel-Wakelocks</change>        
     </release>
 
-</changelog>   
+</changelog>
