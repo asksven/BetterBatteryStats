@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/large_widget_shape"
-        android:orientation="vertical"
-        android:padding="@dimen/widget_margin">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/layoutImages"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:layout_marginLeft="16dp">
 
             <ImageView
                 android:id="@+id/imageView1"
