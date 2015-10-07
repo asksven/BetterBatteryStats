@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    
-    <release version="2.0.0.0" versioncode="62">
-        <change>Tout nouveau tout beau, avec thèmes clair et sombre</change>
-        <change>Support complet de Lollipop</change>
-        <change>Beaucoup de I18N (voir l\'à-propos pour les crédits)</change>
-        <change>Ajout des détails sur les API des statistiques au fichier dump</change>
-        <change>Le dialogue de conversion en application système renvoie maintenant au ZIPs comme solution de contournement</change>
-        <change>Ajout de l\'import/export pour les préférences</change>
-        <change>Ajout de l\'option pour montrer/cacher les compteurs</change>
-        <change>Inclusion de la politique SELinux dans le dialogue de conversion en application système et le fichier dump</change>
-        <change>Tentative de contournement pour le service BATTERY_INFO inaccessible sur certains appareils</change>
-        <change>Possibilité d\'erreurs de surface lors du traitement des statistiques</change>
-        <change>Probable suppression des erreurs d\'arrondis grâce aux temps remaniés et aux calculs de durées</change>
-	    <change>Ajout de la sauvegarde du fichier dump en JSON depuis le plugin Tasker</change>
-		<change>Suppression du tri</change>
-		<change>Suppression des Google Analytics</change>
-		<change>Suppression du zoom sur les graphes</change>
+    <release version="2.1.0.0" versioncode="72">
+        <change>Support d''Android Marshmallow</change>
+        <change>Tout nouveau</change>
+        <change>Noueau widget réactif</change>
+        <change>WIdgets existants optimisés</change>
+        <change>Nouvelle version de l''application système</change>
+        <change>Correction du widget qui ne s''actualisait pas lors de l''allumage de l''écran</change>
+        <change>Correction de plusieurs bugs provenant du brapport de bugs</change>
+        <change>Correction des graphes désactivés en 5.1</change>
+        <change>Correction de la fenêtre de notation</change>
+        <change>Correction des totaux dans la vue des process</change>
+        <change>Analyseur spécifique pour les wakelocks du kernel du LG G3</change>        
     </release>
 
 </changelog>
