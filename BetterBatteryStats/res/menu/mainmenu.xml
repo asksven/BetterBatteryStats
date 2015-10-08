@@ -12,12 +12,6 @@
         android:title="@string/label_share"
         android:icon="@drawable/ic_share_white_48dp"
         app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/preferences"
-        android:icon="@drawable/ic_settings_white_48dp"
-        android:title="@string/label_preferences"
-        app:showAsAction="ifRoom"/>
-
     <!--
     <item android:id="@+id/test"    
           android:title="Test" />
@@ -32,18 +26,13 @@
     <item
         android:id="@+id/rawstats"
         android:title="@string/label_raw_stats"/>
-
+    <item
+        android:id="@+id/preferences"
+        android:title="@string/label_preferences"/>
     <item
         android:id="@+id/about"
         android:title="@string/label_about"/>
     <item
         android:id="@+id/help"
         android:title="@string/label_help"/>
-    <item
-        android:id="@+id/releasenotes"
-        android:title="@string/label_release_notes"/>
-    <item
-        android:id="@+id/credits"
-        android:title="@string/label_credits"/>
-
 </menu>

@@ -25,7 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.asksven.betterbatterystats.R;
+import de.cketti.library.changelog.ChangeLog;
 
 public class AboutActivity extends BaseActivity
 {
@@ -97,5 +97,15 @@ public class AboutActivity extends BaseActivity
         Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse( inURL ) );
 
         startActivity( browse );
+    }
+
+    public void showChangeLog(View view) {
+        ChangeLog cl = new ChangeLog(this);
+        cl.getFullLogDialog().show();
+    }
+
+    public void showCredits(View view) {
+        Intent intentCredits = new Intent(this, CreditsActivity.class);
+        this.startActivity(intentCredits);
     }
 }
