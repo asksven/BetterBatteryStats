@@ -605,12 +605,7 @@ public class StatsActivity extends ActionBarListActivity
             	// start service to persist reference
         		Intent serviceIntent = new Intent(this, WriteCustomReferenceService.class);
         		this.startService(serviceIntent);
-            	break;
-            case R.id.credits:
-	        	Intent intentCredits = new Intent(this, CreditsActivity.class);
-	            this.startActivity(intentCredits);
-	        	break;	            	
-
+            	break;	            	
 //            case R.id.test:
 //    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
 //    			this.startService(serviceIntent);
@@ -642,15 +637,6 @@ public class StatsActivity extends ActionBarListActivity
             	i.setData(Uri.parse(url));
             	startActivity(i);
             	break;
-            case R.id.releasenotes:
-            	// Release notes
-    	        ChangeLog cl = new ChangeLog(this);
-    	        cl.getFullLogDialog().show();
-//            	Intent intentReleaseNotes = new Intent(this, ReadmeActivity.class);
-//            	intentReleaseNotes.putExtra("filename", "readme.html");
-//                this.startActivity(intentReleaseNotes);
-            	break;	
-
             case R.id.share:
             	// Share
             	getShareDialog().show();
