@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    
-    <release version="2.0.0.0" versioncode="62">
-        <change>Zcela nové, se světlým a tmavým tématem</change>
-        <change>Plná podpora OS Android Lollipop</change>
-        <change>Lokalizace (I18N) (viz poděkování v dialogu O programu)</change>
-        <change>Přidány detaily o API statistikách do souboru výpisu (dump file)</change>
-        <change>Dialog instalace systémové aplikace nyní odkazuje na recovery ZIPy pro použití jako workaround</change>
-        <change>Přidán import/export nastavení</change>
-        <change>Přidána možnost zobrazení/skrytí prvků pro výběr ref. bodů</change>
-        <change>Zobrazení SELinux politiky v dialogu instalace systémové aplikace a v souboru výpisu</change>
-        <change>Pokus o workaround nemožnosti přístupu k BATTERY_INFO službě na některých zařízeních</change>
-        <change>Zobrazení chyb které mohou nastat při zpracovávání statistik</change>
-        <change>Přepsány výpočty časů a časových rozsahů pro eliminaci chyb zaokrouhlování</change>
-	    <change>Přidána možnost uložení souboru výpisu (dump file) ve formátu JSON z Tasker doplňku</change>
-		<change>Odstraněno řazení</change>
-		<change>Odstraněny Google Analytics</change>
-		<change>Odstraněn zoom v grafech</change>
+    <release version="2.1.0.0" versioncode="72">
+        <change>Podpora OS Android Marshmallow</change>
+        <change>Nová grafika</change>
+        <change>Nový responzivní widget</change>
+        <change>Optimalizované staré widgety</change>
+        <change>Nová verze systémové aplikace</change>
+        <change>Oprava: Widget vždy neobnovoval zobrazení při zapnuté obrazovce</change>
+        <change>Oprava: Opravy chyb na základě crash reportů</change>
+        <change>Oprava: Nesprávné zobrazení grafů na Android 5.1</change>
+        <change>Oprava: Dialog pro hodnocení aplikace</change>
+        <change>Oprava: Celkové hodnoty při zobrazení procesů</change>
+        <change>Speciální parser pro wakelocky jádra na LG G3</change>
     </release>
 
 </changelog>
