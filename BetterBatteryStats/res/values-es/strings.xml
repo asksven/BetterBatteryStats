@@ -23,8 +23,8 @@
     <string name="message_awake_alert">Alerta Awake</string>
     <string name="message_awake_info">%1$d%% despierto mientras la pantalla estaba apagada</string>
     <string name="app_name">BetterBatteryStats</string>
-    <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="app_welcome">Bienvenido a %s</string>
+    <string name="app_pname">com.asksven.betterbatterystats</string>
     <string name="label_button_remind">Recordarmelo después</string>
     <string name="label_button_rate">Calificar</string>
     <string name="label_button_no_thanks">No, gracias</string>
@@ -39,6 +39,7 @@
     <string name="label_import_export_prefs">Importar/Exportar preferencias de/a %s</string>
     <string name="label_import_prefs">Importar</string>
     <string name="label_export_prefs">Exportar</string>
+
     <string name="label_hist_time">Hora</string>
     <string name="label_hist_battery">Bat</string>
     <string name="label_hist_power">Chrg</string>
@@ -49,6 +50,7 @@
     <string name="label_hist_bluetooth">BT</string>
     <string name="label_hist_incall">Llam.</string>
     <string name="label_hist_scanning">Scan</string>
+
     <string name="label_graph_battery">Batería</string>
     <string name="label_graph_power">Cargando</string>
     <string name="label_graph_screen">Pant. Enc.</string>
@@ -58,7 +60,9 @@
     <string name="label_graph_bluetooth">Bluetooth</string>
     <string name="label_graph_incall">En Llamada</string>
     <string name="label_graph_scanning">Scanning</string>
+
     <string name="label_widget_deep_sleep">Deep Sleep</string>
+	<string name="label_widget_since">Desde</string>
     <string name="label_widget_awake">Despierto:</string>
     <string name="label_widget_screen_on">Pant. Enc.:</string>
     <string name="label_widget_kernel_wakelock">KWL</string>
@@ -68,22 +72,28 @@
     <string name="label_widget_screen_on_short">Scr</string>
     <string name="label_widget_kernel_wakelock_short">KWL</string>
     <string name="label_widget_partial_wakelock_short">PWL</string>
+
+
     <string name="label_battery">Batería</string>
     <string name="label_name">Nombre</string>
     <string name="label_description">Descripción</string>
     <string name="label_package_name">Nombre Paquete</string>
     <string name="label_on_on_android_4_3plus">Disponible solo en Android 4.3+</string>
+
     <string name="label_permisions_dangerous">Permiso marcado como \'peligroso\'</string>
     <string name="label_permisions_system">Permisos para \'Aplicaciones de sistema\'</string>
     <string name="label_permisions_normal">Permisos normales</string>
+
     <string name="pref_dashclock_default_stat_type_summary">Asignar el tipo de estadística a mostrar en el dashclock</string>
     <string name="pref_dashclock_fallback_stat_type_summary">Asignar el tipo de estadística fallback a mostrar en el dashclock si la primaria no tiene referencias</string>
-    <string name="label_awake_abbrev">aw.</string>
+    <string name="label_awake_abbrev">Desp.</string>
     <string name="label_button_share">Compartir...</string>
     <string name="label_button_save">Grabar</string>
     <string name="label_button_cancel">Cancelar</string>
     <string name="label_button_application_settings">Configuración de la Aplicación</string>
     <string name="label_button_appops">App Ops</string>
+
+
     <string name="title_share_dialog">Compartir datos como...</string>
     <string name="text_since">Desde</string>
     <string name="label_preferences">Configuración</string>
@@ -119,6 +129,7 @@
     <string name="label_about_translation3">Italiano por code010101 @ xda</string>
     <string name="label_about_translation4">Croata por seky2205 @ xda</string>
     <string name="label_about_translation5">Francés por xavihernandez @ xda</string>
+    <string name="label_about_translation6">Alemán por Minty123 @ xda</string>
     <string name="label_about_follow">Sígueme en Twitter</string>
     <string name="label_about_rate">Califica / Revisa en Google Play</string>
 
@@ -127,6 +138,7 @@
     <string name="label_theme_light">Claro</string>
     <string name="pref_theme_title">Tema</string>
     <string name="pref_theme_summary">Cambiar temas</string>
+
     <!-- System app activity -->
     <string name="expl_system_app">En Android 4.4 Google removió el permiso para que aplicaciones normales accesen las estadísticas de batería.\n\nEs recomendable instalar BetterBatteryStats como aplicación de sistema (esto no previene la instalación de actualizaciones).\n\nDesinstalar/Reinstalar BBS como aplicación de sistema puede ser necesario si los permisos cambian.</string>
     <string name="expl_system_app_workaround">Si la opción de instalación desde la aplicación falla, por favor use esta alternativa</string>
@@ -145,11 +157,13 @@
     <string name="info_pref_export_success">Se han grabado las preferencias a %s</string>
     <string name="info_pref_import_success">Se han importado las preferencias de %s</string>
     <string name="info_pref_import_export_failed">La operación falló</string>
+
     <string name="info_deleting_refs">Eliminando y recreando referencias</string>
     <string name="info_fallback_to_boot">Fallback a \'Desde Inicio\'</string>
     <string name="info_fallback_to_default">Fallback a referencia por defecto</string>
     <string name="label_granted">otorgado</string>
     <string name="label_not_granted">no otorgado</string>
+
     <!-- Preferences labels and texts -->
     <string name="pref_section_display">Pantalla</string>
     <string name="pref_filter_data_title">Filtrar estadísticas</string>
@@ -204,6 +218,8 @@
     <string name="pref_root_features_title">Características Root</string>
     <string name="pref_ignore_system_app_summary">Ignorar detección de aplicación de sistema (para usuarios del módulo XPosed \'Enable BATTERY_STATS\')</string>
     <string name="pref_ignore_system_app_title">No detectar aplicación de sistema</string>
+
+
     <string name="pref_developer_title">Habilitar durante carga</string>
     <string name="pref_developer_summary">Habilitar estadísticas durante la carga (a su propio riesgo, estadísticas pueden ser inconsistentes)</string>
     <string name="pref_auto_refresh_title">Auto refresco</string>
@@ -225,12 +241,14 @@
     <string name="pref_screen_system_app_summary">Instalar como Aplicación de Sistema</string>
     <string name="pref_screen_import_export_title">Importar/Exportar</string>
     <string name="pref_screen_import_export_summary">Importar y Exportar Preferencias</string>
+
     <string name="pref_section_settings">Configuraciones</string>
     <string name="pref_screen_widgets_title">Widgets</string>
     <string name="pref_screen_legacy_widgets_title">Legacy Widgets</string>
     <string name="widget_refresh_freq_title">Frecuencia de refresco</string>
     <string name="widget_refresh_freq_summary">Asigna la frecuencia de actualización de los Widgets (Siempre se actualizarán cuando la pantalla esté encendida)</string>
     <string name="widget_refresh_on_screen_on_title">Refrescar al encender la pantalla</string>
+    <string name="widget_refresh_on_screen_on_summary">Refrescar cuandola pantalla enciende</string>
     <string name="widget_default_stat_title">Estadística por defecto al abrir</string>
     <string name="widget_default_stat_summary">Asigna la estadística a ser llamada por el widget</string>
     <string name="widget_show_stat_type_title">Mostrar título</string>
@@ -268,11 +286,14 @@
     <string name="stat_type_label_since_custom">Desde Ref. Personalizada</string>
     <string name="stat_type_label_since_screen_off">Desde que se apagó la pantalla</string>
     <string name="stat_type_label_since_boot">Desde reinicio</string>
+
+
     <string name="widget_freq_label_none">Ninguno</string>
     <string name="widget_freq_label_5">5 Min.</string>
     <string name="widget_freq_label_15">15 Min.</string>
     <string name="widget_freq_label_30">*30 Min.</string>
     <string name="widget_freq_label_60">60 Min.</string>
+
     <string name="widget_fontsize_16">X-Grande (16)</string>
     <string name="widget_fontsize_14">Grande (14)</string>
     <string name="widget_fontsize_12">Normal (12)</string>
