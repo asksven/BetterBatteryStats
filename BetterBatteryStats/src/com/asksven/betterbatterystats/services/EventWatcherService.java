@@ -91,6 +91,8 @@ public class EventWatcherService extends Service
     
 	public static boolean isServiceRunning(Context context)
 	{
+		if (context == null) return false;
+		
 	    ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
 	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
 	    {
