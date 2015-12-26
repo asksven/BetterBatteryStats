@@ -204,6 +204,23 @@ public class StatsActivity extends ActionBarListActivity
 		// show install as system app screen if root available but perms missing
 		if (!ignoreSystemApp && hasRoot && !SysUtils.hasBatteryStatsPermission(this))
 		{
+        	// attempt to set perms using pm-comand
+			Log.i(TAG, "attempting to grant perms with 'pm grant'");
+            RootShell.getInstance().run("pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS");
+            Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
+            if (SysUtils.hasBatteryStatsPermission(this))
+            {
+            	Log.i(TAG, "succeeded");
+            }
+            else
+            {
+            	Log.i(TAG, "failed");
+            }
+		}
+		
+		// show install as system app screen if root available but perms missing
+		if (!ignoreSystemApp && hasRoot && !SysUtils.hasBatteryStatsPermission(this))
+		{
         	Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
             this.startActivity(intentSystemApp);
 		}
