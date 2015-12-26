@@ -276,6 +276,7 @@
     <string name="NO_STATS_WHEN_CHARGING">Device is plugged in: no stats</string>
     <string name="NO_ROOT_ERR">This stat requires root</string>
     <string name="NO_PERM_ERR">This stat requires BATTERY_STATS Permission</string>
+    <string name="NO_PERM_INFO">Attempting to grant permissions without system app.</string>
     <string name="NO_REF_ERR">No reference set yet</string>
     <string name="NO_STATS">No stats have been collected yet</string>
 	<string name="FILE_ACCESS_ERROR">File could not be read</string>
