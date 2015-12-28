@@ -276,6 +276,7 @@
     <string name="NO_STATS_WHEN_CHARGING">Устройство подключено к ЗУ: нет статистики</string>
     <string name="NO_ROOT_ERR">Для данной статистики требуется рут-доступ</string>
     <string name="NO_PERM_ERR">Для данной статистики требуется разрешение BATTERY_STATS</string>
+    <string name="NO_PERM_INFO">Попытка предоставления разрешений без системного приложения</string>
     <string name="NO_REF_ERR">Метки ещё не установлено</string>
     <string name="NO_STATS">Статистика ещё не собрана</string>
     <string name="FILE_ACCESS_ERROR">Файл невозможно прочитать</string>
