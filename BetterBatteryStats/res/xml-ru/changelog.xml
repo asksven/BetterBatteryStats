@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.1.0.0" versioncode="72">
-        <change>Поддержка Android Marshmallow</change>
-        <change>Новое оформление</change>
-        <change>Новый адаптивный виджет</change>
-        <change>Оптимизация старых виджетов</change>
-        <change>Новая версия системного приложения</change>
-        <change>Исправление ошибки обновления виджета при включенном экране</change>
-        <change>Различные исправления сообщённых ошибок</change>
-        <change>Исправление отсутствия графиков на 5.1</change>
-        <change>Исправление диалога оценки</change>
-        <change>Исправление отображения итоговых показателей в процессах</change>
-        <change>Исправление вейклоков ядра для LG G3</change>        
+    <release version="2.2.0.0B1" versioncode="73">
+        <change>Эксперимент: получение разрешений BATTERY_INFO без системного приложения (только с рутом)</change>
+        <change>Исправление различных ошибок, сообщённых через отчеты gplay</change>
+        <change>Исправление деталей сигналов на Marshmallow</change> 
+        <change>Переводы</change>
+        <change>Перемещение благодарностей и истории изменений на вкладку информации о приложении</change>       
     </release>
 
 </changelog>
