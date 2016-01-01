@@ -87,6 +87,12 @@
                 android:key="show_other_bt"
                 android:summary="@string/pref_show_other_bt_summary"
                 android:title="@string/pref_show_other_bt_title" />
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="show_other_doze"
+                android:summary="@string/pref_show_other_doze_summary"
+                android:title="@string/pref_show_other_doze_title" />
+            
         </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_section_defaults" >

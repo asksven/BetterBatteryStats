@@ -276,7 +276,7 @@ public class StatsProvider
 
 		// stop straight away of root features are disabled
 		// to process alarms we need either root or the perms to access the private API
-		if (!permsNotNeeded || !SysUtils.hasBatteryStatsPermission(m_context) || !RootShell.getInstance().hasRootPermissions() )
+		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context) || RootShell.getInstance().hasRootPermissions()) )
 		{
 			myStats.add(new Notification(m_context.getString(R.string.NO_PERM_ERR)));
 			return myStats;
@@ -1761,10 +1761,10 @@ public class StatsProvider
 				{
 					if (Build.VERSION.SDK_INT > 6)
 					{
-						timeBluetoothIdle 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_IDLE_TIME, statsType);
-						timeBluetoothRx 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_RX_TIME, statsType);
-						timeBluetoothTx 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_TX_TIME, statsType);
-						timeBluetoothEnergy	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_ENERGY, statsType);
+						timeBluetoothIdle 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_IDLE_TIME, statsType) / 1000;
+						timeBluetoothRx 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_RX_TIME, statsType) / 1000;
+						timeBluetoothTx 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_TX_TIME, statsType) / 1000;
+						timeBluetoothEnergy	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_ENERGY, statsType) / 1000;
 					}
 					else
 					{
@@ -1779,7 +1779,34 @@ public class StatsProvider
 				}
 	
 			}
+
+			long interactiveTime			= 0;
+			long powerSaveModeEnabledTime 	= 0;
+			long deviceIdleModeEnabledTime 	= 0;
+			long getDeviceIdlingTime 		= 0;
+
+			
+			if (sharedPrefs.getBoolean("show_other_doze", true) && !bWidget)
+			{
+				try
+				{
+					if (Build.VERSION.SDK_INT > 6)
+					{
+						interactiveTime 			= mStats.getInteractiveTime(batteryRealtime, statsType);
+						powerSaveModeEnabledTime 	= mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType);
+						deviceIdleModeEnabledTime 	= mStats.getDeviceIdleModeEnabledTime(batteryRealtime, statsType);
+						getDeviceIdlingTime 		= mStats.getDeviceIdlingTime(batteryRealtime, statsType);
+					}
+				}
+				catch (BatteryInfoUnavailableException e)
+				{
+					timeBluetoothOn = 0;
+					Log.e(TAG,
+							"A batteryinfo error occured while retrieving doze mode data");
+				}
 	
+			}
+
 			long timeNoDataConnection = 0;
 			long timeSignalNone = 0;
 			long timeSignalPoor = 0;
@@ -1943,11 +1970,40 @@ public class StatsProvider
 								true)))
 				{
 					myUsages.add(new Misc("Bluetooth Energy", timeBluetoothEnergy, elaspedRealtime));	
-				}
-
-				
+				}				
 			}
 			
+			if (Build.VERSION.SDK_INT >= 6)
+			{
+				if ((interactiveTime > 0)
+						&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
+								true)))		
+				{
+					myUsages.add(new Misc("Doze Interactive Time", interactiveTime, elaspedRealtime));
+				}
+				
+				if ((powerSaveModeEnabledTime > 0)
+						&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
+								true)))		
+				{
+					myUsages.add(new Misc("Doze Powersave Time", powerSaveModeEnabledTime, elaspedRealtime));
+				}
+				
+				if ((deviceIdleModeEnabledTime > 0)
+						&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
+								true)))		
+				{
+					myUsages.add(new Misc("Doze Idle Mode Time", deviceIdleModeEnabledTime, elaspedRealtime));
+				}
+				
+				if ((getDeviceIdlingTime > 0)
+						&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
+								true)))		
+				{
+					myUsages.add(new Misc("Doze Idling Time", getDeviceIdlingTime, elaspedRealtime));
+				}
+			}
+	
 			if ((timeNoDataConnection > 0)
 					&& (!bFilterView || sharedPrefs.getBoolean(
 							"show_other_connection", true)))

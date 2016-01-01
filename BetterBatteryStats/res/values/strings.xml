@@ -187,6 +187,9 @@
     <string name="pref_show_other_connection_summary">Show connection values</string>
     <string name="pref_show_other_bt_title">Show Bluetooth</string>
     <string name="pref_show_other_bt_summary">Show Bluetooth values</string>
+    <string name="pref_show_other_doze_title">Show Doze Mode</string>
+    <string name="pref_show_other_doze_summary">Show Doze Mode values</string>
+    
     <string name="pref_section_defaults">Defaults</string>
     <string name="pref_default_stat_title">Default stat</string>
     <string name="pref_default_stat_summary">Set the stat to be shown when starting the app</string>
