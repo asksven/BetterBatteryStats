@@ -15,6 +15,8 @@
  */
 package com.asksven.betterbatterystats;
 
+import com.asksven.betterbatterystats.R;
+
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
@@ -24,7 +26,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import de.cketti.library.changelog.ChangeLog;
 
 public class AboutActivity extends BaseActivity
