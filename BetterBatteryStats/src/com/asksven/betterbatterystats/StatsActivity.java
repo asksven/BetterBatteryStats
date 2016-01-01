@@ -193,7 +193,7 @@ public class StatsActivity extends ActionBarListActivity
 		// if root is available use it
 		boolean hasRoot = sharedPrefs.getBoolean("root_features", false);
 		boolean ignoreSystemApp = sharedPrefs.getBoolean("ignore_system_app", false);
-		if (!hasRoot && (RootShell.getInstance().rooted()))
+		if (!hasRoot && (RootShell.getInstance().hasRootPermissions()))
 		{
 	        SharedPreferences.Editor updater = sharedPrefs.edit();
 	        updater.putBoolean("root_features", true);

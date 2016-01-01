@@ -2857,7 +2857,7 @@ public class StatsProvider
 			{
 				String filename = "dmesg-"
 						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-				if (RootShell.getInstance().rooted()) //Shell.SU.available())
+				if (RootShell.getInstance().hasRootPermissions())
 				{
 					RootShell.getInstance().run("dmesg > " + path + "/" + filename); //Shell.SU.run("dmesg > " + path + "/" + filename);
 				}

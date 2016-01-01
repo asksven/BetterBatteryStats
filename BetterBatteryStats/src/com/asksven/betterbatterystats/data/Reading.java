@@ -83,7 +83,7 @@ public class Reading implements Serializable
 	String buildUser;
 	String buildProduct;
 	String buildRadio;
-	boolean rooted;
+	boolean rootPermissions;
 	boolean batteryStatsPermGranted;
 	boolean xposedBatteryStatsEnabled;
 	String seLinuxPolicy;
@@ -165,7 +165,7 @@ public class Reading implements Serializable
 
 		SharedPreferences sharedPrefs 	= PreferenceManager.getDefaultSharedPreferences(context);
 		
-		rooted 				= RootShell.getInstance().rooted(); //Shell.SU.available();
+		rootPermissions = RootShell.getInstance().hasRootPermissions(); //Shell.SU.available();
 		
 		batteryStatsPermGranted = SysUtils.hasBatteryStatsPermission(context);
 		xposedBatteryStatsEnabled = sharedPrefs.getBoolean("ignore_system_app", false);
@@ -344,7 +344,7 @@ public class Reading implements Serializable
 		out.write("USER: " + buildUser + "\n");
 		out.write("PRODUCT: " + buildProduct + "\n");
 		out.write("RADIO: " + buildRadio + "\n");
-		out.write("Rooted: " + rooted + "\n");
+		out.write("Root perms: " + rootPermissions + "\n");
 		out.write("SELinux Policy: " + seLinuxPolicy + "\n");
 		out.write("BATTERY_STATS permission granted: " + batteryStatsPermGranted + "\n");
 		out.write("XPosed BATTERY_STATS module enabled: " + xposedBatteryStatsEnabled + "\n");
