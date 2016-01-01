@@ -1749,13 +1749,29 @@ public class StatsProvider
 			// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
 			// long timeVideoOn = mStats.getVideoTurnedOnTime(m_context,
 			// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-			long timeBluetoothOn = 0;
+			long timeBluetoothOn 		= 0;
+			long timeBluetoothIdle 		= 0;
+			long timeBluetoothRx 		= 0;
+			long timeBluetoothTx 		= 0;
+			long timeBluetoothEnergy	= 0;
+			
 			if (sharedPrefs.getBoolean("show_other_bt", true) && !bWidget)
 			{
 				try
 				{
-					timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, statsType) / 1000;
-				} catch (BatteryInfoUnavailableException e)
+					if (Build.VERSION.SDK_INT > 6)
+					{
+						timeBluetoothIdle 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_IDLE_TIME, statsType);
+						timeBluetoothRx 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_RX_TIME, statsType);
+						timeBluetoothTx 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_TX_TIME, statsType);
+						timeBluetoothEnergy	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_ENERGY, statsType);
+					}
+					else
+					{
+						timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, statsType) / 1000;
+					}
+				}
+				catch (BatteryInfoUnavailableException e)
 				{
 					timeBluetoothOn = 0;
 					Log.e(TAG,
@@ -1891,14 +1907,47 @@ public class StatsProvider
 				myUsages.add(new Misc("Wifi Running", timeWifiRunning, elaspedRealtime));
 			}
 	
-			if ((timeBluetoothOn > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
-							true)))
-	
+			if (Build.VERSION.SDK_INT < 6)
 			{
-				myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, elaspedRealtime));
+				if ((timeBluetoothOn > 0)
+						&& (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
+								true)))
+		
+				{
+					myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, elaspedRealtime));
+				}
 			}
-	
+			else
+			{
+				// use new API
+				if ((timeBluetoothIdle > 0)
+						&& (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
+								true)))
+				{
+					myUsages.add(new Misc("Bluetooth Idle", timeBluetoothIdle, elaspedRealtime));
+				}
+				if ((timeBluetoothRx > 0)
+						&& (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
+								true)))
+				{
+					myUsages.add(new Misc("Bluetooth Rx", timeBluetoothRx, elaspedRealtime));
+				}
+				if ((timeBluetoothTx > 0)
+						&& (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
+								true)))
+				{
+					myUsages.add(new Misc("Bluetooth Tx", timeBluetoothTx, elaspedRealtime));	
+				}
+				if ((timeBluetoothEnergy > 0)
+						&& (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
+								true)))
+				{
+					myUsages.add(new Misc("Bluetooth Energy", timeBluetoothEnergy, elaspedRealtime));	
+				}
+
+				
+			}
+			
 			if ((timeNoDataConnection > 0)
 					&& (!bFilterView || sharedPrefs.getBoolean(
 							"show_other_connection", true)))
