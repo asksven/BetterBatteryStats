@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+
+    <release version="2.2.0.0B2" versioncode="74">
+        <change>Added more detailed BT stats for Marshmallow</change>
+        <change>Fix for stats not showing when app has no root but batterystats perms</change>
+		<change>Added Doze mode stats for Marshmallow Devices</change>
+    </release>
+    
     <release version="2.2.0.0B1" versioncode="73">
         <change>Experimental: get BATTERY_INFO permissions without system app (root only)</change>
         <change>Removed requirement for root (when system app in installed)</change>
