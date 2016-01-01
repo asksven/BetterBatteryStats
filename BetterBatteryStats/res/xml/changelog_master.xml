@@ -2,10 +2,11 @@
 <changelog>
     <release version="2.2.0.0B1" versioncode="73">
         <change>Experimental: get BATTERY_INFO permissions without system app (root only)</change>
+        <change>Removed requirement for root (when system app in installed)</change>
+        <change>Fixed API and non-API access to alarms on Marshmallow</change>
         <change>Fixed various FC conditions from gplay crash reports</change>
-        <change>Fixed alarm details on Marshmallow</change> 
         <change>I18N</change>
-        <change>Moved credits and changelog to about screen</change>       
+        <change>Moved credits and changelog to about screen</change> 
     </release>
 
 </changelog>

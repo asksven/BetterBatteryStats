@@ -8,7 +8,7 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="22" />
-
+  
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <uses-permission android:name="android.permission.DUMP" />
     <!-- required for writing dump files -->
@@ -53,6 +53,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="BetterBatteryStats"
         android:theme="@style/Theme.Bbs" >
+        
         <activity
             android:name="com.asksven.betterbatterystats.StatsActivity"
             android:configChanges="orientation|screenSize"
