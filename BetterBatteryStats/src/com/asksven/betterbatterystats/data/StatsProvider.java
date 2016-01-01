@@ -1792,10 +1792,10 @@ public class StatsProvider
 				{
 					if (Build.VERSION.SDK_INT > 6)
 					{
-						interactiveTime 			= mStats.getInteractiveTime(batteryRealtime, statsType);
-						powerSaveModeEnabledTime 	= mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType);
-						deviceIdleModeEnabledTime 	= mStats.getDeviceIdleModeEnabledTime(batteryRealtime, statsType);
-						getDeviceIdlingTime 		= mStats.getDeviceIdlingTime(batteryRealtime, statsType);
+						interactiveTime 			= mStats.getInteractiveTime(batteryRealtime, statsType) / 1000;
+						powerSaveModeEnabledTime 	= mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType) / 1000;
+						deviceIdleModeEnabledTime 	= mStats.getDeviceIdleModeEnabledTime(batteryRealtime, statsType) / 1000;
+						getDeviceIdlingTime 		= mStats.getDeviceIdlingTime(batteryRealtime, statsType) / 1000;
 					}
 				}
 				catch (BatteryInfoUnavailableException e)
