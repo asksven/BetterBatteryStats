@@ -206,7 +206,10 @@ public class StatsActivity extends ActionBarListActivity
 		{
         	// attempt to set perms using pm-comand
 			Log.i(TAG, "attempting to grant perms with 'pm grant'");
-            RootShell.getInstance().run("pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS");
+			
+			String pkg = this.getPackageName();
+			RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
+            
             Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
             if (SysUtils.hasBatteryStatsPermission(this))
             {
