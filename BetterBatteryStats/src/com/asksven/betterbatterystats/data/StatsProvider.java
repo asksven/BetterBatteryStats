@@ -2470,7 +2470,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 			
-			if ( RootShell.getInstance().hasRootPermissions() || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
+			if ( SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
 			{
 				try
 				{
@@ -2481,6 +2481,10 @@ public class StatsProvider
 					Log.e(TAG, "An exception occured processing partial wakelocks. Message: " + e.getMessage());
 					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 				}
+			}
+			else
+			{
+				Log.i(TAG, "Skipped getCurrentWakelockStatList: pre-conditions were not met");
 			}
 			
 			try
@@ -2503,7 +2507,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 
-			if ( RootShell.getInstance().hasRootPermissions() || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
+			if ( SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
 			{
 				try
 				{
@@ -2514,6 +2518,10 @@ public class StatsProvider
 					Log.e(TAG, "An exception occured processing processes. Message: " + e.getMessage());
 					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 				}
+			}
+			else
+			{
+				Log.i(TAG, "Skipped getCurrentProcessStatList: pre-conditions were not met");
 			}
 			try
 			{
@@ -2551,20 +2559,23 @@ public class StatsProvider
 					Log.e(TAG, "An exception occured processing network. Message: " + e.getMessage());
 					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 				}
-
-				try
-				{
-					refs.m_refAlarms = getCurrentAlarmsStatList(bFilterStats);
-				}
-				catch (Exception e)
-				{
-					Log.e(TAG, "An exception occured processing alarms. Message: " + e.getMessage());
-					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
-				}
-
-				Log.i(TAG, "Trace: Finished root operations" + DateUtils.now());
-				
 			}
+			else
+			{
+				Log.i(TAG, "Skipped getCurrentNativeNetworkUsageStatList: pre-conditions were not met");
+			}
+
+			try
+			{
+				refs.m_refAlarms = getCurrentAlarmsStatList(bFilterStats);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An exception occured processing alarms. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+			}
+
+			Log.i(TAG, "Trace: Finished root operations" + DateUtils.now());
 		}
 		catch (Exception e)
 		{
@@ -2632,6 +2643,11 @@ public class StatsProvider
 			{
 				refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
 			}
+			else
+			{
+				Log.i(TAG, "Skipped getCurrentWakelockStatList: pre-conditions were not met");
+			}
+			
 			refs.m_refOther 			= getCurrentOtherUsageStatList(bFilterStats, false, false);
 			refs.m_refBatteryRealtime 	= getBatteryRealtime(statsType);
 
