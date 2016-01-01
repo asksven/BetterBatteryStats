@@ -15,11 +15,13 @@
  */
 package com.asksven.betterbatterystats.handlers;
 
+import com.asksven.android.common.RootShell;
 import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WatchdogProcessingService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -46,10 +48,9 @@ public class ScreenEventHandler extends BroadcastReceiver
 		{
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_OFF");
 			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 
 			// if on kitkat make sure that we always collect screen on time: if no root then count the time
-			if ( !rootEnabled && !SysUtils.hasBatteryStatsPermission(context) )
+			if ( !RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(context) )
 			{
 				// total time since boot including time spent in sleep
 				long elapsedRealtime = SystemClock.elapsedRealtime();
@@ -80,10 +81,9 @@ public class ScreenEventHandler extends BroadcastReceiver
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_ON");
 			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);
 			boolean bRunOnUnlock = sharedPrefs.getBoolean("watchdog_on_unlock", false);
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 
 			// if on kitkat make sure that we always collect screen on time: if no root then count the time
-			if ( !rootEnabled && !SysUtils.hasBatteryStatsPermission(context) )
+			if ( !RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(context) )
 			{
 				// total time since boot including time spent in sleep
 				long elapsedRealtime = SystemClock.elapsedRealtime();

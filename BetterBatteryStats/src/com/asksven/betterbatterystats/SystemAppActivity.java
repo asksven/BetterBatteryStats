@@ -23,6 +23,7 @@ import java.security.cert.X509Certificate;
 
 import javax.security.auth.x500.X500Principal;
 
+import com.asksven.android.common.RootShell;
 import com.asksven.android.common.utils.SysUtils;
 import com.asksven.android.common.utils.SystemAppInstaller;
 import com.asksven.android.common.utils.SystemAppInstaller.Status;
@@ -82,9 +83,7 @@ public class SystemAppActivity extends BaseActivity
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
 
-		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-
-		if ( !rootEnabled )
+		if ( !RootShell.getInstance().hasRootPermissions() )
 		{
 			// show message that data is not available
 			// prepare the alert box
@@ -263,11 +262,7 @@ public class SystemAppActivity extends BaseActivity
 
 	void setButtonText(Button button)
 	{
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(this);
-
-		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-		if (!rootEnabled) return;
+		if (!RootShell.getInstance().hasRootPermissions()) return;
 
 		if (SystemAppInstaller.isSystemApp(systemAPKName))
 		{

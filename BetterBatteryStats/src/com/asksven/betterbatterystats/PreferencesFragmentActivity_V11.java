@@ -125,43 +125,6 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 				}
 			}
 
-			if (key.equals("root_features"))
-			{
-				boolean enabled = sharedPreferences.getBoolean(key, false);
-				if (enabled)
-				{
-					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-					builder.setMessage(getString(R.string.message_enable_root))
-							.setCancelable(false)
-							.setPositiveButton(getString(R.string.label_button_yes),
-									new DialogInterface.OnClickListener()
-									{
-										public void onClick(DialogInterface dialog, int id)
-										{
-											RootShell.getInstance().run("ls /");
-										}
-									})
-							.setNegativeButton(getString(R.string.label_button_no),
-									new DialogInterface.OnClickListener()
-									{
-										public void onClick(DialogInterface dialog, int id)
-										{
-											SharedPreferences sharedPrefs = PreferenceManager
-													.getDefaultSharedPreferences(getActivity());
-											SharedPreferences.Editor editor = sharedPrefs.edit();
-											editor.putBoolean("root_features", false);
-											editor.commit();
-											CheckBoxPreference checkboxPref = (CheckBoxPreference) getPreferenceManager()
-													.findPreference("root_features");
-											checkboxPref.setChecked(false);
-
-											dialog.cancel();
-										}
-									});
-					builder.create().show();
-				}
-			}
-
 			if (key.equals("active_mon_enabled"))
 			{
 				boolean enabled = sharedPreferences.getBoolean(key, false);
@@ -191,10 +154,6 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 											SharedPreferences.Editor editor = sharedPrefs.edit();
 											editor.putBoolean("active_mon_enabled", false);
 											editor.commit();
-											CheckBoxPreference checkboxPref = (CheckBoxPreference) getPreferenceManager()
-													.findPreference("root_features");
-											checkboxPref.setChecked(false);
-
 											dialog.cancel();
 										}
 									});

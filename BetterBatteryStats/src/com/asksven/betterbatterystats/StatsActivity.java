@@ -191,18 +191,10 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		
 		// if root is available use it
-		boolean hasRoot = sharedPrefs.getBoolean("root_features", false);
 		boolean ignoreSystemApp = sharedPrefs.getBoolean("ignore_system_app", false);
-		if (!hasRoot && (RootShell.getInstance().hasRootPermissions()))
-		{
-	        SharedPreferences.Editor updater = sharedPrefs.edit();
-	        updater.putBoolean("root_features", true);
-	        updater.commit();
-			hasRoot = sharedPrefs.getBoolean("root_features", false);
-		}
 			
 		// show install as system app screen if root available but perms missing
-		if (!ignoreSystemApp && hasRoot && !SysUtils.hasBatteryStatsPermission(this))
+		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(this))
 		{
         	// attempt to set perms using pm-comand
 			Log.i(TAG, "attempting to grant perms with 'pm grant'");
@@ -222,7 +214,7 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		
 		// show install as system app screen if root available but perms missing
-		if (!ignoreSystemApp && hasRoot && !SysUtils.hasBatteryStatsPermission(this))
+		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(this))
 		{
         	Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
             this.startActivity(intentSystemApp);
@@ -449,11 +441,7 @@ public class StatsActivity extends ActionBarListActivity
         
 		// the service is always started as it handles the widget updates too
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean serviceShouldBeRunning = sharedPrefs.getBoolean("ref_for_screen_off", false);
 		
-		// we need to run the service also if we are on kitkat without root
-		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-
 		// show/hide spinners
 		boolean showSpinners = sharedPrefs.getBoolean("show_from_to_ref", true);
 		if (!showSpinners)
@@ -723,20 +711,6 @@ public class StatsActivity extends ActionBarListActivity
 			{
 				return;
 			}
-
-			// inform the user when he tries to use functions requiring root and he doesn't have root enabled
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-			
-			if (!rootEnabled)
-			{
-				if ((m_iStat == 4) || (m_iStat == 3)) 
-				{
-					Toast.makeText(this,
-							getString(R.string.info_root_required),
-							Toast.LENGTH_LONG).show();
-				}
-			}
-
 		}
 		else
 		{

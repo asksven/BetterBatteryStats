@@ -148,7 +148,7 @@
     <string name="info_uninstalled_system_app">Uninstalled system app: your preferences have been reset. Please reboot to clean up and update your preferences.</string>
     <string name="info_succeeded">Succeeded</string>
     <string name="info_failed">Failed, try recovery ZIP</string>
-    <string name="info_root_required">In order to use this feature \'Root\' Features must be enabled (Advanced Preferences)</string>
+    <string name="info_root_required">In order to use this feature the app must have root permissions</string>
     <string name="info_unknown_state">Error: could not resolve what changed</string>
     <string name="info_service_connection_error">BatteryInfo Service could not be contacted</string>
     <string name="info_loading_refs_error">Selected \'from\' or \'to\' reference could not be loaded. Please refresh</string>
@@ -214,8 +214,6 @@
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Write files to /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Private storage</string>
-    <string name="pref_root_features_summary">Enable network stats and alarms</string>
-    <string name="pref_root_features_title">Root features</string>
     <string name="pref_ignore_system_app_summary">Ignore System App detection (for XPosed Module \'Enable BATTERY_STATS\' users)</string>
     <string name="pref_ignore_system_app_title">Do not detect system app</string>
 
@@ -274,12 +272,12 @@
     
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Device is plugged in: no stats</string>
-    <string name="NO_ROOT_ERR">This stat requires root</string>
+    <string name="NO_ROOT_ERR">This stat requires root permissions</string>
     <string name="NO_PERM_ERR">This stat requires BATTERY_STATS Permission</string>
     <string name="NO_PERM_INFO">Attempting to grant permissions without system app.</string>
     <string name="NO_REF_ERR">No reference set yet</string>
     <string name="NO_STATS">No stats have been collected yet</string>
-	<string name="FILE_ACCESS_ERROR">File could not be read</string>
+	<string name="KWL_ACCESS_ERROR">Kernel Wakelocks could not be accessed, neither by file nor by API</string>
     
 	<!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">Since charged</string>

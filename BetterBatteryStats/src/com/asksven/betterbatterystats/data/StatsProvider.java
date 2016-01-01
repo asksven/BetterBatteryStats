@@ -270,13 +270,13 @@ public class StatsProvider
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
-		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
-		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-		
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
+
+		// stop straight away of root features are disabled
 		// to process alarms we need either root or the perms to access the private API
-		if (!SysUtils.hasBatteryStatsPermission(m_context) || !rootEnabled )
+		if (!permsNotNeeded || !SysUtils.hasBatteryStatsPermission(m_context) || !RootShell.getInstance().hasRootPermissions() )
 		{
 			myStats.add(new Notification(m_context.getString(R.string.NO_PERM_ERR)));
 			return myStats;
@@ -377,7 +377,6 @@ public class StatsProvider
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
-		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
 		ArrayList<StatElement> myAlarms = null;
@@ -401,7 +400,7 @@ public class StatsProvider
 		else
 		{
 			// use root if available as root delivers more data
-			if (rootEnabled && AlarmsDumpsys.alarmsAccessible())
+			if (SysUtils.hasBatteryStatsPermission(m_context) && AlarmsDumpsys.alarmsAccessible())
 			{
 				myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));//, false);			
 			}
@@ -485,10 +484,7 @@ public class StatsProvider
 		if (!(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) )
 		{
 			// stop straight away of root features are disabled
-			
-
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-			if (!rootEnabled)
+			if (!SysUtils.hasBatteryStatsPermission(m_context))
 			{
 				myStats.add(new Notification(m_context.getString(R.string.NO_ROOT_ERR)));
 				return myStats;
@@ -664,8 +660,7 @@ public class StatsProvider
 		if ( !(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) )
 		{
 			// stop straight away of root features are disabled
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-			if (!rootEnabled)
+			if (!SysUtils.hasBatteryStatsPermission(m_context) && !permsNotNeeded)
 			{
 				myStats.add(new Notification(m_context.getString(R.string.NO_ROOT_ERR)));
 				return myStats;
@@ -875,9 +870,14 @@ public class StatsProvider
 			throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
-		if (!(Wakelocks.fileExists() || WakeupSources.fileExists()))
+		
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		
+		if (!(Wakelocks.fileExists() || WakeupSources.fileExists() || permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context)))
 		{
-			myStats.add(new Notification(m_context.getString(R.string.FILE_ACCESS_ERROR)));
+			myStats.add(new Notification(m_context.getString(R.string.KWL_ACCESS_ERROR)));
 			return myStats;
 		}
 		
@@ -993,8 +993,9 @@ public class StatsProvider
 		
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
-
 		
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+
 		if (sharedPrefs.getBoolean("force_kwl_api", false))
 		{
 			Log.i(TAG, "Setting set to force the use of the API for kernel wakelocks");
@@ -1015,24 +1016,53 @@ public class StatsProvider
 		else
 		{
 			// we must support both "old" (/proc/wakelocks) and "new formats
-			if (Wakelocks.fileExists())
+			if (Wakelocks.fileExists() || WakeupSources.fileExists())
 			{
-				myKernelWakelocks = Wakelocks.parseProcWakelocks(m_context);	
-			}
-			else
-			{
-				// check if we have a LG G3 on version 5
-				// Build.VERSION.RELEASE: 5.0
-				// Build.BRAND: lge
-				// Build.DEVICE: g3
-				if ((Build.VERSION.RELEASE.equals("5.0")) && (Build.BRAND.equals("lge")) && (Build.DEVICE.equals("g3")))
+				
+				if (Wakelocks.fileExists())
 				{
-					myKernelWakelocks = WakeupSourcesLgG3.parseWakeupSources(m_context);
+					Log.i(TAG, "Using Wakelocks file");
+					myKernelWakelocks = Wakelocks.parseProcWakelocks(m_context);	
 				}
 				else
 				{
-					myKernelWakelocks = WakeupSources.parseWakeupSources(m_context);
+					Log.i(TAG, "Using Wakeupsources file");
+					// check if we have a LG G3 on version 5
+					// Build.VERSION.RELEASE: 5.0
+					// Build.BRAND: lge
+					// Build.DEVICE: g3
+					if ((Build.VERSION.RELEASE.equals("5.0")) && (Build.BRAND.equals("lge")) && (Build.DEVICE.equals("g3")))
+					{
+						Log.i(TAG, "Using LG G3 specific wakeup sources");
+						myKernelWakelocks = WakeupSourcesLgG3.parseWakeupSources(m_context);
+					}
+					else
+					{
+						myKernelWakelocks = WakeupSources.parseWakeupSources(m_context);
+					}
 				}
+			}
+			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
+			{
+				Log.i(TAG, "Falling back to API");
+				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+				
+				int statsType = 0;
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+				{
+					statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+				}
+				else
+				{
+					statsType = BatteryStatsTypes.STATS_CURRENT;
+				}		
+
+				myKernelWakelocks = mStats.getKernelWakelockStats(m_context, statsType, false);					
+			}
+			else
+			{
+				Log.e(TAG, "Unable to access kernel wakelocks with either method");
+				return myStats;
 			}
 		}		
 		
@@ -1096,12 +1126,8 @@ public class StatsProvider
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();			
 
-		// stop straight away of root features are disabled
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
-
-		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-		if (!rootEnabled)
+		// stop straight away if no root permissions
+		if (!RootShell.getInstance().hasRootPermissions())
 		{
 			myStats.add(new Notification(m_context.getString(R.string.NO_ROOT_ERR)));
 			return myStats;
@@ -1212,8 +1238,7 @@ public class StatsProvider
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
-		boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-		if (!rootEnabled)
+		if (SysUtils.hasBatteryStatsPermission(m_context))
 		{
 			return myStats;
 		}
@@ -1632,27 +1657,16 @@ public class StatsProvider
 
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false); 
 		
-		if ( !SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
+		if ( !SysUtils.hasBatteryStatsPermission(m_context) && !permsNotNeeded)
 		{
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
 
 			long elapsedRealtime = SystemClock.elapsedRealtime();
 			long uptimeMillis = SystemClock.uptimeMillis();
 
-			if ( rootEnabled )
-			{
+			// retrieve screen on time from prefs
+			long screenOnTime = sharedPrefs.getLong("screen_on_counter", 0);
+			myUsages.add(new Misc("Screen On", screenOnTime, elapsedRealtime));
 
-				myUsages = OtherStatsDumpsys.getOtherStats(
-						sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget,
-						sharedPrefs.getBoolean("show_other_bt", true) && !bWidget, !SysUtils.hasDumpsysPermission(m_context));
-			}
-			else
-			{
-				// retrieve screen on time from prefs
-				long screenOnTime = sharedPrefs.getLong("screen_on_counter", 0);
-				myUsages.add(new Misc("Screen On", screenOnTime, elapsedRealtime));
-
-			}
 			// basic fonctionality
 			// elapsedRealtime(): Returns milliseconds since boot, including time spent in sleep.
 			// uptimeMillis(): Returns milliseconds since boot, not counting time spent in deep sleep.
@@ -2435,9 +2449,6 @@ public class StatsProvider
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
 		int iPctType = 0;
 
-		boolean rootEnabled = sharedPrefs
-				.getBoolean("root_features", false);
-
 		try
 		{
 			refs.m_refOther = null;
@@ -2459,7 +2470,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 			
-			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
+			if ( RootShell.getInstance().hasRootPermissions() || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
 			{
 				try
 				{
@@ -2492,7 +2503,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 
-			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
+			if ( RootShell.getInstance().hasRootPermissions() || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
 			{
 				try
 				{
@@ -2526,7 +2537,7 @@ public class StatsProvider
 				refs.m_refBatteryVoltage = 0;
 			}
 
-			if (rootEnabled)
+			if (RootShell.getInstance().hasRootPermissions())
 			{
 				// After that we go on and try to write the rest. If this part
 				// fails at least there will be a partial ref saved
@@ -2607,9 +2618,6 @@ public class StatsProvider
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		int iPctType = 0;
 
-		boolean rootEnabled = sharedPrefs
-				.getBoolean("root_features", false);
-
 		try
 		{
 			refs.m_refOther 			= null;
@@ -2620,7 +2628,7 @@ public class StatsProvider
 			refs.m_refCpuStates 		= null;
 
 			refs.m_refKernelWakelocks 	= getCurrentNativeKernelWakelockStatList(bFilterStats, iPctType, iSort);
-			if ( rootEnabled || SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded )
+			if ( SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded )
 			{
 				refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
 			}

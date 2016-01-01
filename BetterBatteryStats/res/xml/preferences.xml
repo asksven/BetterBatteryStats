@@ -346,12 +346,6 @@
                 android:title="@string/pref_files_to_private_storage_title" />
             <CheckBoxPreference
                 android:defaultValue="false"
-                android:key="root_features"
-                android:summary="@string/pref_root_features_summary"
-                android:title="@string/pref_root_features_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:dependency="root_features"
                 android:key="ignore_system_app"
                 android:summary="@string/pref_ignore_system_app_summary"
                 android:title="@string/pref_ignore_system_app_title" />

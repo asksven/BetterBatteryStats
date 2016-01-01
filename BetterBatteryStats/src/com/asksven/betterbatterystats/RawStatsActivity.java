@@ -193,20 +193,6 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 			{
 				return;
 			}
-
-			// inform the user when he tries to use functions requiring root and he doesn't have root enabled
-			boolean rootEnabled = sharedPrefs.getBoolean("root_features", false);
-			
-			if (!rootEnabled)
-			{
-				if ((m_iStat == 4) || (m_iStat == 3)) 
-				{
-					Toast.makeText(this,
-							getString(R.string.info_root_required),
-							Toast.LENGTH_LONG).show();
-				}
-			}
-
 		}
 		else
 		{
