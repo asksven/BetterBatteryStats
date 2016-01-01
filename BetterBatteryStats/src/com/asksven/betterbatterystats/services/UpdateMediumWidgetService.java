@@ -130,7 +130,7 @@ public class UpdateMediumWidgetService extends Service
 					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, fromRef, 0, 0, currentRef);
 					sumPWakelocks = stats.sum(pWakelockStats);
 	
-					ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, fromRef, 0, 0, currentRef);
+					ArrayList<StatElement> kWakelockStats = stats.getKernelWakelockStatList(true, fromRef, 0, 0, currentRef);
 					sumKWakelocks = stats.sum(kWakelockStats);
 	
 					Misc deepSleepStat = ((Misc) stats.getElementByKey(otherStats, "Deep Sleep"));

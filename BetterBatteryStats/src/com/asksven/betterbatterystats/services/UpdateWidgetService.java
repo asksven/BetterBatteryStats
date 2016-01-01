@@ -191,7 +191,7 @@ public class UpdateWidgetService extends Service
 					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, fromRef, 0, 0, currentRef);
 					timePWL = stats.sum(pWakelockStats);
 	
-					ArrayList<StatElement> kWakelockStats = stats.getNativeKernelWakelockStatList(true, fromRef, 0, 0, currentRef);
+					ArrayList<StatElement> kWakelockStats = stats.getKernelWakelockStatList(true, fromRef, 0, 0, currentRef);
 					timeKWL = stats.sum(kWakelockStats);
 				}
 				else

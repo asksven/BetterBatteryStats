@@ -216,7 +216,7 @@ public class Reading implements Serializable
 				}
 			}
 
-			tempStats = StatsProvider.getInstance(context).getNativeKernelWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
+			tempStats = StatsProvider.getInstance(context).getKernelWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
@@ -264,7 +264,7 @@ public class Reading implements Serializable
 				}
 			}
 			
-			tempStats = StatsProvider.getInstance(context).getNativeNetworkUsageStatList(bFilterStats, refFrom, refTo);
+			tempStats = StatsProvider.getInstance(context).getNetworkUsageStatList(bFilterStats, refFrom, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)

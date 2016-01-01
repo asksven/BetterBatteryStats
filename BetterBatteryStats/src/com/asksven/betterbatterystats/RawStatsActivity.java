@@ -235,7 +235,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 						stats = provider.getCurrentOtherUsageStatList(true, false, false);
 						break;
 					case 1:
-						stats = provider.getCurrentNativeKernelWakelockStatList(false, 0, 0);
+						stats = provider.getCurrentKernelWakelockStatList(false, 0, 0);
 						break;
 					case 2:
 						stats = provider.getCurrentWakelockStatList(false, 0, 0);
@@ -244,7 +244,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 						stats = provider.getCurrentAlarmsStatList(false);
 						break;
 					case 4:
-						stats = provider.getCurrentNativeNetworkUsageStatList(false);
+						stats = provider.getCurrentNetworkUsageStatList(false);
 						break;
 					case 5:
 						stats = provider.getCurrentCpuStateList(false);

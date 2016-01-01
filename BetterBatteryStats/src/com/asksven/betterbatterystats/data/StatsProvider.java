@@ -178,14 +178,14 @@ public class StatsProvider
 		case 0:
 			return getOtherUsageStatList(bFilterStats, refFrom, true, false, refTo);
 		case 1:
-			return getNativeKernelWakelockStatList(bFilterStats, refFrom,
+			return getKernelWakelockStatList(bFilterStats, refFrom,
 					iPctType, iSort, refTo);
 		case 2:
 			return getWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
 		case 3:
 			return getAlarmsStatList(bFilterStats, refFrom, refTo);
 		case 4:
-			return getNativeNetworkUsageStatList(bFilterStats, refFrom, refTo);
+			return getNetworkUsageStatList(bFilterStats, refFrom, refTo);
 		case 5:
 			return getCpuStateList(refFrom, refTo, bFilterStats);
 		case 6:
@@ -865,7 +865,7 @@ public class StatsProvider
 	 * @throws Exception
 	 *             if the API call failed
 	 */
-	public ArrayList<StatElement> getNativeKernelWakelockStatList(
+	public ArrayList<StatElement> getKernelWakelockStatList(
 			boolean bFilter, Reference refFrom, int iPctType, int iSort, Reference refTo)
 			throws Exception
 	{
@@ -985,7 +985,7 @@ public class StatsProvider
 		return myStats;
 	}
 
-	public ArrayList<StatElement> getCurrentNativeKernelWakelockStatList(boolean bFilter, int iPctType, int iSort)
+	public ArrayList<StatElement> getCurrentKernelWakelockStatList(boolean bFilter, int iPctType, int iSort)
 			throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
@@ -1121,20 +1121,22 @@ public class StatsProvider
 	 * @throws Exception
 	 *             if the API call failed
 	 */
-	public ArrayList<StatElement> getNativeNetworkUsageStatList(
+	public ArrayList<StatElement> getNetworkUsageStatList(
 			boolean bFilter, Reference refFrom, Reference refTo) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();			
 
-		// stop straight away if no root permissions
-		if (!RootShell.getInstance().hasRootPermissions())
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		
+		// stop straight away if no root permissions or no perms to access data directly
+		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context) || RootShell.getInstance().hasRootPermissions()) )
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_ROOT_ERR)));
+			myStats.add(new Notification(m_context.getString(R.string.NO_PERM_ERR)));
 			return myStats;
 		}
 
-		
-		
 		if ((refFrom == null) || (refTo == null))
 		{
 				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
@@ -1231,28 +1233,68 @@ public class StatsProvider
 		return myStats;
 	}
 
-	public ArrayList<StatElement> getCurrentNativeNetworkUsageStatList(boolean bFilter) throws Exception
+	public ArrayList<StatElement> getCurrentNetworkUsageStatList(boolean bFilter) throws Exception
 	{
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
-		if (SysUtils.hasBatteryStatsPermission(m_context))
-		{
-			return myStats;
-		}
+		
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 
 		ArrayList<StatElement> myNetworkStats = null;
+
+		if (sharedPrefs.getBoolean("force_network_api", false))
+		{
+			Log.i(TAG, "Setting set to force the use of the API for kernel wakelocks");
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+			
+			int statsType = 0;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			{
+				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+			}
+			else
+			{
+				statsType = BatteryStatsTypes.STATS_CURRENT;
+			}		
+
+			myNetworkStats = mStats.getNetworkUsageStats(m_context, statsType);
+		}
+		else
+		{
+			if (Netstats.fileExists() && RootShell.getInstance().hasRootPermissions())
+			{
+				myNetworkStats = Netstats.parseNetstats();
+				
+			}
+			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
+			{
+				Log.i(TAG, "Falling back to API");
+				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+				
+				int statsType = 0;
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+				{
+					statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+				}
+				else
+				{
+					statsType = BatteryStatsTypes.STATS_CURRENT;
+				}		
+
+				myNetworkStats = mStats.getNetworkUsageStats(m_context, statsType);					
+			}
+			else
+			{
+				Log.e(TAG, "Unable to access kernel wakelocks with either method");
+				return myStats;
+			}
+		}		
 		
-		myNetworkStats = Netstats.parseNetstats();
-
+///////////////////////////////////////////
 		ArrayList<NetworkUsage> myRetNetworkStats = new ArrayList<NetworkUsage>();
-		// if we are using custom ref. always retrieve "stats current"
-
-		// sort @see
-		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-//		Collections.sort(myNetworkStats);
 
 
 		for (int i = 0; i < myNetworkStats.size(); i++)
@@ -2567,7 +2609,7 @@ public class StatsProvider
 
 			try
 			{
-				refs.m_refKernelWakelocks = getCurrentNativeKernelWakelockStatList(bFilterStats, iPctType, iSort);
+				refs.m_refKernelWakelocks = getCurrentKernelWakelockStatList(bFilterStats, iPctType, iSort);
 			}
 			catch (Exception e)
 			{
@@ -2657,7 +2699,7 @@ public class StatsProvider
 				Log.i(TAG, "Trace: Calling root operations" + DateUtils.now());
 				try
 				{
-					refs.m_refNetworkStats = getCurrentNativeNetworkUsageStatList(bFilterStats);
+					refs.m_refNetworkStats = getCurrentNetworkUsageStatList(bFilterStats);
 				}
 				catch (Exception e)
 				{
@@ -2743,7 +2785,7 @@ public class StatsProvider
 			refs.m_refProcesses 		= null;
 			refs.m_refCpuStates 		= null;
 
-			refs.m_refKernelWakelocks 	= getCurrentNativeKernelWakelockStatList(bFilterStats, iPctType, iSort);
+			refs.m_refKernelWakelocks 	= getCurrentKernelWakelockStatList(bFilterStats, iPctType, iSort);
 			if ( SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded )
 			{
 				refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
