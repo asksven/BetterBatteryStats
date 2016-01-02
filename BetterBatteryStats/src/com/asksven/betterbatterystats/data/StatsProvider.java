@@ -108,6 +108,7 @@ public class StatsProvider
 
 	/** the logger tag */
 	static String TAG = "StatsProvider";
+	static String TAG_TEST = "StatsProviderTestSuite";
 
 	/**
 	 * The constructor (hidden)
@@ -3393,5 +3394,83 @@ public class StatsProvider
 		}
 		
 		return alarmUp;
+	}
+	
+	public static void testAPI()
+	{
+		 
+		// test against BatteryStatsProxy
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+		
+		long rawRealtime = SystemClock.elapsedRealtime() * 1000; 	
+		long batteryRealtime = 0;
+		Long res = 0L;
+		try
+		{
+			batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
+			if (batteryRealtime > 0)
+			{
+				Log.i(TAG_TEST, "Passed: getBatteryRealtime");
+			}
+			else
+			{
+				Log.e(TAG_TEST, "FAILED: getBatteryRealtime");
+			}
+			
+			if (Build.VERSION.SDK_INT < 6)
+			{
+				res = mStats.getBluetoothOnTime(batteryRealtime, getStatsType());
+				if (res > 0)
+				{
+					Log.i(TAG_TEST, "Passed: getBluetoothOnTime");
+				}
+				else
+				{
+					Log.e(TAG_TEST, "FAILED: getBluetoothOnTime");
+				}
+			}
+			
+			res = mStats.getSensorOnTime(m_context, batteryRealtime, getStatsType());
+			if (res > 0)
+			{
+				Log.i(TAG_TEST, "Passed: getSensorOnTime");
+			}
+			else
+			{
+				Log.e(TAG_TEST, "FAILED: getSensorOnTime");
+			}
+			
+			if (Build.VERSION.SDK_INT >= 6)
+			{	
+				res = mStats.getSyncOnTime(m_context, batteryRealtime, getStatsType());
+				if (res > 0)
+				{
+					Log.i(TAG_TEST, "Passed: getSyncOnTime");
+				}
+				else
+				{
+					Log.e(TAG_TEST, "FAILED: getSyncOnTime");
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG_TEST, "Test threw exception: " + e.getMessage());			
+		}		
+	}
+
+	private static int getStatsType()
+	{
+		int statsType = 0;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+		}
+		else
+		{
+			statsType = BatteryStatsTypes.STATS_CURRENT;
+		}		
+		
+		return statsType;
 	}
 }

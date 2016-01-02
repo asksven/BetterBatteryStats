@@ -16,6 +16,7 @@
 package com.asksven.betterbatterystats;
 
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.data.StatsProvider;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -87,6 +88,14 @@ public class AboutActivity extends BaseActivity
             public void onClick(View v)
             {
                 openURL(TWITTER_LINK);
+            }
+        });
+        final Button buttonTest = (Button) findViewById(R.id.buttonTest);
+        buttonTest.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                StatsProvider.getInstance(AboutActivity.this).testAPI();
             }
         });
 
