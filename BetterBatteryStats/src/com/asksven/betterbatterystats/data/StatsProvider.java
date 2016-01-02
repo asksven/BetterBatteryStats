@@ -1850,6 +1850,21 @@ public class StatsProvider
 	
 			}
 
+			long sensorTime = 0;
+			long syncTime = 0;
+			try
+			{
+				if (Build.VERSION.SDK_INT > 6)
+				{
+					sensorTime 	= mStats.getSensorOnTime(m_context, batteryRealtime, statsType) / 1000;
+					syncTime 	= mStats.getSyncOnTime(m_context, batteryRealtime, statsType) / 1000;
+				}
+			}
+			catch (BatteryInfoUnavailableException e)
+			{
+				Log.e(TAG, "A batteryinfo error occured while retrieving sensor and sync stats");
+			}
+
 			long timeNoDataConnection = 0;
 			long timeSignalNone = 0;
 			long timeSignalPoor = 0;
@@ -2045,6 +2060,17 @@ public class StatsProvider
 				{
 					myUsages.add(new Misc("Doze Idling Time", getDeviceIdlingTime, elaspedRealtime));
 				}
+				
+				if (syncTime > 0)
+				{
+					myUsages.add(new Misc("Sync", syncTime, elaspedRealtime));
+				}
+				
+				if (sensorTime > 0)
+				{
+					myUsages.add(new Misc("Sensors", sensorTime, elaspedRealtime));
+				}
+
 			}
 	
 			if ((timeNoDataConnection > 0)
