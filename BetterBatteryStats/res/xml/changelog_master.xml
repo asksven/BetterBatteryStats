@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-
+    <release version="2.2.0.0B3" versioncode="75">
+        <change>Doze mode stats are microsoeconds instead of milliseconds</change>
+        <change>Network stats now also available for non-rooted devices (when system app in installed)</change>
+        <change>Added sensor and sync time to other stats</change>
+    </release>
+    
     <release version="2.2.0.0B2" versioncode="74">
         <change>Added more detailed BT stats for Marshmallow</change>
         <change>Fix for stats not showing when app has no root but batterystats perms</change>
