@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.2.0.0B4" versioncode="76">
+        <change>Introduced Snackbar instead of Toasts</change>
+        <change>Fixed more issues related to non-rooted devices (when system app in installed)</change>
+        <change>Fixed widget layouts for RTL languages</change>
+    </release>
+    
     <release version="2.2.0.0B3" versioncode="75">
         <change>Doze mode stats are microsoeconds instead of milliseconds</change>
         <change>Network stats now also available for non-rooted devices (when system app in installed)</change>
