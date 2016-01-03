@@ -41,6 +41,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -188,7 +189,10 @@ public class SystemAppActivity extends BaseActivity
 				
 					if (status.getSuccess())
 					{
-						Toast.makeText(SystemAppActivity.this, getString(R.string.info_succeeded), Toast.LENGTH_LONG).show();
+						Snackbar
+						  .make(findViewById(android.R.id.content), R.string.info_succeeded, Snackbar.LENGTH_LONG)
+						  .show();
+//						Toast.makeText(SystemAppActivity.this, getString(R.string.info_succeeded), Toast.LENGTH_LONG).show();
 						// prepare the alert box
 			            AlertDialog.Builder alertbox = new AlertDialog.Builder(SystemAppActivity.this);
 			 
@@ -218,14 +222,20 @@ public class SystemAppActivity extends BaseActivity
 					}
 					else
 					{
-						Toast.makeText(SystemAppActivity.this, getString(R.string.info_failed), Toast.LENGTH_LONG).show();
+						Snackbar
+						  .make(findViewById(android.R.id.content), R.string.info_failed, Snackbar.LENGTH_LONG)
+						  .show();
+//						Toast.makeText(SystemAppActivity.this, getString(R.string.info_failed), Toast.LENGTH_LONG).show();
 						Log.e(TAG,"History: " + status.toString());
 					}						
 				}
 				catch (Exception e)
 				{
 					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
-					Toast.makeText(SystemAppActivity.this, getString(R.string.info_failed), Toast.LENGTH_LONG).show();
+					Snackbar
+					  .make(findViewById(android.R.id.content), R.string.info_failed, Snackbar.LENGTH_LONG)
+					  .show();
+//					Toast.makeText(SystemAppActivity.this, getString(R.string.info_failed), Toast.LENGTH_LONG).show();
 				}
 				
 				// refresh status of button

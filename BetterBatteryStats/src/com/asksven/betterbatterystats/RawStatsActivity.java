@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -301,16 +302,23 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 	    	{
 	    		if (m_exception instanceof BatteryInfoUnavailableException)
 	    		{
-	    			Toast.makeText(RawStatsActivity.this,
-	    					getString(R.string.info_service_connection_error),
-	    					Toast.LENGTH_LONG).show();
+	    			Snackbar
+					  .make(findViewById(android.R.id.content), R.string.info_service_connection_error, Snackbar.LENGTH_LONG)
+					  .show();
+//	    			Toast.makeText(RawStatsActivity.this,
+//	    					getString(R.string.info_service_connection_error),
+//	    					Toast.LENGTH_LONG).show();
 
 	    		}
 	    		else
 	    		{
-	    			Toast.makeText(RawStatsActivity.this,
-	    					getString(R.string.info_unknown_stat_error),
-	    					Toast.LENGTH_LONG).show();
+	    			Snackbar
+					  .make(findViewById(android.R.id.content), R.string.info_unknown_stat_error, Snackbar.LENGTH_LONG)
+					  .show();
+//
+//	    			Toast.makeText(RawStatsActivity.this,
+//	    					getString(R.string.info_unknown_stat_error),
+//	    					Toast.LENGTH_LONG).show();
 	    			
 	    		}
 	    	}

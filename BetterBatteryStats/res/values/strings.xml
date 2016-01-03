@@ -157,6 +157,9 @@
     <string name="info_pref_export_success">Preferences were saved to %s</string>
     <string name="info_pref_import_success">Preferences were imported from %s</string>
     <string name="info_pref_import_export_failed">The operation failed</string>
+    <string name="info_files_written">Files were written</string>
+    <string name="info_files_write_error">An error occured</string>
+    
     
     <string name="info_deleting_refs">Deleting and re-creating references</string>
     <string name="info_fallback_to_boot">Fallback to \'Since Boot\'</string>

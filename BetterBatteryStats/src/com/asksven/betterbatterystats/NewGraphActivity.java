@@ -26,6 +26,7 @@ import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -124,7 +125,10 @@ public class NewGraphActivity extends ActionBarListActivity
 	{
 		if (AndroidVersion.isFroyo())
 		{
-			Toast.makeText(this, getString(R.string.message_no_hist_froyo), Toast.LENGTH_SHORT).show();
+			Snackbar
+			  .make(findViewById(android.R.id.content), R.string.message_no_hist_froyo, Snackbar.LENGTH_LONG)
+			  .show();
+//			Toast.makeText(this, getString(R.string.message_no_hist_froyo), Toast.LENGTH_SHORT).show();
 		}
 		ArrayList<HistoryItem> myRet = new ArrayList<HistoryItem>();
 

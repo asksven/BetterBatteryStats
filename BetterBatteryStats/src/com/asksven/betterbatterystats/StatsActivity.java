@@ -41,6 +41,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -50,6 +51,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -348,11 +350,13 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		catch (BatteryInfoUnavailableException e)
 		{
-//			Log.e(TAG, e.getMessage(), e.fillInStackTrace());
 			Log.e(TAG, "Exception: "+Log.getStackTraceString(e));
-			Toast.makeText(this,
-					getString(R.string.info_service_connection_error),
-					Toast.LENGTH_LONG).show();
+			Snackbar
+			  .make(findViewById(android.R.id.content), R.string.info_service_connection_error, Snackbar.LENGTH_LONG)
+			  .show();
+//			Toast.makeText(this,
+//					getString(R.string.info_service_connection_error),
+//					Toast.LENGTH_LONG).show();
 			
 		}
 		catch (Exception e)
@@ -607,21 +611,7 @@ public class StatsActivity extends ActionBarListActivity
             	Intent intentAbout = new Intent(this, AboutActivity.class);
                 this.startActivity(intentAbout);
             	break;
-//            case R.id.getting_started:
-//            	// Help
-//            	Intent intentHelp = new Intent(this, HelpActivity.class);
-//            	intentHelp.putExtra("filename", "help.html");
-//            	intentHelp.putExtra("title", getString(R.string.label_help));
-//                this.startActivity(intentHelp);
-//            	break;	
-//
-//            case R.id.howto:
-//            	// How To
-//            	Intent intentHowTo = new Intent(this, HelpActivity.class);
-//            	intentHowTo.putExtra("filename", "howto.html");
-//            	intentHowTo.putExtra("title", getString(R.string.label_howto));
-//                this.startActivity(intentHowTo);
-//            	break;	
+
             case R.id.help:
             	String url = "http://better.asksven.org/bbs-help/";
             	Intent i = new Intent(Intent.ACTION_VIEW);
@@ -938,16 +928,22 @@ public class StatsActivity extends ActionBarListActivity
 	    	{
 	    		if (m_exception instanceof BatteryInfoUnavailableException)
 	    		{
-	    			Toast.makeText(StatsActivity.this,
-	    					getString(R.string.info_service_connection_error),
-	    					Toast.LENGTH_LONG).show();
+	    			Snackbar
+		  			  .make(findViewById(android.R.id.content), R.string.info_service_connection_error, Snackbar.LENGTH_LONG)
+		  			  .show();
+//	    			Toast.makeText(StatsActivity.this,
+//	    					getString(R.string.info_service_connection_error),
+//	    					Toast.LENGTH_LONG).show();
 
 	    		}
 	    		else
 	    		{
-	    			Toast.makeText(StatsActivity.this,
-	    					getString(R.string.info_unknown_stat_error),
-	    					Toast.LENGTH_LONG).show();
+	    			Snackbar
+		  			  .make(findViewById(android.R.id.content), R.string.info_unknown_stat_error, Snackbar.LENGTH_LONG)
+		  			  .show();
+//	    			Toast.makeText(StatsActivity.this,
+//	    					getString(R.string.info_unknown_stat_error),
+//	    					Toast.LENGTH_LONG).show();
 	    			
 	    		}
 	    	}
@@ -1043,6 +1039,8 @@ public class StatsActivity extends ActionBarListActivity
 	{
 	
 		final ArrayList<Integer> selectedSaveActions = new ArrayList<Integer>();
+		final EditText editDescription = new EditText(StatsActivity.this);
+		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -1089,6 +1087,7 @@ public class StatsActivity extends ActionBarListActivity
 						}
 					}
 				})
+				.setView(editDescription)
 				// Set the action buttons
 				.setPositiveButton(R.string.label_button_share, new DialogInterface.OnClickListener()
 				{
@@ -1140,31 +1139,44 @@ public class StatsActivity extends ActionBarListActivity
 					public void onClick(DialogInterface dialog, int id)
 					{
 
-		            	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
-			    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
-
-			    		Reading reading = new Reading(StatsActivity.this, myReferenceFrom, myReferenceTo);
-
-						// save as text is selected
-						// save as text is selected
-						if (selectedSaveActions.contains(0))
+						try
 						{
-							reading.writeToFileText(StatsActivity.this);
+			            	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
+				    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
+	
+				    		Reading reading = new Reading(StatsActivity.this, myReferenceFrom, myReferenceTo);
+	
+							// save as text is selected
+							if (selectedSaveActions.contains(0))
+							{
+								reading.writeToFileText(StatsActivity.this);
+							}
+							// save as JSON if selected
+							if (selectedSaveActions.contains(1))
+							{
+								reading.writeToFileJson(StatsActivity.this);
+							}
+							// save logcat if selected
+							if (selectedSaveActions.contains(2))
+							{
+								StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile();
+							}
+							// save dmesg if selected
+							if (selectedSaveActions.contains(3))
+							{
+								StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile();
+							}
+						
+							Snackbar
+							  .make(findViewById(android.R.id.content), R.string.info_files_written, Snackbar.LENGTH_LONG)
+							  .show();
 						}
-						// save as JSON if selected
-						if (selectedSaveActions.contains(1))
+						catch (Exception e)
 						{
-							reading.writeToFileJson(StatsActivity.this);
-						}
-						// save logcat if selected
-						if (selectedSaveActions.contains(2))
-						{
-							StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile();
-						}
-						// save dmesg if selected
-						if (selectedSaveActions.contains(3))
-						{
-							StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile();
+							Log.e(TAG, "an error occured writing files: " + e.getMessage());
+							Snackbar
+							  .make(findViewById(android.R.id.content), R.string.info_files_write_error, Snackbar.LENGTH_LONG)
+							  .show();
 						}
 						
 					}

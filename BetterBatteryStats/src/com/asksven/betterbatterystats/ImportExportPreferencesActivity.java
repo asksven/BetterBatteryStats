@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -62,13 +63,19 @@ public class ImportExportPreferencesActivity extends BaseActivity
 						.getDefaultSharedPreferences(ImportExportPreferencesActivity.this);
 				if (SharedPreferencesUtils.saveSharedPreferencesToFile(sharedPrefs, BACKUP_FILE))
 				{
-					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_export_success, BACKUP_FILE),
-							Toast.LENGTH_SHORT).show();
+					Snackbar
+					  .make(findViewById(android.R.id.content), getString(R.string.info_pref_export_success, BACKUP_FILE), Snackbar.LENGTH_LONG)
+					  .show();
+//					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_export_success, BACKUP_FILE),
+//							Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
-					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_import_export_failed),
-							Toast.LENGTH_SHORT).show();
+					Snackbar
+					  .make(findViewById(android.R.id.content), R.string.info_pref_import_export_failed, Snackbar.LENGTH_LONG)
+					  .show();
+//					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_import_export_failed),
+//							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -80,8 +87,12 @@ public class ImportExportPreferencesActivity extends BaseActivity
 						.getDefaultSharedPreferences(ImportExportPreferencesActivity.this);
 				if (SharedPreferencesUtils.loadSharedPreferencesFromFile(sharedPrefs, BACKUP_FILE))
 				{
-					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_import_success),
-							Toast.LENGTH_SHORT).show();
+					Snackbar
+					  .make(findViewById(android.R.id.content), R.string.info_pref_import_success, Snackbar.LENGTH_LONG)
+					  .show();
+
+//					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_import_success),
+//							Toast.LENGTH_SHORT).show();
 					// restart
 		        	Intent i = ImportExportPreferencesActivity.this.getBaseContext().getPackageManager()
 		                    .getLaunchIntentForPackage( ImportExportPreferencesActivity.this.getBaseContext().getPackageName() );
@@ -90,8 +101,12 @@ public class ImportExportPreferencesActivity extends BaseActivity
 				}
 				else
 				{
-					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_import_export_failed, BACKUP_FILE),
-							Toast.LENGTH_SHORT).show();
+					Snackbar
+					  .make(findViewById(android.R.id.content), getString(R.string.info_pref_import_export_failed, BACKUP_FILE), Snackbar.LENGTH_LONG)
+					  .show();
+					
+//					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_import_export_failed, BACKUP_FILE),
+//							Toast.LENGTH_SHORT).show();
 				}
 
 			}
