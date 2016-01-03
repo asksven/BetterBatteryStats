@@ -2719,24 +2719,17 @@ public class StatsProvider
 				refs.m_refBatteryVoltage = 0;
 			}
 
-			if (RootShell.getInstance().hasRootPermissions())
+			// After that we go on and try to write the rest. If this part
+			// fails at least there will be a partial ref saved
+			Log.i(TAG, "Trace: Calling root operations" + DateUtils.now());
+			try
 			{
-				// After that we go on and try to write the rest. If this part
-				// fails at least there will be a partial ref saved
-				Log.i(TAG, "Trace: Calling root operations" + DateUtils.now());
-				try
-				{
-					refs.m_refNetworkStats = getCurrentNetworkUsageStatList(bFilterStats);
-				}
-				catch (Exception e)
-				{
-					Log.e(TAG, "An exception occured processing network. Message: " + e.getMessage());
-					Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
-				}
+				refs.m_refNetworkStats = getCurrentNetworkUsageStatList(bFilterStats);
 			}
-			else
+			catch (Exception e)
 			{
-				Log.i(TAG, "Skipped getCurrentNativeNetworkUsageStatList: pre-conditions were not met");
+				Log.e(TAG, "An exception occured processing network. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 
 			try
@@ -2906,31 +2899,6 @@ public class StatsProvider
 		return whichRealtime;
 	}
 
-//	/**
-//	 * Returns the battery realtime since a given reference
-//	 * 
-//	 * @param iStatType
-//	 *            the reference
-//	 * @return the battery realtime
-//	 */
-//	public boolean getIsCharging() throws BatteryInfoUnavailableException
-//	{
-//		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
-//		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-//		
-//		if (!(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) ) return false;
-//		
-//		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
-//
-//		if (mStats == null)
-//		{
-//			// an error has occured
-//			return false;
-//		}
-//		
-//		return !mStats.getIsOnBattery(m_context);
-//	}
-	
 	public static boolean getIsCharging(Context context)
 	{
 	    boolean isPlugged= false;
@@ -2997,10 +2965,8 @@ public class StatsProvider
 				
 				// workaround: force mediascanner to run
 				DataStorage.forceMediaScanner(m_context, fileUri);
-
-//				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
-
-			} else
+			}
+			else
 			{
 				Log.i(TAG,
 						"Write error. "
