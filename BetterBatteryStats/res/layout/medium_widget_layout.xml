@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:layout_margin="0dip"
     android:background="@drawable/large_widget_shape"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layoutDirection="ltr">
 
     <TextView
         android:id="@+id/stat_type"
