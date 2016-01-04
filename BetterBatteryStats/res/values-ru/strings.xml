@@ -148,7 +148,7 @@
     <string name="info_uninstalled_system_app">Удалено системное приложение: Ваши настройки сброшены. Пожалуйста, перезагрузите устройство для очистки и обновления настроек.</string>
     <string name="info_succeeded">Успешно</string>
     <string name="info_failed">Сбой</string>
-    <string name="info_root_required">Для использования данного параметра должны быть включены рут-функции (дополнительные настройки)</string>
+    <string name="info_root_required">Для использования данного параметра приложение должно иметь рут-разрешения</string>
     <string name="info_unknown_state">Ошибка: невозможно определить изменение</string>
     <string name="info_service_connection_error">Нет связи со службой информации батареи</string>
     <string name="info_loading_refs_error">Выбранные метки \'от\' или \'до\' не могут быть загружены. Пожалуйста, обновите</string>
@@ -157,6 +157,10 @@
     <string name="info_pref_export_success">Настройки были сохранены в %s</string>
     <string name="info_pref_import_success">Настройки были импортированы из %s</string>
     <string name="info_pref_import_export_failed">Сбой операции</string>
+    
+    <string name="info_files_written">Запись файлов выполнена</string>
+    <string name="info_files_write_error">Произошла ошибка</string>
+    
     
     <string name="info_deleting_refs">Удаление и повторное создание меток</string>
     <string name="info_fallback_to_boot">Сброс к \'От загрузки\'</string>
@@ -187,6 +191,9 @@
     <string name="pref_show_other_connection_summary">Показать значения соединения</string>
     <string name="pref_show_other_bt_title">Показать Bluetooth</string>
     <string name="pref_show_other_bt_summary">Показать значения Bluetooth</string>
+    <string name="pref_show_other_doze_title">Показать режим Doze</string>
+    <string name="pref_show_other_doze_summary">Показать значения Doze</string>
+    
     <string name="pref_section_defaults">Умолчания</string>
     <string name="pref_default_stat_title">Статистика по умолчанию</string>
     <string name="pref_default_stat_summary">Установить статистику, которая будет отображаться после запуска приложения</string>
@@ -214,8 +221,6 @@
     <string name="pref_debug_logging_title">Отладка</string>
     <string name="pref_files_to_private_storage_summary">Записывать файлы в /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Частное хранилище</string>
-    <string name="pref_root_features_summary">Включить статистику сети и сигналов</string>
-    <string name="pref_root_features_title">Рут-функции</string>
     <string name="pref_ignore_system_app_summary">Игнорировать обнаружение системного приложения (для пользователей модуля XPosed \'Enable BATTERY_STATS\')</string>
     <string name="pref_ignore_system_app_title">Не обнаруживать системное</string>
     
@@ -237,6 +242,8 @@
     <string name="pref_force_alarms_api_summary">Принудительное использование API для получения сигналов</string>
     <string name="pref_force_kwl_api_title">Вэйклоки ядра с API</string>
     <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
+    <string name="pref_force_network_api_title">Статистика сети с API</string>
+    <string name="pref_force_network_api_summary">Принудительное использование API для получения статистики сети</string>
     <string name="pref_screen_system_app_title">Системное</string>
     <string name="pref_screen_system_app_summary">Установить как системное приложение</string>
     <string name="pref_screen_import_export_title">Импорт/экспорт</string>
@@ -274,12 +281,12 @@
 	
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Устройство подключено к ЗУ: нет статистики</string>
-    <string name="NO_ROOT_ERR">Для данной статистики требуется рут-доступ</string>
+    <string name="NO_ROOT_ERR">Для данной статистики требуется разрешение рут</string>
     <string name="NO_PERM_ERR">Для данной статистики требуется разрешение BATTERY_STATS</string>
     <string name="NO_PERM_INFO">Попытка предоставления разрешений без системного приложения</string>
     <string name="NO_REF_ERR">Метки ещё не установлено</string>
     <string name="NO_STATS">Статистика ещё не собрана</string>
-    <string name="FILE_ACCESS_ERROR">Файл невозможно прочитать</string>
+    <string name="KWL_ACCESS_ERROR">Нет доступа к вэйклокам ядра, ни через файл, ни через API</string>
     
     <!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">От заряжено</string>
