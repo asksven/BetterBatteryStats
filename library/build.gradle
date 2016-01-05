@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+/*
+ * Copyright (c) 2015 Jonas Kalderstam
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+// must be applied after your artifact generating plugin (eg. java /  com.android.library)
+apply plugin: 'bintray-release'
+
+// query git for the the SHA, Tag and commit count. Use these to automate versioning.
+def gitTag = 'git describe --tags'.execute([], project.rootDir).text.trim()
+def gitCommitCount =
+        Integer.parseInt('git rev-list --count HEAD'.execute([], project.rootDir).text.trim())
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 23
+        versionCode gitCommitCount
+        versionName gitTag
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:support-v4:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
+
+    testCompile 'junit:junit:4.12'
+}
+
+publish {
+    groupId = 'com.nononsenseapps'
+    artifactId = 'filepicker'
+    publishVersion = gitTag
+    description = 'An extendable Android file/directory-picker you can include in your app'
+    website = 'https://github.com/spacecowboy/NoNonsense-FilePicker'
+    licences = ['LGPL-3.0']
+    uploadName = 'com.nononsenseapps:filepicker'
+    bintrayUser = project.hasProperty("BINTRAY_USER")? BINTRAY_USER: "Dummy"
+    bintrayKey = project.hasProperty("BINTRAY_KEY") ? BINTRAY_KEY: "Dummy"
+}
