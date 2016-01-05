@@ -1029,12 +1029,15 @@ public class StatsProvider
 				{
 					Log.i(TAG, "Using Wakeupsources file");
 					// check if we have a LG G3 on version 5
-					// Build.VERSION.RELEASE: 5.0
+					// or
+					// if we habe LG G4 on Version 5.1 (see also issue #733 for device details
+					// Build.VERSION.RELEASE: 5.0 or 5.1
 					// Build.BRAND: lge
-					// Build.DEVICE: g3
-					if ((Build.VERSION.RELEASE.equals("5.0")) && (Build.BRAND.equals("lge")) && (Build.DEVICE.equals("g3")))
+					// Build.DEVICE: g3 or p1
+					if ( ((Build.VERSION.RELEASE.equals("5.0")) && (Build.BRAND.equals("lge")) && (Build.DEVICE.equals("g3"))) 
+							|| ((Build.VERSION.RELEASE.equals("5.1")) && (Build.BRAND.equals("lge")) && (Build.DEVICE.equals("p1"))) )
 					{
-						Log.i(TAG, "Using LG G3 specific wakeup sources");
+						Log.i(TAG, "Using LG G3 / LG G4 specific wakeup sources");
 						myKernelWakelocks = WakeupSourcesLgG3.parseWakeupSources(m_context);
 					}
 					else
