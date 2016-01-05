@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.2.0.0B4" versioncode="76">
+        <change>Отображение панели сообщений вместо всплывающих окон</change>
+        <change>Исправление дополнительных проблем для устройств без рута (при установленном системном)</change>
+        <change>Исправление раскладки виджета для языков справа налево</change>
+    </release>
+    
+    <release version="2.2.0.0B3" versioncode="75">
+        <change>Измерение режима Doze в микросекундах вместо миллисекунд</change>
+        <change>Отображение статистики сети для устройств без рута (при установленном системном)</change>
+        <change>Добавление времени синхронизации и работы сенсора в другую статистику</change>
+    </release>
+    
+    <release version="2.2.0.0B2" versioncode="74">
+        <change>Добавление подробностей в статистику BT для Marshmallow</change>
+        <change>Исправление ошибки статистики при отсутствии рута, но имеющемся разрешении batterystats</change>
+		<change>Добавление статистики режима Doze mode для устройств на Marshmallow</change>
+    </release>
+    
     <release version="2.2.0.0B1" versioncode="73">
         <change>Эксперимент: получение разрешений BATTERY_INFO без системного приложения (только с рутом)</change>
+        <change>Скрытие требования о необходимости рута (при установленном системном)y</change>
+        <change>Исправление деталей сигналов на Marshmallow с API и без API</change> 
         <change>Исправление различных ошибок, сообщённых через отчеты gplay</change>
-        <change>Исправление деталей сигналов на Marshmallow</change> 
         <change>Переводы</change>
         <change>Перемещение благодарностей и истории изменений на вкладку информации о приложении</change>       
     </release>
 
 </changelog>
+
