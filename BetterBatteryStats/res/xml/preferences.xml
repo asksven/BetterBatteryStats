@@ -349,7 +349,17 @@
                 android:defaultValue="false"
                 android:key="files_to_private_storage"
                 android:summary="@string/pref_files_to_private_storage_summary"
-                android:title="@string/pref_files_to_private_storage_title" />
+                android:title="@string/pref_files_to_private_storage_title"
+                android:disableDependentsState="true"/>
+            
+            <Preference
+                android:summary="@string/pref_select_dir_summary"
+            	android:title="@string/pref_select_dir_title"
+            	android:key="storage_path"
+            	android:defaultValue=""
+            	android:dependency="files_to_private_storage"
+            	 />
+             
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="ignore_system_app"
