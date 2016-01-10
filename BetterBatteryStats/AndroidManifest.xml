@@ -2,21 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
-    android:versionCode="76"
-    android:versionName="2.2.0.0B4" >
+    android:versionCode="77"
+    android:versionName="2.2.0.0B5" >
 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="22" />
-  
+
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <uses-permission android:name="android.permission.DUMP" />
     <!-- required for writing dump files -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
+
     <!-- required by M-preview -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- store kernel wakelock ref boot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -53,7 +52,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="BetterBatteryStats"
         android:theme="@style/Theme.Bbs" >
-        
         <activity
             android:name="com.asksven.betterbatterystats.StatsActivity"
             android:configChanges="orientation|screenSize"
@@ -168,7 +166,6 @@
             android:name="com.asksven.betterbatterystats.DashClockSettingsActivity"
             android:exported="true"
             android:label="Settings" />
-
         <!--
              This is the "fire" BroadcastReceiver. Note that Locale will reject plug-in BroadcastReceivers for the following reasons:
                 - The BroadcastReceiver isn't exported (e.g. android:exported="false")
@@ -262,7 +259,6 @@
         <service android:name="com.asksven.betterbatterystats.services.UpdateSmallWidgetService" >
         </service>
         <service android:name="com.asksven.betterbatterystats.services.UpdateWidgetService" />
-        
         <service android:name="com.asksven.betterbatterystats.services.EventWatcherService" />
         <service android:name="com.asksven.betterbatterystats.services.KbReaderService" />
         <service android:name="com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService" />
