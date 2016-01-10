@@ -16,17 +16,23 @@
 package com.asksven.betterbatterystats;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.CheckBoxPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.RootShell;
@@ -57,7 +63,7 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
-		
+
 		getFragmentManager().beginTransaction().replace(R.id.prefs, new PrefsFragment()).commit();
 
 	}
@@ -76,8 +82,50 @@ public class PreferencesFragmentActivity_V11 extends BaseActivity
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.preferences);
 
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 			prefs.registerOnSharedPreferenceChangeListener(this);
+
+			Preference filePicker = (Preference) findPreference("storage_path");
+			filePicker.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+			{
+				@Override
+				public boolean onPreferenceClick(Preference preference)
+				{
+
+					final int RC_PICK_FOLDER = 1001;
+					 
+					Intent myIntent = new Intent("org.openintents.action.PICK_DIRECTORY");
+                    myIntent.putExtra("org.openintents.extra.TITLE", getString(R.string.pref_select_dir_title));
+                    myIntent.putExtra("org.openintents.extra.BUTTON_TEXT", getString(R.string.pref_select_dir_button));
+				    try {
+				        startActivityForResult(myIntent, RC_PICK_FOLDER);
+				    }
+				    catch (ActivityNotFoundException e)
+				    {
+						Toast.makeText(getActivity(), R.string.message_no_fileman_error, Toast.LENGTH_LONG).show();
+				    }
+					return true;
+				
+					
+				}
+			});
+		}
+
+		@Override
+		public void onActivityResult(int requestCode, int resultCode, Intent data)
+		{
+			if (requestCode == 1001)
+			{
+				// get the new value from Intent data
+				if (resultCode == RESULT_OK && data != null)
+				{
+					Uri destinationUri = data.getData();
+					SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+					SharedPreferences.Editor editor = preferences.edit();
+					editor.putString("storage_path", destinationUri.getPath());
+					editor.commit();
+				}
+			}
 		}
 
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)

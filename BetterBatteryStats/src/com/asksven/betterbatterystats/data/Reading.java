@@ -498,7 +498,8 @@ public class Reading implements Serializable
 			}
 			else
 			{
-				root = Environment.getExternalStorageDirectory();
+				root = new File(sharedPrefs.getString("storage_path", 
+						Environment.getExternalStorageDirectory().getAbsolutePath()));
 			}
 
 			// check if file can be written
@@ -559,7 +560,8 @@ public class Reading implements Serializable
 			}
 			else
 			{
-				root = Environment.getExternalStorageDirectory();
+				root = new File(sharedPrefs.getString("storage_path", 
+						Environment.getExternalStorageDirectory().getAbsolutePath()));
 			}
 
 			// check if file can be written

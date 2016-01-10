@@ -2954,7 +2954,8 @@ public class StatsProvider
 			}
 			else
 			{
-				root = Environment.getExternalStorageDirectory();
+				root = new File(sharedPrefs.getString("storage_path", 
+						Environment.getExternalStorageDirectory().getAbsolutePath()));
 			}
 
 			String path = root.getAbsolutePath();
@@ -3015,7 +3016,8 @@ public class StatsProvider
 			}
 			else
 			{
-				root = Environment.getExternalStorageDirectory();
+				root = new File(sharedPrefs.getString("storage_path", 
+						Environment.getExternalStorageDirectory().getAbsolutePath()));
 			}
 
 			String path = root.getAbsolutePath();
