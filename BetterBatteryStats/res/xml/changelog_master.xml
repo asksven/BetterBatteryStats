@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.2.0.0B5" versioncode="77">
+        <change>I18N</change>
+        <change>Added handling of kernel wakelocks for LG G4</change>
+        <change>Added the option to select the output folder for dumpfiles etc. Requires OI FileManager</change>
+        <change>Fixed touch feedback to extend to the whole row</change>
+    </release>
+    
     <release version="2.2.0.0B4" versioncode="76">
         <change>Introduced Snackbar instead of Toasts</change>
         <change>Fixed more issues related to non-rooted devices (when system app in installed)</change>
