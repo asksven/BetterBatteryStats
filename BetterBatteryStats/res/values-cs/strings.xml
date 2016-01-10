@@ -8,7 +8,7 @@
     <string name="message_hint_savestatjson">Uložit JSON výpis</string>
     <string name="message_hint_sinceref">Výpis od posledního ref. bodu</string>
     <string name="message_hint_stat_type">Typ statistiky</string>
-    <string name="message_enable_root">Povolení root funkcí předpokládá, že zařízení je "rootnuto".\nZajistěte, že aplikace bude mít trvale přidělena \'su\' oprávnění kvůli statistikám Alarmů a Sítě.\nPokud se oprávnění nezachovají trvale, je to problém \'su\' aplikace, ne BBS.\nPokračovat?</string>
+    <string name="message_enable_root">Povolení root funkcí předpokládá, že zařízení je "rootnuto".\nZajistěte, že aplikace bude mít trvale přidělena \'su\' oprávnění kvůli statistikám alarmů a sítě.\nPokud se oprávnění nezachovají trvale, je to problém \'su\' aplikace, ne BBS.\nPokračovat?</string>
     <string name="message_enable_active_mon">Aktivní monitorování zvyšuje spotřebu a zátěž a proto by mělo být používáno uváženě.\nPokračovat?</string>
     <string name="message_first_launch">Nyní je vytvářen ref. bod \'odpojeno\'. Pokud znovu připojíte a poté odpojíte zařízení, tento ref. bod se zaktualizuje.</string>
     <string name="message_copied_to_clipboard">%s byl zkopírován do schránky</string>
@@ -17,7 +17,7 @@
     <string name="message_external_storage_write_error">Nepodařilo se zapsat na externí uložiště</string>
     <string name="message_error_writing_dumpfile">Došlo k chybě při čtení historie</string>
     <string name="message_identical_references">Došlo k chybě. Obě statistiky jsou shodné (%1$1, %2$s)</string>
-    <string name="message_watchdog_processing">BBS: Zpracovávání Watchdog...</string>
+    <string name="message_watchdog_processing">BBS: Zpracovávání watchdog...</string>
     <string name="message_watchdog_awake_alert">BBS: Varování pro probuzení: %1$d%% probuzen</string>
     <string name="message_computing">Počítám...</string>
     <string name="message_awake_alert">Varování pro probuzení</string>
@@ -148,7 +148,7 @@
     <string name="info_uninstalled_system_app">Systémová aplikace odinstalována: vaše nastavení byla vymazána. Prosím restartujte pro dokončení a poté proveďte nové nastavení.</string>
     <string name="info_succeeded">Uspělo</string>
     <string name="info_failed">Selhalo, zkuste Recovery ZIP</string>
-    <string name="info_root_required">Tato funkce vyžaduje povolení \'Root\' funkcí (Pokročilá nastavení)</string>
+    <string name="info_root_required">Tato funkce vyžaduje přidělení oprávnění root této aplikaci</string>
     <string name="info_unknown_state">Chyba: nepodařilo se rozlišit co se změnilo</string>
     <string name="info_service_connection_error">Nepodařilo se kontaktovat službu BatteryInfo Service</string>
     <string name="info_loading_refs_error">Nepodařilo se načíst vybrané ref. body \'od\', nebo \'do\'. Prosím obnovte zobrazení.</string>
@@ -157,6 +157,9 @@
     <string name="info_pref_export_success">Nastavení bylo uloženo do %s</string>
     <string name="info_pref_import_success">Nastavení bylo načteno z %s</string>
     <string name="info_pref_import_export_failed">Operace selhala</string>
+    <string name="info_files_written">Soubory byly uloženy</string>
+    <string name="info_files_write_error">Došlo k chybě</string>
+
 
     <string name="info_deleting_refs">Mažu a obnovuji ref. body</string>
     <string name="info_fallback_to_boot">Záložní přechod k \'Od zapnutí\'</string>
@@ -187,6 +190,9 @@
     <string name="pref_show_other_connection_summary">Zobrazit data o připojení</string>
     <string name="pref_show_other_bt_title">Zobrazit Bluetooth</string>
     <string name="pref_show_other_bt_summary">Zobrazit data Bluetooth</string>
+    <string name="pref_show_other_doze_title">Zobrazit režim Doze</string>
+    <string name="pref_show_other_doze_summary">Zobrazit hodnoty režimu Doze</string>
+    
     <string name="pref_section_defaults">Výchozí</string>
     <string name="pref_default_stat_title">Výchozí statistika</string>
     <string name="pref_default_stat_summary">Nastavit statistiku zobrazenou po startu aplikace</string>
@@ -214,8 +220,6 @@
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Zapisovat soubory do /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Privátní uložiště</string>
-    <string name="pref_root_features_summary">Povolit statistiky sítě a alarmy</string>
-    <string name="pref_root_features_title">Root funkce</string>
     <string name="pref_ignore_system_app_summary">Neprovádět detekci systémové aplikace (pro uživatele XPosed modulu \'Enable BATTERY_STATS\')</string>
     <string name="pref_ignore_system_app_title">Nezjišťovat instalaci syst. aplikace</string>
 
@@ -234,9 +238,11 @@
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Sdílet (ukládat) dmesg výpis</string>
     <string name="pref_force_alarms_api_title">Alarmy pomocí API</string>
-    <string name="pref_force_alarms_api_summary">Vynutit získávání statistik Alarmů prostřednictvím API</string>
+    <string name="pref_force_alarms_api_summary">Vynutit získávání statistik alarmů prostřednictvím API</string>
     <string name="pref_force_kwl_api_title">Wakelocky jádra (kernel) pomocí API</string>
-    <string name="pref_force_kwl_api_summary">Vynutit získávání statistik Wakelocků jádra (kernel) prostřednictvím API</string>
+    <string name="pref_force_kwl_api_summary">Vynutit získávání statistik wakelocků jádra (kernel) prostřednictvím API</string>
+    <string name="pref_force_network_api_title">Statistiky sítě pomocí API</string>
+    <string name="pref_force_network_api_summary">Vynutit získávání statistik sítě prostřednictvím API</string>
     <string name="pref_screen_system_app_title">Systémová aplikace</string>
     <string name="pref_screen_system_app_summary">Instalovat jako systémovou aplikaci</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
@@ -276,9 +282,10 @@
     <string name="NO_STATS_WHEN_CHARGING">Zařízení připojeno: žádné statistiky</string>
     <string name="NO_ROOT_ERR">Tato statistika vyžaduje oprávnění root</string>
     <string name="NO_PERM_ERR">Tato statistika vyžaduje oprávnění BATTERY_STATS</string>
+    <string name="NO_PERM_INFO">Pokus získat oprávnění bez systémové aplikace.</string>
     <string name="NO_REF_ERR">Prozatím nenastaven žádný ref. bod</string>
     <string name="NO_STATS">Prozatím nebyly získány žádné statistiky</string>
-    <string name="FILE_ACCESS_ERROR">Nepodařilo se přečíst soubor</string>
+	<string name="KWL_ACCESS_ERROR">Nepodařilo se načíst Wakelocky jádra (kernel) ani prostřednictvím souboru ani API</string>
 
 	<!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">Od nabití</string>
