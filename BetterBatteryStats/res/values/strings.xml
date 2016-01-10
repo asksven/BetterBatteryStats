@@ -22,6 +22,7 @@
     <string name="message_computing">Computing...</string>
     <string name="message_awake_alert">Awake alert</string>
     <string name="message_awake_info">%1$d%% awake while screen off</string>
+    <string name="message_no_fileman_error">Please install OI FileManager</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_welcome">Welcome to %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
@@ -222,7 +223,9 @@
     <string name="pref_files_to_private_storage_title">Private storage</string>
     <string name="pref_ignore_system_app_summary">Ignore System App detection (for XPosed Module \'Enable BATTERY_STATS\' users)</string>
     <string name="pref_ignore_system_app_title">Do not detect system app</string>
-
+    <string name="pref_select_dir_summary">Select where to write dumpfiles</string>
+    <string name="pref_select_dir_title">Select Output Directory</string>
+    <string name="pref_select_dir_button">Select</string>
 
     <string name="pref_developer_title">Enable while charging</string>
     <string name="pref_developer_summary">Enable stats while charging (at your own risk, stats may be inconsistent)</string>
