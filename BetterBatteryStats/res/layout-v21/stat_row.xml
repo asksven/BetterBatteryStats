@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:layout_weight="1">
 
 
@@ -29,7 +30,7 @@
             android:layout_width="@dimen/thumbnail_size"
             android:layout_height="@dimen/thumbnail_size"
             android:layout_gravity="center_vertical"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            
             android:paddingBottom="0dp"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
@@ -46,7 +47,8 @@
         android:orientation="vertical"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
-        android:layout_weight="100">
+        android:layout_weight="100"
+        android:background="?android:attr/selectableItemBackgroundBorderless">
 
         <TextView
             android:id="@+id/TextViewName"
@@ -95,7 +97,7 @@
                 android:id="@+id/imageKB"
                 android:layout_width="32dp"
                 android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+                
                 android:src="@drawable/icon_kb" >
             </ImageView>
         </LinearLayout>
@@ -103,6 +105,7 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/LinearLayoutGauge"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -111,7 +114,7 @@
             android:id="@+id/Gauge"
             android:layout_width="@dimen/thumbnail_size"
             android:layout_height="@dimen/thumbnail_size"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
+            
             android:padding="4dp" />
     
 
