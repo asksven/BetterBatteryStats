@@ -10,7 +10,7 @@
 	<string name="message_hint_stat_type">Tipo Statistica</string>
 	<string name="message_enable_root">Abilitando le funzioni di root si assume che il telefono sia rootato.\nSiate sicuri di dare i diritti SU alle statistiche di Allarmi e Rete.\nSe tali diritti non permangono e\' colpa dell\'app SU e non di BBS.\nContinuare?</string>
 	<string name="message_enable_active_mon">Il monitoraggio Attivo causa un incremento dei wakeup e dei calcoli, utilizzare con cautela.\nContinuare?</string>
-	<string name="message_first_launch">Viene ora creato un riferimento \'sconnesso\'. Quando si connette/sconnette il telefono questo riferimento viene sovrascritto</string>
+	<string name="message_first_launch">Viene ora creato un riferimento \'disconnesso\'. Quando si connette/disconnette il telefono questo riferimento viene sovrascritto</string>
 	<string name="message_copied_to_clipboard">%s e\' stato copiato negli appunti</string>
 	<string name="message_no_hist_froyo">Sfortunatamente Froyo non supporta lo storico dei dati</string>
 	<string name="message_no_appops">AppOps non esiste sulla tua ROM</string>
@@ -22,6 +22,7 @@
 	<string name="message_computing">Calcolando...</string>
 	<string name="message_awake_alert">Allarme Attivo</string>
 	<string name="message_awake_info">%1$d%% attivo con schermo acceso</string>
+    	<string name="message_no_fileman_error">Installa OI FileManager</string>
 	<string name="app_name">BetterBatteryStats</string>
 	<string name="app_welcome">Benvenuti a %s</string>
 	<string name="app_pname">com.asksven.betterbatterystats</string>
@@ -53,7 +54,7 @@
 
 	<string name="label_graph_battery">Batteria</string>
 	<string name="label_graph_power">In carica</string>
-	<string name="label_graph_screen">Schermo On</string>
+	<string name="label_graph_screen">Schermo Acc</string>
 	<string name="label_graph_wakelock">Wakelock</string>
 	<string name="label_graph_wifi">Wifi</string>
 	<string name="label_graph_gps">GPS</string>
@@ -64,15 +65,16 @@
 	<string name="label_widget_deep_sleep">Inattivo</string>
 	<string name="label_widget_since">Da</string>
 	<string name="label_widget_awake">Attivo</string>
-	<string name="label_widget_screen_on">Schermo on</string>
+	<string name="label_widget_screen_on">Schermo Acc</string>
 	<string name="label_widget_kernel_wakelock">KWL</string>
 	<string name="label_widget_partial_wakelock">PWL</string>
-	<string name="label_widget_deep_sleep_short">Ina</string>
+	<string name="label_widget_deep_sleep_short">Inat</string>
 	<string name="label_widget_awake_short">Att</string>
-	<string name="label_widget_screen_on_short">Sch</string>
+	<string name="label_widget_screen_on_short">Acc</string>
 	<string name="label_widget_kernel_wakelock_short">KWL</string>
 	<string name="label_widget_partial_wakelock_short">PWL</string>
 
+	
 	<string name="label_battery">Batteria</string>
 	<string name="label_name">Nome</string>
 	<string name="label_description">Descrizione</string>
@@ -85,13 +87,14 @@
 
 	<string name="pref_dashclock_default_stat_type_summary">Imposta la statistica da mostrare nel dashclock</string>
 	<string name="pref_dashclock_fallback_stat_type_summary">Imposta la statistica secondaria da mostrare nel dashclock se la primaria non ha un riferimento</string>
-	<string name="label_awake_abbrev">att.</string>
+	<string name="label_awake_abbrev">Att</string>
 	<string name="label_button_share">Condividi...</string>
 	<string name="label_button_save">Salva</string>
 	<string name="label_button_cancel">Cancella</string>
 	<string name="label_button_application_settings">Impostazioni Applicazione</string>
 	<string name="label_button_appops">App Ops</string>
 
+	
 	<string name="title_share_dialog">Condividi dati come...</string>
 	<string name="text_since">Da</string>
 	<string name="label_preferences">Impostazioni</string>
@@ -114,7 +117,7 @@
 	<string name="label_button_yes">Si</string>
 	<string name="label_button_no">No</string>
 	<string name="label_button_ok">OK</string>
-	<string name="label_tab_package">Paccetto</string>
+	<string name="label_tab_package">Pacchetto</string>
 	<string name="label_tab_permissions">Permessi</string>
 	<string name="label_tab_services">Servizi</string>
 
@@ -126,7 +129,7 @@
 	<string name="label_about_translation2">Spagnolo di @vldesco</string>
 	<string name="label_about_translation3">Italiano di code010101 @ xda</string>
 	<string name="label_about_translation4">Croato di seky2205 @ xda</string>
-	<string name="label_about_translation5">Frencese di xavihernandez @ xda</string>
+	<string name="label_about_translation5">Francese di xavihernandez @ xda</string>
 	<string name="label_about_translation6">Tedesco di Minty123 @ xda</string>
 	<string name="label_about_follow">Seguitemi su Twitter</string>
 	<string name="label_about_rate">Dai una Valutazione/Commenta su Google Play</string>
@@ -155,7 +158,10 @@
 	<string name="info_pref_export_success">Le preferenze sono state salvate in %s</string>
 	<string name="info_pref_import_success">Le preferenze sono state importate da %s</string>
 	<string name="info_pref_import_export_failed">L\'operazione e\' fallita</string>
+    	<string name="info_files_written">I files sono stati scritti</string>
+    	<string name="info_files_write_error">Si e\' verificato un errore</string>
 
+	
 	<string name="info_deleting_refs">Le preferenze vengono cancellate e ricalcolate</string>
 	<string name="info_fallback_to_boot">Ripiego su \'Dal Boot\'</string>
 	<string name="info_fallback_to_default">Ripiego su riferimento di default</string>
@@ -171,7 +177,7 @@
 	<string name="pref_show_gauge_title">Mostra barre</string>
 	<string name="pref_show_gauge_summary">Mostra barre invece che diagrammi circolari</string>
 	<string name="pref_graph_bar_height_title">Altezza dei grafici a barre</string>
-	<string name="pref_graph_bar_height_summary">Se usi densita\' non di default puoi cambiare l\'altezza delle barre qui</string>
+	<string name="pref_graph_bar_height_summary">Se usi densita\' non standard puoi cambiare l\'altezza delle barre qui</string>
 	<string name="pref_section_customize_views">Personalizza visualizzazioni</string>
 	<string name="pref_show_from_to_ref_title">Riferimenti Da/A </string>
 	<string name="pref_show_from_to_ref_summary">Mostra i menu per selezionare i riferimenti</string>
@@ -185,6 +191,9 @@
 	<string name="pref_show_other_connection_summary">Mostra valori connessione</string>
 	<string name="pref_show_other_bt_title">Mostra Bluetooth</string>
 	<string name="pref_show_other_bt_summary">Mostra valori Bluetooth</string>
+    	<string name="pref_show_other_doze_title">Mostra Modalita\' Doze</string>
+    	<string name="pref_show_other_doze_summary">Mostra valori modalita\' Doze</string>
+	
 	<string name="pref_section_defaults">Defaults</string>
 	<string name="pref_default_stat_title">Statistica di Default</string>
 	<string name="pref_default_stat_summary">Seleziona la statistica da mostrare all\'avvio dell\'app</string>
@@ -212,10 +221,11 @@
 	<string name="pref_debug_logging_title">Debug</string>
 	<string name="pref_files_to_private_storage_summary">Scrivere file in /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
 	<string name="pref_files_to_private_storage_title">Memoria interna</string>
-	<string name="pref_root_features_summary">Abilita statistiche della rete e allarmi</string>
-	<string name="pref_root_features_title">Funzioni di Root</string>
-	<string name="pref_ignore_system_app_summary">Ignora la rilevazione dell\'app di sistema (per modulo XPosed \'Abilita BATTERY_STATS\' utenti)</string>
+	<string name="pref_ignore_system_app_summary">Ignora la rilevazione dell\'app di sistema (per modulo XPosed \'Abilita BATTERY_STATS\')</string>
 	<string name="pref_ignore_system_app_title">Non rilevare app di sistema</string>
+    	<string name="pref_select_dir_summary">Seleziona dove scrivere i dumpfile</string>
+    	<string name="pref_select_dir_title">Seleziona la directory di destinazione</string>
+    	<string name="pref_select_dir_button">Seleziona</string>	
 
 	<string name="pref_developer_title">Abilita durante la carica</string>
 	<string name="pref_developer_summary">Abilita statistiche durante la carica (attenzione, le statistiche potrebbero essere inconsistenti)</string>
@@ -230,10 +240,12 @@
 	<string name="pref_save_logcat_summary">Condividi il logcat</string>
 	<string name="pref_save_dmesg_title">dmesg</string>
 	<string name="pref_save_dmesg_summary">Condividi il dmesg</string>
-	<string name="pref_force_alarms_api_title">Usare API per gli allarmi</string>
+	<string name="pref_force_alarms_api_title">Usare API per gli Allarmi</string>
 	<string name="pref_force_alarms_api_summary">Forza l\'uso dell\'API per ottenere gli Allarmi</string>
 	<string name="pref_force_kwl_api_title">Usare API per i wakelock del Kernel</string>
 	<string name="pref_force_kwl_api_summary">Forza l\'uso dell\'API per ottenere i wakelock del Kernel</string>
+    	<string name="pref_force_network_api_title">Usare API per le statistiche di Rete</string>
+    	<string name="pref_force_network_api_summary">Force to retrieve Network Stats using the API</string>	
 	<string name="pref_screen_system_app_title">App di sistema</string>
 	<string name="pref_screen_system_app_summary">Installa come App di Sistema</string>
 	<string name="pref_screen_import_export_title">Importa/Esporta</string>
@@ -273,9 +285,10 @@
 	<string name="NO_STATS_WHEN_CHARGING">Connesso: nessuna statistica</string>
 	<string name="NO_ROOT_ERR">Questa statistica richiede il root</string>
 	<string name="NO_PERM_ERR">Questa statistica richiede il permesso BATTERY_STATS</string>
+    	<string name="NO_PERM_INFO">Tentando di ottenere i permessi senza app. di sistema</string>	
 	<string name="NO_REF_ERR">Nessun riferimento e\' stato ancora impostato</string>
 	<string name="NO_STATS">Nessuna statistica e\' stata ancora raccolta</string>
-	<string name="FILE_ACCESS_ERROR">Il file non puo\' essere letto</string>
+	<string name="KWL_ACCESS_ERROR">Non e\' possibile accedere ai Wakelock del Kernel, ne via file, ne via API</string>
 
 	<!-- from arrays.xml -->
 	<string name="stat_type_label_since_charged">Da carico</string>
@@ -284,6 +297,7 @@
 	<string name="stat_type_label_since_screen_off">Da Schermo Spento</string>
 	<string name="stat_type_label_since_boot">Dal Boot</string>
 
+	
 	<string name="widget_freq_label_none">Nessuno</string>
 	<string name="widget_freq_label_5">5 Min.</string>
 	<string name="widget_freq_label_15">15 Min.</string>
