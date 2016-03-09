@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.2.0.0B6" versioncode="78">
+        <change>I18N</change>
+        <change>Fixed kernel wakelock in API/non-root mode</change>
+        <change>Fixed sticky watchdog toast</change>
+        <change>Fixed watchdog sometimes reporting >100% awake</change>
+    </release>
+    
     <release version="2.2.0.0B5" versioncode="77">
         <change>I18N</change>
         <change>Added handling of kernel wakelocks for LG G4</change>

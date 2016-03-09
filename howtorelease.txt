@@ -1,7 +1,0 @@
-# Make tag
-
-# Generate changelog
-github_changelog_generator -u spacecowboy -p NoNonsense-FilePicker --no-issues-wo-labels
-
-# Upload to jcenter
-./gradlew clean build bintrayUpload -PdryRun=false
