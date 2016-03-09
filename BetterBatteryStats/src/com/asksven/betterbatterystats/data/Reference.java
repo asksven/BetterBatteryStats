@@ -316,6 +316,11 @@ public class Reference implements Serializable
     	m_creationTime = SystemClock.elapsedRealtime();
     }
     
+    public long getCreationTime()
+    {
+    	return m_creationTime;
+    }
+    
     @JsonIgnore
     public String getMissingRefError()
     {

@@ -96,7 +96,17 @@ public class WatchdogProcessingService extends IntentService
 						StatsProvider.getInstance(this).setCurrentReference(0);
 						//Reference refTo = StatsProvider.getInstance(this).getUncachedPartialReference(0);
 						Reference refTo = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
-						ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, refFrom, false, false, refTo);
+						ArrayList<StatElement> otherStats = null;
+						
+						// only process if both references are in the right order
+						if (refFrom.getCreationTime() < refTo.getCreationTime())
+						{		
+							otherStats = stats.getOtherUsageStatList(true, refFrom, false, false, refTo);
+						}
+						else
+						{
+							otherStats = null;
+						}
 
 						long timeAwake = 0;
 						long timeSince = 0;
