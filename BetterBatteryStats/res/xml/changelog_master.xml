@@ -6,6 +6,7 @@
         <change>Fixed sticky watchdog toast</change>
         <change>Fixed watchdog sometimes reporting >100% awake</change>
         <change>Fixed missing icons in alarms (API mode)</change>
+        <change>More agressive handling of kernel wakelocks for LG G2, G3, G4 devices for any android version</change>
     </release>
     
     <release version="2.2.0.0B5" versioncode="77">
