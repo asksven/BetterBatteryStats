@@ -5,6 +5,7 @@
         <change>Fixed kernel wakelock in API/non-root mode</change>
         <change>Fixed sticky watchdog toast</change>
         <change>Fixed watchdog sometimes reporting >100% awake</change>
+        <change>Fixed missing icons in alarms (API mode)</change>
     </release>
     
     <release version="2.2.0.0B5" versioncode="77">

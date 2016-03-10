@@ -61,7 +61,7 @@ import com.asksven.android.common.kernelutils.ProcessStatsDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
-import com.asksven.android.common.kernelutils.WakeupSourcesLgG3;
+import com.asksven.android.common.kernelutils.WakeupSourcesLg;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -1028,17 +1028,14 @@ public class StatsProvider
 				else
 				{
 					Log.i(TAG, "Using Wakeupsources file");
-					// check if we have a LG G3 on version 5
-					// or
-					// if we habe LG G4 on Version 5.1 (see also issue #733 for device details
-					// Build.VERSION.RELEASE: 5.0 or 5.1
+					// check if we have a LG G4, G3 or G2
 					// Build.BRAND: lge
-					// Build.DEVICE: g3 or p1
-					if ( ((Build.VERSION.RELEASE.equals("5.0")) && (Build.BRAND.equals("lge")) && (Build.DEVICE.equals("g3"))) 
-							|| ((Build.VERSION.RELEASE.equals("5.1")) && (Build.BRAND.equals("lge")) && (Build.DEVICE.equals("p1"))) )
+					// Build.DEVICE: g3, g2 or p1
+					if ( (Build.BRAND.equals("lge"))
+							&& (Build.DEVICE.equals("g3"))|| Build.DEVICE.equals("p1") || (Build.DEVICE.equals("g2")))
 					{
-						Log.i(TAG, "Using LG G3 / LG G4 specific wakeup sources");
-						myKernelWakelocks = WakeupSourcesLgG3.parseWakeupSources(m_context);
+						Log.i(TAG, "Using LG G2, G3, G4 specific wakeup sources");
+						myKernelWakelocks = WakeupSourcesLg.parseWakeupSources(m_context);
 					}
 					else
 					{
