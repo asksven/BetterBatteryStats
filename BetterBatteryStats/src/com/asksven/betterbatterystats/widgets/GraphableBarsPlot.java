@@ -160,7 +160,7 @@ public class GraphableBarsPlot extends ImageView
         	float posY = (ratioY * (ymax - ymin)) + ymin;
         	//Log.i(TAG, "Translated to posX=" + posX + ", posY=" + posY);
         	//canvas.drawCircle(posX, ymax - posY, 2, sPaint); //Line(posX, ymax, posX, ymax - posY, sPaint);
-        	if ((prevY != -1) && (prevY != -1))
+        	if ((prevX != -1) && (prevY != -1))
         	{
         		// connect dots
         		canvas.drawLine(prevX, ymax - prevY, posX, ymax - posY, sPaint);
