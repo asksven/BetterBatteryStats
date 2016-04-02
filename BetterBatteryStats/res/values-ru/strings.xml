@@ -22,6 +22,7 @@
     <string name="message_computing">Вычисление...</string>
     <string name="message_awake_alert">Предупр. о бодрствовании</string>
     <string name="message_awake_info">%1$d%% бодрств. при выкл. экране</string>
+    <string name="message_no_fileman_error">Пожалуйста, установите OI FileManager</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_welcome">Добро пожаловать в %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
@@ -224,6 +225,9 @@
     <string name="pref_ignore_system_app_summary">Игнорировать обнаружение системного приложения (для пользователей модуля XPosed \'Enable BATTERY_STATS\')</string>
     <string name="pref_ignore_system_app_title">Не обнаруживать системное</string>
     
+    <string name="pref_select_dir_summary">Выберите путь записи дампа</string>
+    <string name="pref_select_dir_title">Выберите каталог размещения</string>
+    <string name="pref_select_dir_button">Выбрать</string>
     
     <string name="pref_developer_title">Включить при зарядке</string>
     <string name="pref_developer_summary">Включить статистику при зарядке (на Ваш риск, статистика может быть нестабильной)</string>
