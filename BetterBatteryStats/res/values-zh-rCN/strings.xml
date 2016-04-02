@@ -8,7 +8,7 @@
     <string name="message_hint_savestatjson">生成JSON格式转存文件</string>
     <string name="message_hint_sinceref">从上一个基准点起开始转存</string>
     <string name="message_hint_stat_type">统计类型</string>
-    <string name="message_enable_root">若你的设备已获得权限，将会启用root特性\n请确保能以管理员权限获得定时任务和网络活动的统计\n若这些权限不生效请归咎于权限管理应用，而非本软件\n是否还继续？</string>
+    <string name="message_enable_root">若你的设备已获得权限，将会启用root特性\n请确保能以管理员权限获得定时器和网络活动的统计\n若这些权限不生效请归咎于权限管理应用，而非本软件\n是否还继续？</string>
     <string name="message_enable_active_mon">根据唤醒和进程进行动态监控会导致一定开销，请谨慎使用\n是否还继续？</string>
     <string name="message_first_launch">区间\'未接电源\'已创建。当你接通或断开电源，基准点将会重写</string>
     <string name="message_copied_to_clipboard">%s已经复制到剪贴板</string>
@@ -22,6 +22,7 @@
     <string name="message_computing">计算中...</string>
     <string name="message_awake_alert">唤醒警报</string>
     <string name="message_awake_info">在息屏时%1$d%%唤醒</string>
+    <string name="message_no_fileman_error">请安装OI FileManager</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_welcome">欢迎使用%s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
@@ -148,7 +149,7 @@
     <string name="info_uninstalled_system_app">取消系统应用状态将会重置你的设置，请重启以清除并更新设置</string>
     <string name="info_succeeded">成功</string>
     <string name="info_failed">失败，请尝试使用恢复模式下的ZIP包</string>
-    <string name="info_root_required">为使用该特性，高级设置中的\'Root\'特性一定要启用</string>
+    <string name="info_root_required">使用该特性必须获取root权限</string>
     <string name="info_unknown_state">错误：无法识别变更内容</string>
     <string name="info_service_connection_error">无法连接电池信息服务</string>
     <string name="info_loading_refs_error">不能载入已选择的\'from\'或者\'to\'的基准点，请刷新</string>
@@ -157,6 +158,8 @@
     <string name="info_pref_export_success">设置已保存到%s</string>
     <string name="info_pref_import_success">已从%s导入设置</string>
     <string name="info_pref_import_export_failed">操作失败</string>
+    <string name="info_files_written">已写入文件</string>
+    <string name="info_files_write_error">发生错误</string>
     
     <string name="info_deleting_refs">正删除并重置设置</string>
     <string name="info_fallback_to_boot">回滚到\'boot\'</string>
@@ -169,7 +172,7 @@
     <string name="pref_filter_data_title">统计筛选</string>
     <string name="pref_filter_data_summary">筛选出非零的统计数据</string>
     <string name="pref_show_bat_details_title">电池详细</string>
-    <string name="pref_show_bat_details_summary">显示在%区间开屏耗电情况</string>
+    <string name="pref_show_bat_details_summary">显示在%%区间开屏耗电情况</string>
     <string name="pref_show_gauge_title">条形图显示</string>
     <string name="pref_show_gauge_summary">以条形图代替圆环图显示数据</string>
     <string name="pref_graph_bar_height_title">条形图高度</string>
@@ -177,16 +180,18 @@
     <string name="pref_section_customize_views">自定义视图</string>
     <string name="pref_show_from_to_ref_title">区间基准点</string>
     <string name="pref_show_from_to_ref_summary">显示所选区间的下拉列表</string>
-    <string name="pref_show_other_wifi_title">显示Wifi</string>
+    <string name="pref_show_other_wifi_title">Wifi</string>
     <string name="pref_show_other_wifi_summary">显示Wifi数据</string>
-    <string name="pref_show_other_signal_title">显示信号</string>
+    <string name="pref_show_other_signal_title">信号</string>
     <string name="pref_show_other_signal_summary">显示信号强度</string>
-    <string name="pref_show_other_screen_brightness_title">显示屏幕</string>
+    <string name="pref_show_other_screen_brightness_title">屏幕</string>
     <string name="pref_show_other_screen_brightness_summary">显示屏幕亮度</string>
-    <string name="pref_show_other_connection_title">显示连接数</string>
+    <string name="pref_show_other_connection_title">连接数</string>
     <string name="pref_show_other_connection_summary">显示连接数</string>
-    <string name="pref_show_other_bt_title">显示蓝牙</string>
+    <string name="pref_show_other_bt_title">蓝牙</string>
     <string name="pref_show_other_bt_summary">显示蓝牙数据</string>
+    <string name="pref_show_other_doze_title">Doze模式</string>
+    <string name="pref_show_other_doze_summary">显示Doze模式的数据</string>
     <string name="pref_section_defaults">默认</string>
     <string name="pref_default_stat_title">默认统计表</string>
     <string name="pref_default_stat_summary">设置进入应用默认显示的统计表</string>
@@ -214,11 +219,11 @@
     <string name="pref_debug_logging_title">调试</string>
     <string name="pref_files_to_private_storage_summary">向/sdcard/Android/data/com.asksven.betterbatterystats/files/Download写入文件</string>
     <string name="pref_files_to_private_storage_title">私人存储</string>
-    <string name="pref_root_features_summary">启用网络和定时任务的统计</string>
-    <string name="pref_root_features_title">Root特性</string>
     <string name="pref_ignore_system_app_summary">忽略系统应用检测（为使用XPosed模块开启\'Enable BATTERY_STATS\'的用户而设）</string>
     <string name="pref_ignore_system_app_title">禁止检测系统应用</string>
-
+    <string name="pref_select_dir_summary">选择转存文件写入的位置</string>
+    <string name="pref_select_dir_title">选择输出文件夹</string>
+    <string name="pref_select_dir_button">选择</string>
 
     <string name="pref_developer_title">在充电时启用</string>
     <string name="pref_developer_summary">在充电时启用统计（请谨慎使用，统计可能不正常）</string>
@@ -233,10 +238,12 @@
     <string name="pref_save_logcat_summary">分享logcat日志</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">分享dmesg</string>
-    <string name="pref_force_alarms_api_title">定时任务使用中的API</string>
-    <string name="pref_force_alarms_api_summary">强制回收定时任务正在用的API</string>
-    <string name="pref_force_kwl_api_title">内核唤醒锁使用中的API</string>
-    <string name="pref_force_kwl_api_summary">强制回收内核唤醒锁正在用的API</string>
+    <string name="pref_force_alarms_api_title">定时器API</string>
+    <string name="pref_force_alarms_api_summary">强制回收定时器正在用的API</string>
+    <string name="pref_force_kwl_api_title">内核唤醒锁API</string>
+    <string name="pref_force_kwl_api_summary">强制回收内核唤醒锁正在使用的API</string>
+    <string name="pref_force_network_api_title">网络统计API</string>
+    <string name="pref_force_network_api_summary">强制回网络统计正在使用的API</string>
     <string name="pref_screen_system_app_title">系统应用</string>
     <string name="pref_screen_system_app_summary">安装成为系统应用</string>
     <string name="pref_screen_import_export_title">导入/导出</string>
@@ -260,7 +267,7 @@
     <string name="widget_default_stat_type_summary">设置在桌面小部件要显示的统计类型</string>
     <string name="large_widget_font_size_title">字体大小</string>
     <string name="large_widget_font_size_summary">设置在桌面小部件的字体大小</string>
-    <string name="large_widget_show_pct_title">显示 %</string>
+    <string name="large_widget_show_pct_title">显示%</string>
     <string name="large_widget_show_pct_summary">显示%所占的时间</string>
     <string name="widget_opacity_title">透明度</string>
     <string name="widget_opacity_summary">调整桌面小部件的透明度</string>
@@ -276,14 +283,15 @@
     <string name="NO_STATS_WHEN_CHARGING">设备已接上电源：无统计数据</string>
     <string name="NO_ROOT_ERR">该统计需要root权限</string>
     <string name="NO_PERM_ERR">该统计需要应用的BATTERY_STATS权限</string>
+    <string name="NO_PERM_INFO">正在尝试以非系统应用方式获取权限</string>
     <string name="NO_REF_ERR">尚未设置区间</string>
     <string name="NO_STATS">尚无数据可被收集</string>
-	<string name="FILE_ACCESS_ERROR">文件无法被读取</string>
+	<string name="KWL_ACCESS_ERROR">无法获取内核唤醒锁文件或者API</string>
     
 	<!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">从接通电源起</string>
     <string name="stat_type_label_since_unplugged">从断开电源起</string>
-    <string name="stat_type_label_since_custom">从自定义区间起</string>
+    <string name="stat_type_label_since_custom">从自定义起点起</string>
     <string name="stat_type_label_since_screen_off">从息屏起</string>
     <string name="stat_type_label_since_boot">从开机起</string>
 
@@ -299,19 +307,5 @@
     <string name="widget_fontsize_12">普通(12)</string>
     <string name="widget_fontsize_10">*小(10)</string>
     <string name="widget_fontsize_8">极小(8)</string>
-	
-    <string name="abc_action_mode_done">完成</string>
-    <string name="abc_action_bar_home_description">转到主屏幕</string>
-    <string name="abc_action_bar_up_description">转到上一层级</string>
-    <string name="abc_action_menu_overflow_description">更多选项</string>
-    <string name="abc_searchview_description_search">搜索</string>
-    <string name="abc_searchview_description_query">搜索查询</string>
-    <string name="abc_searchview_description_clear">清除查询</string>
-    <string name="abc_searchview_description_submit">提交查询</string>
-    <string name="abc_searchview_description_voice">语音搜索</string>
-    <string name="abc_activitychooserview_choose_application">选择应用</string>
-    <string name="abc_activity_chooser_view_see_all">查看全部</string>
-    <string name="abc_shareactionprovider_share_with_application">通过%s分享</string>
-    <string name="abc_shareactionprovider_share_with">分享方式</string>
 
 </resources>
