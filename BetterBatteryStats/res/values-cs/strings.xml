@@ -22,6 +22,7 @@
     <string name="message_computing">Počítám...</string>
     <string name="message_awake_alert">Varování pro probuzení</string>
     <string name="message_awake_info">%1$d%% probuzen při vypnuté obrazovce</string>
+    <string name="message_no_fileman_error">Nainstalujte prosím OI File Manager</string>
     <string name="app_name">BetterBatteryStats</string>
     <string name="app_welcome">Vítejte v %s</string>
     <string name="app_pname">com.asksven.betterbatterystats</string>
@@ -222,7 +223,9 @@
     <string name="pref_files_to_private_storage_title">Privátní uložiště</string>
     <string name="pref_ignore_system_app_summary">Neprovádět detekci systémové aplikace (pro uživatele XPosed modulu \'Enable BATTERY_STATS\')</string>
     <string name="pref_ignore_system_app_title">Nezjišťovat instalaci syst. aplikace</string>
-
+    <string name="pref_select_dir_summary">Zvolte kam budou soubory uloženy</string>
+    <string name="pref_select_dir_title">Vybrat cílový adresář</string>
+    <string name="pref_select_dir_button">Vybrat</string>
 
     <string name="pref_developer_title">Povolit během nabíjení</string>
     <string name="pref_developer_summary">Povolit statistiky během nabíjení (na vlastní riziko, statistiky mohou být nekonzistentní)</string>
