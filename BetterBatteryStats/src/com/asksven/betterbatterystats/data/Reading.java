@@ -91,6 +91,7 @@ public class Reading implements Serializable
 	int batteryVoltageLost;
 	String batteryLevelLostText;
 	String batteryVoltageLostText;
+	String note;
 	
 	
 	ArrayList<StatElement> otherStats;
@@ -311,7 +312,7 @@ public class Reading implements Serializable
 	}
 	
 
-	public String toStringText(Context context)
+	public String toStringText(Context context, String note)
 	{
 		StringWriter out = new StringWriter();
 		SharedPreferences sharedPrefs 	= PreferenceManager.getDefaultSharedPreferences(context);
@@ -325,6 +326,7 @@ public class Reading implements Serializable
 		out.write("Creation Date: " + creationDate + "\n");
 		out.write("Statistic Type: " + statType + "\n");
 		out.write("Since " + duration + "\n");
+		out.write("Note: " + note + "\n");	
 		out.write("VERSION.RELEASE: " + buildVersionRelease + "\n");
 		out.write("BRAND: " + buildBrand + "\n");
 		out.write("DEVICE: " + buildDevice + "\n");
@@ -466,7 +468,7 @@ public class Reading implements Serializable
 
 	
 	@SuppressLint("NewApi") 
-	public Uri writeToFileJson(Context context)
+	public Uri writeToFileJson(Context context, String note)
 	{
 		Uri fileUri = null;
 		
@@ -507,6 +509,7 @@ public class Reading implements Serializable
 			{
 				String strFilename = "BetterBatteryStats-"
 						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".json";
+				this.note = note;
 				File dumpFile = new File(root, strFilename);
 				fileUri = Uri.fromFile(dumpFile);
 				FileWriter fw = new FileWriter(dumpFile);
@@ -528,7 +531,7 @@ public class Reading implements Serializable
 	}
 
 	@SuppressLint("NewApi") 
-	public Uri writeToFileText(Context context)
+	public Uri writeToFileText(Context context, String note)
 	{
 		Uri fileUri = null;
 		
@@ -573,7 +576,7 @@ public class Reading implements Serializable
 				fileUri = Uri.fromFile(dumpFile);
 				FileWriter fw = new FileWriter(dumpFile);
 				BufferedWriter out = new BufferedWriter(fw);
-				out.write(this.toStringText(context));
+				out.write(this.toStringText(context, note));
 				out.close();
 				
 				// workaround: force mediascanner to run

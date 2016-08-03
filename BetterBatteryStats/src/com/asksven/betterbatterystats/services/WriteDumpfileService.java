@@ -77,11 +77,11 @@ public class WriteDumpfileService extends IntentService
 	    		Reading data = new Reading(this,myReferenceFrom, myReferenceTo);
 	    		if ((output == null) || (!output.equals("JSON")))
 	    		{
-	    			data.writeToFileText(this);
+	    			data.writeToFileText(this, "");
 	    		}
 	    		else
 	    		{
-	    			data.writeToFileJson(this);
+	    			data.writeToFileJson(this, "");
 	    		}
 	
 			}

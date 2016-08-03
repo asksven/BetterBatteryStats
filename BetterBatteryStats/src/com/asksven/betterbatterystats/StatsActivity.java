@@ -45,6 +45,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -1039,7 +1040,7 @@ public class StatsActivity extends ActionBarListActivity
 	{
 	
 		final ArrayList<Integer> selectedSaveActions = new ArrayList<Integer>();
-		final EditText editDescription = new EditText(StatsActivity.this);
+
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
@@ -1066,6 +1067,29 @@ public class StatsActivity extends ActionBarListActivity
 			selectedSaveActions.add(3);
 		}
 
+		//----
+        LinearLayout layout = new LinearLayout(this);
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setLayoutParams(parms);
+
+        layout.setGravity(Gravity.CLIP_VERTICAL);
+        layout.setPadding(2, 2, 2, 2);
+
+		final TextView editTitle = new TextView(StatsActivity.this);
+		editTitle.setText(R.string.share_dialog_edit_title);
+		editTitle.setPadding(40, 40, 40, 40);
+		editTitle.setGravity(Gravity.LEFT);
+		editTitle.setTextSize(20);
+
+		final EditText editDescription = new EditText(StatsActivity.this);
+
+        LinearLayout.LayoutParams tv1Params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        tv1Params.bottomMargin = 5;
+        layout.addView(editTitle,tv1Params);
+        layout.addView(editDescription, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+		
+		//----
 		
 		// Set the dialog title
 		builder.setTitle(R.string.title_share_dialog)
@@ -1087,7 +1111,7 @@ public class StatsActivity extends ActionBarListActivity
 						}
 					}
 				})
-				.setView(editDescription)
+				.setView(layout)
 				// Set the action buttons
 				.setPositiveButton(R.string.label_button_share, new DialogInterface.OnClickListener()
 				{
@@ -1104,12 +1128,12 @@ public class StatsActivity extends ActionBarListActivity
 						// save as text is selected
 						if (selectedSaveActions.contains(0))
 						{
-							attachements.add(reading.writeToFileText(StatsActivity.this));
+							attachements.add(reading.writeToFileText(StatsActivity.this, editDescription.getText().toString()));
 						}
 						// save as JSON if selected
 						if (selectedSaveActions.contains(1))
 						{
-							attachements.add(reading.writeToFileJson(StatsActivity.this));
+							attachements.add(reading.writeToFileJson(StatsActivity.this, editDescription.getText().toString()));
 						}
 						// save logcat if selected
 						if (selectedSaveActions.contains(2))
@@ -1149,12 +1173,12 @@ public class StatsActivity extends ActionBarListActivity
 							// save as text is selected
 							if (selectedSaveActions.contains(0))
 							{
-								reading.writeToFileText(StatsActivity.this);
+								reading.writeToFileText(StatsActivity.this, editDescription.getText().toString());
 							}
 							// save as JSON if selected
 							if (selectedSaveActions.contains(1))
 							{
-								reading.writeToFileJson(StatsActivity.this);
+								reading.writeToFileJson(StatsActivity.this, editDescription.getText().toString());
 							}
 							// save logcat if selected
 							if (selectedSaveActions.contains(2))

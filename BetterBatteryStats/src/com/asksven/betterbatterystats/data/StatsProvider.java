@@ -3052,19 +3052,19 @@ public class StatsProvider
 		return fileUri;
 	}
 
-	/**
-	 * Writes a reading in json format
-	 * @param refFrom 
-	 * @param iSort
-	 * @param refTo
-	 */
-	@SuppressLint("NewApi")
-	public void writeJsonToFile(Reference refFrom, int iSort, Reference refTo)
-	{
-		Reading reading = new Reading(m_context, refFrom, refTo);
-		reading.writeToFileJson(m_context);
-		
-	}
+//	/**
+//	 * Writes a reading in json format
+//	 * @param refFrom 
+//	 * @param iSort
+//	 * @param refTo
+//	 */
+//	@SuppressLint("NewApi")
+//	public void writeJsonToFile2(Reference refFrom, int iSort, Reference refTo)
+//	{
+//		Reading reading = new Reading(m_context, refFrom, refTo);
+//		reading.writeToFileJson(m_context);
+//		
+//	}
 	
 	
 //	/**
