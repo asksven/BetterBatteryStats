@@ -313,7 +313,7 @@ public class StatsAdapter extends BaseAdapter
 //        }
 
         // show / hide fqn text
-        if ((entry instanceof Process) || (entry instanceof State) || (entry instanceof Misc))
+        if ((entry instanceof Process) || (entry instanceof State) || (entry instanceof Misc) || (entry instanceof NativeKernelWakelock) || (entry instanceof Alarm))
         {
         	myFqnLayout.setVisibility(View.GONE);
         }

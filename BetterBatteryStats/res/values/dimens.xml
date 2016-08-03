@@ -7,9 +7,9 @@
     <dimen name="thumbnail_size">58dp</dimen>
     <dimen name="large_graph_size">100dp</dimen>
     <dimen name="toolbar_icon_size">32dp</dimen>
-    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_tiny">10sp</dimen>
+    <dimen name="text_size_tiny">13sp</dimen>
     
     <!-- dimensions for overview -->
     <dimen name="graph_height">200dp</dimen>
@@ -18,7 +18,7 @@
     <dimen name="legend_symbol_size">32dp</dimen>
     
     <!--  graphs -->
-    <dimen name="tick_label_font_size">13dp</dimen>
+    <dimen name="tick_label_font_size">14dp</dimen>
     
     <!-- Spacing / margins for cards layout -->
     <dimen name="activity_horizontal_margin">6dp</dimen>
