@@ -96,6 +96,7 @@
     
     
     <string name="title_share_dialog">Share data as...</string>
+    <string name="share_dialog_edit_title">Note</string>
     <string name="text_since">Since</string>
     <string name="label_preferences">Settings</string>
     <string name="label_packageinfo">Package Info</string>
