@@ -3,7 +3,7 @@
 
     <!-- Values for the statistic. -->
     <string-array name="stats" translatable="false">
-        <item>Other</item>
+        <item>Summary</item>
         <item>Kernel Wakelock</item>
         <item>Partial Wakelocks</item>
         <item>Alarms</item>
