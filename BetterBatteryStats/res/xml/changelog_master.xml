@@ -6,6 +6,7 @@
         <change>Added "note" field to share dialog to add notes to dumpfiles</change>
         <change>Update to most current android-compat-lib</change>
         <change>Alarm details are now scrollable</change>
+        <change>Changed font weigth to conform to styleguides and have better support for small devices, fixed some spacing issues</change>
     </release>
     
     <release version="2.2.0.0B6" versioncode="78">
