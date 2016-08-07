@@ -96,6 +96,7 @@
     
     
     <string name="title_share_dialog">Поделиться данными в...</string>
+    <string name="share_dialog_edit_title">Заметка</string>
     <string name="text_since">От</string>
     <string name="label_preferences">Настройки</string>
     <string name="label_packageinfo">Информация о пакете</string>
