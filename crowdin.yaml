@@ -1,4 +1,4 @@
 files:
   - 
     source: '/BetterBatteryStats/res/values/*.xml'
-    translation: '/BetterBatteryStats/res/values-%android_code%/%original_file_name%'
+    translation: '/BetterBatteryStats/res/values-%two_letters_code%/%original_file_name%'
