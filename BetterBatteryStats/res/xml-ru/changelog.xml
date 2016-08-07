@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.2.0.0B7" versioncode="79">
+        <change>Переводы</change>
+        <change>Замена "Other (Другое)" на "Summary (Общее)"</change>
+        <change>Добавление поля "Заметка" в диалог "Поделиться" для добавления заметок к дампам</change>
+        <change>Обновление до самой свежей android-compat-lib</change>
+        <change>Возможность прокручивать детали сигналов</change>
+        <change>Изменение шрифта в соответствии со стилем и для улучшения просмотра на небольших устройствах, исправление проблем с заполнением</change>
+    </release>
+
     <release version="2.2.0.0B6" versioncode="78">
         <change>Переводы</change>
         <change>Исправление вэйклоков ядра с API/без рута</change>
