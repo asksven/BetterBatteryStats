@@ -1,4 +1,5 @@
 files:
   - 
-    source: '/BetterBatteryStats/res/values/strings.xml'
+    source: >
+      /BetterBatteryStats/res/values/strings.xml
     translation: '/BetterBatteryStats/res/values-%two_letters_code%/%original_file_name%'
