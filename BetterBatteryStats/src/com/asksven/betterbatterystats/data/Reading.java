@@ -512,10 +512,10 @@ public class Reading implements Serializable
 				fileUri = Uri.fromFile(dumpFile);
 				FileWriter fw = new FileWriter(dumpFile);
 				BufferedWriter out = new BufferedWriter(fw);
-				out.write("/*");
+				out.write("/*\n");
 				out.write(this.toStringText(context, note));
-				out.write("------ human readable part end here");
-				out.write("*/");
+				out.write("------ human readable part end here\n");
+				out.write("*/\n");
 				out.write(this.toJson());
 				out.close();
 				

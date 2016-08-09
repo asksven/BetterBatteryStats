@@ -8,6 +8,7 @@
         <change>Alarm details are now scrollable</change>
         <change>Changed font weigth to conform to styleguides and have better support for small devices, fixed some spacing issues</change>
         <change>Folded both txt and json representation of the dumpfile into one file</change>
+        <change>Added GPS stats in Summary</change>
     </release>
     
     <release version="2.2.0.0B6" versioncode="78">
