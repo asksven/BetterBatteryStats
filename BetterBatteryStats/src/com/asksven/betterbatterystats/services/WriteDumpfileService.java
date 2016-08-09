@@ -75,14 +75,8 @@ public class WriteDumpfileService extends IntentService
 	        	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(refFrom, this);
 	    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(refTo, this);
 	    		Reading data = new Reading(this,myReferenceFrom, myReferenceTo);
-	    		if ((output == null) || (!output.equals("JSON")))
-	    		{
-	    			data.writeToFileText(this, "");
-	    		}
-	    		else
-	    		{
-	    			data.writeToFileJson(this, "");
-	    		}
+	    		
+	    		data.writeDumpfile(this, "");
 	
 			}
 			catch (Exception e)

@@ -395,13 +395,8 @@
                 <CheckBoxPreference
                     android:defaultValue="true"
                     android:key="save_as_text"
-                    android:summary="@string/pref_save_as_text_summary"
-                    android:title="@string/pref_save_as_text_title" />
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:key="save_as_json"
-                    android:summary="@string/pref_save_as_json_summary"
-                    android:title="@string/pref_save_as_json_title" />
+                    android:summary="@string/pref_save_dumpfile_summary" 
+                    android:title="@string/pref_save_dumpfile_title" />
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="save_logcat"

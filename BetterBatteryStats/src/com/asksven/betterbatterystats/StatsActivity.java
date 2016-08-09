@@ -1045,26 +1045,21 @@ public class StatsActivity extends ActionBarListActivity
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		boolean saveAsText = sharedPrefs.getBoolean("save_as_text", true);
-		boolean saveAsJson = sharedPrefs.getBoolean("save_as_json", false);
+		boolean saveDumpfile = sharedPrefs.getBoolean("save_dumpfile", true);
 		boolean saveLogcat = sharedPrefs.getBoolean("save_logcat", false);
 		boolean saveDmesg = sharedPrefs.getBoolean("save_dmesg", false);
 
-		if (saveAsText)
+		if (saveDumpfile)
 		{
 			selectedSaveActions.add(0);
 		}
-		if (saveAsJson)
+		if (saveLogcat)
 		{
 			selectedSaveActions.add(1);
 		}
-		if (saveLogcat)
-		{
-			selectedSaveActions.add(2);
-		}
 		if (saveDmesg)
 		{
-			selectedSaveActions.add(3);
+			selectedSaveActions.add(2);
 		}
 
 		//----
@@ -1093,7 +1088,7 @@ public class StatsActivity extends ActionBarListActivity
 		
 		// Set the dialog title
 		builder.setTitle(R.string.title_share_dialog)
-				.setMultiChoiceItems(R.array.saveAsLabels, new boolean[]{saveAsText, saveAsJson, saveLogcat, saveDmesg}, new DialogInterface.OnMultiChoiceClickListener()
+				.setMultiChoiceItems(R.array.saveAsLabels, new boolean[]{saveDumpfile, saveLogcat, saveDmesg}, new DialogInterface.OnMultiChoiceClickListener()
 				{
 					@Override
 					public void onClick(DialogInterface dialog, int which, boolean isChecked)
@@ -1128,20 +1123,15 @@ public class StatsActivity extends ActionBarListActivity
 						// save as text is selected
 						if (selectedSaveActions.contains(0))
 						{
-							attachements.add(reading.writeToFileText(StatsActivity.this, editDescription.getText().toString()));
-						}
-						// save as JSON if selected
-						if (selectedSaveActions.contains(1))
-						{
-							attachements.add(reading.writeToFileJson(StatsActivity.this, editDescription.getText().toString()));
+							attachements.add(reading.writeDumpfile(StatsActivity.this, editDescription.getText().toString()));
 						}
 						// save logcat if selected
-						if (selectedSaveActions.contains(2))
+						if (selectedSaveActions.contains(1))
 						{
 							attachements.add(StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile());
 						}
 						// save dmesg if selected
-						if (selectedSaveActions.contains(3))
+						if (selectedSaveActions.contains(2))
 						{
 							attachements.add(StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile());
 						}
@@ -1173,20 +1163,15 @@ public class StatsActivity extends ActionBarListActivity
 							// save as text is selected
 							if (selectedSaveActions.contains(0))
 							{
-								reading.writeToFileText(StatsActivity.this, editDescription.getText().toString());
-							}
-							// save as JSON if selected
-							if (selectedSaveActions.contains(1))
-							{
-								reading.writeToFileJson(StatsActivity.this, editDescription.getText().toString());
+								reading.writeDumpfile(StatsActivity.this, editDescription.getText().toString());
 							}
 							// save logcat if selected
-							if (selectedSaveActions.contains(2))
+							if (selectedSaveActions.contains(1))
 							{
 								StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile();
 							}
 							// save dmesg if selected
-							if (selectedSaveActions.contains(3))
+							if (selectedSaveActions.contains(2))
 							{
 								StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile();
 							}

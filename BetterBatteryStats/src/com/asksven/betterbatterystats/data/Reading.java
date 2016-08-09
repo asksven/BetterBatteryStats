@@ -466,72 +466,8 @@ public class Reading implements Serializable
 		return out.toString();
 	}
 
-	
 	@SuppressLint("NewApi") 
-	public Uri writeToFileJson(Context context, String note)
-	{
-		Uri fileUri = null;
-		
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-
-		if (!DataStorage.isExternalStorageWritable())
-		{
-			Log.e(TAG, "External storage can not be written");
-			Toast.makeText(context, context.getString(R.string.message_external_storage_write_error),
-					Toast.LENGTH_SHORT).show();
-		}
-		try
-		{
-			// open file for writing
-			File root;
-			boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
-
-			if (bSaveToPrivateStorage)
-			{
-				try
-				{
-					root = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-				}
-				catch (Exception e)
-				{
-					root = Environment.getExternalStorageDirectory();
-				}
-			}
-			else
-			{
-				root = new File(sharedPrefs.getString("storage_path", 
-						Environment.getExternalStorageDirectory().getAbsolutePath()));
-			}
-
-			// check if file can be written
-			if (root.canWrite())
-			{
-				String strFilename = "BetterBatteryStats-"
-						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".json";
-				this.note = note;
-				File dumpFile = new File(root, strFilename);
-				fileUri = Uri.fromFile(dumpFile);
-				FileWriter fw = new FileWriter(dumpFile);
-				BufferedWriter out = new BufferedWriter(fw);
-				out.write(this.toJson());
-				out.close();
-				
-				// workaround: force mediascanner to run
-				DataStorage.forceMediaScanner(context, fileUri);
-
-			}
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "Exception: " + e.getMessage());
-		}
-		
-		return fileUri;
-	}
-
-	@SuppressLint("NewApi") 
-	public Uri writeToFileText(Context context, String note)
+	public Uri writeDumpfile(Context context, String note)
 	{
 		Uri fileUri = null;
 		
@@ -576,7 +512,11 @@ public class Reading implements Serializable
 				fileUri = Uri.fromFile(dumpFile);
 				FileWriter fw = new FileWriter(dumpFile);
 				BufferedWriter out = new BufferedWriter(fw);
+				out.write("/*");
 				out.write(this.toStringText(context, note));
+				out.write("------ human readable part end here");
+				out.write("*/");
+				out.write(this.toJson());
 				out.close();
 				
 				// workaround: force mediascanner to run

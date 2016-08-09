@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.2.0.0B7" versioncode="79">
+    <release version="2.2.0.0RC1" versioncode="79">
         <change>I18N</change>
         <change>Replaced "Other" by "Summary"</change>
         <change>Added "note" field to share dialog to add notes to dumpfiles</change>
         <change>Update to most current android-compat-lib</change>
         <change>Alarm details are now scrollable</change>
         <change>Changed font weigth to conform to styleguides and have better support for small devices, fixed some spacing issues</change>
+        <change>Folded both txt and json representation of the dumpfile into one file</change>
     </release>
     
     <release version="2.2.0.0B6" versioncode="78">
