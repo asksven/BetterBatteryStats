@@ -216,10 +216,8 @@
   <string name="pref_auto_refresh_title">Auto refresh</string>
   <string name="pref_auto_refresh_summary">Ricarica automaticamente \'corrente\' quando si cambia schermi/settaggi</string>
   <string name="pref_section_sharing">Opzione condivisione</string>
-  <string name="pref_save_as_text_title">Testo</string>
-  <string name="pref_save_as_text_summary">Condividi il dumpfile in formato testo</string>
-  <string name="pref_save_as_json_title">JSON</string>
-  <string name="pref_save_as_json_summary">Condividi il dumpfile in formato JSON</string>
+  <string name="pref_save_dumpfile_title">Dumpfile</string>
+  <string name="pref_save_dumpfile_summary">Share dumpfile</string>
   <string name="pref_save_logcat_title">Logcat</string>
   <string name="pref_save_logcat_summary">Condividi il logcat</string>
   <string name="pref_save_dmesg_title">dmesg</string>
