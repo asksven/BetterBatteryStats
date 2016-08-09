@@ -1851,12 +1851,14 @@ public class StatsProvider
 			}
 
 			long sensorTime = 0;
+			long gpsTime = 0;
 			long syncTime = 0;
 			try
 			{
 				if (Build.VERSION.SDK_INT > 6)
 				{
 					sensorTime 	= mStats.getSensorOnTime(m_context, batteryRealtime, statsType) / 1000;
+					gpsTime 	= mStats.getGpsOnTime(m_context, batteryRealtime, statsType) / 1000;
 					syncTime 	= mStats.getSyncOnTime(m_context, batteryRealtime, statsType) / 1000;
 				}
 			}
@@ -2068,7 +2070,12 @@ public class StatsProvider
 				
 				if (sensorTime > 0)
 				{
-					myUsages.add(new Misc("Sensors", sensorTime, elaspedRealtime));
+					myUsages.add(new Misc("Sensors (total)", sensorTime, elaspedRealtime));
+				}
+				
+				if (gpsTime > 0)
+				{
+					myUsages.add(new Misc("GPS", gpsTime, elaspedRealtime));
 				}
 
 			}
