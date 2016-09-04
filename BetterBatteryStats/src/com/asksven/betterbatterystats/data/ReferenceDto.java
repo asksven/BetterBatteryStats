@@ -39,6 +39,7 @@ import com.asksven.android.common.dto.MiscDto;
 import com.asksven.android.common.dto.NativeKernelWakelockDto;
 import com.asksven.android.common.dto.NetworkUsageDto;
 import com.asksven.android.common.dto.ProcessDto;
+import com.asksven.android.common.dto.SensorUsageDto;
 import com.asksven.android.common.dto.StateDto;
 import com.asksven.android.common.dto.WakelockDto;
 
@@ -72,7 +73,9 @@ public class ReferenceDto implements Serializable
 	@JsonProperty("other_stats") public ArrayList<MiscDto> m_refOther	 								= null;
 	
 	@JsonProperty("cpu_states") public ArrayList<StateDto> m_refCpuStates								= null;
-	
+
+	@JsonProperty("sensor_usage") public ArrayList<SensorUsageDto> m_refSensorUsage						= null;
+
     
 	/**
 	 * Deserialize

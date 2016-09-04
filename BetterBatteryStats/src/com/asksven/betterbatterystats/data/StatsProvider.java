@@ -71,6 +71,7 @@ import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Notification;
 import com.asksven.android.common.privateapiproxies.Process;
+import com.asksven.android.common.privateapiproxies.SensorUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.common.utils.DataStorage;
@@ -191,6 +192,8 @@ public class StatsProvider
 			return getCpuStateList(refFrom, refTo, bFilterStats);
 		case 6:
 			return getProcessStatList(bFilterStats, refFrom, iSort, refTo);
+		case 7:
+			return getSensorStatList(bFilterStats, refFrom, refTo);
 
 		}
 
@@ -463,6 +466,173 @@ public class StatsProvider
 
 	}
 
+	/**
+	 * Get the Alarm Stat to be displayed
+	 * 
+	 * @param bFilter
+	 *            defines if zero-values should be filtered out
+	 * @return a List of Other usages sorted by duration (descending)
+	 * @throws Exception
+	 *             if the API call failed
+	 */
+
+	public ArrayList<StatElement> getSensorStatList(boolean bFilter,
+			Reference refFrom, Reference refTo) throws Exception
+	{
+		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
+
+		// stop straight away of root features are disabled
+		// to process alarms we need either root or the perms to access the private API
+		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context) || RootShell.getInstance().hasRootPermissions()) )
+		{
+			myStats.add(new Notification(m_context.getString(R.string.NO_PERM_ERR)));
+			return myStats;
+		}
+
+		if ((refFrom == null) || (refTo == null))
+		{
+				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+			return myStats;
+		}
+
+		ArrayList<StatElement> mySensorStats = null;
+
+		if ((refTo.m_refSensorUsage != null) && (!refTo.m_refSensorUsage.isEmpty()))
+		{
+			mySensorStats = refTo.m_refSensorUsage;	
+		}
+		else
+		{
+			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			return myStats;
+		}
+
+		ArrayList<SensorUsage> myRetSensorStats = new ArrayList<SensorUsage>();
+		// if we are using custom ref. always retrieve "stats current"
+
+		// sort @see
+		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+		String strCurrent = mySensorStats.toString();
+		String strRef = "";
+		String strRefDescr = "";
+
+		if (LogSettings.DEBUG)
+		{
+			if (refFrom != null)
+			{
+				strRefDescr = refFrom.whoAmI();
+				if (refFrom.m_refSensorUsage != null)
+				{
+					strRef = refFrom.m_refSensorUsage.toString();
+				}
+				else
+				{
+					strRef = "SensorUsage is null";
+				}
+			}
+			else
+			{
+				strRefDescr = "Reference is null";
+			}
+			Log.d(TAG, "Processing sensor stats from " + refFrom.m_fileName + " to " + refTo.m_fileName);
+
+			Log.d(TAG, "Reference used: " + strRefDescr);
+			Log.d(TAG, "It is now " + DateUtils.now());
+
+			Log.d(TAG, "Substracting " + strRef);
+			Log.d(TAG, "from " + strCurrent);
+		}
+
+		for (int i = 0; i < mySensorStats.size(); i++)
+		{
+			SensorUsage sensor = ((SensorUsage) mySensorStats.get(i)).clone();
+			if ((!bFilter) || ((sensor.getTotal()) > 0))
+			{
+
+				sensor.substractFromRef(refFrom.m_refSensorUsage);
+
+				// we must recheck if the delta process is still above
+				// threshold
+				if ((!bFilter) || ((sensor.getTotal()) > 0))
+				{
+					myRetSensorStats.add(sensor);
+				}
+			}
+		}
+
+		Collections.sort(myRetSensorStats);
+
+		for (int i = 0; i < myRetSensorStats.size(); i++)
+		{
+			myStats.add((StatElement) myRetSensorStats.get(i));
+		}
+
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
+
+		return myStats;
+
+	}
+	
+	public ArrayList<StatElement> getCurrentSensorStatList(boolean bFilter) throws Exception
+	{
+		ArrayList<StatElement> myRetStats = new ArrayList<StatElement>();
+
+		// stop straight away of root features are disabled
+		SharedPreferences sharedPrefs = PreferenceManager
+				.getDefaultSharedPreferences(m_context);
+		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
+
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+		int statsType = 0;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+		}
+		else
+		{
+			statsType = BatteryStatsTypes.STATS_CURRENT;
+		}		
+
+		long elapsedRealtime = SystemClock.elapsedRealtime();
+
+		ArrayList<SensorUsage> mySensorStats = mStats.getSensorStats(m_context, elapsedRealtime, statsType);
+		ArrayList<SensorUsage> myStats = new ArrayList<SensorUsage>();
+		
+		for (int i = 0; i < mySensorStats.size(); i++)
+		{
+			SensorUsage sensor = (SensorUsage) mySensorStats.get(i);
+			if (sensor != null)
+			{
+				if ((!bFilter) || ((sensor.getTotal()) > 0))
+				{
+					myStats.add(sensor);
+				}
+			}
+		}
+
+		Collections.sort(myStats);
+
+		for (int i = 0; i < myStats.size(); i++)
+		{
+			myRetStats.add((StatElement) myStats.get(i));
+		}
+
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Result " + myStats.toString());
+		}
+
+		return myRetStats;
+
+	}
+	
 	/**
 	 * Get the Process Stat to be displayed
 	 * 
@@ -1850,15 +2020,11 @@ public class StatsProvider
 	
 			}
 
-			long sensorTime = 0;
-			long gpsTime = 0;
 			long syncTime = 0;
 			try
 			{
 				if (Build.VERSION.SDK_INT > 6)
 				{
-					sensorTime 	= mStats.getSensorOnTime(m_context, batteryRealtime, statsType) / 1000;
-					gpsTime 	= mStats.getGpsOnTime(m_context, batteryRealtime, statsType) / 1000;
 					syncTime 	= mStats.getSyncOnTime(m_context, batteryRealtime, statsType) / 1000;
 				}
 			}
@@ -2067,17 +2233,6 @@ public class StatsProvider
 				{
 					myUsages.add(new Misc("Sync", syncTime, elaspedRealtime));
 				}
-				
-				if (sensorTime > 0)
-				{
-					myUsages.add(new Misc("Sensors (total)", sensorTime, elaspedRealtime));
-				}
-				
-				if (gpsTime > 0)
-				{
-					myUsages.add(new Misc("GPS", gpsTime, elaspedRealtime));
-				}
-
 			}
 	
 			if ((timeNoDataConnection > 0)
@@ -2640,7 +2795,8 @@ public class StatsProvider
 			refs.m_refAlarms = null;
 			refs.m_refProcesses = null;
 			refs.m_refCpuStates = null;
-
+			refs.m_refSensorUsage = null;
+			
 			try
 			{
 				refs.m_refKernelWakelocks = getCurrentKernelWakelockStatList(bFilterStats, iPctType, iSort);
@@ -2749,7 +2905,16 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 
-			Log.i(TAG, "Trace: Finished root operations" + DateUtils.now());
+			try
+			{
+				refs.m_refSensorUsage = getCurrentSensorStatList(bFilterStats);
+			}
+			catch (Exception e)
+			{
+				Log.e(TAG, "An exception occured processing sensors. Message: " + e.getMessage());
+				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
+			}
+
 		}
 		catch (Exception e)
 		{
@@ -2764,7 +2929,8 @@ public class StatsProvider
 			refs.m_refAlarms = null;
 			refs.m_refProcesses = null;
 			refs.m_refCpuStates = null;
-
+			refs.m_refSensorUsage = null;
+			
 			refs.m_refBatteryRealtime = 0;
 			refs.m_refBatteryLevel = 0;
 			refs.m_refBatteryVoltage = 0;
@@ -2811,6 +2977,7 @@ public class StatsProvider
 			refs.m_refAlarms 			= null;
 			refs.m_refProcesses 		= null;
 			refs.m_refCpuStates 		= null;
+			refs.m_refSensorUsage 		= null;
 
 			refs.m_refKernelWakelocks 	= getCurrentKernelWakelockStatList(bFilterStats, iPctType, iSort);
 			if ( SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded )

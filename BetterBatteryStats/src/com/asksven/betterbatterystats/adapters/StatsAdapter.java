@@ -49,6 +49,8 @@ import com.asksven.android.common.privateapiproxies.AlarmItem;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Process;
+import com.asksven.android.common.privateapiproxies.SensorUsage;
+import com.asksven.android.common.privateapiproxies.SensorUsageItem;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.betterbatterystats.widgets.GraphableBars;
 import com.asksven.betterbatterystats.widgets.GraphablePie;
@@ -98,9 +100,21 @@ public class StatsAdapter extends BaseAdapter
 		        	
 	        		double[] values = g.getValues();
 		        	m_maxValue += values[0];
-		        	Log.i(TAG, "Summing up " + values[0] + ", may is now " + m_maxValue);
+		        	Log.i(TAG, "Summing up " + values[0] + ", max is now " + m_maxValue);
 		        }
         	}
+        	else if (m_listData.get(0) instanceof SensorUsage)
+        	{
+		        for (int i = 0; i < m_listData.size(); i++)
+		        {
+		        	StatElement g = m_listData.get(i);
+		        	
+	        		double[] values = g.getValues();
+		        	m_maxValue += values[0];
+		        	Log.i(TAG, "Summing up " + values[0] + ", max is now " + m_maxValue);
+		        }
+        	}
+
         	else if (m_listData.get(0) instanceof Process)
         	{
 	        	StatElement g = m_listData.get(0);
@@ -339,7 +353,7 @@ public class StatsAdapter extends BaseAdapter
         }
         
         // add on click listener for the list entry if details are availble
-        if ( (entry instanceof Alarm) || (entry instanceof NativeKernelWakelock) )
+        if ( (entry instanceof Alarm) || (entry instanceof NativeKernelWakelock) || (entry instanceof SensorUsage))
         {
         	convertView.setOnClickListener(new OnItemClickListener(position));
         }
@@ -450,6 +464,36 @@ public class StatsAdapter extends BaseAdapter
         	
         	StatElement entry = (StatElement) getItem(m_iPosition);
 
+        	if (entry instanceof SensorUsage)
+        	{
+        		SensorUsage sensorEntry = (SensorUsage) getItem(m_iPosition);
+	            
+	        	Dialog dialog = new Dialog(m_context);
+	        	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	        	dialog.setContentView(R.layout.details_dialog);
+	        	
+	        	TextView dialogTitle = (TextView) dialog.findViewById(R.id.dialog_title);
+	        	dialogTitle.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
+	        	TextView title = (TextView) dialog.findViewById(R.id.title);
+	        	TextView text = (TextView) dialog.findViewById(R.id.text);
+	        	title.setText(entry.getData((long)m_timeSince));
+	        	
+	        	String strText = "";
+	        	ArrayList<SensorUsageItem> myItems = sensorEntry.getItems();
+	        	if (myItems != null)
+	        	{
+	        		for (int i=0; i<myItems.size(); i++)
+	        		{
+	        			if (myItems.get(i).getTime() > 0)
+	        			{
+	        				strText = strText + myItems.get(i).getData() + "\n\n";
+	        			}
+	        		}
+	        	}
+	        	text.setText(strText);
+	        	dialog.show();       	
+	        }
+
         	if (entry instanceof Alarm)
         	{
 	        	Alarm alarmEntry = (Alarm) getItem(m_iPosition);
@@ -477,9 +521,9 @@ public class StatsAdapter extends BaseAdapter
 	        		}
 	        	}
 	        	text.setText(strText);
-	        	dialog.show();
-	        	
+	        	dialog.show();       	
 	        }
+        	
         	if (entry instanceof NativeKernelWakelock)
         	{
         		NativeKernelWakelock kernelWakelockEntry = (NativeKernelWakelock) getItem(m_iPosition);

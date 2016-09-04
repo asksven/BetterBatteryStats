@@ -44,6 +44,7 @@ import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.SensorUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Wakelock;
 import com.asksven.android.common.privateapiproxies.Process;
@@ -101,6 +102,7 @@ public class Reading implements Serializable
 	ArrayList<StatElement> networkStats;
 	ArrayList<StatElement> cpuStateStats;
 	ArrayList<StatElement> processStats;
+	ArrayList<StatElement> sensorUsage;
 	
 	@SuppressLint({ "InlinedApi", "NewApi" })
 	public Reading(Context context, Reference refFrom, Reference refTo)
@@ -112,6 +114,8 @@ public class Reading implements Serializable
 		networkStats 			= new ArrayList<StatElement>();
 		cpuStateStats 			= new ArrayList<StatElement>();
 		processStats 			= new ArrayList<StatElement>();
+		sensorUsage 			= new ArrayList<StatElement>();
+
 
 		if ((refFrom == null) || (refTo == null))
 		{
@@ -295,7 +299,24 @@ public class Reading implements Serializable
 				{
 					Log.e(TAG, tempStats.get(i).toString() + " is not of type State");
 				}
+			}
+			
+			tempStats = StatsProvider.getInstance(context).getSensorStatList(false, refFrom, refTo);
+			for (int i = 0; i < tempStats.size(); i++)
+			{
+				// make sure to load all data (even the lazy loaded one)
+				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
+
+				if (tempStats.get(i) instanceof SensorUsage)
+				{
+					sensorUsage.add((SensorUsage) tempStats.get(i));
+				}
+				else
+				{
+					Log.e(TAG, tempStats.get(i).toString() + " is not of type SensorUsage");
+				}
 			}		
+
 		}
 		catch (Exception e)
 		{
@@ -418,12 +439,18 @@ public class Reading implements Serializable
 		out.write("======================\n");
 		dumpList(context, networkStats, out);
 
-		// write alarms info
+		// write cpu states info
 		out.write("==========\n");
 		out.write("CPU States\n");
 		out.write("==========\n");
 		dumpList(context, cpuStateStats, out);
-	
+
+		// write sensor info
+		out.write("==========\n");
+		out.write("Sensors\n");
+		out.write("==========\n");
+		dumpList(context, sensorUsage, out);
+
 		out.write("========\n");
 		out.write("Services\n");
 		out.write("========\n");

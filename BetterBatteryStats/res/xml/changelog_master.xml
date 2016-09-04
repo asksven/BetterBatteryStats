@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.2.0.0RC2" versioncode="80">
+        <change>Added Sensor Stats</change>
+    </release>
+    
     <release version="2.2.0.0RC1" versioncode="79">
         <change>I18N</change>
         <change>Replaced "Other" by "Summary"</change>

@@ -10,6 +10,7 @@
         <item>Network</item>
         <item>CPU States</item>
         <item>Process</item>
+        <item>Sensors</item>
     </string-array>
 
     <!-- Values for the preferences -->
@@ -21,6 +22,7 @@
         <item name="4">Network</item>
         <item name="5">CPU States</item>
         <item name="6">Process</item>
+        <item name="7">Sensors</item>
     </string-array>
 
     <!-- Values for the preferences -->
@@ -37,6 +39,7 @@
         <item name="4">4</item>
         <item name="5">5</item>
         <item name="6">6</item>
+        <item name="7">7</item>
     </string-array>
     <string-array name="statTypeLabels">
         <item name="0">@string/stat_type_label_since_charged</item>

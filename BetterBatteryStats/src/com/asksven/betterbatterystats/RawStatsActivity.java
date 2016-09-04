@@ -253,6 +253,10 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 					case 6:
 						stats = provider.getCurrentProcessStatList(false, 0);
 						break;
+					case 7:
+						stats = provider.getCurrentSensorStatList(false);
+						break;
+	
 				}
 				m_listViewAdapter = new StatsAdapter(RawStatsActivity.this, stats, RawStatsActivity.this);
 			}

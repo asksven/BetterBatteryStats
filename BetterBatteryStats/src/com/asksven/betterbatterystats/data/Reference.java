@@ -24,6 +24,7 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -37,6 +38,7 @@ import com.asksven.android.common.dto.MiscDto;
 import com.asksven.android.common.dto.NativeKernelWakelockDto;
 import com.asksven.android.common.dto.NetworkUsageDto;
 import com.asksven.android.common.dto.ProcessDto;
+import com.asksven.android.common.dto.SensorUsageDto;
 import com.asksven.android.common.dto.StateDto;
 import com.asksven.android.common.dto.WakelockDto;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
@@ -44,6 +46,7 @@ import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.SensorUsage;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.utils.DateUtils;
@@ -125,7 +128,10 @@ public class Reference implements Serializable
 	
 	@JsonDeserialize(contentAs = State.class)
     protected ArrayList<StatElement> m_refCpuStates			= null;
-	
+
+	@JsonDeserialize(contentAs = SensorUsage.class)
+    protected ArrayList<StatElement> m_refSensorUsage		= null;
+
     protected long m_refBatteryRealtime 					= 0;
     protected int m_refBatteryLevel							= 0;
     protected int m_refBatteryVoltage						= 0;
@@ -210,6 +216,15 @@ public class Reference implements Serializable
 			for (int i=0; i < source.m_refWakelocks.size(); i++)
 			{
 				this.m_refWakelocks.add(new Wakelock(source.m_refWakelocks.get(i)));
+			}
+		}
+
+		if (source.m_refSensorUsage != null)
+		{
+			this.m_refSensorUsage = new ArrayList<StatElement>();
+			for (int i=0; i < source.m_refSensorUsage.size(); i++)
+			{
+				this.m_refSensorUsage.add(new SensorUsage(source.m_refSensorUsage.get(i)));
 			}
 		}
 
@@ -304,6 +319,15 @@ public class Reference implements Serializable
 			}
 		}
 
+		if (this.m_refSensorUsage != null)
+		{
+			ret.m_refSensorUsage = new ArrayList<SensorUsageDto>();
+			for (int i=0; i < this.m_refSensorUsage.size(); i++)
+			{
+				ret.m_refSensorUsage.add(((SensorUsage) this.m_refSensorUsage.get(i)).toDto());
+			}
+		}
+
 		return ret;
 	}
 
@@ -354,6 +378,7 @@ public class Reference implements Serializable
         String processes = (m_refProcesses ==null) ? "null" : m_refProcesses.size() + " elements";
         String other = (m_refOther == null) ? "null" : m_refOther.size() + " elements";
         String cpuStates = (m_refCpuStates == null) ? "null" : m_refCpuStates.size() + " elements";
+        String sensorUsage = (m_refSensorUsage == null) ? "null" : m_refSensorUsage.size() + " elements";
         
         wakelocks = "Wl: " + wakelocks;
         kernelWakelocks = "KWl: " + kernelWakelocks;
@@ -362,9 +387,11 @@ public class Reference implements Serializable
         processes = "Proc: " + processes;
         other = "Oth: " + other;
         cpuStates = "CPU: " + cpuStates;
+        cpuStates = "Sensors: " + sensorUsage;
+        
         
         return "(" + wakelocks + "; " + kernelWakelocks + "; " + networkStats + "; " + alarms + "; "
-        		+ processes + "; " + other + "; " + cpuStates + ")";
+        		+ processes + "; " + other + "; " + cpuStates + "; " + sensorUsage + ")";
 
     }
 
