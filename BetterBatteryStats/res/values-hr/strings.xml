@@ -67,9 +67,9 @@
   <string name="label_widget_partial_wakelock">PWL:</string>
   <string name="label_widget_deep_sleep_short">DS</string>
   <string name="label_widget_awake_short">Aw</string>
-  <string name="label_widget_screen_on_short">Ekran</string>
-  <string name="label_widget_kernel_wakelock_short">KWL:</string>
-  <string name="label_widget_partial_wakelock_short">PWL:</string>
+  <string name="label_widget_screen_on_short">Scr</string>
+  <string name="label_widget_kernel_wakelock_short">KWL</string>
+  <string name="label_widget_partial_wakelock_short">PWL</string>
   <string name="label_battery">Baterija</string>
   <string name="label_name">Ime</string>
   <string name="label_description">Opis</string>
