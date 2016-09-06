@@ -1,61 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.2.0.0RC2" versioncode="80">
+    <release version="2.2.0.0RC3" versioncode="81">
         <change>Added Sensor Stats</change>
-    </release>
-    
-    <release version="2.2.0.0RC1" versioncode="79">
-        <change>I18N</change>
-        <change>Replaced "Other" by "Summary"</change>
+        <change>Replaced "Other" stats label by "Summary"</change>
         <change>Added "note" field to share dialog to add notes to dumpfiles</change>
         <change>Update to most current android-compat-lib</change>
         <change>Alarm details are now scrollable</change>
-        <change>Changed font weigth to conform to styleguides and have better support for small devices, fixed some spacing issues</change>
+        <change>Usability and style fixed</change>
         <change>Folded both txt and json representation of the dumpfile into one file</change>
-        <change>Added GPS stats in Summary</change>
-    </release>
-    
-    <release version="2.2.0.0B6" versioncode="78">
+        <change>Support for non-rooted devices</change>
+        <change>Removed the need for the system app (on rooted devices)</change>
+        <change>Crashlog and bug fixes</change>
         <change>I18N</change>
-        <change>Fixed kernel wakelock in API/non-root mode</change>
-        <change>Fixed sticky watchdog toast</change>
-        <change>Fixed watchdog sometimes reporting >100% awake</change>
-        <change>Fixed missing icons in alarms (API mode)</change>
-        <change>More agressive handling of kernel wakelocks for LG G2, G3, G4 devices for any android version</change>
     </release>
-    
-    <release version="2.2.0.0B5" versioncode="77">
-        <change>I18N</change>
-        <change>Added handling of kernel wakelocks for LG G4</change>
-        <change>Added the option to select the output folder for dumpfiles etc. Requires OI FileManager</change>
-        <change>Fixed touch feedback to extend to the whole row</change>
-    </release>
-    
-    <release version="2.2.0.0B4" versioncode="76">
-        <change>Introduced Snackbar instead of Toasts</change>
-        <change>Fixed more issues related to non-rooted devices (when system app in installed)</change>
-        <change>Fixed widget layouts for RTL languages</change>
-    </release>
-    
-    <release version="2.2.0.0B3" versioncode="75">
-        <change>Doze mode stats are microsoeconds instead of milliseconds</change>
-        <change>Network stats now also available for non-rooted devices (when system app in installed)</change>
-        <change>Added sensor and sync time to other stats</change>
-    </release>
-    
-    <release version="2.2.0.0B2" versioncode="74">
-        <change>Added more detailed BT stats for Marshmallow</change>
-        <change>Fix for stats not showing when app has no root but batterystats perms</change>
-		<change>Added Doze mode stats for Marshmallow Devices</change>
-    </release>
-    
-    <release version="2.2.0.0B1" versioncode="73">
-        <change>Experimental: get BATTERY_INFO permissions without system app (root only)</change>
-        <change>Removed requirement for root (when system app in installed)</change>
-        <change>Fixed API and non-API access to alarms on Marshmallow</change>
-        <change>Fixed various FC conditions from gplay crash reports</change>
-        <change>I18N</change>
-        <change>Moved credits and changelog to about screen</change> 
-    </release>
-
 </changelog>
