@@ -51,7 +51,8 @@
         android:name="com.asksven.betterbatterystats.BbsApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="BetterBatteryStats"
-        android:theme="@style/Theme.Bbs" >
+        android:theme="@style/Theme.Bbs"
+        android:supportsRtl="true">
         <activity
             android:name="com.asksven.betterbatterystats.StatsActivity"
             android:configChanges="orientation|screenSize"

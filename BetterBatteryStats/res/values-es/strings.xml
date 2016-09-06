@@ -214,8 +214,6 @@
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Escribir archivos a /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Almacenamiento privado</string>
-    <string name="pref_root_features_summary">Habilitar estadísticas y alarmas de red</string>
-    <string name="pref_root_features_title">Características Root</string>
     <string name="pref_ignore_system_app_summary">Ignorar detección de aplicación de sistema (para usuarios del módulo XPosed \'Enable BATTERY_STATS\')</string>
     <string name="pref_ignore_system_app_title">No detectar aplicación de sistema</string>
 
@@ -225,10 +223,6 @@
     <string name="pref_auto_refresh_title">Auto refresco</string>
     <string name="pref_auto_refresh_summary">Recargar automáticamente \'actual\' cuando se intercambia entre pantallas/configuraciones</string>
     <string name="pref_section_sharing">opciones Compartir</string>
-    <string name="pref_save_as_text_title">Texto</string>
-    <string name="pref_save_as_text_summary">Compartir archivo de volcado como texto</string>
-    <string name="pref_save_as_json_title">JSON</string>
-    <string name="pref_save_as_json_summary">Compartir archivo de volcado como JSON</string>
     <string name="pref_save_logcat_title">Logcat</string>
     <string name="pref_save_logcat_summary">Compartir logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
@@ -278,7 +272,6 @@
     <string name="NO_PERM_ERR">Esta estadística requiere el permiso BATTERY_STATS</string>
     <string name="NO_REF_ERR">Aún no se a asignado una referencia</string>
     <string name="NO_STATS">Aún no se han recolectado estadísticas</string>
-    <string name="FILE_ACCESS_ERROR">El Archivo no se puede leer</string>
 
     <!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">Desde que se cargó</string>

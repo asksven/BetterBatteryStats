@@ -230,10 +230,6 @@
     <string name="pref_auto_refresh_title">自动刷新</string>
     <string name="pref_auto_refresh_summary">当切换屏幕或设置时自动重载\'current\'区间</string>
     <string name="pref_section_sharing">分享选项</string>
-    <string name="pref_save_as_text_title">Text</string>
-    <string name="pref_save_as_text_summary">以text格式分享转存文件</string>
-    <string name="pref_save_as_json_title">JSON</string>
-    <string name="pref_save_as_json_summary">以json格式分享转存文件</string>
     <string name="pref_save_logcat_title">Logcat</string>
     <string name="pref_save_logcat_summary">分享logcat日志</string>
     <string name="pref_save_dmesg_title">dmesg</string>

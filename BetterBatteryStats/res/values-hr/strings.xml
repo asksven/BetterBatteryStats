@@ -208,8 +208,6 @@
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Zapisuj datoteke u /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Privatna memorija</string>
-    <string name="pref_root_features_summary">Omogući stanje mreže i alarme</string>
-    <string name="pref_root_features_title">Root mogućnosti</string>
     <string name="pref_ignore_system_app_summary">Ignoriraj detekciju sistemske aplikacije (za korisnike XPosed Module-a \'Enable BATTERY_STATS\')</string>
     <string name="pref_ignore_system_app_title">Ne detektiraj sistemsku aplikaciju</string>
 
@@ -219,10 +217,6 @@
     <string name="pref_auto_refresh_title">Automatski osvježi</string>
     <string name="pref_auto_refresh_summary">Automatski ponovno učitaj \'trenutno\' kod promjene zaslona/ postavki</string>
     <string name="pref_section_sharing">Opcije dijeljenja</string>
-    <string name="pref_save_as_text_title">Tekst</string>
-    <string name="pref_save_as_text_summary">Podijeli dumpfile kao tekst</string>
-    <string name="pref_save_as_json_title">JSON</string>
-    <string name="pref_save_as_json_summary">Podijeli dumpfile kao JSON</string>
     <string name="pref_save_logcat_title">Logcat</string>
     <string name="pref_save_logcat_summary">Podijeli logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
@@ -273,7 +267,6 @@
     <string name="NO_PERM_ERR">Ova statistika zahtjeva BATTERY_STATS odobrenje</string>
     <string name="NO_REF_ERR">Referenca još nije postavljena</string>
     <string name="NO_STATS">Statistike još nisu prikupljene</string>
-	<string name="FILE_ACCESS_ERROR">Datoteka ne može biti pročitana</string>
     
     <!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">Od punog punjenja</string>

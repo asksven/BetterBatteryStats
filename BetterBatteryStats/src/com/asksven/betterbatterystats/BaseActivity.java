@@ -20,8 +20,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+
 import com.asksven.betterbatterystats.R;
 
+@SuppressWarnings("deprecation")
 public class BaseActivity extends ActionBarActivity
 {
 

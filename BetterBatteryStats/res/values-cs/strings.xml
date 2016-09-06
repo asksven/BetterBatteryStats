@@ -232,10 +232,6 @@
     <string name="pref_auto_refresh_title">Automatické obnovení</string>
     <string name="pref_auto_refresh_summary">Při změně zobrazení automaticky obnovit \'aktuální\' ref. bod</string>
     <string name="pref_section_sharing">Možnosti sdílení (ukládání)</string>
-    <string name="pref_save_as_text_title">Text</string>
-    <string name="pref_save_as_text_summary">Sdílet (ukládat) textový výpis</string>
-    <string name="pref_save_as_json_title">JSON</string>
-    <string name="pref_save_as_json_summary">Sdílet (ukládat) JSON výpis</string>
     <string name="pref_save_logcat_title">Logcat</string>
     <string name="pref_save_logcat_summary">Sdílet (ukládat) logcat log</string>
     <string name="pref_save_dmesg_title">dmesg</string>
