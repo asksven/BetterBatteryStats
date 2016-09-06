@@ -205,30 +205,23 @@ public class StatsAdapter extends BaseAdapter
 
 		//we need to change "since" fontsize
 		tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, mediumFontSize);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-       	tvName.setText(entry.getName());
 
-//       	KbData kb = KbReader.getInstance().read(m_context);
-//       	KbEntry kbentry = null;
-//        if (kb != null)
-//        {
-//        	 kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(m_context)));
-//        }
-        
+		// We need to handle an exception here: Sensors do not have a name so we use the fqn instead
+        if (entry instanceof SensorUsage)
+        {
+        	tvName.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
+        	
+        }
+        else
+        {
+        	tvName.setText(entry.getName());
+        }
+
         boolean bShowKb = sharedPrefs.getBoolean("enable_kb", true);
         ImageView iconKb = (ImageView) convertView.findViewById(R.id.imageKB);
         
-        // for now we always hide the KB
         iconKb.setVisibility(View.INVISIBLE);
-//        if ( (bShowKb) && (kbentry != null))
-//        {
-//        	iconKb.setVisibility(View.VISIBLE);
-//        }
-//        else
-//        {
-//        	iconKb.setVisibility(View.INVISIBLE);
-//        }
+
         TextView tvFqn = (TextView) convertView.findViewById(R.id.TextViewFqn);
         tvFqn.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
 
@@ -327,7 +320,8 @@ public class StatsAdapter extends BaseAdapter
 //        }
 
         // show / hide fqn text
-        if ((entry instanceof Process) || (entry instanceof State) || (entry instanceof Misc) || (entry instanceof NativeKernelWakelock) || (entry instanceof Alarm))
+        if ((entry instanceof Process) || (entry instanceof State) || (entry instanceof Misc)
+        		|| (entry instanceof NativeKernelWakelock) || (entry instanceof Alarm) || (entry instanceof SensorUsage))
         {
         	myFqnLayout.setVisibility(View.GONE);
         }
