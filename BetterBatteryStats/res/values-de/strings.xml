@@ -127,8 +127,8 @@
   <!-- Preferences -->
   <string name="label_theme_dark">Dunkel</string>
   <string name="label_theme_light">Hell</string>
-  <string name="pref_theme_title">Thema</string>
-  <string name="pref_theme_summary">Thema der App auswählen</string>
+  <string name="pref_theme_title">Aussehen</string>
+  <string name="pref_theme_summary">Aussehen der App ändern</string>
   <!-- System app activity -->
   <string name="expl_system_app">Seit Android 4.4 haben ausschließlich System-Apps Zugriff auf Akku-Statistiken. BetterBatteryStats sollte daher als System-App installiert werden. Dadurch wird die App nicht beeinträchtigt.Wenn sich die Berechtigungen der App ändern, kann ein erneutes Installieren als System-App erforderlich werden.</string>
   <string name="expl_system_app_workaround">Schlägt die Installation fehl, versuchen Sie eine Installation mittels der Recovery.zip.</string>
