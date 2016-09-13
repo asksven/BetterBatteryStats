@@ -37,7 +37,7 @@
   <string name="label_title">Titel</string>
   <string name="label_author">Autor</string>
   <string name="label_license">Lizenz</string>
-  <string name="label_import_export_prefs">Import/Export der Einstellungen aus %s</string>
+  <string name="label_import_export_prefs">Import/Export der Einstellungen aus/nach %s</string>
   <string name="label_import_prefs">Importieren</string>
   <string name="label_export_prefs">Exportieren</string>
   <string name="label_hist_time">Zeit</string>
@@ -48,7 +48,7 @@
   <string name="label_hist_wifi">WLAN</string>
   <string name="label_hist_gps">GPS</string>
   <string name="label_hist_bluetooth">BT</string>
-  <string name="label_hist_incall">Anr</string>
+  <string name="label_hist_incall">Anruf</string>
   <string name="label_hist_scanning">Scan</string>
   <string name="label_graph_battery">Akku</string>
   <string name="label_graph_power">Ladend</string>
@@ -58,7 +58,7 @@
   <string name="label_graph_gps">GPS</string>
   <string name="label_graph_bluetooth">Bluetooth</string>
   <string name="label_graph_incall">Anruf</string>
-  <string name="label_graph_scanning">Scannen</string>
+  <string name="label_graph_scanning">Scan</string>
   <string name="label_widget_deep_sleep">Tiefschlaf</string>
   <string name="label_widget_since">Seit:</string>
   <string name="label_widget_awake">Wach:</string>
