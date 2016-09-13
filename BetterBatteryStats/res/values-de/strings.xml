@@ -255,7 +255,7 @@
   <string name="widget_opacity_title">Deckkraft</string>
   <string name="widget_opacity_summary">Deckkraft des Widgets anpassen</string>
   <string name="widget_bg_opacity_title">Deckkraft des Hintergrunds</string>
-  <string name="widget_bg_opacity_summary">Deckkraft des Widgethintergrunds anpassen</string>
+  <string name="widget_bg_opacity_summary">Deckkraft des Widget-Hintergrunds anpassen</string>
   <string name="pref_category_widget_1x1">Widget der Größe 1x1</string>
   <string name="small_widget_refresh_on_tap_title">Beim Antippen aktualisieren</string>
   <string name="small_widget_refresh_on_tap_summary">Antippen des Widgets startet dessen Aktualisierung (Wenn deaktiviert, öffnet das Antippen die App)</string>
