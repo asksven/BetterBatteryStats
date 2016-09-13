@@ -195,8 +195,8 @@
   <string name="pref_ref_for_screen_off_title">Schwellwert für Dauer in Minuten</string>
   <string name="pref_ref_for_screen_off_summary">Dauer bis zur Auslösung</string>
   <string name="pref_section_active_mon">Aktives Überwachen</string>
-  <string name="pref_active_mon_enabled_title">Aktivies Überwachen verwenden</string>
-  <string name="pref_active_mon_enabled_summary">Aktives überwachen starten. Achtung: Erhöht den Akkuverbrauch</string>
+  <string name="pref_active_mon_enabled_title">Aktives Überwachen verwenden</string>
+  <string name="pref_active_mon_enabled_summary">Aktives Überwachen starten. Achtung: Erhöhter Akkuverbrauch</string>
   <string name="pref_active_mon_freq_title">Frequenz in Minuten</string>
   <string name="pref_active_mon_freq_summary">Häufigkeit, mit der Referenzen gespeichert werden.</string>
   <string name="pref_force_en_title">Englisch verwenden</string>
@@ -213,7 +213,7 @@
   <string name="pref_select_dir_button">Select</string>
   <string name="pref_developer_title">Beim Laden aktivieren</string>
   <string name="pref_developer_summary">Statistiken beim Laden anzeigen (Können inkonsistent sein)</string>
-  <string name="pref_auto_refresh_title">Autom. Aktualisieren</string>
+  <string name="pref_auto_refresh_title">Autom. Aktualisierung</string>
   <string name="pref_auto_refresh_summary">Aktualisiert beim Wechseln des Bildschirms automatisch die Referenz \'aktuell\'</string>
   <string name="pref_section_sharing">Teilen</string>
   <string name="pref_save_dumpfile_title">Dumpfile</string>
