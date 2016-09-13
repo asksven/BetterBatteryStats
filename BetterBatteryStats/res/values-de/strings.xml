@@ -131,7 +131,7 @@
   <string name="pref_theme_summary">Aussehen der App ändern</string>
   <!-- System app activity -->
   <string name="expl_system_app">Seit Android 4.4 haben ausschließlich System-Apps Zugriff auf Akku-Statistiken. BetterBatteryStats sollte daher als System-App installiert werden. Dadurch wird die App nicht beeinträchtigt.Wenn sich die Berechtigungen der App ändern, kann ein erneutes Installieren als System-App erforderlich werden.</string>
-  <string name="expl_system_app_workaround">Schlägt die Installation fehl, versuchen Sie eine Installation mittels der Recovery.zip.</string>
+  <string name="expl_system_app_workaround">Schlägt die Installation fehl, versuchen Sie eine .zip-Installation über die Recovery</string>
   <string name="install_system_app">In System-App umwandeln</string>
   <string name="uninstall_system_app">System-App entfernen</string>
   <string name="info_installed_system_app">Installation abgeschlossen. Bitte starten Sie Ihr Gerät neu.</string>
@@ -139,13 +139,13 @@
   <string name="info_succeeded">Erfolgreich</string>
   <string name="info_failed">Ein Fehler ist aufgetreten. Versuchen Sie die Installation per Recovery-ZIP</string>
   <string name="info_root_required">Für diese Funktion muss der Root-Zugriff in den erweiterten Einstellungen aktiviert sein.</string>
-  <string name="info_unknown_state">Fehler: Änderung wurden nicht erkannt</string>
-  <string name="info_service_connection_error">Der Dienst BatteryInfo ist nicht erreichbar.</string>
+  <string name="info_unknown_state">Fehler: Änderung wurde nicht erkannt</string>
+  <string name="info_service_connection_error">Der Dienst »BatteryInfo« ist nicht erreichbar.</string>
   <string name="info_loading_refs_error">Die Referenz \'von\' oder \'bis\' konnte nicht geladen werden. Bitte nehmen Sie eine Aktualisierung vor.</string>
   <string name="info_unknown_stat_error">Beim Abrufen der Statistik trat ein Fehler auf. Bitte prüfen Sie das Logcat.</string>
   <string name="info_state_recovery_error">Beim Wiederherstellen des letzten Zustands trat ein Fehler auf.</string>
   <string name="info_pref_export_success">Einstellungen wurden in %s gespeichert</string>
-  <string name="info_pref_import_success">Einstellungen wurden von %s geladen</string>
+  <string name="info_pref_import_success">Einstellungen wurden aus %s geladen</string>
   <string name="info_pref_import_export_failed">Fehlgeschlagen</string>
   <string name="info_files_written">Files were written</string>
   <string name="info_files_write_error">An error occured</string>
