@@ -74,7 +74,7 @@
   <string name="label_name">Name</string>
   <string name="label_description">Beschreibung</string>
   <string name="label_package_name">Paketname</string>
-  <string name="label_on_on_android_4_3plus">Nur verfügbar ab Android 4.3</string>
+  <string name="label_on_on_android_4_3plus">Erst ab Android 4.3 verfügbar</string>
   <string name="label_permisions_dangerous">\'Gefährliche\' Berechtigung</string>
   <string name="label_permisions_system">Berechtigungen für \'System-Apps\'</string>
   <string name="label_permisions_normal">Normale Berechtigungen</string>
