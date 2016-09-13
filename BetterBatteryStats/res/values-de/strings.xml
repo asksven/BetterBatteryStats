@@ -226,8 +226,8 @@
   <string name="pref_force_alarms_api_summary">Alarme mittels API abrufen</string>
   <string name="pref_force_kwl_api_title">API für Kernel Wakelocks verwenden</string>
   <string name="pref_force_kwl_api_summary">Kernel Wakelocks mittels API abrufen</string>
-  <string name="pref_force_network_api_title">Network Stats using API</string>
-  <string name="pref_force_network_api_summary">Force to retrieve Network Stats using the API</string>
+  <string name="pref_force_network_api_title">API für Netzdaten</string>
+  <string name="pref_force_network_api_summary">Netzwerkverbindungsdaten mittels API abrufen</string>
   <string name="pref_screen_system_app_title">System-App</string>
   <string name="pref_screen_system_app_summary">BBS in System-App umwandeln</string>
   <string name="pref_screen_import_export_title">Importieren/Exportieren</string>
@@ -268,7 +268,7 @@
   <string name="NO_PERM_INFO">Attempting to grant permissions without system app.</string>
   <string name="NO_REF_ERR">Es wurde noch keine Referenz gesetzt</string>
   <string name="NO_STATS">Es wurden noch keine Werte erfasst</string>
-  <string name="KWL_ACCESS_ERROR">Kernel Wakelocks could not be accessed, neither by file nor by API</string>
+  <string name="KWL_ACCESS_ERROR">Kernel Wakelocks können weder aus der Datei noch mittels API abgerufen werden</string>
   <!-- from arrays.xml -->
   <string name="stat_type_label_since_charged">Seit geladen</string>
   <string name="stat_type_label_since_unplugged">Seit Trennung vom Ladegerät</string>
