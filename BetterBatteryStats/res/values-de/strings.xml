@@ -267,7 +267,7 @@
   <string name="NO_PERM_ERR">Diese Statistik benötigt die Berechtigung BATTERY_STATS.</string>
   <string name="NO_PERM_INFO">Attempting to grant permissions without system app.</string>
   <string name="NO_REF_ERR">Es wurde noch keine Referenz gesetzt</string>
-  <string name="NO_STATS">Es wurden noch keine Statistiken erhoben</string>
+  <string name="NO_STATS">Es wurden noch keine Werte erfasst</string>
   <string name="KWL_ACCESS_ERROR">Kernel Wakelocks could not be accessed, neither by file nor by API</string>
   <!-- from arrays.xml -->
   <string name="stat_type_label_since_charged">Seit geladen</string>
