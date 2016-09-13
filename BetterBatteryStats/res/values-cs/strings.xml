@@ -96,6 +96,7 @@
 
 
     <string name="title_share_dialog">Sdílet (uložit) data jako...</string>
+    <string name="share_dialog_edit_title">Poznámka</string>
     <string name="text_since">Od</string>
     <string name="label_preferences">Nastavení</string>
     <string name="label_packageinfo">Informace</string>
@@ -232,6 +233,8 @@
     <string name="pref_auto_refresh_title">Automatické obnovení</string>
     <string name="pref_auto_refresh_summary">Při změně zobrazení automaticky obnovit \'aktuální\' ref. bod</string>
     <string name="pref_section_sharing">Možnosti sdílení (ukládání)</string>
+    <string name="pref_save_dumpfile_title">Výpis</string>
+    <string name="pref_save_dumpfile_summary">Sdílet (ukládat) výpis</string>
     <string name="pref_save_logcat_title">Logcat</string>
     <string name="pref_save_logcat_summary">Sdílet (ukládat) logcat log</string>
     <string name="pref_save_dmesg_title">dmesg</string>
