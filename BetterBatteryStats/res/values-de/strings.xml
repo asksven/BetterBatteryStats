@@ -22,7 +22,7 @@
   <string name="message_computing">Wird berechnet...</string>
   <string name="message_awake_alert">Weckalarm</string>
   <string name="message_awake_info">%1$d%% wach während inaktivem Bildschirm</string>
-  <string name="message_no_fileman_error">Please install OI FileManager</string>
+  <string name="message_no_fileman_error">Bitte »OI FileManager« installieren</string>
   <string name="app_name">BetterBatteryStats</string>
   <string name="app_welcome">Willkommen bei %s</string>
   <string name="app_pname">com.asksven.betterbatterystats</string>
@@ -87,7 +87,7 @@
   <string name="label_button_application_settings">App-Einstellungen</string>
   <string name="label_button_appops">AppOps</string>
   <string name="title_share_dialog">Daten teilen als...</string>
-  <string name="share_dialog_edit_title">Note</string>
+  <string name="share_dialog_edit_title">Notiz</string>
   <string name="text_since">Seit</string>
   <string name="label_preferences">Einstellungen</string>
   <string name="label_packageinfo">Paket-Informationen</string>
@@ -147,8 +147,8 @@
   <string name="info_pref_export_success">Einstellungen wurden in %s gespeichert</string>
   <string name="info_pref_import_success">Einstellungen wurden aus %s geladen</string>
   <string name="info_pref_import_export_failed">Fehlgeschlagen</string>
-  <string name="info_files_written">Files were written</string>
-  <string name="info_files_write_error">An error occured</string>
+  <string name="info_files_written">Dateien wurden geschrieben</string>
+  <string name="info_files_write_error">Es ist ein Fehler aufgetreten</string>
   <string name="info_deleting_refs">Referenzen werden entfernt und neu erzeugt</string>
   <string name="info_fallback_to_boot">Ausgewichen auf \'Seit Systemstart\'</string>
   <string name="info_fallback_to_default">Ausgewichen auf Standard</string>
@@ -210,7 +210,7 @@
   <string name="pref_ignore_system_app_title">Nicht auf System-App prüfen</string>
   <string name="pref_select_dir_summary">Verzeichnis auswählen, in das Dumps geschrieben werden</string>
   <string name="pref_select_dir_title">Speicherort wählen</string>
-  <string name="pref_select_dir_button">Select</string>
+  <string name="pref_select_dir_button">Wählen</string>
   <string name="pref_developer_title">Beim Laden aktivieren</string>
   <string name="pref_developer_summary">Werte während des Ladevorgangs erfassen (Achtung, diese können inkonsistent sein)</string>
   <string name="pref_auto_refresh_title">Autom. Aktualisierung</string>
@@ -234,7 +234,7 @@
   <string name="pref_screen_import_export_summary">Einstellungen sichern und wiederherstellen</string>
   <string name="pref_section_settings">Einstellungen</string>
   <string name="pref_screen_widgets_title">Widgets</string>
-  <string name="pref_screen_legacy_widgets_title">Legacy Widgets</string>
+  <string name="pref_screen_legacy_widgets_title">Veraltete Widgets</string>
   <string name="widget_refresh_freq_title">Häufigkeit der Aktualisierung</string>
   <string name="widget_refresh_freq_summary">Intervall für Widget-Aktualisierung festlegen</string>
   <string name="widget_refresh_on_screen_on_title">Bei aktiviertem Bildschirm</string>
