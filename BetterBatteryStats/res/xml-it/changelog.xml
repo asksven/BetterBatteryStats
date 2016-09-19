@@ -1,46 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.2.0.0B6" versioncode="78">
+    <release version="2.2.0.0RC3" versioncode="81">
+        <change>Aggiunte le statistiche dei Sensori</change>
+        <change>Sostituita l'etichetta "Other" con "Summary"</change>
+        <change>Aggiunto campo "note" per la condivisione dei dumpfile</change>
+        <change>Aggiornamento all'ultima versione di "android-compat-lib"</change>
+        <change>Ora e\' possibile scorrere i dettagli degli Allarmi</change>
+        <change>Correzioni di usabilita\' e stile</change>
+        <change>Accorpate le versioni txt e json del dumpfile in un singolo file</change>
+        <change>Supporto per dispositivi senza permessi di root</change>
+        <change>Eliminata la necessita\' dell\'app di sistema (su dispositivi con root)</change>
+        <change>Correzioni varie</change>
         <change>I18N</change>
-        <change>Corretto wakelock del kernel in modalita\' API/senza root</change>
-        <change>Corretto messaggio toast del watchdog</change>
-        <change>Corretto watchdog che alle volte riportava attivo >100%</change>
-        <change>Corrette icone mancanti in allarmi (modalita\' API)</change>
-        <change>Gestione piu\' aggressiva dei wakelock del kernel per LG G2, G3, G4 per tutte le versioni di android</change>
     </release>
-    
-    <release version="2.2.0.0B5" versioncode="77">
-        <change>I18N</change>
-        <change>Aggiunta gestione dei wakelock del kernel per LG G4</change>
-        <change>Aggiunta opzione per selezionare la cartella di destinazione dei dumpfiles ecc. Richiede OI FileManager</change>
-        <change>Corretto feedback per espandere tutta la riga al tocco</change>
-    </release>
-    
-    <release version="2.2.0.0B4" versioncode="76">
-        <change>Sostituiti messaggi Toast con Snackbar</change>
-        <change>Ulteriori correzioni per i dispositivi senza root (se installata come app di sitema)</change>
-        <change>Corretti i layout del widget per linguaggi RTL</change>
-    </release>
-    
-    <release version="2.2.0.0B3" versioncode="75">
-        <change>Le statistiche in modalita\' Doze sono in microsecondi invece che millisecondi</change>
-        <change>Le statistiche di Rete sono ora disponibili anche per dispositivi senza root (se installata come app di sitema)</change>
-        <change>Aggiunti sensori e tempi di sync in altre statistiche</change>
-    </release>
-    
-    <release version="2.2.0.0B2" versioncode="74">
-        <change>Aggiunte statistiche BT piu\' dettagliate per Marshmallow</change>
-        <change>Corrette statistiche mancanti quando la app non ha permessi di root</change>
-		<change>Aggiunte statistiche modalita\' Doze per Marshmallow</change>
-    </release>
-    
-    <release version="2.2.0.0B1" versioncode="73">
-        <change>Sperimentale: aquisire permessi BATTERY_INFO senza app di sistema (solo root)</change>
-        <change>Rimosso requisito di root (se installata come app di sitema)</change>
-        <change>Corretti accessi API e non-API agli allarmi in Marshmallow</change>
-        <change>Corrette varie condizioni FC dai crash report di gplay</change>
-        <change>I18N</change>
-        <change>Spostati crediti e lista delle modifiche nella schermata Info</change> 
-    </release>
-
 </changelog>
