@@ -208,8 +208,8 @@
   <string name="pref_files_to_private_storage_title">Stockage privé</string>
   <string name="pref_ignore_system_app_summary">Ignorer la détection pour application système (pour les utilisateurs de module Xposed \'Enable BATTERY_STATS\')</string>
   <string name="pref_ignore_system_app_title">Ne pas détecter comme application système</string>
-  <string name="pref_select_dir_summary">Select where to write dumpfiles</string>
-  <string name="pref_select_dir_title">Select Output Directory</string>
+  <string name="pref_select_dir_summary">Sélectionner où écrire les fichiers dump</string>
+  <string name="pref_select_dir_title">Sélectionner le répertoire de destination</string>
   <string name="pref_select_dir_button">Select</string>
   <string name="pref_developer_title">Activer pendant le chargement</string>
   <string name="pref_developer_summary">Activer les statistiques pendant le chargement (à vos risques et périls, les statistiques peuvent être incohérentes)</string>
@@ -226,8 +226,8 @@
   <string name="pref_force_alarms_api_summary">Forcer la récupération des Alarmes en utilisant l\'API</string>
   <string name="pref_force_kwl_api_title">Wakelocks Kernel en utilisant l\'API</string>
   <string name="pref_force_kwl_api_summary">Forcer la récupération des Wakelocks Kernel en utilisant l\'API</string>
-  <string name="pref_force_network_api_title">Stats réseau via l\'API</string>
-  <string name="pref_force_network_api_summary">Force to retrieve Network Stats using the API</string>
+  <string name="pref_force_network_api_title">Stats réseau en utilisant l\'API</string>
+  <string name="pref_force_network_api_summary">Forcer la récupération des stats réseau en utilisant l\'API</string>
   <string name="pref_screen_system_app_title">Application système</string>
   <string name="pref_screen_system_app_summary">Installer comme application système</string>
   <string name="pref_screen_import_export_title">Importer/Exporter</string>
