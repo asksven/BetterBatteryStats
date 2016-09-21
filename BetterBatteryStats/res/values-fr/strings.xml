@@ -121,7 +121,7 @@
   <string name="label_about_translation3">Italien par code010101 @ xda</string>
   <string name="label_about_translation4">Croate par seky2205 @ xda</string>
   <string name="label_about_translation5">Français par xavihernandez @ xda</string>
-  <string name="label_about_translation6">German by Minty123 @ xda</string>
+  <string name="label_about_translation6">Allemand par Minty123 @ xda</string>
   <string name="label_about_follow">Suivez-moi sur Twitter</string>
   <string name="label_about_rate">Noter/Annoter sur le Play Store</string>
   <!-- Preferences -->
@@ -226,7 +226,7 @@
   <string name="pref_force_alarms_api_summary">Forcer la récupération des Alarmes en utilisant l\'API</string>
   <string name="pref_force_kwl_api_title">Wakelocks Kernel en utilisant l\'API</string>
   <string name="pref_force_kwl_api_summary">Forcer la récupération des Wakelocks Kernel en utilisant l\'API</string>
-  <string name="pref_force_network_api_title">Network Stats using API</string>
+  <string name="pref_force_network_api_title">Stats réseau via l\'API</string>
   <string name="pref_force_network_api_summary">Force to retrieve Network Stats using the API</string>
   <string name="pref_screen_system_app_title">Application système</string>
   <string name="pref_screen_system_app_summary">Installer comme application système</string>
