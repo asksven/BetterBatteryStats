@@ -22,7 +22,7 @@
   <string name="message_computing">Traitement...</string>
   <string name="message_awake_alert">Éveil</string>
   <string name="message_awake_info">%1$d%% éveillé quand l\'écran était éteint</string>
-  <string name="message_no_fileman_error">Please install OI FileManager</string>
+  <string name="message_no_fileman_error">Veuillez installer OI FileManager</string>
   <string name="app_name">BetterBatteryStats</string>
   <string name="app_welcome">Bienvenue sur %s</string>
   <string name="app_pname">com.asksven.betterbatterystats</string>
