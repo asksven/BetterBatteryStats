@@ -210,7 +210,7 @@
   <string name="pref_ignore_system_app_title">Ne pas détecter comme application système</string>
   <string name="pref_select_dir_summary">Sélectionner où écrire les fichiers dump</string>
   <string name="pref_select_dir_title">Sélectionner le répertoire de destination</string>
-  <string name="pref_select_dir_button">Select</string>
+  <string name="pref_select_dir_button">Sélectionner</string>
   <string name="pref_developer_title">Activer pendant le chargement</string>
   <string name="pref_developer_summary">Activer les statistiques pendant le chargement (à vos risques et périls, les statistiques peuvent être incohérentes)</string>
   <string name="pref_auto_refresh_title">Actualisation automatique</string>
@@ -265,10 +265,10 @@
   <string name="NO_STATS_WHEN_CHARGING">L\'appareil est branché : aucune statistique</string>
   <string name="NO_ROOT_ERR">Cette statistique requiert le root</string>
   <string name="NO_PERM_ERR">Cette statistique requiert l\'autorisation BATTERY_STATS</string>
-  <string name="NO_PERM_INFO">Attempting to grant permissions without system app.</string>
+  <string name="NO_PERM_INFO">Tentative d’autorisations sans application système.</string>
   <string name="NO_REF_ERR">Aucune référence n\'a encore été configurée</string>
   <string name="NO_STATS">Aucune statistique n\'a encore été collectée</string>
-  <string name="KWL_ACCESS_ERROR">Kernel Wakelocks could not be accessed, neither by file nor by API</string>
+  <string name="KWL_ACCESS_ERROR">Les Wakelocks du kernel ne peuvent être consultés, ni par fichier ni par l\'API</string>
   <!-- from arrays.xml -->
   <string name="stat_type_label_since_charged">Depuis chargé</string>
   <string name="stat_type_label_since_unplugged">Depuis débranché</string>
