@@ -147,8 +147,8 @@
   <string name="info_pref_export_success">Préférences sauvegardées vers %s</string>
   <string name="info_pref_import_success">Préférences importées depuis %s</string>
   <string name="info_pref_import_export_failed">L\'opération a échoué</string>
-  <string name="info_files_written">Files were written</string>
-  <string name="info_files_write_error">An error occured</string>
+  <string name="info_files_written">Les fichiers ont été écrits</string>
+  <string name="info_files_write_error">Une erreur s\'est produite</string>
   <string name="info_deleting_refs">Suppression et re-création des références</string>
   <string name="info_fallback_to_boot">Repli vers \'Depuis Démarrage\'</string>
   <string name="info_fallback_to_default">Repli vers la référence par défaut</string>
@@ -177,8 +177,8 @@
   <string name="pref_show_other_connection_summary">Afficher les valeurs pour les connexions</string>
   <string name="pref_show_other_bt_title">Afficher le Bluetooth</string>
   <string name="pref_show_other_bt_summary">Afficher les valeurs pour le Bluetooth</string>
-  <string name="pref_show_other_doze_title">Show Doze Mode</string>
-  <string name="pref_show_other_doze_summary">Show Doze Mode values</string>
+  <string name="pref_show_other_doze_title">Afficher le mode Doze</string>
+  <string name="pref_show_other_doze_summary">Afficher les valeurs du mode Doze</string>
   <string name="pref_section_defaults">Par défaut</string>
   <string name="pref_default_stat_title">Statistique par défaut</string>
   <string name="pref_default_stat_summary">Configurer la statistique affichée au démarrage de l\'application</string>
