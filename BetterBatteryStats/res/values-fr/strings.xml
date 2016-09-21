@@ -216,8 +216,8 @@
   <string name="pref_auto_refresh_title">Actualisation automatique</string>
   <string name="pref_auto_refresh_summary">Recharge automatiquement \'courant\' lors du changement d\'écrans/de paramètres</string>
   <string name="pref_section_sharing">Options de partage</string>
-  <string name="pref_save_dumpfile_title">Dumpfile</string>
-  <string name="pref_save_dumpfile_summary">Share dumpfile</string>
+  <string name="pref_save_dumpfile_title">Fichier dump</string>
+  <string name="pref_save_dumpfile_summary">Partager fichier dump</string>
   <string name="pref_save_logcat_title">Logcat</string>
   <string name="pref_save_logcat_summary">Partager le logcat</string>
   <string name="pref_save_dmesg_title">dmesg</string>
