@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.asksven.betterbatterystats_xdaedition"
+    package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
     android:versionCode="82"
     android:versionName="2.2.0.0" >
