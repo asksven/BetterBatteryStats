@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.2.0.0RC3" versioncode="81">
+    <release version="2.2.0.0" versioncode="82">
         <change>Přidány statistiky senzorů ("Sensors")</change>
         <change>Název statistik "Other" změněn na "Summary"</change>
         <change>Do dialogu "Sdílet" přidáno pole "Poznámka" pro umožnění přidání poznámky k výpisu</change>

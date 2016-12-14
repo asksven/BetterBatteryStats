@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.2.0.0RC3" versioncode="81">
+    <release version="2.2.0.0" versioncode="82">
         <change>Aggiunte le statistiche dei Sensori</change>
         <change>Sostituita l'etichetta "Other" con "Summary"</change>
         <change>Aggiunto campo "note" per la condivisione dei dumpfile</change>

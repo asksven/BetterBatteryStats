@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.2.0.0RC3" versioncode="81">
+    <release version="2.2.0.0" versioncode="82">
         <change>Added Sensor Stats</change>
         <change>Replaced "Other" stats label by "Summary"</change>
         <change>Added "note" field to share dialog to add notes to dumpfiles</change>

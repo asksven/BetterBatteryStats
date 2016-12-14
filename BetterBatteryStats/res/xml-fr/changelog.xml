@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.1.0.0" versioncode="72">
-        <change>Support d''Android Marshmallow</change>
-        <change>Tout nouveau</change>
-        <change>Nouveau widget réactif</change>
-        <change>Widgets existants optimisés</change>
-        <change>Nouvelle version de l''application système</change>
-        <change>Correction du widget qui ne s''actualisait pas lors de l''allumage de l''écran</change>
-        <change>Correction de plusieurs bugs provenant du rapport de bugs</change>
-        <change>Correction des graphes désactivés en 5.1</change>
-        <change>Correction de la fenêtre de notation</change>
-        <change>Correction des totaux dans la vue des process</change>
-        <change>Analyseur spécifique pour les wakelocks du kernel du LG G3</change>        
+    <release version="2.2.0.0" versioncode="82">
+        <change>Nouveau: Sensor Stats</change>
+        <change>Possibilité d''ajouter des notes au dumpfiles</change>
+        <change>Détails des alarmes est maintenant scrollable</change>
+        <change>Dumpfile contient la représentation txt et json</change>
+        <change>Support d''appareils non rootés</change>
+        <change>Supprimé la nécessité d'installer l'application système pour les appareils rootés</change>
+        <change>Fixé divers bugs</change>
+        <change>I18N</change>      
     </release>
 
 </changelog>

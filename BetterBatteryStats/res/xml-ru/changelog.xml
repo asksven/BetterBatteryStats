@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.2.0.0RC3" versioncode="81">
+    <release version="2.2.0.0" versioncode="82">
         <change>Добавлена статистика датчиков</change>
         <change>Статистика "Other" (Другое) заменена на "Summary" (Общее)</change>
         <change>Добавлено поле "примечание" для добавления заметок к дампу</change>
