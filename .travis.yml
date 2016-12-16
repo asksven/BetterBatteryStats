@@ -21,6 +21,8 @@ android:
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
     - sys-img-armeabi-v7a-android-25
-    
-    before-script: 
-    - "android update sdk --no-ui --filter build-tools-25.0.2,android-22,android-25,extra-android-m2repository,extra-android-m2repository"
+  licenses: 
+    - android-sdk-license-.+
+
+before-script: 
+  - "android update sdk --no-ui --filter build-tools-25.0.2,android-22,android-25,extra-android-m2repository,extra-android-m2repository"
