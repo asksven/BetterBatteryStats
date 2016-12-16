@@ -25,4 +25,4 @@ android:
     - android-sdk-license-.+
 
 before-script: 
-  - "android update sdk --no-ui --filter build-tools-25.0.2,android-22,android-25,extra-android-m2repository,extra-android-m2repository"
+  - "android update sdk --no-ui --filter build-tools-25.0.2,android-22,platform-tools,android-25,extra-android-m2repository,extra-android-m2repository"
