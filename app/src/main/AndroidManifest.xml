@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asksven.betterbatterystats"
+    xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="internalOnly"
     android:versionCode="82"
     android:versionName="2.2.0.0" >
@@ -157,23 +158,44 @@
 
         <!-- SKN 2016-12-25 we ignore this for now
         <activity android:name="com.asksven.betterbatterystats.ResponsiveListActivity" />
+        -->
         <activity
             android:name="com.asksven.betterbatterystats.localeplugin.ui.EditActivity"
-            android:exported="true"
-            android:icon="@drawable/icon_notext"
+            android:exported="false"
             android:label="@string/plugin_name"
-            android:theme="@style/Theme.Locale.Dark"
-            android:uiOptions="splitActionBarWhenNarrow" >
-
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
-            </intent-filter>
+            android:theme="@style/Theme.AppCompat"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="UnusedAttribute">
         </activity>
+
+        <!--
+      This is the "edit" Activity. Note that the host will reject plug-in
+      Activities for the following reasons:
+          - Missing "android:label=[...]"
+          - Missing "android:icon=[...]"
+          - The Activity isn't exported (e.g. android:exported="false")
+          - The Activity isn't enabled (e.g. android:enabled="false")
+          - The Activity requires permissions not available to the host
+ -->
+        <activity-alias
+            android:name="com.asksven.betterbatterystats.localeplugin.ui.activity.PluginActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/plugin_name"
+            android:targetActivity="com.asksven.betterbatterystats.localeplugin.ui.EditActivity"
+            tools:ignore="ExportedActivity">
+            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
+            </intent-filter>
+        </activity-alias>
+
+
         <activity
             android:name="com.asksven.betterbatterystats.DashClockSettingsActivity"
             android:exported="true"
             android:label="Settings" />
-    -->
         <!--
              This is the "fire" BroadcastReceiver. Note that Locale will reject plug-in BroadcastReceivers for the following reasons:
                 - The BroadcastReceiver isn't exported (e.g. android:exported="false")
@@ -184,13 +206,16 @@
         <receiver
             android:name="com.asksven.betterbatterystats.localeplugin.receiver.FireReceiver"
             android:exported="true"
-            android:process=":background" >
+            android:process=":background"
+            tools:ignore="ExportedReceiver">
 
             <!-- this Intent filter allows the plug-in to discovered by Locale -->
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
+                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION" />
             </intent-filter>
         </receiver>
+
+
         <receiver android:name="com.asksven.betterbatterystats.handlers.OnBootHandler" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -281,7 +306,6 @@
         <service android:name="com.asksven.betterbatterystats.services.WriteScreenOnReferenceService" />
         <service android:name="com.asksven.betterbatterystats.services.WriteBootReferenceService" />
         <service android:name="com.asksven.betterbatterystats.services.WatchdogProcessingService" />
-        <!-- SKN 2016-12-25 we ignore this for now
 
         <service
             android:name="com.asksven.betterbatterystats.services.BbsDashClockExtension"
@@ -305,7 +329,7 @@
                 android:name="settingsActivity"
                 android:value="com.asksven.betterbatterystats.DashClockSettingsActivity" />
         </service>
-        -->
+
     </application>
 
 </manifest>

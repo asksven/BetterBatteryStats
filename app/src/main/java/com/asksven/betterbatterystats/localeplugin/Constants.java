@@ -40,7 +40,7 @@ public final class Constants
      * Log tag for logcat messages
      */
     // TODO: Change this to your application's own log tag
-    public static final String LOG_TAG = "BetterBatteryStatsLocalePlugin"; //$NON-NLS-1$
+    public static final String LOG_TAG = "BBSLocalePlugin"; //$NON-NLS-1$
 
     /**
      * Flag to enable logcat messages.

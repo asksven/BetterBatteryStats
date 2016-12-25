@@ -121,7 +121,9 @@
     <string name="label_tab_package">Package</string>
     <string name="label_tab_permissions">Permissions</string>
     <string name="label_tab_services">Services</string>
-    
+    <string name="label_discard_changes">Discard changes</string>
+
+
     <!-- About screen -->
     <string name="label_about_author">By asksven</string>
     <string name="label_about_courtesy">Graphics by Javi</string>
