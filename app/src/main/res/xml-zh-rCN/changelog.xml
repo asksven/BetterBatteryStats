@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.2.0.0B6" versioncode="78">
+        <change>多语言更新</change>
+        <change>修复在非root或API模式下的内核唤醒锁</change>
+        <change>修复不动的watchdog悬浮提示</change>
+        <change>修复watchdog有时报告100%唤醒</change>
+        <change>修复在API模式下定时器丢失的图标</change>
+        <change>更激进的处理任何系统版本下LG G2, G3, G4的内核唤醒锁</change>
+    </release>
+    
+    <release version="2.2.0.0B5" versioncode="77">
+        <change>多语言更新</change>
+        <change>增加LG G4内核唤醒锁的支持</change>
+        <change>增加选择输出转存文件的位置，需要安装OI FileManager</change>
+        <change>修复扩展至整行的触摸反馈</change>
+    </release>
+    
+    <release version="2.2.0.0B4" versioncode="76">
+        <change>悬浮提示用Snackbar代替Toasts</change>
+        <change>修复更多关于在系统应用已被安装时非root设备的问题</change>
+        <change>修复小部件在用RTL语种时的显示</change>
+    </release>
+    
+    <release version="2.2.0.0B3" versioncode="75">
+        <change>Doze模式统计数据以微秒代替毫秒显示</change>
+        <change>在内置系统应用已被安装时，非root设备可以使用网络统计</change>
+        <change>为other统计增加传感器和同步时间</change>
+    </release>
+    
+    <release version="2.2.0.0B2" versioncode="74">
+        <change>增加更多6.0下的蓝牙统计细节</change>
+        <change>修复当应用无root但电池信息可读情况下统计无法显示的问题</change>
+	<change>增加6.0设备Doze模式的统计</change>
+    </release>
+    
+    <release version="2.2.0.0B1" versioncode="73">
+        <change>试验性：root后无需系统内置系统应用来获取BATTERY_INFO权限</change>
+        <change>在内置系统应用已被安装时，移除要求获取root权限</change>
+        <change>修复在6.0上以API和非API模式获取计时器的问题</change>
+        <change>修复来自市场反馈的不同FC问题</change>
+        <change>多语言更新</change>
+        <change>荣誉和更新日志移出关于页面</change> 
+    </release>
+
+</changelog>

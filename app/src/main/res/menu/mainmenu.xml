@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/refresh"
+        android:title="@string/label_refresh"
+        android:icon="@drawable/ic_refresh_white_48dp"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/share"
+        android:title="@string/label_share"
+        android:icon="@drawable/ic_share_white_48dp"
+        app:showAsAction="ifRoom"/>
+    <!--
+    <item android:id="@+id/test"    
+          android:title="Test" />
+    -->
+
+    <item
+        android:id="@+id/custom_ref"
+        android:title="@string/label_custom_ref"/>
+    <item
+        android:id="@+id/graph"
+        android:title="@string/label_graphs"/>
+    <item
+        android:id="@+id/rawstats"
+        android:title="@string/label_raw_stats"/>
+    <item
+        android:id="@+id/preferences"
+        android:title="@string/label_preferences"/>
+    <item
+        android:id="@+id/about"
+        android:title="@string/label_about"/>
+    <item
+        android:id="@+id/help"
+        android:title="@string/label_help"/>
+</menu>

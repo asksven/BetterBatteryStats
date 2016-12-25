@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.2.0.0" versioncode="82">
+        <change>Neu: Sensor Stats</change>
+        <change>Notizfeld um Kommentare bei abspeichern von Dumpfiles</change>
+        <change>Update zur aktuellen android-compat-lib Version</change>
+        <change>Alarm-Details sind nun scrollbar</change>
+        <change>Usability verbessert</change>
+        <change>txt und json Repräsentation sind nun in einer Datei</change>
+        <change>Support für nicht gerootete Geräte</change>
+        <change>Keine System-App mehr notwendig für Geräte mit Root</change>
+        <change>Verschiedene Bug-Bixes</change>
+        <change>I18N</change>      
+    </release>
+
+</changelog>

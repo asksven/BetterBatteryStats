@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_shape"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/large_widget_shape"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layoutImages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="32dp"
+            	android:minWidth="32dp"/>
+
+            <ImageView
+                android:id="@+id/imageViewRefresh"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_action_refresh" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutLegend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/layoutImages"
+            android:layout_marginTop="36dp"
+            android:orientation="horizontal" >
+
+            <include layout="@layout/widget_legend" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

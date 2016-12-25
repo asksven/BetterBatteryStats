@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?android:attr/colorBackground"
+    android:orientation="vertical" >
+
+    <include layout="@layout/toolbar_icon" />
+
+    <LinearLayout
+        android:id="@+id/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:background="?android:colorForegroundInverse"
+        android:orientation="vertical"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp" >
+
+        <Spinner
+            android:id="@+id/spinnerStat"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:drawSelectorOnTop="true"
+            android:text="Spinner1" />
+
+        <FrameLayout
+            android:id="@+id/FrameLayoutSince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:id="@+id/TextViewSince"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:text="@string/text_since"
+                android:textSize="@dimen/text_size_medium" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="?android:attr/colorBackground"
+        android:dividerHeight="1px" />
+1
+
+</LinearLayout>

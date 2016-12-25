@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Values for the statistic. -->
+    <string-array name="stats" translatable="false">
+        <item>Summary</item>
+        <item>Kernel Wakelock</item>
+        <item>Partial Wakelocks</item>
+        <item>Alarms</item>
+        <item>Network</item>
+        <item>CPU States</item>
+        <item>Process</item>
+        <item>Sensors</item>
+    </string-array>
+
+    <!-- Values for the preferences -->
+    <string-array name="statLabels">
+        <item name="0">Summary</item>
+        <item name="1">Kernel Wakelock</item>
+        <item name="2">Partial Wakelocks</item>
+        <item name="3">Alarms</item>
+        <item name="4">Network</item>
+        <item name="5">CPU States</item>
+        <item name="6">Process</item>
+        <item name="7">Sensors</item>
+    </string-array>
+
+    <!-- Values for the preferences -->
+    <string-array name="saveAsLabels">
+        <item name="0">Dumpfile</item>
+        <item name="1">logcat</item>
+        <item name="2">dmesg</item>
+    </string-array>
+    <string-array name="statValues">
+        <item name="0">0</item>
+        <item name="1">1</item>
+        <item name="2">2</item>
+        <item name="3">3</item>
+        <item name="4">4</item>
+        <item name="5">5</item>
+        <item name="6">6</item>
+        <item name="7">7</item>
+    </string-array>
+    <string-array name="statTypeLabels">
+        <item name="0">@string/stat_type_label_since_charged</item>
+        <item name="1">@string/stat_type_label_since_unplugged</item>
+        <item name="2">@string/stat_type_label_since_custom</item>
+        <item name="3">@string/stat_type_label_since_screen_off</item>
+        <item name="4">@string/stat_type_label_since_boot</item>
+    </string-array>
+    <string-array name="statTypeValues">
+        <item name="0">ref_charged</item>
+        <item name="1">ref_unplugged</item>
+        <item name="2">ref_custom</item>
+        <item name="3">ref_screen_off</item>
+        <item name="4">ref_boot</item>
+    </string-array>
+
+    <string-array name="graphBarHeigthLabels">
+        <item name="0">4</item>
+        <item name="1">8</item>
+        <item name="2">*10</item>
+        <item name="2">12</item>
+    </string-array>
+    <string-array name="graphBarHeigthValues">
+        <item name="0">4</item>
+        <item name="1">8</item>
+        <item name="2">10</item>
+        <item name="3">12</item>
+    </string-array>
+    <string-array name="widgetUpdateFreqLabels">
+        <item name="0">@string/widget_freq_label_none</item>
+        <item name="1">@string/widget_freq_label_5</item>
+        <item name="2">@string/widget_freq_label_15</item>
+        <item name="3">@string/widget_freq_label_30</item>
+        <item name="4">@string/widget_freq_label_60</item>
+    </string-array>
+    <string-array name="widgetUpdateFreqValues">
+        <item name="0">0</item>
+        <item name="1">5</item>
+        <item name="2">15</item>
+        <item name="3">30</item>
+        <item name="4">60</item>
+    </string-array>
+    <string-array name="widgetFontSizeLabels">
+        <item name="0">@string/widget_fontsize_16</item>
+        <item name="1">@string/widget_fontsize_14</item>
+        <item name="2">@string/widget_fontsize_12</item>
+        <item name="3">@string/widget_fontsize_10</item>
+        <item name="4">@string/widget_fontsize_8</item>
+    </string-array>
+    <string-array name="widgetFontSizeValues">
+        <item name="0">16</item>
+        <item name="1">14</item>
+        <item name="2">12</item>
+        <item name="3">10</item>
+        <item name="4">8</item>
+    </string-array>
+    <string-array name="themeLabels">
+        <item>@string/label_theme_light</item>
+        <item>@string/label_theme_dark</item>
+    </string-array>
+    <string-array name="themeValues" translatable="false">
+        <item name="1">0</item>
+        <item name="2">1</item>
+    </string-array>
+    
+    <string-array name="thumbnailSizeLabels">
+        <item name="0">58dp*</item>
+        <item name="1">52dp</item>
+        <item name="2">48dp</item>
+        <item name="3">36dp</item>
+    </string-array>
+    <string-array name="thumbnailSizeValues">
+        <item name="0">58</item>
+        <item name="1">52</item>
+        <item name="2">48</item>
+        <item name="2">42</item>
+    </string-array>
+    
+    <string-array name="mediumFontSizeLabels">
+        <item name="0">18dp</item>
+        <item name="1">16dp*</item>
+        <item name="2">14dp</item>
+        <item name="3">12dp</item>
+    </string-array>
+    <string-array name="mediumFontSizeValues">
+        <item name="0">18</item>
+        <item name="1">16</item>
+        <item name="2">14</item>
+        <item name="3">12</item>
+    </string-array>
+    
+</resources>

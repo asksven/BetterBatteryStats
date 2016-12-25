@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+
+    <string name="plugin_name">Better Battery Stats</string>
+    <string name="message_hint">Scheduled Toast</string>
+    <string name="message_hint_saveref">Spremi vlastitu referencu</string>
+    <string name="message_hint_savestat">Spremi Text Dumpfile</string>
+    <string name="message_hint_savestatjson">Spremi JSON Dumpfile</string>
+    <string name="message_hint_sinceref">Dump od zadnje reference</string>
+    <string name="message_hint_stat_type">Vrsta statistike</string>
+    <string name="message_enable_root">Omogućavanje root postavki podrazumjeva root-an uređaj.\nMolim Vas, dozvolite SU dozvole Alarmima i Stanjima mreže.\nAko te dozvole ne uspijevaju okrivite SU aplikaciju, ne BBS.\nNastaviti?</string>
+    <string name="message_enable_active_mon">Aktivno motrenje može izazvati wakelockove i koristiti procesor, stoga nastavite s oprezom.\nNastaviti?</string>
+    <string name="message_first_launch">Referenca \'isključen s punjača\' se u procesu kreiranja. Kada uključite/ isključite uređaj ta referenca će biti zamjenjena novom</string>		
+    <string name="message_copied_to_clipboard">%s je kopiran u međuspremnik</string>
+    <string name="message_no_hist_froyo">Na žalost, Froyo ne omoćuje povijest podataka</string>
+    <string name="message_no_appops">AppOps ne postoji na Vašem ROM-u</string>
+    <string name="message_external_storage_write_error">Nije moguće spremati u vanjsku memoriju</string>
+    <string name="message_error_writing_dumpfile">Dogodila se greška za vrijeme izbacivanja povijesti</string>
+    <string name="message_identical_references">Dogodila se greška. Obje statistike su jednake (%1$1, %2$s)</string>
+    <string name="message_watchdog_processing">BBS: Čuvar procesuira...</string>
+    <string name="message_watchdog_awake_alert">BBS: Uzbuna o buđenju: %1$d%% budna.</string>
+    <string name="message_computing">Računam...</string>
+    <string name="message_awake_alert">Uzbuna o buđenju</string>
+    <string name="message_awake_info">%1$d%% budan dok je zaslon ugašen</string>
+    <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Dobrodošli u %s</string>
+    <string name="app_pname">com.asksven.betterbatterystats</string>
+    <string name="label_button_remind">Podsjeti me kasnije</string>
+    <string name="label_button_rate">Ocijeni</string>
+    <string name="label_button_no_thanks">Ne, hvala</string>
+    <string name="label_button_recovery">Preuzmi Recovery ZIP</string>
+    <string name="text_dialog_rate">Ako uživaš koristeći %s, molim te, izdvoji trenutak i ocjeni je. Hvala na podršci!</string>
+    <string name="label_stat_type">Vrsta statistike</string>
+    <string name="label_since">Od</string>
+    <string name="label_fallback_stat_type">Tip statistike ako je primaran prazan</string>
+    <string name="label_title">Naslov</string>
+    <string name="label_author">Autor</string>
+    <string name="label_license">Licenca</string>
+    <string name="label_import_export_prefs">Uvezi/ izvezi postavke u/iz %s</string>
+    <string name="label_import_prefs">Uvezi</string>
+    <string name="label_export_prefs">Izvezi</string>
+ 
+    <string name="label_hist_time">Vrijeme</string>
+    <string name="label_hist_battery">Bat</string>
+    <string name="label_hist_power">Punjenje</string>
+    <string name="label_hist_screen">Ekran</string>
+    <string name="label_hist_wakelock">WL</string>
+    <string name="label_hist_wifi">Wifi</string>
+    <string name="label_hist_gps">GPS</string>
+    <string name="label_hist_bluetooth">BT</string>
+    <string name="label_hist_incall">Pozivi</string>
+    <string name="label_hist_scanning">Scan</string>
+	
+    <string name="label_graph_battery">Baterija</string>
+    <string name="label_graph_power">Punjenje</string>
+    <string name="label_graph_screen">Zaslon</string>
+    <string name="label_graph_wakelock">Wakelock</string>
+    <string name="label_graph_wifi">Wifi</string>
+    <string name="label_graph_gps">GPS</string>
+    <string name="label_graph_bluetooth">Bluetooth</string>
+    <string name="label_graph_incall">Pozivi</string>
+    <string name="label_graph_scanning">Skeniranje</string>
+	
+	
+    <string name="label_widget_since">Od:</string>
+    <string name="label_widget_deep_sleep">Dubok san</string>
+    <string name="label_widget_awake">Budan:</string>
+    <string name="label_widget_screen_on">Zaslon upaljen:</string>
+    <string name="label_widget_kernel_wakelock">KWL:</string>
+    <string name="label_widget_partial_wakelock">PWL:</string>
+	
+    <string name="label_battery">Baterija</string>
+    <string name="label_name">Ime</string>
+    <string name="label_description">Opis</string>
+    <string name="label_package_name">Ime paketa</string>
+    <string name="label_on_on_android_4_3plus">Dostupno samo na Android-u 4.3+</string>
+	
+    <string name="label_permisions_dangerous">Dozvola označena kao \'opasna\'</string>
+    <string name="label_permisions_system">Dozvola za \'sistemske datoteke\'</string>
+    <string name="label_permisions_normal">Normalna dozvola</string>
+	
+    <string name="pref_dashclock_default_stat_type_summary">Tip statistike koji će biti prikazan na widgetu</string>
+    <string name="pref_dashclock_fallback_stat_type_summary">Odaberi tip statistike koji će biti prikazan u widgetu ako je primaran prazan</string> 
+    <string name="label_awake_abbrev">budan</string>
+    <string name="label_button_share">Podijeli na...</string>
+    <string name="label_button_save">Spremi</string>
+    <string name="label_button_cancel">Prekid</string>
+    <string name="label_button_application_settings">Postavke aplikacije</string>
+    <string name="label_button_appops">App Ops</string>
+	
+    
+    <string name="title_share_dialog">Podijeli podatke kao...</string>
+    <string name="text_since">Od</string>
+    <string name="label_preferences">Postavke</string>
+    <string name="label_packageinfo">Podatci o paketu</string>
+    <string name="label_graphs">Grafovi</string>
+    <string name="label_moregraphs">Još grafova</string>
+    <string name="label_series">Povijest</string>
+    <string name="label_raw_stats">Sirovi podatci</string>
+    <string name="label_about">O programu</string>
+    <string name="label_credits">Zasluge</string>
+    <string name="label_help">Pomoć</string>
+    <string name="label_howto">Kako</string>
+    <string name="label_system_app">Sistemska aplikacija</string>
+    <string name="label_import_export">Uvezi/ izvezi</string>
+    <string name="label_refresh">Osvježi</string>
+    <string name="label_share">Podijeli</string>
+    <string name="label_custom_ref">Postavi vlastitu referencu</string>
+    <string name="label_release_notes">Podatci o verziji</string>
+    <string name="label_legend">Legenda</string>
+    <string name="label_button_yes">Da</string>
+    <string name="label_button_no">Ne</string>
+    <string name="label_button_ok">OK</string>
+    <string name="label_tab_package">Paket</string>
+    <string name="label_tab_permissions">Dozvola</string>
+    <string name="label_tab_services">Servisi</string>
+    
+    <!-- About screen -->
+    <string name="label_about_author">Izradio asksven</string>
+    <string name="label_about_courtesy">Grafiku izradio Javi</string>
+    <string name="label_about_translations">Prijevodi</string>
+    <string name="label_about_translation1">Ruski: gaich @ xda</string>
+    <string name="label_about_translation2">Španjolski: @vldesco</string>
+    <string name="label_about_translation3">Talijanski: code010101 @ xda</string>
+    <string name="label_about_translation4">Hrvatski: seky2205 @ xda</string>
+    <string name="label_about_translation5">Francuski: xavihernandez @ xda</string>
+    <string name="label_about_follow">Prati me na Twitter-u</string>
+    <string name="label_about_rate">Ocijeni/ recenziraj na Google Play</string>
+    
+    <!-- Preferences -->
+    <string name="label_theme_dark">Tamna</string>
+    <string name="label_theme_light">Svijetla</string>
+    <string name="pref_theme_title">Tema</string>
+    <string name="pref_theme_summary">Promjeni temu</string>
+	
+    <!-- System app activity -->
+    <string name="expl_system_app">Na Android-u 4.4 Google je skinuo ovlasti s normalnih aplikacija da pristupe bateriji.\n\nPreporučeno je instalirati BetterBatteryStats kao sistemsku aplikaciju (ovo ne priječi nadogradnju aplikacije).\n\nDeinstaliranje/reinstaliranje aplikacije kao sistemske datoteke će biti potrebno ako se ovlasti promjene.</string>
+    <string name="expl_system_app_workaround">Ako instalacija unutar aplikacije ne uspijeva, iskoristite ovu zaobilaznicu</string>
+    <string name="install_system_app">Instaliraj kao sistemsku datoteku</string>	
+    <string name="uninstall_system_app">Deinstaliraj kao sistemsku datoteku</string>
+    <string name="info_installed_system_app">Instalirana sistemska datoteka. Ponovno pokrenite uređaj za aktivaciju.</string>
+    <string name="info_uninstalled_system_app">Deinstalirana sistemska aplikacija: Vaše postavke su izbrisane. Molim Vas, ponovno pokrenite i iznova odaberite Vaše postavke.</string>
+    <string name="info_succeeded">Uspijelo je</string>
+    <string name="info_failed">Nije uspijelo</string>
+    <string name="info_root_required">Da biste koristili ove mogućnosti \'Root\' opcija mora biti uključena (napredne postavke)</string>
+    <string name="info_unknown_state">Greška: nije moguće razriješiti promjenu</string>
+    <string name="info_service_connection_error">BatteryInfo Servis nije moguće kontaktirati</string>
+    <string name="info_loading_refs_error">Odabrane\'od\' ili \'do\' reference nije moguće učitati. Molim osvježite</string>
+    <string name="info_unknown_stat_error">Nepoznata greška se dogodila za vrijeme uzimanja statistike. Molim provjerite logcat</string>
+    <string name="info_state_recovery_error">Dogodila se greška za vrijeme vraćanja prošlog stanja</string>
+    <string name="info_pref_export_success">Postavke su spremljene u %s</string>
+    <string name="info_pref_import_success">Postavke su uvezene iz %s</string>
+    <string name="info_pref_import_export_failed">Radnja nije uspijela</string>
+    
+    <string name="info_deleting_refs">Brisanje i ponovno stvaranje reference</string>
+    <string name="info_fallback_to_boot">Vrati se na \'Od dizanja sustava\'</string>
+    <string name="info_fallback_to_default">Vrati se na tvorničke postavke</string>
+    <string name="label_granted">odobreno</string>
+    <string name="label_not_granted">nije odobreno</string>
+
+    <!-- Preferences labels and texts -->
+    <string name="pref_section_display">Zaslon</string>
+    <string name="pref_filter_data_title">Filtriraj statistike</string>
+    <string name="pref_filter_data_summary">Omogući filtriranje podataka na vrijednosti različite od nule</string>
+    <string name="pref_show_bat_details_title">Detalji o bateriji</string>
+    <string name="pref_show_bat_details_summary">Prikaži %% baterije od/do na zaslonu</string>
+    <string name="pref_show_gauge_title">Prikaži stupce</string>
+    <string name="pref_show_gauge_summary">Prikaži stupčaste umjesto okruglih dijagrama</string>
+    <string name="pref_graph_bar_height_title">Visina stupaca na dijagramu</string>
+    <string name="pref_graph_bar_height_summary">Ako koristite vlastite gustoće ovdje možete promjeniti visinu stupaca</string>
+    <string name="pref_section_customize_views">Prilagodi pogled</string>
+    <string name="pref_show_from_to_ref_title">Iz/u postavke</string>
+    <string name="pref_show_from_to_ref_summary">Pokaži mjenjače za biranje postavki</string>
+    <string name="pref_show_other_wifi_title">Prikaži WiFi</string>
+    <string name="pref_show_other_wifi_summary">Prikaži WiFi vrijednosti</string>
+    <string name="pref_show_other_signal_title">Prikaži signal</string>
+    <string name="pref_show_other_signal_summary">Prikaži jačinu signala</string>
+    <string name="pref_show_other_screen_brightness_title">Prikaži zaslon</string>
+    <string name="pref_show_other_screen_brightness_summary">Prikaži jačinu osvjetljenja zaslona</string>
+    <string name="pref_show_other_connection_title">Prikaži konekcije</string>
+    <string name="pref_show_other_connection_summary">Prikaži vrijednosti za konekcije</string>
+    <string name="pref_show_other_bt_title">Prikaži Bluetooth</string>
+    <string name="pref_show_other_bt_summary">Prikaži vrijednosti za Bluetooth</string>
+    <string name="pref_section_defaults">Tvornički</string>
+    <string name="pref_default_stat_title">Tvorničke statistike</string>
+    <string name="pref_default_stat_summary">Odaberite koje će statistike biti prikazane kad pokrenete aplikaciju</string>
+    <string name="pref_default_stat_type_title">Tvorničke postavke statistika</string>
+    <string name="pref_default_stat_type_summary">Odaberite vrstu statistika koja će biti prikazana kad pokrenete aplikaciju</string>
+    <string name="pref_section_watchdog">Čuvar</string>
+    <string name="pref_enable_watchdog_title">Omogući</string>
+    <string name="pref_enable_watchdog_summary">Omogući čuvarevo procesuiranje</string>
+    <string name="pref_watchdog_on_unlock_title">Čuvar radi kad je otključan uređaj</string>
+    <string name="pref_watchdog_on_unlock_summary">Čuvar radi kada je uređaj otključan (ako ne, onda kad je ekran upaljen)</string>
+    <string name="pref_section_warnings">Upozorenja</string>
+    <string name="pref_watchdog_awake_threshold_title">Granica za budnost</string>
+    <string name="pref_watchdog_awake_threshold_summary">Granica za upozorenje (budan / ukupno)</string>
+    <string name="pref_ref_for_screen_off_title">Trajanje granice [Min.]</string>
+    <string name="pref_ref_for_screen_off_summary">Vrijeme ugašenosti ekrana za okidanje</string>
+    <string name="pref_section_active_mon">Aktivno nadgledanje</string>
+    <string name="pref_active_mon_enabled_title">Omogući</string>
+    <string name="pref_active_mon_enabled_summary">Omogućuje aktivno nadgledanje. Oprez: imajte na umu da aktivno nadgledanje troši bateriju</string>
+    <string name="pref_active_mon_freq_title">Frekvencija [Min.]</string>
+    <string name="pref_active_mon_freq_summary">Frekvencija za spremanje vremenskih referenci</string>
+    <string name="pref_force_en_title">Forsiraj Engleski</string>
+    <string name="pref_force_en_summary">Forsiraj BBS da bude na engleskom (zahtjeva ponovno pokretanje)</string>
+    <string name="pref_section_advanced">Napredno</string>
+    <string name="pref_debug_logging_summary">Dodaj debug info u logcat</string>
+    <string name="pref_debug_logging_title">Debug</string>
+    <string name="pref_files_to_private_storage_summary">Zapisuj datoteke u /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
+    <string name="pref_files_to_private_storage_title">Privatna memorija</string>
+    <string name="pref_ignore_system_app_summary">Ignoriraj detekciju sistemske aplikacije (za korisnike XPosed Module-a \'Enable BATTERY_STATS\')</string>
+    <string name="pref_ignore_system_app_title">Ne detektiraj sistemsku aplikaciju</string>
+
+
+    <string name="pref_developer_title">Omogući za vrijeme punjenja</string>
+    <string name="pref_developer_summary">Omogući statistike za vrijeme punjenja (na svoj rizik, statistike mogu biti nekonzenstente)</string>
+    <string name="pref_auto_refresh_title">Automatski osvježi</string>
+    <string name="pref_auto_refresh_summary">Automatski ponovno učitaj \'trenutno\' kod promjene zaslona/ postavki</string>
+    <string name="pref_section_sharing">Opcije dijeljenja</string>
+    <string name="pref_save_logcat_title">Logcat</string>
+    <string name="pref_save_logcat_summary">Podijeli logcat</string>
+    <string name="pref_save_dmesg_title">dmesg</string>
+    <string name="pref_save_dmesg_summary">Podijeli dmesg</string>
+    <string name="pref_force_alarms_api_title">Alarmi koriste API</string>
+    <string name="pref_force_alarms_api_summary">Forsiraj brojenje alarma koji koriste API</string>
+    <string name="pref_force_kwl_api_title">Kernel Wakelocks koji koriste API</string>
+    <string name="pref_force_kwl_api_summary">Forsiraj brojenje Kernel Wakelocks koji koriste API</string>
+  
+
+    <string name="pref_screen_system_app_title">Sistemska aplikacija</string>
+    <string name="pref_screen_system_app_summary">Instaliraj kao sistemsku aplikaciju</string>
+    <string name="pref_screen_import_export_title">Uvezi/izvezi</string>
+    <string name="pref_screen_import_export_summary">Postavke uvoza i izvoza</string>
+    
+    <string name="pref_section_settings">Postavke</string>
+    <string name="pref_screen_widgets_title">Widget</string>
+    <string name="widget_refresh_freq_title">Frekvencija osvježivanja</string>
+    <string name="widget_refresh_freq_summary">Postavite koliko će često widget biti osvježen (bit će uvijek kad je i zaslon upaljen)</string>
+    <string name="widget_refresh_on_screen_on_title">Osvježi kad se upali zaslon</string>
+    <string name="widget_refresh_on_screen_on_summary">Osvježi kad se zaslon upali</string>
+    <string name="widget_default_stat_title">Statistike koje se prikazuju</string>
+    <string name="widget_default_stat_summary">Postavite statistike koje će widget prikazivati</string>    
+    <string name="widget_show_stat_type_title">Pokaži naslov</string>
+    <string name="widget_show_stat_type_summary">Postavi vrstu statistika</string>
+    <string name="widget_fallback_stat_type_title">Vrsta statistike na koju se prebacuje</string>
+    <string name="widget_fallback_stat_type_summary">Postavite vrstu statistike na koju se prebacuje ako je prvi izbor prazan</string>
+    <string name="pref_category_widgets_2x2_and_2x1">2x2 i 2x1 Widget</string>
+    <string name="widget_default_stat_type_title">Vrsta statistike</string>
+    <string name="widget_default_stat_type_summary">Postavi statistike koje će biti prikazane u widgetu</string>
+    <string name="large_widget_font_size_title">Veličina fonta</string>
+    <string name="large_widget_font_size_summary">Postavite veličinu fonta koji će se koristiti u widgetu</string>
+    <string name="large_widget_show_pct_title">Pokaži %</string>
+    <string name="large_widget_show_pct_summary">Pokaži trajanje u % od ukupnog vremena</string>
+    <string name="widget_opacity_title">Prozirnost</string>
+    <string name="widget_opacity_summary">Postavite prozirnost widgeta</string>
+    <string name="widget_bg_opacity_title">Prozirnost pozadine</string>
+    <string name="widget_bg_opacity_summary">Postavite prozirnost pozadine</string>
+    <string name="pref_category_widget_1x1">1x1 Widget</string>
+    <string name="small_widget_refresh_on_tap_title">Osvježi na dodir</string>
+    <string name="small_widget_refresh_on_tap_summary">Dodirivanje widgeta ga osvježuje (ako je onemogućeno, dodirivanje otvara aplikaciju)</string>
+    <string name="thumbnail_size_title">Veličina thumbnail-a</string>
+    <string name="medium_font_size_title">Veličina srednjeg fonta</string>
+    
+    <!-- stats error / warnings -->
+    <string name="NO_STATS_WHEN_CHARGING">Uređaj se puni: nema statistika</string>
+    <string name="NO_ROOT_ERR">Ova statistika zahtjeva root</string>
+    <string name="NO_PERM_ERR">Ova statistika zahtjeva BATTERY_STATS odobrenje</string>
+    <string name="NO_REF_ERR">Referenca još nije postavljena</string>
+    <string name="NO_STATS">Statistike još nisu prikupljene</string>
+    
+    <!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">Od punog punjenja</string>
+    <string name="stat_type_label_since_unplugged">Od zadnjeg punjenja</string>
+    <string name="stat_type_label_since_custom">Od vlastite reference</string>
+    <string name="stat_type_label_since_screen_off">Od kad je ugašen zaslon</string>
+    <string name="stat_type_label_since_boot">Od zadnjeg podizanja sustava</string>
+    
+    <string name="widget_freq_label_none">Ništa</string>
+    <string name="widget_freq_label_5">5 min</string>
+    <string name="widget_freq_label_15">15 min</string>
+    <string name="widget_freq_label_30">30 min</string>
+    <string name="widget_freq_label_60">60 min</string>
+    
+    <string name="widget_fontsize_16">Jako veliko (16)</string>
+    <string name="widget_fontsize_14">Veliko(14)</string>
+    <string name="widget_fontsize_12">Normalno(12)</string>
+    <string name="widget_fontsize_10">Malo (10)</string>
+    <string name="widget_fontsize_8">Sičušno (8)</string>
+    
+</resources>

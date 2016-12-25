@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?android:attr/colorBackground"
+    android:orientation="vertical" >
+
+    <include layout="@layout/toolbar_icon" />
+
+    <LinearLayout
+        android:id="@+id/Header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+        android:background="?android:colorForegroundInverse"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp" >
+
+        <Spinner
+            android:id="@+id/spinnerStat"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:drawSelectorOnTop="true"
+            android:text="Spinner1" />
+
+        <LinearLayout
+            android:id="@+id/LayoutSpinners"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/spinnerStatType"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:drawSelectorOnTop="true"
+                android:text="Spinner1" />
+
+            <Spinner
+                android:id="@+id/spinnerStatSampleEnd"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:drawSelectorOnTop="true"
+                android:text="Spinner1" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/FrameLayoutSince"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:id="@+id/TextViewSince"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:text="@string/text_since"
+                android:textSize="@dimen/text_size_medium" />
+        </FrameLayout>
+
+ 
+
+    </LinearLayout>
+       <!-- Hidden Notification Panel -->
+
+        <LinearLayout
+            android:id="@+id/Notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/state_yellow"
+            android:elevation="8dp"
+            android:orientation="horizontal"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="@dimen/thumbnail_size"
+                android:layout_height="@dimen/thumbnail_size"
+                android:layout_gravity="center_vertical"
+                android:paddingBottom="0dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_info_outline_black_48dp" />
+
+            <TextView
+                android:id="@+id/TextViewNotification"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-bold"
+                android:maxLines="1"
+                android:text="Notification Text goes here"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_size_medium" />
+        </LinearLayout>
+        <!-- End Hidden Notification Panel -->
+    <!-- Set height to 0, and let the weight param expand it -->
+    <!--
+         Note the use of the default ID! This lets us use a 
+         ListActivity still!
+    -->
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="?android:attr/colorBackground"
+        android:dividerHeight="1px" />
+
+</LinearLayout>

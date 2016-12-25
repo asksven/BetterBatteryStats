@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp" >
+    
+    <!-- do not translate: values are set in code -->
+ 	<TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dialog Title"
+        android:fontFamily="sans-serif-light-bold"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/color_accent"/>
+
+ 	<Button
+ 	    android:id="@+id/buttonRate"
+ 	    style="?android:attr/buttonStyleSmall"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:text="@string/label_button_rate" />
+
+ 	<Button
+ 	    android:id="@+id/buttonRemind"
+ 	    style="?android:attr/buttonStyleSmall"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:text="@string/label_button_remind" />
+
+ 	<Button
+ 	    android:id="@+id/buttonNoThanks"
+ 	    style="?android:attr/buttonStyleSmall"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:text="@string/label_button_no_thanks" />
+ 
+</LinearLayout>

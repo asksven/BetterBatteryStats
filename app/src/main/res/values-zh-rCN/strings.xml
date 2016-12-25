@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+
+    <string name="plugin_name">Better Battery Stats</string>
+    <string name="message_hint">定时悬浮栏提示</string>
+    <string name="message_hint_saveref">保存自定义区间</string>
+    <string name="message_hint_savestat">生成Text格式转存文件</string>
+    <string name="message_hint_savestatjson">生成JSON格式转存文件</string>
+    <string name="message_hint_sinceref">从上一个基准点起开始转存</string>
+    <string name="message_hint_stat_type">统计类型</string>
+    <string name="message_enable_root">若你的设备已获得权限，将会启用root特性\n请确保能以管理员权限获得定时器和网络活动的统计\n若这些权限不生效请归咎于权限管理应用，而非本软件\n是否还继续？</string>
+    <string name="message_enable_active_mon">根据唤醒和进程进行动态监控会导致一定开销，请谨慎使用\n是否还继续？</string>
+    <string name="message_first_launch">区间\'未接电源\'已创建。当你接通或断开电源，基准点将会重写</string>
+    <string name="message_copied_to_clipboard">%s已经复制到剪贴板</string>
+    <string name="message_no_hist_froyo">很不幸安卓2.2不支持历史记录</string>
+    <string name="message_no_appops">该ROM不存在应用权限管理</string>
+    <string name="message_external_storage_write_error">外部存储无法写入</string>
+    <string name="message_error_writing_dumpfile">在转存历史记录时发生错误</string>
+    <string name="message_identical_references">发生错误，(%1$1, %2$s)两个统计是一样的</string>
+    <string name="message_watchdog_processing">电量统计：监控处理中...</string>
+    <string name="message_watchdog_awake_alert">电量统计：唤醒警报：%1$d%%唤醒 </string>
+    <string name="message_computing">计算中...</string>
+    <string name="message_awake_alert">唤醒警报</string>
+    <string name="message_awake_info">在息屏时%1$d%%唤醒</string>
+    <string name="message_no_fileman_error">请安装OI FileManager</string>
+    <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">欢迎使用%s</string>
+    <string name="app_pname">com.asksven.betterbatterystats</string>
+    <string name="label_button_remind">稍后提醒</string>
+    <string name="label_button_rate">评分</string>
+    <string name="label_button_no_thanks">不，谢谢</string>
+    <string name="label_button_recovery">下载Recovery直刷包</string>
+    <string name="text_dialog_rate">如果你喜欢用%s，那么找个时间评分。感谢你们的支持！</string>
+    <string name="label_stat_type">统计类型</string>
+    <string name="label_since">从</string>
+    <string name="label_fallback_stat_type">默认统计类型</string>
+    <string name="label_title">标题</string>
+    <string name="label_author">作者</string>
+    <string name="label_license">许可</string>
+    <string name="label_import_export_prefs">从%s导入/导出应用设置</string>
+    <string name="label_import_prefs">导入</string>
+    <string name="label_export_prefs">导出</string>
+    
+    <string name="label_hist_time">时间</string>
+	<string name="label_hist_battery">电量</string>
+	<string name="label_hist_power">电源</string>
+	<string name="label_hist_screen">屏幕</string>
+	<string name="label_hist_wakelock">唤醒锁</string>
+	<string name="label_hist_wifi">Wifi</string>
+	<string name="label_hist_gps">GPS</string>
+	<string name="label_hist_bluetooth">蓝牙</string>
+	<string name="label_hist_incall">电话</string>
+	<string name="label_hist_scanning">扫描</string>
+
+	<string name="label_graph_battery">电量</string>
+	<string name="label_graph_power">充电</string>
+	<string name="label_graph_screen">亮屏</string>
+	<string name="label_graph_wakelock">唤醒锁</string>
+	<string name="label_graph_wifi">Wifi</string>
+	<string name="label_graph_gps">GPS</string>
+	<string name="label_graph_bluetooth">蓝牙</string>
+	<string name="label_graph_incall">通话</string>
+	<string name="label_graph_scanning">扫描</string>
+		
+	<string name="label_widget_deep_sleep">休眠</string>
+	<string name="label_widget_since">从</string>
+	<string name="label_widget_awake">唤醒</string>
+	<string name="label_widget_screen_on">亮屏</string>
+	<string name="label_widget_kernel_wakelock">内核唤醒锁</string>
+	<string name="label_widget_partial_wakelock">局部唤醒锁</string>
+	<string name="label_widget_deep_sleep_short">DS</string>
+	<string name="label_widget_awake_short">Aw</string>
+	<string name="label_widget_screen_on_short">Scr</string>
+	<string name="label_widget_kernel_wakelock_short">KWL</string>
+	<string name="label_widget_partial_wakelock_short">PWL</string>
+	
+		
+	<string name="label_battery">电量</string>
+	<string name="label_name">名字</string>
+    <string name="label_description">描述</string>
+    <string name="label_package_name">应用名字</string>
+    <string name="label_on_on_android_4_3plus">仅可在Android 4.3以上版本可用</string>
+    
+    <string name="label_permisions_dangerous">被标为\'危险\'的权限</string>
+    <string name="label_permisions_system">\'系统应用\'的权限</string>
+    <string name="label_permisions_normal">普通权限</string>
+    
+    <string name="pref_dashclock_default_stat_type_summary">设置在锁屏时钟插件默认显示的统计类型</string>
+    <string name="pref_dashclock_fallback_stat_type_summary">若从未进行过设置，设置在锁屏时钟插件默认显示的统计类型</string>
+    <string name="label_awake_abbrev">aw.</string>
+    <string name="label_button_share">分享给...</string>
+    <string name="label_button_save">保存</string>
+    <string name="label_button_cancel">取消</string>
+    <string name="label_button_application_settings">应用设置</string>
+    <string name="label_button_appops">应用权限管理</string>
+    
+    
+    <string name="title_share_dialog">保存数据为...</string>
+    <string name="text_since">Since</string>
+    <string name="label_preferences">设置</string>
+    <string name="label_packageinfo">应用信息</string>
+    <string name="label_graphs">图表</string>
+    <string name="label_moregraphs">更多图表</string>
+    <string name="label_series">历史</string>
+    <string name="label_raw_stats">原始统计</string>
+    <string name="label_about">关于</string>
+    <string name="label_credits">荣誉</string>
+    <string name="label_help">帮助</string>
+    <string name="label_howto">指引</string>
+    <string name="label_system_app">系统应用</string>
+    <string name="label_import_export">导入导出</string>
+    <string name="label_refresh">刷新</string>
+    <string name="label_share">分享</string>
+    <string name="label_custom_ref">设置自定义区间</string>
+    <string name="label_release_notes">版本信息</string>
+    <string name="label_legend">图例</string>
+    <string name="label_button_yes">是</string>
+    <string name="label_button_no">否</string>
+    <string name="label_button_ok">是的</string>
+    <string name="label_tab_package">应用</string>
+    <string name="label_tab_permissions">权限</string>
+    <string name="label_tab_services">服务</string>
+    
+    <!-- About screen -->
+    <string name="label_about_author">作者 asksven</string>
+    <string name="label_about_courtesy">美工 Javi</string>
+    <string name="label_about_translations">翻译</string>
+    <string name="label_about_translation1">俄语 gaich @ xda</string>
+    <string name="label_about_translation2">西班牙语 @vldesco</string>
+    <string name="label_about_translation3">意大利语 code010101 @ xda</string>
+    <string name="label_about_translation4">克罗地亚语 seky2205 @ xda</string>
+    <string name="label_about_translation5">法语 xavihernandez @ xda</string>
+    <string name="label_about_translation6">德语 Minty123 @ xda</string>
+    <string name="label_about_follow">在Twitter上关注我</string>
+    <string name="label_about_rate">在Google Play上评分/评论</string>
+    
+    <!-- Preferences -->
+    <string name="label_theme_dark">暗色</string>
+    <string name="label_theme_light">亮色</string>
+    <string name="pref_theme_title">主题</string>
+    <string name="pref_theme_summary">切换</string>
+
+    <!-- System app activity -->
+    <string name="expl_system_app">在Android 4.4上Google移除了普通应用获取电量统计的权限\n\n建议安装BetterBatteryStats成为系统应用（这将无法进行更新）\n\n若权限变更，将要卸载或重装使其成为系统应用</string>
+    <string name="expl_system_app_workaround">若应用内安装失败，请使用该解决方案</string>
+    <string name="install_system_app">安装成为系统应用</string>
+    <string name="uninstall_system_app">取消系统应用状态</string>
+    <string name="info_installed_system_app">已成为系统应用，请重启手机激活</string>
+    <string name="info_uninstalled_system_app">取消系统应用状态将会重置你的设置，请重启以清除并更新设置</string>
+    <string name="info_succeeded">成功</string>
+    <string name="info_failed">失败，请尝试使用恢复模式下的ZIP包</string>
+    <string name="info_root_required">使用该特性必须获取root权限</string>
+    <string name="info_unknown_state">错误：无法识别变更内容</string>
+    <string name="info_service_connection_error">无法连接电池信息服务</string>
+    <string name="info_loading_refs_error">不能载入已选择的\'from\'或者\'to\'的基准点，请刷新</string>
+    <string name="info_unknown_stat_error">在检索统计数据时发生错误，请检查日志</string>
+    <string name="info_state_recovery_error">在恢复过往状态时发生错误</string>
+    <string name="info_pref_export_success">设置已保存到%s</string>
+    <string name="info_pref_import_success">已从%s导入设置</string>
+    <string name="info_pref_import_export_failed">操作失败</string>
+    <string name="info_files_written">已写入文件</string>
+    <string name="info_files_write_error">发生错误</string>
+    
+    <string name="info_deleting_refs">正删除并重置设置</string>
+    <string name="info_fallback_to_boot">回滚到\'boot\'</string>
+    <string name="info_fallback_to_default">恢复默认设置</string>
+    <string name="label_granted">已允许</string>
+    <string name="label_not_granted">不允许</string>
+
+    <!-- Preferences labels and texts -->
+    <string name="pref_section_display">显示</string>
+    <string name="pref_filter_data_title">统计筛选</string>
+    <string name="pref_filter_data_summary">筛选出非零的统计数据</string>
+    <string name="pref_show_bat_details_title">电池详细</string>
+    <string name="pref_show_bat_details_summary">显示在%%区间开屏耗电情况</string>
+    <string name="pref_show_gauge_title">条形图显示</string>
+    <string name="pref_show_gauge_summary">以条形图代替圆环图显示数据</string>
+    <string name="pref_graph_bar_height_title">条形图高度</string>
+    <string name="pref_graph_bar_height_summary">若在非默认分辨率情况下，可更改此项调整条形图高度</string>
+    <string name="pref_section_customize_views">自定义视图</string>
+    <string name="pref_show_from_to_ref_title">区间基准点</string>
+    <string name="pref_show_from_to_ref_summary">显示所选区间的下拉列表</string>
+    <string name="pref_show_other_wifi_title">Wifi</string>
+    <string name="pref_show_other_wifi_summary">显示Wifi数据</string>
+    <string name="pref_show_other_signal_title">信号</string>
+    <string name="pref_show_other_signal_summary">显示信号强度</string>
+    <string name="pref_show_other_screen_brightness_title">屏幕</string>
+    <string name="pref_show_other_screen_brightness_summary">显示屏幕亮度</string>
+    <string name="pref_show_other_connection_title">连接数</string>
+    <string name="pref_show_other_connection_summary">显示连接数</string>
+    <string name="pref_show_other_bt_title">蓝牙</string>
+    <string name="pref_show_other_bt_summary">显示蓝牙数据</string>
+    <string name="pref_show_other_doze_title">Doze模式</string>
+    <string name="pref_show_other_doze_summary">显示Doze模式的数据</string>
+    <string name="pref_section_defaults">默认</string>
+    <string name="pref_default_stat_title">默认统计表</string>
+    <string name="pref_default_stat_summary">设置进入应用默认显示的统计表</string>
+    <string name="pref_default_stat_type_title">默认统计类型</string>
+    <string name="pref_default_stat_type_summary">设置进入应用默认显示的统计类型</string>
+    <string name="pref_section_watchdog">Watchdog</string>
+    <string name="pref_enable_watchdog_title">启用</string>
+    <string name="pref_enable_watchdog_summary">启用watchdog监控进程</string>
+    <string name="pref_watchdog_on_unlock_title">解锁状态监控</string>
+    <string name="pref_watchdog_on_unlock_summary">Watchdog监控将在\'unlock\'状态下运行（否则在\'screen on\'状态运行）</string>
+    <string name="pref_section_warnings">警告</string>
+    <string name="pref_watchdog_awake_threshold_title">唤醒阀值</string>
+    <string name="pref_watchdog_awake_threshold_summary">设置唤醒警告阀值（占总唤醒数的比例）</string>
+    <string name="pref_ref_for_screen_off_title">响应时间阀值[分钟]</string>
+    <string name="pref_ref_for_screen_off_summary">息屏后持续一段时间后触发</string>
+    <string name="pref_section_active_mon">动态监控</string>
+    <string name="pref_active_mon_enabled_title">启用</string>
+    <string name="pref_active_mon_enabled_summary">启用电量动态监控，注意：将会导致一定的电量消耗</string>
+    <string name="pref_active_mon_freq_title">监控频率[分钟]</string>
+    <string name="pref_active_mon_freq_summary">守护程序保存数据的频率</string>
+    <string name="pref_force_en_title">强制英文显示</string>
+    <string name="pref_force_en_summary">强制应用以英文显示（需要重启）</string>
+    <string name="pref_section_advanced">高级</string>
+    <string name="pref_debug_logging_summary">向logcat日志增加调试信息</string>
+    <string name="pref_debug_logging_title">调试</string>
+    <string name="pref_files_to_private_storage_summary">向/sdcard/Android/data/com.asksven.betterbatterystats/files/Download写入文件</string>
+    <string name="pref_files_to_private_storage_title">私人存储</string>
+    <string name="pref_ignore_system_app_summary">忽略系统应用检测（为使用XPosed模块开启\'Enable BATTERY_STATS\'的用户而设）</string>
+    <string name="pref_ignore_system_app_title">禁止检测系统应用</string>
+    <string name="pref_select_dir_summary">选择转存文件写入的位置</string>
+    <string name="pref_select_dir_title">选择输出文件夹</string>
+    <string name="pref_select_dir_button">选择</string>
+
+    <string name="pref_developer_title">在充电时启用</string>
+    <string name="pref_developer_summary">在充电时启用统计（请谨慎使用，统计可能不正常）</string>
+    <string name="pref_auto_refresh_title">自动刷新</string>
+    <string name="pref_auto_refresh_summary">当切换屏幕或设置时自动重载\'current\'区间</string>
+    <string name="pref_section_sharing">分享选项</string>
+    <string name="pref_save_logcat_title">Logcat</string>
+    <string name="pref_save_logcat_summary">分享logcat日志</string>
+    <string name="pref_save_dmesg_title">dmesg</string>
+    <string name="pref_save_dmesg_summary">分享dmesg</string>
+    <string name="pref_force_alarms_api_title">定时器API</string>
+    <string name="pref_force_alarms_api_summary">强制回收定时器正在用的API</string>
+    <string name="pref_force_kwl_api_title">内核唤醒锁API</string>
+    <string name="pref_force_kwl_api_summary">强制回收内核唤醒锁正在使用的API</string>
+    <string name="pref_force_network_api_title">网络统计API</string>
+    <string name="pref_force_network_api_summary">强制回网络统计正在使用的API</string>
+    <string name="pref_screen_system_app_title">系统应用</string>
+    <string name="pref_screen_system_app_summary">安装成为系统应用</string>
+    <string name="pref_screen_import_export_title">导入/导出</string>
+    <string name="pref_screen_import_export_summary">导入与导出应用设置</string>
+    
+    <string name="pref_section_settings">设置</string>
+    <string name="pref_screen_widgets_title">桌面小部件</string>
+    <string name="pref_screen_legacy_widgets_title">原始桌面小部件</string>
+    <string name="widget_refresh_freq_title">更新频率</string>
+    <string name="widget_refresh_freq_summary">设置桌面小部件数据更新频率（亮屏时将会一直刷新）</string>
+    <string name="widget_refresh_on_screen_on_title">亮屏更新</string>
+    <string name="widget_refresh_on_screen_on_summary">当亮屏时更新统计数据</string>
+    <string name="widget_default_stat_title">默认打开的统计</string>
+    <string name="widget_default_stat_summary">设置从桌面小部件进入后打开的统计</string>    
+    <string name="widget_show_stat_type_title">显示标题</string>
+    <string name="widget_show_stat_type_summary">显示统计类型</string>
+    <string name="widget_fallback_stat_type_title">默认统计类型</string>
+    <string name="widget_fallback_stat_type_summary">若从未进行过设置，设置在桌面小部件默认显示的统计类型</string>
+    <string name="pref_category_widgets_2x2_and_2x1">2x2与2x1小部件</string>
+    <string name="widget_default_stat_type_title">统计类型</string>
+    <string name="widget_default_stat_type_summary">设置在桌面小部件要显示的统计类型</string>
+    <string name="large_widget_font_size_title">字体大小</string>
+    <string name="large_widget_font_size_summary">设置在桌面小部件的字体大小</string>
+    <string name="large_widget_show_pct_title">显示%</string>
+    <string name="large_widget_show_pct_summary">显示%所占的时间</string>
+    <string name="widget_opacity_title">透明度</string>
+    <string name="widget_opacity_summary">调整桌面小部件的透明度</string>
+    <string name="widget_bg_opacity_title">背景透明度</string>
+    <string name="widget_bg_opacity_summary">调整背景透明度</string>
+    <string name="pref_category_widget_1x1">1x1小部件</string>
+    <string name="small_widget_refresh_on_tap_title">触摸刷新</string>
+    <string name="small_widget_refresh_on_tap_summary">触摸小部件以刷新（若禁止触摸小部件进入应用）</string>
+    <string name="thumbnail_size_title">缩略图大小</string>
+    <string name="medium_font_size_title">中等字体大小</string>
+    
+    <!-- stats error / warnings -->
+    <string name="NO_STATS_WHEN_CHARGING">设备已接上电源：无统计数据</string>
+    <string name="NO_ROOT_ERR">该统计需要root权限</string>
+    <string name="NO_PERM_ERR">该统计需要应用的BATTERY_STATS权限</string>
+    <string name="NO_PERM_INFO">正在尝试以非系统应用方式获取权限</string>
+    <string name="NO_REF_ERR">尚未设置区间</string>
+    <string name="NO_STATS">尚无数据可被收集</string>
+	<string name="KWL_ACCESS_ERROR">无法获取内核唤醒锁文件或者API</string>
+    
+	<!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">从接通电源起</string>
+    <string name="stat_type_label_since_unplugged">从断开电源起</string>
+    <string name="stat_type_label_since_custom">从自定义起点起</string>
+    <string name="stat_type_label_since_screen_off">从息屏起</string>
+    <string name="stat_type_label_since_boot">从开机起</string>
+
+    
+    <string name="widget_freq_label_none">无</string>
+    <string name="widget_freq_label_5">5分钟</string>
+    <string name="widget_freq_label_15">15分钟</string>
+    <string name="widget_freq_label_30">*30分钟</string>
+    <string name="widget_freq_label_60">60分钟</string>
+    
+    <string name="widget_fontsize_16">超大(16)</string>
+    <string name="widget_fontsize_14">大(14)</string>
+    <string name="widget_fontsize_12">普通(12)</string>
+    <string name="widget_fontsize_10">*小(10)</string>
+    <string name="widget_fontsize_8">极小(8)</string>
+
+</resources>

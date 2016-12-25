@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.2.0.0" versioncode="82">
+        <change>Přidány statistiky senzorů ("Sensors")</change>
+        <change>Název statistik "Other" změněn na "Summary"</change>
+        <change>Do dialogu "Sdílet" přidáno pole "Poznámka" pro umožnění přidání poznámky k výpisu</change>
+        <change>Aktualizace knihovny android-compat-lib</change>
+        <change>V detailech alarmů lze nyní skrolovat</change>
+        <change>Opravy použitelnosti a vzhledu</change>
+        <change>Textový a JSON výpis byly sloučeny do jednoho souboru</change>
+        <change>Podpora pro "nerootnutá" zařízení</change>
+        <change>Na "rootnutých" zařízeních odstraněna potřeba použití systémové aplikace</change>
+        <change>Opravy chyb na základě crash reportů</change>
+        <change>Aktualizace překladů</change>
+    </release>
+</changelog>

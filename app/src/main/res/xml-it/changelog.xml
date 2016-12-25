@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.2.0.0" versioncode="82">
+        <change>Aggiunte le statistiche dei Sensori</change>
+        <change>Sostituita l'etichetta "Other" con "Summary"</change>
+        <change>Aggiunto campo "note" per la condivisione dei dumpfile</change>
+        <change>Aggiornamento all'ultima versione di "android-compat-lib"</change>
+        <change>Ora e\' possibile scorrere i dettagli degli Allarmi</change>
+        <change>Correzioni di usabilita\' e stile</change>
+        <change>Accorpate le versioni txt e json del dumpfile in un singolo file</change>
+        <change>Supporto per dispositivi senza permessi di root</change>
+        <change>Eliminata la necessita\' dell\'app di sistema (su dispositivi con root)</change>
+        <change>Correzioni varie</change>
+        <change>I18N</change>
+    </release>
+</changelog>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+        
+    <string name="plugin_name">BetterBatteryStats</string>
+    <string name="message_hint">Программное сообщение</string>
+    <string name="message_hint_saveref">Сохранить польз. метку</string>
+    <string name="message_hint_savestat">Сохранить текст. дамп</string>
+    <string name="message_hint_savestatjson">Сохранить дамп JSON</string>
+    <string name="message_hint_sinceref">Дамп от посл. метки</string>
+    <string name="message_hint_stat_type">Тип статистики</string>
+    <string name="message_enable_root">Включение функций рута предполагает, что устройство имеет рут-доступ.\nПожалуйста, убедитесь, что права su предоставлены для получения статистики сигналов и сети.\nEсли права не предоставляются, виновато приложение суперпользователя, а не BBS.\nПродолжить?</string>
+    <string name="message_enable_active_mon">Активный мониторинг приводит к увеличению пробуждений и объёма обработки данных и должен быть использован с осторожностью.\nПродолжить?</string>
+    <string name="message_first_launch">Создаётся метка \'отключено\'. При подключении/отключении телефона от ЗУ данная метка будет переписана</string>
+    <string name="message_copied_to_clipboard">%s скопировано в буфер</string>
+    <string name="message_no_hist_froyo">К сожалению, Froyo не поддерживает данные истории</string>
+    <string name="message_no_appops">В Вашей прошивке отсутствуют операции в приложениях</string>
+    <string name="message_external_storage_write_error">Невозможно записать во внешнюю память</string>
+    <string name="message_error_writing_dumpfile">Произошла ошибка при получении дампа истории</string>
+    <string name="message_identical_references">Произошла ошибка. Обе статистики идентичны (%1$1, %2$s)</string>
+    <string name="message_watchdog_processing">BBS: обработка в дежурном режиме...</string>
+    <string name="message_watchdog_awake_alert">BBS: уведомление о бодрствовании: %1$d%% бодрств.</string>
+    <string name="message_computing">Вычисление...</string>
+    <string name="message_awake_alert">Предупр. о бодрствовании</string>
+    <string name="message_awake_info">%1$d%% бодрств. при выкл. экране</string>
+    <string name="message_no_fileman_error">Пожалуйста, установите OI FileManager</string>
+    <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Добро пожаловать в %s</string>
+    <string name="app_pname">com.asksven.betterbatterystats</string>
+    <string name="label_button_remind">Напомнить позже</string>
+    <string name="label_button_rate">Оценить</string>
+    <string name="label_button_no_thanks">Нет, спасибо</string>
+    <string name="label_button_recovery">Загрузить ZIP для рекавери</string>
+    <string name="text_dialog_rate">Если Вам нравится %s, пожалуйста, уделите время, чтобы оценить его. Спасибо за Вашу поддержку!</string>
+    <string name="label_stat_type">Тип статистики</string>
+    <string name="label_since">От</string>
+    <string name="label_fallback_stat_type">Сброс типа статистики</string>
+    <string name="label_title">Название</string>
+    <string name="label_author">Автор</string>
+    <string name="label_license">Лицензия</string>
+    <string name="label_import_export_prefs">Импорт/экспорт настроек из/в %s</string>
+    <string name="label_import_prefs">Импорт</string>
+    <string name="label_export_prefs">Экспорт</string>
+    
+    <string name="label_hist_time">Время</string>
+    <string name="label_hist_battery">Бат</string>
+    <string name="label_hist_power">Зар</string>
+    <string name="label_hist_screen">Экр</string>
+    <string name="label_hist_wakelock">ВЛ</string>
+    <string name="label_hist_wifi">Wifi</string>
+    <string name="label_hist_gps">GPS</string>
+    <string name="label_hist_bluetooth">BT</string>
+    <string name="label_hist_incall">Выз</string>
+    <string name="label_hist_scanning">Скан</string>
+    
+    <string name="label_graph_battery">Батарея</string>
+    <string name="label_graph_power">Заряжается</string>
+    <string name="label_graph_screen">Экран вкл</string>
+    <string name="label_graph_wakelock">Вэйклок</string>
+    <string name="label_graph_wifi">Wifi</string>
+    <string name="label_graph_gps">GPS</string>
+    <string name="label_graph_bluetooth">Bluetooth</string>
+    <string name="label_graph_incall">Вызов</string>
+    <string name="label_graph_scanning">Сканирование</string>
+		
+    <string name="label_widget_deep_sleep">Глубокий сон</string>
+    <string name="label_widget_since">От</string>
+    <string name="label_widget_awake">Бодрствование</string>
+    <string name="label_widget_screen_on">Экран вкл</string>
+    <string name="label_widget_kernel_wakelock">ВЛЯ</string>
+    <string name="label_widget_partial_wakelock">ЧВЛ</string>
+    <string name="label_widget_deep_sleep_short">ГС</string>
+    <string name="label_widget_awake_short">Бод</string>
+    <string name="label_widget_screen_on_short">Экр</string>
+    <string name="label_widget_kernel_wakelock_short">ВЛЯ</string>
+    <string name="label_widget_partial_wakelock_short">ЧВЛ</string>
+
+    
+    <string name="label_battery">Батарея</string>
+    <string name="label_name">Имя</string>
+    <string name="label_description">Описание</string>
+    <string name="label_package_name">Имя пакета</string>
+    <string name="label_on_on_android_4_3plus">Доступно только на Андроид 4.3+</string>
+    
+    <string name="label_permisions_dangerous">Разрешение отмечено как \'опасное\'</string>
+    <string name="label_permisions_system">Разрешения для \'системных приложений\'</string>
+    <string name="label_permisions_normal">Обычные разрешения</string>
+    
+    <string name="pref_dashclock_default_stat_type_summary">Установить тип статистики для дашклока</string>
+    <string name="pref_dashclock_fallback_stat_type_summary">Установить сброс типа статистики для дашклока, если основной не имеет метки</string>
+    <string name="label_awake_abbrev">проб.</string>
+    <string name="label_button_share">Поделиться...</string>
+    <string name="label_button_save">Сохранить</string>
+    <string name="label_button_cancel">Отмена</string>
+    <string name="label_button_application_settings">Настройки приложения</string>
+    <string name="label_button_appops">Операции в приложениях</string>
+    
+    
+    <string name="title_share_dialog">Поделиться данными в...</string>
+    <string name="share_dialog_edit_title">Заметка</string>
+    <string name="text_since">От</string>
+    <string name="label_preferences">Настройки</string>
+    <string name="label_packageinfo">Информация о пакете</string>
+    <string name="label_graphs">Графики</string>
+    <string name="label_moregraphs">Ещё графики</string>
+    <string name="label_series">История</string>
+    <string name="label_raw_stats">Необраб. статистика</string>
+    <string name="label_about">О приложении</string>
+    <string name="label_credits">Благодарности</string>
+    <string name="label_help">Помощь</string>
+    <string name="label_howto">Как</string>
+    <string name="label_system_app">Системное приложение</string>
+    <string name="label_import_export">Импорт/экспорт</string>
+    <string name="label_refresh">Обновить</string>
+    <string name="label_share">Поделиться</string>
+    <string name="label_custom_ref">Установить польз. метку</string>
+    <string name="label_release_notes">О релизе</string>
+    <string name="label_legend">Легенда</string>
+    <string name="label_button_yes">Да</string>
+    <string name="label_button_no">Нет</string>
+    <string name="label_button_ok">OK</string>
+    <string name="label_tab_package">Пакет</string>
+    <string name="label_tab_permissions">Разрешения</string>
+    <string name="label_tab_services">Службы</string>
+    
+    <!-- About screen -->
+    <string name="label_about_author">Разработка: asksven</string>
+    <string name="label_about_courtesy">Графика: Javi</string>
+    <string name="label_about_translations">Переводы</string>
+    <string name="label_about_translation1">Русский: gaich @ xda</string>
+    <string name="label_about_translation2">Испанский: @vldesco</string>
+    <string name="label_about_translation3">Итальянский: code010101 @ xda</string>
+    <string name="label_about_translation4">Хорватский: seky2205 @ xda</string>
+    <string name="label_about_translation5">Французcкий: xavihernandez @ xda</string>
+    <string name="label_about_translation6">Немецкий: Minty123 @ xda</string>
+    <string name="label_about_follow">Твиттер</string>
+    <string name="label_about_rate">Оценка / отзыв на Google Play</string>
+               
+    <!-- Preferences -->
+    <string name="label_theme_dark">Тёмная</string>
+    <string name="label_theme_light">Светлая</string>
+    <string name="pref_theme_title">Тема</string>
+    <string name="pref_theme_summary">Переключить тему</string>
+               
+    <!-- System app activity -->
+    <string name="expl_system_app">На Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений.</string>
+    <string name="expl_system_app_workaround">При сбое установки приложения, пожалуйста, используйте этот метод</string>
+    <string name="install_system_app">Установить как системное</string>
+    <string name="uninstall_system_app">Удалить системное</string>
+    <string name="info_installed_system_app">Установлено системное приложение. Пожалуйста, перезагрузите устройство для активации.</string>
+    <string name="info_uninstalled_system_app">Удалено системное приложение: Ваши настройки сброшены. Пожалуйста, перезагрузите устройство для очистки и обновления настроек.</string>
+    <string name="info_succeeded">Успешно</string>
+    <string name="info_failed">Сбой</string>
+    <string name="info_root_required">Для использования данного параметра приложение должно иметь рут-разрешения</string>
+    <string name="info_unknown_state">Ошибка: невозможно определить изменение</string>
+    <string name="info_service_connection_error">Нет связи со службой информации батареи</string>
+    <string name="info_loading_refs_error">Выбранные метки \'от\' или \'до\' не могут быть загружены. Пожалуйста, обновите</string>
+    <string name="info_unknown_stat_error">При получении статистики произошла неизвестная ошибка. Пожалуйста, проверьте логкат</string>
+    <string name="info_state_recovery_error">Произошла ошибка при восстановлении предыдущего состояния</string>
+    <string name="info_pref_export_success">Настройки были сохранены в %s</string>
+    <string name="info_pref_import_success">Настройки были импортированы из %s</string>
+    <string name="info_pref_import_export_failed">Сбой операции</string>
+    
+    <string name="info_files_written">Запись файлов выполнена</string>
+    <string name="info_files_write_error">Произошла ошибка</string>
+    
+    
+    <string name="info_deleting_refs">Удаление и повторное создание меток</string>
+    <string name="info_fallback_to_boot">Сброс к \'От загрузки\'</string>
+    <string name="info_fallback_to_default">Сброс к метке по умолчанию</string>
+    <string name="label_granted">предоставлено</string>
+    <string name="label_not_granted">не предоставлено</string>
+	
+    <!-- Preferences labels and texts -->
+    <string name="pref_section_display">Отображение</string>
+    <string name="pref_filter_data_title">Статистика фильтров</string>
+    <string name="pref_filter_data_summary">Включить фильтрацию данных по ненулевым значениям</string>
+    <string name="pref_show_bat_details_title">Подробности батареи</string>
+    <string name="pref_show_bat_details_summary">Отображать % от/до на экране</string>
+    <string name="pref_show_gauge_title">Показывать полосы</string>
+    <string name="pref_show_gauge_summary">Показывать полосы вместо кругов</string>
+    <string name="pref_graph_bar_height_title">Высота полос графика</string>
+    <string name="pref_graph_bar_height_summary">Если Вы используете значения плотности не по умолчанию, здесь Вы можете изменить высоту полос</string>
+    <string name="pref_section_customize_views">Настройка вида</string>
+    <string name="pref_show_from_to_ref_title">Метки от/до</string>
+    <string name="pref_show_from_to_ref_summary">Показать выбор меток</string>
+    <string name="pref_show_other_wifi_title">Показать Wifi</string>
+    <string name="pref_show_other_wifi_summary">Показать значения Wifi</string>
+    <string name="pref_show_other_signal_title">Показать сигнал</string>
+    <string name="pref_show_other_signal_summary">Показать значения сигнала</string>
+    <string name="pref_show_other_screen_brightness_title">Показать экран</string>
+    <string name="pref_show_other_screen_brightness_summary">Показать яркость экрана</string>
+    <string name="pref_show_other_connection_title">Показать соединение</string>
+    <string name="pref_show_other_connection_summary">Показать значения соединения</string>
+    <string name="pref_show_other_bt_title">Показать Bluetooth</string>
+    <string name="pref_show_other_bt_summary">Показать значения Bluetooth</string>
+    <string name="pref_show_other_doze_title">Показать режим Doze</string>
+    <string name="pref_show_other_doze_summary">Показать значения Doze</string>
+    
+    <string name="pref_section_defaults">Умолчания</string>
+    <string name="pref_default_stat_title">Статистика по умолчанию</string>
+    <string name="pref_default_stat_summary">Установить статистику, которая будет отображаться после запуска приложения</string>
+    <string name="pref_default_stat_type_title">Тип статистики по умолчанию</string>
+    <string name="pref_default_stat_type_summary">Установить тип статистики, который будет отображаться после запуска приложения</string>
+    <string name="pref_section_watchdog">Дежурный режим</string>
+    <string name="pref_enable_watchdog_title">Включить</string>
+    <string name="pref_enable_watchdog_summary">Включить обработку в дежурном режиме</string>
+    <string name="pref_watchdog_on_unlock_title">Дежурный режим при разблокировке</string>
+    <string name="pref_watchdog_on_unlock_summary">Дежурный режим работает после \'разблокировки\' (также как и после \'экран вкл\')</string>
+    <string name="pref_section_warnings">Предупреждения</string>
+    <string name="pref_watchdog_awake_threshold_title">Порог бодрствования</string>
+    <string name="pref_watchdog_awake_threshold_summary">Порог предупреждения (бодрствование / всего)</string>
+    <string name="pref_ref_for_screen_off_title">Длительность порога [мин.]</string>
+    <string name="pref_ref_for_screen_off_summary">Длительность отключения экрана до срабатывания</string>
+    <string name="pref_section_active_mon">Активный мониторинг</string>
+    <string name="pref_active_mon_enabled_title">Включить</string>
+    <string name="pref_active_mon_enabled_summary">Включение активного мониторинга. Предупреждение: активный мониторинг может уменьшить жизнь батареи</string>
+    <string name="pref_active_mon_freq_title">Частота [мин.]</string>
+    <string name="pref_active_mon_freq_summary">Частота сохранения меток таймера</string>
+    <string name="pref_force_en_title">Английский принудительно</string>
+    <string name="pref_force_en_summary">Включение английского для BBS (необходим перезапуск)</string>    
+    <string name="pref_section_advanced">Дополнительно</string>
+    <string name="pref_debug_logging_summary">Добавить информацию об отладке в логкат</string>
+    <string name="pref_debug_logging_title">Отладка</string>
+    <string name="pref_files_to_private_storage_summary">Записывать файлы в /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
+    <string name="pref_files_to_private_storage_title">Частное хранилище</string>
+    <string name="pref_ignore_system_app_summary">Игнорировать обнаружение системного приложения (для пользователей модуля XPosed \'Enable BATTERY_STATS\')</string>
+    <string name="pref_ignore_system_app_title">Не обнаруживать системное</string>
+    
+    <string name="pref_select_dir_summary">Выберите путь записи дампа</string>
+    <string name="pref_select_dir_title">Выберите каталог размещения</string>
+    <string name="pref_select_dir_button">Выбрать</string>
+    
+    <string name="pref_developer_title">Включить при зарядке</string>
+    <string name="pref_developer_summary">Включить статистику при зарядке (на Ваш риск, статистика может быть нестабильной)</string>
+    <string name="pref_auto_refresh_title">Автообновление</string>
+    <string name="pref_auto_refresh_summary">Автоматическая перезагрузка метки\'текущее\' при переключении экранов/настроек</string>
+    <string name="pref_section_sharing">Опции вывода</string>
+    <string name="pref_save_logcat_title">Логкат</string>
+    <string name="pref_save_logcat_summary">Поделиться логкатом</string>
+    <string name="pref_save_dmesg_title">dmesg</string>
+    <string name="pref_save_dmesg_summary">Поделиться dmesg</string>
+    <string name="pref_force_alarms_api_title">Сигналы с API</string>
+    <string name="pref_force_alarms_api_summary">Принудительное использование API для получения сигналов</string>
+    <string name="pref_force_kwl_api_title">Вэйклоки ядра с API</string>
+    <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
+    <string name="pref_force_network_api_title">Статистика сети с API</string>
+    <string name="pref_force_network_api_summary">Принудительное использование API для получения статистики сети</string>
+    <string name="pref_screen_system_app_title">Системное</string>
+    <string name="pref_screen_system_app_summary">Установить как системное приложение</string>
+    <string name="pref_screen_import_export_title">Импорт/экспорт</string>
+    <string name="pref_screen_import_export_summary">Импорт и экспорт настроек</string>
+        
+    <string name="pref_section_settings">Настройки</string>
+    <string name="pref_screen_widgets_title">Виджеты</string>
+    <string name="pref_screen_legacy_widgets_title">Старые виджеты</string>
+    <string name="widget_refresh_freq_title">Частота обновления</string>
+    <string name="widget_refresh_freq_summary">Установить период обновления виджетов (постоянное обновление при включении экрана)</string>
+    <string name="widget_refresh_on_screen_on_title">Обновление при вкл экрана</string>
+    <string name="widget_refresh_on_screen_on_summary">Обновлять при включении экрана</string>
+    <string name="widget_default_stat_title">Статистика по умолчанию при открытии</string>
+    <string name="widget_default_stat_summary">Установить статистику, которую открывает виджет</string>
+    <string name="widget_show_stat_type_title">Показать заголовок</string>
+    <string name="widget_show_stat_type_summary">Показать тип статистики</string>
+    <string name="widget_fallback_stat_type_title">Сброс типа статистики</string>
+    <string name="widget_fallback_stat_type_summary">Установить сброс статистики для отображения виджетом при отсутствии метки</string>
+    <string name="pref_category_widgets_2x2_and_2x1">Виджеты 2x2 и 2x1</string>
+    <string name="widget_default_stat_type_title">Тип статистики</string>
+    <string name="widget_default_stat_type_summary">Установить тип статистики, отображаемой виджетом</string>
+    <string name="large_widget_font_size_title">Размер шрифта</string>
+    <string name="large_widget_font_size_summary">Установить размер шрифта в виджете</string>
+    <string name="large_widget_show_pct_title">Отображение %</string>
+    <string name="large_widget_show_pct_summary">Показать длительность в % от общего времени</string>
+    <string name="widget_opacity_title">Непрозрачность</string>
+    <string name="widget_opacity_summary">Настроить непрозрачность виджета</string>
+    <string name="widget_bg_opacity_title">Непрозрачность фона</string>
+    <string name="widget_bg_opacity_summary">Настроить непрозрачность фона виджета</string>
+    <string name="pref_category_widget_1x1">Виджет 1x1</string>
+    <string name="small_widget_refresh_on_tap_title">Обновить нажатием</string>
+    <string name="small_widget_refresh_on_tap_summary">Нажатие на виджете обновляет его (если отключено открытие приложения по нажатию)</string>
+    <string name="thumbnail_size_title">Размер эскизов</string>
+    <string name="medium_font_size_title">Средний размер шрифта</string>
+	
+    <!-- stats error / warnings -->
+    <string name="NO_STATS_WHEN_CHARGING">Устройство подключено к ЗУ: нет статистики</string>
+    <string name="NO_ROOT_ERR">Для данной статистики требуется разрешение рут</string>
+    <string name="NO_PERM_ERR">Для данной статистики требуется разрешение BATTERY_STATS</string>
+    <string name="NO_PERM_INFO">Попытка предоставления разрешений без системного приложения</string>
+    <string name="NO_REF_ERR">Метки ещё не установлено</string>
+    <string name="NO_STATS">Статистика ещё не собрана</string>
+    <string name="KWL_ACCESS_ERROR">Нет доступа к вэйклокам ядра, ни через файл, ни через API</string>
+    
+    <!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">От заряжено</string>
+    <string name="stat_type_label_since_unplugged">От отключено</string>
+    <string name="stat_type_label_since_custom">От польз. метки.</string>
+    <string name="stat_type_label_since_screen_off">От экран вкл</string>
+    <string name="stat_type_label_since_boot">От загрузки</string>
+    
+   
+    <string name="widget_freq_label_none">Нет</string>
+    <string name="widget_freq_label_5">5 мин.</string>
+    <string name="widget_freq_label_15">15 мин.</string>
+    <string name="widget_freq_label_30">*30 мин.</string>
+    <string name="widget_freq_label_60">60 мин.</string>
+    
+    <string name="widget_fontsize_16">Оч.большой (16)</string>
+    <string name="widget_fontsize_14">Большой (14)</string>
+    <string name="widget_fontsize_12">Нормальный (12)</string>
+    <string name="widget_fontsize_10">*Маленький (10)</string>
+    <string name="widget_fontsize_8">Оч.маленький (8)</string>
+
+</resources>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:card_view="http://schemas.android.com/apk/res-auto" xmlns:gp="http://asksven.net"
+    android:id="@+id/LinearLayoutEntry"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:colorForegroundInverse" 
+    android:elevation="0dp"
+    android:orientation="horizontal"
+    android:paddingBottom="2dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="2dp"
+    android:paddingTop="2dp"
+
+    android:baselineAligned="false"
+>
+        
+    <LinearLayout
+        android:id="@+id/LayoutIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/thumbnail_size"
+            android:layout_height="@dimen/thumbnail_size"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/clickable"
+            android:paddingBottom="0dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="0dp"
+            android:layout_marginRight="2dp"
+            android:scaleType="centerCrop"
+            android:layout_weight="10"
+            android:transitionName="icon_transition"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:layout_weight="100">
+
+        <TextView
+            android:id="@+id/TextViewName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="1"
+            android:text="Name"
+            android:textSize="@dimen/text_size_medium"/>
+
+        <LinearLayout
+            android:id="@+id/LinearLayoutFqn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/TextViewFqn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-condensend"
+                android:maxLines="1"
+                android:text="NameGoesHere"
+                android:textSize="@dimen/text_size_tiny" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout03"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/TextViewData"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:text="DataGoesHere"
+                android:textSize="@dimen/text_size_tiny" />
+
+            <ImageView
+                android:id="@+id/imageKB"
+                android:layout_width="32dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/clickable"
+                android:src="@drawable/icon_kb" >
+            </ImageView>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/LinearLayoutGauge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <com.asksven.betterbatterystats.widgets.GraphablePie
+            android:id="@+id/Gauge"
+            android:layout_width="@dimen/thumbnail_size"
+            android:layout_height="@dimen/thumbnail_size"
+            android:background="@drawable/clickable"
+            android:padding="4dp" />
+    
+
+
+    </LinearLayout>
+    
+</LinearLayout>

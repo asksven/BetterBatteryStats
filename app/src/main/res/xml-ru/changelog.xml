@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.2.0.0" versioncode="82">
+        <change>Добавлена статистика датчиков</change>
+        <change>Статистика "Other" (Другое) заменена на "Summary" (Общее)</change>
+        <change>Добавлено поле "примечание" для добавления заметок к дампу</change>
+        <change>Обновлена совместимость с текущими android-compat-lib</change>
+        <change>Прокрутка в подробностях сигналов</change>
+        <change>Исправлен стиль и удобство использования</change>
+        <change>Текстовый вариант дампа и json объединены в один файл</change>
+        <change>Добавлена поддержка устройств без рута</change>
+        <change>Устранена необходимость в системном приложении (на устройствах с рутом)</change>
+        <change>Исправления сбоев и ошибок</change>
+        <change>Переводы</change>
+    </release>
+</changelog>

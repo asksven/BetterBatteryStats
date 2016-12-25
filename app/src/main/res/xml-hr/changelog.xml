@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+   
+      <release version="2.0.0.0" versioncode="62">
+        <change>Totalno nov i sjajan, sa svijetlom i tamnom temom</change>
+        <change>Potpuna podrška za Lollipop</change>
+        <change>Puno I18N (vidi prozore za zasluge)</change>
+        <change>Dodani detalji o API statusima u dumpfile</change>
+        <change>Prozor sistemskih aplikacija je sad povezan na recovery ZIP kako bi bio korišten kao zaobilaznica</change>
+        <change>Dodano uvažanje/ izvažanje postavki</change>
+        <change>Dodana opcija za prikazati/ sakriti spinnere</change>
+        <change>Prikaži SELinux Policy na prozorima sistemskih aplikacija i Dumpfile-ovima</change>
+        <change>Pokušaj da se zaobiđe BATTERY_INFO service koji nije moguće učitati na nekim uređajima</change>
+        <change>Površinske greške koje se mogu dogoditi za vrijeme obrađivanja statistika</change>
+        <change>Promjenjeno vrijeme i računanje u vremenu: trebalo bi izbjeći probleme sa zaokruživanjem</change>
+	    <change>Dodana opcija za spremanje dumpfile-ova u JSON formatu iz tasker proširenja</change>
+		<change>Maknuto sortiranje</change>
+		<change>Maknuta google analiza</change>
+		<change>Maknuto zumiranje grafa</change>
+    </release>
+
+</changelog>

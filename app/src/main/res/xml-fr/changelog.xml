@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.2.0.0" versioncode="82">
+        <change>Nouveau: Sensor Stats</change>
+        <change>Possibilité d''ajouter des notes au dumpfiles</change>
+        <change>Détails des alarmes est maintenant scrollable</change>
+        <change>Dumpfile contient la représentation txt et json</change>
+        <change>Support d''appareils non rootés</change>
+        <change>Supprimé la nécessité d'installer l'application système pour les appareils rootés</change>
+        <change>Fixé divers bugs</change>
+        <change>I18N</change>      
+    </release>
+
+</changelog>

@@ -1,0 +1,40 @@
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+	<LinearLayout 
+	    android:id="@+id/layout_root"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical"
+	    android:paddingBottom="16dp"
+	    android:paddingLeft="16dp"
+	    android:paddingRight="16dp"
+	    android:paddingTop="16dp" >
+	    
+	    <!-- do not translate: values are set in code -->
+	 	<TextView
+	        android:id="@+id/dialog_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Dialog Title"
+	        android:fontFamily="sans-serif-light-bold"
+	        android:textSize="@dimen/text_size_large"
+	        android:textColor="@color/color_accent"/>
+	 	<TextView
+	        android:id="@+id/title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Title"
+	        android:fontFamily="sans-serif-light"
+	        android:textSize="@dimen/text_size_medium"/>
+	
+	 	<TextView
+	        android:id="@+id/text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	    	android:text="Text"
+	        android:fontFamily="sans-serif-condensend"
+	        android:textSize="@dimen/text_size_tiny"/>
+	</LinearLayout>
+</ScrollView>

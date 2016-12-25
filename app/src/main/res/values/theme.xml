@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- theme used for widgets -->
+<resources>
+
+    <style name="Theme.asksven.TextAppearance.Tiny" parent="@android:style/TextAppearance.Small">
+        <item name="android:textSize">10sp</item>
+    </style>
+    <style name="Theme.asksven.TextAppearance.Tiny.Bold" parent="Theme.asksven.TextAppearance.Tiny.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+</resources>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+
+    <string name="plugin_name">Better Battery Stats</string>
+    <string name="message_hint">Toast programado</string>
+    <string name="message_hint_saveref">Grabar una referencia personalizada</string>
+    <string name="message_hint_savestat">Grabar volcado en archivo de texto</string>
+    <string name="message_hint_savestatjson">Grabar volcado en archivo JSON</string>
+    <string name="message_hint_sinceref">Volcado desde última referencia</string>
+    <string name="message_hint_stat_type">Tipo de estadística</string>
+    <string name="message_enable_root">Habilitar las características root asume que su teléfono tiene permisos de root.\nPor favor asegúrese de otorgar permisos SU a las estadísticas de Alarmas y Red.\nSi estos permisos no permanecen, es responsabilidad de la aplicación SU, no de BBS.\n¿Continuar?</string>
+    <string name="message_enable_active_mon">Monitores Activo resulta en sobrecarga en téminos de wakeups y procesamiento y debe ser usado con cuidado.\n¿Continuar?</string>
+    <string name="message_first_launch">Una referencia \'desconectado\' está siendo creada ahora. Cuando conecte/desconecte su teléfono esta referencia será sobreescrita</string>
+    <string name="message_copied_to_clipboard">%s copiado al portapapeles</string>
+    <string name="message_no_hist_froyo">Desafortunadamente Froyo no soporta datos históricos</string>
+    <string name="message_no_appops">AppOps no existe en su ROM</string>
+    <string name="message_external_storage_write_error">El almacenamiento externo no pudo ser escrito</string>
+    <string name="message_error_writing_dumpfile">Ocurrió un error mientras se volcaba el historial</string>
+    <string name="message_identical_references">Ocurrió un error. Ambas estadísticas son idénticas (%1$1, %2$s)</string>
+    <string name="message_watchdog_processing">BBS: Watchdog procesando...</string>
+    <string name="message_watchdog_awake_alert">BBS: Alerta Awake: %d \%% despierto</string>
+    <string name="message_computing">Calculando...</string>
+    <string name="message_awake_alert">Alerta Awake</string>
+    <string name="message_awake_info">%1$d%% despierto mientras la pantalla estaba apagada</string>
+    <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Bienvenido a %s</string>
+    <string name="app_pname">com.asksven.betterbatterystats</string>
+    <string name="label_button_remind">Recordarmelo después</string>
+    <string name="label_button_rate">Calificar</string>
+    <string name="label_button_no_thanks">No, gracias</string>
+    <string name="label_button_recovery">Descargar ZIP para recovery</string>
+    <string name="text_dialog_rate">si disfrutas usando %s, por favor tómate un tiempo para calificarlo. ¡Gracias por su apoyo!</string>
+    <string name="label_stat_type">Tipo de Stat</string>
+    <string name="label_since">Desde</string>
+    <string name="label_fallback_stat_type">Tipo de stat Fallback</string>
+    <string name="label_title">Título</string>
+    <string name="label_author">Autor</string>
+    <string name="label_license">Licencia</string>
+    <string name="label_import_export_prefs">Importar/Exportar preferencias de/a %s</string>
+    <string name="label_import_prefs">Importar</string>
+    <string name="label_export_prefs">Exportar</string>
+
+    <string name="label_hist_time">Hora</string>
+    <string name="label_hist_battery">Bat</string>
+    <string name="label_hist_power">Chrg</string>
+    <string name="label_hist_screen">Pant.</string>
+    <string name="label_hist_wakelock">WL</string>
+    <string name="label_hist_wifi">Wifi</string>
+    <string name="label_hist_gps">GPS</string>
+    <string name="label_hist_bluetooth">BT</string>
+    <string name="label_hist_incall">Llam.</string>
+    <string name="label_hist_scanning">Scan</string>
+
+    <string name="label_graph_battery">Batería</string>
+    <string name="label_graph_power">Cargando</string>
+    <string name="label_graph_screen">Pant. Enc.</string>
+    <string name="label_graph_wakelock">Wakelock</string>
+    <string name="label_graph_wifi">Wifi</string>
+    <string name="label_graph_gps">GPS</string>
+    <string name="label_graph_bluetooth">Bluetooth</string>
+    <string name="label_graph_incall">En Llamada</string>
+    <string name="label_graph_scanning">Scanning</string>
+
+    <string name="label_widget_deep_sleep">Deep Sleep</string>
+	<string name="label_widget_since">Desde</string>
+    <string name="label_widget_awake">Despierto:</string>
+    <string name="label_widget_screen_on">Pant. Enc.:</string>
+    <string name="label_widget_kernel_wakelock">KWL</string>
+    <string name="label_widget_partial_wakelock">PWL</string>
+    <string name="label_widget_deep_sleep_short">DS</string>
+    <string name="label_widget_awake_short">Aw</string>
+    <string name="label_widget_screen_on_short">Scr</string>
+    <string name="label_widget_kernel_wakelock_short">KWL</string>
+    <string name="label_widget_partial_wakelock_short">PWL</string>
+
+
+    <string name="label_battery">Batería</string>
+    <string name="label_name">Nombre</string>
+    <string name="label_description">Descripción</string>
+    <string name="label_package_name">Nombre Paquete</string>
+    <string name="label_on_on_android_4_3plus">Disponible solo en Android 4.3+</string>
+
+    <string name="label_permisions_dangerous">Permiso marcado como \'peligroso\'</string>
+    <string name="label_permisions_system">Permisos para \'Aplicaciones de sistema\'</string>
+    <string name="label_permisions_normal">Permisos normales</string>
+
+    <string name="pref_dashclock_default_stat_type_summary">Asignar el tipo de estadística a mostrar en el dashclock</string>
+    <string name="pref_dashclock_fallback_stat_type_summary">Asignar el tipo de estadística fallback a mostrar en el dashclock si la primaria no tiene referencias</string>
+    <string name="label_awake_abbrev">Desp.</string>
+    <string name="label_button_share">Compartir...</string>
+    <string name="label_button_save">Grabar</string>
+    <string name="label_button_cancel">Cancelar</string>
+    <string name="label_button_application_settings">Configuración de la Aplicación</string>
+    <string name="label_button_appops">App Ops</string>
+
+
+    <string name="title_share_dialog">Compartir datos como...</string>
+    <string name="text_since">Desde</string>
+    <string name="label_preferences">Configuración</string>
+    <string name="label_packageinfo">Información de Paquete</string>
+    <string name="label_graphs">Gráficos</string>
+    <string name="label_moregraphs">Más Gráficos</string>
+    <string name="label_series">Historia</string>
+    <string name="label_raw_stats">Raw Stats</string>
+    <string name="label_about">Acerca de</string>
+    <string name="label_credits">Créditos</string>
+    <string name="label_help">Ayuda</string>
+    <string name="label_howto">Cómo hacer</string>
+    <string name="label_system_app">Aplicación de Sistema</string>
+    <string name="label_import_export">Importar/Exportar</string>
+    <string name="label_refresh">Refrescar</string>
+    <string name="label_share">Compartir</string>
+    <string name="label_custom_ref">Asiganr Ref. personalizada</string>
+    <string name="label_release_notes">Notas de Release</string>
+    <string name="label_legend">Leyenda</string>
+    <string name="label_button_yes">Sí</string>
+    <string name="label_button_no">No</string>
+    <string name="label_button_ok">OK</string>
+    <string name="label_tab_package">Paquete</string>
+    <string name="label_tab_permissions">Permisos</string>
+    <string name="label_tab_services">Servicios</string>
+
+    <!-- About screen -->
+    <string name="label_about_author">Por asksven</string>
+    <string name="label_about_courtesy">Gráficos de Javi</string>
+    <string name="label_about_translations">Traducciones</string>
+    <string name="label_about_translation1">Ruso por gaich @ xda</string>
+    <string name="label_about_translation2">Español por @vldesco</string>
+    <string name="label_about_translation3">Italiano por code010101 @ xda</string>
+    <string name="label_about_translation4">Croata por seky2205 @ xda</string>
+    <string name="label_about_translation5">Francés por xavihernandez @ xda</string>
+    <string name="label_about_translation6">Alemán por Minty123 @ xda</string>
+    <string name="label_about_follow">Sígueme en Twitter</string>
+    <string name="label_about_rate">Califica / Revisa en Google Play</string>
+
+    <!-- Preferences -->
+    <string name="label_theme_dark">Oscuro</string>
+    <string name="label_theme_light">Claro</string>
+    <string name="pref_theme_title">Tema</string>
+    <string name="pref_theme_summary">Cambiar temas</string>
+
+    <!-- System app activity -->
+    <string name="expl_system_app">En Android 4.4 Google removió el permiso para que aplicaciones normales accesen las estadísticas de batería.\n\nEs recomendable instalar BetterBatteryStats como aplicación de sistema (esto no previene la instalación de actualizaciones).\n\nDesinstalar/Reinstalar BBS como aplicación de sistema puede ser necesario si los permisos cambian.</string>
+    <string name="expl_system_app_workaround">Si la opción de instalación desde la aplicación falla, por favor use esta alternativa</string>
+    <string name="install_system_app">Instalar como aplicación de sistema</string>
+    <string name="uninstall_system_app">Desinstalar aplicación de sistema</string>
+    <string name="info_installed_system_app">Aplicación de sistema instalada. Por favor reinicie el teléfono para activar.</string>
+    <string name="info_uninstalled_system_app">Aplicación de sistema desinstalada: Sus preferencias han sido borradas. Por favor reinicie el teléfono para limpiar y actualizar sus preferencias.</string>
+    <string name="info_succeeded">Exitoso</string>
+    <string name="info_failed">Fallido, intente con un ZIP de recuperación</string>
+    <string name="info_root_required">A fin de usar esta característica, acceso \'Root\' debe estar habilitado (Preferencias avanzadas)</string>
+    <string name="info_unknown_state">Error: No se puede determinar qué cambió</string>
+    <string name="info_service_connection_error">Servicio BatteryInfo no se pudo contactar</string>
+    <string name="info_loading_refs_error">Referencia \'from\' o \'to\' seleccionada no pudo ser cargada. por favor refresque</string>
+    <string name="info_unknown_stat_error">Ocurrió un error mientras se recuperaban estadísticas. por favor revise el logcat</string>
+    <string name="info_state_recovery_error">Ocurrió un error mientras se recuperaba el estado previo</string>
+    <string name="info_pref_export_success">Se han grabado las preferencias a %s</string>
+    <string name="info_pref_import_success">Se han importado las preferencias de %s</string>
+    <string name="info_pref_import_export_failed">La operación falló</string>
+
+    <string name="info_deleting_refs">Eliminando y recreando referencias</string>
+    <string name="info_fallback_to_boot">Fallback a \'Desde Inicio\'</string>
+    <string name="info_fallback_to_default">Fallback a referencia por defecto</string>
+    <string name="label_granted">otorgado</string>
+    <string name="label_not_granted">no otorgado</string>
+
+    <!-- Preferences labels and texts -->
+    <string name="pref_section_display">Pantalla</string>
+    <string name="pref_filter_data_title">Filtrar estadísticas</string>
+    <string name="pref_filter_data_summary">Habilitar el filtrado de datos a valores no cero</string>
+    <string name="pref_show_bat_details_title">Detalles de batería</string>
+    <string name="pref_show_bat_details_summary">Mostrar Batería de/a % en pantalla</string>
+    <string name="pref_show_gauge_title">Mostrar barras</string>
+    <string name="pref_show_gauge_summary">Mostrar barras en lugar de medidor Gauge</string>
+    <string name="pref_graph_bar_height_title">Altura para gráfico de barras</string>
+    <string name="pref_graph_bar_height_summary">Si está usando una densidad no default, puede cambiar la altura de la barra aquí</string>
+    <string name="pref_section_customize_views">Personalizar vistas</string>
+    <string name="pref_show_from_to_ref_title">Referencias de/a</string>
+    <string name="pref_show_from_to_ref_summary">Mostrar spinners para seleccionar referencias</string>
+    <string name="pref_show_other_wifi_title">Mostrar Wifi</string>
+    <string name="pref_show_other_wifi_summary">Mostrar valores Wifi</string>
+    <string name="pref_show_other_signal_title">Mostrar señal</string>
+    <string name="pref_show_other_signal_summary">Mostrar valores de señal</string>
+    <string name="pref_show_other_screen_brightness_title">Mostrar pantalla</string>
+    <string name="pref_show_other_screen_brightness_summary">Mostrar brillo de pantalla</string>
+    <string name="pref_show_other_connection_title">Mostrar conexión</string>
+    <string name="pref_show_other_connection_summary">Mostrar valores de conexión</string>
+    <string name="pref_show_other_bt_title">Mostrar Bluetooth</string>
+    <string name="pref_show_other_bt_summary">Mostrar valores de Bluetooth</string>
+    <string name="pref_section_defaults">Defaults</string>
+    <string name="pref_default_stat_title">Estadística por defecto</string>
+    <string name="pref_default_stat_summary">Asigna la estadística a mostrar cuando inicie la aplicación</string>
+    <string name="pref_default_stat_type_title">Tipo de estadística por defecto</string>
+    <string name="pref_default_stat_type_summary">Asigna el tipo de estadística a mostrar cuando inicie la aplicación</string>
+    <string name="pref_section_watchdog">Watchdog</string>
+    <string name="pref_enable_watchdog_title">Habilitar</string>
+    <string name="pref_enable_watchdog_summary">Habilitar procesamiento de Watchdog</string>
+    <string name="pref_watchdog_on_unlock_title">Watchdog en desbloqueo</string>
+    <string name="pref_watchdog_on_unlock_summary">Watchdog ejecuta  \'desbloqueo\' (de lo contrario en \'pantalla encendida\')</string>
+    <string name="pref_section_warnings">Advertencias</string>
+    <string name="pref_watchdog_awake_threshold_title">Umbral Despierto</string>
+    <string name="pref_watchdog_awake_threshold_summary">Umbral para advertencia (despierto / total)</string>
+    <string name="pref_ref_for_screen_off_title">Duración del umbral [Min.]</string>
+    <string name="pref_ref_for_screen_off_summary">Duración de pantalla apagado para advertir</string>
+    <string name="pref_section_active_mon">Monitoreo activo</string>
+    <string name="pref_active_mon_enabled_title">Habilitar</string>
+    <string name="pref_active_mon_enabled_summary">Habilita el monitoreo activo. !Cuidado¡: tenga en cuenta que el monitoreo activo tiene un costo en términos de batería</string>
+    <string name="pref_active_mon_freq_title">Frecuencia [Min.]</string>
+    <string name="pref_active_mon_freq_summary">Frecuencia temporizador para guardar referencias</string>
+    <string name="pref_force_en_title">Forzar Inglés</string>
+    <string name="pref_force_en_summary">Forzar que BBS se muestre en inglés (requiere reiniciar)</string>
+    <string name="pref_section_advanced">Avanzado</string>
+    <string name="pref_debug_logging_summary">Añadir información de debug a logcat</string>
+    <string name="pref_debug_logging_title">Debug</string>
+    <string name="pref_files_to_private_storage_summary">Escribir archivos a /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
+    <string name="pref_files_to_private_storage_title">Almacenamiento privado</string>
+    <string name="pref_ignore_system_app_summary">Ignorar detección de aplicación de sistema (para usuarios del módulo XPosed \'Enable BATTERY_STATS\')</string>
+    <string name="pref_ignore_system_app_title">No detectar aplicación de sistema</string>
+
+
+    <string name="pref_developer_title">Habilitar durante carga</string>
+    <string name="pref_developer_summary">Habilitar estadísticas durante la carga (a su propio riesgo, estadísticas pueden ser inconsistentes)</string>
+    <string name="pref_auto_refresh_title">Auto refresco</string>
+    <string name="pref_auto_refresh_summary">Recargar automáticamente \'actual\' cuando se intercambia entre pantallas/configuraciones</string>
+    <string name="pref_section_sharing">opciones Compartir</string>
+    <string name="pref_save_logcat_title">Logcat</string>
+    <string name="pref_save_logcat_summary">Compartir logcat</string>
+    <string name="pref_save_dmesg_title">dmesg</string>
+    <string name="pref_save_dmesg_summary">Compartir dmesg</string>
+    <string name="pref_force_alarms_api_title">Usar API para alarmas</string>
+    <string name="pref_force_alarms_api_summary">Forzar la recuperación de Alarmas usando el API</string>
+    <string name="pref_force_kwl_api_title">Usar API para Kernel Wakelocks</string>
+    <string name="pref_force_kwl_api_summary">Forzar la recuperación de Kernel Wakelocks usando el API</string>
+    <string name="pref_screen_system_app_title">Aplicación de Sistema</string>
+    <string name="pref_screen_system_app_summary">Instalar como Aplicación de Sistema</string>
+    <string name="pref_screen_import_export_title">Importar/Exportar</string>
+    <string name="pref_screen_import_export_summary">Importar y Exportar Preferencias</string>
+
+    <string name="pref_section_settings">Configuraciones</string>
+    <string name="pref_screen_widgets_title">Widgets</string>
+    <string name="pref_screen_legacy_widgets_title">Legacy Widgets</string>
+    <string name="widget_refresh_freq_title">Frecuencia de refresco</string>
+    <string name="widget_refresh_freq_summary">Asigna la frecuencia de actualización de los Widgets (Siempre se actualizarán cuando la pantalla esté encendida)</string>
+    <string name="widget_refresh_on_screen_on_title">Refrescar al encender la pantalla</string>
+    <string name="widget_refresh_on_screen_on_summary">Refrescar cuandola pantalla enciende</string>
+    <string name="widget_default_stat_title">Estadística por defecto al abrir</string>
+    <string name="widget_default_stat_summary">Asigna la estadística a ser llamada por el widget</string>
+    <string name="widget_show_stat_type_title">Mostrar título</string>
+    <string name="widget_show_stat_type_summary">Mostrar tipo de estadística</string>
+    <string name="widget_fallback_stat_type_title">Tipo de estadística Fallback</string>
+    <string name="widget_fallback_stat_type_summary">Asigna el tipo de estadística fallback a mostrar en el widget si la primaria no tiene referencias</string>
+    <string name="pref_category_widgets_2x2_and_2x1">2x2 y 2x1 Widgets</string>
+    <string name="widget_default_stat_type_title">Tipo de estadística</string>
+    <string name="widget_default_stat_type_summary">Asigna la estadística a ser mostrada en el widget</string>
+    <string name="large_widget_font_size_title">Tamaño de fuente</string>
+    <string name="large_widget_font_size_summary">Asigna el tamaño de fuente a ser usado en el widget</string>
+    <string name="large_widget_show_pct_title">Mostrar %</string>
+    <string name="large_widget_show_pct_summary">Mostrar duraciones en % de tiempo total</string>
+    <string name="widget_opacity_title">Opacidad</string>
+    <string name="widget_opacity_summary">Ajustar la opacidad del widget</string>
+    <string name="widget_bg_opacity_title">Opacidad del fondo</string>
+    <string name="widget_bg_opacity_summary">Ajustar la opacidad del fondo</string>
+    <string name="pref_category_widget_1x1">1x1 Widget</string>
+    <string name="small_widget_refresh_on_tap_title">Refrescar al tocar</string>
+    <string name="small_widget_refresh_on_tap_summary">Refrescar el widget al tocarlo (si se deshabilita, tocar el widget abre la aplicación)</string>
+    <string name="thumbnail_size_title">Tamaño de ícono</string>
+    <string name="medium_font_size_title">Tañano de font mediano</string>
+
+    <!-- stats error / warnings -->
+    <string name="NO_STATS_WHEN_CHARGING">El dispositivo está conectado: no estadísticas</string>
+    <string name="NO_ROOT_ERR">Esta estadística requiere root</string>
+    <string name="NO_PERM_ERR">Esta estadística requiere el permiso BATTERY_STATS</string>
+    <string name="NO_REF_ERR">Aún no se a asignado una referencia</string>
+    <string name="NO_STATS">Aún no se han recolectado estadísticas</string>
+
+    <!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">Desde que se cargó</string>
+    <string name="stat_type_label_since_unplugged">Desde que se desconectó</string>
+    <string name="stat_type_label_since_custom">Desde Ref. Personalizada</string>
+    <string name="stat_type_label_since_screen_off">Desde que se apagó la pantalla</string>
+    <string name="stat_type_label_since_boot">Desde reinicio</string>
+
+
+    <string name="widget_freq_label_none">Ninguno</string>
+    <string name="widget_freq_label_5">5 Min.</string>
+    <string name="widget_freq_label_15">15 Min.</string>
+    <string name="widget_freq_label_30">*30 Min.</string>
+    <string name="widget_freq_label_60">60 Min.</string>
+
+    <string name="widget_fontsize_16">X-Grande (16)</string>
+    <string name="widget_fontsize_14">Grande (14)</string>
+    <string name="widget_fontsize_12">Normal (12)</string>
+    <string name="widget_fontsize_10">*Pequeño (10)</string>
+    <string name="widget_fontsize_8">Diminuto (8)</string>
+
+</resources>

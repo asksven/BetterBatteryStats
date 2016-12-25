@@ -1,0 +1,18 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ListPreference
+        android:defaultValue="ref_unplugged"
+        android:entries="@array/statTypeLabels"
+        android:entryValues="@array/statTypeValues"
+        android:key="dashclock_default_stat_type"
+        android:summary="@string/pref_dashclock_default_stat_type_summary"
+        android:title="@string/label_stat_type" />
+    <ListPreference
+        android:defaultValue="ref_boot"
+        android:entries="@array/statTypeLabels"
+        android:entryValues="@array/statTypeValues"
+        android:key="dashclock_fallback_stat_type"
+        android:summary="@string/pref_dashclock_fallback_stat_type_summary"
+        android:title="@string/label_fallback_stat_type" />
+
+</PreferenceScreen>
