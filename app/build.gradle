@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/ASL2.0'
+    }
 }
 
 dependencies {
@@ -28,10 +32,12 @@ dependencies {
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'com.google.android.apps.dashclock:dashclock-api:+'
     compile 'com.google.code.gson:gson:2.+'
-    compile 'org.codehaus.jackson:jackson-core-asl:1.9.11@jar'
-    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.11@jar'
+    compile 'org.codehaus.jackson:jackson-core-asl:1.9.13'
+    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'com.android.support:design:22.2.0'
     compile group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.2, 5.0['
     testCompile 'junit:junit:4.12'
     compile files('libs/androidcommon.jar')
+    compile files('libs/RootTools-3.4.jar')
+
 }

@@ -19,8 +19,6 @@ package com.asksven.betterbatterystats;
  * @author sven
  *
  */
-import java.util.ArrayList;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -62,28 +60,28 @@ import android.widget.Toast;
 import com.asksven.android.common.AppRater;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.RootShell;
-import com.asksven.android.common.utils.DataStorage;
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.SysUtils;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Notification;
 import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.betterbatterystats.R;
+import com.asksven.android.common.utils.DataStorage;
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
+import com.asksven.betterbatterystats.contrib.ObservableScrollView;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.services.EventWatcherService;
+import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
-import com.asksven.betterbatterystats.services.WriteBootReferenceService;
-import com.asksven.betterbatterystats.contrib.ObservableScrollView;
+import de.cketti.library.changelog.*;
 
-import de.cketti.library.changelog.ChangeLog;
+import java.util.ArrayList;
 
 public class StatsActivity extends ActionBarListActivity 
 		implements AdapterView.OnItemSelectedListener, ObservableScrollView.Callbacks

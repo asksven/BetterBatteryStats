@@ -37,13 +37,15 @@
 //import com.asksven.betterbatterystats.localeplugin.Constants;
 //import com.asksven.betterbatterystats.localeplugin.bundle.BundleScrubber;
 //import com.asksven.betterbatterystats.localeplugin.bundle.PluginBundleManager;
-//import com.twofortyfouram.locale.BreadCrumber;
+//import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractAppCompatPluginActivity;
+//import com.twofortyfouram.locale.example.setting.toast.bundle.PluginBundleValues;
 //import com.asksven.betterbatterystats.R;
 //
 ///**
 // * This is the "Edit" activity for a Locale Plug-in.
+// * @todo re-implement with new SDK: https://github.com/twofortyfouram/android-toast-setting-plugin-for-locale/blob/master/toastPluginSettingApp/src/main/java/com/twofortyfouram/locale/example/setting/toast/ui/activity/EditActivity.java
 // */
-//public final class EditActivity extends Activity
+//public final class EditActivity extends AbstractAppCompatPluginActivity
 //{
 //
 //	static final String TAG = "EditActivity";
@@ -327,6 +329,17 @@
 //        return super.onOptionsItemSelected(item);
 //    }
 //
+//    @Override
+//    public boolean isBundleValid(@NonNull final Bundle bundle) {
+//        return PluginBundleValues.isBundleValid(bundle);
+//    }
+//
+//    @Override
+//    public void onPostCreateWithPreviousResult(@NonNull final Bundle previousBundle,
+//                                               @NonNull final String previousBlurb) {
+//        final String message = PluginBundleValues.getMessage(previousBundle);
+//        ((EditText) findViewById(android.R.id.text1)).setText(message);
+//    }
 //
 //
 //}
