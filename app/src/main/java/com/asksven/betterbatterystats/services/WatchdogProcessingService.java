@@ -15,19 +15,6 @@
  */
 package com.asksven.betterbatterystats.services;
 
-import java.util.ArrayList;
-
-import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats.data.Reference;
-import com.asksven.betterbatterystats.data.ReferenceStore;
-import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
-import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.StatsActivity;
-
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -39,7 +26,19 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
+import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.StatsActivity;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
+import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+
+import java.util.ArrayList;
 
 /**
  * @author sven
@@ -47,7 +46,7 @@ import android.widget.Toast;
  */
 public class WatchdogProcessingService extends IntentService
 {
-	private static final String TAG = "WatchdogProcessingService";
+	private static final String TAG = "WatchdogProcService";
 
 	public WatchdogProcessingService()
 	{

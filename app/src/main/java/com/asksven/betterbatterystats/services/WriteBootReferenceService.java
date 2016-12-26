@@ -15,12 +15,6 @@
  */
 package com.asksven.betterbatterystats.services;
 
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats.data.Reference;
-import com.asksven.betterbatterystats.data.ReferenceStore;
-import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.Wakelock;
-
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.Service;
@@ -31,13 +25,19 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.betterbatterystats.Wakelock;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
+import com.asksven.betterbatterystats.data.StatsProvider;
+
 /**
  * @author sven
  *
  */
 public class WriteBootReferenceService extends IntentService
 {
-	private static final String TAG = "WriteBootReferenceService";
+	private static final String TAG = "WriteBootRefService";
 
 	public WriteBootReferenceService()
 	{

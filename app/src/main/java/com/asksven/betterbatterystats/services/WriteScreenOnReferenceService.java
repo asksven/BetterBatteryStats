@@ -15,13 +15,6 @@
  */
 package com.asksven.betterbatterystats.services;
 
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats.data.Reference;
-import com.asksven.betterbatterystats.data.ReferenceStore;
-import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
-import com.asksven.betterbatterystats.Wakelock;
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,13 +22,20 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.betterbatterystats.Wakelock;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
+import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+
 /**
  * @author sven
  *
  */
 public class WriteScreenOnReferenceService extends IntentService
 {
-	private static final String TAG = "WriteScreenOnReferenceService";
+	private static final String TAG = "WriteScreenOnRefService";
 
 	public WriteScreenOnReferenceService()
 	{

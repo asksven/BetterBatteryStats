@@ -15,17 +15,17 @@
  */
 package com.asksven.betterbatterystats.services;
 
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats.data.Reference;
-import com.asksven.betterbatterystats.data.ReferenceStore;
-import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
-import com.asksven.betterbatterystats.Wakelock;
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.betterbatterystats.Wakelock;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
+import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 
 /**
  * @author sven
@@ -33,7 +33,7 @@ import android.util.Log;
  */
 public class WriteCurrentReferenceService extends IntentService
 {
-	private static final String TAG = "WriteCurrentReferenceService";
+	private static final String TAG = "WriteCurrentRefService";
 
 	public WriteCurrentReferenceService()
 	{
