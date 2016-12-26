@@ -15,54 +15,59 @@
  */
 package com.asksven.betterbatterystats.data;
 
-import java.util.ArrayList;
-
 import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * The data source for all series to plot
+ *
  * @author sven
  */
 public class GraphSerie
-{	
+{
 
-    private String m_title;
-    private ArrayList<Datapoint> m_serie;
-    
-    static final String TAG = "GraphSerie";
-    
-    public GraphSerie(String title, ArrayList<Datapoint> serie)
-    {
-    	m_serie	 	= serie;
-        m_title 	= title;
-        
-        if (m_serie != null)
-        {
-        	Log.i(TAG, "Added Serie " + m_title + " with " + m_serie.size() + " entries");
-        }
-        else
-        {
-        	Log.i(TAG, "Added Serie was null");
-        }
-    }
-    
-    public String getTitle()
-    {
-        return m_title;
-    }
- 
-    public int size()
-    {
-        return m_serie.size();
-    }
- 
-    
-    
-    public ArrayList<Datapoint> getValues()
-    {
-    	return m_serie;
-    }
-    
+	private String m_title;
+	private ArrayList<Datapoint> m_serie;
+
+	static final String TAG = "GraphSerie";
+
+	public GraphSerie(String title, ArrayList<Datapoint> serie)
+	{
+		if (serie != null)
+		{
+			m_serie = serie;
+		} else
+		{
+			m_serie = new ArrayList<Datapoint>();
+		}
+
+		m_title = title;
+
+		if (m_serie != null)
+		{
+			Log.i(TAG, "Added Serie " + m_title + " with " + m_serie.size() + " entries");
+		} else
+		{
+			Log.i(TAG, "Added Serie was null");
+		}
+	}
+
+	public String getTitle()
+	{
+		return m_title;
+	}
+
+	public int size()
+	{
+		return m_serie.size();
+	}
+
+
+	public ArrayList<Datapoint> getValues()
+	{
+		return m_serie;
+	}
 
 
 }
