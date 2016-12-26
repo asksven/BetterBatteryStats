@@ -113,34 +113,6 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_section_settings" >
 
-        <!-- not externalized yet: needs some though -->
-        <!--
-        <PreferenceScreen android:title="Knowledge Base" >
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="enable_kb"
-                android:summary="Enable the display of the knowledge base"
-                android:title="Enable KB" />
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="kb_ext_browser"
-                android:summary="Use default browser to display the knowledge base"
-                android:title="Use default browser" />
-
-            <EditTextPreference
-                android:defaultValue=""
-                android:key="kb_url_appender"
-                android:summary="Append a string to the service URL to use a test URL"
-                android:title="Append to Service URL" />
-
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="cache_kb"
-                android:summary="Cache the knowledge base locally"
-                android:title="Cache KB" />
-        </PreferenceScreen>
-        -->
-        <!-- This chapter needs some redesign as well -->
         <PreferenceScreen android:title="@string/pref_screen_widgets_title" >
             <ListPreference
                 android:defaultValue="30"
@@ -409,8 +381,8 @@
                     android:title="@string/pref_save_dmesg_title" />
             </PreferenceScreen>
             <PreferenceScreen
-                android:summary="@string/pref_screen_system_app_summary"
-                android:title="@string/pref_screen_system_app_title" >
+                android:summary="@string/pref_screen_permissions_summary"
+                android:title="@string/pref_screen_permissions_title">
                 <intent android:action="com.asksven.betterbatterystats.SystemAppActivity" />
             </PreferenceScreen>
             <PreferenceScreen
