@@ -15,21 +15,6 @@
  */
 package com.asksven.betterbatterystats.services;
 
-import java.util.ArrayList;
-import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.StringUtils;
-import com.asksven.betterbatterystats.data.Reference;
-import com.asksven.betterbatterystats.data.ReferenceStore;
-import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
-import com.asksven.betterbatterystats.widgets.WidgetBars;
-import com.asksven.betterbatterystats.LogSettings;
-import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.StatsActivity;
-
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
@@ -43,13 +28,29 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
+import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.StringUtils;
+import com.asksven.betterbatterystats.LogSettings;
+import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.StatsActivity;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
+import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.widgets.WidgetBars;
+
+import java.util.ArrayList;
+
 /**
  * @author sven
  *
  */
 public class UpdateLargeWidgetService extends Service
 {
-	private static final String TAG = "UpdateLargeWidgetService";
+	private static final String TAG = "UpdateLWidgetService";
 	/** must be unique for each widget */
 	private static final int PI_CODE = 2;
 
