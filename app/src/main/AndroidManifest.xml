@@ -10,7 +10,6 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="22" />
 
-    <uses-permission android:name="android.permission.BATTERY_STATS" />
     <!-- SKN 2016-12-25 we ignore this for now
 
 <uses-permission android:name="android.permission.DUMP" />
