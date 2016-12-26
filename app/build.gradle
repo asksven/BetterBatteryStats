@@ -46,6 +46,7 @@ dependencies {
     // Required for instrumented tests (app/src/androidTest)
     androidTestCompile 'com.android.support:support-annotations:25.1.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
     testCompile 'org.powermock:powermock-api-mockito:1.6.5'
     testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.5'
