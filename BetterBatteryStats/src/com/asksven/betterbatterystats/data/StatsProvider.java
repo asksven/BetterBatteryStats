@@ -584,6 +584,12 @@ public class StatsProvider
 	{
 		ArrayList<StatElement> myRetStats = new ArrayList<StatElement>();
 
+		// Sensor stats do not work on pre-lolipop
+		if (VERSION.SDK_INT <= 21)
+		{
+			return myRetStats;
+		}
+		
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(m_context);
@@ -1972,7 +1978,7 @@ public class StatsProvider
 			{
 				try
 				{
-					if (Build.VERSION.SDK_INT > 6)
+					if (Build.VERSION.SDK_INT >= 21)
 					{
 						timeBluetoothIdle 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_IDLE_TIME, statsType) / 1000;
 						timeBluetoothRx 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_RX_TIME, statsType) / 1000;
@@ -2003,7 +2009,7 @@ public class StatsProvider
 			{
 				try
 				{
-					if (Build.VERSION.SDK_INT > 6)
+					if (Build.VERSION.SDK_INT >= 21)
 					{
 						interactiveTime 			= mStats.getInteractiveTime(batteryRealtime, statsType) / 1000;
 						powerSaveModeEnabledTime 	= mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType) / 1000;
@@ -2023,7 +2029,7 @@ public class StatsProvider
 			long syncTime = 0;
 			try
 			{
-				if (Build.VERSION.SDK_INT > 6)
+				if (Build.VERSION.SDK_INT >= 21)
 				{
 					syncTime 	= mStats.getSyncOnTime(m_context, batteryRealtime, statsType) / 1000;
 				}
