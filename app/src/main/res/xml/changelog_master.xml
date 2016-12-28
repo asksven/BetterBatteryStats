@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release
+        version="2.2.1.0"
+        versioncode="83">
+        <change>Fixed bug causing app to show "no stats" on android pre-lolipop</change>
+    </release>
+
     <release version="2.2.0.0" versioncode="82">
         <change>Added Sensor Stats</change>
         <change>Replaced "Other" stats label by "Summary"</change>

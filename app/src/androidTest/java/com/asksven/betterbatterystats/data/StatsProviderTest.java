@@ -43,7 +43,7 @@ public class StatsProviderTest extends InstrumentationTestCase
 	@Test
 	public void getCurrentSensorStatList() throws Exception
 	{
-		ArrayList<StatElement> res = mStats.getCurrentAlarmsStatList(true);
+		ArrayList<StatElement> res = mStats.getCurrentSensorStatList(true);
 		assertNotNull(res);
 		Log.i(TAG, "Retrieved " + res.size() + " elements");
 

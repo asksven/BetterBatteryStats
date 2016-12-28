@@ -15,15 +15,6 @@
  */
 package com.asksven.betterbatterystats.data;
 
-import java.io.File;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.StringTokenizer;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -54,9 +45,7 @@ import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
-import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.kernelutils.Netstats;
-import com.asksven.android.common.kernelutils.OtherStatsDumpsys;
 import com.asksven.android.common.kernelutils.ProcessStatsDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
@@ -68,6 +57,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
 import com.asksven.android.common.privateapiproxies.BatteryStatsTypesLolipop;
 import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
 import com.asksven.android.common.privateapiproxies.Notification;
 import com.asksven.android.common.privateapiproxies.Process;
@@ -82,6 +72,15 @@ import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.ActiveMonAlarmReceiver;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
+
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Singleton provider for all the statistics
@@ -583,6 +582,12 @@ public class StatsProvider
 	public ArrayList<StatElement> getCurrentSensorStatList(boolean bFilter) throws Exception
 	{
 		ArrayList<StatElement> myRetStats = new ArrayList<StatElement>();
+
+		// Sensor stats do not work on pre-lolipop
+		if (VERSION.SDK_INT <= 21)
+		{
+			return myRetStats;
+		}
 
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
@@ -1972,7 +1977,7 @@ public class StatsProvider
 			{
 				try
 				{
-					if (Build.VERSION.SDK_INT > 6)
+					if (Build.VERSION.SDK_INT >= 21)
 					{
 						timeBluetoothIdle 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_IDLE_TIME, statsType) / 1000;
 						timeBluetoothRx 	= mStats.getBluetoothInStateTime(BatteryStatsTypes.CONTROLLER_RX_TIME, statsType) / 1000;
@@ -2003,7 +2008,7 @@ public class StatsProvider
 			{
 				try
 				{
-					if (Build.VERSION.SDK_INT > 6)
+					if (Build.VERSION.SDK_INT >= 21)
 					{
 						interactiveTime 			= mStats.getInteractiveTime(batteryRealtime, statsType) / 1000;
 						powerSaveModeEnabledTime 	= mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType) / 1000;
@@ -2023,7 +2028,7 @@ public class StatsProvider
 			long syncTime = 0;
 			try
 			{
-				if (Build.VERSION.SDK_INT > 6)
+				if (Build.VERSION.SDK_INT >= 21)
 				{
 					syncTime 	= mStats.getSyncOnTime(m_context, batteryRealtime, statsType) / 1000;
 				}

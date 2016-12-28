@@ -56,7 +56,7 @@
     <application
         android:name="com.asksven.betterbatterystats.BbsApplication"
         android:icon="@mipmap/ic_launcher"
-        android:label="BetterBatteryStats"
+        android:label="BBS"
         android:theme="@style/Theme.Bbs"
         android:supportsRtl="true">
         <activity
