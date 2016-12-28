@@ -2,7 +2,7 @@
 /signed
 /bin
 /bin-ant
-/BetterBatteryStats_*.apk
+/BetterBatteryStats*.apk
 /local.properties
 /ant.properties
 /bin-ant
