@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asksven.betterbatterystats"
     android:installLocation="internalOnly"
-    android:versionCode="82"
-    android:versionName="2.2.0.0" >
+    android:versionCode="83"
+    android:versionName="2.2.1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -22,7 +22,7 @@
     <!-- detect when battery is charged -->
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <!-- detect  when screen is turned on/off -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> 
     <!-- detect unplug actions -->
     <uses-permission android:name="android.permission.DEVICE_POWER" />
     <!-- retrieve ps list (running tasks) -->
