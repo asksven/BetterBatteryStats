@@ -583,12 +583,6 @@ public class StatsProvider
 	public ArrayList<StatElement> getCurrentSensorStatList(boolean bFilter) throws Exception
 	{
 		ArrayList<StatElement> myRetStats = new ArrayList<StatElement>();
-
-		// Sensor stats do not work on pre-lolipop
-		if (VERSION.SDK_INT <= 21)
-		{
-			return myRetStats;
-		}
 		
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
