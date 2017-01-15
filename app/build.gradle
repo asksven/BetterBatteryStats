@@ -40,8 +40,8 @@ android {
             def date = new Date();
             def formattedDate = date.format('yyyy-MM-dd_HHmmss')
 
-            def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + SEP + formattedDate + ".apk"
-
+            //def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + SEP + formattedDate + ".apk"
+            def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + ".apk"
             output.outputFile = new File(output.outputFile.parent, newApkName)
         }
     }
