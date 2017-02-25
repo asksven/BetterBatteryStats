@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="dangerous_color">#e74c3c</color> <!-- alzarin -->
+	<color name="signature_color">#f1c40f</color> <!--  sunflower -->
+	<color name="normal_color">#27ae60</color> <!--  nephritis -->
+	
+	<color name="divider_color">#7798fb98</color>
+	
+	
+    <color name="golden">#f2a400</color>
+    <color name="red">#e00707</color>
+    <color name="green">#4ac925</color>
+    <color name="yellow">#ffff00</color>
+    <color name="skyblue">#00d5f2</color>
+    <color name="holoblue">#ff33b6ea</color>
+    
+    <!-- colors for state "red light" -->
+    <color name="state_green">#2ecc71</color>
+    <color name="state_yellow">#f1c40f</color>
+    <color name="state_red">#e74c3c</color>
+    
+    <!-- flat design colors -->
+    <!--  Source:  http://www.google.de/imgres?imgurl=http://designmodo.com/wp-content/uploads/2013/04/Flat-UI-Colors.jpg&imgrefurl=http://designmodo.com/flat-design-colors/&h=284&w=600&sz=22&tbnid=kdOQqkxCEC5cFM:&tbnh=60&tbnw=126&zoom=1&usg=__pZa_CURBWojnEIJHwchW2NR0KTs=&docid=sS5bYzWxb32xgM&sa=X&ei=XWkxUr7aI4TZ4QTr-oCYCQ&ved=0CDwQ9QEwAQ&dur=51 -->
+    <!-- green -->
+    <color name="turquoise">#1abc9c</color>
+    <color name="emerald">#2ecc71</color>
+    <color name="greensea">#16a085</color>
+    <color name="nephritis">#27ae60</color>
+    
+    <!-- blue -->
+    <color name="peterriver">#3498db</color>
+    <color name="belizehole">#2980b9</color>
+    
+    <!-- purple -->
+    <color name="ametyst">#9b59b6</color>
+    <color name="wisteria">#8e44ad</color>
+    
+    <!-- black -->
+    <color name="wetasphalt">#34495e</color>
+    <color name="midnightblue">#2c3e50</color>
+    
+    <!-- yellow -->
+    <color name="sunflower">#f1c40f</color>
+    
+    <!-- orange -->
+    <color name="orange">#f39c12</color>
+    <color name="carrot">#e67e22</color>
+    <color name="pumpkin">#d35400</color>
+    
+    <!-- red -->
+    <color name="alizarin">#e74c3c</color>
+    <color name="pomegranate">#c0392b</color>
+    
+    <!-- white-grey -->
+    <color name="clouds">#ecf0f1</color>
+    <color name="silver">#bdc3c7</color>
+    <color name="concrete">#95a5a6</color>
+    <color name="asbestos">#7f8c8d</color>
+    
+	<!-- colors for the cards in light and dark themes -->
+	<color name="card_shadow_light">#ccc</color>
+	<color name="card_foreground_light">@android:color/white</color>
+	<color name="cardlist_background_light">#e5e5e5</color>
+		
+	<color name="card_shadow_dark">#ccc</color>
+	<color name="card_foreground_dark">@android:color/black</color>
+	<color name="cardlist_background_dark">#2d2d2d</color>
+	
+	<color name="color_accent">#27ae60</color>
+	<color name="color_clickable_compat">#50CCCCCC</color>
+	
+	<!-- widget colors -->
+	<color name="deep_sleep">#2ecc71</color>
+	<color name="awake">#e74c3c</color>
+	<color name="screen_on">#f1c40f</color>
+	<color name="kwl">#e67e22</color>
+	<color name="pwl">#54acd2</color>
+	
+	
+			
+	
+    
+    
+    
+</resources>
