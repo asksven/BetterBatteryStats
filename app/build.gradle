@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
-
     defaultConfig {
         applicationId "com.asksven.betterbatterystats"
         minSdkVersion 15
@@ -12,10 +11,8 @@ android {
         versionName "2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
     // we have different package name for the variants
     flavorDimensions "edition"
-
     productFlavors {
         gplay {
             dimension "edition"
@@ -28,7 +25,6 @@ android {
         }
 
     }
-
     // and a naming policy for the apks
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -46,7 +42,6 @@ android {
         }
 
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -55,7 +50,6 @@ android {
         debug {
             minifyEnabled false
         }
-
     }
     packagingOptions {
         exclude 'META-INF/LICENSE'
@@ -65,7 +59,6 @@ android {
         disable 'MissingTranslation'
         abortOnError false
     }
-
     // @TODO: remove when fixed
     // bug introduced by android studio 2.3 -> force all support libs to this version
     configurations.all {
@@ -78,7 +71,6 @@ android {
             }
         }
     }
-
 }
 
 dependencies {
@@ -93,7 +85,7 @@ dependencies {
     compile 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'com.android.support:design:25.3.1'
-    compile group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.2, 5.0['
+    compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:[4.0.2, 5.0['
     // for local tests (app/src/test)
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
@@ -107,6 +99,8 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:1.6.5'
     compile files('libs/androidcommon.jar')
     compile files('libs/RootTools-3.4.jar')
-
+    // Firebase analytics
+    compile 'com.google.firebase:firebase-core:10.2.1'
 }
 
+apply plugin: 'com.google.gms.google-services'

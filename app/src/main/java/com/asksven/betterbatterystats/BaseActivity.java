@@ -21,12 +21,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 
-import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.appanalytics.Analytics;
 
 @SuppressWarnings("deprecation")
 public class BaseActivity extends ActionBarActivity
 {
-
 	@Override
 	protected void onResume()
 	{
@@ -34,11 +33,14 @@ public class BaseActivity extends ActionBarActivity
 		this.setTheme(BaseActivity.getTheme(this));
 		super.onResume();
 
+		Analytics.getInstance(this).trackActivity(this, this.getClass().getSimpleName());
 	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		
+		// Obtain the shared Tracker instance.
+		BbsApplication application = (BbsApplication) getApplication();
+
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String theme = sharedPrefs.getString("theme", "0");
 		if (theme.equals("0"))
@@ -50,7 +52,7 @@ public class BaseActivity extends ActionBarActivity
 		}
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	public final static int getTheme(Context ctx)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);

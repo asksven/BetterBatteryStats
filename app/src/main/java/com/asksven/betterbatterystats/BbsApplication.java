@@ -19,65 +19,100 @@ import java.util.Locale;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.TextView;
+
+import com.asksven.android.common.RootShell;
+import com.asksven.betterbatterystats.appanalytics.Analytics;
 
 
 /**
  * @author android
- *
  */
 public class BbsApplication extends Application
 {
 
-	    private Locale localeEN = Locale.ENGLISH;
+    private Locale localeEN = Locale.ENGLISH;
+    private static String TAG = "BbsApplication";
 
-	    @Override
-	    public void onConfigurationChanged(Configuration newConfig)
-	    {
-	        super.onConfigurationChanged(newConfig);
-	        
-	        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-	        boolean forceEN = settings.getBoolean("force_en", false);
-	        
-	        Configuration config = getBaseContext().getResources().getConfiguration();
 
-	        Locale appLocale = null;
-	        if (forceEN)
-	        {
-	        	appLocale = localeEN;
-	        }
-	        else
-	        {
-	        	appLocale = getResources().getConfiguration().locale;
-	        }
-            Locale.setDefault(appLocale);
-            config.locale = appLocale;
-            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-	    }
 
-	    @Override
-	    public void onCreate()
-	    {
-	        super.onCreate();
 
-	        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-	        boolean forceEN = settings.getBoolean("force_en", false);
-	        
-	        Configuration config = getBaseContext().getResources().getConfiguration();
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
 
-	        Locale appLocale = null;
-	        if (forceEN)
-	        {
-	        	appLocale = localeEN;
-	        }
-	        else
-	        {
-	        	appLocale = getResources().getConfiguration().locale;
-	        }
-            Locale.setDefault(appLocale);
-            config.locale = appLocale;
-            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean forceEN = settings.getBoolean("force_en", false);
 
-	    }
+        Configuration config = getBaseContext().getResources().getConfiguration();
+
+        Locale appLocale = null;
+        if (forceEN)
+        {
+            appLocale = localeEN;
+        } else
+        {
+            appLocale = getResources().getConfiguration().locale;
+        }
+        Locale.setDefault(appLocale);
+        config.locale = appLocale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+    }
+
+    @Override
+    public void onCreate()
+    {
+        super.onCreate();
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean forceEN = settings.getBoolean("force_en", false);
+
+        Configuration config = getBaseContext().getResources().getConfiguration();
+
+        Locale appLocale = null;
+        if (forceEN)
+        {
+            appLocale = localeEN;
+        } else
+        {
+            appLocale = getResources().getConfiguration().locale;
+        }
+        Locale.setDefault(appLocale);
+        config.locale = appLocale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        // set a few analytics user properties
+
+        // device rooted
+        Analytics.getInstance(this).setRootedDevice(RootShell.getInstance().hasRootPermissions());
+
+        try
+        {
+            PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pinfo.versionName;
+            Analytics.getInstance(this).setVersion(version);
+
+            String edition = "";
+
+            if (pinfo.packageName.endsWith("_xdaedition"))
+            {
+                edition = "xda edition";
+            } else
+            {
+                edition = "google play edition";
+            }
+
+            Analytics.getInstance(this).setEdition(edition);
+
+        } catch (Exception e)
+        {
+            Log.e(TAG, "An error occured retrieveing the version info: " + e.getMessage());
+
+        }
+    }
 }

@@ -20,6 +20,9 @@
     <!-- required by M-preview -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- required by GA -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- store kernel wakelock ref boot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- detect when battery is charged -->
@@ -27,7 +30,7 @@
     <!-- detect  when screen is turned on/off -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" /> 
     <!-- detect unplug actions -->
-    <!-- SKN 2016-12-25 we ignore this for now
+    <!-- @todo we need to check if required: SKN 2016-12-25 we ignore this for now
 
 <uses-permission android:name="android.permission.DEVICE_POWER" />
 -->
