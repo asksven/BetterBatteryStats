@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/asksven/BetterBatteryStats/tree/master-androidstudio.svg?style=svg)](https://circleci.com/gh/asksven/BetterBatteryStats/tree/master-androidstudio)
+*Build* [![CircleCI](https://circleci.com/gh/asksven/BetterBatteryStats/tree/master.svg?style=svg)](https://circleci.com/gh/asksven/BetterBatteryStats/tree/master)
 
 #License
 BetterBatteryStats is an open source project unter the terms of the Apache 2.0 License. The license does not apply to the use of the names "BetterBatteryStats" and "Better Battery Stats", nor to the icon / artwork created for BetterBatteryStats. 
@@ -44,4 +44,22 @@ android {
   }
 }
 ```
+
+# Continuous Integration
+
+The continuous integration (in this example CircleCI) needs to have access to some private settings.
+
+## google-services.json
+
+The encrypted files (`google-services.json-cipher`) are located in `/app`, `/app/src/gplay` and `/app/src/xdaedition`.
+
+See also https://github.com/circleci/encrypted-files.
+
+### Encrypt
+
+`openssl aes-256-cbc -e -in secret-env-plain -out secret-env-cipher -k $KEY`
+
+### Decrypt (on CircleCI, as defined in `circle.yml` and using an env-variable `KEY`)
+
+`openssl aes-256-cbc -d -in secret-file-cipher -out secret-file-plain -k $KEY`
 
