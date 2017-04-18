@@ -52,7 +52,7 @@ test:
         - adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
         - adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
         - ./gradlew connectedGplayDebugAndroidTest
-        - ./gradlew connectedXdaeditionDebugAndroidTest
+        # removed for now - ./gradlew connectedXdaeditionDebugAndroidTest
         # copy the build outputs to artifacts
         - cp -r app/build/outputs $CIRCLE_ARTIFACTS
         # copy the test results to the test results directory.
