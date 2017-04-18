@@ -36,5 +36,27 @@ dependencies:
 
 test:
     override:
+        # start the build
         - (./gradlew assemble):
             timeout: 360
+        # run unit tests
+        - ./gradlew test
+        # start the emulator
+        - emulator -avd circleci-android22 -no-audio -no-window:
+            background: true
+            parallel: true
+        # wait for it to have booted
+        - circle-android wait-for-boot
+        - adb shell input keyevent 82
+        # run connected tests  against the emulator.
+        - adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
+        - adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
+        - ./gradlew connectedGplayDebugAndroidTest
+        - ./gradlew connectedXdaeditionDebugAndroidTest
+        # copy the build outputs to artifacts
+        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+        # copy the test results to the test results directory.
+        - cp -r app/build/test-results $CIRCLE_TEST_REPORTS
+        # copy the reports to the test results directory.
+        - cp -r app/build/reports $CIRCLE_TEST_REPORTS
+

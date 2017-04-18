@@ -21,7 +21,7 @@ android {
             minSdkVersion 15
             targetSdkVersion 25
             versionCode 85
-            versionName "2.3 build " + code
+            versionName "2.3-" + code
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         }
     }
@@ -51,8 +51,6 @@ android {
             def flavor = variant.productFlavors[0].name
             def buildType = variant.variantData.variantConfiguration.buildType.name
             def version = variant.versionName
-            def date = new Date();
-            def formattedDate = date.format('yyyy-MM-dd_HHmmss')
 
             //def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + SEP + formattedDate + ".apk"
             def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + ".apk"
