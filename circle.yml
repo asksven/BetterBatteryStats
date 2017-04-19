@@ -40,7 +40,7 @@ test:
         - (./gradlew build):
             timeout: 360
         # rename APKs
-        - ./renameapks.sh
+        - ./circleciscripts/renameapks.sh
         # run unit tests
         # - ./gradlew test
         # start the emulator
