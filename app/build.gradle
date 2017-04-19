@@ -4,29 +4,13 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
-    def versionPropsFile = file('buildnumber.properties')
-
-    if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
-
-        versionProps.load(new FileInputStream(versionPropsFile))
-
-        def code = versionProps['BUILD_NUMBER'].toInteger() + 1
-
-        versionProps['BUILD_NUMBER']=code.toString()
-        versionProps.store(versionPropsFile.newWriter(), null)
-
-        defaultConfig {
-            applicationId "com.asksven.betterbatterystats"
-            minSdkVersion 15
-            targetSdkVersion 25
-            versionCode 85
-            versionName "2.3-" + code
-            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        }
-    }
-    else {
-        throw new GradleException("Could not read version.properties!")
+    defaultConfig {
+        applicationId "com.asksven.betterbatterystats"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 85
+        versionName "2.3"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     // we have different package name for the variants
@@ -40,6 +24,20 @@ android {
         xdaedition {
             dimension "edition"
             applicationId "com.asksven.betterbatterystats_xdaedition"
+        }
+
+    }
+
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        if (names.contains("gplay") && variant.buildType.name == "debug") {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
+        }
+        if (names.contains("xdaedition") && variant.buildType.name == "release") {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
         }
 
     }

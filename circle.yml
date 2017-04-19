@@ -36,11 +36,13 @@ dependencies:
 
 test:
     override:
-        # start the build
-        - (./gradlew assemble):
+        # start the build and run tests
+        - (./gradlew build):
             timeout: 360
+        # rename APKs
+        for filename in find ~/app/build/outputs/apk -name "*.apk"; do rename 's/(.*)\.apk/$1-$CIRCLE_BUILD_NUM.apk/' $filename; done;
         # run unit tests
-        - ./gradlew test
+        # - ./gradlew test
         # start the emulator
         - emulator -avd circleci-android22 -no-audio -no-window:
             background: true
@@ -53,6 +55,7 @@ test:
         - adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
         - ./gradlew connectedGplayDebugAndroidTest
         # removed for now - ./gradlew connectedXdaeditionDebugAndroidTest
+
         # copy the build outputs to artifacts
         - cp -r app/build/outputs $CIRCLE_ARTIFACTS
         # copy the test results to the test results directory.
