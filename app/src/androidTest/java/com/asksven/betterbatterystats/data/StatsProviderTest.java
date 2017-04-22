@@ -97,7 +97,7 @@ public class StatsProviderTest extends InstrumentationTestCase
 	@Test
 	public void getRequestedPermissionListForPackage() throws Exception
 	{
-		ArrayList<String> res = mStats.getRequestedPermissionListForPackage(InstrumentationRegistry.getContext(), "com.asksven.betterbatterystats");
+		ArrayList<String> res = mStats.getRequestedPermissionListForPackage(InstrumentationRegistry.getContext(), getPackageName());
 		assertNotNull(res);
 		assertTrue(res.size() > 0);
 	}
@@ -105,7 +105,7 @@ public class StatsProviderTest extends InstrumentationTestCase
 	@Test
 	public void getReceiverListForPackage() throws Exception
 	{
-		ArrayList<String> res = mStats.getReceiverListForPackage(InstrumentationRegistry.getContext(), "com.asksven.betterbatterystats");
+		ArrayList<String> res = mStats.getReceiverListForPackage(InstrumentationRegistry.getContext(), getPackageName());
 		assertNotNull(res);
 		assertTrue(res.size() > 0);
 
@@ -114,7 +114,7 @@ public class StatsProviderTest extends InstrumentationTestCase
 	@Test
 	public void getServiceListForPackage() throws Exception
 	{
-		ArrayList<String> res = mStats.getServiceListForPackage(InstrumentationRegistry.getContext(), "com.asksven.betterbatterystats");
+		ArrayList<String> res = mStats.getServiceListForPackage(InstrumentationRegistry.getContext(), getPackageName());
 		assertNotNull(res);
 		assertTrue(res.size() > 0);
 
@@ -129,4 +129,11 @@ public class StatsProviderTest extends InstrumentationTestCase
 
 	}
 
+	private String getPackageName()
+	{
+		String ret = InstrumentationRegistry.getTargetContext().getApplicationContext().getPackageName();
+		Log.i(TAG, "Current package: " + ret);
+
+		return ret;
+	}
 }

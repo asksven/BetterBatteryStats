@@ -126,6 +126,7 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.5'
     testCompile 'org.powermock:powermock-module-junit4:1.6.5'
+
     compile files('libs/androidcommon.jar')
     compile files('libs/RootTools-3.4.jar')
     // Firebase analytics
