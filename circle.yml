@@ -41,8 +41,6 @@ test:
         # start the build and run tests
         - (./gradlew build):
             timeout: 360
-        # rename APKs
-        - bash ./circleciscripts/renameapks.sh
         # run unit tests
         # - ./gradlew test
         # start the emulator
@@ -57,6 +55,9 @@ test:
         - adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
         - ./gradlew connectedAndroidTest
         # removed for now - ./gradlew connectedXdaeditionDebugAndroidTest
+
+        # rename APKs
+        - bash ./circleciscripts/renameapks.sh
 
         # copy the build outputs to artifacts
         - cp -r app/build/outputs $CIRCLE_ARTIFACTS
