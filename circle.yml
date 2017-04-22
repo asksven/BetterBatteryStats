@@ -65,3 +65,8 @@ test:
         # copy the reports to the test results directory.
         - cp -r app/build/reports $CIRCLE_TEST_REPORTS
 
+deployment:
+    hockey:
+        branch: master
+        commands:
+          - source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
