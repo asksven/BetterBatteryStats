@@ -2,23 +2,29 @@ package com.asksven.betterbatterystats.data;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import com.asksven.android.common.privateapiproxies.StatElement;
 
+import java.util.ArrayList;
+
+import android.support.test.runner.AndroidJUnit4;
+import android.util.Pair;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import java.util.List;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created on 12/26/16.
  */
 @RunWith(AndroidJUnit4.class)
-public class StatsProviderTest extends InstrumentationTestCase
+public class StatsProviderTest
 {
 	private StatsProvider mStats;
 	static final String TAG = "StatsProviderTest";

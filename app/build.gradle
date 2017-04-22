@@ -11,21 +11,34 @@ android {
         versionCode 85
         versionName "2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
+        testBuildType "debug"
     }
 
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("KEYSTORE_RELEASE") ?: "app.keystore")
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+        }
+        debug {
+            storeFile file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore")
+        }
+    }
     // we have different package name for the variants
     flavorDimensions "edition"
     productFlavors {
         gplay {
             dimension "edition"
             applicationId "com.asksven.betterbatterystats"
+            signingConfig signingConfigs.release
         }
-
         xdaedition {
             dimension "edition"
             applicationId "com.asksven.betterbatterystats_xdaedition"
+            signingConfig signingConfigs.debug
         }
-
     }
 
     variantFilter { variant ->
@@ -57,22 +70,13 @@ android {
 
     }
 
-    signingConfigs {
-        release {
-            storeFile file(System.getenv("KEYSTORE_RELEASE") ?: "app.keystore")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
-        }
-        debug {
-            storeFile file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore")
-        }
-    }
+
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
             signingConfig signingConfigs.release
         }
         debug {
@@ -104,10 +108,20 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    // for local tests (app/src/test)
+    testCompile 'junit:junit:4.12'
+    // Required for instrumented tests (app/src/androidTest)
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.5'
+    testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
+    testCompile 'org.powermock:powermock-module-junit4-rule:1.6.5'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.5'
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
@@ -116,26 +130,10 @@ dependencies {
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'com.android.support:design:25.3.1'
     compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:[4.0.2, 5.0['
-
-    // for local tests (app/src/test)
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-
-    // Required for instrumented tests (app/src/androidTest)
-    androidTestCompile 'com.android.support:support-annotations:25.3.1'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.5'
-    testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
-    testCompile 'org.powermock:powermock-module-junit4-rule:1.6.5'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.5'
-
     compile files('libs/androidcommon.jar')
     compile files('libs/RootTools-3.4.jar')
-
     // Firebase analytics
     compile 'com.google.firebase:firebase-core:10.2.1'
-
 }
 
 apply plugin: 'com.google.gms.google-services'
