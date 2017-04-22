@@ -56,13 +56,28 @@ android {
         }
 
     }
+
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("KEYSTORE_RELEASE") ?: "app.keystore")
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+        }
+        debug {
+            storeFile file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore")
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
         }
     }
     packagingOptions {

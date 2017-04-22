@@ -12,39 +12,30 @@ BBS uses Firebase Analytics. You will need to create a `google-services.json` in
 - `/app/src/xdaedition`
 - `/app/src/gplay`
 
-## gradle.properties
+## Signing
 
-`MyProject.signing` points to a private file (`asksven.graddle`) where the `SigningConfigs` are defined.
-
-The config points to two keystores:
-- release: `asksven.keystore`
-- debug: `asksven_debug.keystore`
-
-Create a private file `asksven.gradle` with following content (or whatever name you want) and change `MyProject.signing` accordingly:
-
+The signing config uses environment variables:
 ```
-android {
-  signingConfigs {
-    release {
-      storeFile file(project.property("MyProject.signing") + ".keystore")
-      storePassword "<your-store-password-here>"
-      keyAlias "<your-key-alias-here>"
-      keyPassword "<your-key-password-here>"
+    signingConfigs {
+        release {
+            storeFile file(System.getenv("KEYSTORE_RELEASE"))
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+        }
+        debug {
+            storeFile file(System.getenv("KEYSTORE_DEBUG"))
+        }
     }
-    debug {
-      storefile file(project.property("MyProject.signing") + "_debug.keystore")
-  }
-
-  buildTypes {
-    release {
-      signingConfig signingConfigs.release
-    }
-    debug {
-      signingConfig signingConfigs.debug
-  }
-}
 ```
 
+- `KEYSTORE_RELEASE` points to the release `.keystore` file
+- `KEYSTORE_DEBUG` points to the debug `.keystore` file
+- `KEY_ALIAS`  defines the alias name
+- `KEY_PASSWORD` is the keystore password
+
+
+ 
 # Continuous Integration
 
 The continuous integration (in this example CircleCI) needs to have access to some private settings.
@@ -62,4 +53,15 @@ See also https://github.com/circleci/encrypted-files.
 ### Decrypt (on CircleCI, as defined in `circle.yml` and using an env-variable `KEY`)
 
 `openssl aes-256-cbc -d -in secret-file-cipher -out secret-file-plain -k $KEY`
+
+## The signing keys
+
+The environment variables `$KEYSTORE_RELEASE`, `$KEYSTORE_DEBUG`, `$KEY_ALIAS` and `$KEY_PASSWORD` must be set in CircleCI.
+
+As the signing keys are not in the github repo a script `circleciscripts/download_keystore.sh` does the job of downloading and decrypting the keys at build-time.
+For that to happen following addition environment variables must be set:
+- `$KEYSTORE_RELEASE` the name of the release keystore-file
+- `$KEYSTORE_DEDUB` the name of the debug keystore-file
+- `$KEYSTORE_URI` a public URI from where the files can be downloaded using http
+- `$KEY` the key to decrypt the keystores (same env var as for `google-services.json`)
 
