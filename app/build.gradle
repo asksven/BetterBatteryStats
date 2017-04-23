@@ -146,7 +146,7 @@ def getBuildSuffix() {
     def buildNumber = System.getenv("CIRCLE_BUILD_NUM")
     if (buildNumber != null )
     {
-        ret = "-" + BuildNumber
+        ret = "-" + buildNumber
     }
 
     println ">>>>> Build number: \"" + ret + "\"";
