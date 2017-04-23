@@ -40,6 +40,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -142,12 +143,14 @@ public class StatsActivity extends ActionBarListActivity
 	private int m_iSorting = 0;
 	
 	private BroadcastReceiver m_referenceSavedReceiver = null;
+
+	private SwipeRefreshLayout swipeLayout = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		
+
 		super.onCreate(savedInstanceState);
 		
 		//Log.i(TAG, "OnCreated called");
@@ -170,7 +173,24 @@ public class StatsActivity extends ActionBarListActivity
 			LogSettings.DEBUG=false;
 			CommonLogSettings.DEBUG=false;
 		}
-		
+
+		swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+
+		swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				swipeLayout.setRefreshing(true);
+				Log.d("Swipe", "Refreshing Number");
+				( new Handler()).postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						swipeLayout.setRefreshing(false);
+						doRefresh(true);
+					}
+				}, 1000);
+			}
+		});
+
 		///////////////////////////////////////////////
 		// check if we have a new release
 		///////////////////////////////////////////////
