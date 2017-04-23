@@ -53,7 +53,7 @@ test:
         - adb shell input keyevent 82
 
         # take a screen-shot
-        - adb shell screencap -p | sed 's/\r$//' > screen-before-test.png
+        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-test.png
 
         # run connected tests  against the emulator.
         - ./gradlew installGplayRelease
