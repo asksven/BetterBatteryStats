@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
 
     defaultConfig {
         applicationId "com.asksven.betterbatterystats"
@@ -10,6 +12,7 @@ android {
         targetSdkVersion 25
         versionCode 85
         versionName "2.3"
+        versionNameSuffix=getBuildSuffix()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
         testBuildType "debug"
@@ -137,3 +140,15 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+def getBuildSuffix() {
+    def ret = ""
+    def buildNumber = System.getenv("CIRCLE_BUILD_NUM")
+    if (buildNumber != null )
+    {
+        ret = "-" + BuildNumber
+    }
+
+    println ">>>>> Build number: \"" + ret + "\"";
+    return ret
+}
