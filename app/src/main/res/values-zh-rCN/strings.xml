@@ -10,7 +10,6 @@
     <string name="message_hint_stat_type">统计类型</string>
     <string name="message_enable_root">若你的设备已获得权限，将会启用root特性\n请确保能以管理员权限获得定时器和网络活动的统计\n若这些权限不生效请归咎于权限管理应用，而非本软件\n是否还继续？</string>
     <string name="message_enable_active_mon">根据唤醒和进程进行动态监控会导致一定开销，请谨慎使用\n是否还继续？</string>
-    <string name="message_first_launch">区间\'未接电源\'已创建。当你接通或断开电源，基准点将会重写</string>
     <string name="message_copied_to_clipboard">%s已经复制到剪贴板</string>
     <string name="message_no_hist_froyo">很不幸安卓2.2不支持历史记录</string>
     <string name="message_no_appops">该ROM不存在应用权限管理</string>
@@ -29,7 +28,6 @@
     <string name="label_button_remind">稍后提醒</string>
     <string name="label_button_rate">评分</string>
     <string name="label_button_no_thanks">不，谢谢</string>
-    <string name="label_button_recovery">下载Recovery直刷包</string>
     <string name="text_dialog_rate">如果你喜欢用%s，那么找个时间评分。感谢你们的支持！</string>
     <string name="label_stat_type">统计类型</string>
     <string name="label_since">从</string>
@@ -142,7 +140,6 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">在Android 4.4上Google移除了普通应用获取电量统计的权限\n\n建议安装BetterBatteryStats成为系统应用（这将无法进行更新）\n\n若权限变更，将要卸载或重装使其成为系统应用</string>
-    <string name="expl_system_app_workaround">若应用内安装失败，请使用该解决方案</string>
     <string name="install_system_app">安装成为系统应用</string>
     <string name="uninstall_system_app">取消系统应用状态</string>
     <string name="info_installed_system_app">已成为系统应用，请重启手机激活</string>
@@ -240,8 +237,6 @@
     <string name="pref_force_kwl_api_summary">强制回收内核唤醒锁正在使用的API</string>
     <string name="pref_force_network_api_title">网络统计API</string>
     <string name="pref_force_network_api_summary">强制回网络统计正在使用的API</string>
-    <string name="pref_screen_system_app_title">系统应用</string>
-    <string name="pref_screen_system_app_summary">安装成为系统应用</string>
     <string name="pref_screen_import_export_title">导入/导出</string>
     <string name="pref_screen_import_export_summary">导入与导出应用设置</string>
     

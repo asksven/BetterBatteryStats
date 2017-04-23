@@ -10,7 +10,6 @@
 	<string name="message_hint_stat_type">Art der Statistik</string>
 	<string name="message_enable_root">Der Root-Zugriff benötigt ein gerootetes Gerät.\nStellen Sie sicher, dass BBS SU-Rechte erhält.\nOhne diese Rechte kann BBS nicht korrekt funktionieren.\nMöchten Sie fortfahren?</string>
 	<string name="message_enable_active_mon">Beim aktiven Überwachen wird das Gerät öfter geweckt und die Prozessorlast erhöht. Verwenden Sie es mit Bedacht.\nMöchten Sie fortfahren?</string>
-	<string name="message_first_launch">Die Referenz \'Getrennt\' wird erstellt. Das Trennen von einer Ladequelle überschreibt diese Referenz.</string>
 	<string name="message_copied_to_clipboard">%s wurde in die Zwischenablage kopiert</string>
 	<string name="message_no_hist_froyo">Verlaufsdaten werden von Froyo nicht unterstützt.</string>
 	<string name="message_no_appops">AppOps wurde nicht gefunden</string>
@@ -28,7 +27,6 @@
 	<string name="label_button_remind">Später</string>
 	<string name="label_button_rate">Bewerten</string>
 	<string name="label_button_no_thanks">Nein, danke</string>
-	<string name="label_button_recovery">Recovery-ZIP herunterladen</string>
 	<string name="text_dialog_rate">Wenn Ihnen %s gefällt, bewerten Sie uns bitte. Danke für die Unterstützung!</string>
 	<string name="label_stat_type">Art der Statistik</string>
 	<string name="label_since">Seit</string>
@@ -135,8 +133,7 @@
 
 	<!-- System app activity -->
 	<string name="expl_system_app">Seit Android 4.4 haben ausschließlich System-Apps Zugriff auf Akku-Statistiken. BetterBatteryStats sollte daher als System-App installiert werden. Dadurch wird die App nicht beeinträchtigt.Wenn sich die Berechtigungen der App ändern, kann ein erneutes Installieren als System-App erforderlich werden.</string>
-	<string name="expl_system_app_workaround">Schlägt die Installation fehl, versuchen Sie eine Installation mittels der Recovery.zip.</string>
-	<string name="install_system_app">In System-App umwandeln</string>
+    <string name="install_system_app">In System-App umwandeln</string>
 	<string name="uninstall_system_app">System-App entfernen</string>
 	<string name="info_installed_system_app">Installation abgeschlossen. Bitte starten Sie Ihr Gerät neu.</string>
 	<string name="info_uninstalled_system_app">System-App entfernt: Ihre Einstellungen wurden zurückgesetzt. Bitte starten Sie Ihr Gerät neu.</string>
@@ -225,8 +222,6 @@
 	<string name="pref_force_alarms_api_summary">Alarme mittels API abrufen</string>
 	<string name="pref_force_kwl_api_title">API für Kernel Wakelocks verwenden</string>
 	<string name="pref_force_kwl_api_summary">Kernel Wakelocks mittels API abrufen</string>
-	<string name="pref_screen_system_app_title">System-App</string>
-	<string name="pref_screen_system_app_summary">BBS in System-App umwandeln</string>
 	<string name="pref_screen_import_export_title">Importieren/Exportieren</string>
 	<string name="pref_screen_import_export_summary">Einstellungen sichern und wiederherstellen</string>
     

@@ -10,7 +10,6 @@
     <string name="message_hint_stat_type">Vrsta statistike</string>
     <string name="message_enable_root">Omogućavanje root postavki podrazumjeva root-an uređaj.\nMolim Vas, dozvolite SU dozvole Alarmima i Stanjima mreže.\nAko te dozvole ne uspijevaju okrivite SU aplikaciju, ne BBS.\nNastaviti?</string>
     <string name="message_enable_active_mon">Aktivno motrenje može izazvati wakelockove i koristiti procesor, stoga nastavite s oprezom.\nNastaviti?</string>
-    <string name="message_first_launch">Referenca \'isključen s punjača\' se u procesu kreiranja. Kada uključite/ isključite uređaj ta referenca će biti zamjenjena novom</string>		
     <string name="message_copied_to_clipboard">%s je kopiran u međuspremnik</string>
     <string name="message_no_hist_froyo">Na žalost, Froyo ne omoćuje povijest podataka</string>
     <string name="message_no_appops">AppOps ne postoji na Vašem ROM-u</string>
@@ -28,7 +27,6 @@
     <string name="label_button_remind">Podsjeti me kasnije</string>
     <string name="label_button_rate">Ocijeni</string>
     <string name="label_button_no_thanks">Ne, hvala</string>
-    <string name="label_button_recovery">Preuzmi Recovery ZIP</string>
     <string name="text_dialog_rate">Ako uživaš koristeći %s, molim te, izdvoji trenutak i ocjeni je. Hvala na podršci!</string>
     <string name="label_stat_type">Vrsta statistike</string>
     <string name="label_since">Od</string>
@@ -135,8 +133,7 @@
 	
     <!-- System app activity -->
     <string name="expl_system_app">Na Android-u 4.4 Google je skinuo ovlasti s normalnih aplikacija da pristupe bateriji.\n\nPreporučeno je instalirati BetterBatteryStats kao sistemsku aplikaciju (ovo ne priječi nadogradnju aplikacije).\n\nDeinstaliranje/reinstaliranje aplikacije kao sistemske datoteke će biti potrebno ako se ovlasti promjene.</string>
-    <string name="expl_system_app_workaround">Ako instalacija unutar aplikacije ne uspijeva, iskoristite ovu zaobilaznicu</string>
-    <string name="install_system_app">Instaliraj kao sistemsku datoteku</string>	
+    <string name="install_system_app">Instaliraj kao sistemsku datoteku</string>
     <string name="uninstall_system_app">Deinstaliraj kao sistemsku datoteku</string>
     <string name="info_installed_system_app">Instalirana sistemska datoteka. Ponovno pokrenite uređaj za aktivaciju.</string>
     <string name="info_uninstalled_system_app">Deinstalirana sistemska aplikacija: Vaše postavke su izbrisane. Molim Vas, ponovno pokrenite i iznova odaberite Vaše postavke.</string>
@@ -225,10 +222,8 @@
     <string name="pref_force_alarms_api_summary">Forsiraj brojenje alarma koji koriste API</string>
     <string name="pref_force_kwl_api_title">Kernel Wakelocks koji koriste API</string>
     <string name="pref_force_kwl_api_summary">Forsiraj brojenje Kernel Wakelocks koji koriste API</string>
-  
 
-    <string name="pref_screen_system_app_title">Sistemska aplikacija</string>
-    <string name="pref_screen_system_app_summary">Instaliraj kao sistemsku aplikaciju</string>
+
     <string name="pref_screen_import_export_title">Uvezi/izvezi</string>
     <string name="pref_screen_import_export_summary">Postavke uvoza i izvoza</string>
     

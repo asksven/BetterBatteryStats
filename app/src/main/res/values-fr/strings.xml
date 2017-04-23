@@ -10,7 +10,6 @@
     <string name="message_hint_stat_type">Type de statistiques</string>
     <string name="message_enable_root">Activer les fonctionnalités root nécessite que votre téléphone soit rooté.\nSoyez sûr d\'accorder les droits root aux statistiques Alarmes et Réseau.\nSi ces droits ne sont pas conservés pas, cela est dû à  l\'application su, pas BBS.\nContinuer ?</string>
     <string name="message_enable_active_mon">La surveillance active est coûteuse en termes de réveils et de traitement et doit être utilisée avec précaution.\nContinuer ?</string>
-    <string name="message_first_launch">Une référence \'débranché\' vient d\'être créée. Lorsque vous brancherez/débrancherez votre téléphone cette référence sera écrasée.</string>
     <string name="message_copied_to_clipboard">%s a été copié dans le presse-papiers</string>
     <string name="message_no_hist_froyo">Malheureusement Froyo (Android 2.2) ne supporte pas la collecte de données</string>
     <string name="message_no_appops">AppOps n\'existe pas sur votre ROM</string>
@@ -28,7 +27,6 @@
     <string name="label_button_remind">Rappelez-le moi plus tard</string>
     <string name="label_button_rate">Noter</string>
     <string name="label_button_no_thanks">Non, merci</string>
-    <string name="label_button_recovery">Télécharger le ZIP pour recovery</string>
     <string name="text_dialog_rate">Si vous appréciez %s, veuillez prendre un moment pour le noter. Merci pour votre encouragement !</string>
     <string name="label_stat_type">Type de statistiques</string>
     <string name="label_since">Depuis</string>
@@ -135,7 +133,6 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">Sur Android 4.4, Google a retiré l\'autorisation aux applications utilisateurs d\'accéder aux statistiques de la batterie.\n\nIl est recommandé d\'installer BetterBatteryStats comme une application système (cela n\'empêche pas d\'installer les mises à jour).\n\Désinstaller/réinstaller comme application système peut être nécessaire si les autorisations changent.</string>
-    <string name="expl_system_app_workaround">Si l\'application interne échoue, utiliser une solution de contournement</string>
     <string name="install_system_app">Installer comme application système</string>
     <string name="uninstall_system_app">Désinstaller l\'application système</string>
     <string name="info_installed_system_app">Installé comme application système. Veuillez redémarrer.</string>
@@ -225,8 +222,6 @@
     <string name="pref_force_alarms_api_summary">Forcer la récupération des Alarmes en utilisant l\'API</string>
     <string name="pref_force_kwl_api_title">Wakelocks Kernel en utilisant l\'API</string>
     <string name="pref_force_kwl_api_summary">Forcer la récupération des Wakelocks Kernel en utilisant l\'API</string>
-    <string name="pref_screen_system_app_title">Application système</string>
-    <string name="pref_screen_system_app_summary">Installer comme application système</string>
     <string name="pref_screen_import_export_title">Importer/Exporter</string>
     <string name="pref_screen_import_export_summary">Importer et Exporter les préférences</string>
     

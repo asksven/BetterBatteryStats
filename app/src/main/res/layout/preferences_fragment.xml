@@ -11,6 +11,6 @@
         android:id="@+id/prefs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.asksven.betterbatterystats.PreferencesFragmentActivity_V11$PrefsFragment" />
+        class="com.asksven.betterbatterystats.PreferencesFragmentActivity$PrefsFragment" />
 
 </LinearLayout>

@@ -10,7 +10,6 @@
     <string name="message_hint_stat_type">Tipo de estadística</string>
     <string name="message_enable_root">Habilitar las características root asume que su teléfono tiene permisos de root.\nPor favor asegúrese de otorgar permisos SU a las estadísticas de Alarmas y Red.\nSi estos permisos no permanecen, es responsabilidad de la aplicación SU, no de BBS.\n¿Continuar?</string>
     <string name="message_enable_active_mon">Monitores Activo resulta en sobrecarga en téminos de wakeups y procesamiento y debe ser usado con cuidado.\n¿Continuar?</string>
-    <string name="message_first_launch">Una referencia \'desconectado\' está siendo creada ahora. Cuando conecte/desconecte su teléfono esta referencia será sobreescrita</string>
     <string name="message_copied_to_clipboard">%s copiado al portapapeles</string>
     <string name="message_no_hist_froyo">Desafortunadamente Froyo no soporta datos históricos</string>
     <string name="message_no_appops">AppOps no existe en su ROM</string>
@@ -28,7 +27,6 @@
     <string name="label_button_remind">Recordarmelo después</string>
     <string name="label_button_rate">Calificar</string>
     <string name="label_button_no_thanks">No, gracias</string>
-    <string name="label_button_recovery">Descargar ZIP para recovery</string>
     <string name="text_dialog_rate">si disfrutas usando %s, por favor tómate un tiempo para calificarlo. ¡Gracias por su apoyo!</string>
     <string name="label_stat_type">Tipo de Stat</string>
     <string name="label_since">Desde</string>
@@ -141,7 +139,6 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">En Android 4.4 Google removió el permiso para que aplicaciones normales accesen las estadísticas de batería.\n\nEs recomendable instalar BetterBatteryStats como aplicación de sistema (esto no previene la instalación de actualizaciones).\n\nDesinstalar/Reinstalar BBS como aplicación de sistema puede ser necesario si los permisos cambian.</string>
-    <string name="expl_system_app_workaround">Si la opción de instalación desde la aplicación falla, por favor use esta alternativa</string>
     <string name="install_system_app">Instalar como aplicación de sistema</string>
     <string name="uninstall_system_app">Desinstalar aplicación de sistema</string>
     <string name="info_installed_system_app">Aplicación de sistema instalada. Por favor reinicie el teléfono para activar.</string>
@@ -231,8 +228,6 @@
     <string name="pref_force_alarms_api_summary">Forzar la recuperación de Alarmas usando el API</string>
     <string name="pref_force_kwl_api_title">Usar API para Kernel Wakelocks</string>
     <string name="pref_force_kwl_api_summary">Forzar la recuperación de Kernel Wakelocks usando el API</string>
-    <string name="pref_screen_system_app_title">Aplicación de Sistema</string>
-    <string name="pref_screen_system_app_summary">Instalar como Aplicación de Sistema</string>
     <string name="pref_screen_import_export_title">Importar/Exportar</string>
     <string name="pref_screen_import_export_summary">Importar y Exportar Preferencias</string>
 

@@ -10,7 +10,6 @@
 	<string name="message_hint_stat_type">Tipo Statistica</string>
 	<string name="message_enable_root">Abilitando le funzioni di root si assume che il telefono sia rootato.\nSiate sicuri di dare i diritti SU alle statistiche di Allarmi e Rete.\nSe tali diritti non permangono e\' colpa dell\'app SU e non di BBS.\nContinuare?</string>
 	<string name="message_enable_active_mon">Il monitoraggio Attivo causa un incremento dei wakeup e dei calcoli, utilizzare con cautela.\nContinuare?</string>
-	<string name="message_first_launch">Viene ora creato un riferimento \'disconnesso\'. Quando si connette/disconnette il telefono questo riferimento viene sovrascritto</string>
 	<string name="message_copied_to_clipboard">%s e\' stato copiato negli appunti</string>
 	<string name="message_no_hist_froyo">Sfortunatamente Froyo non supporta lo storico dei dati</string>
 	<string name="message_no_appops">AppOps non esiste sulla tua ROM</string>
@@ -29,7 +28,6 @@
 	<string name="label_button_remind">Ricordamelo dopo</string>
 	<string name="label_button_rate">Valuta</string>
 	<string name="label_button_no_thanks">No, grazie</string>
-	<string name="label_button_recovery">Scarica Recovery ZIP</string>
 	<string name="text_dialog_rate">Se ti piace %s, per favore dai una valutazione. Grazie per il supporto!</string>
 	<string name="label_stat_type">Tipo statistica</string>
 	<string name="label_since">Da</string>
@@ -142,8 +140,7 @@
 
 	<!-- System app activity -->
 	<string name="expl_system_app">In Android 4.4 Google ha rimosso il permesso alle app normali di accedere alle statistiche della batteria.\n\nSi raccomanda di installare BetterBatteryStats come app di sistema(non impedisce di intallare aggiornamenti).\n\nPotrebbe essere necessario disinstallare/reinstallare BBS come app di sistema se i permessi dovessero cambiare.</string>
-	<string name="expl_system_app_workaround">Se l\'installazione diretta dall\'app fallisce, provate questa soluzione</string>
-	<string name="install_system_app">Installa come app di sistema</string>
+    <string name="install_system_app">Installa come app di sistema</string>
 	<string name="uninstall_system_app">Disinstalla come app di sistema</string>
 	<string name="info_installed_system_app">Installata come app di sistema. Prego riavviare.</string>
 	<string name="info_uninstalled_system_app">Disinstallata come app di sistema: le preferenze sono state azzerate. Prego riavviare per ricalcolare le preferenze.</string>
@@ -241,9 +238,7 @@
 	<string name="pref_force_kwl_api_title">Usare API per i wakelock del Kernel</string>
 	<string name="pref_force_kwl_api_summary">Forza l\'uso dell\'API per ottenere i wakelock del Kernel</string>
     	<string name="pref_force_network_api_title">Usare API per le statistiche di Rete</string>
-    	<string name="pref_force_network_api_summary">Force to retrieve Network Stats using the API</string>	
-	<string name="pref_screen_system_app_title">App di sistema</string>
-	<string name="pref_screen_system_app_summary">Installa come App di Sistema</string>
+    	<string name="pref_force_network_api_summary">Force to retrieve Network Stats using the API</string>
 	<string name="pref_screen_import_export_title">Importa/Esporta</string>
 	<string name="pref_screen_import_export_summary">Importa e Esporta le Impostazioni</string>
 

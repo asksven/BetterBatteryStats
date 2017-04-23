@@ -57,7 +57,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.asksven.android.common.AppRater;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
@@ -79,7 +78,9 @@ import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
-import de.cketti.library.changelog.*;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+
+import de.cketti.library.changelog.ChangeLog;
 
 import java.util.ArrayList;
 
@@ -142,9 +143,6 @@ public class StatsActivity extends ActionBarListActivity
 	
 	private BroadcastReceiver m_referenceSavedReceiver = null;
 	
-	/**
-	 * @see android.app.Activity#onCreate(Bundle@SuppressWarnings("rawtypes")
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -224,8 +222,33 @@ public class StatsActivity extends ActionBarListActivity
 		// first start
 		if (strLastRelease.equals("0"))
 		{
-			// show the initial run screen
-			FirstLaunch.app_launched(this);
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+			boolean firstLaunch = !prefs.getBoolean("launched", false);
+
+			if (firstLaunch)
+			{
+				Log.i(TAG, "Application was launched for the first time: create 'unplugged' reference");
+				Snackbar
+						.make(findViewById(android.R.id.content), R.string.message_first_start, Snackbar.LENGTH_LONG)
+						.show();
+
+				// Save that the app has been launched
+				SharedPreferences.Editor editor = prefs.edit();
+				editor.putBoolean("launched", true);
+				editor.commit();
+
+
+				// start service to persist reference
+				Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
+				this.startService(serviceIntent);
+
+				// refresh widgets
+				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+				this.sendBroadcast(intentRefreshWidgets);
+
+			}
+
 	        SharedPreferences.Editor updater = sharedPrefs.edit();
 	        updater.putString("last_release", strCurrentRelease);
 	        updater.commit();
@@ -247,15 +270,7 @@ public class StatsActivity extends ActionBarListActivity
 	        cl.getLogDialog().show();
     			
     	}
-    	else
-    	{
-    		// can't do this at the same time as the popup dialog would be masked by the readme
-	    	// show "rate" dialog
-	    	// for testing: AppRater.showRateDialog(this, null);
-	    	AppRater.app_launched(this);
 
-    	}
-    	
 		///////////////////////////////////////////////
     	// retrieve default selections for spinners
     	// if none were passed
@@ -527,7 +542,7 @@ public class StatsActivity extends ActionBarListActivity
 
     /**
      * Save state, the application is going to get moved out of memory
-     * @see http://stackoverflow.com/questions/151777/how-do-i-save-an-android-applications-state
+     * see http://stackoverflow.com/questions/151777/how-do-i-save-an-android-applications-state
      */
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState)
@@ -567,14 +582,7 @@ public class StatsActivity extends ActionBarListActivity
 	        case R.id.preferences:  
 	        	Intent intentPrefs = null;
 	        	
-	        	if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-	        	{
-	        		intentPrefs = new Intent(this, PreferencesFragmentActivity_V11.class);
-	        	}
-	        	else
-	        	{
-	        		intentPrefs = new Intent(this, PreferencesActivity_V8.class);
-	        	}
+				intentPrefs = new Intent(this, PreferencesFragmentActivity.class);
 	            this.startActivity(intentPrefs);
 	        	break;	
 

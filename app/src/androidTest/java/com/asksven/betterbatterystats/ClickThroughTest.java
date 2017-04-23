@@ -38,15 +38,11 @@ public class ClickThroughTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(60000);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();
         }
-
-        ViewInteraction appCompatButton = onView(
-                allOf(withId(android.R.id.button1), withText("OK")));
-        appCompatButton.perform(scrollTo(), click());
 
         openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 
@@ -59,7 +55,7 @@ public class ClickThroughTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(60000);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();
@@ -76,7 +72,7 @@ public class ClickThroughTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(3583224);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();
@@ -93,7 +89,7 @@ public class ClickThroughTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(3596857);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();
@@ -110,7 +106,7 @@ public class ClickThroughTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(3594313);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();
@@ -127,7 +123,7 @@ public class ClickThroughTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(3596622);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();
@@ -144,7 +140,7 @@ public class ClickThroughTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(3593842);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();
@@ -161,7 +157,7 @@ public class ClickThroughTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(3596841);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();
@@ -178,7 +174,7 @@ public class ClickThroughTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(3594252);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();

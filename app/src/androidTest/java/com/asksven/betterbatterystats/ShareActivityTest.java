@@ -32,15 +32,11 @@ public class ShareActivityTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(60000);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();
         }
-
-        ViewInteraction appCompatButton = onView(
-                allOf(withId(android.R.id.button1), withText("OK")));
-        appCompatButton.perform(scrollTo(), click());
 
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.share), withContentDescription("Share"), isDisplayed()));
@@ -51,7 +47,7 @@ public class ShareActivityTest
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try
         {
-            Thread.sleep(60000);
+            Thread.sleep(2000);
         } catch (InterruptedException e)
         {
             e.printStackTrace();

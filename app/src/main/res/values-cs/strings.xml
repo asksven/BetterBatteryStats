@@ -10,7 +10,6 @@
     <string name="message_hint_stat_type">Typ statistiky</string>
     <string name="message_enable_root">Povolení root funkcí předpokládá, že zařízení je "rootnuto".\nZajistěte, že aplikace bude mít trvale přidělena \'su\' oprávnění kvůli statistikám alarmů a sítě.\nPokud se oprávnění nezachovají trvale, je to problém \'su\' aplikace, ne BBS.\nPokračovat?</string>
     <string name="message_enable_active_mon">Aktivní monitorování zvyšuje spotřebu a zátěž a proto by mělo být používáno uváženě.\nPokračovat?</string>
-    <string name="message_first_launch">Nyní je vytvářen ref. bod \'odpojeno\'. Pokud znovu připojíte a poté odpojíte zařízení, tento ref. bod se zaktualizuje.</string>
     <string name="message_copied_to_clipboard">%s byl zkopírován do schránky</string>
     <string name="message_no_hist_froyo">Android 2,2 (Froyo) bohužel nepodporuje historická data</string>
     <string name="message_no_appops">App Ops neexistují ve vaší ROM</string>
@@ -29,7 +28,6 @@
     <string name="label_button_remind">Připomenout později</string>
     <string name="label_button_rate">Hodnotit</string>
     <string name="label_button_no_thanks">Ne, děkuji</string>
-    <string name="label_button_recovery">Stáhnout Recovery ZIP</string>
     <string name="text_dialog_rate">Pokud jste spokojeni s %s, věnujte prosím chvíli jejímu ohodnocení. Děkuji za vaši podporu!</string>
     <string name="label_stat_type">Typ statistiky</string>
     <string name="label_since">Od</string>
@@ -143,7 +141,6 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">Ve verzi Android 4.4 odebral Google oprávnění běžných aplikací pro přístup ke statistikám využití baterie.\n\nJe doporučeno nainstalovat BetterBatteryStats jako systémovou aplikaci (toto neznemožní instalaci aktualizací).\n\nPokud se oprávnění v budoucnu změní, muže být vyžadováno odinstalování, nebo opětovná instalace jako systémové aplikace.</string>
-    <string name="expl_system_app_workaround">Pokud instalace přímo z aplikace selže, zkuste prosím tuto možnost</string>
     <string name="install_system_app">Instalovat jako systémovou apl.</string>
     <string name="uninstall_system_app">Odinstalovat systémovou apl.</string>
     <string name="info_installed_system_app">Systémová aplikace nainstalována. Prosím restartujte pro aktivaci.</string>
@@ -245,8 +242,6 @@
     <string name="pref_force_kwl_api_summary">Vynutit získávání statistik wakelocků jádra (kernel) prostřednictvím API</string>
     <string name="pref_force_network_api_title">Statistiky sítě pomocí API</string>
     <string name="pref_force_network_api_summary">Vynutit získávání statistik sítě prostřednictvím API</string>
-    <string name="pref_screen_system_app_title">Systémová aplikace</string>
-    <string name="pref_screen_system_app_summary">Instalovat jako systémovou aplikaci</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Importovat a exportovat nastavení</string>
 

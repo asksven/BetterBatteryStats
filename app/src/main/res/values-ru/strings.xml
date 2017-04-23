@@ -10,7 +10,6 @@
     <string name="message_hint_stat_type">Тип статистики</string>
     <string name="message_enable_root">Включение функций рута предполагает, что устройство имеет рут-доступ.\nПожалуйста, убедитесь, что права su предоставлены для получения статистики сигналов и сети.\nEсли права не предоставляются, виновато приложение суперпользователя, а не BBS.\nПродолжить?</string>
     <string name="message_enable_active_mon">Активный мониторинг приводит к увеличению пробуждений и объёма обработки данных и должен быть использован с осторожностью.\nПродолжить?</string>
-    <string name="message_first_launch">Создаётся метка \'отключено\'. При подключении/отключении телефона от ЗУ данная метка будет переписана</string>
     <string name="message_copied_to_clipboard">%s скопировано в буфер</string>
     <string name="message_no_hist_froyo">К сожалению, Froyo не поддерживает данные истории</string>
     <string name="message_no_appops">В Вашей прошивке отсутствуют операции в приложениях</string>
@@ -29,7 +28,6 @@
     <string name="label_button_remind">Напомнить позже</string>
     <string name="label_button_rate">Оценить</string>
     <string name="label_button_no_thanks">Нет, спасибо</string>
-    <string name="label_button_recovery">Загрузить ZIP для рекавери</string>
     <string name="text_dialog_rate">Если Вам нравится %s, пожалуйста, уделите время, чтобы оценить его. Спасибо за Вашу поддержку!</string>
     <string name="label_stat_type">Тип статистики</string>
     <string name="label_since">От</string>
@@ -143,7 +141,6 @@
                
     <!-- System app activity -->
     <string name="expl_system_app">На Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений.</string>
-    <string name="expl_system_app_workaround">При сбое установки приложения, пожалуйста, используйте этот метод</string>
     <string name="install_system_app">Установить как системное</string>
     <string name="uninstall_system_app">Удалить системное</string>
     <string name="info_installed_system_app">Установлено системное приложение. Пожалуйста, перезагрузите устройство для активации.</string>
@@ -245,8 +242,6 @@
     <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
     <string name="pref_force_network_api_title">Статистика сети с API</string>
     <string name="pref_force_network_api_summary">Принудительное использование API для получения статистики сети</string>
-    <string name="pref_screen_system_app_title">Системное</string>
-    <string name="pref_screen_system_app_summary">Установить как системное приложение</string>
     <string name="pref_screen_import_export_title">Импорт/экспорт</string>
     <string name="pref_screen_import_export_summary">Импорт и экспорт настроек</string>
         

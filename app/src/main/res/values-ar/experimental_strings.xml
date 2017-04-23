@@ -10,7 +10,6 @@
     <string name="message_hint_stat_type">Stat Type</string>
     <string name="message_enable_root">Enabling root features assumes that your phone is rooted.\nPlease make sure to grant su rights to Alarms and Network stats.\nIf those rights do not stick blame the su app, not BBS.\nContinue?</string>
     <string name="message_enable_active_mon">Active monitoring results in an overhead in terms of wakeups and processing and should be used with care.\nContinue?</string>
-    <string name="message_first_launch">A reference \'unplugged\' is being created now. When you plug/unplug your phone this reference will be overwritten</string>
     <string name="message_copied_to_clipboard">%s was copied to the clipboard</string>
     <string name="message_no_hist_froyo">Unfortunately Froyo does not support history data</string>
     <string name="message_no_appops">AppOps does not exist on your ROM</string>
@@ -28,7 +27,6 @@
     <string name="label_button_remind">Remind me later</string>
     <string name="label_button_rate">Rate</string>
     <string name="label_button_no_thanks">No, thanks</string>
-    <string name="label_button_recovery">Download Recovery ZIP</string>
     <string name="text_dialog_rate">If you enjoy using %s, please take a moment to rate it. Thanks for your support!</string>
     <string name="label_stat_type">Stat type</string>
     <string name="label_since">Since</string>
@@ -134,7 +132,6 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">On Android 4.4 Google removed the permission for normal apps to access battery stats.\n\nIt is recommended to install BetterBatteryStats as a system app (this does not prevent from installing updates).\n\nUninstalling/reinstalling it as a system app may be required if permissions change.</string>
-    <string name="expl_system_app_workaround">If the in-app install fails please use this workaround</string>
     <string name="install_system_app">Install as system app</string>
     <string name="uninstall_system_app">Uninstall system app</string>
     <string name="info_installed_system_app">Installed system app. Please reboot to activate.</string>
@@ -224,8 +221,6 @@
     <string name="pref_force_alarms_api_summary">Force to retrieve Alarms using the API</string>
     <string name="pref_force_kwl_api_title">Kernel Wakelocks using API</string>
     <string name="pref_force_kwl_api_summary">Force to retrieve Kernel Wakelocks using the API</string>
-    <string name="pref_screen_system_app_title">System App</string>
-    <string name="pref_screen_system_app_summary">Install as System App</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Import and Export Preferences</string>
     

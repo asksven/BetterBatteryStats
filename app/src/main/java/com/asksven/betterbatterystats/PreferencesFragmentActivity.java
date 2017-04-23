@@ -44,7 +44,7 @@ import com.asksven.betterbatterystats.services.EventWatcherService;
  * Demonstration of the use of a CursorLoader to load and display contacts data
  * in a fragment.
  */
-public class PreferencesFragmentActivity_V11 extends BaseActivity
+public class PreferencesFragmentActivity extends BaseActivity
 {
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
