@@ -24,27 +24,37 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class CreditsAdapter extends ArrayAdapter<String>
 {
 	private final Context m_context;
-	private final String[] m_libs = new String[]
-	{ "libsuperuser", "Android Common", "Google gson", "DashClock", "RootTools", "ckChangeLog" };
-	private final String[] m_authors = new String[]
-	{ "Chainfire", "asksven", "", "Roman Nurik", "Stericson", "cketti" };
-	private final String[] m_licenses = new String[]
-	{ "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0", "Apache 2.0" };
-	private final String[] m_urls = new String[]
-	{ "Apache 2.0", "Apache 2.0",
-			"https://code.google.com/p/google-gson/",
-			"https://code.google.com/p/dashclock/",
-			"https://code.google.com/p/roottools/",
-			"https://github.com/cketti/ckChangeLog"};
+
+    private ArrayList<Credit> credits = null;
 
 	public CreditsAdapter(Context context)
 	{
 		super(context, R.layout.credits_row);
 		this.m_context = context;
-	}
+        // special credits
+        credits = new ArrayList<Credit>();
+        credits.add(new Credit(context.getString(R.string.label_about_courtesy), "", ""));
+        credits.add(new Credit(context.getString(R.string.label_about_translation1), "", ""));
+        credits.add(new Credit(context.getString(R.string.label_about_translation2), "", ""));
+        credits.add(new Credit(context.getString(R.string.label_about_translation3), "", ""));
+        credits.add(new Credit(context.getString(R.string.label_about_translation4), "", ""));
+        credits.add(new Credit(context.getString(R.string.label_about_translation5), "", ""));
+        credits.add(new Credit(context.getString(R.string.label_about_translation6), "", ""));
+
+        // libs
+        credits.add(new Credit("libsuperuser", "Chainfire", "Apache 2.0"));
+        credits.add(new Credit("Android Common", "asksven", "Apache 2.0"));
+        credits.add(new Credit("Google gson", "", "Apache 2.0"));
+        credits.add(new Credit("DashClock", "Roman Nurik", "Apache 2.0"));
+        credits.add(new Credit("RootTools", "Stericson", "Apache 2.0"));
+        credits.add(new Credit("ckChangeLog", "cketti", "Apache 2.0"));
+
+    }
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
@@ -55,18 +65,18 @@ public class CreditsAdapter extends ArrayAdapter<String>
 		TextView textViewAuthor = (TextView) rowView.findViewById(R.id.textViewAuthor);
 		TextView textViewLicense = (TextView) rowView.findViewById(R.id.textViewLicense);
 
-		textViewName.setText(m_libs[position]);
-		textViewAuthor.setText(m_authors[position]);
-		textViewLicense.setText(m_licenses[position]);
+		textViewName.setText(credits.get(position).mName);
+		textViewAuthor.setText(credits.get(position).mAuthor);
+		textViewLicense.setText(credits.get(position).mLicense);
 
 		return rowView;
 	}
 	
 	public int getCount()
     {
-    	if (m_libs != null)
+    	if (credits != null)
     	{
-    		return m_libs.length;
+    		return credits.size();
     	}
     	else
     	{
@@ -76,12 +86,28 @@ public class CreditsAdapter extends ArrayAdapter<String>
 
     public String getItem(int position)
     {
-        return m_libs[position];
+        return credits.get(position).mName;
     }
 
     public long getItemId(int position)
     {
         return position;
+    }
+
+    private class Credit
+    {
+        String mName ="";
+        String mAuthor="";
+        String mLicense="";
+
+        Credit(String name, String author, String license)
+        {
+            mName = name;
+            mAuthor = author;
+            mLicense = license;
+
+        }
+
     }
 
 	

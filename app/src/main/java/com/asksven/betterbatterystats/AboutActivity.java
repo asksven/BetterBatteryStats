@@ -102,26 +102,7 @@ public class AboutActivity extends BaseActivity
             }
         });
         
-        final Button buttonTest = (Button) findViewById(R.id.buttonTest);
-        if (isDebuggable(this))
-        {
-	        // show the test button only for non release stuff
-	        buttonTest.setOnClickListener(new View.OnClickListener()
-	        {
-	            public void onClick(View v)
-	            {
-	                StatsProvider.getInstance(AboutActivity.this).testAPI();
-	            }
-	        });
-        }
-        else
-        {
-        	buttonTest.setVisibility(View.GONE);
-        }
-        	
-
-        
-    }   
+    }
     
     public void openURL( String inURL )
     {
