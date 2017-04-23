@@ -47,10 +47,17 @@ test:
         - emulator -avd circleci-android22 -no-audio -no-window:
             background: true
             parallel: true
-        # wait for it to have booted
+        # wait for it to have booted and unlock the screen
         - circle-android wait-for-boot
+        - sleep 30
         - adb shell input keyevent 82
+
+        # take a screen-shot
+        - adb shell screencap -p | sed 's/\r$//' > screen-before-test.png
+
         # run connected tests  against the emulator.
+        - ./gradlew installGplayRelease
+        - ./gradlew installXdaeditionDebug
         - adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
         - adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
         - ./gradlew connectedAndroidTest
