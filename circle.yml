@@ -50,17 +50,25 @@ test:
         # wait for it to have booted and unlock the screen
         - circle-android wait-for-boot
         - sleep 30
+        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-unlock.png
+
         - adb shell input keyevent 82
 
         # take a screen-shot
-        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-test.png
+        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-after-unlock.png
 
+        # I wonder what this does? should it close the demo-screen?
+        - sleep 5
+        - fb-adb shell input touchscreen swipe 370 735 371 735
+        - sleep 5
+        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-test.png
         # run connected tests  against the emulator.
-        - ./gradlew installGplayRelease
-        - ./gradlew installXdaeditionDebug
-        - adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
-        - adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
+        #- ./gradlew installGplayRelease
+        #- ./gradlew installXdaeditionDebug
+        #- adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
+        #- adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
         - ./gradlew connectedAndroidTest
+        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-after-test.png
         # removed for now - ./gradlew connectedXdaeditionDebugAndroidTest
 
         # rename APKs
