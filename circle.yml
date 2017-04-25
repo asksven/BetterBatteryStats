@@ -44,7 +44,7 @@ test:
         # run unit tests
         # - ./gradlew test
         # start the emulator
-        - emulator -avd circleci-android22 -no-audio -no-window:
+        - emulator -avd circleci-android22 -no-window:
             background: true
             parallel: true
         # wait for it to have booted and unlock the screen
@@ -67,7 +67,7 @@ test:
         #- ./gradlew installXdaeditionDebug
         #- adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
         #- adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
-        - ./gradlew connectedAndroidTest
+        - ./gradlew connectedAndroidTest -PdisablePreDex
         - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-after-test.png
         # removed for now - ./gradlew connectedXdaeditionDebugAndroidTest
 
