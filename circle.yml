@@ -72,7 +72,7 @@ test:
         # removed for now - ./gradlew connectedXdaeditionDebugAndroidTest
 
         # rename APKs
-        - bash ./circleciscripts/renameapks.sh
+        # not needed, prefix takes care of that- bash ./circleciscripts/renameapks.sh
 
         # copy the build outputs to artifacts
         - cp -r app/build/outputs $CIRCLE_ARTIFACTS
