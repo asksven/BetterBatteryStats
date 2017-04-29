@@ -81,6 +81,9 @@ import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import de.cketti.library.changelog.ChangeLog;
 
 import java.util.ArrayList;
@@ -450,6 +453,24 @@ public class StatsActivity extends ActionBarListActivity
 	{
 		super.onResume();
 		Log.i(TAG, "OnResume called");
+
+		CrashManager.register(this);
+
+		// if debug we check for updates
+		try
+		{
+			PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			if (pinfo.packageName.endsWith("_xdaedition"))
+			{
+				UpdateManager.register(this);
+			}
+		}
+		catch (Exception e)
+		{
+		}
+
+
+		Log.i(TAG, "OnResume called");
 		
 		Log.i(TAG, "onResume references state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
 		// register the broadcast receiver
@@ -544,6 +565,8 @@ public class StatsActivity extends ActionBarListActivity
 	protected void onPause()
 	{
 		super.onPause();
+		// Hockeyapp
+		UpdateManager.unregister();
 		
 //		Log.i(TAG, "OnPause called");
 //		Log.i(TAG, "onPause reference state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
@@ -560,10 +583,18 @@ public class StatsActivity extends ActionBarListActivity
 
 	}
 
-    /**
-     * Save state, the application is going to get moved out of memory
-     * see http://stackoverflow.com/questions/151777/how-do-i-save-an-android-applications-state
-     */
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+
+		// Hockeyapp
+		UpdateManager.unregister();
+	}
+
+	/**
+	 * Save state, the application is going to get moved out of memory
+	 * see http://stackoverflow.com/questions/151777/how-do-i-save-an-android-applications-state
+	 */
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState)
     {

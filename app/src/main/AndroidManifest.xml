@@ -66,6 +66,9 @@ SKN 2016-12-25 we ignore this for now
         android:label="BBS"
         android:supportsRtl="true"
         android:theme="@style/Theme.Bbs">
+
+        <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" />
+
         <activity
             android:name=".StatsActivity"
             android:configChanges="orientation|screenSize"

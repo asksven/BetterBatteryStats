@@ -17,6 +17,7 @@ android {
         signingConfig signingConfigs.debug
         testBuildType "debug"
         vectorDrawables.useSupportLibrary = true
+        manifestPlaceholders = [HOCKEYAPP_APP_ID: System.getenv("HOCKEYAPP_APP_ID") ?: "xx-xx-xxxx"]
     }
 
     signingConfigs {
@@ -133,6 +134,7 @@ dependencies {
     compile 'com.google.firebase:firebase-core:10.2.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'net.hockeyapp.android:HockeySDK:4.0.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-api-mockito:1.6.5'
     testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
