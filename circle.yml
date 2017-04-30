@@ -47,7 +47,7 @@ test:
         - (./gradlew build):
             timeout: 360
         ## run unit tests
-        # - ./gradlew test
+        - ./gradlew test
 
         ## Run tests in emulator
         # @todo: re-add conncted tests when I fugure out how
