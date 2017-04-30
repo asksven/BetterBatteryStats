@@ -37,6 +37,11 @@ dependencies:
         - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
 
 test:
+    pre:
+        - emulator -avd circleci-android24 -no-window:
+            background: true
+            parallel: true
+        - circle-android wait-for-boot
     override:
         # start the build and run tests
         - (./gradlew build):
