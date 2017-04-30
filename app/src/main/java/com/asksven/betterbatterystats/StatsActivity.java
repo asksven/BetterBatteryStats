@@ -254,7 +254,9 @@ public class StatsActivity extends ActionBarListActivity
 
 			boolean firstLaunch = !prefs.getBoolean("launched", false);
 
-			if (firstLaunch)
+			boolean hasAnsweredAnalytics = !prefs.getBoolean("analytics_opt_out_displayed", false);
+
+			if (hasAnsweredAnalytics)
 			{
 				Log.i(TAG, "Application was launched for the first time: create 'unplugged' reference");
 				Snackbar
@@ -264,8 +266,7 @@ public class StatsActivity extends ActionBarListActivity
 				Snackbar bar = Snackbar.make(findViewById(android.R.id.content), R.string.pref_app_analytics_summary, Snackbar.LENGTH_LONG)
 						.setAction(R.string.label_button_no, new View.OnClickListener() {
 							@Override
-							public void onClick(View v)
-							{
+							public void onClick(View v) {
 								SharedPreferences.Editor editor = prefs.edit();
 								editor.putBoolean("analytics", false);
 								editor.commit();
@@ -274,11 +275,17 @@ public class StatsActivity extends ActionBarListActivity
 
 				bar.show();
 
+				SharedPreferences.Editor editor = prefs.edit();
+				editor.putBoolean("analytics_opt_out_displayed", true);
+				editor.commit();
+
+			}
+
+			if (firstLaunch) {
 				// Save that the app has been launched
 				SharedPreferences.Editor editor = prefs.edit();
 				editor.putBoolean("launched", true);
 				editor.commit();
-
 
 				// start service to persist reference
 				Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
