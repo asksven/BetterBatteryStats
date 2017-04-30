@@ -40,7 +40,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.asksven.andoid.common.contrib.Util;
+import com.asksven.android.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;

@@ -120,9 +120,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile files('libs/androidcommon.jar')
     compile files('libs/RootTools-3.4.jar')
-    // Firebase analytics
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'

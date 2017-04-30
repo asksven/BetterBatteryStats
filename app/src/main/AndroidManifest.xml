@@ -117,7 +117,6 @@ SKN 2016-12-25 we ignore this for now
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.asksven.betterbatterystats.StatsActivity"/>
         </activity>
-        <activity android:name="com.asksven.android.common.ReadmeActivity"/>
         <activity
             android:name=".HistActivity"
             android:configChanges="orientation"
