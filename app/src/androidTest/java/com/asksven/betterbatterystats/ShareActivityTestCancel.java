@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.allOf;
 
 
 @RunWith(AndroidJUnit4.class)
-public class ShareActivityTest
+public class ShareActivityTestCancel
 {
 
     @Rule
@@ -53,9 +53,8 @@ public class ShareActivityTest
             e.printStackTrace();
         }
 
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(android.R.id.button2), withText("Cancel")));
-        appCompatButton2.perform(scrollTo(), click());
+        ViewInteraction appCompatButton2 = onView(withText("Cancel"));
+        appCompatButton2.perform(click());
 
     }
 

@@ -33,6 +33,8 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
+import com.asksven.betterbatterystats.appanalytics.Analytics;
+import com.asksven.betterbatterystats.appanalytics.Events;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -64,6 +66,7 @@ public class WatchdogProcessingService extends IntentService
 
 			if (true)
 			{
+				Analytics.getInstance(this).trackEvent(Events.EVENT_PROCESS_WATCHDOG);
 
 				int minScreenOffDurationMin 	= sharedPrefs.getInt("watchdog_duration_threshold", 10);
 				int awakeThresholdPct		= sharedPrefs.getInt("watchdog_awake_threshold", 30);

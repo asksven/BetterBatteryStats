@@ -159,7 +159,7 @@ public class StatsActivity extends ActionBarListActivity
 		super.onCreate(savedInstanceState);
 
 		// HockeyApp
-		MetricsManager.register(this, getApplication());
+		MetricsManager.register(getApplication());
 		
 		//Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	
@@ -254,9 +254,9 @@ public class StatsActivity extends ActionBarListActivity
 
 			boolean firstLaunch = !prefs.getBoolean("launched", false);
 
-			boolean hasAnsweredAnalytics = !prefs.getBoolean("analytics_opt_out_displayed", false);
+			boolean hasAnsweredAnalytics = prefs.getBoolean("analytics_opt_out_performed", false);
 
-			if (hasAnsweredAnalytics)
+			if (!hasAnsweredAnalytics)
 			{
 				Log.i(TAG, "Application was launched for the first time: create 'unplugged' reference");
 				Snackbar
@@ -276,7 +276,7 @@ public class StatsActivity extends ActionBarListActivity
 				bar.show();
 
 				SharedPreferences.Editor editor = prefs.edit();
-				editor.putBoolean("analytics_opt_out_displayed", true);
+				editor.putBoolean("analytics_opt_out_performed", true);
 				editor.commit();
 
 			}

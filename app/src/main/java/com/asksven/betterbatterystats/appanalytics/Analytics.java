@@ -1,6 +1,5 @@
 /*
-
- * Copyright (C) 2012 asksven
+ * Copyright (C) 2017 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +24,7 @@ import android.util.Log;
 
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.Reference;
-import com.google.firebase.analytics.FirebaseAnalytics;
+//import com.google.firebase.analytics.FirebaseAnalytics;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.UpdateManager;
@@ -35,8 +34,8 @@ public class Analytics
 {
     private static String TAG = "Analytics";
     private static Analytics mSingleton = null;
-    private static boolean mDisableFirebase = false;
-    private FirebaseAnalytics mFirebaseAnalytics = null;
+    private static boolean mDisableAnalytics = false;
+//    private FirebaseAnalytics mFirebaseAnalytics = null;
 
 
     private Analytics() {}
@@ -44,13 +43,13 @@ public class Analytics
     public static Analytics getInstance(Context ctx)
     {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        mDisableFirebase = !sharedPrefs.getBoolean("analytics", true);
+        mDisableAnalytics = !sharedPrefs.getBoolean("analytics", true);
 
         if (mSingleton == null)
         {
             mSingleton = new Analytics();
-            if (!mDisableFirebase) {
-                mSingleton.mFirebaseAnalytics = FirebaseAnalytics.getInstance(ctx);
+            if (!mDisableAnalytics) {
+//                mSingleton.mFirebaseAnalytics = FirebaseAnalytics.getInstance(ctx);
             }
 
         }
@@ -61,30 +60,41 @@ public class Analytics
 
     public void trackActivity(Activity activity, String name)
     {
-        if (!mDisableFirebase) {
+        if (!mDisableAnalytics) {
             Log.i(TAG, "Tracked Activity " + activity.getClass().getSimpleName() + " with name " + name);
-            mFirebaseAnalytics.setCurrentScreen(activity, name, null);
+//            mFirebaseAnalytics.setCurrentScreen(activity, name, null);
+            MetricsManager.trackEvent("activity_launched_" + activity.getClass().getSimpleName());
         }
     }
 
     public void setRootedDevice(boolean rooted)
     {
-        if (!mDisableFirebase) {
-            mFirebaseAnalytics.setUserProperty("rooted", (rooted) ? "true" : "false");
+        if (!mDisableAnalytics)
+        {
+//            mFirebaseAnalytics.setUserProperty("rooted", (rooted) ? "true" : "false");
+            MetricsManager.trackEvent((rooted) ? Events.EVENT_LAUNCH_ROOTED : Events.EVENT_LAUNCH_UNROOTED);
         }
     }
 
     public void setVersion(String value)
     {
-        if (!mDisableFirebase) {
-            mFirebaseAnalytics.setUserProperty("version", value);
+        if (!mDisableAnalytics) {
+//            mFirebaseAnalytics.setUserProperty("version", value);
         }
     }
 
     public void setEdition(String value)
     {
-        if (!mDisableFirebase) {
-            mFirebaseAnalytics.setUserProperty("edition", value);
+        if (!mDisableAnalytics) {
+//            mFirebaseAnalytics.setUserProperty("edition", value);
+            MetricsManager.trackEvent((value.equals("xda edition")) ? Events.EVENT_LAUNCH_XDA : Events.EVENT_LAUNCH_GPLAY);
+        }
+    }
+
+    public void trackEvent(String value)
+    {
+        if (!mDisableAnalytics) {
+            MetricsManager.trackEvent(value);
         }
     }
 
