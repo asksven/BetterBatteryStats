@@ -38,25 +38,19 @@ dependencies:
 
 test:
     pre:
-        - emulator -avd circleci-android24 -no-window:
-            background: true
-            parallel: true
-        - circle-android wait-for-boot
+        #- emulator -avd circleci-android24 -no-window:
+        #    background: true
+        #    parallel: true
+        #- circle-android wait-for-boot
     override:
         # start the build and run tests
         - (./gradlew build):
             timeout: 360
         ## run unit tests
-        - ./gradlew test
+        # - ./gradlew test
 
         ## Run tests in emulator
         # @todo: re-add conncted tests when I fugure out how
-        #- emulator -avd circleci-android22 -no-window:
-        #    background: true
-        #    parallel: true
-        # wait for it to have booted and unlock the screen
-        #- circle-android wait-for-boot
-        #- sleep 30
         #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-unlock.png
 
         #- adb shell input keyevent 82
@@ -66,14 +60,14 @@ test:
 
         # I wonder what this does? should it close the demo-screen?
         # run connected tests  against the emulator.
-        - ./gradlew installGplayRelease
-        - ./gradlew installXdaeditionDebug
-        - adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
-        - adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
-        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-test.png
+        #- ./gradlew installGplayRelease
+        #- ./gradlew installXdaeditionDebug
+        #- adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
+        #- adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
+        #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-test.png
 
-        - ./gradlew connectedAndroidTest -PdisablePreDex
-        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-after-test.png
+        #- ./gradlew connectedAndroidTest -PdisablePreDex
+        #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-after-test.png
         # removed for now - ./gradlew connectedXdaeditionDebugAndroidTest
 
         # rename APKs
