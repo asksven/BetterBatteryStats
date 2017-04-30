@@ -18,7 +18,7 @@
       android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:id="@+id/sample_main_layout">
+      android:id="@+id/package_main_layout">
 <include layout="@layout/toolbar_icon" />
         <View
           android:layout_width="match_parent"

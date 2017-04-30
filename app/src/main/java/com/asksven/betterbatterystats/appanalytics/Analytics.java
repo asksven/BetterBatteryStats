@@ -19,25 +19,40 @@ package com.asksven.betterbatterystats.appanalytics;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.data.Reference;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+import net.hockeyapp.android.metrics.MetricsManager;
 
 public class Analytics
 {
     private static String TAG = "Analytics";
     private static Analytics mSingleton = null;
+    private static boolean mDisableFirebase = false;
     private FirebaseAnalytics mFirebaseAnalytics = null;
+
 
     private Analytics() {}
 
     public static Analytics getInstance(Context ctx)
     {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        mDisableFirebase = !sharedPrefs.getBoolean("analytics", true);
+
         if (mSingleton == null)
         {
             mSingleton = new Analytics();
-            m:mSingleton.mFirebaseAnalytics = FirebaseAnalytics.getInstance(ctx);
+            if (!mDisableFirebase) {
+                mSingleton.mFirebaseAnalytics = FirebaseAnalytics.getInstance(ctx);
+            }
+
         }
 
         return mSingleton;
@@ -46,24 +61,31 @@ public class Analytics
 
     public void trackActivity(Activity activity, String name)
     {
-        Log.i(TAG, "Tracked Activity " + activity.getClass().getSimpleName() + " with name " + name);
-        mFirebaseAnalytics.setCurrentScreen(activity, name, null);
-
+        if (!mDisableFirebase) {
+            Log.i(TAG, "Tracked Activity " + activity.getClass().getSimpleName() + " with name " + name);
+            mFirebaseAnalytics.setCurrentScreen(activity, name, null);
+        }
     }
 
     public void setRootedDevice(boolean rooted)
     {
-        mFirebaseAnalytics.setUserProperty("rooted", (rooted) ? "true" : "false" );
+        if (!mDisableFirebase) {
+            mFirebaseAnalytics.setUserProperty("rooted", (rooted) ? "true" : "false");
+        }
     }
 
     public void setVersion(String value)
     {
-        mFirebaseAnalytics.setUserProperty("version", value);
+        if (!mDisableFirebase) {
+            mFirebaseAnalytics.setUserProperty("version", value);
+        }
     }
 
     public void setEdition(String value)
     {
-        mFirebaseAnalytics.setUserProperty("edition", value);
+        if (!mDisableFirebase) {
+            mFirebaseAnalytics.setUserProperty("edition", value);
+        }
     }
 
     /*

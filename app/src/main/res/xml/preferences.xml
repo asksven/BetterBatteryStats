@@ -313,6 +313,12 @@
         </PreferenceScreen>
         <PreferenceScreen android:title="@string/pref_section_advanced" >
             <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="analytics"
+                android:summary="@string/pref_app_analytics_summary"
+                android:title="@string/pref_app_analytics_title" />
+
+            <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="debug_logging"
                 android:summary="@string/pref_debug_logging_summary"

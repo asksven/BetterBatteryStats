@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
-        version="2.2.1.0"
-        versioncode="83">
-        <change>Fixed bug causing app to show "no stats" on android pre-lolipop</change>
+        version="2.3"
+        versioncode="85">
+        <change>Added application analytics</change>
     </release>
 
-    <release version="2.2.0.0" versioncode="82">
-        <change>Added Sensor Stats</change>
-        <change>Replaced "Other" stats label by "Summary"</change>
-        <change>Added "note" field to share dialog to add notes to dumpfiles</change>
-        <change>Update to most current android-compat-lib</change>
-        <change>Alarm details are now scrollable</change>
-        <change>Usability and style fixed</change>
-        <change>Folded both txt and json representation of the dumpfile into one file</change>
-        <change>Support for non-rooted devices</change>
-        <change>Removed the need for the system app (on rooted devices)</change>
-        <change>Crashlog and bug fixes</change>
-        <change>I18N</change>
-    </release>
 </changelog>

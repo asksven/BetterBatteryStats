@@ -249,6 +249,9 @@
     <string name="pref_screen_permissions_summary">Check for the required permissions</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Import and Export Preferences</string>
+    <string name="pref_app_analytics_title">Analytics</string>
+    <string name="pref_app_analytics_summary">Help improving all by send Analytics</string>
+
 
     <string name="pref_section_settings">Settings</string>
     <string name="pref_screen_widgets_title">Widgets</string>

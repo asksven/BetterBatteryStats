@@ -82,7 +82,9 @@ import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 
 import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
+import net.hockeyapp.android.metrics.MetricsManager;
 
 import de.cketti.library.changelog.ChangeLog;
 
@@ -155,6 +157,9 @@ public class StatsActivity extends ActionBarListActivity
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		super.onCreate(savedInstanceState);
+
+		// HockeyApp
+		MetricsManager.register(this, getApplication());
 		
 		//Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	
@@ -245,7 +250,7 @@ public class StatsActivity extends ActionBarListActivity
 		// first start
 		if (strLastRelease.equals("0"))
 		{
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 			boolean firstLaunch = !prefs.getBoolean("launched", false);
 
@@ -255,6 +260,19 @@ public class StatsActivity extends ActionBarListActivity
 				Snackbar
 						.make(findViewById(android.R.id.content), R.string.message_first_start, Snackbar.LENGTH_LONG)
 						.show();
+
+				Snackbar bar = Snackbar.make(findViewById(android.R.id.content), R.string.pref_app_analytics_summary, Snackbar.LENGTH_LONG)
+						.setAction(R.string.label_button_no, new View.OnClickListener() {
+							@Override
+							public void onClick(View v)
+							{
+								SharedPreferences.Editor editor = prefs.edit();
+								editor.putBoolean("analytics", false);
+								editor.commit();
+							}
+						});
+
+				bar.show();
 
 				// Save that the app has been launched
 				SharedPreferences.Editor editor = prefs.edit();
@@ -455,6 +473,9 @@ public class StatsActivity extends ActionBarListActivity
 		Log.i(TAG, "OnResume called");
 
 		CrashManager.register(this);
+		Tracking.startUsage(this);
+
+
 
 		// if debug we check for updates
 		try
@@ -567,6 +588,7 @@ public class StatsActivity extends ActionBarListActivity
 		super.onPause();
 		// Hockeyapp
 		UpdateManager.unregister();
+		Tracking.stopUsage(this);
 		
 //		Log.i(TAG, "OnPause called");
 //		Log.i(TAG, "onPause reference state: refFrom=" + m_refFromName + " refTo=" + m_refToName);

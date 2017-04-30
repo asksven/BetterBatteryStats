@@ -52,10 +52,10 @@ public class PackageFragmentActivity extends BaseActivity
 		FragmentManager fm = getSupportFragmentManager();
 
 		// Create the list fragment and add it as our sole content.
-		if (fm.findFragmentById(R.layout.packageinfo) == null)
+		if (fm.findFragmentById(R.id.package_main_layout) == null)
 		{
 			PackageFragment frag = new PackageFragment();
-			fm.beginTransaction().add(R.layout.packageinfo, frag).commit();
+			fm.beginTransaction().add(R.id.package_main_layout, frag).commit();
 		}
 
 	}
