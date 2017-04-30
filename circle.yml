@@ -66,14 +66,14 @@ test:
 
         # I wonder what this does? should it close the demo-screen?
         # run connected tests  against the emulator.
-        #- ./gradlew installGplayRelease
-        #- ./gradlew installXdaeditionDebug
-        #- adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
-        #- adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
-        #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-test.png
+        - ./gradlew installGplayRelease
+        - ./gradlew installXdaeditionDebug
+        - adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
+        - adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
+        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-test.png
 
-        #- ./gradlew connectedAndroidTest -PdisablePreDex
-        #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-after-test.png
+        - ./gradlew connectedAndroidTest -PdisablePreDex
+        - adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-after-test.png
         # removed for now - ./gradlew connectedXdaeditionDebugAndroidTest
 
         # rename APKs
