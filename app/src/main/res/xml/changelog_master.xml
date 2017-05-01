@@ -4,6 +4,7 @@
         version="2.3"
         versioncode="85">
         <change>Added application analytics</change>
+        <change>UI improvements</change>
     </release>
 
 </changelog>

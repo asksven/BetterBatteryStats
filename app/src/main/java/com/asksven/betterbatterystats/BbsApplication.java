@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.asksven.android.common.RootShell;
 import com.asksven.betterbatterystats.appanalytics.Analytics;
+import com.asksven.betterbatterystats.appanalytics.Events;
 
 
 /**
@@ -71,6 +72,16 @@ public class BbsApplication extends Application
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean forceEN = settings.getBoolean("force_en", false);
+
+        boolean showBars = settings.getBoolean("show_gauge", false);
+        if (showBars)
+        {
+            Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_LINEAR_GAUGES);
+        }
+        else
+        {
+            Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_ROUND_GAUGES);
+        }
 
         Configuration config = getBaseContext().getResources().getConfiguration();
 

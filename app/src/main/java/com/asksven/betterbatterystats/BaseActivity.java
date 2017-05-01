@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 
 import com.asksven.betterbatterystats.appanalytics.Analytics;
+import com.asksven.betterbatterystats.appanalytics.Events;
 
 @SuppressWarnings("deprecation")
 public class BaseActivity extends ActionBarActivity
@@ -46,9 +47,11 @@ public class BaseActivity extends ActionBarActivity
 		if (theme.equals("0"))
 		{
 			this.setTheme(R.style.Theme_Bbs);
+			Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_LIGHT_THEME);
 		} else
 		{
 			this.setTheme(R.style.Theme_Bbs_Dark);
+			Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_DARK_THEME);
 		}
 		super.onCreate(savedInstanceState);
 	}

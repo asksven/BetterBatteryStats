@@ -119,12 +119,7 @@ public class StatsActivity extends ActionBarListActivity
 	 * The logfile TAG
 	 */
 	private static final String LOGFILE = "BetterBatteryStats_Dump.log";
-	
-	/**
-	 * a progess dialog to be used for long running tasks
-	 */
-	ProgressDialog m_progressDialog;
-	
+
 	/**
 	 * The ArrayAdpater for rendering the ListView
 	 */
@@ -184,18 +179,12 @@ public class StatsActivity extends ActionBarListActivity
 
 		swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
 
-		swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+		swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
 			@Override
-			public void onRefresh() {
-				swipeLayout.setRefreshing(true);
-				Log.d("Swipe", "Refreshing Number");
-				( new Handler()).postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						swipeLayout.setRefreshing(false);
-						doRefresh(true);
-					}
-				}, 1000);
+			public void onRefresh()
+            {
+                doRefresh(true);
 			}
 		});
 
@@ -246,40 +235,16 @@ public class StatsActivity extends ActionBarListActivity
         	Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
             this.startActivity(intentSystemApp);
 		}
-		
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
 		// first start
 		if (strLastRelease.equals("0"))
 		{
-			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 			boolean firstLaunch = !prefs.getBoolean("launched", false);
 
-			boolean hasAnsweredAnalytics = prefs.getBoolean("analytics_opt_out_performed", false);
-
-			if (!hasAnsweredAnalytics)
-			{
-				Log.i(TAG, "Application was launched for the first time: create 'unplugged' reference");
-				Snackbar
-						.make(findViewById(android.R.id.content), R.string.message_first_start, Snackbar.LENGTH_LONG)
-						.show();
-
-				Snackbar bar = Snackbar.make(findViewById(android.R.id.content), R.string.pref_app_analytics_summary, Snackbar.LENGTH_LONG)
-						.setAction(R.string.label_button_no, new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								SharedPreferences.Editor editor = prefs.edit();
-								editor.putBoolean("analytics", false);
-								editor.commit();
-							}
-						});
-
-				bar.show();
-
-				SharedPreferences.Editor editor = prefs.edit();
-				editor.putBoolean("analytics_opt_out_performed", true);
-				editor.commit();
-
-			}
 
 			if (firstLaunch) {
 				// Save that the app has been launched
@@ -497,8 +462,37 @@ public class StatsActivity extends ActionBarListActivity
 		{
 		}
 
+        // Analytics opt-in
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		Log.i(TAG, "OnResume called");
+        boolean wasPresentedOptOutAnalytics = prefs.getBoolean("analytics_opt_out_offered", false);
+
+        if (!wasPresentedOptOutAnalytics)
+        {
+            Log.i(TAG, "Application was launched for the first time with analytics");
+            Snackbar
+                    .make(findViewById(android.R.id.content), R.string.message_first_start, Snackbar.LENGTH_LONG)
+                    .show();
+
+            Snackbar bar = Snackbar.make(findViewById(android.R.id.content), R.string.pref_app_analytics_summary, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.label_button_no, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putBoolean("analytics", false);
+                            editor.commit();
+                        }
+                    });
+
+            bar.show();
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("analytics_opt_out_offered", true);
+            editor.commit();
+        }
+
+
+        Log.i(TAG, "OnResume called");
 		
 		Log.i(TAG, "onResume references state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
 		// register the broadcast receiver
@@ -602,12 +596,6 @@ public class StatsActivity extends ActionBarListActivity
 		// unregister boradcast receiver for saved references
 		this.unregisterReceiver(this.m_referenceSavedReceiver);
 		
-		// make sure to dispose any running dialog
-		if (m_progressDialog != null)
-		{
-			m_progressDialog.dismiss();
-			m_progressDialog = null;
-		}
 //		this.unregisterReceiver(m_batteryHandler);
 
 	}
@@ -992,25 +980,8 @@ public class StatsActivity extends ActionBarListActivity
 //		@Override
 		protected void onPostExecute(StatsAdapter o)
 	    {
-//			super.onPostExecute(o);
-	        // update hourglass
-			try
-			{
-		    	if (m_progressDialog != null)
-		    	{
-		    		m_progressDialog.dismiss(); //hide();
-		    		m_progressDialog = null;
-		    	}
-			}
-			catch (Exception e)
-			{
-				// nop
-			}
-			finally 
-			{
-				m_progressDialog = null;
-			}
-			
+            swipeLayout.setRefreshing(false);
+
 	    	if (m_exception != null)
 	    	{
 	    		if (m_exception instanceof BatteryInfoUnavailableException)
@@ -1098,26 +1069,10 @@ public class StatsActivity extends ActionBarListActivity
 			}
 	    	StatsActivity.this.setListAdapter(o);
 	    }
-//	    @Override
+
 	    protected void onPreExecute()
 	    {
-	        // update hourglass
-	    	// @todo this code is only there because onItemSelected is called twice
-	    	if (m_progressDialog == null)
-	    	{
-	    		try
-	    		{
-			    	m_progressDialog = new ProgressDialog(StatsActivity.this);
-			    	m_progressDialog.setMessage(getString(R.string.message_computing));
-			    	m_progressDialog.setIndeterminate(true);
-			    	m_progressDialog.setCancelable(false);
-			    	m_progressDialog.show();
-	    		}
-	    		catch (Exception e)
-	    		{
-	    			m_progressDialog = null;
-	    		}
-	    	}
+            swipeLayout.setRefreshing(true);
 	    }
 	}
 	

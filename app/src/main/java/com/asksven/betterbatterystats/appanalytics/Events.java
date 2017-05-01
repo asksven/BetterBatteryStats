@@ -22,10 +22,15 @@ package com.asksven.betterbatterystats.appanalytics;
 public class Events
 {
 
-    public static final String EVENT_LAUNCH_ROOTED = "launch_rooted_device";
-    public static final String EVENT_LAUNCH_UNROOTED = "launch_unrooted_device";
+    public static final String EVENT_LAUNCH_ROOTED = "launch_device_rooted";
+    public static final String EVENT_LAUNCH_UNROOTED = "launch_device_unrooted";
     public static final String EVENT_LAUNCH_GPLAY = "launch_edition_gplay";
     public static final String EVENT_LAUNCH_XDA = "launch_edition_xda";
+    public static final String EVENT_LAUNCH_DARK_THEME = "launch_theme_dark";
+    public static final String EVENT_LAUNCH_LIGHT_THEME = "launch_theme_dark";
+    public static final String EVENT_LAUNCH_ROUND_GAUGES = "launch_style_roundgauges";
+    public static final String EVENT_LAUNCH_LINEAR_GAUGES = "launch_sytle_lineargauges";
+
 
     public static final String EVENT_PROCESS_WATCHDOG = "process_watchdog";
 
