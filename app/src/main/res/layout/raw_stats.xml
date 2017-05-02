@@ -46,13 +46,18 @@
         </FrameLayout>
     </LinearLayout>
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:background="?android:attr/colorBackground"
-        android:dividerHeight="1px" />
-1
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:background="?android:attr/colorBackground"
+            android:dividerHeight="1px" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

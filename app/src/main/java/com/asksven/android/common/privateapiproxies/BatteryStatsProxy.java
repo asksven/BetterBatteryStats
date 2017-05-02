@@ -17,6 +17,7 @@
 package com.asksven.android.common.privateapiproxies;
 
 
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -115,16 +116,6 @@ public class BatteryStatsProxy
 		
 		return m_proxy;
 	}
-
-    synchronized public static BatteryStatsProxy getInstanceNew(Context ctx)
-    {
-        if (m_proxy == null)
-        {
-            m_proxy = new BatteryStatsProxy(ctx, true); // use new method
-        }
-
-        return m_proxy;
-    }
 
     public void invalidate()
 	{
@@ -285,39 +276,11 @@ public class BatteryStatsProxy
 	    }    
 	}
 
-	protected BatteryStatsProxy(Context context, boolean value)
+	protected BatteryStatsProxy(Context context, boolean dummy) // just need a different signature
 	{
 		/*
-		 * As BatteryStats is a service we need to get a binding using the IBatteryStats.Stub.getStatistics()
-		 * method (using reflection).
-		 * If we would be using a public API the code would look like:
-		 * @see com.android.settings.fuelgauge.PowerUsageSummary.java
-		 * protected void onCreate(Bundle icicle) {
-         *  super.onCreate(icicle);
-		 *
-         *  mStats = (BatteryStatsImpl)getLastNonConfigurationInstance();
-		 *
-         *  addPreferencesFromResource(R.xml.power_usage_summary);
-         *  mBatteryInfo = IBatteryStats.Stub.asInterface(
-         *       ServiceManager.getService("batteryinfo"));
-         *  mAppListGroup = (PreferenceGroup) findPreference("app_list");
-         *  mPowerProfile = new PowerProfile(this);
-    	 * }
-		 *
-		 * followed by
-		 * private void load() {
-         *	try {
-         *   byte[] data = mBatteryInfo.getStatistics();
-         *   Parcel parcel = Parcel.obtain();
-         *   parcel.unmarshall(data, 0, data.length);
-         *   parcel.setDataPosition(0);
-         *   mStats = com.android.internal.os.BatteryStatsImpl.CREATOR
-         *           .createFromParcel(parcel);
-         *   mStats.distributeWorkLocked(BatteryStats.STATS_SINCE_CHARGED);
-         *  } catch (RemoteException e) {
-         *   Log.e(TAG, "RemoteException:", e);
-         *  }
-         * }
+		 * Same as default cctor but reading the parcel as stream and not as byte[]
+		 * see here for details: https://android.googlesource.com/platform/frameworks/base.git/+/nougat-mr2.1-release/core/java/com/android/internal/os/BatteryStatsHelper.java
 		 */
 
 		try
@@ -338,16 +301,8 @@ public class BatteryStatsProxy
 			@SuppressWarnings("unchecked")
 			Method methodGetService = serviceManagerClass.getMethod("getService", paramTypesGetService);
 
-			String service = "";
-			if (Build.VERSION.SDK_INT >= 19)
-			{
-				// kitkat and following
-				service = "batterystats";
-			}
-			else
-			{
-				service = "batteryinfo";
-			}
+			String service = "batterystats";
+
 			// parameters
 			Object[] paramsGetService= new Object[1];
 			paramsGetService[0] = service;
@@ -391,9 +346,6 @@ public class BatteryStatsProxy
 			@SuppressWarnings("rawtypes")
 			Class iBatteryStats = cl.loadClass("com.android.internal.app.IBatteryStats");
 
-			@SuppressWarnings("unchecked")
-			Method methodGetStatistics = iBatteryStats.getMethod("getStatistics");
-
             @SuppressWarnings("unchecked")
             Method methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream");
             // returns a ParcelFileDescriptor
@@ -408,11 +360,21 @@ public class BatteryStatsProxy
             if (pfd != null)
             {
                 FileInputStream fis = new ParcelFileDescriptor.AutoCloseInputStream(pfd);
+
                 try
                 {
                     if (CommonLogSettings.DEBUG) { Log.i(TAG, "retrieving parcel"); }
 
-                    byte[] data = readFully(fis);
+                    @SuppressWarnings("rawtypes")
+                    Class[] paramTypes= new Class[1];
+                    paramTypes[0]= FileDescriptor.class;
+
+
+                    // we want to access MemoryFile.getSize(pfd.getFileDescriptor()) but this methos id hidden
+                    Method methodGetSize = MemoryFile.class.getMethod("getSize", paramTypes);
+                    methodGetSize.setAccessible(true);
+                    int size = (int) methodGetSize.invoke(null, /* null = static method */ pfd.getFileDescriptor());
+                    byte[] data = readFully(fis, size);
                     Parcel parcel = Parcel.obtain();
                     parcel.unmarshall(data, 0, data.length);
                     parcel.setDataPosition(0);
@@ -458,11 +420,11 @@ public class BatteryStatsProxy
         byte[] data = new byte[avail];
         while (true) {
             int amt = stream.read(data, pos, data.length-pos);
-            //Log.i("foo", "Read " + amt + " bytes at " + pos
-            //        + " of avail " + data.length);
+            Log.i(TAG, "Read " + amt + " bytes at " + pos
+                    + " of avail " + data.length);
             if (amt <= 0) {
-                //Log.i("foo", "**** FINISHED READING: pos=" + pos
-                //        + " len=" + data.length);
+                Log.i(TAG, "**** FINISHED READING: pos=" + pos
+                        + " len=" + data.length);
                 return data;
             }
             pos += amt;

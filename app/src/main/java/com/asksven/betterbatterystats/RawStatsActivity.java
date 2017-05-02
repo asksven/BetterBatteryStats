@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -61,20 +62,13 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 	 */
 	private int m_iStat = 0; 
 
-	
-	/**
-	 * a progess dialog to be used for long running tasks
-	 */
-	ProgressDialog m_progressDialog;
-	
-	/**
+    /**
 	 * The ArrayAdpater for rendering the ListView
 	 */
 	private StatsAdapter m_listViewAdapter;
-	
-	/**
-	 * @see android.app.Activity#onCreate(Bundle@SuppressWarnings("rawtypes")
-	 */
+
+	private SwipeRefreshLayout swipeLayout = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -88,6 +82,17 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 	    setSupportActionBar(toolbar);
 	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	    getSupportActionBar().setDisplayUseLogoEnabled(false);
+
+		swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+
+		swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+		{
+			@Override
+			public void onRefresh()
+			{
+				doRefresh();
+			}
+		});
 		
 		// Spinner for selecting the stat
 		Spinner spinnerStat = (Spinner) findViewById(R.id.spinnerStat);
@@ -283,25 +288,8 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 //		@Override
 		protected void onPostExecute(StatsAdapter o)
 	    {
-//			super.onPostExecute(o);
-	        // update hourglass
-			try
-			{
-		    	if (m_progressDialog != null)
-		    	{
-		    		m_progressDialog.dismiss(); //hide();
-		    		m_progressDialog = null;
-		    	}
-			}
-			catch (Exception e)
-			{
-				// nop
-			}
-			finally 
-			{
-				m_progressDialog = null;
-			}
-			
+            swipeLayout.setRefreshing(false);
+
 	    	if (m_exception != null)
 	    	{
 	    		if (m_exception instanceof BatteryInfoUnavailableException)
@@ -336,23 +324,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 //	    @Override
 	    protected void onPreExecute()
 	    {
-	        // update hourglass
-	    	// @todo this code is only there because onItemSelected is called twice
-	    	if (m_progressDialog == null)
-	    	{
-	    		try
-	    		{
-			    	m_progressDialog = new ProgressDialog(RawStatsActivity.this);
-			    	m_progressDialog.setMessage(getString(R.string.message_computing));
-			    	m_progressDialog.setIndeterminate(true);
-			    	m_progressDialog.setCancelable(false);
-			    	m_progressDialog.show();
-	    		}
-	    		catch (Exception e)
-	    		{
-	    			m_progressDialog = null;
-	    		}
-	    	}
+            swipeLayout.setRefreshing(true);
 	    }
 	}
 	

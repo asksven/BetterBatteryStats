@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class StatsProviderTest
 {
+
 	private StatsProvider mStats;
 	static final String TAG = "StatsProviderTest";
 
