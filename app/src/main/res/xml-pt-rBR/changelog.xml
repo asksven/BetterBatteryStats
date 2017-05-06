@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Translated to Brazilian Portuguese by Caio Roberto @caiorrs -->
+
+<changelog>
+    <release version="2.2.0.0" versioncode="82">
+        <change>Novo: Estatísticas de Sensores</change>
+        <change>Capacidade de adicionar notas a dump files</change>
+        <change>Detalhes dos alarmes agora são roláveis</change>
+        <change>Dumpfile tem representação em txt e JSON</change>
+        <change>Atualizada a versão do android-compat-lib para a mais atual</change>
+        <change>Melhora na usabilidade</change>
+        <change>Suporte a dispositivos sem root</change>
+        <change>Removida a necessidade de instalar o app de sistema para dispositivos com root</change>
+        <change>Vários bugs corrigidos</change>
+        <change>I18N</change>
+    </release>
+</changelog>
