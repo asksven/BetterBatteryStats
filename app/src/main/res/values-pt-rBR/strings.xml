@@ -5,8 +5,8 @@
 <resources>
 
     <string name="plugin_name">Better Battery Stats</string>
-    <string name="message_hint">Scheduled Toast</string>
-    <string name="message_hint_saveref">SAlvar uma Referência Personalizada</string>
+    <string name="message_hint">Toast Agendado</string>
+    <string name="message_hint_saveref">Salvar uma Referência Personalizada</string>
     <string name="message_hint_savestat">Salvar um Dumpfile de Texto</string>
     <string name="message_hint_savestatjson">Salvar um Dumpfile JSON</string>
     <string name="message_hint_sinceref">Dump Desde a última Referência</string>
