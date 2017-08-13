@@ -6,6 +6,9 @@ BetterBatteryStats is an open source project unter the terms of the Apache 2.0 L
 # Build
 In order to build (with gradle / Android Studio) following changes to the local project are required
 
+## HockeyApp
+The environment variable `HOCKEYAPP_APP_ID` must be set to a valid value
+
 ## google-services.jon
 BBS uses Firebase Analytics. You will need to create a `google-services.json` in (follow the Firebase instructions):
 - `/app`
