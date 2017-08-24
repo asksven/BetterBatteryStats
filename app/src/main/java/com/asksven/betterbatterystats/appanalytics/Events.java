@@ -27,7 +27,7 @@ public class Events
     public static final String EVENT_LAUNCH_GPLAY = "launch_edition_gplay";
     public static final String EVENT_LAUNCH_XDA = "launch_edition_xda";
     public static final String EVENT_LAUNCH_DARK_THEME = "launch_theme_dark";
-    public static final String EVENT_LAUNCH_LIGHT_THEME = "launch_theme_dark";
+    public static final String EVENT_LAUNCH_LIGHT_THEME = "launch_theme_light";
     public static final String EVENT_LAUNCH_ROUND_GAUGES = "launch_style_roundgauges";
     public static final String EVENT_LAUNCH_LINEAR_GAUGES = "launch_sytle_lineargauges";
 
