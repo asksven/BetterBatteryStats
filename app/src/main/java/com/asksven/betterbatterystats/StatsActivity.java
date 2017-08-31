@@ -587,12 +587,17 @@ public class StatsActivity extends ActionBarListActivity
 	protected void onPause()
 	{
 		super.onPause();
+
 		// Hockeyapp
-		UpdateManager.unregister();
-		Tracking.stopUsage(this);
-		
-//		Log.i(TAG, "OnPause called");
-//		Log.i(TAG, "onPause reference state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+		try
+		{
+			UpdateManager.unregister();
+			Tracking.stopUsage(this);
+		}
+		catch (Exception e)
+		{
+		}
+
 		// unregister boradcast receiver for saved references
 		this.unregisterReceiver(this.m_referenceSavedReceiver);
 		
@@ -605,7 +610,14 @@ public class StatsActivity extends ActionBarListActivity
 		super.onDestroy();
 
 		// Hockeyapp
-		UpdateManager.unregister();
+		try
+		{
+			UpdateManager.unregister();
+		}
+		catch (Exception e)
+		{
+		}
+
 	}
 
 	/**
