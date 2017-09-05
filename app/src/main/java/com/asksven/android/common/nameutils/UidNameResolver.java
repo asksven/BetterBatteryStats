@@ -94,7 +94,7 @@ public class UidNameResolver
 	
 	// Side effects: sets mName and mUniqueName
 	// Sets mNamePackage, mName and mUniqueName
-    public UidInfo getNameForUid(int uid)
+    public synchronized UidInfo getNameForUid(int uid)
     {
     	String uidName = "";
     	String uidNamePackage = "";
