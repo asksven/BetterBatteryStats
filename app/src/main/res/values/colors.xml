@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-	<color name="dangerous_color">#e74c3c</color> <!-- alzarin -->
+
+    <color name="colorPrimary">#27ae60</color>
+    <color name="colorPrimaryDark">#0A883F</color>
+
+    <color name="dangerous_color">#e74c3c</color> <!-- alzarin -->
 	<color name="signature_color">#f1c40f</color> <!--  sunflower -->
 	<color name="normal_color">#27ae60</color> <!--  nephritis -->
 	

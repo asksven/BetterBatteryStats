@@ -6,6 +6,7 @@
         <change>Full android O support</change>
         <change>Unrooted devices now fully supported (with perms added using ADB)</change>
         <change>UI improvements and I18N</change>
+        <change>Better support for substratum theming</change>
         <change>Fixes based on crash-reports</change>
         <change>Added application analytics</change>
 
