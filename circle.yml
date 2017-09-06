@@ -85,4 +85,4 @@ deployment:
     gplay:
         tag: /release-.*/
         commands:
-           - ./gradlew publishApkProductionRelease
+           - ./gradlew publishApkGplayRelease

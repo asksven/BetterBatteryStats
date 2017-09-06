@@ -22,7 +22,7 @@ android {
         applicationId "com.asksven.betterbatterystats"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 85
+        versionCode 86
         versionName "2.3"
         versionNameSuffix = getBuildSuffix()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -147,7 +147,6 @@ dependencies {
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'com.android.support:design:25.3.1'
     compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:[4.0.2, 5.0['
-//  @todo: decide on whther to keep or remove firebase analytics  compile 'com.google.firebase:firebase-core:10.2.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:support-vector-drawable:25.3.1'
     compile 'net.hockeyapp.android:HockeySDK:4.1.3'
