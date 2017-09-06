@@ -3,8 +3,12 @@
     <release
         version="2.3"
         versioncode="85">
+        <change>Full android O support</change>
+        <change>Unrooted devices now fully supported (with perms added using ADB)</change>
+        <change>UI improvements and I18N</change>
+        <change>Fixes based on crash-reports</change>
         <change>Added application analytics</change>
-        <change>UI improvements</change>
+
     </release>
 
 </changelog>

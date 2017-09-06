@@ -23,6 +23,7 @@ dependencies:
 #        - echo y | android update sdk --no-ui --all --filter extra-google-m2repository
 
         - bash ./circleciscripts/download_keystore.sh
+        - bash ./circleciscripts/download_pubprofile.sh
     cache-directories:
         - "/usr/local/android-sdk-linux/build-tools/25.0.2"
         - "/usr/local/android-sdk-linux/extras"
@@ -81,3 +82,7 @@ deployment:
         branch: master
         commands:
           - source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
+    gplay:
+        tag: /release-.*/
+        commands:
+           - ./gradlew publishApkProductionRelease

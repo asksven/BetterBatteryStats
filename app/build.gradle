@@ -1,10 +1,22 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.triplet.play'
+//apply plugin: 'com.google.gms.google-services'
 
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
 
+    playAccountConfigs {
+        defaultAccountConfig {
+            jsonFile = file('sa-google-play.json')
+        }
+    }
+
+    play {
+        track = 'beta'
+        untrackOld = true // will untrack 'alpha' while upload to 'beta'
+    }
 
     defaultConfig {
         applicationId "com.asksven.betterbatterystats"
@@ -18,6 +30,7 @@ android {
         testBuildType "debug"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [HOCKEYAPP_APP_ID: System.getenv("HOCKEYAPP_APP_ID") ?: "xx-xx-xxxx"]
+
     }
 
     signingConfigs {
@@ -31,6 +44,8 @@ android {
             storeFile file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore")
         }
     }
+
+
     // we have different package name for the variants
     flavorDimensions "edition"
     productFlavors {
@@ -38,6 +53,9 @@ android {
             dimension "edition"
             applicationId "com.asksven.betterbatterystats"
             signingConfig signingConfigs.release
+            playAccountConfig = playAccountConfigs.defaultAccountConfig
+
+
         }
         xdaedition {
             dimension "edition"
@@ -142,7 +160,6 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.5'
 }
 
-//apply plugin: 'com.google.gms.google-services'
 
 def getBuildSuffix() {
     def ret = ""
