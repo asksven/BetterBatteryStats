@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BetterBatteryStats.iml" filepath="$PROJECT_DIR$/BetterBatteryStats.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BetterBatteryStats_fork.iml" filepath="$PROJECT_DIR$/BetterBatteryStats_fork.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
