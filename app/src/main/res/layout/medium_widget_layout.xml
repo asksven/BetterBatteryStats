@@ -11,6 +11,7 @@
     <TextView
         android:id="@+id/stat_type"
         style="@style/Theme.asksven.TextAppearance.Tiny.Bold"
+		android:textColor="@color/primary_text_default_material_dark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dip"
@@ -25,6 +26,7 @@
 		    <TextView
 		        android:id="@+id/staticSince"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:layout_marginLeft="5dip"
@@ -34,6 +36,7 @@
 		        android:layout_alignParentRight="true"
 		        android:gravity="right"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
@@ -43,6 +46,7 @@
 		    <TextView
 		        android:id="@+id/staticDeepSleep"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/label_widget_deep_sleep"
@@ -53,6 +57,7 @@
 		        android:layout_alignParentRight="true"
 		        android:gravity="right"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
@@ -62,6 +67,7 @@
 		    <TextView
 		        android:id="@+id/staticAwake"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/label_widget_awake"
@@ -72,6 +78,7 @@
 		        android:layout_alignParentRight="true"
 		        android:gravity="right"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
@@ -87,6 +94,7 @@
 		    <TextView
 		        android:id="@+id/staticScreenOn"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/label_widget_screen_on"
@@ -96,6 +104,7 @@
 		        android:layout_alignParentRight="true"
 		        android:gravity="right"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
@@ -106,6 +115,7 @@
 		    <TextView
 		        android:id="@+id/staticKWL"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/label_widget_kernel_wakelock"
@@ -117,6 +127,7 @@
 		        android:layout_alignParentRight="true"
 		        android:gravity="right"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
@@ -127,6 +138,7 @@
 		    <TextView
 		        android:id="@+id/staticPWL"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/label_widget_partial_wakelock"
@@ -138,6 +150,7 @@
 		        android:layout_alignParentRight="true"
 		        android:gravity="right"
 		        style="@style/Theme.asksven.TextAppearance.Tiny"
+				android:textColor="@color/primary_text_default_material_dark"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="value"
