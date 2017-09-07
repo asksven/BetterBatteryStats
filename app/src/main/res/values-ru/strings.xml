@@ -10,6 +10,7 @@
     <string name="message_hint_stat_type">Тип статистики</string>
     <string name="message_enable_root">Включение функций рута предполагает, что устройство имеет рут-доступ.\nПожалуйста, убедитесь, что права su предоставлены для получения статистики сигналов и сети.\nEсли права не предоставляются, виновато приложение суперпользователя, а не BBS.\nПродолжить?</string>
     <string name="message_enable_active_mon">Активный мониторинг приводит к увеличению пробуждений и объёма обработки данных и должен быть использован с осторожностью.\nПродолжить?</string>
+    <string name="message_first_start">Первый запуск. Создание \'unplugged\'</string>
     <string name="message_copied_to_clipboard">%s скопировано в буфер</string>
     <string name="message_no_hist_froyo">К сожалению, Froyo не поддерживает данные истории</string>
     <string name="message_no_appops">В Вашей прошивке отсутствуют операции в приложениях</string>
@@ -120,6 +121,9 @@
     <string name="label_tab_permissions">Разрешения</string>
     <string name="label_tab_services">Службы</string>
     
+    <string name="label_discard_changes">Отменить изменения</string>
+
+
     <!-- About screen -->
     <string name="label_about_author">Разработка: asksven</string>
     <string name="label_about_courtesy">Графика: Javi</string>
@@ -130,6 +134,7 @@
     <string name="label_about_translation4">Хорватский: seky2205 @ xda</string>
     <string name="label_about_translation5">Французcкий: xavihernandez @ xda</string>
     <string name="label_about_translation6">Немецкий: Minty123 @ xda</string>
+    <string name="label_about_translation7">Португальский (Бразилия): @caiorrs</string>
     <string name="label_about_follow">Твиттер</string>
     <string name="label_about_rate">Оценка / отзыв на Google Play</string>
                
@@ -140,7 +145,7 @@
     <string name="pref_theme_summary">Переключить тему</string>
                
     <!-- System app activity -->
-    <string name="expl_system_app">На Андроид 4.4 Google убрал для обычных приложений разрешение доступа к статистике батареи.\n\nРекомендуется установить BetterBatteryStats как системное приложение (это не мешает установке обновлений).\n\nУдаление/повторная установка системного приложения может понадобиться при изменении разрешений.</string>
+    <string name="expl_system_app">Если в Вашем телефоне есть рут, BBS автоматически предоставит необходимые разрешения.\nДля нерутованных устройств разрешения можно предоставить через ADB.</string>
     <string name="install_system_app">Установить как системное</string>
     <string name="uninstall_system_app">Удалить системное</string>
     <string name="info_installed_system_app">Установлено системное приложение. Пожалуйста, перезагрузите устройство для активации.</string>
@@ -232,6 +237,8 @@
     <string name="pref_auto_refresh_title">Автообновление</string>
     <string name="pref_auto_refresh_summary">Автоматическая перезагрузка метки\'текущее\' при переключении экранов/настроек</string>
     <string name="pref_section_sharing">Опции вывода</string>
+    <string name="pref_save_dumpfile_title">Дамп</string>
+    <string name="pref_save_dumpfile_summary">Поделиться дампом</string>
     <string name="pref_save_logcat_title">Логкат</string>
     <string name="pref_save_logcat_summary">Поделиться логкатом</string>
     <string name="pref_save_dmesg_title">dmesg</string>
@@ -242,9 +249,15 @@
     <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
     <string name="pref_force_network_api_title">Статистика сети с API</string>
     <string name="pref_force_network_api_summary">Принудительное использование API для получения статистики сети</string>
+    <string name="pref_screen_permissions_title">Разрешения приложений</string>
+    <string name="pref_screen_permissions_summary">Проверьте необходимые разрешения</string>
     <string name="pref_screen_import_export_title">Импорт/экспорт</string>
     <string name="pref_screen_import_export_summary">Импорт и экспорт настроек</string>
         
+    <string name="pref_app_analytics_title">Аналитика</string>
+    <string name="pref_app_analytics_summary">Помогите улучшить приложение: разрешите аналитику</string>
+
+
     <string name="pref_section_settings">Настройки</string>
     <string name="pref_screen_widgets_title">Виджеты</string>
     <string name="pref_screen_legacy_widgets_title">Старые виджеты</string>
@@ -303,5 +316,55 @@
     <string name="widget_fontsize_12">Нормальный (12)</string>
     <string name="widget_fontsize_10">*Маленький (10)</string>
     <string name="widget_fontsize_8">Оч.маленький (8)</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+    <string-array name="pref_example_list_titles">
+        <item>Всегда</item>
+        <item>Когда возможно</item>
+        <item>Никогда</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 мин.</item>
+        <item>30 мин.</item>
+        <item>1 ч</item>
+        <item>3 ч</item>
+        <item>6 ч</item>
+        <item>Никогда</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Пункт 1</item>
+        <item>Пункт 2</item>
+        <item>Пункт 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value"/>
+
+    <!-- Example settings for Notifications -->
 
 </resources>
