@@ -70,6 +70,7 @@ import com.asksven.android.common.utils.GenericLogger;
 import com.asksven.android.common.utils.StringUtils;
 import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.ActiveMonAlarmReceiver;
+import com.asksven.betterbatterystats.BbsApplication;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 
@@ -92,9 +93,6 @@ public class StatsProvider
 {
 	/** the singleton instance */
 	static StatsProvider m_statsProvider = null;
-
-	/** the application context */
-	static Context m_context = null;
 
 	/** constant for custom stats */
 	// dependent on arrays.xml
@@ -120,17 +118,13 @@ public class StatsProvider
 	/**
 	 * returns a singleton instance
 	 * 
-	 * @param ctx
-	 *            the application context
 	 * @return the singleton StatsProvider
 	 */
-	public static StatsProvider getInstance(Context ctx)
+	public static StatsProvider getInstance()
 	{
 		if (m_statsProvider == null)
 		{
 			m_statsProvider = new StatsProvider();
-			m_context = ctx;
-
 		}
 
 		return m_statsProvider;
@@ -144,13 +138,15 @@ public class StatsProvider
 	public ArrayList<StatElement> getStatList(int iStat, String refFromName,
 			int iSort, String refToName) throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(BbsApplication.getAppContext());
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
 		boolean developerMode = sharedPrefs.getBoolean("developer", false);
 		
-		Reference refFrom = ReferenceStore.getReferenceByName(refFromName, m_context);
-		Reference refTo = ReferenceStore.getReferenceByName(refToName, m_context);
+		Reference refFrom = ReferenceStore.getReferenceByName(refFromName, ctx);
+		Reference refTo = ReferenceStore.getReferenceByName(refToName, ctx);
 		
 		if ((refFrom == null) || (refTo == null) || (refFromName == null) || (refToName == null) || (refFromName.equals("")) || (refToName.equals("")))
 		{
@@ -159,16 +155,16 @@ public class StatsProvider
 		}
 		if (refFrom.equals(refToName))
 		{
-			Toast.makeText(m_context, m_context.getString(R.string.message_identical_references, refFromName, refToName), Toast.LENGTH_LONG).show();			
+			Toast.makeText(ctx, ctx.getString(R.string.message_identical_references, refFromName, refToName), Toast.LENGTH_LONG).show();
 
 		} 
 		
 		int iPctType = 0;
 
-		if ((!developerMode) && (this.getIsCharging(m_context)))
+		if ((!developerMode) && (this.getIsCharging(ctx)))
 		{
 			ArrayList<StatElement> myRet = new ArrayList<StatElement>();
-			myRet.add(new Notification(m_context.getString(R.string.NO_STATS_WHEN_CHARGING)));
+			myRet.add(new Notification(ctx.getString(R.string.NO_STATS_WHEN_CHARGING)));
 			return myRet;
 		}
 		// try
@@ -271,23 +267,25 @@ public class StatsProvider
 	public ArrayList<StatElement> getAlarmsStatList(boolean bFilter,
 			Reference refFrom, Reference refTo) throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
 		// stop straight away of root features are disabled
 		// to process alarms we need either root or the perms to access the private API
-		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context) || RootShell.getInstance().hasRootPermissions()) )
+		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx) || RootShell.getInstance().hasRootPermissions()) )
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_PERM_ERR)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_PERM_ERR)));
 			return myStats;
 		}
 
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
@@ -299,7 +297,7 @@ public class StatsProvider
 		}
 		else
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_STATS)));
 			return myStats;
 		}
 		//Collections.sort(myAlarms);
@@ -375,11 +373,13 @@ public class StatsProvider
 	
 	public ArrayList<StatElement> getCurrentAlarmsStatList(boolean bFilter) throws Exception
 	{
+
+		Context ctx = BbsApplication.getAppContext();
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
 		ArrayList<StatElement> myAlarms = null;
@@ -387,7 +387,7 @@ public class StatsProvider
 		if (sharedPrefs.getBoolean("force_alarms_api", false))
 		{
 			Log.i(TAG, "Setting set to force the use of the API for alarms");
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 			int statsType = 0;
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 			{
@@ -398,19 +398,19 @@ public class StatsProvider
 				statsType = BatteryStatsTypes.STATS_CURRENT;
 			}		
 			
-			myAlarms = mStats.getWakeupStats(m_context, statsType);
+			myAlarms = mStats.getWakeupStats(ctx, statsType);
 		}
 		else
 		{
 			// use root if available as root delivers more data
-			if (SysUtils.hasBatteryStatsPermission(m_context) && AlarmsDumpsys.alarmsAccessible())
+			if (SysUtils.hasBatteryStatsPermission(ctx) && AlarmsDumpsys.alarmsAccessible())
 			{
-				myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(m_context));//, false);			
+				myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(ctx));//, false);
 			}
-			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
+			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
 			{
 				Log.i(TAG, "Accessing Alarms in API mode as dumpsys has failed");
-				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 				int statsType = 0;
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 				{
@@ -421,7 +421,7 @@ public class StatsProvider
 					statsType = BatteryStatsTypes.STATS_CURRENT;
 				}		
 
-				myAlarms = mStats.getWakeupStats(m_context, statsType);
+				myAlarms = mStats.getWakeupStats(ctx, statsType);
 			}
 			else
 			{
@@ -478,23 +478,24 @@ public class StatsProvider
 	public ArrayList<StatElement> getSensorStatList(boolean bFilter,
 			Reference refFrom, Reference refTo) throws Exception
 	{
+        Context ctx = BbsApplication.getAppContext();
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
 		// stop straight away of root features are disabled
 		// to process alarms we need either root or the perms to access the private API
-		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context) || RootShell.getInstance().hasRootPermissions()) )
+		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx) || RootShell.getInstance().hasRootPermissions()) )
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_PERM_ERR)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_PERM_ERR)));
 			return myStats;
 		}
 
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
@@ -506,7 +507,7 @@ public class StatsProvider
 		}
 		else
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_STATS)));
 			return myStats;
 		}
 
@@ -581,14 +582,16 @@ public class StatsProvider
 	
 	public ArrayList<StatElement> getCurrentSensorStatList(boolean bFilter) throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myRetStats = new ArrayList<StatElement>();
 
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 		int statsType = 0;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
@@ -601,7 +604,7 @@ public class StatsProvider
 
 		long elapsedRealtime = SystemClock.elapsedRealtime();
 
-		ArrayList<SensorUsage> mySensorStats = mStats.getSensorStats(m_context, elapsedRealtime, statsType);
+		ArrayList<SensorUsage> mySensorStats = mStats.getSensorStats(ctx, elapsedRealtime, statsType);
 		ArrayList<SensorUsage> myStats = new ArrayList<SensorUsage>();
 		
 		for (int i = 0; i < mySensorStats.size(); i++)
@@ -645,25 +648,27 @@ public class StatsProvider
 			Reference refFrom, int iSort, Reference refTo) throws Exception
 	{
 
+		Context ctx = BbsApplication.getAppContext();
+
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
-		if (!(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) )
+		if (!(SysUtils.hasBatteryStatsPermission(ctx) || permsNotNeeded) )
 		{
 			// stop straight away of root features are disabled
-			if (!SysUtils.hasBatteryStatsPermission(m_context))
+			if (!SysUtils.hasBatteryStatsPermission(ctx))
 			{
-				myStats.add(new Notification(m_context.getString(R.string.NO_ROOT_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_ROOT_ERR)));
 				return myStats;
 			}
 		}
 		
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
@@ -676,7 +681,7 @@ public class StatsProvider
 		}
 		else
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_STATS)));
 			return myStats;
 		}
 		
@@ -753,16 +758,18 @@ public class StatsProvider
 			int iSort) throws Exception
 	{
 
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myProcesses = null;
 		ArrayList<Process> myRetProcesses = new ArrayList<Process>();
 
-		if ( !SysUtils.hasBatteryStatsPermission(m_context) )
+		if ( !SysUtils.hasBatteryStatsPermission(ctx) )
 		{
-			myProcesses = ProcessStatsDumpsys.getProcesses(m_context);
+			myProcesses = ProcessStatsDumpsys.getProcesses(ctx);
 		}
 		else
 		{
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 			int statsType = 0;
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 			{
@@ -773,7 +780,7 @@ public class StatsProvider
 				statsType = BatteryStatsTypes.STATS_CURRENT;
 			}		
 
-			myProcesses = mStats.getProcessStats(m_context, statsType);
+			myProcesses = mStats.getProcessStats(ctx, statsType);
 		}
 
 		// add elements and recalculate the total
@@ -820,26 +827,28 @@ public class StatsProvider
 	public ArrayList<StatElement> getWakelockStatList(boolean bFilter,
 			Reference refFrom, int iPctType, int iSort, Reference refTo) throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		
-		if ( !(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) )
+		if ( !(SysUtils.hasBatteryStatsPermission(ctx) || permsNotNeeded) )
 		{
 			// stop straight away of root features are disabled
-			if (!SysUtils.hasBatteryStatsPermission(m_context) && !permsNotNeeded)
+			if (!SysUtils.hasBatteryStatsPermission(ctx) && !permsNotNeeded)
 			{
-				myStats.add(new Notification(m_context.getString(R.string.NO_ROOT_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_ROOT_ERR)));
 				return myStats;
 			}
 		}
 
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
@@ -851,7 +860,7 @@ public class StatsProvider
 		}
 		else
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_STATS)));
 			return myStats;
 		}
 
@@ -957,10 +966,12 @@ public class StatsProvider
 	public ArrayList<StatElement> getCurrentWakelockStatList(boolean bFilter,
 			int iPctType, int iSort) throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<StatElement> myWakelocks = null;
 		
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 
 		int statsType = 0;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -972,7 +983,7 @@ public class StatsProvider
 			statsType = BatteryStatsTypes.STATS_CURRENT;
 		}		
 
-		myWakelocks = mStats.getWakelockStats(m_context,
+		myWakelocks = mStats.getWakelockStats(ctx,
 				BatteryStatsTypes.WAKE_TYPE_PARTIAL,
 				statsType, iPctType);
 
@@ -1039,21 +1050,23 @@ public class StatsProvider
 			boolean bFilter, Reference refFrom, int iPctType, int iSort, Reference refTo)
 			throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		
-		if (!(Wakelocks.fileExists() || WakeupSources.fileExists() || permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context)))
+		if (!(Wakelocks.fileExists() || WakeupSources.fileExists() || permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx)))
 		{
-			myStats.add(new Notification(m_context.getString(R.string.KWL_ACCESS_ERROR)));
+			myStats.add(new Notification(ctx.getString(R.string.KWL_ACCESS_ERROR)));
 			return myStats;
 		}
 		
 		if ((refFrom == null) || (refTo == null))
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
@@ -1065,7 +1078,7 @@ public class StatsProvider
 		}
 		else
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_STATS)));
 			return myStats;
 		}
 		
@@ -1158,18 +1171,20 @@ public class StatsProvider
 	public ArrayList<StatElement> getCurrentKernelWakelockStatList(boolean bFilter, int iPctType, int iSort)
 			throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		ArrayList<StatElement> myKernelWakelocks = null;
 		
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 
 		if (sharedPrefs.getBoolean("force_kwl_api", false))
 		{
 			Log.i(TAG, "Setting set to force the use of the API for kernel wakelocks");
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 			
 			int statsType = 0;
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -1181,7 +1196,7 @@ public class StatsProvider
 				statsType = BatteryStatsTypes.STATS_CURRENT;
 			}		
 
-			myKernelWakelocks = mStats.getKernelWakelockStats(m_context, statsType, false);
+			myKernelWakelocks = mStats.getKernelWakelockStats(ctx, statsType, false);
 		}
 		else
 		{
@@ -1192,7 +1207,7 @@ public class StatsProvider
 				if (Wakelocks.fileExists())
 				{
 					Log.i(TAG, "Using Wakelocks file");
-					myKernelWakelocks = Wakelocks.parseProcWakelocks(m_context);	
+					myKernelWakelocks = Wakelocks.parseProcWakelocks(ctx);
 				}
 				else
 				{
@@ -1204,18 +1219,18 @@ public class StatsProvider
 							&& (Build.DEVICE.equals("g3"))|| Build.DEVICE.equals("p1") || (Build.DEVICE.equals("g2")))
 					{
 						Log.i(TAG, "Using LG G2, G3, G4 specific wakeup sources");
-						myKernelWakelocks = WakeupSourcesLg.parseWakeupSources(m_context);
+						myKernelWakelocks = WakeupSourcesLg.parseWakeupSources(ctx);
 					}
 					else
 					{
-						myKernelWakelocks = WakeupSources.parseWakeupSources(m_context);
+						myKernelWakelocks = WakeupSources.parseWakeupSources(ctx);
 					}
 				}
 			}
-			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
+			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
 			{
 				Log.i(TAG, "Falling back to API");
-				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 				
 				int statsType = 0;
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -1227,7 +1242,7 @@ public class StatsProvider
 					statsType = BatteryStatsTypes.STATS_CURRENT;
 				}		
 
-				myKernelWakelocks = mStats.getKernelWakelockStats(m_context, statsType, false);					
+				myKernelWakelocks = mStats.getKernelWakelockStats(ctx, statsType, false);
 			}
 			else
 			{
@@ -1294,22 +1309,24 @@ public class StatsProvider
 	public ArrayList<StatElement> getNetworkUsageStatList(
 			boolean bFilter, Reference refFrom, Reference refTo) throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();			
 
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		
 		// stop straight away if no root permissions or no perms to access data directly
-		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context) || RootShell.getInstance().hasRootPermissions()) )
+		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx) || RootShell.getInstance().hasRootPermissions()) )
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_PERM_ERR)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_PERM_ERR)));
 			return myStats;
 		}
 
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
@@ -1321,7 +1338,7 @@ public class StatsProvider
 		}
 		else
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_STATS)));
 			return myStats;
 		}
 
@@ -1405,11 +1422,13 @@ public class StatsProvider
 
 	public ArrayList<StatElement> getCurrentNetworkUsageStatList(boolean bFilter) throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 		
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 
@@ -1418,7 +1437,7 @@ public class StatsProvider
 		if (sharedPrefs.getBoolean("force_network_api", false))
 		{
 			Log.i(TAG, "Setting set to force the use of the API for kernel wakelocks");
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 			
 			int statsType = 0;
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -1430,7 +1449,7 @@ public class StatsProvider
 				statsType = BatteryStatsTypes.STATS_CURRENT;
 			}		
 
-			myNetworkStats = mStats.getNetworkUsageStats(m_context, statsType);
+			myNetworkStats = mStats.getNetworkUsageStats(ctx, statsType);
 		}
 		else
 		{
@@ -1439,10 +1458,10 @@ public class StatsProvider
 				myNetworkStats = Netstats.parseNetstats();
 				
 			}
-			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(m_context))
+			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
 			{
 				Log.i(TAG, "Falling back to API");
-				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 				
 				int statsType = 0;
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -1454,7 +1473,7 @@ public class StatsProvider
 					statsType = BatteryStatsTypes.STATS_CURRENT;
 				}		
 
-				myNetworkStats = mStats.getNetworkUsageStats(m_context, statsType);					
+				myNetworkStats = mStats.getNetworkUsageStats(ctx, statsType);
 			}
 			else
 			{
@@ -1512,19 +1531,21 @@ public class StatsProvider
 			throws Exception
 
 	{
+        Context ctx = BbsApplication.getAppContext();
+
 		// List to store the other usages to
 		ArrayList<StatElement> myStates = refTo.m_refCpuStates;
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 
 		if (refTo.m_refCpuStates == null)
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_STATS)));
 			return myStats;
 		}
 
@@ -1629,7 +1650,7 @@ public class StatsProvider
 				Field field = fields[i];
 				PermissionInfo info = pm.getPermissionInfo(
 						field.get(field.getName()).toString(),
-						PackageManager.GET_PERMISSIONS);
+						PackageManager.GET_META_DATA);
 				Permission perm = new Permission();
 				perm.name = info.name;
 				final CharSequence chars = info.loadDescription(context
@@ -1768,12 +1789,14 @@ public class StatsProvider
 			Reference refFrom, boolean bFilterView, boolean bWidget, Reference refTo)
 			throws Exception
 	{
-	
+
+        Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		// if on of the refs is null return
 		if ((refFrom == null) || (refTo == null))
 		{
-				myStats.add(new Notification(m_context.getString(R.string.NO_REF_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_REF_ERR)));
 			return myStats;
 		}
 		
@@ -1786,7 +1809,7 @@ public class StatsProvider
 		}
 		else
 		{
-			myStats.add(new Notification(m_context.getString(R.string.NO_STATS)));
+			myStats.add(new Notification(ctx.getString(R.string.NO_STATS)));
 			return myStats;
 		}
 
@@ -1838,7 +1861,7 @@ public class StatsProvider
 			Misc usage = ((Misc)myUsages.get(i)).clone();
 			if (LogSettings.DEBUG)
 			{
-				Log.d(TAG, "Current value: " + usage.getName() + " " + usage.getData(StatsProvider.getInstance(m_context).getSince(refFrom, refTo)));
+				Log.d(TAG, "Current value: " + usage.getName() + " " + usage.getData(StatsProvider.getInstance().getSince(refFrom, refTo)));
 			}
 			if ((!bFilter) || (usage.getTimeOn() > 0))
 			{
@@ -1847,7 +1870,7 @@ public class StatsProvider
 				{
 					if (LogSettings.DEBUG)
 					{
-						Log.d(TAG, "Result value: " + usage.getName() + " "	+ usage.getData(StatsProvider.getInstance(m_context).getSince(refFrom, refTo)));
+						Log.d(TAG, "Result value: " + usage.getName() + " "	+ usage.getData(StatsProvider.getInstance().getSince(refFrom, refTo)));
 					}
 					myStats.add((StatElement) usage);
 				}
@@ -1860,16 +1883,18 @@ public class StatsProvider
 			boolean bFilterView, boolean bWidget)
 			throws Exception
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		// List to store the other usages to
 		ArrayList<StatElement> myUsages = new ArrayList<StatElement>();
 
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false); 
 		
-		if ( !SysUtils.hasBatteryStatsPermission(m_context) && !permsNotNeeded)
+		if ( !SysUtils.hasBatteryStatsPermission(ctx) && !permsNotNeeded)
 		{
 
 			long elapsedRealtime = SystemClock.elapsedRealtime();
@@ -1891,7 +1916,7 @@ public class StatsProvider
 		}
 		else
 		{	
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);	
+			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 	
 			long rawRealtime = SystemClock.elapsedRealtime() * 1000; 
 			
@@ -2024,7 +2049,7 @@ public class StatsProvider
 			{
 				if (Build.VERSION.SDK_INT >= 21)
 				{
-					syncTime 	= mStats.getSyncOnTime(m_context, batteryRealtime, statsType) / 1000;
+					syncTime 	= mStats.getSyncOnTime(ctx, batteryRealtime, statsType) / 1000;
 				}
 			}
 			catch (BatteryInfoUnavailableException e)
@@ -2368,8 +2393,6 @@ public class StatsProvider
 	/**
 	 * Get the battery level lost since a given ref
 	 * 
-	 * @param iStatType
-	 *            the reference
 	 * @return the lost battery level
 	 */
 	public int getBatteryLevelStat(Reference refFrom, Reference refTo)
@@ -2400,8 +2423,6 @@ public class StatsProvider
 	/**
 	 * Get the battery level lost since a given ref
 	 * 
-	 * @param iStatType
-	 *            the reference
 	 * @return the lost battery level
 	 */
 	public String getBatteryLevelFromTo(Reference refFrom, Reference refTo, boolean concise)
@@ -2456,8 +2477,6 @@ public class StatsProvider
 	/**
 	 * Get the battery voltage lost since a given ref
 	 * 
-	 * @param iStatType
-	 *            the reference
 	 * @return the lost battery level
 	 */
 	public int getBatteryVoltageStat(Reference refFrom, Reference refTo)
@@ -2491,8 +2510,6 @@ public class StatsProvider
 	/**
 	 * Get the battery voltage lost since a given ref
 	 * 
-	 * @param iStatType
-	 *            the reference
 	 * @return the lost battery level
 	 */
 	public String getBatteryVoltageFromTo(Reference refFrom, Reference refTo)
@@ -2599,7 +2616,7 @@ public class StatsProvider
 	 */
 	public boolean hasScreenOffRef()
 	{
-		Reference thisRef = ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, m_context);
+		Reference thisRef = ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, BbsApplication.getAppContext());
 
 		return ((thisRef != null) && (thisRef.m_refOther != null));
 	}
@@ -2611,7 +2628,7 @@ public class StatsProvider
 	 */
 	public boolean hasCustomRef()
 	{
-		Reference thisRef = ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context);
+		Reference thisRef = ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, BbsApplication.getAppContext());
 		return ((thisRef != null) && (thisRef.m_refOther != null));
 	}
 
@@ -2622,7 +2639,7 @@ public class StatsProvider
 	 */
 	public boolean hasSinceChargedRef()
 	{
-		Reference thisRef = ReferenceStore.getReferenceByName(Reference.CHARGED_REF_FILENAME, m_context);
+		Reference thisRef = ReferenceStore.getReferenceByName(Reference.CHARGED_REF_FILENAME, BbsApplication.getAppContext());
 
 		return ((thisRef != null) && (thisRef.m_refKernelWakelocks != null));
 	}
@@ -2634,7 +2651,7 @@ public class StatsProvider
 	 */
 	public boolean hasSinceUnpluggedRef()
 	{
-		Reference thisRef = ReferenceStore.getReferenceByName(Reference.UNPLUGGED_REF_FILENAME, m_context);
+		Reference thisRef = ReferenceStore.getReferenceByName(Reference.UNPLUGGED_REF_FILENAME, BbsApplication.getAppContext());
 
 		return ((thisRef != null) && (thisRef.m_refKernelWakelocks != null));
 	}
@@ -2646,7 +2663,7 @@ public class StatsProvider
 	 */
 	public boolean hasSinceBootRef()
 	{
-		Reference thisRef = ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, m_context);
+		Reference thisRef = ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, BbsApplication.getAppContext());
 
 		return ((thisRef != null) && (thisRef.m_refKernelWakelocks != null));
 	}
@@ -2658,7 +2675,7 @@ public class StatsProvider
 	public void setCustomReference(int iSort)
 	{
 		Reference thisRef = new Reference(Reference.CUSTOM_REF_FILENAME, Reference.TYPE_CUSTOM);
-		ReferenceStore.put(Reference.CUSTOM_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		ReferenceStore.put(Reference.CUSTOM_REF_FILENAME, populateReference(iSort, thisRef), BbsApplication.getAppContext());
 	}
 
 	/**
@@ -2667,7 +2684,7 @@ public class StatsProvider
 	public void setCurrentReference(int iSort)
 	{
 		Reference thisRef = new Reference(Reference.CURRENT_REF_FILENAME, Reference.TYPE_CURRENT);
-		ReferenceStore.put(Reference.CURRENT_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		ReferenceStore.put(Reference.CURRENT_REF_FILENAME, populateReference(iSort, thisRef), BbsApplication.getAppContext());
 	}
 
 	/**
@@ -2677,7 +2694,7 @@ public class StatsProvider
 	{
 		String fileName = Reference.TIMER_REF_FILENAME + DateUtils.format(System.currentTimeMillis(), DateUtils.DATE_FORMAT_NOW);
 		Reference thisRef = new Reference(fileName, Reference.TYPE_TIMER);
-		ReferenceStore.put(fileName, populateReference(iSort, thisRef), m_context);
+		ReferenceStore.put(fileName, populateReference(iSort, thisRef), BbsApplication.getAppContext());
 		
 		return fileName;
 	}
@@ -2699,7 +2716,7 @@ public class StatsProvider
 	public void setReferenceSinceScreenOff(int iSort)
 	{
 		Reference thisRef = new Reference(Reference.SCREEN_OFF_REF_FILENAME, Reference.TYPE_EVENT);
-		ReferenceStore.put(Reference.SCREEN_OFF_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		ReferenceStore.put(Reference.SCREEN_OFF_REF_FILENAME, populateReference(iSort, thisRef), BbsApplication.getAppContext());
 		
 		// clean "current from cache"
 //		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
@@ -2712,10 +2729,10 @@ public class StatsProvider
 	public void setReferenceScreenOn(int iSort)
 	{
 		Reference thisRef = new Reference(Reference.SCREEN_ON_REF_FILENAME, Reference.TYPE_EVENT);
-		ReferenceStore.put(Reference.SCREEN_ON_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		ReferenceStore.put(Reference.SCREEN_ON_REF_FILENAME, populateReference(iSort, thisRef), BbsApplication.getAppContext());
 		
 		// clean "current from cache"
-		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
+		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, BbsApplication.getAppContext());
 	}
 
 	/**
@@ -2725,10 +2742,10 @@ public class StatsProvider
 	public void setReferenceSinceCharged(int iSort)
 	{
 		Reference thisRef = new Reference(Reference.CHARGED_REF_FILENAME, Reference.TYPE_EVENT);
-		ReferenceStore.put(Reference.CHARGED_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		ReferenceStore.put(Reference.CHARGED_REF_FILENAME, populateReference(iSort, thisRef), BbsApplication.getAppContext());
 		
 		// clean "current from cache"
-		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
+		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, BbsApplication.getAppContext());
 
 	}
 
@@ -2739,10 +2756,10 @@ public class StatsProvider
 	public void setReferenceSinceUnplugged(int iSort)
 	{
 		Reference thisRef = new Reference(Reference.UNPLUGGED_REF_FILENAME, Reference.TYPE_EVENT);
-		ReferenceStore.put(Reference.UNPLUGGED_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		ReferenceStore.put(Reference.UNPLUGGED_REF_FILENAME, populateReference(iSort, thisRef), BbsApplication.getAppContext());
 		
 		// clean "current from cache"
-		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
+		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, BbsApplication.getAppContext());
 	}
 
 	/**
@@ -2752,7 +2769,7 @@ public class StatsProvider
 	public void setReferenceSinceBoot(int iSort)
 	{
 		Reference thisRef = new Reference(Reference.BOOT_REF_FILENAME, Reference.TYPE_EVENT);
-		ReferenceStore.put(Reference.BOOT_REF_FILENAME, populateReference(iSort, thisRef), m_context);
+		ReferenceStore.put(Reference.BOOT_REF_FILENAME, populateReference(iSort, thisRef), BbsApplication.getAppContext());
 	}
 
 	/**
@@ -2761,7 +2778,7 @@ public class StatsProvider
 	private synchronized Reference populateReference(int iSort, Reference refs)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(BbsApplication.getAppContext());
 		
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		
@@ -2777,7 +2794,7 @@ public class StatsProvider
 
 		
 		// we are going to retrieve a reference: make sure data does not come from the cache
-		if (SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded ) BatteryStatsProxy.getInstance(m_context).invalidate();
+		if (SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()) || permsNotNeeded ) BatteryStatsProxy.getInstance(BbsApplication.getAppContext()).invalidate();
 		
 		
 
@@ -2806,7 +2823,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 			
-			if ( SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
+			if ( SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()) || permsNotNeeded)
 			{
 				try
 				{
@@ -2843,7 +2860,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 
-			if ( SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded)
+			if ( SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()) || permsNotNeeded)
 			{
 				try
 				{
@@ -2948,10 +2965,10 @@ public class StatsProvider
 	{
 		
 		// we are going to retrieve a reference: make sure data does not come from the cache
-		BatteryStatsProxy.getInstance(m_context).invalidate();
+		BatteryStatsProxy.getInstance(BbsApplication.getAppContext()).invalidate();
 		
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(BbsApplication.getAppContext());
 		
 		int statsType = 0;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -2979,7 +2996,7 @@ public class StatsProvider
 			refs.m_refSensorUsage 		= null;
 
 			refs.m_refKernelWakelocks 	= getCurrentKernelWakelockStatList(bFilterStats, iPctType, iSort);
-			if ( SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded )
+			if ( SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()) || permsNotNeeded )
 			{
 				refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
 			}
@@ -3024,6 +3041,8 @@ public class StatsProvider
 	public long getBatteryRealtime(int iStatType)
 			throws BatteryInfoUnavailableException
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
 		long whichRealtime = 0;
 		
@@ -3037,33 +3056,33 @@ public class StatsProvider
 			statsType = BatteryStatsTypes.STATS_CURRENT;
 		}		
 
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		
-		if (!(SysUtils.hasBatteryStatsPermission(m_context) || permsNotNeeded) )
+		if (!(SysUtils.hasBatteryStatsPermission(ctx) || permsNotNeeded) )
 		{
 			whichRealtime = rawRealtime;
 			return whichRealtime;
 		}
 
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 
 		whichRealtime = mStats.computeBatteryRealtime(rawRealtime,
 				statsType) / 1000;
 
-		if ((iStatType == StatsProvider.STATS_CUSTOM) && (ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context) != null))
+		if ((iStatType == StatsProvider.STATS_CUSTOM) && (ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, ctx) != null))
 		{			
-			whichRealtime -= ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, m_context).m_refBatteryRealtime;	
+			whichRealtime -= ReferenceStore.getReferenceByName(Reference.CUSTOM_REF_FILENAME, ctx).m_refBatteryRealtime;
 		}
 		else if ((iStatType == StatsProvider.STATS_SCREEN_OFF)
-				&& (ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, m_context) != null))
+				&& (ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, ctx) != null))
 		{
-			whichRealtime -= ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, m_context).m_refBatteryRealtime;
+			whichRealtime -= ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, ctx).m_refBatteryRealtime;
 		}
 		else if ((iStatType == StatsProvider.STATS_BOOT)
-				&& (ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, m_context) != null))
+				&& (ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, ctx) != null))
 		{
-			whichRealtime -= ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, m_context).m_refBatteryRealtime;
+			whichRealtime -= ReferenceStore.getReferenceByName(Reference.BOOT_REF_FILENAME, ctx).m_refBatteryRealtime;
 		}
 		
 		Log.i(TAG, "rawRealtime = " + rawRealtime);
@@ -3094,14 +3113,16 @@ public class StatsProvider
 	@SuppressLint("NewApi")
 	public Uri writeLogcatToFile()
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		Uri fileUri = null;
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
-			Toast.makeText(m_context, m_context.getString(R.string.message_external_storage_write_error),
+			Toast.makeText(ctx, ctx.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
 		try
@@ -3115,7 +3136,7 @@ public class StatsProvider
 			{
 				try
 				{
-					root = m_context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+					root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
 				}
 				catch (Exception e)
 				{
@@ -3138,7 +3159,7 @@ public class StatsProvider
 				fileUri = Uri.fromFile(new File(path + "/" + filename));
 				
 				// workaround: force mediascanner to run
-				DataStorage.forceMediaScanner(m_context, fileUri);
+				DataStorage.forceMediaScanner(ctx, fileUri);
 			}
 			else
 			{
@@ -3157,14 +3178,16 @@ public class StatsProvider
 	@SuppressLint("NewApi")
 	public Uri writeDmesgToFile()
 	{
+		Context ctx = BbsApplication.getAppContext();
+
 		Uri fileUri = null;
 		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(m_context);
+				.getDefaultSharedPreferences(ctx);
 
 		if (!DataStorage.isExternalStorageWritable())
 		{
 			Log.e(TAG, "External storage can not be written");
-			Toast.makeText(m_context, m_context.getString(R.string.message_external_storage_write_error),
+			Toast.makeText(ctx, ctx.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
 		try
@@ -3177,7 +3200,7 @@ public class StatsProvider
 			{
 				try
 				{
-					root = m_context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+					root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
 				}
 				catch (Exception e)
 				{
@@ -3206,7 +3229,7 @@ public class StatsProvider
 				}
 				fileUri = Uri.fromFile(new File(path + "/" + filename));
 				// workaround: force mediascanner to run
-				DataStorage.forceMediaScanner(m_context, fileUri);
+				DataStorage.forceMediaScanner(ctx, fileUri);
 
 //				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
 
@@ -3225,45 +3248,10 @@ public class StatsProvider
 		return fileUri;
 	}
 
-//	/**
-//	 * Writes a reading in json format
-//	 * @param refFrom 
-//	 * @param iSort
-//	 * @param refTo
-//	 */
-//	@SuppressLint("NewApi")
-//	public void writeJsonToFile2(Reference refFrom, int iSort, Reference refTo)
-//	{
-//		Reading reading = new Reading(m_context, refFrom, refTo);
-//		reading.writeToFileJson(m_context);
-//		
-//	}
-	
-	
-//	/**
-//	 * Dump the elements on one list
-//	 * 
-//	 * @param myList
-//	 *            a list of StatElement
-//	 */
-//	private void dumpList(List<StatElement> myList, BufferedWriter out)
-//			throws IOException
-//	{
-//		if (myList != null)
-//		{
-//			for (int i = 0; i < myList.size(); i++)
-//			{
-//				out.write(myList.get(i).getDumpData(m_context) + "\n");
-//
-//			}
-//		}
-//	}
 
 	/**
 	 * translate the stat type (see arrays.xml) to the corresponding label
 	 * 
-	 * @param position
-	 *            the spinner position
 	 * @return the stat type
 	 */
 	public static String statTypeToLabel(int statType)
@@ -3298,8 +3286,6 @@ public class StatsProvider
 	/**
 	 * translate the stat type (see arrays.xml) to the corresponding short label
 	 * 
-	 * @param position
-	 *            the spinner position
 	 * @return the stat type
 	 */
 	public static String statTypeToLabelShort(int statType)
@@ -3334,8 +3320,6 @@ public class StatsProvider
 	/**
 	 * translate the stat type (see arrays.xml) to the corresponding label
 	 * 
-	 * @param position
-	 *            the spinner position
 	 * @return the stat type
 	 */
 	public String statTypeToUrl(int statType)
@@ -3356,14 +3340,12 @@ public class StatsProvider
 	/**
 	 * translate the stat (see arrays.xml) to the corresponding label
 	 * 
-	 * @param position
-	 *            the spinner position
 	 * @return the stat
 	 */
 	private String statToLabel(int iStat)
 	{
 		String strRet = "";
-		String[] statsArray = m_context.getResources().getStringArray(
+		String[] statsArray = BbsApplication.getAppContext().getResources().getStringArray(
 				R.array.stats);
 		strRet = statsArray[iStat];
 
@@ -3373,8 +3355,6 @@ public class StatsProvider
 	/**
 	 * translate the stat (see arrays.xml) to the corresponding label
 	 * 
-	 * @param position
-	 *            the spinner position
 	 * @return the stat
 	 */
 	public String statToUrl(int stat)
@@ -3468,7 +3448,7 @@ public class StatsProvider
 	int getBatteryLevel()
 	{
 		// check the battery level and if 100% the store "since charged" ref
-		Intent batteryIntent = m_context.getApplicationContext()
+		Intent batteryIntent = BbsApplication.getAppContext()
 				.registerReceiver(null,
 						new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
@@ -3491,7 +3471,7 @@ public class StatsProvider
 	int getBatteryVoltage()
 	{
 		// check the battery level and if 100% the store "since charged" ref
-		Intent batteryIntent = m_context.getApplicationContext()
+		Intent batteryIntent = BbsApplication.getAppContext()
 				.registerReceiver(null,
 						new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 
@@ -3567,7 +3547,7 @@ public class StatsProvider
 	{
 		 
 		// test against BatteryStatsProxy
-		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(m_context);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(BbsApplication.getAppContext());
 		
 		long rawRealtime = SystemClock.elapsedRealtime() * 1000; 	
 		long batteryRealtime = 0;
@@ -3597,7 +3577,7 @@ public class StatsProvider
 				}
 			}
 			
-			res = mStats.getSensorOnTime(m_context, batteryRealtime, getStatsType());
+			res = mStats.getSensorOnTime(BbsApplication.getAppContext(), batteryRealtime, getStatsType());
 			if (res > 0)
 			{
 				Log.i(TAG_TEST, "Passed: getSensorOnTime");
@@ -3609,7 +3589,7 @@ public class StatsProvider
 			
 			if (Build.VERSION.SDK_INT >= 6)
 			{	
-				res = mStats.getSyncOnTime(m_context, batteryRealtime, getStatsType());
+				res = mStats.getSyncOnTime(BbsApplication.getAppContext(), batteryRealtime, getStatsType());
 				if (res > 0)
 				{
 					Log.i(TAG_TEST, "Passed: getSyncOnTime");

@@ -233,7 +233,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 				Log.i(TAG, "LoadStatData: refreshing display for raw stats");
 				
 				ArrayList<StatElement> stats = null;
-				StatsProvider provider = StatsProvider.getInstance(RawStatsActivity.this);
+				StatsProvider provider = StatsProvider.getInstance();
 				// constants are related to arrays.xml string-array name="stats"
 				switch (m_iStat)
 				{

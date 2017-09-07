@@ -23,6 +23,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 
+import com.asksven.betterbatterystats.BbsApplication;
+
 /**
  * @author sven
  *
@@ -32,19 +34,13 @@ public class UidNameResolver
 	
 	protected String[] m_packages;
 	protected String[] m_packageNames;
-    private static Context m_context;
     private static UidNameResolver m_instance;
     
-	private UidNameResolver(Context ctx)
-	{
-		m_context = ctx;
-	}
-	
-	public static UidNameResolver getInstance(Context ctx)
+	public static UidNameResolver getInstance()
 	{
 		if (m_instance == null)
 		{
-			m_instance = new UidNameResolver(ctx);
+			m_instance = new UidNameResolver();
 		}
 		
 		return m_instance;
@@ -57,7 +53,7 @@ public class UidNameResolver
 		String myPackage = packageName;
 		if (!myPackage.equals(""))
 		{
-			PackageManager manager = m_context.getPackageManager();
+			PackageManager manager = BbsApplication.getAppContext().getPackageManager();
 			try
 			{
 				icon = manager.getApplicationIcon(myPackage);
@@ -74,7 +70,7 @@ public class UidNameResolver
 	public String getLabel(String packageName)
 	{
 		String ret = packageName;
-		PackageManager pm = m_context.getPackageManager();
+		PackageManager pm = BbsApplication.getAppContext().getPackageManager();
         try
         {
             ApplicationInfo ai = pm.getApplicationInfo(packageName, 0);
@@ -107,7 +103,7 @@ public class UidNameResolver
     	myInfo.setUniqueName(uidUniqueName);
 
         
-        PackageManager pm = m_context.getPackageManager();
+        PackageManager pm = BbsApplication.getAppContext().getPackageManager();
         m_packages = pm.getPackagesForUid(uid);
         
         if (m_packages == null)

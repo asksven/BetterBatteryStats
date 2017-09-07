@@ -62,14 +62,14 @@ public class BbsDashClockExtension extends DashClockExtension
 		String strAwake = "";
 		String strDrain = "";
 		
-		StatsProvider stats = StatsProvider.getInstance(this);
+		StatsProvider stats = StatsProvider.getInstance();
 		// make sure to flush cache
 		BatteryStatsProxy.getInstance(this).invalidate();
 
 		try
 		{
 			
-			Reference toRef = StatsProvider.getInstance(this).getUncachedPartialReference(0);
+			Reference toRef = StatsProvider.getInstance().getUncachedPartialReference(0);
 			Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 
 			ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, toRef);

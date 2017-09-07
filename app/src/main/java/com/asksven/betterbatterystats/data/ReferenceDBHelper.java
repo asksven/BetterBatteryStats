@@ -52,7 +52,6 @@ public class ReferenceDBHelper
     private static final String TAG 			= "ReferenceDBHelper";
     private static final String[] COLS 			= new String[] {"ref_name", "ref_type", "ref_label", "time_created", "ref_blob"};
 
-    Context m_context;
     static ReferenceDBHelper m_helper;
 
     private static final String DBVERSION_CREATE = 
@@ -90,10 +89,9 @@ public class ReferenceDBHelper
      */
     private ReferenceDBHelper(Context ctx)
     {
-    	m_context = ctx;
 		try
 		{
-			m_db = m_context.openOrCreateDatabase(DATABASE_NAME, SQLiteDatabase.CREATE_IF_NECESSARY, null);
+			m_db = ctx.openOrCreateDatabase(DATABASE_NAME, SQLiteDatabase.CREATE_IF_NECESSARY, null);
 			
 
 			// Check for the existence of the DBVERSION table

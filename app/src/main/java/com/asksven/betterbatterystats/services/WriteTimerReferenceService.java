@@ -47,7 +47,7 @@ public class WriteTimerReferenceService extends IntentService
 		{
 			Wakelock.aquireWakelock(this);
 			// Store the "custom
-			String refName = StatsProvider.getInstance(this).setTimedReference(0);
+			String refName = StatsProvider.getInstance().setTimedReference(0);
 			
 			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, refName);
 		    this.sendBroadcast(i);

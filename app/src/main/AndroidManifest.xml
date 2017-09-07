@@ -65,7 +65,9 @@ SKN 2016-12-25 we ignore this for now
         android:icon="@mipmap/ic_launcher"
         android:label="BBS"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Bbs">
+        android:theme="@style/Theme.Bbs"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules">
 
         <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" />
 
@@ -109,13 +111,6 @@ SKN 2016-12-25 we ignore this for now
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".HelpActivity"
-            android:parentActivityName=".StatsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.StatsActivity"/>
         </activity>
         <activity
             android:name=".HistActivity"

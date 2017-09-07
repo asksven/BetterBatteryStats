@@ -71,7 +71,7 @@ public class UpdateWidgetService extends Service
 		int[] allWidgetIds = intent
 				.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 		
-		StatsProvider stats = StatsProvider.getInstance(this);
+		StatsProvider stats = StatsProvider.getInstance();
 		// make sure to flush cache
 		BatteryStatsProxy.getInstance(this).invalidate();
 		
@@ -140,7 +140,7 @@ public class UpdateWidgetService extends Service
 			try
 			{
 				// retrieve stats
-				Reference currentRef = StatsProvider.getInstance(this).getUncachedPartialReference(0);
+				Reference currentRef = StatsProvider.getInstance().getUncachedPartialReference(0);
 				Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
@@ -153,7 +153,7 @@ public class UpdateWidgetService extends Service
 					otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
 				}
 				
-				timeSince = StatsProvider.getInstance(this).getSince(fromRef, currentRef);
+				timeSince = StatsProvider.getInstance().getSince(fromRef, currentRef);
 
 				if ( (otherStats != null) && ( otherStats.size() > 1) )
 				{

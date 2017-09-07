@@ -89,7 +89,7 @@ public class ServicesFragmentActivity extends BaseActivity
 				try
 				{
 					m_listViewAdapter = new ServicesAdapter(getActivity(),
-							StatsProvider.getInstance(getActivity()).getServiceListForPackage(getActivity(), m_packageName));
+							StatsProvider.getInstance().getServiceListForPackage(getActivity(), m_packageName));
 
 				}
 				catch (Exception e)

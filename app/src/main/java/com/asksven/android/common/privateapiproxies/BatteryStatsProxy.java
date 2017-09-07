@@ -493,7 +493,6 @@ public class BatteryStatsProxy
      * Returns the total, last, or current battery realtime in microseconds.
      *
      * @param curTime the current elapsed realtime in microseconds.
-     * @param iStatsType one of STATS_TOTAL, STATS_LAST, or STATS_CURRENT.
      */
     public Long getBatteryRealtime(long curTime) throws BatteryInfoUnavailableException
 	{
@@ -624,8 +623,6 @@ public class BatteryStatsProxy
 	/**
      * Returns if phone is on battery.
      *
-     * @param batteryRealtime the battery realtime in microseconds (@see computeBatteryRealtime).
-     * @param iStatsType one of STATS_TOTAL, STATS_LAST, or STATS_CURRENT.
      */
     public boolean getIsOnBattery() throws BatteryInfoUnavailableException
 	{
@@ -1553,7 +1550,7 @@ public class BatteryStatsProxy
 						    }
 						    SensorUsage myData = new SensorUsage(uidTotalSensorTime.longValue()/1000);
 							// try resolving names
-							UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+							UidInfo myInfo = UidNameResolver.getInstance().getNameForUid(uid);
 							myData.setUidInfo(myInfo);
 							myData.setItems(myItems);
 							myRet.add(myData);
@@ -1637,7 +1634,7 @@ public class BatteryStatsProxy
 						    }
 						    SensorUsage myData = new SensorUsage(uidTotalSensorTime.longValue()/1000);
 							// try resolving names
-							UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+							UidInfo myInfo = UidNameResolver.getInstance().getNameForUid(uid);
 							myData.setUidInfo(myInfo);
 							myData.setItems(myItems);
 							myRet.add(myData);
@@ -1889,8 +1886,6 @@ public class BatteryStatsProxy
     /**
      * Returns the total, last, or current bluetooth on time in microseconds.
      *
-     * @param batteryRealtime the battery realtime in microseconds (@see computeBatteryRealtime).
-     * @param iStatsType one of STATS_TOTAL, STATS_LAST, or STATS_CURRENT.
      */
     public Long getBluetoothInStateTime(int state, int iStatsType) throws BatteryInfoUnavailableException
 	{
@@ -2446,8 +2441,6 @@ public class BatteryStatsProxy
 	/**
 	 * Obtain the wakelock stats as a list of Wakelocks (@see com.asksven.android.common.privateapiproxies.Wakelock}
 	 * @param context a Context
-	 * @param iWakeType a type of wakelock @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
-	 * @param iStatType a type of stat @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
 	 * @return a List of Wakelock s
 	 * @throws Exception
 	 */
@@ -3158,7 +3151,7 @@ public class BatteryStatsProxy
                     	// we have data separated for Wifi and Mobile
 						myData = new NetworkUsage(uid, "Wifi", bytesReceivedWifi, bytesSentWifi);
 						// try resolving names
-						UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+						UidInfo myInfo = UidNameResolver.getInstance().getNameForUid(uid);
 						myData.setUidInfo(myInfo);
 						myStats.add(myData);
 
@@ -3171,7 +3164,7 @@ public class BatteryStatsProxy
                     {
 						myData = new NetworkUsage(uid, bytesReceived, bytesSent);
 						// try resolving names
-						UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+						UidInfo myInfo = UidNameResolver.getInstance().getNameForUid(uid);
 						myData.setUidInfo(myInfo);
 						myStats.add(myData);
                     }
@@ -3188,8 +3181,6 @@ public class BatteryStatsProxy
 
 	/**
 	 * Obtain the network usage stats as a list of NetworkUsages (@see com.asksven.android.common.privateapiproxies.NetworkUsage}
-	 * @param context a Context
-	 * @param iStatType a type of stat @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
 	 * @return a List of NetworkUsage s
 	 * @throws Exception
 	 */

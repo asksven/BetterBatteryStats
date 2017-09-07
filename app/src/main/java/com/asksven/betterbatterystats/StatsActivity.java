@@ -23,7 +23,6 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
-import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -86,13 +85,13 @@ import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
-import de.cketti.library.changelog.ChangeLog;
-
 import java.util.ArrayList;
 
+import de.cketti.library.changelog.ChangeLog;
+
 public class StatsActivity extends ActionBarListActivity 
-		implements AdapterView.OnItemSelectedListener, ObservableScrollView.Callbacks
-{    
+		implements AdapterView.OnItemSelectedListener
+{
 	public static String STAT 				= "STAT";
 	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
 	public static String STAT_TYPE_TO		= "STAT_TYPE_TO";
@@ -102,14 +101,7 @@ public class StatsActivity extends ActionBarListActivity
     private static final int STATE_OFFSCREEN = 1;
     private static final int STATE_RETURNING = 2;
     
-    private TextView mQuickReturnView;
-    private View mPlaceholderView;
-    private ObservableScrollView mObservableScrollView;
-    private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
-    private int mMinRawY = 0;
     private int mState = STATE_ONSCREEN;
-    private int mQuickReturnHeight;
-    private int mMaxScrollY;
 	/**
 	 * The logging TAG
 	 */
@@ -801,12 +793,12 @@ public class StatsActivity extends ActionBarListActivity
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 
-        long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
+        long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
 
         if (sinceMs != -1)
         {
 	        String sinceText =  DateUtils.formatDuration(sinceMs);
-        	sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
+        	sinceText += " " + StatsProvider.getInstance().getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
 	        
 	        tvSince.setText(sinceText);
 	        if (LogSettings.DEBUG) Log.i(TAG, "Since " + sinceText);
@@ -897,7 +889,7 @@ public class StatsActivity extends ActionBarListActivity
 		LinearLayout notificationPanel = (LinearLayout) findViewById(R.id.Notification);
 		ListView listView = (ListView) findViewById(android.R.id.list);
 		
-		ArrayList<StatElement> myStats = StatsProvider.getInstance(this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
+		ArrayList<StatElement> myStats = StatsProvider.getInstance().getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
 		if ((myStats != null) && (!myStats.isEmpty()))
 		{
 			// check if notification
@@ -928,7 +920,7 @@ public class StatsActivity extends ActionBarListActivity
     		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
-        	long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(myReferenceFrom, myReferenceTo);
+        	long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
         	m_listViewAdapter.setTotalTime(sinceMs);
 		
 			setListAdapter(m_listViewAdapter);
@@ -957,7 +949,7 @@ public class StatsActivity extends ActionBarListActivity
 			if (refresh[0])
 			{
 				// make sure to create a valid "current" stat
-				StatsProvider.getInstance(StatsActivity.this).setCurrentReference(m_iSorting);		
+				StatsProvider.getInstance().setCurrentReference(m_iSorting);
 			}
 			//super.doInBackground(params);
 			m_listViewAdapter = null;
@@ -966,7 +958,7 @@ public class StatsActivity extends ActionBarListActivity
 				if (LogSettings.DEBUG) Log.i(TAG, "LoadStatData: refreshing display for stats " + m_refFromName + " to " + m_refToName);
 				m_listViewAdapter = new StatsAdapter(
 						StatsActivity.this,
-						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName),
+						StatsProvider.getInstance().getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName),
 						StatsActivity.this);
 			}
 			catch (BatteryInfoUnavailableException e)
@@ -1021,7 +1013,7 @@ public class StatsActivity extends ActionBarListActivity
     		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
-        	long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(myReferenceFrom, myReferenceTo);
+        	long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
         	if (o != null)
         	{
         		o.setTotalTime(sinceMs);
@@ -1032,7 +1024,7 @@ public class StatsActivity extends ActionBarListActivity
 		        String sinceText = DateUtils.formatDuration(sinceMs);
 		        
 				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
-		        sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
+		        sinceText += " " + StatsProvider.getInstance().getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
 		        
 		        tvSince.setText(sinceText);
 		        if (LogSettings.DEBUG) Log.i(TAG, "Since " + sinceText);
@@ -1049,7 +1041,7 @@ public class StatsActivity extends ActionBarListActivity
 			ArrayList<StatElement> myStats;
 			try
 			{
-				myStats = StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
+				myStats = StatsProvider.getInstance().getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
 				
 				if ((myStats != null) && (!myStats.isEmpty()))
 				{
@@ -1181,12 +1173,12 @@ public class StatsActivity extends ActionBarListActivity
 						// save logcat if selected
 						if (selectedSaveActions.contains(1))
 						{
-							attachements.add(StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile());
+							attachements.add(StatsProvider.getInstance().writeLogcatToFile());
 						}
 						// save dmesg if selected
 						if (selectedSaveActions.contains(2))
 						{
-							attachements.add(StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile());
+							attachements.add(StatsProvider.getInstance().writeDmesgToFile());
 						}
 
 
@@ -1221,12 +1213,12 @@ public class StatsActivity extends ActionBarListActivity
 							// save logcat if selected
 							if (selectedSaveActions.contains(1))
 							{
-								StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile();
+								StatsProvider.getInstance().writeLogcatToFile();
 							}
 							// save dmesg if selected
 							if (selectedSaveActions.contains(2))
 							{
-								StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile();
+								StatsProvider.getInstance().writeDmesgToFile();
 							}
 						
 							Snackbar
@@ -1254,106 +1246,4 @@ public class StatsActivity extends ActionBarListActivity
 		return builder.create();
 	}
 	
-	@Override
-    public void onDownMotionEvent() {
-        mScrollSettleHandler.setSettleEnabled(false);
-    }
-	
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	@Override
-    public void onScrollChanged(int scrollY) {
-        scrollY = Math.min(mMaxScrollY, scrollY);
-
-        mScrollSettleHandler.onScroll(scrollY);
-
-        int rawY = mPlaceholderView.getTop() - scrollY;
-        int translationY = 0;
-
-        switch (mState) {
-            case STATE_OFFSCREEN:
-                if (rawY <= mMinRawY) {
-                    mMinRawY = rawY;
-                } else {
-                    mState = STATE_RETURNING;
-                }
-                translationY = rawY;
-                break;
-
-            case STATE_ONSCREEN:
-                if (rawY < -mQuickReturnHeight) {
-                    mState = STATE_OFFSCREEN;
-                    mMinRawY = rawY;
-                }
-                translationY = rawY;
-                break;
-
-            case STATE_RETURNING:
-                translationY = (rawY - mMinRawY) - mQuickReturnHeight;
-                if (translationY > 0) {
-                    translationY = 0;
-                    mMinRawY = rawY - mQuickReturnHeight;
-                }
-
-                if (rawY > 0) {
-                    mState = STATE_ONSCREEN;
-                    translationY = rawY;
-                }
-
-                if (translationY < -mQuickReturnHeight) {
-                    mState = STATE_OFFSCREEN;
-                    mMinRawY = rawY;
-                }
-                break;
-        }
-        mQuickReturnView.animate().cancel();
-        mQuickReturnView.setTranslationY(translationY + scrollY);
-    }
-	
-	@Override
-    public void onUpOrCancelMotionEvent() {
-        mScrollSettleHandler.setSettleEnabled(true);
-        mScrollSettleHandler.onScroll(mObservableScrollView.getScrollY());
-    }
-	
-	
-	private class ScrollSettleHandler extends Handler {
-        private static final int SETTLE_DELAY_MILLIS = 100;
-
-        private int mSettledScrollY = Integer.MIN_VALUE;
-        private boolean mSettleEnabled;
-
-        public void onScroll(int scrollY) {
-            if (mSettledScrollY != scrollY) {
-                 // Clear any pending messages and post delayed
-                removeMessages(0);
-                sendEmptyMessageDelayed(0, SETTLE_DELAY_MILLIS);
-                mSettledScrollY = scrollY;
-            }
-        }
-
-        public void setSettleEnabled(boolean settleEnabled) {
-            mSettleEnabled = settleEnabled;
-        }
-
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-		@Override
-        public void handleMessage(Message msg) {
-            // Handle the scroll settling.
-            if (STATE_RETURNING == mState && mSettleEnabled) {
-                int mDestTranslationY;
-                if (mSettledScrollY - mQuickReturnView.getTranslationY() > mQuickReturnHeight / 2) {
-                    mState = STATE_OFFSCREEN;
-                    mDestTranslationY = Math.max(
-                            mSettledScrollY - mQuickReturnHeight,
-                            mPlaceholderView.getTop());
-                } else {
-                    mDestTranslationY = mSettledScrollY;
-                }
-
-                mMinRawY = mPlaceholderView.getTop() - mQuickReturnHeight - mDestTranslationY;
-                mQuickReturnView.animate().translationY(mDestTranslationY);
-            }
-            mSettledScrollY = Integer.MIN_VALUE; // reset
-        }
-    }
 }

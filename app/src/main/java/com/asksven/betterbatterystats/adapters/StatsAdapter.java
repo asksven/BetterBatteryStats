@@ -13,6 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/*
+ * Copyright (C) 2011-2014 asksven
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.asksven.betterbatterystats.adapters;
 
 import java.util.ArrayList;
@@ -209,7 +224,7 @@ public class StatsAdapter extends BaseAdapter
 		// We need to handle an exception here: Sensors do not have a name so we use the fqn instead
         if (entry instanceof SensorUsage)
         {
-        	tvName.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
+        	tvName.setText(entry.getFqn(UidNameResolver.getInstance()));
         	
         }
         else
@@ -223,7 +238,7 @@ public class StatsAdapter extends BaseAdapter
         iconKb.setVisibility(View.INVISIBLE);
 
         TextView tvFqn = (TextView) convertView.findViewById(R.id.TextViewFqn);
-        tvFqn.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
+        tvFqn.setText(entry.getFqn(UidNameResolver.getInstance()));
 
         TextView tvData = (TextView) convertView.findViewById(R.id.TextViewData);
 
@@ -340,7 +355,7 @@ public class StatsAdapter extends BaseAdapter
         else
         {
         	iconView.setVisibility(View.VISIBLE); 
-        	iconView.setImageDrawable(entry.getIcon(UidNameResolver.getInstance(m_context)));
+        	iconView.setImageDrawable(entry.getIcon(UidNameResolver.getInstance()));
 	        // set a click listener for the list
 	        iconView.setOnClickListener(new OnPackageClickListener(position));
 
@@ -352,60 +367,9 @@ public class StatsAdapter extends BaseAdapter
         	convertView.setOnClickListener(new OnItemClickListener(position));
         }
         
-//        // show / hide set dividers
-//        ListView myList = (ListView) convertView.getListView(); //findViewById(R.id.id.list);
-//        myList.setDivider(new ColorDrawable(0x99F10529));
-//        myList.setDividerHeight(1);
         return convertView;
     }
     
-//    /**
-//     * Handler for on click of the KB icon
-//     * @author sven
-//     *
-//     */
-//    private class OnIconClickListener implements OnClickListener
-//    {           
-//        private int m_iPosition;
-//        OnIconClickListener(int position)
-//        {
-//                m_iPosition = position;
-//        }
-//        
-//        @Override
-//        public void onClick(View arg0)
-//        {
-//        	StatElement entry = (StatElement) getItem(m_iPosition);
-//            KbData kb = KbReader.getInstance().read(m_context);
-//        	// the timing may lead to m_kb not being initialized yet, it must be checked
-//        	if (kb == null)
-//        	{
-//        		return;
-//        	}
-//        	KbEntry kbentry = kb.findByStatElement(entry.getName(), entry.getFqn(UidNameResolver.getInstance(StatsAdapter.this.m_context)));
-//  	      	if (kbentry != null)
-//  	      	{
-//	  	      	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsAdapter.this.m_context);
-//	  	      	
-//	  	      	String url = kbentry.getUrl();
-//	  	      	
-//	  	        if (sharedPrefs.getBoolean("kb_ext_browser", true))
-//	  	        {
-//					
-//					Intent intent = new Intent("android.intent.action.VIEW",
-//							Uri.parse(url)); 
-//					StatsAdapter.this.m_context.startActivity(intent);
-//	  	        }
-//	  	        else
-//	  	        {
-//		  	      	Intent intentKB = new Intent(StatsAdapter.this.m_context,
-//		  	      			HelpActivity.class);
-//		  	      	intentKB.putExtra("url", url);
-//		  	        StatsAdapter.this.m_context.startActivity(intentKB);
-//	  	        }           
-//  	      	}
-//        }
-//    }
 
     /**
      * Handler for on click of the icon
@@ -426,7 +390,7 @@ public class StatsAdapter extends BaseAdapter
         	StatElement entry = (StatElement) getItem(m_iPosition);
         	
         	Context ctx = arg0.getContext();
-        	if (entry.getIcon(UidNameResolver.getInstance(m_context)) == null)
+        	if (entry.getIcon(UidNameResolver.getInstance()) == null)
         	{
         		return;
         	}
@@ -467,7 +431,7 @@ public class StatsAdapter extends BaseAdapter
 	        	dialog.setContentView(R.layout.details_dialog);
 	        	
 	        	TextView dialogTitle = (TextView) dialog.findViewById(R.id.dialog_title);
-	        	dialogTitle.setText(entry.getFqn(UidNameResolver.getInstance(m_context)));
+	        	dialogTitle.setText(entry.getFqn(UidNameResolver.getInstance()));
 	        	TextView title = (TextView) dialog.findViewById(R.id.title);
 	        	TextView text = (TextView) dialog.findViewById(R.id.text);
 	        	title.setText(entry.getData((long)m_timeSince));

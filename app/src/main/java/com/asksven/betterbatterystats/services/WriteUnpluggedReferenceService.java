@@ -49,7 +49,7 @@ public class WriteUnpluggedReferenceService extends IntentService
 		{
 			// Store the "since unplugged ref
 			Wakelock.aquireWakelock(this);
-			StatsProvider.getInstance(this).setReferenceSinceUnplugged(0);
+			StatsProvider.getInstance().setReferenceSinceUnplugged(0);
 
 			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.UNPLUGGED_REF_FILENAME);
 		    this.sendBroadcast(i);
@@ -80,13 +80,13 @@ public class WriteUnpluggedReferenceService extends IntentService
 				try
 				{
 					Log.i(TAG, "Level was 100% at unplug, serializing 'since charged'");
-					StatsProvider.getInstance(this).setReferenceSinceCharged(0);
+					StatsProvider.getInstance().setReferenceSinceCharged(0);
 
 					i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CHARGED_REF_FILENAME);
 				    this.sendBroadcast(i);
 
 					// save a new current ref
-					StatsProvider.getInstance(this).setCurrentReference(0);
+					StatsProvider.getInstance().setCurrentReference(0);
 
 					i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
 				    this.sendBroadcast(i);

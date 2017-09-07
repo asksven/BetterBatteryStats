@@ -90,7 +90,7 @@ public class PermissionsFragmentActivity extends BaseActivity
 
 			if (m_permDictionary == null)
 			{
-				m_permDictionary = StatsProvider.getInstance(getActivity()).getPermissionMap(getActivity());
+				m_permDictionary = StatsProvider.getInstance().getPermissionMap(getActivity());
 			}
 
 			new LoadStatData().execute(getActivity());
@@ -144,7 +144,7 @@ public class PermissionsFragmentActivity extends BaseActivity
 				try
 				{
 					m_listViewAdapter = new PermissionsAdapter(getActivity(),
-							StatsProvider.getInstance(getActivity()).getRequestedPermissionListForPackage(getActivity(), m_packageName), m_permDictionary);
+							StatsProvider.getInstance().getRequestedPermissionListForPackage(getActivity(), m_packageName), m_permDictionary);
 
 				}
 				catch (Exception e)

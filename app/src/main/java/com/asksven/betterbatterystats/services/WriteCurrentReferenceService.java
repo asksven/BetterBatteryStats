@@ -48,7 +48,7 @@ public class WriteCurrentReferenceService extends IntentService
 		{
 			Wakelock.aquireWakelock(this);
 			// Store the "custom
-			StatsProvider.getInstance(this).setCurrentReference(0);
+			StatsProvider.getInstance().setCurrentReference(0);
 			// Build the intent to update the widget
 			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
 			this.sendBroadcast(intentRefreshWidgets);
