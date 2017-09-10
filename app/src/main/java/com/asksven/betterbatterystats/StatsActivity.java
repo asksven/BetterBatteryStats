@@ -68,6 +68,7 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
+import com.asksven.betterbatterystats.appanalytics.Analytics;
 import com.asksven.betterbatterystats.contrib.ObservableScrollView;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
@@ -436,9 +437,10 @@ public class StatsActivity extends ActionBarListActivity
 		super.onResume();
 		Log.i(TAG, "OnResume called");
 
-		CrashManager.register(this);
-		Tracking.startUsage(this);
-
+		if (Analytics.getInstance(this).isEnabled())
+		{
+			Tracking.startUsage(this);
+		}
 
 
 		// if debug we check for updates
@@ -448,6 +450,7 @@ public class StatsActivity extends ActionBarListActivity
 			if (pinfo.packageName.endsWith("_xdaedition"))
 			{
 				UpdateManager.register(this);
+				CrashManager.register(this);
 			}
 		}
 		catch (Exception e)

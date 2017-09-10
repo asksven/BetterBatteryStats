@@ -22,20 +22,13 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.data.Reference;
-//import com.google.firebase.analytics.FirebaseAnalytics;
-
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
 public class Analytics
 {
     private static String TAG = "Analytics";
-    private static Analytics mSingleton = null;
-    private static boolean mDisableAnalytics = false;
-//    private FirebaseAnalytics mFirebaseAnalytics = null;
+    private static Analytics singleton = null;
+    private static boolean disableAnalytics = false;
 
 
     private Analytics() {}
@@ -43,65 +36,56 @@ public class Analytics
     public static Analytics getInstance(Context ctx)
     {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        mDisableAnalytics = !sharedPrefs.getBoolean("analytics", true);
+        disableAnalytics = !sharedPrefs.getBoolean("analytics", true);
 
-        if (mSingleton == null)
+        if (singleton == null)
         {
-            mSingleton = new Analytics();
-            if (!mDisableAnalytics) {
-//                mSingleton.mFirebaseAnalytics = FirebaseAnalytics.getInstance(ctx);
-            }
-
+            singleton = new Analytics();
         }
 
-        return mSingleton;
+        return singleton;
     }
 
+    public boolean isEnabled()
+    {
+        return !disableAnalytics;
+    }
 
     public void trackActivity(Activity activity, String name)
     {
-        if (!mDisableAnalytics) {
+        if (!disableAnalytics) {
             Log.i(TAG, "Tracked Activity " + activity.getClass().getSimpleName() + " with name " + name);
-//            mFirebaseAnalytics.setCurrentScreen(activity, name, null);
             MetricsManager.trackEvent("activity_launched_" + activity.getClass().getSimpleName());
         }
     }
 
     public void setRootedDevice(boolean rooted)
     {
-        if (!mDisableAnalytics)
+        if (!disableAnalytics)
         {
-//            mFirebaseAnalytics.setUserProperty("rooted", (rooted) ? "true" : "false");
             MetricsManager.trackEvent((rooted) ? Events.EVENT_LAUNCH_ROOTED : Events.EVENT_LAUNCH_UNROOTED);
         }
     }
 
     public void setVersion(String value)
     {
-        if (!mDisableAnalytics) {
+        if (!disableAnalytics) {
 //            mFirebaseAnalytics.setUserProperty("version", value);
         }
     }
 
     public void setEdition(String value)
     {
-        if (!mDisableAnalytics) {
-//            mFirebaseAnalytics.setUserProperty("edition", value);
+        if (!disableAnalytics) {
             MetricsManager.trackEvent((value.equals("xda edition")) ? Events.EVENT_LAUNCH_XDA : Events.EVENT_LAUNCH_GPLAY);
         }
     }
 
     public void trackEvent(String value)
     {
-        if (!mDisableAnalytics) {
+        if (!disableAnalytics) {
             MetricsManager.trackEvent(value);
         }
     }
 
-    /*
-    Bundle params = new Bundle();
-            params.putString("image_name", name);
-            params.putString("full_text", text);
-            mFirebaseAnalytics.logEvent("share_image", params);
-    */
 }
