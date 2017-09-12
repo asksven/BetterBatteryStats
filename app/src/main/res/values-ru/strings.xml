@@ -249,7 +249,7 @@
     <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
     <string name="pref_force_network_api_title">Статистика сети с API</string>
     <string name="pref_force_network_api_summary">Принудительное использование API для получения статистики сети</string>
-    <string name="pref_screen_permissions_title">Разрешения приложений</string>
+    <string name="pref_screen_permissions_title">Разрешения приложения</string>
     <string name="pref_screen_permissions_summary">Проверьте необходимые разрешения</string>
     <string name="pref_screen_import_export_title">Импорт/экспорт</string>
     <string name="pref_screen_import_export_summary">Импорт и экспорт настроек</string>
