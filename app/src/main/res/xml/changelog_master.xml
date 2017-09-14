@@ -2,7 +2,7 @@
 <changelog>
     <release
         version="2.3"
-        versioncode="87">
+        versioncode="88">
         <change>Full android O support</change>
         <change>Unrooted devices now fully supported (with perms added using ADB)</change>
         <change>UI improvements and I18N</change>

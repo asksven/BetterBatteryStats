@@ -2,7 +2,7 @@
 <changelog>
     <release
         version="2.3"
-        versioncode="87">
+        versioncode="88">
         <change>Plná podpora Android 8.0 Oreo</change>
         <change>Plná podpora pro "nerootnutá" zařízení (jsou-li oprávnění přidělena pomocí ADB)</change>
         <change>Vylepšení uživatelského rozhraní a lokalizace</change>
