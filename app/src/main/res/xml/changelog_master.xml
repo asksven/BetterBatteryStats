@@ -3,12 +3,12 @@
     <release
         version="2.3"
         versioncode="87">
-        <change>Full android O support</change>
-        <change>Unrooted devices now fully supported (with perms added using ADB)</change>
-        <change>UI improvements and I18N</change>
-        <change>Better support for substratum theming</change>
-        <change>Fixes based on crash-reports</change>
-        <change>Added application analytics</change>
+        <change>Supporto completo per Android O</change>
+        <change>Supporto completo per dispositivi senza root (con permessi concessi via ADB)</change>
+        <change>Miglioramenti UI e I18N</change>
+        <change>Miglior supporto per i temi di Substratum</change>
+        <change>Correzioni basate sui crash-reports</change>
+        <change>Aggiunta l\'analitica</change>
 
     </release>
 
