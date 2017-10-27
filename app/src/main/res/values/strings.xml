@@ -206,6 +206,8 @@
     <string name="pref_enable_watchdog_summary">Enables watchdog processing</string>
     <string name="pref_watchdog_on_unlock_title">Watchdog on unlock</string>
     <string name="pref_watchdog_on_unlock_summary">Watchdog runs upon \'unlock\' (else on \'screen on\')</string>
+    <string name="pref_charged_trigger_percentage_title">Minimum percentage that counts as charged</string>
+    <string name="pref_charged_trigger_percentage_summary">If battery is over this percentage when charging cable is unplugged, then Since Charged reference is stored</string>
     <string name="pref_section_warnings">Warnings</string>
     <string name="pref_watchdog_awake_threshold_title">Awake threshold</string>
     <string name="pref_watchdog_awake_threshold_summary">Threshold for warning (awake / total)</string>
