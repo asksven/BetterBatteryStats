@@ -5,7 +5,7 @@ apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "26.0.2"
 
     playAccountConfigs {
         defaultAccountConfig {
@@ -79,16 +79,16 @@ android {
     }
     // and a naming policy for the apks
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
+        variant.outputs.all {
             def project = "betterbatterystats"
             def SEP = "_"
             def flavor = variant.productFlavors[0].name
             def buildType = variant.variantData.variantConfiguration.buildType.name
             def version = variant.versionName
 
-            //def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + SEP + formattedDate + ".apk"
+            //def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + ".apk"
             def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + ".apk"
-            output.outputFile = new File(output.outputFile.parent, newApkName)
+            outputFileName = newApkName
         }
 
     }

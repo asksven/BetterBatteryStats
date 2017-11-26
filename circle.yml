@@ -1,88 +1,108 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
+      - run:
+          name: scripts permissions
+          command: chmod +x ./circleciscripts/*.sh
+
+      - run:
+          name: Decrypt env vars
+          command: ./circleciscripts/decrypt_env_vars.sh
+      - run:
+          name: Make env vars available
+          command: cat secret-env-plain >> $BASH_ENV
+
+      - run:
+          name: Download keystore
+          command: ./circleciscripts/download_keystore.sh
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Build
+          command: ./gradlew build
+      - run:
+          name: Run unit tests
+          command: ./gradlew test
+      - run:
+          name: Run Lint Tests
+          command: ./gradlew lint test
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results
+
+#      - run:
+#          name: Deploy to hockeyapp
+#          command: source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
+
 #
 # Build configuration for Circle CI
 #
+#
+#dependencies:
+#    pre:
+#        - if [ ! -e /usr/local/android-sdk-linux/build-tools/25.0.2 ]; then echo y | android update sdk --all --no-ui --filter "build-tools-25.0.2"; fi;
+#        - echo y | android update sdk --no-ui --all --filter tools,platform-tools
+#        - if [ ! -e /usr/local/android-sdk-linux/platforms/android-25 ]; then echo y | android update sdk --all --no-ui --filter "android-25"; fi;
+#        - if [ ! -e /usr/local/android-sdk-linux/platforms/android-22 ]; then echo y | android update sdk --all --no-ui --filter "android-22"; fi;
+#        - echo y | android update sdk --no-ui --all --filter extra-android-m2repository
+#        - echo y | android update sdk --no-ui --all --filter extra-android-support
 
-general:
-    artifacts:
-        - /home/ubuntu/BetterBatteryStats/app/build/outputs/apk/
+#        - bash ./circleciscripts/download_keystore.sh
+#        - bash ./circleciscripts/download_pubprofile.sh
+#    cache-directories:
+#        - "/usr/local/android-sdk-linux/build-tools/25.0.2"
+#        - "/usr/local/android-sdk-linux/extras"
+#        - "/usr/local/android-sdk-linux/platforms/android-25"
+#        - "/usr/local/android-sdk-linux/platforms/android-22"
+#        - "~/repoName/.gradle"
+#    override:
+#        - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
 
-machine:
-    environment:
-        ANDROID_HOME: /usr/local/android-sdk-linux
-        GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
+#test:
+#    pre:
+#    override:
+#        # start the build and run tests
+#        - (./gradlew build):
+#            timeout: 360
+#        ## run unit tests
+#        - ./gradlew test
 
-dependencies:
-    pre:
-        - if [ ! -e /usr/local/android-sdk-linux/build-tools/25.0.2 ]; then echo y | android update sdk --all --no-ui --filter "build-tools-25.0.2"; fi;
-        - echo y | android update sdk --no-ui --all --filter tools,platform-tools
-        - if [ ! -e /usr/local/android-sdk-linux/platforms/android-25 ]; then echo y | android update sdk --all --no-ui --filter "android-25"; fi;
-        - if [ ! -e /usr/local/android-sdk-linux/platforms/android-22 ]; then echo y | android update sdk --all --no-ui --filter "android-22"; fi;
-        - echo y | android update sdk --no-ui --all --filter extra-android-m2repository
-        - echo y | android update sdk --no-ui --all --filter extra-android-support
-#        - echo y | android update sdk --no-ui --all --filter extra-google-google_play_services
-#        - echo y | android update sdk --no-ui --all --filter extra-google-m2repository
+#        ## Run tests in emulator
+#        # @todo: re-add conncted tests when I fugure out how
+#        #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-unlock.png
 
-        - bash ./circleciscripts/download_keystore.sh
-        - bash ./circleciscripts/download_pubprofile.sh
-    cache-directories:
-        - "/usr/local/android-sdk-linux/build-tools/25.0.2"
-        - "/usr/local/android-sdk-linux/extras"
-        - "/usr/local/android-sdk-linux/platforms/android-25"
-        - "/usr/local/android-sdk-linux/platforms/android-22"
-        - "~/repoName/.gradle"
-    override:
-        - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
+#        # copy the build outputs to artifacts
+#        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
+#        # copy the test results to the test results directory.
+#        - cp -r app/build/test-results $CIRCLE_TEST_REPORTS
+#        # copy the reports to the test results directory.
+#        - cp -r app/build/reports $CIRCLE_TEST_REPORTS
 
-test:
-    pre:
-        #- emulator -avd circleci-android24 -no-window:
-        #    background: true
-        #    parallel: true
-        #- circle-android wait-for-boot
-    override:
-        # start the build and run tests
-        - (./gradlew build):
-            timeout: 360
-        ## run unit tests
-        - ./gradlew test
-
-        ## Run tests in emulator
-        # @todo: re-add conncted tests when I fugure out how
-        #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-unlock.png
-
-        #- adb shell input keyevent 82
-
-        # take a screen-shot
-        #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-after-unlock.png
-
-        # I wonder what this does? should it close the demo-screen?
-        # run connected tests  against the emulator.
-        #- ./gradlew installGplayRelease
-        #- ./gradlew installXdaeditionDebug
-        #- adb shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
-        #- adb shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS
-        #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-before-test.png
-
-        #- ./gradlew connectedAndroidTest -PdisablePreDex
-        #- adb shell screencap -p | sed 's/\r$//' > $CIRCLE_ARTIFACTS/screen-after-test.png
-        # removed for now - ./gradlew connectedXdaeditionDebugAndroidTest
-
-        # rename APKs
-        # not needed, prefix takes care of that- bash ./circleciscripts/renameapks.sh
-
-        # copy the build outputs to artifacts
-        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
-        # copy the test results to the test results directory.
-        - cp -r app/build/test-results $CIRCLE_TEST_REPORTS
-        # copy the reports to the test results directory.
-        - cp -r app/build/reports $CIRCLE_TEST_REPORTS
-
-deployment:
-    hockey:
-        branch: master
-        commands:
-          - source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
-    gplay:
-        tag: /release-.*/
-        commands:
-           - ./gradlew publishApkGplayRelease
+#deployment:
+#    hockey:
+#        branch: master
+#        commands:
+#          - source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
+#    gplay:
+#        tag: /release-.*/
+#        commands:
+#           - ./gradlew publishApkGplayRelease
