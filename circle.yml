@@ -37,6 +37,34 @@ jobs:
       - run:
           name: Build
           command: ./gradlew build
+
+  test:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
+      - run:
+          name: scripts permissions
+          command: chmod +x ./circleciscripts/*.sh
+
+      - run:
+          name: Decrypt env vars
+          command: ./circleciscripts/decrypt_env_vars.sh
+      - run:
+          name: Make env vars available
+          command: cat secret-env-plain >> $BASH_ENV
+
+      - run:
+          name: Download keystore
+          command: ./circleciscripts/download_keystore.sh
       - run:
           name: Run unit tests
           command: ./gradlew test
@@ -49,31 +77,76 @@ jobs:
       - store_test_results:
           path: app/build/test-results
 
+  deploy-hockeyapp:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: chmod permissions
+          command: chmod +x ./gradlew
+      - run:
+          name: scripts permissions
+          command: chmod +x ./circleciscripts/*.sh
+
+      - run:
+          name: Decrypt env vars
+          command: ./circleciscripts/decrypt_env_vars.sh
+      - run:
+          name: Make env vars available
+          command: cat secret-env-plain >> $BASH_ENV
+      - run:
+          name: Download keystore
+          command: ./circleciscripts/download_keystore.sh
+      - run:
+          name: Build
+          command: ./gradlew build
       - run:
           name: Deploy to hockeyapp
           command: source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
-#      - run:
-#        name: Deploy to gplay
-#        command: ./gradlew publishApkGplayRelease
-#        filters:
-#          tags:
-#            ignore: /^testing-.*/
+
+  deploy-gplay:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - run:
+          name: Build
+          command: ./gradlew build
+      - run:
+        name: Deploy to gplay
+        command: ./gradlew publishApkGplayRelease
+
+workflows:
+  version: 2
+  build-test-deploy-hockeyapp:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy-hockeyapp:
+          requires:
+            - test
+
+  build_test_and_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy_gplay:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /release-.*/
 
 
-
-#        # copy the build outputs to artifacts
-#        - cp -r app/build/outputs $CIRCLE_ARTIFACTS
-#        # copy the test results to the test results directory.
-#        - cp -r app/build/test-results $CIRCLE_TEST_REPORTS
-#        # copy the reports to the test results directory.
-#        - cp -r app/build/reports $CIRCLE_TEST_REPORTS
-
-#deployment:
-#    hockey:
-#        branch: master
-#        commands:
-#          - source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
-#    gplay:
-#        tag: /release-.*/
-#        commands:
-#           - ./gradlew publishApkGplayRelease
