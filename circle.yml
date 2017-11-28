@@ -135,18 +135,13 @@ workflows:
       - deploy-hockeyapp:
           requires:
             - test
-
-  build_test_and_deploy:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
-      - deploy_gplay:
+      - deploy-gplay: # only for release-tags and not from branches
           requires:
             - test
           filters:
             tags:
-              only: /release-.*/
+              only: /^release.*/
+            branches:
+              ignore: /.*/
 
 
