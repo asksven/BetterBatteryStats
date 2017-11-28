@@ -52,12 +52,12 @@ jobs:
       - run:
           name: Deploy to hockeyapp
           command: source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
-      - run:
-        name: Deploy to gplay
-        command: ./gradlew publishApkGplayRelease
-        filters:
-          tags:
-            ignore: /^testing-.*/
+#      - run:
+#        name: Deploy to gplay
+#        command: ./gradlew publishApkGplayRelease
+#        filters:
+#          tags:
+#            ignore: /^testing-.*/
 
 
 
