@@ -126,7 +126,7 @@ jobs:
 
 workflows:
   version: 2
-  build-test-deploy-hockeyapp:
+  build-test-deploy:
     jobs:
       - build
       - test:
