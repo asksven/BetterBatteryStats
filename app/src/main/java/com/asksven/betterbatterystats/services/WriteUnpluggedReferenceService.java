@@ -18,7 +18,9 @@ package com.asksven.betterbatterystats.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.asksven.android.common.utils.DateUtils;
@@ -75,7 +77,10 @@ public class WriteUnpluggedReferenceService extends IntentService
 
 			Log.i(TAG, "Bettery level on uplug is " + level );
 
-			if (level == 1)
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			double level_threshold = sharedPrefs.getInt("battery_charged_minimum_threshold", 100) / 100.0;
+
+			if (level >= level_threshold)
 			{
 				try
 				{
