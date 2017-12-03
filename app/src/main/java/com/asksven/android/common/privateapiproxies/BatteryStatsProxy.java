@@ -3161,6 +3161,7 @@ public class BatteryStatsProxy
 						myStats.add(myData);
 
                     }
+                    else 
                     {
 						myData = new NetworkUsage(uid, bytesReceived, bytesSent);
 						// try resolving names
