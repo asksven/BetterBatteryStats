@@ -147,8 +147,15 @@ public class StatsActivity extends ActionBarListActivity
 		super.onCreate(savedInstanceState);
 
 		// HockeyApp
-		MetricsManager.register(getApplication());
-		
+		try
+		{
+			MetricsManager.register(getApplication());
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, e.getMessage());
+		}
+
 		//Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	
 		
@@ -653,8 +660,15 @@ public class StatsActivity extends ActionBarListActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {  
         switch (item.getItemId())
-        {  
-	        case R.id.preferences:  
+        {
+			case R.id.settings:
+				Intent intentSettings = null;
+
+				intentSettings = new Intent(this, SettingsActivity.class);
+				this.startActivity(intentSettings);
+				break;
+
+			case R.id.preferences:
 	        	Intent intentPrefs = null;
 	        	
 				intentPrefs = new Intent(this, PreferencesFragmentActivity.class);

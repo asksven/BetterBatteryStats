@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="58"
+        android:entries="@array/thumbnailSizeLabels"
+        android:entryValues="@array/thumbnailSizeValues"
+        android:key="thumbnail_size"
+        android:summary=""
+        android:title="@string/thumbnail_size_title" />
+    <ListPreference
+        android:defaultValue="16"
+        android:entries="@array/mediumFontSizeLabels"
+        android:entryValues="@array/mediumFontSizeValues"
+        android:key="medium_font_size"
+        android:summary=""
+        android:title="@string/medium_font_size_title" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="force_en"
+        android:summary="@string/pref_force_en_summary"
+        android:title="@string/pref_force_en_title" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show_from_to_ref"
+        android:summary="@string/pref_show_from_to_ref_summary"
+        android:title="@string/pref_show_from_to_ref_title" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show_other_wifi"
+        android:summary="@string/pref_show_other_wifi_summary"
+        android:title="@string/pref_show_other_wifi_title" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show_other_signal"
+        android:summary="@string/pref_show_other_signal_summary"
+        android:title="@string/pref_show_other_signal_title" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show_other_screen_brightness"
+        android:summary="@string/pref_show_other_screen_brightness_summary"
+        android:title="@string/pref_show_other_screen_brightness_title" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show_other_connection"
+        android:summary="@string/pref_show_other_connection_summary"
+        android:title="@string/pref_show_other_connection_title" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show_other_bt"
+        android:summary="@string/pref_show_other_bt_summary"
+        android:title="@string/pref_show_other_bt_title" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show_other_doze"
+        android:summary="@string/pref_show_other_doze_summary"
+        android:title="@string/pref_show_other_doze_title" />
+
+</PreferenceScreen>

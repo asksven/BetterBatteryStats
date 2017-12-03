@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:robobunny="http://robobunny.com" >
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="analytics"
+        android:summary="@string/pref_app_analytics_summary"
+        android:title="@string/pref_app_analytics_title" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="debug_logging"
+        android:summary="@string/pref_debug_logging_summary"
+        android:title="@string/pref_debug_logging_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="files_to_private_storage"
+        android:summary="@string/pref_files_to_private_storage_summary"
+        android:title="@string/pref_files_to_private_storage_title"
+        android:disableDependentsState="true"/>
+
+    <Preference
+        android:summary="@string/pref_select_dir_summary"
+        android:title="@string/pref_select_dir_title"
+        android:key="storage_path"
+        android:defaultValue=""
+        android:dependency="files_to_private_storage"
+        />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="ignore_system_app"
+        android:summary="@string/pref_ignore_system_app_summary"
+        android:title="@string/pref_ignore_system_app_title" />
+    <com.asksven.betterbatterystats.contrib.SeekBarPreference
+        android:defaultValue="100"
+        android:key="battery_charged_minimum_threshold"
+        android:max="100"
+        android:summary="@string/pref_charged_trigger_percentage_summary"
+        android:title="@string/pref_charged_trigger_percentage_title"
+        robobunny:interval="1"
+        robobunny:min="0"
+        robobunny:unitsLeft=""
+        robobunny:unitsRight="%" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="developer"
+        android:summary="@string/pref_developer_summary"
+        android:title="@string/pref_developer_title" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="auto_refresh"
+        android:summary="@string/pref_auto_refresh_summary"
+        android:title="@string/pref_auto_refresh_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="force_alarms_api"
+        android:summary="@string/pref_force_alarms_api_summary"
+        android:title="@string/pref_force_alarms_api_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="force_kwl_api"
+        android:summary="@string/pref_force_kwl_api_summary"
+        android:title="@string/pref_force_kwl_api_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="force_network_api"
+        android:summary="@string/pref_force_network_api_summary"
+        android:title="@string/pref_force_network_api_title" />
+
+    <PreferenceScreen android:title="@string/pref_section_sharing" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="save_as_text"
+            android:summary="@string/pref_save_dumpfile_summary"
+            android:title="@string/pref_save_dumpfile_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="save_logcat"
+            android:summary="@string/pref_save_logcat_summary"
+            android:title="@string/pref_save_logcat_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="save_dmesg"
+            android:summary="@string/pref_save_dmesg_summary"
+            android:title="@string/pref_save_dmesg_title" />
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:summary="@string/pref_screen_permissions_summary"
+        android:title="@string/pref_screen_permissions_title">
+        <intent android:action="com.asksven.betterbatterystats.SystemAppActivity" />
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:summary="@string/pref_screen_import_export_summary"
+        android:title="@string/pref_screen_import_export_title" >
+        <intent android:action="com.asksven.betterbatterystats.ImportExportPreferencesActivity" />
+    </PreferenceScreen>
+
+</PreferenceScreen>

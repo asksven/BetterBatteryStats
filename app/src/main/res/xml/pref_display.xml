@@ -1,0 +1,50 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/themeLabels"
+        android:entryValues="@array/themeValues"
+        android:key="theme"
+        android:summary="@string/pref_theme_summary"
+        android:title="@string/pref_theme_title" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="filter_data"
+        android:summary="@string/pref_filter_data_summary"
+        android:title="@string/pref_filter_data_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="show_bat_details"
+        android:summary="@string/pref_show_bat_details_summary"
+        android:title="@string/pref_show_bat_details_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="show_gauge"
+        android:summary="@string/pref_show_gauge_summary"
+        android:title="@string/pref_show_gauge_title" />
+
+    <ListPreference
+        android:defaultValue="10"
+        android:dependency="show_gauge"
+        android:entries="@array/graphBarHeigthLabels"
+        android:entryValues="@array/graphBarHeigthValues"
+        android:key="graph_bar_height"
+        android:summary="@string/pref_graph_bar_height_summary"
+        android:title="@string/pref_graph_bar_height_title" />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/statLabels"
+        android:entryValues="@array/statValues"
+        android:key="default_stat"
+        android:summary="@string/pref_default_stat_summary"
+        android:title="@string/pref_default_stat_title" />
+    <ListPreference
+        android:defaultValue="ref_unplugged"
+        android:entries="@array/statTypeLabels"
+        android:entryValues="@array/statTypeValues"
+        android:key="default_stat_type"
+        android:summary="@string/pref_default_stat_type_summary"
+        android:title="@string/pref_default_stat_type_title" />
+</PreferenceScreen>

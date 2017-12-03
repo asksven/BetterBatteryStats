@@ -1,0 +1,34 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+    <header
+        android:fragment="com.asksven.betterbatterystats.SettingsActivity$DisplayPreferenceFragment"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/pref_section_display" />
+
+    <header
+        android:fragment="com.asksven.betterbatterystats.SettingsActivity$ViewsPreferenceFragment"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/pref_section_customize_views" />
+
+    <header
+        android:fragment="com.asksven.betterbatterystats.SettingsActivity$WidgetsPreferenceFragment"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/pref_screen_widgets_title" />
+
+    <header
+        android:fragment="com.asksven.betterbatterystats.SettingsActivity$WatchdogPreferenceFragment"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/pref_section_watchdog" />
+
+    <header
+        android:fragment="com.asksven.betterbatterystats.SettingsActivity$ActiveMonPreferenceFragment"
+        android:icon="@drawable/ic_sync_black_24dp"
+        android:title="@string/pref_section_active_mon" />
+
+    <header
+        android:fragment="com.asksven.betterbatterystats.SettingsActivity$AdvancedPreferenceFragment"
+        android:icon="@drawable/ic_sync_black_24dp"
+        android:title="@string/pref_section_advanced" />
+
+</preference-headers>

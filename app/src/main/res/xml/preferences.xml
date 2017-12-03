@@ -170,7 +170,7 @@
                     android:summary="@string/widget_show_stat_type_summary"
                     android:title="@string/widget_show_stat_type_title" />
 
-                <PreferenceCategory android:title="@string/pref_category_widgets_2x2_and_2x1" >
+                <PreferenceCategory android:title="@string/pref_category_widgets_2x2_and_2x1">
                     <ListPreference
                         android:defaultValue="ref_unplugged"
                         android:entries="@array/statTypeLabels"
@@ -214,7 +214,7 @@
                         robobunny:unitsLeft=""
                         robobunny:unitsRight="%" />
                 </PreferenceCategory>
-                <PreferenceCategory android:title="@string/pref_category_widget_1x1" >
+                <PreferenceCategory android:title="@string/pref_category_widget_1x1">
                     <ListPreference
                         android:defaultValue="ref_unplugged"
                         android:entries="@array/statTypeLabels"
@@ -334,7 +334,7 @@
                 android:summary="@string/pref_select_dir_summary"
             	android:title="@string/pref_select_dir_title"
             	android:key="storage_path"
-            	android:defaultValue=""
+            	android:defaultValue="/sdcard"
             	android:dependency="files_to_private_storage"
             	 />
              

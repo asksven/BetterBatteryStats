@@ -361,8 +361,8 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="multi_select_list_preference_default_value"/>
+    <string-array name="multi_select_list_preference_default_value" />
+    <string name="title_activity_settings">Settings</string>
 
-    <!-- Example settings for Notifications -->
 
 </resources>
