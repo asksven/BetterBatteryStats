@@ -661,13 +661,6 @@ public class StatsActivity extends ActionBarListActivity
     {  
         switch (item.getItemId())
         {
-			case R.id.settings:
-				Intent intentSettings = null;
-
-				intentSettings = new Intent(this, SettingsActivity.class);
-				this.startActivity(intentSettings);
-				break;
-
 			case R.id.preferences:
 	        	Intent intentPrefs = null;
 	        	

@@ -27,11 +27,6 @@
         android:title="@string/label_raw_stats"/>
     <item
         android:id="@+id/preferences"
-        android:title="Settings old"
-        android:icon="@drawable/ic_settings_white_48dp"/>
-
-    <item
-        android:id="@+id/settings"
         android:title="@string/label_preferences"
         android:icon="@drawable/ic_settings_white_48dp"
         app:showAsAction="ifRoom"/>
