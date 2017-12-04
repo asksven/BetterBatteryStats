@@ -116,18 +116,6 @@ android {
         disable 'MissingTranslation'
         abortOnError false
     }
-    // @TODO: remove when fixed
-    // bug introduced by android studio 2.3 -> force all support libs to this version
-    configurations.all {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            def requested = details.requested
-            if (requested.group == 'com.android.support') {
-                if (!requested.name.startsWith("multidex")) {
-                    details.useVersion '25.2.0'
-                }
-            }
-        }
-    }
 }
 
 dependencies {
@@ -139,24 +127,24 @@ dependencies {
     })
 
     compile files('libs/RootTools-3.4.jar')
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'de.cketti.library.changelog:ckchangelog:1.2.2'
     compile 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:[4.0.2, 5.0['
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'com.android.support:design:25.4.0'
+    compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
+    compile 'com.android.support:support-v4:25.4.0'
+    compile 'com.android.support:support-vector-drawable:25.4.0'
     compile 'net.hockeyapp.android:HockeySDK:5.0.4'
     testCompile 'junit:junit:4.12'
     testCompile 'org.powermock:powermock-api-mockito:1.6.5'
     testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.5'
     testCompile 'org.powermock:powermock-module-junit4:1.6.5'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test:rules:1.0.1'
 }
 
 
