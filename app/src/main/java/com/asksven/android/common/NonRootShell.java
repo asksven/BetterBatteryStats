@@ -9,10 +9,9 @@ import java.util.List;
 
 
 //import com.asksven.android.contrib.Shell;
+import com.stericson.RootShell.execution.Command;
 import com.stericson.RootTools.RootTools;
-import com.stericson.RootTools.execution.Command;
-import com.stericson.RootTools.execution.CommandCapture;
-import com.stericson.RootTools.execution.Shell;
+import com.stericson.RootShell.execution.Shell;
 
 /**
  * @author sven
@@ -55,13 +54,14 @@ public class NonRootShell
 			NonRootShell.getInstance();
 		}
 		
-		CommandCapture shellCommand = new CommandCapture(0, command)
+		Command shellCommand = new Command(0, command)
 		{
 		        @Override
-		        public void output(int id, String line)
-		        {
+				public void commandOutput(int id, String line)
+				{
 		        	res.add(line);
-		        }
+		        	super.commandOutput(id, line);
+				}
 		};
 		try
 		{
