@@ -102,36 +102,6 @@ public class PermissionsFragmentActivity extends BaseActivity
 	     * 
 	     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	     */
-		@Override
-		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
-	    {  
-	        inflater.inflate(R.menu.permissions_menu, menu);
-
-	    }  
-
-	    // handle menu selected
-		@Override
-	    public boolean onOptionsItemSelected(MenuItem item)
-	    {
-	        switch (item.getItemId())
-	        {  
-	        case R.id.legend:  
-		        	showLegend(getActivity());
-		        	break;	
-
-	        }  
-	        return false;  
-	    }
-
-		private void showLegend(Context context)
-		{
-	    	Dialog dialog = new Dialog(context);
-	    	
-	    	dialog.setContentView(R.layout.permissions_legend_dialog);
-	    	dialog.setTitle(getString(R.string.label_legend));
-	
-	    	dialog.show();
-		}
 
 		// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 		// for more details

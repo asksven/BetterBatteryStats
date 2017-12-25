@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.Permission;
 
@@ -37,8 +38,8 @@ public class PermissionsAdapter extends BaseAdapter
     private List<String> m_listData;
     private Map<String, Permission> m_dictionary;
     private static final String TAG = "PermissionsAdapter";
-	int m_selectedPosition = 0;
-	boolean m_expanded = false;
+    int m_selectedPosition = 0;
+    boolean m_expanded = false;
 
 
     public PermissionsAdapter(Context context, List<String> listData, Map<String, Permission> dictionary)
@@ -67,7 +68,7 @@ public class PermissionsAdapter extends BaseAdapter
 
     public View getView(int position, View convertView, ViewGroup viewGroup)
     {
-    	String entry = m_listData.get(position);
+        String entry = m_listData.get(position);
         if (convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater) m_context
@@ -75,35 +76,47 @@ public class PermissionsAdapter extends BaseAdapter
             convertView = inflater.inflate(R.layout.package_info_row, null);
         }
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
-       	tvName.setText(entry);
+        tvName.setText(entry);
 
         Permission permData = m_dictionary.get(entry);
         if (permData != null)
         {
-	        TextView tvDescription = (TextView) convertView.findViewById(R.id.TextViewDescription);
-	        tvDescription.setText(permData.description);
-		        
-	        int color;
-	        LinearLayout nameLayout = (LinearLayout) convertView.findViewById(R.id.LayoutName);
-	       	switch(permData.level)
-	       	{
-				case PermissionInfo.PROTECTION_DANGEROUS:
-					color = R.color.dangerous_color;
-					nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
-					break;
-				case PermissionInfo.PROTECTION_SIGNATURE:
-				case PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM:
-					color = R.color.signature_color;
-					nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
-					break;
-				default:
-					color = R.color.normal_color;
-					nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
-			}
+            TextView tvDescription = (TextView) convertView.findViewById(R.id.TextViewDescription);
+            tvDescription.setText(permData.description);
+
+            TextView tvPermission = (TextView) convertView.findViewById(R.id.TextViewPermission);
+
+            int color;
+            LinearLayout nameLayout = (LinearLayout) convertView.findViewById(R.id.LayoutName);
+            switch (permData.level)
+            {
+                case PermissionInfo.PROTECTION_DANGEROUS:
+                    color = R.color.dangerous_color;
+//                    nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
+                    tvPermission.setText(m_context.getString(R.string.label_perm_dangerous));
+                    tvPermission.setBackgroundColor(m_context.getResources().getColor(color));
+
+                    break;
+                case PermissionInfo.PROTECTION_SIGNATURE:
+                case PermissionInfo.PROTECTION_SIGNATURE_OR_SYSTEM:
+                case PermissionInfo.PROTECTION_FLAG_PREINSTALLED:
+                    color = R.color.signature_color;
+//                    nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
+                    tvPermission.setText(m_context.getString(R.string.label_perm_system));
+                    tvPermission.setBackgroundColor(m_context.getResources().getColor(color));
+
+                    break;
+                default:
+                    color = R.color.normal_color;
+//                    nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
+                    tvPermission.setText(m_context.getString(R.string.label_perm_normal));
+                    tvPermission.setBackgroundColor(m_context.getResources().getColor(color));
+
+            }
 
         }
-        
-    	LinearLayout descriptionLayout = (LinearLayout) convertView.findViewById(R.id.LayoutDescription);
+
+        LinearLayout descriptionLayout = (LinearLayout) convertView.findViewById(R.id.LayoutDescription);
 
         return convertView;
     }

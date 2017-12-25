@@ -27,17 +27,29 @@
             android:id="@+id/LayoutDescription"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible" >
+            android:visibility="visible"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/TextViewDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
+                android:layout_weight="50"
                 android:text="@string/label_description"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-condensend"
                 android:textSize="@dimen/text_size_tiny"/>
+
+            <TextView
+                android:id="@+id/TextViewPermission"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-condensend"
+                android:text="@string/label_perm_type"
+                android:textSize="@dimen/text_size_tiny"
+                android:textStyle="italic" />
+
         </LinearLayout>
     </LinearLayout>
 

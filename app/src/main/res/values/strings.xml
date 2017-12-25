@@ -77,6 +77,11 @@
     <string name="label_battery">Battery</string>
     <string name="label_name">Name</string>
     <string name="label_description">Description</string>
+    <string name="label_perm_type">Permission</string>
+    <string name="label_perm_normal">Normal</string>
+    <string name="label_perm_system">Sytem</string>
+    <string name="label_perm_dangerous">Dangerous</string>
+
     <string name="label_package_name">Package Name</string>
     <string name="label_on_on_android_4_3plus">Only available on Android 4.3+</string>
 
