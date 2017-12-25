@@ -467,6 +467,7 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		catch (Exception e)
 		{
+		    Log.e(TAG, "An error occured registering update/crash manager: " + e.getMessage());
 		}
 
         // Analytics opt-in
