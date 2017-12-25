@@ -15,21 +15,39 @@
         android:paddingTop="4dp" >
 
         <TextView
-            android:id="@+id/textViewPermBATTERY_STATS"
+            android:id="@+id/textViewBATTERY_STATS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="Permission..."
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textViewDUMP"
+            android:layout_below="@+id/textViewBATTERY_STATS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Permission..."
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/textViewPACKAGE_USAGE_STATS"
+            android:layout_below="@+id/textViewDUMP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Permission..."
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/textViewSELinux"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewPermBATTERY_STATS"
+            android:layout_below="@+id/textViewPACKAGE_USAGE_STATS"
             android:layout_centerHorizontal="true"
             android:text="SELinux Policy..."
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/textView3"
@@ -40,6 +58,15 @@
             android:layout_marginTop="20dp"
             android:text="@string/expl_system_app"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textViewAdb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/expl_adb_gplay" />
 
     </RelativeLayout>
 

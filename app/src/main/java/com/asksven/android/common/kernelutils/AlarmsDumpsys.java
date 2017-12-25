@@ -37,7 +37,7 @@ public class AlarmsDumpsys
 		Log.i(TAG, "getAlarms: SDK=" + sdk + ", RELEASE=" + release);
 		
 		List<String> res = null;
-		if (true) //(useRoot) // dumpsys seems to always require root, even if perm is available
+		if (useRoot) // dumpsys seems to always require root, even if perm is available
 		{
 			res = RootShell.getInstance().run("dumpsys alarm");
 		}

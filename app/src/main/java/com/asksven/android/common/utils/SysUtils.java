@@ -53,6 +53,17 @@ public class SysUtils
 		return wasPermissionGranted(context, android.Manifest.permission.DUMP);
 	}
 
+	/**
+	 * Checks if we have PACKAGE_USAGE_STATS permission
+	 * @param context
+	 * @return true if the permission was granted
+	 */
+
+	public static boolean hasPackageUsageStatsPermission(Context context)
+	{
+		return wasPermissionGranted(context, android.Manifest.permission.PACKAGE_USAGE_STATS);
+	}
+
 	private static boolean wasPermissionGranted(Context context, String permission)
 	{
 		PackageManager pm = context.getPackageManager();

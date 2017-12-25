@@ -145,6 +145,9 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">If your phone has root BBS will automatically grant the required permissions.\nFor unrooted devices the permissions can be granted using ADB.</string>
+    <string name="expl_adb_gplay" translatable="false">adb -d shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats android.permission.DUMP\n\nadb -d shell pm grant com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="expl_adb_xda" translatable="false">adb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.PACKAGE_USAGE_STATS</string>
+
     <string name="install_system_app">Install as system app</string>
     <string name="uninstall_system_app">Uninstall system app</string>
     <string name="info_installed_system_app">Installed system app. Please reboot to activate.</string>

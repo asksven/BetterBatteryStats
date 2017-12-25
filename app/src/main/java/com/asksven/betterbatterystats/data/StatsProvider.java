@@ -403,7 +403,7 @@ public class StatsProvider
 		else
 		{
 			// use root if available as root delivers more data
-			if (SysUtils.hasBatteryStatsPermission(ctx) && AlarmsDumpsys.alarmsAccessible())
+			if (SysUtils.hasBatteryStatsPermission(ctx) && SysUtils.hasDumpsysPermission(ctx))
 			{
 				myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(ctx));//, false);
 			}

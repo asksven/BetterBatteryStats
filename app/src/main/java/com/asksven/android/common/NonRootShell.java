@@ -3,6 +3,8 @@
  */
 package com.asksven.android.common;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import com.stericson.RootShell.execution.Shell;
  */
 public class NonRootShell
 {
+    static final String TAG =" NonRootShell";
 	static NonRootShell m_instance = null;
 	static Shell m_shell = null;
 	private NonRootShell()
@@ -40,7 +43,20 @@ public class NonRootShell
 				m_shell = null;
 			}
 		}
-		
+
+		// we need to take into account that the shell may be closed
+		if ((m_shell == null) || (m_shell.isClosed))
+        {
+            try
+            {
+                m_shell = RootTools.getShell(false);
+            }
+            catch (Exception e)
+            {
+                m_shell = null;
+            }
+        }
+
 		return m_instance;
 	}
 	
@@ -53,7 +69,7 @@ public class NonRootShell
 			// reopen if for whatever reason the shell got closed
 			NonRootShell.getInstance();
 		}
-		
+
 		Command shellCommand = new Command(0, command)
 		{
 		        @Override
@@ -75,7 +91,7 @@ public class NonRootShell
 		}
 		catch (Exception e)
 		{
-			
+		    Log.e(TAG, "An error occured while executiing command " + command + ". " + e.getMessage());
 		}
 		
 		return res;

@@ -210,14 +210,18 @@ public class StatsActivity extends ActionBarListActivity
 		boolean ignoreSystemApp = sharedPrefs.getBoolean("ignore_system_app", false);
 			
 		// show install as system app screen if root available but perms missing
-		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(this))
+		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions() &&
+                (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this)))
 		{
         	// attempt to set perms using pm-comand
 			Log.i(TAG, "attempting to grant perms with 'pm grant'");
 			
 			String pkg = this.getPackageName();
 			RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
-            
+            RootShell.getInstance().run("pm grant " + pkg + " android.permission.DUMP");
+            RootShell.getInstance().run("pm grant " + pkg + " android.PACKAGE_USAGE_STATS");
+
+
             Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
             if (SysUtils.hasBatteryStatsPermission(this))
             {
@@ -230,7 +234,8 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		
 		// show install as system app screen if root available but perms missing
-		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(this))
+		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions()
+                && (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this)))
 		{
         	Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
             this.startActivity(intentSystemApp);

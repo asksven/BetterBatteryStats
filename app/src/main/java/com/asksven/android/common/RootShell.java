@@ -38,14 +38,23 @@ public class RootShell
 				m_shell = null;
 			}
 		}
-		
-		return m_instance;
+
+        // we need to take into account that the shell may be closed
+        if ((m_shell == null) || (m_shell.isClosed))
+        {
+            try
+            {
+                m_shell = RootTools.getShell(true);
+            }
+            catch (Exception e)
+            {
+                m_shell = null;
+            }
+        }
+
+
+        return m_instance;
 	}
-	
-//	public List<String> run1(String command)
-//	{
-//		return Shell.SU.run(command);
-//	}
 	
 	public synchronized List<String> run(String command)
 	{
