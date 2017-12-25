@@ -219,7 +219,7 @@ public class StatsActivity extends ActionBarListActivity
 			String pkg = this.getPackageName();
 			RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
             RootShell.getInstance().run("pm grant " + pkg + " android.permission.DUMP");
-            RootShell.getInstance().run("pm grant " + pkg + " android.PACKAGE_USAGE_STATS");
+            RootShell.getInstance().run("pm grant " + pkg + " android.permission.PACKAGE_USAGE_STATS");
 
 
             Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();

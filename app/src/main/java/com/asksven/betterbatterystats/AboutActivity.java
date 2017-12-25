@@ -47,6 +47,7 @@ public class AboutActivity extends BaseActivity
     private static final String TAG = "AboutStatsActivity";
     public static final String MARKET_LINK ="market://details?id=com.asksven.betterbatterystats";
     public static final String TWITTER_LINK ="https://twitter.com/#!/asksven";
+    public static final String XDA_LINK = "http://forum.xda-developers.com/showthread.php?p=72467976";
     
 
 	/** Called when the activity is first created. */
@@ -94,6 +95,7 @@ public class AboutActivity extends BaseActivity
                 openURL(MARKET_LINK);
             }
         });
+
         final Button buttonFollow = (Button) findViewById(R.id.buttonTwitter);
         buttonFollow.setOnClickListener(new View.OnClickListener()
         {
@@ -102,7 +104,16 @@ public class AboutActivity extends BaseActivity
                 openURL(TWITTER_LINK);
             }
         });
-        
+
+        final Button buttonXda = (Button) findViewById(R.id.buttonXDA);
+        buttonXda.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                openURL(XDA_LINK);
+            }
+        });
+
     }
     
     public void openURL( String inURL )

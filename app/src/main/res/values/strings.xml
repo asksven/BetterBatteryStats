@@ -136,6 +136,7 @@
     <string name="label_about_translation7">Brazilian Portuguese by @caiorrs</string>
     <string name="label_about_follow">Follow me on Twitter</string>
     <string name="label_about_rate">Rate / Review on Google Play</string>
+    <string name="label_about_xda">Thread on XDA</string>
 
     <!-- Preferences -->
     <string name="label_theme_dark">Dark</string>
