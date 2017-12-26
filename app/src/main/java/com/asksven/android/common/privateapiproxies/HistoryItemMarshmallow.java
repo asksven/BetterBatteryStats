@@ -1,6 +1,6 @@
 package com.asksven.android.common.privateapiproxies;
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2017 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import com.asksven.android.common.utils.DateUtils;
  * @author sven
  *
  */
-public class HistoryItemLolipop extends HistoryItem implements Serializable, Parcelable
+public class HistoryItemMarshmallow extends HistoryItem implements Serializable, Parcelable
 {
 
     public static final byte CMD_UPDATE = 0;        // These can be written as deltas
@@ -53,7 +53,7 @@ public class HistoryItemLolipop extends HistoryItem implements Serializable, Par
     // Constants from DATA_CONNECTION_*
     private static final int STATE_DATA_CONNECTION_SHIFT = 9;
     private static final int STATE_DATA_CONNECTION_MASK = 0x1f << STATE_DATA_CONNECTION_SHIFT;
-	  
+
     // These states always appear directly in the first int token
     // of a delta change; they should be ones that change relatively
     // frequently.
@@ -62,17 +62,18 @@ public class HistoryItemLolipop extends HistoryItem implements Serializable, Par
     private static final int STATE_GPS_ON_FLAG = 1<<29;
     private static final int STATE_WIFI_FULL_LOCK_FLAG = 1<<28;
     private static final int STATE_WIFI_SCAN_FLAG = 1<<27;
-    private static final int STATE_WIFI_MULTICAST_ON_FLAG = 1<<26;
+    private static final int STATE_WIFI_RADIO_ACTIVE_FLAG = 1<<26;
     private static final int STATE_MOBILE_RADIO_ACTIVE_FLAG = 1<<25;
     // These are on the lower bits used for the command; if they change
     // we need to write another int of data.
     private static final int STATE_SENSOR_ON_FLAG = 1<<23;
     private static final int STATE_AUDIO_ON_FLAG = 1<<22;
     private static final int STATE_PHONE_SCANNING_FLAG = 1<<21;
-    private static final int STATE_SCREEN_ON_FLAG = 1<<20;
-    private static final int STATE_BATTERY_PLUGGED_FLAG = 1<<19;
-    private static final int STATE_PHONE_IN_CALL_FLAG = 1<<18;
-    private static final int STATE_BLUETOOTH_ON_FLAG = 1<<16;
+    private static final int STATE_SCREEN_ON_FLAG = 1<<20;       // consider moving to states2
+    private static final int STATE_BATTERY_PLUGGED_FLAG = 1<<19; // consider moving to states2
+    // empty slot
+    // empty slot
+    private static final int STATE_WIFI_MULTICAST_ON_FLAG = 1<<16;
 
     // Constants from WIFI_SUPPL_STATE_*
     private static final int STATE2_WIFI_SUPPL_STATE_SHIFT = 0;
@@ -81,21 +82,27 @@ public class HistoryItemLolipop extends HistoryItem implements Serializable, Par
     private static final int STATE2_WIFI_SIGNAL_STRENGTH_SHIFT = 4;
     private static final int STATE2_WIFI_SIGNAL_STRENGTH_MASK =
             0x7 << STATE2_WIFI_SIGNAL_STRENGTH_SHIFT;
-    private static final int STATE2_LOW_POWER_FLAG = 1<<31;
+    private static final int STATE2_POWER_SAVE_FLAG = 1<<31;
     private static final int STATE2_VIDEO_ON_FLAG = 1<<30;
     private static final int STATE2_WIFI_RUNNING_FLAG = 1<<29;
     private static final int STATE2_WIFI_ON_FLAG = 1<<28;
     private static final int STATE2_FLASHLIGHT_FLAG = 1<<27;
+    private static final int STATE2_DEVICE_IDLE_FLAG = 1<<26;
+    private static final int STATE2_CHARGING_FLAG = 1<<25;
+    private static final int STATE2_PHONE_IN_CALL_FLAG = 1<<24;
+    private static final int STATE2_BLUETOOTH_ON_FLAG = 1<<23;
+    private static final int STATE2_CAMERA_FLAG = 1<<22;
 
-    public HistoryItemLolipop(Long time, Byte cmd, Byte batteryLevel, Byte batteryStatusValue,
-    		Byte batteryHealthValue, Byte batteryPlugTypeValue,
-    		String batteryTemperatureValue,	String batteryVoltageValue,
-    		Integer	statesValue, Integer states2Value)
+
+    public HistoryItemMarshmallow(Long time, Byte cmd, Byte batteryLevel, Byte batteryStatusValue,
+                              Byte batteryHealthValue, Byte batteryPlugTypeValue,
+                              String batteryTemperatureValue,	String batteryVoltageValue,
+                              Integer	statesValue, Integer states2Value)
     {
-    	super(time, cmd, batteryLevel, batteryStatusValue,
-    		batteryHealthValue, batteryPlugTypeValue,
-    		batteryTemperatureValue, batteryVoltageValue,
-    		statesValue, states2Value);
+        super(time, cmd, batteryLevel, batteryStatusValue,
+                batteryHealthValue, batteryPlugTypeValue,
+                batteryTemperatureValue, batteryVoltageValue,
+                statesValue, states2Value);
     }
 
     /**
@@ -103,7 +110,7 @@ public class HistoryItemLolipop extends HistoryItem implements Serializable, Par
      */
     public boolean isCharging()
     {
-        boolean bCharging = (m_statesValue & STATE_BATTERY_PLUGGED_FLAG) != 0;
+        boolean bCharging = (m_states2Value & STATE2_CHARGING_FLAG) != 0;
 
         return bCharging;
     }
@@ -150,7 +157,7 @@ public class HistoryItemLolipop extends HistoryItem implements Serializable, Par
     public boolean isPhoneInCall()
     {
 
-        boolean bPhoneInCall = (m_statesValue & STATE_PHONE_IN_CALL_FLAG) != 0;
+        boolean bPhoneInCall = (m_states2Value & STATE2_PHONE_IN_CALL_FLAG) != 0;
 
         return bPhoneInCall;
     }
@@ -170,10 +177,8 @@ public class HistoryItemLolipop extends HistoryItem implements Serializable, Par
      */
     public boolean isBluetoothOn()
     {
-        boolean bBluetoothOn = (m_statesValue & STATE_BLUETOOTH_ON_FLAG) != 0;
+        boolean bBluetoothOn = (m_states2Value & STATE2_BLUETOOTH_ON_FLAG) != 0;
 
         return bBluetoothOn;
     }
-
-
 }

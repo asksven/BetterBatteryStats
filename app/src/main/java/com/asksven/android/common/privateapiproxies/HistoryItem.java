@@ -29,43 +29,47 @@ import com.asksven.android.common.utils.DateUtils;
  */
 public class HistoryItem implements Serializable, Parcelable
 {
-	static final long serialVersionUID = 1L;
-    static final byte CMD_UPDATE = 0;
-    static final byte CMD_START = 1;
-    static final byte CMD_OVERFLOW = 2;
+    static final long serialVersionUID = 1L;
+    private static final byte CMD_NULL = 0;
+    public static final byte CMD_UPDATE = 1;
+    private static final byte CMD_START = 2;
+    private static final byte CMD_OVERFLOW = 3;
+
+    private byte cmd = CMD_NULL;
     // Constants from SCREEN_BRIGHTNESS_*
-    static final int STATE_BRIGHTNESS_MASK = 0x000000f;
-    static final int STATE_BRIGHTNESS_SHIFT = 0;
+    private static final int STATE_BRIGHTNESS_MASK = 0x0000000f;
+    private static final int STATE_BRIGHTNESS_SHIFT = 0;
     // Constants from SIGNAL_STRENGTH_*
-    static final int STATE_SIGNAL_STRENGTH_MASK = 0x00000f0;
-    static final int STATE_SIGNAL_STRENGTH_SHIFT = 4;
+    private static final int STATE_SIGNAL_STRENGTH_MASK = 0x000000f0;
+    private static final int STATE_SIGNAL_STRENGTH_SHIFT = 4;
     // Constants from ServiceState.STATE_*
-    static final int STATE_PHONE_STATE_MASK = 0x0000f00;
-    static final int STATE_PHONE_STATE_SHIFT = 8;
+    private static final int STATE_PHONE_STATE_MASK = 0x00000f00;
+    private static final int STATE_PHONE_STATE_SHIFT = 8;
     // Constants from DATA_CONNECTION_*
-    static final int STATE_DATA_CONNECTION_MASK = 0x000f000;
-    static final int STATE_DATA_CONNECTION_SHIFT = 12;
-    
-    static final int STATE_BATTERY_PLUGGED_FLAG = 1<<30;
-    static final int STATE_SCREEN_ON_FLAG = 1<<29;
-    static final int STATE_GPS_ON_FLAG = 1<<28;
-    static final int STATE_PHONE_IN_CALL_FLAG = 1<<27;
-    static final int STATE_PHONE_SCANNING_FLAG = 1<<26;
-    static final int STATE_WIFI_ON_FLAG = 1<<25;
-    static final int STATE_WIFI_RUNNING_FLAG = 1<<24;
-    static final int STATE_WIFI_FULL_LOCK_FLAG = 1<<23;
-    static final int STATE_WIFI_SCAN_LOCK_FLAG = 1<<22;
-    static final int STATE_WIFI_MULTICAST_ON_FLAG = 1<<21;
-    static final int STATE_BLUETOOTH_ON_FLAG = 1<<20;
-    static final int STATE_AUDIO_ON_FLAG = 1<<19;
-    static final int STATE_VIDEO_ON_FLAG = 1<<18;
-    static final int STATE_WAKE_LOCK_FLAG = 1<<17;
-    static final int STATE_SENSOR_ON_FLAG = 1<<16;
-    
-    static final int MOST_INTERESTING_STATES =
-        STATE_BATTERY_PLUGGED_FLAG | STATE_SCREEN_ON_FLAG
-        | STATE_GPS_ON_FLAG | STATE_PHONE_IN_CALL_FLAG;
-    
+    private static final int STATE_DATA_CONNECTION_MASK = 0x0000f000;
+    private static final int STATE_DATA_CONNECTION_SHIFT = 12;
+
+    // These states always appear directly in the first int token
+    // of a delta change; they should be ones that change relatively
+    // frequently.
+    private static final int STATE_WAKE_LOCK_FLAG = 1<<30;
+    private static final int STATE_SENSOR_ON_FLAG = 1<<29;
+    private static final int STATE_GPS_ON_FLAG = 1<<28;
+    private static final int STATE_PHONE_SCANNING_FLAG = 1<<27;
+    private static final int STATE_WIFI_RUNNING_FLAG = 1<<26;
+    private static final int STATE_WIFI_FULL_LOCK_FLAG = 1<<25;
+    private static final int STATE_WIFI_SCAN_LOCK_FLAG = 1<<24;
+    private static final int STATE_WIFI_MULTICAST_ON_FLAG = 1<<23;
+    // These are on the lower bits used for the command; if they change
+    // we need to write another int of data.
+    private static final int STATE_AUDIO_ON_FLAG = 1<<22;
+    private static final int STATE_VIDEO_ON_FLAG = 1<<21;
+    private static final int STATE_SCREEN_ON_FLAG = 1<<20;
+    private static final int STATE_BATTERY_PLUGGED_FLAG = 1<<19;
+    private static final int STATE_PHONE_IN_CALL_FLAG = 1<<18;
+    private static final int STATE_WIFI_ON_FLAG = 1<<17;
+    private static final int STATE_BLUETOOTH_ON_FLAG = 1<<16;
+
     protected Long m_time;
     protected Long m_offset;
     protected Byte m_cmd;
@@ -76,11 +80,13 @@ public class HistoryItem implements Serializable, Parcelable
     protected String m_batteryTemperatureValue;
     protected String m_batteryVoltageValue;
     protected Integer m_statesValue;
-    
+    protected Integer m_states2Value;
+
+
     public HistoryItem(Long time, Byte cmd, Byte batteryLevel, Byte batteryStatusValue,
     		Byte batteryHealthValue, Byte batteryPlugTypeValue,
     		String batteryTemperatureValue,	String batteryVoltageValue,
-    		Integer	statesValue)
+    		Integer	statesValue, Integer states2Value)
     {
     	m_time						= time;
     	m_offset					= Long.valueOf(0);
@@ -92,6 +98,8 @@ public class HistoryItem implements Serializable, Parcelable
 		m_batteryTemperatureValue 	= batteryTemperatureValue;
 		m_batteryVoltageValue 		= batteryVoltageValue;
 		m_statesValue 				= statesValue;
+        m_states2Value 				= states2Value;
+
     }
 
 	/* (non-Javadoc)

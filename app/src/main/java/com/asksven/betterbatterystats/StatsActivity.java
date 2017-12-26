@@ -232,15 +232,26 @@ public class StatsActivity extends ActionBarListActivity
             	Log.i(TAG, "failed");
             }
 		}
-		
-		// show install as system app screen if root available but perms missing
-		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions()
-                && (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this)))
-		{
-        	Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
-            this.startActivity(intentSystemApp);
-		}
 
+		// Package usage stats were introduced in SDK23 so we need to make the distinction
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+		{
+			// show install as system app screen if root available but perms missing
+			if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
+			{
+				Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
+				this.startActivity(intentSystemApp);
+			}
+		}
+		else
+		{
+			if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this))
+			{
+				Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
+				this.startActivity(intentSystemApp);
+			}
+
+		}
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 
