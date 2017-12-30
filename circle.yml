@@ -23,7 +23,6 @@ jobs:
       - run:
           name: Make env vars available
           command: cat secret-env-plain >> $BASH_ENV
-
       - run:
           name: Download keystore
           command: ./circleciscripts/download_keystore.sh
@@ -37,6 +36,13 @@ jobs:
       - run:
           name: Build
           command: ./gradlew build
+      - store_artifacts:
+          path: app/build/outputs/apk
+          destination: apks
+      - persist_to_workspace:
+          root: app
+          paths:
+            - build/outputs/apk
 
   test:
     working_directory: ~/code
@@ -45,26 +51,29 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
-      - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: app/build/output/apk
+#      - checkout
+#      - restore_cache:
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
-      - run:
-          name: scripts permissions
-          command: chmod +x ./circleciscripts/*.sh
-
-      - run:
-          name: Decrypt env vars
-          command: ./circleciscripts/decrypt_env_vars.sh
-      - run:
-          name: Make env vars available
-          command: cat secret-env-plain >> $BASH_ENV
-
-      - run:
-          name: Download keystore
-          command: ./circleciscripts/download_keystore.sh
+#      - run:
+#          name: scripts permissions
+#          command: chmod +x ./circleciscripts/*.sh
+#
+#      - run:
+#          name: Decrypt env vars
+#          command: ./circleciscripts/decrypt_env_vars.sh
+#      - run:
+#          name: Make env vars available
+#          command: cat secret-env-plain >> $BASH_ENV
+#
+#      - run:
+#          name: Download keystore
+#          command: ./circleciscripts/download_keystore.sh
       - run:
           name: Run unit tests
           command: ./gradlew test
