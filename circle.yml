@@ -53,7 +53,6 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          # Must be absolute path or relative path from working_directory
           at: app/build
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
@@ -94,27 +93,28 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - attach_workspace:
+          at: app/build
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: chmod permissions
-          command: chmod +x ./gradlew
+#      - run:
+#          name: chmod permissions
+#          command: chmod +x ./gradlew
       - run:
           name: scripts permissions
           command: chmod +x ./circleciscripts/*.sh
-
-      - run:
-          name: Decrypt env vars
-          command: ./circleciscripts/decrypt_env_vars.sh
-      - run:
-          name: Make env vars available
-          command: cat secret-env-plain >> $BASH_ENV
-      - run:
-          name: Download keystore
-          command: ./circleciscripts/download_keystore.sh
-      - run:
-          name: Build
-          command: ./gradlew build
+#      - run:
+#          name: Decrypt env vars
+#          command: ./circleciscripts/decrypt_env_vars.sh
+#      - run:
+#          name: Make env vars available
+#          command: cat secret-env-plain >> $BASH_ENV
+#      - run:
+#          name: Download keystore
+#          command: ./circleciscripts/download_keystore.sh
+#      - run:
+#          name: Build
+#          command: ./gradlew build
       - run:
           name: Deploy to hockeyapp
           command: source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
@@ -126,9 +126,26 @@ jobs:
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
+      - checkout
+      - attach_workspace:
+          at: app/build
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Build
-          command: ./gradlew build
+          name: chmod permissions
+          command: chmod +x ./gradlew
+#      - run:
+#          name: scripts permissions
+#          command: chmod +x ./circleciscripts/*.sh
+      - run:
+          name: Decrypt env vars
+          command: ./circleciscripts/decrypt_env_vars.sh
+      - run:
+          name: Make env vars available
+          command: cat secret-env-plain >> $BASH_ENV
+      - run:
+          name: Download keystore
+          command: ./circleciscripts/download_keystore.sh
       - run:
         name: Deploy to gplay
         command: ./gradlew publishApkGplayRelease
