@@ -1,5 +1,6 @@
 #!/bin/bash
-curl -O ${KEYSTORE_URI}/sa-google-play.json-cipher
+# we don't download as the cipher-file is in the repo
+# curl -O ${KEYSTORE_URI}/sa-google-play.json-cipher
 
-if [ -e sa-google-play.json-cipher ]; then openssl aes-256-cbc -d -md md5 -in sa-google-play.json-cipher -k $KEY >> ./app/sa-google-play.json; fi
+if [ -e ./app/sa-google-play.json-cipher ]; then openssl aes-256-cbc -d -md md5 -in ./app/sa-google-play.json-cipher -k $KEY >> ./app/sa-google-play.json; fi
 
