@@ -41,8 +41,8 @@ jobs:
           destination: apks
       - persist_to_workspace:
           root: app
-#          paths:
-#            - build
+          paths:
+            - build
 
   test:
     working_directory: ~/code
