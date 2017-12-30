@@ -134,7 +134,8 @@ workflows:
             - test
           filters:
             branches:
-              ignore: /.*/
+              only:
+                - master
 
       - hold: # requires manual approval, never for branches
           type: approval
@@ -142,7 +143,8 @@ workflows:
             - test
           filters:
             branches:
-              ignore: /.*/
+              only:
+                - master
 
       - deploy-gplay: # when manual approval and never for branches
           requires:
@@ -151,6 +153,6 @@ workflows:
 #            tags:
 #              only: /^release.*/
             branches:
-              ignore: /.*/
-
+              only:
+                - master
 
