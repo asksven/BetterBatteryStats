@@ -59,20 +59,6 @@ jobs:
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
-#      - run:
-#          name: scripts permissions
-#          command: chmod +x ./circleciscripts/*.sh
-#
-#      - run:
-#          name: Decrypt env vars
-#          command: ./circleciscripts/decrypt_env_vars.sh
-#      - run:
-#          name: Make env vars available
-#          command: cat secret-env-plain >> $BASH_ENV
-#
-#      - run:
-#          name: Download keystore
-#          command: ./circleciscripts/download_keystore.sh
       - run:
           name: Run unit tests
           command: ./gradlew test
@@ -97,24 +83,9 @@ jobs:
           at: app
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-#      - run:
-#          name: chmod permissions
-#          command: chmod +x ./gradlew
       - run:
           name: scripts permissions
           command: chmod +x ./circleciscripts/*.sh
-#      - run:
-#          name: Decrypt env vars
-#          command: ./circleciscripts/decrypt_env_vars.sh
-#      - run:
-#          name: Make env vars available
-#          command: cat secret-env-plain >> $BASH_ENV
-#      - run:
-#          name: Download keystore
-#          command: ./circleciscripts/download_keystore.sh
-#      - run:
-#          name: Build
-#          command: ./gradlew build
       - run:
           name: Deploy to hockeyapp
           command: source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
@@ -137,15 +108,15 @@ jobs:
 #      - run:
 #          name: scripts permissions
 #          command: chmod +x ./circleciscripts/*.sh
-      - run:
-          name: Decrypt env vars
-          command: ./circleciscripts/decrypt_env_vars.sh
-      - run:
-          name: Make env vars available
-          command: cat secret-env-plain >> $BASH_ENV
-      - run:
-          name: Download keystore
-          command: ./circleciscripts/download_keystore.sh
+#      - run:
+#          name: Decrypt env vars
+#          command: ./circleciscripts/decrypt_env_vars.sh
+#      - run:
+#          name: Make env vars available
+#          command: cat secret-env-plain >> $BASH_ENV
+#      - run:
+#          name: Download keystore
+#          command: ./circleciscripts/download_keystore.sh
       - run:
         name: Deploy to gplay
         command: ./gradlew publishApkGplayRelease
@@ -158,15 +129,26 @@ workflows:
       - test:
           requires:
             - build
-      - deploy-hockeyapp:
-          requires:
-            - test
-      - deploy-gplay: # only for release-tags and not from branches
+      - deploy-hockeyapp: # never for branches
           requires:
             - test
           filters:
-            tags:
-              only: /^release.*/
+            branches:
+              ignore: /.*/
+
+      - hold: # requires manual approval, never for branches
+          type: approval
+          requires: test
+          filters:
+            branches:
+              ignore: /.*/
+
+      - deploy-gplay: # when manual approval and never for branches
+          requires:
+            - hold
+          filters:
+#            tags:
+#              only: /^release.*/
             branches:
               ignore: /.*/
 
