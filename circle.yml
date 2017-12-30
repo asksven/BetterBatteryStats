@@ -118,8 +118,8 @@ jobs:
 #          name: Download keystore
 #          command: ./circleciscripts/download_keystore.sh
       - run:
-        name: Deploy to gplay
-        command: ./gradlew publishApkGplayRelease
+          name: Deploy to gplay
+          command: ./gradlew publishApkGplayRelease
 
 workflows:
   version: 2
