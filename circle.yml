@@ -41,8 +41,8 @@ jobs:
           destination: apks
       - persist_to_workspace:
           root: app
-          paths:
-            - build
+#          paths:
+#            - build
 
   test:
     working_directory: ~/code
@@ -53,7 +53,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: app/build
+          at: app
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
@@ -94,7 +94,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: app/build
+          at: app
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 #      - run:
@@ -128,7 +128,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: app/build
+          at: app
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
