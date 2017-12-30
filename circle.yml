@@ -138,7 +138,8 @@ workflows:
 
       - hold: # requires manual approval, never for branches
           type: approval
-          requires: test
+          requires:
+            - test
           filters:
             branches:
               ignore: /.*/
