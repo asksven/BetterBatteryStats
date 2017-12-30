@@ -105,18 +105,21 @@ jobs:
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
-#      - run:
-#          name: scripts permissions
-#          command: chmod +x ./circleciscripts/*.sh
-#      - run:
-#          name: Decrypt env vars
-#          command: ./circleciscripts/decrypt_env_vars.sh
-#      - run:
-#          name: Make env vars available
-#          command: cat secret-env-plain >> $BASH_ENV
-#      - run:
-#          name: Download keystore
-#          command: ./circleciscripts/download_keystore.sh
+      - run:
+          name: scripts permissions
+          command: chmod +x ./circleciscripts/*.sh
+      - run:
+          name: Decrypt env vars
+          command: ./circleciscripts/decrypt_env_vars.sh
+      - run:
+          name: Make env vars available
+          command: cat secret-env-plain >> $BASH_ENV
+      - run:
+          name: Download keystore
+          command: ./circleciscripts/download_keystore.sh
+      - run:
+          name: Download keystore
+          command: ./circleciscripts/download_pubprofile.sh
       - run:
           name: Deploy to gplay
           command: ./gradlew publishApkGplayRelease
