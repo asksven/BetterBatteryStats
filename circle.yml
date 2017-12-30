@@ -42,7 +42,7 @@ jobs:
       - persist_to_workspace:
           root: app
           paths:
-            - build/outputs/apk
+            - build
 
   test:
     working_directory: ~/code
@@ -53,10 +53,10 @@ jobs:
     steps:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: app/build/output/apk
-#      - checkout
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          at: app/build
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
