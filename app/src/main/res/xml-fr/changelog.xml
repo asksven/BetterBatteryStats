@@ -2,12 +2,12 @@
 <changelog>
     <release
         version="2.3"
-        versioncode="88">
+        versioncode="89">
         <change>Compatibilité avec android O</change>
         <change>Compatibilité pour portables sane root (avec permissions données par ADB)</change>
         <change>Optimisations interface et langues</change>
         <change>Meilleure compatibilité avec les thèmes substratum</change>
-        <change>Coorections basées sur les crash-reports</change>
+        <change>Corrections basées sur les crash-reports</change>
         <change>Application analytics</change>
 
     </release>

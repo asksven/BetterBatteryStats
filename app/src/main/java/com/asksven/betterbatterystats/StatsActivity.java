@@ -233,8 +233,8 @@ public class StatsActivity extends ActionBarListActivity
             }
 		}
 
-		// Package usage stats were introduced in SDK23 so we need to make the distinction
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+		// Package usage stats were introduced in SDK21 so we need to make the distinction
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
 			// show install as system app screen if root available but perms missing
 			if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))

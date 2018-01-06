@@ -1058,7 +1058,7 @@ public class StatsProvider
 				.getDefaultSharedPreferences(ctx);
 		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		
-		if (!(Wakelocks.fileExists() || WakeupSources.fileExists() || permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx)))
+		if (!(Wakelocks.fileIsWorldReadableExists() || WakeupSources.fileIsWorldReadableExists() || permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx)))
 		{
 			myStats.add(new Notification(ctx.getString(R.string.KWL_ACCESS_ERROR)));
 			return myStats;
@@ -1201,10 +1201,10 @@ public class StatsProvider
 		else
 		{
 			// we must support both "old" (/proc/wakelocks) and "new formats
-			if (Wakelocks.fileExists() || WakeupSources.fileExists())
+			if (Wakelocks.fileIsWorldReadableExists() || WakeupSources.fileIsWorldReadableExists())
 			{
 				
-				if (Wakelocks.fileExists())
+				if (Wakelocks.fileIsWorldReadableExists())
 				{
 					Log.i(TAG, "Using Wakelocks file");
 					myKernelWakelocks = Wakelocks.parseProcWakelocks(ctx);

@@ -2,7 +2,7 @@
 <changelog>
     <release
         version="2.3"
-        versioncode="88">
+        versioncode="89">
         <change>Полная поддержка Андроид Oreo</change>
         <change>Поддержка нерутованных устройств (с помощью разрешений ADB)</change>
         <change>Улучшения интерфейса и перевода</change>

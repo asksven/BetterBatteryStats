@@ -396,10 +396,6 @@ public class Reading implements Serializable
 		{
 			addendumKwl = "!!! Discrete !!!";
 		}
-		if (!Wakelocks.fileExists())
-		{
-			addendumKwl = " !!! wakeup_sources !!!";
-		}
 
 		boolean alarmsUseAPI = sharedPrefs.getBoolean("force_alarms_api", false);
 		boolean kwlsUseAPI = sharedPrefs.getBoolean("force_kwl_api", false);
