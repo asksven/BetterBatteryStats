@@ -103,7 +103,7 @@ public class BbsApplication extends Application
         // set a few analytics user properties
 
         // device rooted
-        Analytics.getInstance(this).setRootedDevice(RootShell.getInstance().hasRootPermissions());
+        // we skip on this info as it seems to cause ANRs Analytics.getInstance(this).setRootedDevice(RootShell.getInstance().hasRootPermissions());
 
         try
         {

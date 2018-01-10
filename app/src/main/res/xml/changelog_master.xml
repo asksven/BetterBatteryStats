@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.3" versioncode="89">
+    <release version="2.3" versioncode="90">
         <change>Full android O support</change>
         <change>Unrooted devices now fully supported (with perms added using ADB)</change>
         <change>UI improvements and I18N</change>

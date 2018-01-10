@@ -2,7 +2,7 @@
 <changelog>
     <release
         version="2.3"
-        versioncode="89">
+        versioncode="90">
         <change>Support für Android O</change>
         <change>Support für Geräte ohne Root(mit Berechtigungen erteilt mittels ADB)</change>
         <change>UI- und Sprachotimierungen</change>
