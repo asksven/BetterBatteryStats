@@ -1891,7 +1891,7 @@ public class BatteryStatsProxy
 	{
     	Long ret = new Long(0);
 
-    	if (Build.VERSION.SDK_INT < 6)
+    	if (Build.VERSION.SDK_INT < 21)
     	{
     		Log.e(TAG, "Bluetooth in state time is supported only from Marshmallow");
     	}

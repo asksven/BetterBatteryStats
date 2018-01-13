@@ -262,7 +262,8 @@ public class StatsActivity extends ActionBarListActivity
 			boolean firstLaunch = !prefs.getBoolean("launched", false);
 
 
-			if (firstLaunch) {
+			if (firstLaunch)
+			{
 				// Save that the app has been launched
 				SharedPreferences.Editor editor = prefs.edit();
 				editor.putBoolean("launched", true);
@@ -289,12 +290,13 @@ public class StatsActivity extends ActionBarListActivity
 	        updater.putString("last_release", strCurrentRelease);
 	        updater.commit();
 
-			Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
-			ReferenceStore.deleteAllRefs(this);
-			Intent i = new Intent(this, WriteBootReferenceService.class);
-			this.startService(i);
-			i = new Intent(this, WriteUnpluggedReferenceService.class);
-			this.startService(i);
+// we don't need to delete refs as long as we don't change the database schema
+//			Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
+//			ReferenceStore.deleteAllRefs(this);
+//			Intent i = new Intent(this, WriteBootReferenceService.class);
+//			this.startService(i);
+//			i = new Intent(this, WriteUnpluggedReferenceService.class);
+//			this.startService(i);
 	        ChangeLog cl = new ChangeLog(this);
 	        cl.getLogDialog().show();
     			
