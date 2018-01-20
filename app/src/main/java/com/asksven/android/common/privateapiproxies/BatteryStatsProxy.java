@@ -62,9 +62,12 @@ import com.asksven.android.system.AndroidVersion;
 
 /**
  * A proxy to the non-public API BatteryStats
- * http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/2.3.3_r1/android/os/BatteryStats.java/?v=source
  * @author sven
- *
+ * Oreo (SDK26-27):     http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#106
+ * Nougat (SDK25-26):   http://androidxref.com/7.1.2_r36/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java
+ * Marshmallow (DSK23): http://androidxref.com/6.0.1_r10/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#94
+ * Lolipop (SDK21-22):  http://androidxref.com/5.1.1_r6/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#85
+ * Kitkat: (SDK19):     http://androidxref.com/4.4.4_r1/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#75
  */
 public class BatteryStatsProxy
 {
@@ -1887,7 +1890,7 @@ public class BatteryStatsProxy
      * Returns the total, last, or current bluetooth on time in microseconds.
      *
      */
-    public Long getBluetoothInStateTime(int state, int iStatsType) throws BatteryInfoUnavailableException
+    public Long getBluetoothInStateTime(Context ctx, int iStatsType) throws BatteryInfoUnavailableException
 	{
     	Long ret = new Long(0);
 
@@ -1898,22 +1901,75 @@ public class BatteryStatsProxy
     	
         try
         {
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-          Class[] paramTypes= new Class[2];
-          paramTypes[0]= int.class;
-          paramTypes[1]= int.class;          
+            if (Build.VERSION.SDK_INT < 24)
+            {
+                //Parameters Types
+                @SuppressWarnings("rawtypes")
+                Class[] paramTypes = new Class[2];
+                paramTypes[0] = int.class;
+                paramTypes[1] = int.class;
 
-          @SuppressWarnings("unchecked")
-		  Method method = m_ClassDefinition.getMethod("getBluetoothControllerActivity", paramTypes);
+                @SuppressWarnings("unchecked")
+                Method method = m_ClassDefinition.getMethod("getBluetoothControllerActivity", paramTypes);
 
-          //Parameters
-          Object[] params= new Object[2];
-          params[0]= new Integer(state);
-          params[1]= new Integer(iStatsType);
+                //Parameters
+                Object[] paramsIdle = new Object[2];
+                paramsIdle[0] = new Integer(BatteryStatsTypes.CONTROLLER_IDLE_TIME);
+                paramsIdle[1] = new Integer(iStatsType);
 
-          ret= (Long) method.invoke(m_Instance, params);
+                Object[] paramsRx = new Object[2];
+                paramsRx[0] = new Integer(BatteryStatsTypes.CONTROLLER_IDLE_TIME);
+                paramsRx[1] = new Integer(iStatsType);
 
+                Object[] paramsTx = new Object[2];
+                paramsTx[0] = new Integer(BatteryStatsTypes.CONTROLLER_IDLE_TIME);
+                paramsTx[1] = new Integer(iStatsType);
+
+                Long idleTimeMs     = (Long) method.invoke(m_Instance, paramsIdle);
+                Long rxTimeMs       = (Long) method.invoke(m_Instance, paramsRx);
+                Long txTimeMs       = (Long) method.invoke(m_Instance, paramsTx);
+
+                ret                 = idleTimeMs + txTimeMs + rxTimeMs;
+
+            }
+            else
+            {
+                // we need to sum-up the time. See http://androidxref.com/7.1.2_r36/xref/frameworks/base/core/java/com/android/internal/os/BluetoothPowerCalculator.java#67.
+                //         final long idleTimeMs = counter.getIdleTimeCounter().getCountLocked(statsType);
+                //        final long rxTimeMs = counter.getRxTimeCounter().getCountLocked(statsType);
+                //        final long txTimeMs = counter.getTxTimeCounters()[0].getCountLocked(statsType);
+                //        final long totalTimeMs = idleTimeMs + txTimeMs + rxTimeMs;
+                //Parameters Types
+                Method method = m_ClassDefinition.getMethod("getBluetoothControllerActivity");
+
+                Object counter = (Object) method.invoke(m_Instance);
+                // counter is of type BatteryStats.ControllerActivityCounter
+                ClassLoader cl = ctx.getClassLoader();
+                @SuppressWarnings("rawtypes")
+                Class iBatteryStatsControllerActivityCounter = cl.loadClass("com.android.internal.os.BatteryStatsImpl$ControllerActivityCounterImpl");
+                Class iBatteryStatsLongSamplingCounter = cl.loadClass("com.android.internal.os.BatteryStatsImpl$LongSamplingCounter");
+
+                Method getIdleTimeCounter = iBatteryStatsControllerActivityCounter.getMethod("getIdleTimeCounter");
+                Method getRxTimeCounter = iBatteryStatsControllerActivityCounter.getMethod("getRxTimeCounter");
+                Method getTxTimeCounters = iBatteryStatsControllerActivityCounter.getMethod("getTxTimeCounters");
+
+                //Parameters Types
+                @SuppressWarnings("rawtypes")
+                Class[] paramTypes = new Class[1];
+                paramTypes[0] = int.class;
+
+                @SuppressWarnings("unchecked")
+                Method getCountLocked = iBatteryStatsLongSamplingCounter.getMethod("getCountLocked", paramTypes);
+
+                //Parameters
+                Object[] params = new Object[1];
+                params[0] = new Integer(iStatsType);
+
+                Long idleTimeMs = (Long) getCountLocked.invoke(getIdleTimeCounter.invoke(counter), params);
+                Long rxTimeMs = (Long) getCountLocked.invoke(getRxTimeCounter.invoke(counter), params);
+                Long txTimeMs = (Long) getCountLocked.invoke(((Object[])getTxTimeCounters.invoke(counter))[0], params);
+                ret = idleTimeMs + txTimeMs + rxTimeMs;
+            }
         }
         catch( IllegalArgumentException e )
         {
