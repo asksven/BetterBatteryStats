@@ -2025,12 +2025,16 @@ public class StatsProvider
 					{
 						interactiveTime 			= mStats.getInteractiveTime(batteryRealtime, statsType) / 1000;
 						powerSaveModeEnabledTime 	= mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType) / 1000;
+                        deviceIdleModeEnabledTime = mStats.getDeviceIdleModeEnabledTime(batteryRealtime, statsType) / 1000;
 
 						// these are not available anymore from SDK24 on
                         if (Build.VERSION.SDK_INT <= 23)
                         {
-                            deviceIdleModeEnabledTime = mStats.getDeviceIdleModeEnabledTime(batteryRealtime, statsType) / 1000;
                             getDeviceIdlingTime = mStats.getDeviceIdlingTime(batteryRealtime, statsType) / 1000;
+                        }
+                        else
+                        {
+                            // we need to switch to getDeviceIdleModeTime
                         }
 					}
 				}

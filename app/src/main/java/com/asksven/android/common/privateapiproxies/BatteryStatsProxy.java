@@ -2040,37 +2040,86 @@ public class BatteryStatsProxy
 	{
     	Long ret = new Long(0);
 
-        try
+        if (Build.VERSION.SDK_INT < 21)
         {
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-          Class[] paramTypes= new Class[2];
-          paramTypes[0]= long.class;
-          paramTypes[1]= int.class;          
-
-          @SuppressWarnings("unchecked")
-		  Method method = m_ClassDefinition.getMethod("getDeviceIdleModeEnabledTime", paramTypes);
-
-          //Parameters
-          Object[] params= new Object[2];
-          params[0]= new Long(batteryRealtime);
-          params[1]= new Integer(iStatsType);
-
-          ret= (Long) method.invoke(m_Instance, params);
-
-        }
-        catch( IllegalArgumentException e )
-        {
-            throw e;
-        }
-        catch( Exception e )
-        {
-            ret = new Long(0);
-            throw new BatteryInfoUnavailableException();
+            Log.e(TAG, "Doze idle time is supported only from Marshmallow");
         }
 
-        return ret;
+        if (Build.VERSION.SDK_INT < 24)
+        {
 
+            try
+            {
+                //Parameters Types
+                @SuppressWarnings("rawtypes")
+                Class[] paramTypes = new Class[2];
+                paramTypes[0] = long.class;
+                paramTypes[1] = int.class;
+
+                @SuppressWarnings("unchecked")
+                Method method = m_ClassDefinition.getMethod("getDeviceIdleModeEnabledTime", paramTypes);
+
+                //Parameters
+                Object[] params = new Object[2];
+                params[0] = new Long(batteryRealtime);
+                params[1] = new Integer(iStatsType);
+
+                ret = (Long) method.invoke(m_Instance, params);
+
+            } catch (IllegalArgumentException e)
+            {
+                throw e;
+            } catch (Exception e)
+            {
+                ret = new Long(0);
+                throw new BatteryInfoUnavailableException();
+            }
+
+            return ret;
+        }
+        else
+        {
+            try
+            {
+                //Parameters Types
+                @SuppressWarnings("rawtypes")
+                Class[] paramTypes = new Class[3];
+                paramTypes[0] = int.class;
+                paramTypes[1] = long.class;
+                paramTypes[2] = int.class;
+
+                @SuppressWarnings("unchecked")
+                Method method = m_ClassDefinition.getMethod("getDeviceIdleModeTime", paramTypes);
+
+                //Parameters
+                Object[] paramsLight = new Object[3];
+                paramsLight[0] = new Integer(BatteryStatsTypes.DEVICE_IDLE_MODE_LIGHT);
+                paramsLight[1] = new Long(batteryRealtime);
+                paramsLight[2] = new Integer(iStatsType);
+
+                //Parameters
+                Object[] paramsDeep = new Object[3];
+                paramsDeep[0] = new Integer(BatteryStatsTypes.DEVICE_IDLE_MODE_DEEP);
+                paramsDeep[1] = new Long(batteryRealtime);
+                paramsDeep[2] = new Integer(iStatsType);
+
+                Long timeLight = (Long) method.invoke(m_Instance, paramsLight);
+                Long timeDeep = (Long) method.invoke(m_Instance, paramsDeep);
+
+                ret = timeLight + timeDeep;
+
+            } catch (IllegalArgumentException e)
+            {
+                throw e;
+            } catch (Exception e)
+            {
+                ret = new Long(0);
+                throw new BatteryInfoUnavailableException();
+            }
+
+            return ret;
+
+        }
 	
 	}
 

@@ -75,7 +75,13 @@ public class BatteryStatsTypes
 	public static final int CONTROLLER_TX_TIME = 2;
 	public static final int CONTROLLER_ENERGY = 3;
 
-    /**
+	// Constant for device idle mode: not active.
+	public static final int DEVICE_IDLE_MODE_OFF = 0;
+	public static final int DEVICE_IDLE_MODE_LIGHT = 1;
+	public static final int DEVICE_IDLE_MODE_DEEP = 2;
+
+
+	/**
      * Enum of valid wakelock types
      */
     public static final boolean assertValidWakeType(int iWakeType)
