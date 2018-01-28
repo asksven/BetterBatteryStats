@@ -82,8 +82,6 @@ public class WriteBootReferenceService extends IntentService
 		{
 			Wakelock.releaseWakelock();
 		}
-
-		stopSelf();
 	}
 
 	@Override

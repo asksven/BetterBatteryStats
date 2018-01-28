@@ -94,9 +94,6 @@ public class WriteScreenOffReferenceService extends IntentService
 		{
 			Wakelock.releaseWakelock();
 		}
-
-		
-		stopSelf();
 	}
 
 	@Override

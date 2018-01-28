@@ -70,8 +70,6 @@ public class WriteCustomReferenceService extends IntentService
 		{
 			Wakelock.releaseWakelock();
 		}
-		
-		stopSelf();
 	}
 
 	@Override
