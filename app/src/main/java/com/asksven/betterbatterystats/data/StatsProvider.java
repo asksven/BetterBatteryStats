@@ -1993,7 +1993,7 @@ public class StatsProvider
 			{
 				try
 				{
-					if (Build.VERSION.SDK_INT >= 21)
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
 					{
 						timeBluetoothOn 	= mStats.getBluetoothInStateTime(ctx, statsType) / 1000;
 					}
@@ -2006,7 +2006,7 @@ public class StatsProvider
 				{
 					timeBluetoothOn = 0;
 					Log.e(TAG,
-							"A batteryinfo error occured while retrieving BT data");
+							"A batteryinfo error occured while retrieving BT data",e);
 				}
 	
 			}
@@ -2024,17 +2024,21 @@ public class StatsProvider
 					if (Build.VERSION.SDK_INT >= 21)
 					{
 						interactiveTime 			= mStats.getInteractiveTime(batteryRealtime, statsType) / 1000;
-						powerSaveModeEnabledTime 	= mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType) / 1000;
-                        deviceIdleModeEnabledTime = mStats.getDeviceIdleModeEnabledTime(batteryRealtime, statsType) / 1000;
 
-						// these are not available anymore from SDK24 on
-                        if (Build.VERSION.SDK_INT <= 23)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                         {
-                            getDeviceIdlingTime = mStats.getDeviceIdlingTime(batteryRealtime, statsType) / 1000;
-                        }
-                        else
-                        {
-                            // we need to switch to getDeviceIdleModeTime
+                            powerSaveModeEnabledTime = mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType) / 1000;
+                            deviceIdleModeEnabledTime = mStats.getDeviceIdleModeEnabledTime(batteryRealtime, statsType) / 1000;
+
+                            // these are not available anymore from SDK24 on
+                            if (Build.VERSION.SDK_INT <= 23)
+                            {
+                                getDeviceIdlingTime = mStats.getDeviceIdlingTime(batteryRealtime, statsType) / 1000;
+                            }
+                            else
+                            {
+                                // we need to switch to getDeviceIdleModeTime
+                            }
                         }
 					}
 				}
@@ -2042,7 +2046,7 @@ public class StatsProvider
 				{
 					timeBluetoothOn = 0;
 					Log.e(TAG,
-							"A batteryinfo error occured while retrieving doze mode data");
+							"A batteryinfo error occured while retrieving doze mode data",e);
 				}
 	
 			}
