@@ -59,14 +59,12 @@ public class WriteCurrentReferenceService extends IntentService
 		}
 		catch (Exception e)
 		{
-			Log.e(TAG, "An error occured: " + e.getMessage());
+			Log.e(TAG, "An error occurred: " + e.getMessage());
 		}
 		finally
 		{
 			Wakelock.releaseWakelock();
 		}
-		
-		stopSelf();
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public class WriteCurrentReferenceService extends IntentService
 	@Override
 	public void onDestroy()
 	{
-		Log.e(TAG, "Destroyed at" + DateUtils.now());
+		Log.d(TAG, "Destroyed at " + DateUtils.now());
 		Wakelock.releaseWakelock();
 	}
 
