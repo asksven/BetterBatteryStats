@@ -142,9 +142,7 @@ public class Netstats
 	
 	private static List<String> getStats()
 	{
-//		ExecResult res = Exec.execPrint(new String[]{"su", "-c", "cat /proc/net/xt_qtaguid/stats"});
 		List<String> res = RootShell.getInstance().run("cat /proc/net/xt_qtaguid/stats");
-				//Util.run("su", "cat /proc/net/xt_qtaguid/stats");
 		return res;
 	}
 	
