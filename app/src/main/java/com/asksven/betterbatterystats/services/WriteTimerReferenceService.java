@@ -61,8 +61,6 @@ public class WriteTimerReferenceService extends IntentService
 		{
 			Wakelock.releaseWakelock();
 		}
-		
-		stopSelf();
 	}
 
 	@Override

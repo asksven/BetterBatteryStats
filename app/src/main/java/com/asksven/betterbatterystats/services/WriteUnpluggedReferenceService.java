@@ -117,8 +117,6 @@ public class WriteUnpluggedReferenceService extends IntentService
 		{
 			Wakelock.releaseWakelock();
 		}
-		
-		stopSelf();
 	}
 
 	@Override

@@ -202,8 +202,7 @@ public class WatchdogProcessingService extends IntentService
 		{
 			Log.e(TAG, "An error occured: " + e.getMessage());
 		}
-		
-		stopSelf();
+
 	}
 
 	@Override
