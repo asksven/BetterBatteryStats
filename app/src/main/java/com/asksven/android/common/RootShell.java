@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.asksven.android.common;
 
@@ -20,6 +20,9 @@ public class RootShell
 {
 	static RootShell m_instance = null;
 	static Shell m_shell = null;
+
+	private static boolean m_lastKnownIsRootAvailableStatus = false;
+
 	private RootShell()
 	{
 	}
@@ -55,22 +58,22 @@ public class RootShell
 
         return m_instance;
 	}
-	
+
 	public synchronized List<String> run(String command)
 	{
 		final List<String> res = new ArrayList<String>();
-		
-		if (!RootTools.isRootAvailable())
+
+		if (!isRootAvailable())
 		{
 			return res;
 		}
-		
+
 		if (m_shell == null)
 		{
 			// reopen if for whatever reason the shell got closed
 			RootShell.getInstance();
 		}
-		
+
 		Command shellCommand = new Command(0, command)
 		{
 		        @Override
@@ -84,7 +87,7 @@ public class RootShell
 		try
 		{
 			RootTools.getShell(true).add(shellCommand);
-			
+
 			// we need to make this synchronous
 			while (!shellCommand.isFinished())
 			{
@@ -93,20 +96,29 @@ public class RootShell
 		}
 		catch (Exception e)
 		{
-			
+
 		}
-		
+
 		return res;
-		
+
 	}
-	
+
 	public boolean phoneRooted()
 	{
-		return RootTools.isRootAvailable();
+		return isRootAvailable();
 	}
 
 	public boolean hasRootPermissions()
 	{
-		return ((m_shell != null) && (RootTools.isRootAvailable()));
+        return ((m_shell != null) && isRootAvailable());
 	}
+
+    private boolean isRootAvailable()
+    {
+        if(!m_lastKnownIsRootAvailableStatus)
+        { // Call to RootTools.isRootAvailable is time expensive, cache value
+            m_lastKnownIsRootAvailableStatus = RootTools.isRootAvailable();
+        }
+        return m_lastKnownIsRootAvailableStatus;
+    }
 }
