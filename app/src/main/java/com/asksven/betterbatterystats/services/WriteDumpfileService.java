@@ -96,8 +96,6 @@ public class WriteDumpfileService extends IntentService
 			Log.i(TAG, "No dumpfile written: " + refFrom + " and " + refTo);
 			
 		}
-		
-		stopSelf();
 	}
 
 	@Override
