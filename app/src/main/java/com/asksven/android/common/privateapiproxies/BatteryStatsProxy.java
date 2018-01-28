@@ -1106,7 +1106,7 @@ public class BatteryStatsProxy
           paramTypes[2]= int.class;          
 
           @SuppressWarnings("unchecked")
-		  Method method = m_ClassDefinition.getMethod("getPhoneDataConnectionTime", paramTypes);
+		  Method method = m_ClassDefinition.getMethod("getPhoneSignalStrengthTime", paramTypes);
 
           //Parameters
           Object[] params= new Object[3];
@@ -1894,9 +1894,10 @@ public class BatteryStatsProxy
 	{
     	Long ret = new Long(0);
 
-    	if (Build.VERSION.SDK_INT < 21)
+    	if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
     	{
     		Log.e(TAG, "Bluetooth in state time is supported only from Marshmallow");
+    		throw new BatteryInfoUnavailableException("Bluetooth in state time is supported only from Marshmallow");
     	}
     	
         try
