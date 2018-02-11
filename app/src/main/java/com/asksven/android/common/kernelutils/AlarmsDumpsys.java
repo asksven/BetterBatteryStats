@@ -27,7 +27,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 public class AlarmsDumpsys
 {
 	static final String TAG = "AlarmsDumpsys";
-	static final String PERMISSION_DENIED = "su rights required to access alarms are not available / were not granted";
+	static final String PERMISSION_DENIED = "rights required to access stats are not available / were not granted";
 	static final String SERVICE_NOT_ACCESSIBLE = "Can't find service: alarm";
 
 	public static ArrayList<StatElement> getAlarms(boolean useRoot)

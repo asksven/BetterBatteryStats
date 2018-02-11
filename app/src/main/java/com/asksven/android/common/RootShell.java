@@ -3,6 +3,8 @@
  */
 package com.asksven.android.common;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import com.stericson.RootShell.execution.Shell;
  */
 public class RootShell
 {
+	static final String TAG =" RootShell";
 	static RootShell m_instance = null;
 	static Shell m_shell = null;
 	private RootShell()
@@ -64,8 +67,8 @@ public class RootShell
 		{
 			return res;
 		}
-		
-		if (m_shell == null)
+
+        if ((m_shell == null) || (m_shell.isClosed))
 		{
 			// reopen if for whatever reason the shell got closed
 			RootShell.getInstance();
@@ -93,7 +96,7 @@ public class RootShell
 		}
 		catch (Exception e)
 		{
-			
+			Log.e(TAG, "An error occured while executing command " + command + ". " + e.getMessage());
 		}
 		
 		return res;

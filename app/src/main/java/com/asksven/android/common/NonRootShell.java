@@ -64,7 +64,7 @@ public class NonRootShell
 	{
 		final List<String> res = new ArrayList<String>();
 		
-		if (m_shell == null)
+		if ((m_shell == null) || (m_shell.isClosed))
 		{
 			// reopen if for whatever reason the shell got closed
 			NonRootShell.getInstance();
@@ -91,7 +91,7 @@ public class NonRootShell
 		}
 		catch (Exception e)
 		{
-		    Log.e(TAG, "An error occured while executiing command " + command + ". " + e.getMessage());
+		    Log.e(TAG, "An error occured while executing command " + command + ". " + e.getMessage());
 		}
 		
 		return res;

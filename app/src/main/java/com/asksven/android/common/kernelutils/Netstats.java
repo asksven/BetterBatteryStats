@@ -58,7 +58,7 @@ public class Netstats
 {
 	static final String TAG = "Netstats";
 	private static String FILE_PATH = "/proc/net/xt_qtaguid/stats";
-	static final String PERMISSION_DENIED = "su rights required to access alarms are not available / were not granted";
+	static final String PERMISSION_DENIED = "rights required to access stats are not available / were not granted";
 
 	private static final String KEY_IDX = "idx";
 	private static final String KEY_IFACE = "iface";
