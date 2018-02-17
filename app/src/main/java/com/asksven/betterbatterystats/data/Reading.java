@@ -51,6 +51,7 @@ import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
+import com.asksven.android.contrib.Util;
 import com.asksven.betterbatterystats.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -503,55 +504,37 @@ public class Reading implements Serializable
 			Toast.makeText(context, context.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
-		try
-		{
-			// open file for writing
-			File root;
-			boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
+		String path = StatsProvider.getWritableFilePath();
+        try
+        {
 
-			if (bSaveToPrivateStorage)
-			{
-				try
-				{
-					root = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-				}
-				catch (Exception e)
-				{
-					root = Environment.getExternalStorageDirectory();
-				}
-			}
-			else
-			{
-				root = new File(sharedPrefs.getString("storage_path", 
-						Environment.getExternalStorageDirectory().getAbsolutePath()));
-			}
+            if (!path.equals(""))
+            {
+                String strFilename = "BetterBatteryStats-"
+                        + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
+                File dumpFile = new File(path + "/" + strFilename);
+                fileUri = Uri.fromFile(dumpFile);
+                FileWriter fw = new FileWriter(dumpFile);
+                BufferedWriter out = new BufferedWriter(fw);
+                out.write("/*\n");
+                out.write(this.toStringText(context, note));
+                out.write("------ human readable part end here\n");
+                out.write("*/\n");
+                out.write(this.toJson());
+                out.close();
 
-			// check if file can be written
-			if (root.canWrite())
-			{
-				String strFilename = "BetterBatteryStats-"
-						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-				File dumpFile = new File(root, strFilename);
-				fileUri = Uri.fromFile(dumpFile);
-				FileWriter fw = new FileWriter(dumpFile);
-				BufferedWriter out = new BufferedWriter(fw);
-				out.write("/*\n");
-				out.write(this.toStringText(context, note));
-				out.write("------ human readable part end here\n");
-				out.write("*/\n");
-				out.write(this.toJson());
-				out.close();
-				
-				// workaround: force mediascanner to run
-				DataStorage.forceMediaScanner(context, fileUri);
+                // workaround: force mediascanner to run
+                DataStorage.forceMediaScanner(context, fileUri);
+            } else
+            {
+                Log.i(TAG, "Write error. *" + path + "* couldn't be written");
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "Exception: " + e.getMessage());
+        }
 
-			}
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "Exception: " + e.getMessage());
-		}
-		
 		return fileUri;
 	}
 

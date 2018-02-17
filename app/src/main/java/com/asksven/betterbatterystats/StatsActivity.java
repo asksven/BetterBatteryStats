@@ -968,16 +968,16 @@ public class StatsActivity extends ActionBarListActivity
 		refreshSpinners();
 
 		// debug only
-        SimpleDateFormat date =
-                new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
-        String logDate = date.format(new Date());
-        Debug.startMethodTracing(
-                "doRefreshTrace-" + logDate);
+//        SimpleDateFormat date =
+//                new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+//        String logDate = date.format(new Date());
+//        Debug.startMethodTracing(
+//                "doRefreshTrace-" + logDate);
 
 		new LoadStatData().execute(updateCurrent);
 
 		// Debug only
-		Debug.stopMethodTracing();
+//		Debug.stopMethodTracing();
 	}
 
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
@@ -1247,7 +1247,7 @@ public class StatsActivity extends ActionBarListActivity
 				    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 	
 				    		Reading reading = new Reading(StatsActivity.this, myReferenceFrom, myReferenceTo);
-	
+
 							// save as text is selected
 							if (selectedSaveActions.contains(0))
 							{
@@ -1265,7 +1265,7 @@ public class StatsActivity extends ActionBarListActivity
 							}
 						
 							Snackbar
-							  .make(findViewById(android.R.id.content), R.string.info_files_written, Snackbar.LENGTH_LONG)
+							  .make(findViewById(android.R.id.content), getString(R.string.info_files_written) + ": " + StatsProvider.getWritableFilePath(), Snackbar.LENGTH_LONG)
 							  .show();
 						}
 						catch (Exception e)

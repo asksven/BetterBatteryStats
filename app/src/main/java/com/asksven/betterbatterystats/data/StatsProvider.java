@@ -3079,20 +3079,85 @@ public class StatsProvider
 	    return isPlugged;
 	}
 
+
+	public static String getWritableFilePath()
+    {
+        Context ctx = BbsApplication.getAppContext();
+
+        SharedPreferences sharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(ctx);
+
+        String path = "";
+        try
+        {
+            // open file for writing
+            File root;
+            boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
+
+            if (bSaveToPrivateStorage)
+            {
+                try
+                {
+                    root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+                }
+                catch (Exception e)
+                {
+                    root = Environment.getExternalStorageDirectory();
+                }
+            }
+            else
+            {
+                root = new File(sharedPrefs.getString("storage_path",
+                        Environment.getExternalStorageDirectory().getAbsolutePath()));
+            }
+
+            // check if file can be written
+            if (root.canWrite())
+            {
+                path = root.getAbsolutePath();
+            }
+            else
+            {
+                // we need to fall back
+                try
+                {
+                    root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+                }
+                catch (Exception e)
+                {
+                    root = Environment.getExternalStorageDirectory();
+                }
+
+                if (root.canWrite())
+                {
+                    path = root.getAbsolutePath();
+                }
+                else
+                {
+                    path = "";
+                    Log.i(TAG, "Error. " + path + " couldn't be written");
+
+                }
+
+            }
+        } catch (Exception e)
+        {
+            Log.e(TAG, "Exception: " + e.getMessage());
+        }
+
+        return path;
+    }
+
 	/**
 	 * Dumps relevant data to an output file
 	 * 
 	 */
-
-
 	@SuppressLint("NewApi")
 	public Uri writeLogcatToFile()
 	{
 		Context ctx = BbsApplication.getAppContext();
 
 		Uri fileUri = null;
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
 
 		if (!DataStorage.isExternalStorageWritable())
 		{
@@ -3100,53 +3165,24 @@ public class StatsProvider
 			Toast.makeText(ctx, ctx.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
-		try
-		{
-			// open file for writing
-			// open file for writing
-			File root;
-			boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
 
-			if (bSaveToPrivateStorage)
-			{
-				try
-				{
-					root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-				}
-				catch (Exception e)
-				{
-					root = Environment.getExternalStorageDirectory();
-				}
-			}
-			else
-			{
-				root = new File(sharedPrefs.getString("storage_path", 
-						Environment.getExternalStorageDirectory().getAbsolutePath()));
-			}
+		String path = getWritableFilePath();
 
-			String path = root.getAbsolutePath();
-			// check if file can be written
-			if (root.canWrite())
-			{
-				String filename = "logcat-"
-						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-				Util.run("logcat -v time -d > " + path + "/" + filename);
-				fileUri = Uri.fromFile(new File(path + "/" + filename));
-				
-				// workaround: force mediascanner to run
-				DataStorage.forceMediaScanner(ctx, fileUri);
-			}
-			else
-			{
-				Log.i(TAG,
-						"Write error. "
-								+ Environment.getExternalStorageDirectory()
-								+ " couldn't be written");
-			}
-		} catch (Exception e)
-		{
-			Log.e(TAG, "Exception: " + e.getMessage());
+		if (!path.equals(""))
+        {
+            String filename = "logcat-"
+                    + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
+            Util.run("logcat -v time -d > " + path + "/" + filename);
+            fileUri = Uri.fromFile(new File(path + "/" + filename));
+
+            // workaround: force mediascanner to run
+            DataStorage.forceMediaScanner(ctx, fileUri);
+        }
+        else
+        {
+				Log.i(TAG,"Write error. *" + path + "* couldn't be written");
 		}
+
 		return fileUri;
 	}
 
@@ -3165,61 +3201,31 @@ public class StatsProvider
 			Toast.makeText(ctx, ctx.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
-		try
-		{
-			// open file for writing
-			File root;
-			boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
 
-			if (bSaveToPrivateStorage)
-			{
-				try
-				{
-					root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-				}
-				catch (Exception e)
-				{
-					root = Environment.getExternalStorageDirectory();
-				}
-			}
-			else
-			{
-				root = new File(sharedPrefs.getString("storage_path", 
-						Environment.getExternalStorageDirectory().getAbsolutePath()));
-			}
+        String path = getWritableFilePath();
 
-			String path = root.getAbsolutePath();
-			// check if file can be written
-			if (root.canWrite())
-			{
-				String filename = "dmesg-"
-						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-				if (RootShell.getInstance().hasRootPermissions())
-				{
-					RootShell.getInstance().run("dmesg > " + path + "/" + filename); //Shell.SU.run("dmesg > " + path + "/" + filename);
-				}
-				else
-				{
-					Util.run("dmesg > " + path + "/" + filename);
-				}
-				fileUri = Uri.fromFile(new File(path + "/" + filename));
-				// workaround: force mediascanner to run
-				DataStorage.forceMediaScanner(ctx, fileUri);
+        if (!path.equals(""))
+        {
+            String filename = "dmesg-"
+                    + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
+            if (RootShell.getInstance().hasRootPermissions())
+            {
+                RootShell.getInstance().run("dmesg > " + path + "/" + filename); //Shell.SU.run("dmesg > " + path + "/" + filename);
+            }
+            else
+            {
+                Util.run("dmesg > " + path + "/" + filename);
+            }
+            fileUri = Uri.fromFile(new File(path + "/" + filename));
+            // workaround: force mediascanner to run
+            DataStorage.forceMediaScanner(ctx, fileUri);
+        }
+        else
+        {
+            Log.i(TAG,"Write error. *" + path + "* couldn't be written");
+        }
 
-//				Toast.makeText(m_context, "Dump witten: " + path + "/" + filename, Toast.LENGTH_SHORT).show();
 
-			}
-			else
-			{
-				Log.i(TAG,
-						"Write error. "
-								+ Environment.getExternalStorageDirectory()
-								+ " couldn't be written");
-			}
-		} catch (Exception e)
-		{
-			Log.e(TAG, "Exception: " + e.getMessage());
-		}
 		return fileUri;
 	}
 
