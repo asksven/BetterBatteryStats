@@ -35,6 +35,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -86,7 +87,10 @@ import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import de.cketti.library.changelog.ChangeLog;
 
@@ -962,7 +966,18 @@ public class StatsActivity extends ActionBarListActivity
 		if (SysUtils.hasBatteryStatsPermission(this)) BatteryStatsProxy.getInstance(this).invalidate();
 		
 		refreshSpinners();
-		new LoadStatData().execute(updateCurrent);	
+
+		// debug only
+        SimpleDateFormat date =
+                new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+        String logDate = date.format(new Date());
+        Debug.startMethodTracing(
+                "doRefreshTrace-" + logDate);
+
+		new LoadStatData().execute(updateCurrent);
+
+		// Debug only
+		Debug.stopMethodTracing();
 	}
 
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
@@ -1067,11 +1082,11 @@ public class StatsActivity extends ActionBarListActivity
 			LinearLayout notificationPanel = (LinearLayout) findViewById(R.id.Notification);
 			ListView listView = (ListView) findViewById(android.R.id.list);
 			
-			ArrayList<StatElement> myStats;
+			List<StatElement> myStats;
 			try
 			{
-				myStats = StatsProvider.getInstance().getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
-				
+				myStats = o.getList();
+
 				if ((myStats != null) && (!myStats.isEmpty()))
 				{
 					// check if notification
@@ -1097,7 +1112,6 @@ public class StatsActivity extends ActionBarListActivity
 			}
 			catch (Exception e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    	StatsActivity.this.setListAdapter(o);

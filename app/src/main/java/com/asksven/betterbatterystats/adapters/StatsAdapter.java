@@ -147,6 +147,11 @@ public class StatsAdapter extends BaseAdapter
         }
     }
 
+    public List<StatElement> getList()
+	{
+		return m_listData;
+	}
+
     public int getCount()
     {
     	if (m_listData != null)
