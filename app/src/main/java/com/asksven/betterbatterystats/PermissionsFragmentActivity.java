@@ -69,9 +69,6 @@ public class PermissionsFragmentActivity extends BaseActivity
 		private PermissionsAdapter m_listViewAdapter;
 		private Map<String, Permission> m_permDictionary;
 		private String m_packageName;
-		ProgressDialog m_progressDialog;
-		
-
 
 		// This is the Adapter being used to display the list's data.
 		SimpleCursorAdapter mAdapter;
@@ -131,28 +128,8 @@ public class PermissionsFragmentActivity extends BaseActivity
 			protected void onPostExecute(PermissionsAdapter o)
 		    {
 				super.onPostExecute(o);
-		        // update hourglass
-		    	if (m_progressDialog != null)
-		    	{
-		    		m_progressDialog.hide();
-		    		m_progressDialog = null;
-		    	}
 		    	setListAdapter(o);
 		    }
-		    @Override
-		    protected void onPreExecute()
-		    {
-		        // update hourglass
-		    	// @todo this code is only there because onItemSelected is called twice
-		    	if (m_progressDialog == null)
-		    	{
-			    	m_progressDialog = new ProgressDialog(getActivity());
-			    	m_progressDialog.setMessage(getString(R.string.message_computing));
-			    	m_progressDialog.setIndeterminate(true);
-			    	m_progressDialog.setCancelable(false);
-			    	m_progressDialog.show();
-		    	}
-		    }
-		}		
+		}
 	}
 }
