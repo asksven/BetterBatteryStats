@@ -11,6 +11,7 @@ import java.util.List;
 
 
 //import com.asksven.android.contrib.Shell;
+import com.asksven.betterbatterystats.LogSettings;
 import com.stericson.RootShell.execution.Command;
 import com.stericson.RootTools.RootTools;
 import com.stericson.RootShell.execution.Shell;
@@ -22,9 +23,18 @@ import com.stericson.RootShell.execution.Shell;
  */
 public class NonRootShell
 {
-    static final String TAG =" NonRootShell";
-	static NonRootShell m_instance = null;
-	static Shell m_shell = null;
+    private static final String TAG = "BBSNonRootShell";
+
+	private static NonRootShell m_instance = null;
+
+	private static Shell m_shell = null;
+
+    static {
+        com.stericson.RootShell.RootShell.handlerEnabled  = false;
+//        RootTools.debugMode = true;
+//        com.stericson.RootShell.RootShell.debugMode = true;
+    }
+
 	private NonRootShell()
 	{
 	}
@@ -54,13 +64,14 @@ public class NonRootShell
             catch (Exception e)
             {
                 m_shell = null;
+                Log.w(TAG,"Error ",e);
             }
         }
 
 		return m_instance;
 	}
 	
-	public synchronized List<String> run(String command)
+	public synchronized List<String> run(final String command)
 	{
 		final List<String> res = new ArrayList<String>();
 		
@@ -70,15 +81,33 @@ public class NonRootShell
 			NonRootShell.getInstance();
 		}
 
-		Command shellCommand = new Command(0, command)
+        final Thread currentThread = Thread.currentThread();
+
+		Command shellCommand = new Command(0,1000, command)
 		{
 		        @Override
 				public void commandOutput(int id, String line)
 				{
+                super.commandOutput(id, line);
+                if(LogSettings.DEBUG) Log.d(TAG, "commandOutput command '"+command+"'" + " " + line);
 		        	res.add(line);
-		        	super.commandOutput(id, line);
+            }
+
+            @Override
+            public void commandTerminated(int id, String reason)
+            {
+                Log.w(TAG, "commandTerminated "+reason + " command '"+command+"'");
+                currentThread.interrupt();
+            }
+
+            @Override
+            public void commandCompleted(int id, int exitcode)
+            {
+                if(LogSettings.DEBUG) Log.d(TAG, "commandCompleted command '"+command+"'" + " exitCode "+exitcode);
+                currentThread.interrupt();
 				}
 		};
+
 		try
 		{
 			m_shell.add(shellCommand);
@@ -86,16 +115,19 @@ public class NonRootShell
 			// we need to make this synchronous
 			while (!shellCommand.isFinished())
 			{
+                try {
 				Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    // Ignore
+                }
 			}
 		}
 		catch (Exception e)
 		{
-		    Log.e(TAG, "An error occured while executing command " + command + ". " + e.getMessage());
+            Log.w(TAG,"Error ",e);
 		}
 		
 		return res;
 		
 	}
-	
 }
