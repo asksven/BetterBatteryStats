@@ -91,7 +91,7 @@ public class ReferenceDBHelper
     {
 		try
 		{
-			m_db = ctx.openOrCreateDatabase(DATABASE_NAME, SQLiteDatabase.CREATE_IF_NECESSARY, null);
+			m_db = ctx.openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
 			
 
 			// Check for the existence of the DBVERSION table

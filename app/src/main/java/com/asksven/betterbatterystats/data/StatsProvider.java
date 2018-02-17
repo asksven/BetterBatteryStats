@@ -37,6 +37,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -829,6 +830,8 @@ public class StatsProvider
 			Reference refFrom, int iPctType, int iSort, Reference refTo) throws Exception
 	{
 		Context ctx = BbsApplication.getAppContext();
+		String entropy = Settings.Secure.getString(ctx.getContentResolver(), Settings.Secure.ANDROID_ID); // this is the best practice described here: https://android-developers.googleblog.com/2011/03/identifying-app-installations.html
+
 
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
@@ -906,7 +909,7 @@ public class StatsProvider
 
 		for (int i = 0; i < myWakelocks.size(); i++)
 		{
-			Wakelock wl = ((Wakelock) myWakelocks.get(i)).clone();
+			Wakelock wl = ((Wakelock) myWakelocks.get(i)).clone(entropy);
 			if ((!bFilter) || ((wl.getDuration() / 1000) > 0))
 			{
 				// we must distinguish two situations

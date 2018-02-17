@@ -25,6 +25,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.content.Context;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -143,22 +144,10 @@ public class StringUtils
 		return str;
 	}
 	
-	public static String maskAccountInfo(String str)
+	public static String maskAccountInfo(String entropy, String str)
 	{
 		String ret = str;
-		
-		String serial = ""; 
 
-		try
-		{
-		    Class<?> c = Class.forName("android.os.SystemProperties");
-		    Method get = c.getMethod("get", String.class);
-		    serial = (String) get.invoke(c, "ro.serialno");
-		}
-		catch (Exception ignored)
-		{
-		}
-		
 		Matcher email		 	= emailPattern.matcher(str);
 		if ( email.find() )
 		{
@@ -166,7 +155,7 @@ public class StringUtils
 			try
 			{
 				// generate some long noise
-				byte[] bytesOfSerial = serial.getBytes("UTF-8");
+				byte[] bytesOfSerial = entropy.getBytes("UTF-8");
 				MessageDigest mdSha = MessageDigest.getInstance("SHA-256");
 				byte[] theShaDigest = mdSha.digest(bytesOfSerial);
 				StringBuffer sb = new StringBuffer();
@@ -174,9 +163,9 @@ public class StringUtils
 		        {
 		          sb.append(Integer.toHexString((theShaDigest[i] & 0xFF) | 0x100).substring(1,3));
 		        }
-		        serial = sb.toString();
+				entropy = sb.toString();
 				
-				byte[] bytesOfMessage = strName.concat(serial).getBytes("UTF-8");
+				byte[] bytesOfMessage = strName.concat(entropy).getBytes("UTF-8");
 	
 				MessageDigest md = MessageDigest.getInstance("MD5");
 				byte[] thedigest = md.digest(bytesOfMessage);

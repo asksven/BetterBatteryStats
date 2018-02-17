@@ -2,7 +2,7 @@
 <changelog>
     <release
         version="2.3"
-        versioncode="91">
+        versioncode="92">
         <change>Compatibilité avec android O</change>
         <change>Compatibilité pour portables sane root (avec permissions données par ADB)</change>
         <change>Optimisations interface et langues</change>

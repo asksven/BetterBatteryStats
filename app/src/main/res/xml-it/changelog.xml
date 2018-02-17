@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.3" versioncode="91">
+    <release version="2.3" versioncode="92">
         <change>Supporto completo per Android O</change>
         <change>Supporto completo per dispositivi senza root (con permessi concessi via ADB)</change>
         <change>Miglioramenti UI e I18N</change>

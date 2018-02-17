@@ -46,6 +46,7 @@ import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.util.SparseArray;
@@ -2394,8 +2395,10 @@ public class BatteryStatsProxy
 			Log.e(TAG, "Invalid WakeType or StatType");
 			throw new Exception("Invalid WakeType of StatType");
 		}
-		
-		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		String entropy =  Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID); // this is the best practice described here: https://android-developers.googleblog.com/2011/03/identifying-app-installations.html
+
+        ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
 		this.collectUidStats();
 		if (m_uidStats != null)
@@ -2518,12 +2521,12 @@ public class BatteryStatsProxy
 						Wakelock myWl = null;
 						if (Build.VERSION.SDK_INT >= 20)
 						{
-							myWl = new Wakelock(iWakeType, wakelockEntry.getKey(), wakelockTime, uSec, wakelockCount);
+							myWl = new Wakelock(entropy, iWakeType, wakelockEntry.getKey(), wakelockTime, uSec, wakelockCount);
 								
 						}
 						else
 						{
-							myWl = new Wakelock(iWakeType, wakelockEntry.getKey(), wakelockTime, uSec / 1000, wakelockCount);
+							myWl = new Wakelock(entropy, iWakeType, wakelockEntry.getKey(), wakelockTime, uSec / 1000, wakelockCount);
 						}
 						
 						// opt for lazy loading: do no populate UidInfo, just uid. UidInfo will be fetched on demand

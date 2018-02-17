@@ -34,6 +34,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 //import android.content.Context;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -85,10 +86,10 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 	 * @param count the number of time the wakelock was active
 	 */
 
-	public Wakelock(int wakeType, String name, long duration, long time, int count)
+	public Wakelock(String entropy, int wakeType, String name, long duration, long time, int count)
 	{
 		m_wakeType	= wakeType;
-		m_name		= StringUtils.maskAccountInfo(name);
+		m_name		= StringUtils.maskAccountInfo(entropy, name);
 
 
 		m_duration	= duration;
@@ -121,9 +122,9 @@ public class Wakelock extends StatElement implements Comparable<Wakelock>, Seria
 		return ret;
 	}
 
-	public Wakelock clone()
+	public Wakelock clone(String entropy)
 	{
-		Wakelock clone = new Wakelock(m_wakeType, m_name, m_duration, getTotal(), m_count);
+		Wakelock clone = new Wakelock(entropy, m_wakeType, m_name, m_duration, getTotal(), m_count);
 		
 		// Overwrite name to avoid multiple hashes
 		clone.m_name	= m_name;
