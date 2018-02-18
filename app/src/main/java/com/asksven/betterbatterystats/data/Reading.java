@@ -419,20 +419,20 @@ public class Reading implements Serializable
 		dumpList(context, kernelWakelockStats, out);
 
 		// write process info
-		out.write("======================================================\n");
-		out.write("Processes (requires root / system app on Android 4.4+)\n");
-		out.write("======================================================\n");
+		out.write("=========\n");
+		out.write("Processes\n");
+		out.write("=========\n");
 		dumpList(context, processStats, out);
 
 		// write alarms info
 		out.write("======================\n");
-		out.write("Alarms (requires BATTERY_STATS permissions)" + addendumAlarms + "\n");
+		out.write("Alarms" + addendumAlarms + "\n");
 		out.write("======================\n");
 		dumpList(context, alarmStats, out);
 
 		// write alarms info
 		out.write("======================\n");
-		out.write("Network (requires root)\n");
+		out.write("Network\n");
 		out.write("======================\n");
 		dumpList(context, networkStats, out);
 
