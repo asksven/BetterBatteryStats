@@ -49,24 +49,6 @@ public class ScreenEventHandler extends BroadcastReceiver
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_OFF");
 			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);
 
-			// if on kitkat make sure that we always collect screen on time: if no root then count the time
-			if ( !RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(context) )
-			{
-				// total time since boot including time spent in sleep
-				long elapsedRealtime = SystemClock.elapsedRealtime();
-				
-				// time screen went on
-				long elapsedRealtimeScreenOn = sharedPrefs.getLong("time_screen_on", 0);
-				long screenOnTime = sharedPrefs.getLong("screen_on_counter", 0);
-
-				// add to te counter
-				screenOnTime += (elapsedRealtime - elapsedRealtimeScreenOn);
-				
-		        SharedPreferences.Editor updater = sharedPrefs.edit();
-		        updater.putLong("screen_on_counter", screenOnTime);
-		        updater.commit();
-			}
-
 			if (watchdogActive)
 			{
 				// start service to persist reference
