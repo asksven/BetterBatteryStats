@@ -149,45 +149,24 @@
                 android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
 
-        <!--
-        SKN 2016-12-25 we ignore this for now
-        <activity android:name="com.asksven.betterbatterystats.ResponsiveListActivity" />
-        -->
-        <activity
-            android:name=".localeplugin.ui.EditActivity"
-            android:exported="false"
-            android:label="@string/plugin_name"
-            android:theme="@style/Theme.AppCompat"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize"
-            tools:ignore="UnusedAttribute"></activity>
-        <!--
-      This is the "edit" Activity. Note that the host will reject plug-in
-      Activities for the following reasons:
-          - Missing "android:label=[...]"
-          - Missing "android:icon=[...]"
-          - The Activity isn't exported (e.g. android:exported="false")
-          - The Activity isn't enabled (e.g. android:enabled="false")
-          - The Activity requires permissions not available to the host
-        -->
-        <activity-alias
-            android:name=".localeplugin.ui.activity.PluginActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/plugin_name"
-            android:targetActivity=".localeplugin.ui.EditActivity"
-            tools:ignore="ExportedActivity">
-
-            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
-            </intent-filter>
-        </activity-alias>
-
         <activity
             android:name=".DashClockSettingsActivity"
             android:exported="true"
             android:label="Settings" />
+
+        <activity
+            android:name=".localeplugin.ui.EditActivity"
+            android:exported="true"
+            android:label="@string/plugin_name"
+            android:theme="@style/Theme.AppCompat"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:icon="@mipmap/ic_launcher">
+            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity>
+
         <!--
              This is the "fire" BroadcastReceiver. Note that Locale will reject plug-in BroadcastReceivers for the following reasons:
                 - The BroadcastReceiver isn't exported (e.g. android:exported="false")
@@ -199,13 +178,14 @@
             android:name=".localeplugin.receiver.FireReceiver"
             android:exported="true"
             android:process=":background"
-            tools:ignore="ExportedReceiver">
+            >
 
             <!-- this Intent filter allows the plug-in to discovered by Locale -->
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION" />
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
+
         <receiver android:name=".handlers.OnBootHandler">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -275,16 +255,11 @@
                 android:resource="@xml/widget_provider" />
         </receiver>
 
-        <service android:name=".services.UpdateLargeWidgetService"></service>
-        <service android:name=".services.UpdateMediumWidgetService"></service>
-        <service android:name=".services.UpdateSmallWidgetService"></service>
+        <service android:name=".services.UpdateLargeWidgetService" />
+        <service android:name=".services.UpdateMediumWidgetService" />
+        <service android:name=".services.UpdateSmallWidgetService" />
         <service android:name=".services.UpdateWidgetService" />
         <service android:name=".services.EventWatcherService" />
-
-        <!--
-        not active right now
-        <service android:name="com.asksven.betterbatterystats.services.KbReaderService" />
-        -->
         <service android:name=".services.WriteUnpluggedReferenceService" />
         <service android:name=".services.WriteCustomReferenceService" />
         <service android:name=".services.WriteCurrentReferenceService" />
@@ -317,14 +292,6 @@
                 android:value="com.asksven.betterbatterystats.DashClockSettingsActivity" />
         </service>
 
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".StatsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.StatsActivity" />
-        </activity>
     </application>
 
 </manifest>
