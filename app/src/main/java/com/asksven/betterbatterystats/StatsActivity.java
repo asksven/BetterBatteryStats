@@ -213,27 +213,28 @@ public class StatsActivity extends ActionBarListActivity
 		// if root is available use it
 		boolean ignoreSystemApp = sharedPrefs.getBoolean("ignore_system_app", false);
 			
-		// show install as system app screen if root available but perms missing
-		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions() &&
-                (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this)))
+		// Grant permissions if they are missing and root is available
+		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
 		{
-        	// attempt to set perms using pm-comand
-			Log.i(TAG, "attempting to grant perms with 'pm grant'");
-			
-			String pkg = this.getPackageName();
-			RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
-            RootShell.getInstance().run("pm grant " + pkg + " android.permission.DUMP");
-            RootShell.getInstance().run("pm grant " + pkg + " android.permission.PACKAGE_USAGE_STATS");
+		    if ((!ignoreSystemApp && RootShell.getInstance().hasRootPermissions()))
+            {
+
+                // attempt to set perms using pm-comand
+                Log.i(TAG, "attempting to grant perms with 'pm grant'");
+
+                String pkg = this.getPackageName();
+                RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
+                RootShell.getInstance().run("pm grant " + pkg + " android.permission.DUMP");
+                RootShell.getInstance().run("pm grant " + pkg + " android.permission.PACKAGE_USAGE_STATS");
 
 
-            Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
-            if (SysUtils.hasBatteryStatsPermission(this))
-            {
-            	Log.i(TAG, "succeeded");
-            }
-            else
-            {
-            	Log.i(TAG, "failed");
+                if (SysUtils.hasBatteryStatsPermission(this))
+                {
+                    Log.i(TAG, "succeeded");
+                } else
+                {
+                    Log.i(TAG, "failed");
+                }
             }
 		}
 
