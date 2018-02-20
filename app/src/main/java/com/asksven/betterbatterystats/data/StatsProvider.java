@@ -1457,14 +1457,9 @@ public class StatsProvider
 		}
 		else
 		{
-			if (Netstats.fileExists() && RootShell.getInstance().hasRootPermissions())
+			if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
 			{
-				myNetworkStats = Netstats.parseNetstats();
-				
-			}
-			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
-			{
-				Log.i(TAG, "Falling back to API");
+				Log.i(TAG, "Using API");
 				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 				
 				int statsType = 0;
@@ -1479,6 +1474,10 @@ public class StatsProvider
 
 				myNetworkStats = mStats.getNetworkUsageStats(ctx, statsType);
 			}
+            else if (Netstats.fileExists() && RootShell.getInstance().hasRootPermissions())
+            {
+                myNetworkStats = Netstats.parseNetstats();
+            }
 			else
 			{
 				Log.e(TAG, "Unable to access kernel wakelocks with either method");
