@@ -42,7 +42,7 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
 
 	static final String TAG = "EditActivity";
 
-	private static final String HELP_URL = "http://blog.asksven.org"; //$NON-NLS-1$
+	private static final String HELP_URL = "https://better.asksven.org/"; //$NON-NLS-1$
 
 
 	private ReferencesAdapter m_spinnerAdapter;

@@ -137,7 +137,7 @@ dependencies {
     compile 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     compile 'com.android.support:design:25.4.0'
-    compile 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
+    compile group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.3, 5.0['
     compile 'com.android.support:support-compat:25.4.0'
     compile 'com.android.support:support-vector-drawable:25.4.0'
     compile 'net.hockeyapp.android:HockeySDK:5.0.4'

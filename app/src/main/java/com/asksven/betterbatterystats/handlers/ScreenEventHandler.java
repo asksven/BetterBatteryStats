@@ -86,7 +86,7 @@ public class ScreenEventHandler extends BroadcastReceiver
 
 			if (bRunOnUnlock)
 			{
-				if ( !RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(context) )
+				if ( !SysUtils.hasBatteryStatsPermission(context) && !RootShell.getInstance().hasRootPermissions()  )
 				{
 					// total time since boot including time spent in sleep
 					long elapsedRealtime = SystemClock.elapsedRealtime();

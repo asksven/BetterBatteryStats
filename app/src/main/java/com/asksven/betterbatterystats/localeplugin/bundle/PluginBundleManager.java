@@ -48,7 +48,7 @@ public final class PluginBundleManager
     public static final String BUNDLE_EXTRA_BOOL_SAVE_REF 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_REF"; //$NON-NLS-1$
     public static final String BUNDLE_EXTRA_BOOL_SAVE_STAT 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_STAT"; //$NON-NLS-1$
     public static final String BUNDLE_EXTRA_BOOL_SAVE_JSON 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_JSON"; //$NON-NLS-1$
-    public static final String BUNDLE_EXTRA_STRING_REF_NAME	= "com.asksven.commandcenter.localeplugin.extra.REF_NAME"; //$NON-NLS-1$
+    public static final String BUNDLE_EXTRA_STRING_REF_NAME	= "com.asksven.betterbatterystats.localeplugin.extra.REF_NAME"; //$NON-NLS-1$
 
     
     /**
@@ -130,7 +130,7 @@ public final class PluginBundleManager
          * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
          * is the wrong number).
          */
-        if (4 != bundle.keySet().size())
+        if (5 != bundle.keySet().size())
         {
             if (Constants.IS_LOGGABLE)
             {
