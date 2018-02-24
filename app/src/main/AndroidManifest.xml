@@ -178,7 +178,7 @@
             android:name=".localeplugin.receiver.FireReceiver"
             android:exported="true"
             android:process=":background"
-            >
+            tools:ignore="ExportedReceiver">
 
             <!-- this Intent filter allows the plug-in to discovered by Locale -->
             <intent-filter>

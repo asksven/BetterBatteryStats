@@ -10,7 +10,6 @@
     <string name="message_hint_stat_type">Tipo Statistica</string>
     <string name="message_enable_root">Abilitando le funzioni di root si assume che il telefono sia rootato.\nSiate sicuri di dare i diritti SU alle statistiche di Allarmi e Rete.\nSe tali diritti non permangono e\' colpa dell\'app SU e non di BBS.\nContinuare?</string>
     <string name="message_enable_active_mon">Il monitoraggio Attivo causa un incremento dei wakeup e dei calcoli, utilizzare con cautela.\nContinuare?</string>
-    <string name="message_first_launch">Viene ora creato un riferimento \'disconnesso\'. Quando si connette/disconnette il telefono questo riferimento viene sovrascritto</string>
     <string name="message_copied_to_clipboard">%s e\' stato copiato negli appunti</string>
     <string name="message_no_hist_froyo">Sfortunatamente Froyo non supporta lo storico dei dati</string>
     <string name="message_no_appops">AppOps non esiste sulla tua ROM</string>
@@ -235,7 +234,6 @@
     <string name="pref_auto_refresh_summary">Ricarica automaticamente \'attuale\' quando si cambiano schermi/settaggi</string>
     <string name="pref_section_sharing">Opzioni di condivisione</string>
     <string name="pref_save_dumpfile_title">Dumpfile</string>
-    <string name="pref_save_as_text_summary">Condividi il dumpfile in formato testo</string>
     <string name="pref_save_logcat_title">Logcat</string>
     <string name="pref_save_logcat_summary">Condividi il logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
@@ -246,8 +244,6 @@
     <string name="pref_force_kwl_api_summary">Forza l\'uso dell\'API per ottenere i wakelock del Kernel</string>
     <string name="pref_force_network_api_title">Statistiche di Rete tramite API</string>
     <string name="pref_force_network_api_summary">Forza il calcolo delle Statistiche di Rete tramite API</string>	
-    <string name="pref_screen_system_app_title">App di sistema</string>
-    <string name="pref_screen_system_app_summary">Installa come App di Sistema</string>
     <string name="pref_screen_import_export_title">Importa/Esporta</string>
     <string name="pref_screen_import_export_summary">Importa e Esporta le Impostazioni</string>
     <string name="pref_app_analytics_title">Analitica</string>
