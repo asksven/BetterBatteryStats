@@ -19,6 +19,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -188,7 +189,7 @@ public class PreferencesFragmentActivity extends BaseActivity
 				else
 				{
 					// cancel any existing alarms
-					StatsProvider.cancelActiveMonAlarm(getActivity());
+					StatsProvider.cancelActiveMonAlarm(BbsApplication.getAppContext());
 
 				}
 
