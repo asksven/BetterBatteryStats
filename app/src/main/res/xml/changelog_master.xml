@@ -2,7 +2,7 @@
 <changelog>
     <release version="2.4" versioncode="94">
         <change>Fixed preferences export/import</change>
-        
+        <change>Root only to be used when installing</change>
     </release>
 
 </changelog>

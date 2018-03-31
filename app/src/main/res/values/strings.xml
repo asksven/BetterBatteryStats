@@ -234,8 +234,6 @@
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Write files to /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Private storage</string>
-    <string name="pref_ignore_system_app_summary">Ignore System App detection (for XPosed Module \'Enable BATTERY_STATS\' users)</string>
-    <string name="pref_ignore_system_app_title">Do not detect system app</string>
     <string name="pref_select_dir_summary">Select where to write dumpfiles</string>
     <string name="pref_select_dir_title">Select Output Directory</string>
     <string name="pref_select_dir_button">Select</string>
@@ -251,12 +249,6 @@
     <string name="pref_save_logcat_summary">Share logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Share dmesg</string>
-    <string name="pref_force_alarms_api_title">Alarms using API</string>
-    <string name="pref_force_alarms_api_summary">Force to retrieve Alarms using the API</string>
-    <string name="pref_force_kwl_api_title">Kernel Wakelocks using API</string>
-    <string name="pref_force_kwl_api_summary">Force to retrieve Kernel Wakelocks using the API</string>
-    <string name="pref_force_network_api_title">Network Stats using API</string>
-    <string name="pref_force_network_api_summary">Force to retrieve Network Stats using the API</string>
     <string name="pref_screen_permissions_title">App Permissions</string>
     <string name="pref_screen_permissions_summary">Check for the required permissions</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
@@ -297,7 +289,7 @@
 
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Device is plugged in: no stats</string>
-    <string name="NO_ROOT_ERR">This stat requires root permissions</string>
+<!--    <string name="NO_ROOT_ERR">This stat requires root permissions</string> -->
     <string name="NO_PERM_ERR">This stat requires BATTERY_STATS Permission</string>
     <string name="NO_PERM_INFO">Attempting to grant permissions without system app.</string>
     <string name="NO_REF_ERR">No reference set yet</string>

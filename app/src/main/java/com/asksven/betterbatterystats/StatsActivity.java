@@ -210,13 +210,10 @@ public class StatsActivity extends ActionBarListActivity
 			// nop strCurrentRelease is set to ""
 		}
 		
-		// if root is available use it
-		boolean ignoreSystemApp = sharedPrefs.getBoolean("ignore_system_app", false);
-			
 		// Grant permissions if they are missing and root is available
 		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
 		{
-		    if ((!ignoreSystemApp && RootShell.getInstance().hasRootPermissions()))
+		    if (( RootShell.getInstance().isRooted()))
             {
 
                 // attempt to set perms using pm-comand

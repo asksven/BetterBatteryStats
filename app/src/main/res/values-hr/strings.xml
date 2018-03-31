@@ -205,8 +205,6 @@
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Zapisuj datoteke u /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Privatna memorija</string>
-    <string name="pref_ignore_system_app_summary">Ignoriraj detekciju sistemske aplikacije (za korisnike XPosed Module-a \'Enable BATTERY_STATS\')</string>
-    <string name="pref_ignore_system_app_title">Ne detektiraj sistemsku aplikaciju</string>
 
 
     <string name="pref_developer_title">Omogući za vrijeme punjenja</string>

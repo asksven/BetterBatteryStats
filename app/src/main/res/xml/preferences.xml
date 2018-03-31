@@ -351,11 +351,6 @@
                 android:summary="@string/pref_files_to_private_storage_summary"
                 android:title="@string/pref_files_to_private_storage_title" />
 
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="ignore_system_app"
-                android:summary="@string/pref_ignore_system_app_summary"
-                android:title="@string/pref_ignore_system_app_title" />
             <com.asksven.betterbatterystats.contrib.SeekBarPreference
                 android:defaultValue="100"
                 android:key="battery_charged_minimum_threshold"
@@ -371,21 +366,6 @@
                 android:key="developer"
                 android:summary="@string/pref_developer_summary"
                 android:title="@string/pref_developer_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="force_alarms_api"
-                android:summary="@string/pref_force_alarms_api_summary"
-                android:title="@string/pref_force_alarms_api_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="force_kwl_api"
-                android:summary="@string/pref_force_kwl_api_summary"
-                android:title="@string/pref_force_kwl_api_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="force_network_api"
-                android:summary="@string/pref_force_network_api_summary"
-                android:title="@string/pref_force_network_api_title" />
 
             <PreferenceScreen
                 android:summary="@string/pref_screen_permissions_summary"

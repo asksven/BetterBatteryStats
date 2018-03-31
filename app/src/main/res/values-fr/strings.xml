@@ -205,8 +205,6 @@
     <string name="pref_debug_logging_title">Débuggage</string>
     <string name="pref_files_to_private_storage_summary">Écrire les fichiers vers /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Stockage privé</string>
-    <string name="pref_ignore_system_app_summary">Ignorer la détection pour application système (pour les utilisateurs de module Xposed \'Enable BATTERY_STATS\')</string>
-    <string name="pref_ignore_system_app_title">Ne pas détecter comme application système</string>
 
 
     <string name="pref_developer_title">Activer pendant le chargement</string>

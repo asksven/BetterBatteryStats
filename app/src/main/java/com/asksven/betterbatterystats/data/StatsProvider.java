@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,15 +43,11 @@ import android.widget.Toast;
 
 import com.asksven.android.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.common.kernelutils.CpuStates;
-import com.asksven.android.common.kernelutils.Netstats;
 import com.asksven.android.common.kernelutils.ProcessStatsDumpsys;
 import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.kernelutils.WakeupSources;
-import com.asksven.android.common.kernelutils.WakeupSourcesLg;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -169,9 +165,7 @@ public class StatsProvider
 			myRet.add(new Notification(ctx.getString(R.string.NO_STATS_WHEN_CHARGING)));
 			return myRet;
 		}
-		// try
-		// {
-		// constants are related to arrays.xml string-array name="stats"
+
 		switch (iStat)
 		{
 		case 0:
@@ -193,19 +187,6 @@ public class StatsProvider
 			return getSensorStatList(bFilterStats, refFrom, refTo);
 
 		}
-
-		// }
-		// catch (BatteryInfoUnavailableException e)
-		// {
-		//
-		// }
-		// catch (Exception e)
-		// {
-		// Log.e(TAG, "Exception: " + e.getMessage());
-		// Log.e(TAG, "Callstack: " + e.fillInStackTrace());
-		// throw new Exception();
-		//
-		// }
 
 		return new ArrayList<StatElement>();
 	}
@@ -240,22 +221,6 @@ public class StatsProvider
 		return since;
 	}
 
-
-
-//	public static Reference getReferenceByName(String refName)
-//	{
-//		if (m_refStore.containsKey(refName))
-//		{
-//			return m_refStore.get(refName);
-//		}
-//		else
-//		{
-//			Log.e(TAG, "getReference was called with an unknown name "
-//					+ refName + ". No reference found");
-//			return null;
-//		}
-//	}
-
 	/**
 	 * Get the Alarm Stat to be displayed
 	 * 
@@ -275,11 +240,10 @@ public class StatsProvider
 
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
 		// stop straight away of root features are disabled
 		// to process alarms we need either root or the perms to access the private API
-		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx) || RootShell.getInstance().hasRootPermissions()) )
+		if (!SysUtils.hasBatteryStatsPermission(ctx))
 		{
 			myStats.add(new Notification(ctx.getString(R.string.NO_PERM_ERR)));
 			return myStats;
@@ -292,7 +256,7 @@ public class StatsProvider
 		}
 
 		ArrayList<StatElement> myAlarms = null;
-//		// get the current value
+		// get the current value
 		if ((refTo.m_refAlarms != null) && (!refTo.m_refAlarms.isEmpty()))
 		{
 			myAlarms = refTo.m_refAlarms;	
@@ -382,55 +346,22 @@ public class StatsProvider
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
 		ArrayList<StatElement> myAlarms = null;
 
-		if (sharedPrefs.getBoolean("force_alarms_api", false))
-		{
-			Log.i(TAG, "Setting set to force the use of the API for alarms");
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
-			int statsType = 0;
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-			{
-				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
-			}
-			else
-			{
-				statsType = BatteryStatsTypes.STATS_CURRENT;
-			}		
-			
-			myAlarms = mStats.getWakeupStats(ctx, statsType);
-		}
-		else
-		{
-			// use root if available as root delivers more data
-			if (SysUtils.hasBatteryStatsPermission(ctx) && SysUtils.hasDumpsysPermission(ctx))
-			{
-				myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(ctx));//, false);
-			}
-			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
-			{
-				Log.i(TAG, "Accessing Alarms in API mode as dumpsys has failed");
-				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
-				int statsType = 0;
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-				{
-					statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
-				}
-				else
-				{
-					statsType = BatteryStatsTypes.STATS_CURRENT;
-				}		
+        BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
+        int statsType = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+        }
+        else
+        {
+            statsType = BatteryStatsTypes.STATS_CURRENT;
+        }
 
-				myAlarms = mStats.getWakeupStats(ctx, statsType);
-			}
-			else
-			{
-				return myStats;
-			}
-		}
-		
+        myAlarms = mStats.getWakeupStats(ctx, statsType);
+
 		ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
 		// if we are using custom ref. always retrieve "stats current"
 
@@ -485,11 +416,10 @@ public class StatsProvider
 
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
 		// stop straight away of root features are disabled
 		// to process alarms we need either root or the perms to access the private API
-		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx) || RootShell.getInstance().hasRootPermissions()) )
+		if (!SysUtils.hasBatteryStatsPermission(ctx))
 		{
 			myStats.add(new Notification(ctx.getString(R.string.NO_PERM_ERR)));
 			return myStats;
@@ -591,7 +521,6 @@ public class StatsProvider
 		// stop straight away of root features are disabled
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);		
 
 		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 		int statsType = 0;
@@ -654,11 +583,10 @@ public class StatsProvider
 
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-		
+
 		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
-		if (!(SysUtils.hasBatteryStatsPermission(ctx) || permsNotNeeded) )
+		if (!SysUtils.hasBatteryStatsPermission(ctx))
 		{
 			// stop straight away of root features are disabled
 			if (!SysUtils.hasBatteryStatsPermission(ctx))
@@ -838,16 +766,10 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
 		
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-		
-		if ( !(SysUtils.hasBatteryStatsPermission(ctx) || permsNotNeeded) )
+		if ( !SysUtils.hasBatteryStatsPermission(ctx))
 		{
-			// stop straight away of root features are disabled
-			if (!SysUtils.hasBatteryStatsPermission(ctx) && !permsNotNeeded)
-			{
-				myStats.add(new Notification(ctx.getString(R.string.NO_ROOT_ERR)));
-				return myStats;
-			}
+			myStats.add(new Notification(ctx.getString(R.string.NO_PERM_ERR)));
+			return myStats;
 		}
 
 		if ((refFrom == null) || (refTo == null))
@@ -1060,9 +982,8 @@ public class StatsProvider
 		
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-		
-		if (!(Wakelocks.fileIsWorldReadableExists() || WakeupSources.fileIsWorldReadableExists() || permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx)))
+
+		if (!(Wakelocks.fileIsWorldReadableExists() || WakeupSources.fileIsWorldReadableExists()  || SysUtils.hasBatteryStatsPermission(ctx)))
 		{
 			myStats.add(new Notification(ctx.getString(R.string.KWL_ACCESS_ERROR)));
 			return myStats;
@@ -1183,78 +1104,20 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
 		
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 
-		if (sharedPrefs.getBoolean("force_kwl_api", false))
+		int statsType = 0;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
-			Log.i(TAG, "Setting set to force the use of the API for kernel wakelocks");
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
-			
-			int statsType = 0;
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-			{
-				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
-			}
-			else
-			{
-				statsType = BatteryStatsTypes.STATS_CURRENT;
-			}		
-
-			myKernelWakelocks = mStats.getKernelWakelockStats(ctx, statsType, false);
+			statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
 		}
 		else
 		{
-			// we must support both "old" (/proc/wakelocks) and "new formats
-			if (Wakelocks.fileIsWorldReadableExists() || WakeupSources.fileIsWorldReadableExists())
-			{
-				
-				if (Wakelocks.fileIsWorldReadableExists())
-				{
-					Log.i(TAG, "Using Wakelocks file");
-					myKernelWakelocks = Wakelocks.parseProcWakelocks(ctx);
-				}
-				else
-				{
-					Log.i(TAG, "Using Wakeupsources file");
-					// check if we have a LG G4, G3 or G2
-					// Build.BRAND: lge
-					// Build.DEVICE: g3, g2 or p1
-					if ( (Build.BRAND.equals("lge"))
-							&& (Build.DEVICE.equals("g3"))|| Build.DEVICE.equals("p1") || (Build.DEVICE.equals("g2")))
-					{
-						Log.i(TAG, "Using LG G2, G3, G4 specific wakeup sources");
-						myKernelWakelocks = WakeupSourcesLg.parseWakeupSources(ctx);
-					}
-					else
-					{
-						myKernelWakelocks = WakeupSources.parseWakeupSources(ctx);
-					}
-				}
-			}
-			else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
-			{
-				Log.i(TAG, "Falling back to API");
-				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
-				
-				int statsType = 0;
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-				{
-					statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
-				}
-				else
-				{
-					statsType = BatteryStatsTypes.STATS_CURRENT;
-				}		
+			statsType = BatteryStatsTypes.STATS_CURRENT;
+		}
 
-				myKernelWakelocks = mStats.getKernelWakelockStats(ctx, statsType, false);
-			}
-			else
-			{
-				Log.e(TAG, "Unable to access kernel wakelocks with either method");
-				return myStats;
-			}
-		}		
-		
+		myKernelWakelocks = mStats.getKernelWakelockStats(ctx, statsType, false);
+
 		ArrayList<NativeKernelWakelock> myRetKernelWakelocks = new ArrayList<NativeKernelWakelock>();
 		// if we are using custom ref. always retrieve "stats current"
 
@@ -1319,10 +1182,9 @@ public class StatsProvider
 
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-		
+
 		// stop straight away if no root permissions or no perms to access data directly
-		if (!(permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx) || RootShell.getInstance().hasRootPermissions()) )
+		if (!SysUtils.hasBatteryStatsPermission(ctx))
 		{
 			myStats.add(new Notification(ctx.getString(R.string.NO_PERM_ERR)));
 			return myStats;
@@ -1434,58 +1296,23 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
 		
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 
 		ArrayList<StatElement> myNetworkStats = null;
 
-		if (sharedPrefs.getBoolean("force_network_api", false))
-		{
-			Log.i(TAG, "Setting set to force the use of the API for kernel wakelocks");
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
-			
-			int statsType = 0;
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-			{
-				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
-			}
-			else
-			{
-				statsType = BatteryStatsTypes.STATS_CURRENT;
-			}		
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
 
-			myNetworkStats = mStats.getNetworkUsageStats(ctx, statsType);
+		int statsType = 0;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
 		}
 		else
 		{
-			if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
-			{
-				Log.i(TAG, "Using API");
-				BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
-				
-				int statsType = 0;
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-				{
-					statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
-				}
-				else
-				{
-					statsType = BatteryStatsTypes.STATS_CURRENT;
-				}		
+			statsType = BatteryStatsTypes.STATS_CURRENT;
+		}
 
-				myNetworkStats = mStats.getNetworkUsageStats(ctx, statsType);
-			}
-            else if (Netstats.fileExists() && RootShell.getInstance().hasRootPermissions())
-            {
-                myNetworkStats = Netstats.parseNetstats();
-            }
-			else
-			{
-				Log.e(TAG, "Unable to access kernel wakelocks with either method");
-				return myStats;
-			}
-		}		
-		
-///////////////////////////////////////////
+		myNetworkStats = mStats.getNetworkUsageStats(ctx, statsType);
+
 		ArrayList<NetworkUsage> myRetNetworkStats = new ArrayList<NetworkUsage>();
 
 
@@ -1895,460 +1722,391 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(ctx);
 
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false); 
-		
-		if ( !SysUtils.hasBatteryStatsPermission(ctx) && !permsNotNeeded)
+		BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
+
+		long rawRealtime = SystemClock.elapsedRealtime() * 1000;
+
+		long uptime = SystemClock.uptimeMillis();
+
+		long elaspedRealtime = rawRealtime / 1000;
+
+		long batteryRealtime = 0;
+		try
 		{
+			batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, "An exception occured processing battery realtime. Message: " + e.getMessage());
+			Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
+		}
 
-			long elapsedRealtime = SystemClock.elapsedRealtime();
-			long uptimeMillis = SystemClock.uptimeMillis();
-
-			// retrieve screen on time from prefs
-			long screenOnTime = sharedPrefs.getLong("screen_on_counter", 0);
-			myUsages.add(new Misc("Screen On", screenOnTime, elapsedRealtime));
-
-			// basic fonctionality
-			// elapsedRealtime(): Returns milliseconds since boot, including time spent in sleep.
-			// uptimeMillis(): Returns milliseconds since boot, not counting time spent in deep sleep.
-			Misc deepSleepUsage = new Misc("Deep Sleep", elapsedRealtime - uptimeMillis, elapsedRealtime);
-			myUsages.add(deepSleepUsage);
-
-			Misc awakeUsage = new Misc(LABEL_MISC_AWAKE, uptimeMillis, elapsedRealtime);
-			myUsages.add(awakeUsage);
-			
+		int statsType = 0;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
 		}
 		else
-		{	
-			BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
-	
-			long rawRealtime = SystemClock.elapsedRealtime() * 1000; 
-			
-			long uptime = SystemClock.uptimeMillis();
-			
-			long elaspedRealtime = rawRealtime / 1000;
-			
-			long batteryRealtime = 0;
+		{
+			statsType = BatteryStatsTypes.STATS_CURRENT;
+		}
+
+		long whichRealtime = mStats.computeBatteryRealtime(rawRealtime, statsType) / 1000;
+
+		long timeBatteryUp = mStats.computeBatteryUptime(
+				SystemClock.uptimeMillis() * 1000, statsType) / 1000;
+
+		if (CommonLogSettings.DEBUG)
+		{
+			Log.i(TAG, "whichRealtime = " + whichRealtime + " batteryRealtime = " + batteryRealtime + " timeBatteryUp=" + timeBatteryUp);
+		}
+
+		long timeScreenOn = mStats.getScreenOnTime(batteryRealtime, statsType) / 1000;
+		long timePhoneOn = mStats.getPhoneOnTime(batteryRealtime, statsType) / 1000;
+
+		long timeWifiOn = 0;
+		long timeWifiRunning = 0;
+		if (sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget)
+		{
 			try
 			{
-				batteryRealtime = mStats.getBatteryRealtime(rawRealtime);
+				timeWifiOn = mStats.getWifiOnTime(batteryRealtime, statsType) / 1000;
+				timeWifiRunning = mStats.getGlobalWifiRunningTime(
+						batteryRealtime, statsType) / 1000;
+			} catch (BatteryInfoUnavailableException e)
+			{
+				timeWifiOn = 0;
+				timeWifiRunning = 0;
+				Log.e(TAG,
+						"A batteryinfo error occured while retrieving Wifi data");
 			}
-			catch (Exception e)
-			{
-				Log.e(TAG, "An exception occured processing battery realtime. Message: " + e.getMessage());
-				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
-			}		
-	
-			int statsType = 0;
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-			{
-				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
-			}
-			else
-			{
-				statsType = BatteryStatsTypes.STATS_CURRENT;
-			}		
+		}
 
-			long whichRealtime = mStats.computeBatteryRealtime(rawRealtime, statsType) / 1000;
-			
-			long timeBatteryUp = mStats.computeBatteryUptime(
-					SystemClock.uptimeMillis() * 1000, statsType) / 1000;
-			
-			if (CommonLogSettings.DEBUG)
-			{
-				Log.i(TAG, "whichRealtime = " + whichRealtime + " batteryRealtime = " + batteryRealtime + " timeBatteryUp=" + timeBatteryUp);
-			}
-			
-			long timeScreenOn = mStats.getScreenOnTime(batteryRealtime, statsType) / 1000;
-			long timePhoneOn = mStats.getPhoneOnTime(batteryRealtime, statsType) / 1000;
-	
-			long timeWifiOn = 0;
-			long timeWifiRunning = 0;
-			if (sharedPrefs.getBoolean("show_other_wifi", true) && !bWidget)
-			{
-				try
-				{
-					timeWifiOn = mStats.getWifiOnTime(batteryRealtime, statsType) / 1000;
-					timeWifiRunning = mStats.getGlobalWifiRunningTime(
-							batteryRealtime, statsType) / 1000;
-					// long timeWifiMulticast =
-					// mStats.getWifiMulticastTime(m_context, batteryRealtime,
-					// BatteryStatsTypes.STATS_CURRENT) / 1000;
-					// long timeWifiLocked = mStats.getFullWifiLockTime(m_context,
-					// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-					// long timeWifiScan = mStats.getScanWifiLockTime(m_context,
-					// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-				} catch (BatteryInfoUnavailableException e)
-				{
-					timeWifiOn = 0;
-					timeWifiRunning = 0;
-					Log.e(TAG,
-							"A batteryinfo error occured while retrieving Wifi data");
-				}
-			}
-			// long timeAudioOn = mStats.getAudioTurnedOnTime(m_context,
-			// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-			// long timeVideoOn = mStats.getVideoTurnedOnTime(m_context,
-			// batteryRealtime, BatteryStatsTypes.STATS_CURRENT) / 1000;
-			long timeBluetoothOn 		= 0;
+		long timeBluetoothOn 		= 0;
 
-			if (sharedPrefs.getBoolean("show_other_bt", true) && !bWidget)
-			{
-				try
-				{
-					if (Build.VERSION.SDK_INT >= 21)
-					{
-						timeBluetoothOn 	= mStats.getBluetoothInStateTime(ctx, statsType) / 1000;
-					}
-					else
-					{
-						timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, statsType) / 1000;
-					}
-				}
-				catch (BatteryInfoUnavailableException e)
-				{
-					timeBluetoothOn = 0;
-					Log.e(TAG,
-							"A batteryinfo error occured while retrieving BT data");
-				}
-	
-			}
-
-			long interactiveTime			= 0;
-			long powerSaveModeEnabledTime 	= 0;
-			long deviceIdleModeEnabledTime 	= 0;
-			long getDeviceIdlingTime 		= 0;
-
-			
-			if (sharedPrefs.getBoolean("show_other_doze", true) && !bWidget)
-			{
-				try
-				{
-					if (Build.VERSION.SDK_INT >= 21)
-					{
-						interactiveTime 			= mStats.getInteractiveTime(batteryRealtime, statsType) / 1000;
-						powerSaveModeEnabledTime 	= mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType) / 1000;
-                        deviceIdleModeEnabledTime = mStats.getDeviceIdleModeEnabledTime(batteryRealtime, statsType) / 1000;
-
-						// these are not available anymore from SDK24 on
-                        if (Build.VERSION.SDK_INT <= 23)
-                        {
-                            getDeviceIdlingTime = mStats.getDeviceIdlingTime(batteryRealtime, statsType) / 1000;
-                        }
-                        else
-                        {
-                            // we need to switch to getDeviceIdleModeTime
-                        }
-					}
-				}
-				catch (BatteryInfoUnavailableException e)
-				{
-					timeBluetoothOn = 0;
-					Log.e(TAG,
-							"A batteryinfo error occured while retrieving doze mode data");
-				}
-	
-			}
-
-			long syncTime = 0;
+		if (sharedPrefs.getBoolean("show_other_bt", true) && !bWidget)
+		{
 			try
 			{
 				if (Build.VERSION.SDK_INT >= 21)
 				{
-					syncTime 	= mStats.getSyncOnTime(ctx, batteryRealtime, statsType) / 1000;
+					timeBluetoothOn 	= mStats.getBluetoothInStateTime(ctx, statsType) / 1000;
+				}
+				else
+				{
+					timeBluetoothOn = mStats.getBluetoothOnTime(batteryRealtime, statsType) / 1000;
 				}
 			}
 			catch (BatteryInfoUnavailableException e)
 			{
-				Log.e(TAG, "A batteryinfo error occured while retrieving sensor and sync stats");
+				timeBluetoothOn = 0;
+				Log.e(TAG,
+						"A batteryinfo error occured while retrieving BT data");
 			}
 
-			long timeNoDataConnection = 0;
-			long timeSignalNone = 0;
-			long timeSignalPoor = 0;
-			long timeSignalModerate = 0;
-			long timeSignalGood = 0;
-			long timeSignalGreat = 0;
-			if (sharedPrefs.getBoolean("show_other_signal", true))
-			{
-				try
-				{
-					timeNoDataConnection = mStats.getPhoneDataConnectionTime(
-							BatteryStatsTypes.DATA_CONNECTION_NONE,
-							batteryRealtime, statsType) / 1000;
-					timeSignalNone = mStats.getPhoneSignalStrengthTime(
-							BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN,
-							batteryRealtime, statsType) / 1000;
-					timeSignalPoor = mStats.getPhoneSignalStrengthTime(
-							BatteryStatsTypes.SIGNAL_STRENGTH_POOR,
-							batteryRealtime, statsType) / 1000;
-					timeSignalModerate = mStats.getPhoneSignalStrengthTime(
-							BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE,
-							batteryRealtime, statsType) / 1000;
-					timeSignalGood = mStats.getPhoneSignalStrengthTime(
-							BatteryStatsTypes.SIGNAL_STRENGTH_GOOD,
-							batteryRealtime, statsType) / 1000;
-					timeSignalGreat = mStats.getPhoneSignalStrengthTime(
-							BatteryStatsTypes.SIGNAL_STRENGTH_GREAT,
-							batteryRealtime, statsType) / 1000;
-				} catch (BatteryInfoUnavailableException e)
-				{
-					timeNoDataConnection = 0;
-					timeSignalNone = 0;
-					timeSignalPoor = 0;
-					timeSignalModerate = 0;
-					timeSignalGood = 0;
-					timeSignalGreat = 0;
-					Log.e(TAG,
-							"A batteryinfo error occured while retrieving Signal data");
-				}
-			}
-	
-			long timeScreenDark = 0;
-			long timeScreenDim = 0;
-			long timeScreenMedium = 0;
-			long timeScreenLight = 0;
-			long timeScreenBright = 0;
-			if (sharedPrefs.getBoolean("show_other_screen_brightness", true))
-			{
-				try
-				{
-					timeScreenDark = mStats.getScreenBrightnessTime(
-							BatteryStatsTypes.SCREEN_BRIGHTNESS_DARK,
-							batteryRealtime, statsType) / 1000;
-					timeScreenDim = mStats.getScreenBrightnessTime(
-							BatteryStatsTypes.SCREEN_BRIGHTNESS_DIM,
-							batteryRealtime, statsType) / 1000;
-					timeScreenMedium = mStats.getScreenBrightnessTime(
-							BatteryStatsTypes.SCREEN_BRIGHTNESS_MEDIUM,
-							batteryRealtime, statsType) / 1000;
-					timeScreenLight = mStats.getScreenBrightnessTime(
-							BatteryStatsTypes.SCREEN_BRIGHTNESS_LIGHT,
-							batteryRealtime, statsType) / 1000;
-					timeScreenBright = mStats.getScreenBrightnessTime(
-							BatteryStatsTypes.SCREEN_BRIGHTNESS_BRIGHT,
-							batteryRealtime, statsType) / 1000;
-				}
-				catch (BatteryInfoUnavailableException e)
-				{
-					timeScreenDark = 0;
-					timeScreenDim = 0;
-					timeScreenMedium = 0;
-					timeScreenLight = 0;
-					timeScreenBright = 0;
-					Log.e(TAG,
-							"A batteryinfo error occured while retrieving Screen brightness data");
-				}
-			}
-	
-			// deep sleep times are independent of stat type
-			long timeDeepSleep = (SystemClock.elapsedRealtime() - SystemClock
-					.uptimeMillis());
-			// long whichRealtime = SystemClock.elapsedRealtime();
-			// long timeElapsed = mStats.computeBatteryRealtime(rawRealtime,
-			// BatteryStatsTypes.STATS_CURRENT) / 1000;
-			// SystemClock.elapsedRealtime();
-	
-			Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, elaspedRealtime);
-			if (LogSettings.DEBUG)
-			{
-				Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.toString());
-			}
-	
-			if ((!bFilter) || (deepSleepUsage.getTimeOn() > 0))
-			{
-				myUsages.add(deepSleepUsage);
-			}
-	
-			if (timeBatteryUp > 0)
-			{
-				myUsages.add(new Misc(LABEL_MISC_AWAKE, timeBatteryUp - timeScreenOn, elaspedRealtime));
-			}
-	
-			if (timeScreenOn > 0)
-			{
-				myUsages.add(new Misc("Screen On", timeScreenOn, elaspedRealtime));
-			}
-	
-			if (timePhoneOn > 0)
-			{
-				myUsages.add(new Misc("Phone On", timePhoneOn, elaspedRealtime));
-			}
-	
-			if ((timeWifiOn > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_wifi",
-							true)))
-			{
-				myUsages.add(new Misc("Wifi On", timeWifiOn, elaspedRealtime));
-			}
-	
-			if ((timeWifiRunning > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_wifi",
-							true)))
-	
-			{
-				myUsages.add(new Misc("Wifi Running", timeWifiRunning, elaspedRealtime));
-			}
-	
-            if ((timeBluetoothOn > 0)
-                    && (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
-                            true)))
-
-            {
-                myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, elaspedRealtime));
-            }
-
-			if (Build.VERSION.SDK_INT >= 6)
-			{
-				if ((interactiveTime > 0)
-						&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
-								true)))		
-				{
-					myUsages.add(new Misc("Doze Interactive Time", interactiveTime, elaspedRealtime));
-				}
-				
-				if ((powerSaveModeEnabledTime > 0)
-						&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
-								true)))		
-				{
-					myUsages.add(new Misc("Doze Powersave Time", powerSaveModeEnabledTime, elaspedRealtime));
-				}
-				
-				if ((deviceIdleModeEnabledTime > 0)
-						&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
-								true)))		
-				{
-					myUsages.add(new Misc("Doze Idle Mode Time", deviceIdleModeEnabledTime, elaspedRealtime));
-				}
-				
-				if ((getDeviceIdlingTime > 0)
-						&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
-								true)))		
-				{
-					myUsages.add(new Misc("Doze Idling Time", getDeviceIdlingTime, elaspedRealtime));
-				}
-				
-				if (syncTime > 0)
-				{
-					myUsages.add(new Misc("Sync", syncTime, elaspedRealtime));
-				}
-			}
-	
-			if ((timeNoDataConnection > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean(
-							"show_other_connection", true)))
-	
-			{
-				myUsages.add(new Misc("No Data Connection", timeNoDataConnection, elaspedRealtime));
-			}
-	
-			if ((timeSignalNone > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-							true)))
-	
-			{
-				myUsages.add(new Misc("No or Unknown Signal", timeSignalNone, elaspedRealtime));
-			}
-	
-			if ((timeSignalPoor > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-							true)))
-			{
-				myUsages.add(new Misc("Poor Signal", timeSignalPoor, elaspedRealtime));
-			}
-	
-			if ((timeSignalModerate > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-							true)))
-			{
-				myUsages.add(new Misc("Moderate Signal", timeSignalModerate, elaspedRealtime));
-			}
-	
-			if ((timeSignalGood > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-							true)))
-			{
-				myUsages.add(new Misc("Good Signal", timeSignalGood, elaspedRealtime));
-			}
-	
-			if ((timeSignalGreat > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
-							true)))
-			{
-				myUsages.add(new Misc("Great Signal", timeSignalGreat, elaspedRealtime));
-			}
-	
-			if ((timeScreenDark > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-							true)))
-	
-			{
-				myUsages.add(new Misc("Screen dark", timeScreenDark, elaspedRealtime));
-			}
-	
-			if ((timeScreenDim > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-							true)))
-	
-			{
-				myUsages.add(new Misc("Screen dimmed", timeScreenDim, elaspedRealtime));
-			}
-	
-			if ((timeScreenMedium > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-							true)))
-	
-			{
-				myUsages.add(new Misc("Screen medium", timeScreenMedium, elaspedRealtime));
-			}
-			if ((timeScreenLight > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-							true)))
-	
-			{
-				myUsages.add(new Misc("Screen light", timeScreenLight, elaspedRealtime));
-			}
-	
-			if ((timeScreenBright > 0)
-					&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
-							true)))
-	
-			{
-				myUsages.add(new Misc("Screen bright", timeScreenBright, elaspedRealtime));
-			}
-	
-			// if ( (timeWifiMulticast > 0) && (!bFilterView ||
-			// sharedPrefs.getBoolean("show_other_wifi", true)) )
-			// {
-			// myUsages.add(new Misc("Wifi Multicast On", timeWifiMulticast,
-			// elaspedRealtme));
-			// }
-			//
-			// if ( (timeWifiLocked > 0) && (!bFilterView ||(!bFilterView ||
-			// sharedPrefs.getBoolean("show_other_wifi", true)) )
-			// {
-			// myUsages.add(new Misc("Wifi Locked", timeWifiLocked, elaspedRealtme));
-			// }
-			//
-			// if ( (timeWifiScan > 0) && (!bFilterView ||
-			// sharedPrefs.getBoolean("show_other_wifi", true)) )
-			// {
-			// myUsages.add(new Misc("Wifi Scan", timeWifiScan, elaspedRealtme));
-			// }
-			//
-			// if (timeAudioOn > 0)
-			// {
-			// myUsages.add(new Misc("Video On", timeAudioOn, elaspedRealtme));
-			// }
-			//
-			// if (timeVideoOn > 0)
-			// {
-			// myUsages.add(new Misc("Video On", timeVideoOn, elaspedRealtme));
-			// }
-	
-			// sort @see
-			// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
-	//		Collections.sort(myUsages);
 		}
+
+		long interactiveTime			= 0;
+		long powerSaveModeEnabledTime 	= 0;
+		long deviceIdleModeEnabledTime 	= 0;
+		long getDeviceIdlingTime 		= 0;
+
+
+		if (sharedPrefs.getBoolean("show_other_doze", true) && !bWidget)
+		{
+			try
+			{
+				if (Build.VERSION.SDK_INT >= 21)
+				{
+					interactiveTime 			= mStats.getInteractiveTime(batteryRealtime, statsType) / 1000;
+					powerSaveModeEnabledTime 	= mStats.getPowerSaveModeEnabledTime(batteryRealtime, statsType) / 1000;
+					deviceIdleModeEnabledTime = mStats.getDeviceIdleModeEnabledTime(batteryRealtime, statsType) / 1000;
+
+					// these are not available anymore from SDK24 on
+					if (Build.VERSION.SDK_INT <= 23)
+					{
+						getDeviceIdlingTime = mStats.getDeviceIdlingTime(batteryRealtime, statsType) / 1000;
+					}
+					else
+					{
+						// we need to switch to getDeviceIdleModeTime
+					}
+				}
+			}
+			catch (BatteryInfoUnavailableException e)
+			{
+				timeBluetoothOn = 0;
+				Log.e(TAG,
+						"A batteryinfo error occured while retrieving doze mode data");
+			}
+
+		}
+
+		long syncTime = 0;
+		try
+		{
+			if (Build.VERSION.SDK_INT >= 21)
+			{
+				syncTime 	= mStats.getSyncOnTime(ctx, batteryRealtime, statsType) / 1000;
+			}
+		}
+		catch (BatteryInfoUnavailableException e)
+		{
+			Log.e(TAG, "A batteryinfo error occured while retrieving sensor and sync stats");
+		}
+
+		long timeNoDataConnection = 0;
+		long timeSignalNone = 0;
+		long timeSignalPoor = 0;
+		long timeSignalModerate = 0;
+		long timeSignalGood = 0;
+		long timeSignalGreat = 0;
+		if (sharedPrefs.getBoolean("show_other_signal", true))
+		{
+			try
+			{
+				timeNoDataConnection = mStats.getPhoneDataConnectionTime(
+						BatteryStatsTypes.DATA_CONNECTION_NONE,
+						batteryRealtime, statsType) / 1000;
+				timeSignalNone = mStats.getPhoneSignalStrengthTime(
+						BatteryStatsTypes.SIGNAL_STRENGTH_NONE_OR_UNKNOWN,
+						batteryRealtime, statsType) / 1000;
+				timeSignalPoor = mStats.getPhoneSignalStrengthTime(
+						BatteryStatsTypes.SIGNAL_STRENGTH_POOR,
+						batteryRealtime, statsType) / 1000;
+				timeSignalModerate = mStats.getPhoneSignalStrengthTime(
+						BatteryStatsTypes.SIGNAL_STRENGTH_MODERATE,
+						batteryRealtime, statsType) / 1000;
+				timeSignalGood = mStats.getPhoneSignalStrengthTime(
+						BatteryStatsTypes.SIGNAL_STRENGTH_GOOD,
+						batteryRealtime, statsType) / 1000;
+				timeSignalGreat = mStats.getPhoneSignalStrengthTime(
+						BatteryStatsTypes.SIGNAL_STRENGTH_GREAT,
+						batteryRealtime, statsType) / 1000;
+			} catch (BatteryInfoUnavailableException e)
+			{
+				timeNoDataConnection = 0;
+				timeSignalNone = 0;
+				timeSignalPoor = 0;
+				timeSignalModerate = 0;
+				timeSignalGood = 0;
+				timeSignalGreat = 0;
+				Log.e(TAG,
+						"A batteryinfo error occured while retrieving Signal data");
+			}
+		}
+
+		long timeScreenDark = 0;
+		long timeScreenDim = 0;
+		long timeScreenMedium = 0;
+		long timeScreenLight = 0;
+		long timeScreenBright = 0;
+		if (sharedPrefs.getBoolean("show_other_screen_brightness", true))
+		{
+			try
+			{
+				timeScreenDark = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_DARK,
+						batteryRealtime, statsType) / 1000;
+				timeScreenDim = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_DIM,
+						batteryRealtime, statsType) / 1000;
+				timeScreenMedium = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_MEDIUM,
+						batteryRealtime, statsType) / 1000;
+				timeScreenLight = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_LIGHT,
+						batteryRealtime, statsType) / 1000;
+				timeScreenBright = mStats.getScreenBrightnessTime(
+						BatteryStatsTypes.SCREEN_BRIGHTNESS_BRIGHT,
+						batteryRealtime, statsType) / 1000;
+			}
+			catch (BatteryInfoUnavailableException e)
+			{
+				timeScreenDark = 0;
+				timeScreenDim = 0;
+				timeScreenMedium = 0;
+				timeScreenLight = 0;
+				timeScreenBright = 0;
+				Log.e(TAG,
+						"A batteryinfo error occured while retrieving Screen brightness data");
+			}
+		}
+
+		// deep sleep times are independent of stat type
+		long timeDeepSleep = (SystemClock.elapsedRealtime() - SystemClock
+				.uptimeMillis());
+
+
+		Misc deepSleepUsage = new Misc("Deep Sleep", timeDeepSleep, elaspedRealtime);
+		if (LogSettings.DEBUG)
+		{
+			Log.d(TAG, "Added Deep sleep:" + deepSleepUsage.toString());
+		}
+
+		if ((!bFilter) || (deepSleepUsage.getTimeOn() > 0))
+		{
+			myUsages.add(deepSleepUsage);
+		}
+
+		if (timeBatteryUp > 0)
+		{
+			myUsages.add(new Misc(LABEL_MISC_AWAKE, timeBatteryUp - timeScreenOn, elaspedRealtime));
+		}
+
+		if (timeScreenOn > 0)
+		{
+			myUsages.add(new Misc("Screen On", timeScreenOn, elaspedRealtime));
+		}
+
+		if (timePhoneOn > 0)
+		{
+			myUsages.add(new Misc("Phone On", timePhoneOn, elaspedRealtime));
+		}
+
+		if ((timeWifiOn > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_wifi",
+						true)))
+		{
+			myUsages.add(new Misc("Wifi On", timeWifiOn, elaspedRealtime));
+		}
+
+		if ((timeWifiRunning > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_wifi",
+						true)))
+
+		{
+			myUsages.add(new Misc("Wifi Running", timeWifiRunning, elaspedRealtime));
+		}
+
+		if ((timeBluetoothOn > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_bt",
+						true)))
+
+		{
+			myUsages.add(new Misc("Bluetooth On", timeBluetoothOn, elaspedRealtime));
+		}
+
+		if (Build.VERSION.SDK_INT >= 6)
+		{
+			if ((interactiveTime > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
+							true)))
+			{
+				myUsages.add(new Misc("Doze Interactive Time", interactiveTime, elaspedRealtime));
+			}
+
+			if ((powerSaveModeEnabledTime > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
+							true)))
+			{
+				myUsages.add(new Misc("Doze Powersave Time", powerSaveModeEnabledTime, elaspedRealtime));
+			}
+
+			if ((deviceIdleModeEnabledTime > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
+							true)))
+			{
+				myUsages.add(new Misc("Doze Idle Mode Time", deviceIdleModeEnabledTime, elaspedRealtime));
+			}
+
+			if ((getDeviceIdlingTime > 0)
+					&& (!bFilterView || sharedPrefs.getBoolean("show_other_doze",
+							true)))
+			{
+				myUsages.add(new Misc("Doze Idling Time", getDeviceIdlingTime, elaspedRealtime));
+			}
+
+			if (syncTime > 0)
+			{
+				myUsages.add(new Misc("Sync", syncTime, elaspedRealtime));
+			}
+		}
+
+		if ((timeNoDataConnection > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean(
+						"show_other_connection", true)))
+
+		{
+			myUsages.add(new Misc("No Data Connection", timeNoDataConnection, elaspedRealtime));
+		}
+
+		if ((timeSignalNone > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+						true)))
+
+		{
+			myUsages.add(new Misc("No or Unknown Signal", timeSignalNone, elaspedRealtime));
+		}
+
+		if ((timeSignalPoor > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+						true)))
+		{
+			myUsages.add(new Misc("Poor Signal", timeSignalPoor, elaspedRealtime));
+		}
+
+		if ((timeSignalModerate > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+						true)))
+		{
+			myUsages.add(new Misc("Moderate Signal", timeSignalModerate, elaspedRealtime));
+		}
+
+		if ((timeSignalGood > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+						true)))
+		{
+			myUsages.add(new Misc("Good Signal", timeSignalGood, elaspedRealtime));
+		}
+
+		if ((timeSignalGreat > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_signal",
+						true)))
+		{
+			myUsages.add(new Misc("Great Signal", timeSignalGreat, elaspedRealtime));
+		}
+
+		if ((timeScreenDark > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen dark", timeScreenDark, elaspedRealtime));
+		}
+
+		if ((timeScreenDim > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen dimmed", timeScreenDim, elaspedRealtime));
+		}
+
+		if ((timeScreenMedium > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen medium", timeScreenMedium, elaspedRealtime));
+		}
+		if ((timeScreenLight > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen light", timeScreenLight, elaspedRealtime));
+		}
+
+		if ((timeScreenBright > 0)
+				&& (!bFilterView || sharedPrefs.getBoolean("show_other_screen_brightness",
+						true)))
+
+		{
+			myUsages.add(new Misc("Screen bright", timeScreenBright, elaspedRealtime));
+		}
+
+
 		for (int i = 0; i < myUsages.size(); i++)
 		{
 			Misc usage = (Misc)myUsages.get(i);
@@ -2692,8 +2450,6 @@ public class StatsProvider
 		Reference thisRef = new Reference(Reference.SCREEN_OFF_REF_FILENAME, Reference.TYPE_EVENT);
 		ReferenceStore.put(Reference.SCREEN_OFF_REF_FILENAME, populateReference(iSort, thisRef), BbsApplication.getAppContext());
 		
-		// clean "current from cache"
-//		ReferenceStore.invalidate(Reference.CURRENT_REF_FILENAME, m_context);
 	}
 
 	/**
@@ -2754,8 +2510,6 @@ public class StatsProvider
 		SharedPreferences sharedPrefs = PreferenceManager
 				.getDefaultSharedPreferences(BbsApplication.getAppContext());
 		
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-		
 		int statsType = 0;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
@@ -2768,8 +2522,10 @@ public class StatsProvider
 
 		
 		// we are going to retrieve a reference: make sure data does not come from the cache
-		if (SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()) || permsNotNeeded ) BatteryStatsProxy.getInstance(BbsApplication.getAppContext()).invalidate();
-		
+		if (SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()))
+		{
+			BatteryStatsProxy.getInstance(BbsApplication.getAppContext()).invalidate();
+		}
 		
 
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
@@ -2797,7 +2553,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 			
-			if ( SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()) || permsNotNeeded)
+			if ( SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()))
 			{
 				try
 				{
@@ -2834,7 +2590,7 @@ public class StatsProvider
 				Log.e(TAG, "Exception: " + Log.getStackTraceString(e));				
 			}
 
-			if ( SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()) || permsNotNeeded)
+			if ( SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()))
 			{
 				try
 				{
@@ -2956,7 +2712,6 @@ public class StatsProvider
 
 
 		boolean bFilterStats = sharedPrefs.getBoolean("filter_data", true);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 		int iPctType = 0;
 
 		try
@@ -2970,7 +2725,7 @@ public class StatsProvider
 			refs.m_refSensorUsage 		= null;
 
 			refs.m_refKernelWakelocks 	= getCurrentKernelWakelockStatList(bFilterStats, iPctType, iSort);
-			if ( SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()) || permsNotNeeded )
+			if ( SysUtils.hasBatteryStatsPermission(BbsApplication.getAppContext()))
 			{
 				refs.m_refWakelocks 		= getCurrentWakelockStatList(bFilterStats, iPctType, iSort);
 			}
@@ -3031,9 +2786,8 @@ public class StatsProvider
 		}		
 
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
-		
-		if (!(SysUtils.hasBatteryStatsPermission(ctx) || permsNotNeeded) )
+
+		if (!SysUtils.hasBatteryStatsPermission(ctx))
 		{
 			whichRealtime = rawRealtime;
 			return whichRealtime;
@@ -3207,14 +2961,9 @@ public class StatsProvider
         {
             String filename = "dmesg-"
                     + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-            if (RootShell.getInstance().hasRootPermissions())
-            {
-                RootShell.getInstance().run("dmesg > " + path + "/" + filename); //Shell.SU.run("dmesg > " + path + "/" + filename);
-            }
-            else
-            {
-                Util.run("dmesg > " + path + "/" + filename);
-            }
+
+			Util.run("dmesg > " + path + "/" + filename);
+
             fileUri = Uri.fromFile(new File(path + "/" + filename));
             // workaround: force mediascanner to run
             DataStorage.forceMediaScanner(ctx, fileUri);

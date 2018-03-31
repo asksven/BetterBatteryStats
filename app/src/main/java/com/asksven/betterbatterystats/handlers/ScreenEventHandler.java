@@ -84,18 +84,6 @@ public class ScreenEventHandler extends BroadcastReceiver
 			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);		
 			boolean bRunOnUnlock = sharedPrefs.getBoolean("watchdog_on_unlock", false);
 
-			if (bRunOnUnlock)
-			{
-				if ( !SysUtils.hasBatteryStatsPermission(context) && !RootShell.getInstance().hasRootPermissions()  )
-				{
-					// total time since boot including time spent in sleep
-					long elapsedRealtime = SystemClock.elapsedRealtime();
-			        SharedPreferences.Editor updater = sharedPrefs.edit();
-			        updater.putLong("time_screen_on", elapsedRealtime);
-			        updater.commit();
-				}
-
-			}
 			if (watchdogActive && bRunOnUnlock)
 			{
 				// start service to process watchdog

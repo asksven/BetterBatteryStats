@@ -171,8 +171,6 @@ public class Reading implements Serializable
 
 		SharedPreferences sharedPrefs 	= PreferenceManager.getDefaultSharedPreferences(context);
 		
-		rootPermissions = RootShell.getInstance().hasRootPermissions(); //Shell.SU.available();
-		
 		batteryStatsPermGranted = SysUtils.hasBatteryStatsPermission(context);
 		xposedBatteryStatsEnabled = sharedPrefs.getBoolean("ignore_system_app", false);
 		seLinuxPolicy = SysUtils.getSELinuxPolicy();
@@ -388,7 +386,7 @@ public class Reading implements Serializable
 
 		// write wakelock info
 		out.write("======================================================\n");
-		out.write("Wakelocks (requires root / system app on Android 4.4+)\n");
+		out.write("Wakelocks\n");
 		out.write("======================================================\n");
 		dumpList(context, partialWakelockStats, out);
 
@@ -396,19 +394,6 @@ public class Reading implements Serializable
 		if (Wakelocks.isDiscreteKwlPatch())
 		{
 			addendumKwl = "!!! Discrete !!!";
-		}
-
-		boolean alarmsUseAPI = sharedPrefs.getBoolean("force_alarms_api", false);
-		boolean kwlsUseAPI = sharedPrefs.getBoolean("force_kwl_api", false);
-
-		String addendumAlarms = "";
-		if (alarmsUseAPI)
-		{
-			addendumAlarms = "(uses API)";
-		}
-		if (kwlsUseAPI)
-		{
-			addendumKwl += "(uses API)";
 		}
 
 		// write kernel wakelock info
@@ -426,7 +411,7 @@ public class Reading implements Serializable
 
 		// write alarms info
 		out.write("======================\n");
-		out.write("Alarms" + addendumAlarms + "\n");
+		out.write("Alarms\n");
 		out.write("======================\n");
 		dumpList(context, alarmStats, out);
 

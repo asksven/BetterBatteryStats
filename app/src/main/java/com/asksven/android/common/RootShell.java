@@ -144,7 +144,7 @@ public class RootShell
 		return RootTools.isRootAvailable();
 	}
 
-	public boolean hasRootPermissions()
+	public boolean isRooted()
 	{
 		return ((m_shell != null) && (RootTools.isRootAvailable()));
 	}

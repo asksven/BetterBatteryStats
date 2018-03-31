@@ -226,8 +226,6 @@
     <string name="pref_debug_logging_title">Depurar</string>
     <string name="pref_files_to_private_storage_summary">Escrever arquivos para /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Armazenamento privado</string>
-    <string name="pref_ignore_system_app_summary">Ignorar detecção de App de Sistema (para usuários do Módulo XPosed \'Habilitar BATTERY_STATS\')</string>
-    <string name="pref_ignore_system_app_title">Não detectar app de sistema</string>
     <string name="pref_select_dir_summary">Escolher onde escrever os dumpfiles</string>
     <string name="pref_select_dir_title">Escolher Diretório de Saída</string>
     <string name="pref_select_dir_button">Escolher</string>
