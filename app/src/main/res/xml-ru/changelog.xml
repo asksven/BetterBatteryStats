@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release
-        version="2.3"
-        versioncode="93">
-        <change>Полная поддержка Андроид Oreo</change>
-        <change>Поддержка нерутованных устройств (с помощью разрешений ADB)</change>
-        <change>Улучшения интерфейса и перевода</change>
-        <change>Совершенствование поддержки оформления substratum</change>
-        <change>Исправления на основе отчётов об ошибках</change>
-        <change>Добавление аналитики приложения</change>
-
+    <release version="2.4" versioncode="94">
+        <change>Исправление экспорта/импорта настроек</change>
+        
     </release>
 
 </changelog>
