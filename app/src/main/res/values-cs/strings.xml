@@ -77,6 +77,11 @@
 	<string name="label_battery">Baterie</string>
 	<string name="label_name">Jméno</string>
     <string name="label_description">Popis</string>
+    <string name="label_perm_type">Oprávnění</string>
+    <string name="label_perm_normal">Běžná</string>
+    <string name="label_perm_system">Systémová</string>
+    <string name="label_perm_dangerous">Nebezpečná</string>
+
     <string name="label_package_name">Jméno balíčku</string>
     <string name="label_on_on_android_4_3plus">Dostupné pouze na Android 4.3+</string>
 
@@ -136,6 +141,7 @@
     <string name="label_about_translation7">Brazilská Portugalština: @caiorrs</string>
     <string name="label_about_follow">Následovat na Twitteru</string>
     <string name="label_about_rate">Hodnotit na Google Play</string>
+    <string name="label_about_xda">Vlákno na fóru XDA</string>
 
     <!-- Preferences -->
     <string name="label_theme_dark">Tmavé</string>
@@ -145,6 +151,9 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">Pokud je vaše zařízení "rootnuto", BBS si automaticky přidělí požadovaná oprávnění.\nV případě "nerootnutých" zařízení lze oprávnění přidělit pomocí ADB.</string>
+
+
+
     <string name="install_system_app">Instalovat jako systémovou apl.</string>
     <string name="uninstall_system_app">Odinstalovat systémovou apl.</string>
     <string name="info_installed_system_app">Systémová aplikace nainstalována. Prosím restartujte pro aktivaci.</string>
@@ -206,6 +215,8 @@
     <string name="pref_enable_watchdog_summary">Povolit zpracování watchdog</string>
     <string name="pref_watchdog_on_unlock_title">Watchdog při odemknutí</string>
     <string name="pref_watchdog_on_unlock_summary">Watchdog poběží při \'odemknutí\' (jinak při \'zap. obrazovky\')</string>
+    <string name="pref_charged_trigger_percentage_title">Minimální úroveň [%%] považovaná za nabitý stav</string>
+    <string name="pref_charged_trigger_percentage_summary">Pokud je stav baterie vyšší a je odpojen kabel napájení, je uložen ref. bod \'Od nabití\'</string>
     <string name="pref_section_warnings">Varování</string>
     <string name="pref_watchdog_awake_threshold_title">Hranice probuzení</string>
     <string name="pref_watchdog_awake_threshold_summary">Hranice pro varování (čas probuzení / celkový)</string>
@@ -238,18 +249,13 @@
     <string name="pref_save_logcat_summary">Sdílet (ukládat) logcat log</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Sdílet (ukládat) dmesg výpis</string>
-    <string name="pref_force_alarms_api_title">Alarmy pomocí API</string>
-    <string name="pref_force_alarms_api_summary">Vynutit získávání statistik alarmů prostřednictvím API</string>
-    <string name="pref_force_kwl_api_title">Wakelocky jádra (kernel) pomocí API</string>
-    <string name="pref_force_kwl_api_summary">Vynutit získávání statistik wakelocků jádra (kernel) prostřednictvím API</string>
-    <string name="pref_force_network_api_title">Statistiky sítě pomocí API</string>
-    <string name="pref_force_network_api_summary">Vynutit získávání statistik sítě prostřednictvím API</string>
     <string name="pref_screen_permissions_title">Oprávnění aplikace</string>
     <string name="pref_screen_permissions_summary">Zkontrolovat požadovaná oprávnění</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Importovat a exportovat nastavení</string>
     <string name="pref_app_analytics_title">Analytics</string>
     <string name="pref_app_analytics_summary">Pomozte zlepšit aplikaci: povolit analytics</string>
+
 
     <string name="pref_section_settings">Nastavení</string>
     <string name="pref_screen_widgets_title">Widgety</string>
@@ -283,7 +289,7 @@
 
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Zařízení připojeno: žádné statistiky</string>
-    <string name="NO_ROOT_ERR">Tato statistika vyžaduje oprávnění root</string>
+<!--    <string name="NO_ROOT_ERR">Tato statistika vyžaduje oprávnění root</string> -->
     <string name="NO_PERM_ERR">Tato statistika vyžaduje oprávnění BATTERY_STATS</string>
     <string name="NO_PERM_INFO">Pokus získat oprávnění bez systémové aplikace.</string>
     <string name="NO_REF_ERR">Prozatím nenastaven žádný ref. bod</string>
@@ -357,7 +363,7 @@
     </string-array>
 
     <string-array name="multi_select_list_preference_default_value"/>
+    <string name="title_activity_settings">Nastavení</string>
 
-    <!-- Example settings for Notifications -->
 
 </resources>
