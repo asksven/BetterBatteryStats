@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="plugin_name">Better Battery Stats</string>
@@ -10,6 +10,7 @@
     <string name="message_hint_stat_type">Tipo Statistica</string>
     <string name="message_enable_root">Abilitando le funzioni di root si assume che il telefono sia rootato.\nSiate sicuri di dare i diritti SU alle statistiche di Allarmi e Rete.\nSe tali diritti non permangono e\' colpa dell\'app SU e non di BBS.\nContinuare?</string>
     <string name="message_enable_active_mon">Il monitoraggio Attivo causa un incremento dei wakeup e dei calcoli, utilizzare con cautela.\nContinuare?</string>
+    <string name="message_first_launch">Viene ora creato un riferimento \'disconnesso\'. Quando si connette/disconnette il telefono questo riferimento viene sovrascritto</string>
     <string name="message_copied_to_clipboard">%s e\' stato copiato negli appunti</string>
     <string name="message_no_hist_froyo">Sfortunatamente Froyo non supporta lo storico dei dati</string>
     <string name="message_no_appops">AppOps non esiste sulla tua ROM</string>
@@ -76,6 +77,11 @@
     <string name="label_battery">Batteria</string>
     <string name="label_name">Nome</string>
     <string name="label_description">Descrizione</string>
+    <string name="label_perm_type">Permesso</string>
+    <string name="label_perm_normal">Normale</string>
+    <string name="label_perm_system">Sistema</string>
+    <string name="label_perm_dangerous">Rischioso</string>	
+
     <string name="label_package_name">Nome Pacchetto</string>
     <string name="label_on_on_android_4_3plus">Disponibile solo su Android 4.3+</string>
 
@@ -134,7 +140,8 @@
     <string name="label_about_translation6">Tedesco di Minty123 @ xda</string>
     <string name="label_about_translation7">Portoghese Brasiliano di @caiorrs</string>
     <string name="label_about_follow">Seguitemi su Twitter</string>
-    <string name="label_about_rate">Dai una Valutazione/Commento su Google Play</string>
+    <string name="label_about_rate">Valuta/Commenta su Google Play</string>
+    <string name="label_about_xda">Thread su XDA</string>
 
     <!-- Preferences -->
     <string name="label_theme_dark">Scuro</string>
@@ -144,10 +151,13 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">Se il tuo telefono ha il root, BBS concedera\' automaticamente i permessi necessari.\nNei dispoditivi senza root i permessi potranno essere concessi utilizzando ADB.</string>
+    <string name="expl_adb_gplay" translatable="false">adb -d shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats android.permission.DUMP\n\nadb -d shell pm grant com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="expl_adb_xda" translatable="false">adb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.PACKAGE_USAGE_STATS</string>
+
     <string name="install_system_app">Installa come app di sistema</string>
     <string name="uninstall_system_app">Disinstalla come app di sistema</string>
     <string name="info_installed_system_app">Installata come app di sistema. Prego riavviare.</string>
-    <string name="info_uninstalled_system_app">Disinstallata come app di sistema: le preferenze sono state azzerate. Prego riavviare per ricalcolare le preferenze.</string>
+    <string name="info_uninstalled_system_app">Disinstallata come app di sistema: le preferenze sono state azzerate. Prego riavviare per pulire ed aggiornare le preferenze.</string>
     <string name="info_succeeded">Riuscito</string>
     <string name="info_failed">Fallito, prova la recovery ZIP</string>
     <string name="info_root_required">Per usare questa funzione, l\'opzione \'Root\' deve essere abilitata (Preferenze Avanzate)</string>
@@ -205,6 +215,8 @@
     <string name="pref_enable_watchdog_summary">Abilita calcolo di Sorveglianza</string>
     <string name="pref_watchdog_on_unlock_title">Sorveglianza allo sblocco</string>
     <string name="pref_watchdog_on_unlock_summary">Sorveglianza fino a \'sblocco\' (oppure a \'schermo acc\')</string>
+    <string name="pref_charged_trigger_percentage_title">Percentuale minima da considerare come carico</string>
+    <string name="pref_charged_trigger_percentage_summary">Se la batteria e\' al disopra di questa percentuale quando il cavo di ricarica e\' disconnesso, allora il riferimento Da Carico viene salvato</string>
     <string name="pref_section_warnings">Avvisi</string>
     <string name="pref_watchdog_awake_threshold_title">Soglia attivo</string>
     <string name="pref_watchdog_awake_threshold_summary">Soglia per avviso (attivo / totale)</string>
@@ -232,16 +244,13 @@
     <string name="pref_auto_refresh_summary">Ricarica automaticamente \'attuale\' quando si cambiano schermi/settaggi</string>
     <string name="pref_section_sharing">Opzioni di condivisione</string>
     <string name="pref_save_dumpfile_title">Dumpfile</string>
+    <string name="pref_save_as_text_summary">Condividi il dumpfile in formato testo</string>
     <string name="pref_save_logcat_title">Logcat</string>
     <string name="pref_save_logcat_summary">Condividi il logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Condividi il dmesg</string>
-    <string name="pref_force_alarms_api_title">Usare API per gli Allarmi</string>
-    <string name="pref_force_alarms_api_summary">Forza l\'uso dell\'API per ottenere gli Allarmi</string>
-    <string name="pref_force_kwl_api_title">Usare API per i wakelock del Kernel</string>
-    <string name="pref_force_kwl_api_summary">Forza l\'uso dell\'API per ottenere i wakelock del Kernel</string>
-    <string name="pref_force_network_api_title">Statistiche di Rete tramite API</string>
-    <string name="pref_force_network_api_summary">Forza il calcolo delle Statistiche di Rete tramite API</string>	
+    <string name="pref_screen_permissions_title">Permessi App</string>
+    <string name="pref_screen_permissions_summary">Verifica dei permessi necessari</string>
     <string name="pref_screen_import_export_title">Importa/Esporta</string>
     <string name="pref_screen_import_export_summary">Importa e Esporta le Impostazioni</string>
     <string name="pref_app_analytics_title">Analitica</string>
@@ -354,7 +363,7 @@
     </string-array>
 
     <string-array name="multi_select_list_preference_default_value"/>
+    <string name="title_activity_settings">Settaggi</string>
 
-    <!-- Example settings for Notifications -->
 
 </resources>
