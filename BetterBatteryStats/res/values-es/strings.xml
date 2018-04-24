@@ -110,7 +110,7 @@
     <string name="label_import_export">Importar/Exportar</string>
     <string name="label_refresh">Refrescar</string>
     <string name="label_share">Compartir</string>
-    <string name="label_custom_ref">Asiganr Ref. personalizada</string>
+    <string name="label_custom_ref">Asignar Ref. personalizada</string>
     <string name="label_release_notes">Notas de Release</string>
     <string name="label_legend">Leyenda</string>
     <string name="label_button_yes">Sí</string>
@@ -270,7 +270,7 @@
     <string name="NO_STATS_WHEN_CHARGING">El dispositivo está conectado: no estadísticas</string>
     <string name="NO_ROOT_ERR">Esta estadística requiere root</string>
     <string name="NO_PERM_ERR">Esta estadística requiere el permiso BATTERY_STATS</string>
-    <string name="NO_REF_ERR">Aún no se a asignado una referencia</string>
+    <string name="NO_REF_ERR">Aún no se ha asignado una referencia</string>
     <string name="NO_STATS">Aún no se han recolectado estadísticas</string>
 
     <!-- from arrays.xml -->
