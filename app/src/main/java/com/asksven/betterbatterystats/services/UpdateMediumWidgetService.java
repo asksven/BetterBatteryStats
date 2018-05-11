@@ -69,7 +69,7 @@ public class UpdateMediumWidgetService extends Service
 				
 		Log.w(TAG, "From Intent" + String.valueOf(allWidgetIds.length));
 
-		StatsProvider stats = StatsProvider.getInstance(this);
+		StatsProvider stats = StatsProvider.getInstance();
 		// make sure to flush cache
 		BatteryStatsProxy.getInstance(this).invalidate();
 		
@@ -102,7 +102,7 @@ public class UpdateMediumWidgetService extends Service
 			
 			try
 			{
-				Reference currentRef = StatsProvider.getInstance(this).getUncachedPartialReference(0);
+				Reference currentRef = StatsProvider.getInstance().getUncachedPartialReference(0);
 				Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 				
 				ArrayList<StatElement> otherStats = stats.getOtherUsageStatList(true, fromRef, false, true, currentRef);
@@ -127,7 +127,7 @@ public class UpdateMediumWidgetService extends Service
 						timeAwake 		= 0;
 						timeScreenOn 	= 0;
 					}
-					timeSince = StatsProvider.getInstance(this).getSince(fromRef, currentRef);
+					timeSince = StatsProvider.getInstance().getSince(fromRef, currentRef);
 					ArrayList<StatElement> pWakelockStats = stats.getWakelockStatList(true, fromRef, 0, 0, currentRef);
 					sumPWakelocks = stats.sum(pWakelockStats);
 	

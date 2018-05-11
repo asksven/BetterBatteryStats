@@ -69,9 +69,6 @@ public class PermissionsFragmentActivity extends BaseActivity
 		private PermissionsAdapter m_listViewAdapter;
 		private Map<String, Permission> m_permDictionary;
 		private String m_packageName;
-		ProgressDialog m_progressDialog;
-		
-
 
 		// This is the Adapter being used to display the list's data.
 		SimpleCursorAdapter mAdapter;
@@ -90,7 +87,7 @@ public class PermissionsFragmentActivity extends BaseActivity
 
 			if (m_permDictionary == null)
 			{
-				m_permDictionary = StatsProvider.getInstance(getActivity()).getPermissionMap(getActivity());
+				m_permDictionary = StatsProvider.getInstance().getPermissionMap(getActivity());
 			}
 
 			new LoadStatData().execute(getActivity());
@@ -102,36 +99,6 @@ public class PermissionsFragmentActivity extends BaseActivity
 	     * 
 	     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	     */
-		@Override
-		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
-	    {  
-	        inflater.inflate(R.menu.permissions_menu, menu);
-
-	    }  
-
-	    // handle menu selected
-		@Override
-	    public boolean onOptionsItemSelected(MenuItem item)
-	    {
-	        switch (item.getItemId())
-	        {  
-	        case R.id.legend:  
-		        	showLegend(getActivity());
-		        	break;	
-
-	        }  
-	        return false;  
-	    }
-
-		private void showLegend(Context context)
-		{
-	    	Dialog dialog = new Dialog(context);
-	    	
-	    	dialog.setContentView(R.layout.permissions_legend_dialog);
-	    	dialog.setTitle(getString(R.string.label_legend));
-	
-	    	dialog.show();
-		}
 
 		// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
 		// for more details
@@ -144,7 +111,7 @@ public class PermissionsFragmentActivity extends BaseActivity
 				try
 				{
 					m_listViewAdapter = new PermissionsAdapter(getActivity(),
-							StatsProvider.getInstance(getActivity()).getRequestedPermissionListForPackage(getActivity(), m_packageName), m_permDictionary);
+							StatsProvider.getInstance().getRequestedPermissionListForPackage(getActivity(), m_packageName), m_permDictionary);
 
 				}
 				catch (Exception e)
@@ -161,28 +128,8 @@ public class PermissionsFragmentActivity extends BaseActivity
 			protected void onPostExecute(PermissionsAdapter o)
 		    {
 				super.onPostExecute(o);
-		        // update hourglass
-		    	if (m_progressDialog != null)
-		    	{
-		    		m_progressDialog.hide();
-		    		m_progressDialog = null;
-		    	}
 		    	setListAdapter(o);
 		    }
-		    @Override
-		    protected void onPreExecute()
-		    {
-		        // update hourglass
-		    	// @todo this code is only there because onItemSelected is called twice
-		    	if (m_progressDialog == null)
-		    	{
-			    	m_progressDialog = new ProgressDialog(getActivity());
-			    	m_progressDialog.setMessage(getString(R.string.message_computing));
-			    	m_progressDialog.setIndeterminate(true);
-			    	m_progressDialog.setCancelable(false);
-			    	m_progressDialog.show();
-		    	}
-		    }
-		}		
+		}
 	}
 }

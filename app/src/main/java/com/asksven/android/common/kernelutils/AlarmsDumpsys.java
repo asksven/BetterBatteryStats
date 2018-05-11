@@ -27,7 +27,7 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 public class AlarmsDumpsys
 {
 	static final String TAG = "AlarmsDumpsys";
-	static final String PERMISSION_DENIED = "su rights required to access alarms are not available / were not granted";
+	static final String PERMISSION_DENIED = "rights required to access stats are not available / were not granted";
 	static final String SERVICE_NOT_ACCESSIBLE = "Can't find service: alarm";
 
 	public static ArrayList<StatElement> getAlarms(boolean useRoot)
@@ -37,7 +37,7 @@ public class AlarmsDumpsys
 		Log.i(TAG, "getAlarms: SDK=" + sdk + ", RELEASE=" + release);
 		
 		List<String> res = null;
-		if (true) //(useRoot) // dumpsys seems to always require root, even if perm is available
+		if (useRoot) // dumpsys seems to always require root, even if perm is available
 		{
 			res = RootShell.getInstance().run("dumpsys alarm");
 		}

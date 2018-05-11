@@ -18,6 +18,7 @@ package com.asksven.betterbatterystats;
 import java.util.Locale;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.res.Configuration;
@@ -38,7 +39,7 @@ public class BbsApplication extends Application
 
     private Locale localeEN = Locale.ENGLISH;
     private static String TAG = "BbsApplication";
-
+    private static Context context;
 
 
 
@@ -70,6 +71,8 @@ public class BbsApplication extends Application
     {
         super.onCreate();
 
+        BbsApplication.context = getApplicationContext();
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean forceEN = settings.getBoolean("force_en", false);
 
@@ -100,7 +103,7 @@ public class BbsApplication extends Application
         // set a few analytics user properties
 
         // device rooted
-        Analytics.getInstance(this).setRootedDevice(RootShell.getInstance().hasRootPermissions());
+        // we skip on this info as it seems to cause ANRs Analytics.getInstance(this).setRootedDevice(RootShell.getInstance().hasRootPermissions());
 
         try
         {
@@ -125,5 +128,10 @@ public class BbsApplication extends Application
             Log.e(TAG, "An error occured retrieveing the version info: " + e.getMessage());
 
         }
+    }
+
+    public static Context getAppContext()
+    {
+        return BbsApplication.context;
     }
 }

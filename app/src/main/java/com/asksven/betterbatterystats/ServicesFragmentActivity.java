@@ -60,9 +60,6 @@ public class ServicesFragmentActivity extends BaseActivity
 
 		private ServicesAdapter m_listViewAdapter;
 		private String m_packageName;
-		ProgressDialog m_progressDialog;
-		
-
 
 
 		@Override
@@ -89,7 +86,7 @@ public class ServicesFragmentActivity extends BaseActivity
 				try
 				{
 					m_listViewAdapter = new ServicesAdapter(getActivity(),
-							StatsProvider.getInstance(getActivity()).getServiceListForPackage(getActivity(), m_packageName));
+							StatsProvider.getInstance().getServiceListForPackage(getActivity(), m_packageName));
 
 				}
 				catch (Exception e)
@@ -106,28 +103,8 @@ public class ServicesFragmentActivity extends BaseActivity
 			protected void onPostExecute(ServicesAdapter o)
 		    {
 				super.onPostExecute(o);
-		        // update hourglass
-		    	if (m_progressDialog != null)
-		    	{
-		    		m_progressDialog.hide();
-		    		m_progressDialog = null;
-		    	}
 		    	setListAdapter(o);
 		    }
-		    @Override
-		    protected void onPreExecute()
-		    {
-		        // update hourglass
-		    	// @todo this code is only there because onItemSelected is called twice
-		    	if (m_progressDialog == null)
-		    	{
-			    	m_progressDialog = new ProgressDialog(getActivity());
-			    	m_progressDialog.setMessage(getString(R.string.message_computing));
-			    	m_progressDialog.setIndeterminate(true);
-			    	m_progressDialog.setCancelable(false);
-			    	m_progressDialog.show();
-		    	}
-		    }
-		}		
+		}
 	}
 }

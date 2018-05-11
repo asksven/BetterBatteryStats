@@ -63,7 +63,7 @@ public class WriteScreenOffReferenceService extends IntentService
 			{
 				// Store the "since screen off" ref
 				Wakelock.aquireWakelock(this);
-				StatsProvider.getInstance(this).setReferenceSinceScreenOff(0);
+				StatsProvider.getInstance().setReferenceSinceScreenOff(0);
 				Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.SCREEN_OFF_REF_FILENAME);
 			    this.sendBroadcast(i);
 				
@@ -94,9 +94,6 @@ public class WriteScreenOffReferenceService extends IntentService
 		{
 			Wakelock.releaseWakelock();
 		}
-
-		
-		stopSelf();
 	}
 
 	@Override

@@ -17,8 +17,6 @@
 package com.asksven.betterbatterystats;
 
 import com.asksven.android.common.utils.SharedPreferencesUtils;
-import com.asksven.betterbatterystats.R;
-
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.content.Intent;
@@ -28,14 +26,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ImportExportPreferencesActivity extends BaseActivity
 {
 
 	final static String TAG = "ImportExportPreferencesActivity";
 
-	final static String BACKUP_FILE 	= "/sdcard/bbs_preferences.txt"; 
+	public final static String BACKUP_FILE 	= "bbs_preferences.txt";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -66,16 +63,12 @@ public class ImportExportPreferencesActivity extends BaseActivity
 					Snackbar
 					  .make(findViewById(android.R.id.content), getString(R.string.info_pref_export_success, BACKUP_FILE), Snackbar.LENGTH_LONG)
 					  .show();
-//					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_export_success, BACKUP_FILE),
-//							Toast.LENGTH_SHORT).show();
 				}
 				else
 				{
 					Snackbar
 					  .make(findViewById(android.R.id.content), R.string.info_pref_import_export_failed, Snackbar.LENGTH_LONG)
 					  .show();
-//					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_import_export_failed),
-//							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -91,8 +84,6 @@ public class ImportExportPreferencesActivity extends BaseActivity
 					  .make(findViewById(android.R.id.content), R.string.info_pref_import_success, Snackbar.LENGTH_LONG)
 					  .show();
 
-//					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_import_success),
-//							Toast.LENGTH_SHORT).show();
 					// restart
 		        	Intent i = ImportExportPreferencesActivity.this.getBaseContext().getPackageManager()
 		                    .getLaunchIntentForPackage( ImportExportPreferencesActivity.this.getBaseContext().getPackageName() );
@@ -105,8 +96,6 @@ public class ImportExportPreferencesActivity extends BaseActivity
 					  .make(findViewById(android.R.id.content), getString(R.string.info_pref_import_export_failed, BACKUP_FILE), Snackbar.LENGTH_LONG)
 					  .show();
 					
-//					Toast.makeText(ImportExportPreferencesActivity.this, getString(R.string.info_pref_import_export_failed, BACKUP_FILE),
-//							Toast.LENGTH_SHORT).show();
 				}
 
 			}

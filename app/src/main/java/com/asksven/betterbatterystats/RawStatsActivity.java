@@ -55,7 +55,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 	/**
 	 * The logging TAG
 	 */
-	private static final String TAG = "KernelWakelocksActivity";
+	private static final String TAG = "RawStatsActivity";
 	
 	/**
 	 * The Stat to be displayed
@@ -134,37 +134,6 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 		new LoadStatData().execute(this);
 	}
 
-    /** 
-     * Add menu items
-     * 
-     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-     */
-    public boolean onCreateOptionsMenu(Menu menu)
-    {  
-    	MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.kernelwakelocks_menu, menu);
-        return true;
-    }  
-
-    /** 
-     * Define menu action
-     * 
-     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
-     */
-    public boolean onOptionsItemSelected(MenuItem item)
-    {  
-        switch (item.getItemId())
-        {  
-	        case R.id.refresh:
-            	// Refresh
-	        	doRefresh();
-            	break;
-
-        }  
-        return false;  
-    }    
-
-	
 	private void doRefresh()
 	{
 		BatteryStatsProxy.getInstance(this).invalidate();
@@ -233,7 +202,7 @@ public class RawStatsActivity extends ActionBarListActivity implements AdapterVi
 				Log.i(TAG, "LoadStatData: refreshing display for raw stats");
 				
 				ArrayList<StatElement> stats = null;
-				StatsProvider provider = StatsProvider.getInstance(RawStatsActivity.this);
+				StatsProvider provider = StatsProvider.getInstance();
 				// constants are related to arrays.xml string-array name="stats"
 				switch (m_iStat)
 				{

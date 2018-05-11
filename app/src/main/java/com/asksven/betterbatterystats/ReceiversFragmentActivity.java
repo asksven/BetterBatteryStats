@@ -89,7 +89,7 @@ public class ReceiversFragmentActivity extends BaseActivity
 				try
 				{
 					m_listViewAdapter = new ServicesAdapter(getActivity(),
-							StatsProvider.getInstance(getActivity()).getReceiverListForPackage(getActivity(), m_packageName));
+							StatsProvider.getInstance().getReceiverListForPackage(getActivity(), m_packageName));
 
 				}
 				catch (Exception e)

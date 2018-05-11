@@ -95,21 +95,52 @@ public class SystemAppActivity extends BaseActivity
 		
 		Log.i(TAG, "SystemAPKName = " + systemAPKName);
 		
-		final TextView permBattery = (TextView) findViewById(R.id.textViewPermBATTERY_STATS);
+		final TextView permBATTERY = (TextView) findViewById(R.id.textViewBATTERY_STATS);
+        final TextView permDUMP = (TextView) findViewById(R.id.textViewDUMP);
+        final TextView permPACKAGE = (TextView) findViewById(R.id.textViewPACKAGE_USAGE_STATS);
+
+		String text = "";
 		if (SysUtils.hasBatteryStatsPermission(this))
 		{
-			permBattery.setText("BATTERY_STATS " + getString(R.string.label_granted));
+			permBATTERY.setText("BATTERY_STATS " + getString(R.string.label_granted));
 		}
 		else
 		{
-			permBattery.setText("BATTERY_STATS  " + getString(R.string.label_not_granted));
+            permBATTERY.setText("BATTERY_STATS  " + getString(R.string.label_not_granted));
 		}
+
+		if (SysUtils.hasDumpsysPermission(this))
+		{
+			permDUMP.setText("DUMP " + getString(R.string.label_granted));
+		}
+		else
+		{
+            permDUMP.setText("DUMP  " + getString(R.string.label_not_granted));
+		}
+
+        if (SysUtils.hasPackageUsageStatsPermission(this))
+        {
+            permPACKAGE.setText("PACKAGE_USAGE_STATS " + getString(R.string.label_granted));
+        }
+        else
+        {
+            permPACKAGE.setText("PACKAGE_USAGE_STATS  " + getString(R.string.label_not_granted));
+        }
 
 		final TextView seLinux = (TextView) findViewById(R.id.textViewSELinux);
 		seLinux.setText("SELinux: " + SysUtils.getSELinuxPolicy());
-		
 
-	}
+        final TextView tvADB = (TextView) findViewById(R.id.textViewAdb);
+
+        // set the right adb text
+        if (packageName.contains("xdaedition"))
+        {
+            tvADB.setText(getString(R.string.expl_adb_xda));
+
+        }
+
+
+    }
 
 	private static final X500Principal DEBUG_DN = new X500Principal("CN=Android Debug,O=Android,C=US");
 	private boolean isDebuggable(Context ctx)

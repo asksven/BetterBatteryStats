@@ -18,7 +18,9 @@ package com.asksven.betterbatterystats.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.asksven.android.common.utils.DateUtils;
@@ -49,7 +51,7 @@ public class WriteUnpluggedReferenceService extends IntentService
 		{
 			// Store the "since unplugged ref
 			Wakelock.aquireWakelock(this);
-			StatsProvider.getInstance(this).setReferenceSinceUnplugged(0);
+			StatsProvider.getInstance().setReferenceSinceUnplugged(0);
 
 			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.UNPLUGGED_REF_FILENAME);
 		    this.sendBroadcast(i);
@@ -75,18 +77,21 @@ public class WriteUnpluggedReferenceService extends IntentService
 
 			Log.i(TAG, "Bettery level on uplug is " + level );
 
-			if (level == 1)
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			double level_threshold = sharedPrefs.getInt("battery_charged_minimum_threshold", 100) / 100.0;
+
+			if (level >= level_threshold)
 			{
 				try
 				{
 					Log.i(TAG, "Level was 100% at unplug, serializing 'since charged'");
-					StatsProvider.getInstance(this).setReferenceSinceCharged(0);
+					StatsProvider.getInstance().setReferenceSinceCharged(0);
 
 					i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CHARGED_REF_FILENAME);
 				    this.sendBroadcast(i);
 
 					// save a new current ref
-					StatsProvider.getInstance(this).setCurrentReference(0);
+					StatsProvider.getInstance().setCurrentReference(0);
 
 					i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
 				    this.sendBroadcast(i);
@@ -112,8 +117,6 @@ public class WriteUnpluggedReferenceService extends IntentService
 		{
 			Wakelock.releaseWakelock();
 		}
-		
-		stopSelf();
 	}
 
 	@Override

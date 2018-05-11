@@ -387,7 +387,7 @@ public class Reference implements Serializable
         processes = "Proc: " + processes;
         other = "Oth: " + other;
         cpuStates = "CPU: " + cpuStates;
-        cpuStates = "Sensors: " + sensorUsage;
+        sensorUsage = "Sensors: " + sensorUsage;
         
         
         return "(" + wakelocks + "; " + kernelWakelocks + "; " + networkStats + "; " + alarms + "; "

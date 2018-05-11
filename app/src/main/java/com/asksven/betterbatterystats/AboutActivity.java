@@ -25,6 +25,7 @@ import javax.security.auth.x500.X500Principal;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -46,6 +47,7 @@ public class AboutActivity extends BaseActivity
     private static final String TAG = "AboutStatsActivity";
     public static final String MARKET_LINK ="market://details?id=com.asksven.betterbatterystats";
     public static final String TWITTER_LINK ="https://twitter.com/#!/asksven";
+    public static final String XDA_LINK = "http://forum.xda-developers.com/showthread.php?p=72467976";
     
 
 	/** Called when the activity is first created. */
@@ -93,6 +95,7 @@ public class AboutActivity extends BaseActivity
                 openURL(MARKET_LINK);
             }
         });
+
         final Button buttonFollow = (Button) findViewById(R.id.buttonTwitter);
         buttonFollow.setOnClickListener(new View.OnClickListener()
         {
@@ -101,14 +104,30 @@ public class AboutActivity extends BaseActivity
                 openURL(TWITTER_LINK);
             }
         });
-        
+
+        final Button buttonXda = (Button) findViewById(R.id.buttonXDA);
+        buttonXda.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                openURL(XDA_LINK);
+            }
+        });
+
     }
     
     public void openURL( String inURL )
     {
-        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse( inURL ) );
+		try
+        {
+            Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse(inURL));
 
-        startActivity( browse );
+            startActivity(browse);
+        }
+        catch (ActivityNotFoundException e)
+        {
+            // NOP
+        }
     }
 
     public void showChangeLog(View view) {

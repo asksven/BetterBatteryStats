@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 asksven
+ * Copyright (C) 2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,86 +19,93 @@
 
 package com.asksven.betterbatterystats.localeplugin.receiver;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
+import com.asksven.betterbatterystats.localeplugin.Constants;
+import com.asksven.betterbatterystats.localeplugin.bundle.BundleScrubber;
 import com.asksven.betterbatterystats.localeplugin.bundle.PluginBundleManager;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteDumpfileService;
-import com.twofortyfouram.locale.sdk.client.receiver.AbstractPluginConditionReceiver;
+
+import java.util.Locale;
 
 /**
  * This is the "fire" BroadcastReceiver for a Locale Plug-in setting.
  */
-public final class FireReceiver extends AbstractPluginConditionReceiver
+public final class FireReceiver extends BroadcastReceiver
 {
 
 	private static final String TAG = "FireReceiver";
 
-
 	@Override
-	protected int getPluginConditionResult(@NonNull final Context context,
-										   @NonNull final Bundle bundle)
+	public void onReceive(final Context context, final Intent intent)
 	{
+        /*
+         * Always be strict on input parameters! A malicious third-party app could send a malformed Intent.
+         */
 
+        Log.i(TAG, "task plugin onReceive was called");
 
-		boolean saveRef = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF);
-		boolean saveStat = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT);
-		boolean saveJson = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_JSON);
-
-		String refFrom = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_REF_NAME);
-
-		Log.i(TAG, "Retrieved Bundle: " + bundle.toString());
-
-		// make sure to flush cache
-		BatteryStatsProxy.getInstance(context).invalidate();
-
-		if (saveStat)
+		if (!com.twofortyfouram.locale.api.Intent.ACTION_FIRE_SETTING.equals(intent.getAction()))
 		{
-			Log.d(TAG, "Preparing to save a dumpfile");
-
-			Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
-			serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE_FROM, refFrom);
-			context.startService(serviceIntent);
-
+			if (Constants.IS_LOGGABLE)
+			{
+				Log.e(Constants.LOG_TAG,
+						String.format(Locale.US, "Received unexpected Intent action %s", intent.getAction())); //$NON-NLS-1$
+			}
+			return;
 		}
 
-		if (saveJson)
+		BundleScrubber.scrub(intent);
+
+		final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.api.Intent.EXTRA_BUNDLE);
+		BundleScrubber.scrub(bundle);
+
+		if (PluginBundleManager.isBundleValid(bundle))
 		{
-			Log.d(TAG, "Preparing to save a json dumpfile");
+            boolean saveRef = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF);
+            boolean saveStat = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT);
+            boolean saveJson = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_JSON);
 
-			Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
-			serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE_FROM, refFrom);
-			serviceIntent.putExtra(WriteDumpfileService.OUTPUT, "JSON");
+            String refFrom = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_REF_NAME);
 
-			context.startService(serviceIntent);
+            Log.i(TAG, "Retrieved Bundle: " + bundle.toString());
+
+            // make sure to flush cache
+            BatteryStatsProxy.getInstance(context).invalidate();
+
+            if (saveStat)
+            {
+                Log.d(TAG, "Preparing to save a dumpfile");
+
+                Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
+                serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE_FROM, refFrom);
+                context.startService(serviceIntent);
+            }
+
+            if (saveJson)
+            {
+                Log.d(TAG, "Preparing to save a json dumpfile");
+
+                Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
+                serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE_FROM, refFrom);
+                serviceIntent.putExtra(WriteDumpfileService.OUTPUT, "JSON");
+
+                context.startService(serviceIntent);
+            }
+
+            if (saveRef)
+            {
+                Log.d(TAG, "Preparing to save a custom ref");
+                Intent serviceIntent = new Intent(context, WriteCustomReferenceService.class);
+                context.startService(serviceIntent);
+            }
 
 		}
-		if (saveRef)
-		{
-			Log.d(TAG, "Preparing to save a custom ref");
-			Intent serviceIntent = new Intent(context, WriteCustomReferenceService.class);
-			context.startService(serviceIntent);
-
-		}
-
-		return com.twofortyfouram.locale.api.Intent.RESULT_CONDITION_SATISFIED;
-
-	}
-
-	@Override
-	protected boolean isBundleValid(@NonNull final Bundle bundle)
-	{
-		return PluginBundleManager.isBundleValid(bundle);
-	}
-
-	@Override
-	protected boolean isAsync()
-	{
-		return true;
 	}
 }

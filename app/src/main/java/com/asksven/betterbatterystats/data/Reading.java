@@ -51,6 +51,7 @@ import com.asksven.android.common.privateapiproxies.Process;
 import com.asksven.android.common.utils.DataStorage;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
+import com.asksven.android.contrib.Util;
 import com.asksven.betterbatterystats.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -137,7 +138,7 @@ public class Reading implements Serializable
 				
 		creationDate 		= DateUtils.now();
 		statType 			= refFrom.getLabel() + " to "+ refTo.getLabel();
-		totalTime			= StatsProvider.getInstance(context).getSince(refFrom, refTo);
+		totalTime			= StatsProvider.getInstance().getSince(refFrom, refTo);
 		duration 			= DateUtils.formatDuration(totalTime);
 		buildVersionRelease = Build.VERSION.RELEASE;
 		buildBrand 			= Build.BRAND;
@@ -170,16 +171,14 @@ public class Reading implements Serializable
 
 		SharedPreferences sharedPrefs 	= PreferenceManager.getDefaultSharedPreferences(context);
 		
-		rootPermissions = RootShell.getInstance().hasRootPermissions(); //Shell.SU.available();
-		
 		batteryStatsPermGranted = SysUtils.hasBatteryStatsPermission(context);
 		xposedBatteryStatsEnabled = sharedPrefs.getBoolean("ignore_system_app", false);
 		seLinuxPolicy = SysUtils.getSELinuxPolicy();
 		
-		batteryLevelLost 		= StatsProvider.getInstance(context).getBatteryLevelStat(refFrom, refTo);
-		batteryVoltageLost 		= StatsProvider.getInstance(context).getBatteryVoltageStat(refFrom, refTo);
-		batteryLevelLostText 	= StatsProvider.getInstance(context).getBatteryLevelFromTo(refFrom, refTo, false);
-		batteryVoltageLostText 	= StatsProvider.getInstance(context).getBatteryVoltageFromTo(refFrom, refTo);
+		batteryLevelLost 		= StatsProvider.getInstance().getBatteryLevelStat(refFrom, refTo);
+		batteryVoltageLost 		= StatsProvider.getInstance().getBatteryVoltageStat(refFrom, refTo);
+		batteryLevelLostText 	= StatsProvider.getInstance().getBatteryLevelFromTo(refFrom, refTo, false);
+		batteryVoltageLostText 	= StatsProvider.getInstance().getBatteryVoltageFromTo(refFrom, refTo);
 
 		// populate the stats
 		
@@ -189,11 +188,11 @@ public class Reading implements Serializable
 		
 		try
 		{
-			ArrayList<StatElement> tempStats = StatsProvider.getInstance(context).getOtherUsageStatList(bFilterStats, refFrom, false, false, refTo);
+			ArrayList<StatElement> tempStats = StatsProvider.getInstance().getOtherUsageStatList(bFilterStats, refFrom, false, false, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
+				tempStats.get(i).getFqn(UidNameResolver.getInstance());
 				
 				if (tempStats.get(i) instanceof Misc)
 				{
@@ -205,11 +204,11 @@ public class Reading implements Serializable
 				}
 			}
 			
-			tempStats = StatsProvider.getInstance(context).getWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
+			tempStats = StatsProvider.getInstance().getWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
+				tempStats.get(i).getFqn(UidNameResolver.getInstance());
 
 				if (tempStats.get(i) instanceof Wakelock)
 				{
@@ -221,11 +220,11 @@ public class Reading implements Serializable
 				}
 			}
 
-			tempStats = StatsProvider.getInstance(context).getKernelWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
+			tempStats = StatsProvider.getInstance().getKernelWakelockStatList(bFilterStats, refFrom, iPctType, iSort, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
+				tempStats.get(i).getFqn(UidNameResolver.getInstance());
 
 				if (tempStats.get(i) instanceof NativeKernelWakelock)
 				{
@@ -237,11 +236,11 @@ public class Reading implements Serializable
 				}
 			}
 			
-			tempStats = StatsProvider.getInstance(context).getProcessStatList(bFilterStats, refFrom, iSort, refTo);
+			tempStats = StatsProvider.getInstance().getProcessStatList(bFilterStats, refFrom, iSort, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
+				tempStats.get(i).getFqn(UidNameResolver.getInstance());
 
 				if (tempStats.get(i) instanceof Process)
 				{
@@ -253,11 +252,11 @@ public class Reading implements Serializable
 				}
 			}
 			
-			tempStats = StatsProvider.getInstance(context).getAlarmsStatList(bFilterStats, refFrom, refTo);
+			tempStats = StatsProvider.getInstance().getAlarmsStatList(bFilterStats, refFrom, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
+				tempStats.get(i).getFqn(UidNameResolver.getInstance());
 
 				if (tempStats.get(i) instanceof Alarm)
 				{
@@ -269,11 +268,11 @@ public class Reading implements Serializable
 				}
 			}
 			
-			tempStats = StatsProvider.getInstance(context).getNetworkUsageStatList(bFilterStats, refFrom, refTo);
+			tempStats = StatsProvider.getInstance().getNetworkUsageStatList(bFilterStats, refFrom, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
+				tempStats.get(i).getFqn(UidNameResolver.getInstance());
 
 				if (tempStats.get(i) instanceof NetworkUsage)
 				{
@@ -285,11 +284,11 @@ public class Reading implements Serializable
 				}
 			}
 			
-			tempStats = StatsProvider.getInstance(context).getCpuStateList(refFrom, refTo, bFilterStats);
+			tempStats = StatsProvider.getInstance().getCpuStateList(refFrom, refTo, bFilterStats);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
+				tempStats.get(i).getFqn(UidNameResolver.getInstance());
 
 				if (tempStats.get(i) instanceof State)
 				{
@@ -301,11 +300,11 @@ public class Reading implements Serializable
 				}
 			}
 			
-			tempStats = StatsProvider.getInstance(context).getSensorStatList(false, refFrom, refTo);
+			tempStats = StatsProvider.getInstance().getSensorStatList(false, refFrom, refTo);
 			for (int i = 0; i < tempStats.size(); i++)
 			{
 				// make sure to load all data (even the lazy loaded one)
-				tempStats.get(i).getFqn(UidNameResolver.getInstance(context));
+				tempStats.get(i).getFqn(UidNameResolver.getInstance());
 
 				if (tempStats.get(i) instanceof SensorUsage)
 				{
@@ -387,7 +386,7 @@ public class Reading implements Serializable
 
 		// write wakelock info
 		out.write("======================================================\n");
-		out.write("Wakelocks (requires root / system app on Android 4.4+)\n");
+		out.write("Wakelocks\n");
 		out.write("======================================================\n");
 		dumpList(context, partialWakelockStats, out);
 
@@ -395,23 +394,6 @@ public class Reading implements Serializable
 		if (Wakelocks.isDiscreteKwlPatch())
 		{
 			addendumKwl = "!!! Discrete !!!";
-		}
-		if (!Wakelocks.fileExists())
-		{
-			addendumKwl = " !!! wakeup_sources !!!";
-		}
-
-		boolean alarmsUseAPI = sharedPrefs.getBoolean("force_alarms_api", false);
-		boolean kwlsUseAPI = sharedPrefs.getBoolean("force_kwl_api", false);
-
-		String addendumAlarms = "";
-		if (alarmsUseAPI)
-		{
-			addendumAlarms = "(uses API)";
-		}
-		if (kwlsUseAPI)
-		{
-			addendumKwl += "(uses API)";
 		}
 
 		// write kernel wakelock info
@@ -422,20 +404,20 @@ public class Reading implements Serializable
 		dumpList(context, kernelWakelockStats, out);
 
 		// write process info
-		out.write("======================================================\n");
-		out.write("Processes (requires root / system app on Android 4.4+)\n");
-		out.write("======================================================\n");
+		out.write("=========\n");
+		out.write("Processes\n");
+		out.write("=========\n");
 		dumpList(context, processStats, out);
 
 		// write alarms info
 		out.write("======================\n");
-		out.write("Alarms (requires BATTERY_STATS permissions)" + addendumAlarms + "\n");
+		out.write("Alarms\n");
 		out.write("======================\n");
 		dumpList(context, alarmStats, out);
 
 		// write alarms info
 		out.write("======================\n");
-		out.write("Network (requires root)\n");
+		out.write("Network\n");
 		out.write("======================\n");
 		dumpList(context, networkStats, out);
 
@@ -507,55 +489,37 @@ public class Reading implements Serializable
 			Toast.makeText(context, context.getString(R.string.message_external_storage_write_error),
 					Toast.LENGTH_SHORT).show();
 		}
-		try
-		{
-			// open file for writing
-			File root;
-			boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
+		String path = StatsProvider.getWritableFilePath();
+        try
+        {
 
-			if (bSaveToPrivateStorage)
-			{
-				try
-				{
-					root = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-				}
-				catch (Exception e)
-				{
-					root = Environment.getExternalStorageDirectory();
-				}
-			}
-			else
-			{
-				root = new File(sharedPrefs.getString("storage_path", 
-						Environment.getExternalStorageDirectory().getAbsolutePath()));
-			}
+            if (!path.equals(""))
+            {
+                String strFilename = "BetterBatteryStats-"
+                        + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
+                File dumpFile = new File(path + "/" + strFilename);
+                fileUri = Uri.fromFile(dumpFile);
+                FileWriter fw = new FileWriter(dumpFile);
+                BufferedWriter out = new BufferedWriter(fw);
+                out.write("/*\n");
+                out.write(this.toStringText(context, note));
+                out.write("------ human readable part end here\n");
+                out.write("*/\n");
+                out.write(this.toJson());
+                out.close();
 
-			// check if file can be written
-			if (root.canWrite())
-			{
-				String strFilename = "BetterBatteryStats-"
-						+ DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
-				File dumpFile = new File(root, strFilename);
-				fileUri = Uri.fromFile(dumpFile);
-				FileWriter fw = new FileWriter(dumpFile);
-				BufferedWriter out = new BufferedWriter(fw);
-				out.write("/*\n");
-				out.write(this.toStringText(context, note));
-				out.write("------ human readable part end here\n");
-				out.write("*/\n");
-				out.write(this.toJson());
-				out.close();
-				
-				// workaround: force mediascanner to run
-				DataStorage.forceMediaScanner(context, fileUri);
+                // workaround: force mediascanner to run
+                DataStorage.forceMediaScanner(context, fileUri);
+            } else
+            {
+                Log.i(TAG, "Write error. *" + path + "* couldn't be written");
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "Exception: " + e.getMessage());
+        }
 
-			}
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "Exception: " + e.getMessage());
-		}
-		
 		return fileUri;
 	}
 
@@ -579,7 +543,7 @@ public class Reading implements Serializable
 			{
 				for (int i = 0; i < myList.size(); i++)
 				{
-					out.write(myList.get(i).getDumpData(UidNameResolver.getInstance(context), totalTime) + "\n");
+					out.write(myList.get(i).getDumpData(UidNameResolver.getInstance(), totalTime) + "\n");
 		
 				}
 			}

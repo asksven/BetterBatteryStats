@@ -6,11 +6,8 @@ BetterBatteryStats is an open source project unter the terms of the Apache 2.0 L
 # Build
 In order to build (with gradle / Android Studio) following changes to the local project are required
 
-## google-services.jon
-BBS uses Firebase Analytics. You will need to create a `google-services.json` in (follow the Firebase instructions):
-- `/app`
-- `/app/src/xdaedition`
-- `/app/src/gplay`
+## HockeyApp
+The environment variable `HOCKEYAPP_APP_ID` must be set to a valid value
 
 ## Signing
 
@@ -40,28 +37,47 @@ The signing config uses environment variables:
 
 The continuous integration (in this example CircleCI) needs to have access to some private settings.
 
-## google-services.json
+## Google play publishing
 
-The encrypted files (`google-services.json-cipher`) are located in `/app`, `/app/src/gplay` and `/app/src/xdaedition`.
+### Publishing profile
+The encrypted file (`sa-google-play.json-cipher`) is located in `/app`, and referenced by the gradle build.
 
-See also https://github.com/circleci/encrypted-files.
+ See also https://github.com/Triple-T/gradle-play-publisher.
 
-### Encrypt
+### Deploy task
+
+In `circle.yml` we define that all the google play publishing (to beta) is triggered on tag `release-*`
+
+## Encrypt
 
 `openssl aes-256-cbc -e -in secret-env-plain -out secret-env-cipher -k $KEY`
 
-### Decrypt (on CircleCI, as defined in `circle.yml` and using an env-variable `KEY`)
+See also https://github.com/circleci/encrypted-files
+
+## Decrypt (on CircleCI, as defined in `circle.yml` and using an env-variable `KEY`)
 
 `openssl aes-256-cbc -d -in secret-file-cipher -out secret-file-plain -k $KEY`
 
 ## The signing keys
 
-The environment variables `$KEYSTORE_RELEASE`, `$KEYSTORE_DEBUG`, `$KEY_ALIAS` and `$KEY_PASSWORD` must be set in CircleCI.
+The environment variables `$KEYSTORE_RELEASE`, `$KEYSTORE_DEBUG`, `$KEY_ALIAS`, `$KEY_PASSWORD` and `$KEYSTORE_PASSWORD`must be set.
+
+There variables are set in `secret-env-plain` (not part of the project for obvious reasons).
+
+In order to run your own build create a file `secret-env-plain` and set the variables:
+```
+export KEYSTORE_PASSWORD=<your-keystore-pwd>
+export KEY_PASSWORD=<your-key-pwd>
+export KEY_ALIAS=<your-key-alias>
+export KEYSTORE_DEBUG=<name-of-debug-keystore>
+export KEYSTORE_RELEASE=<name-of-release-keystore>
+```
+and then encrypt this file using `openssl aes-256-cbc -e -in secret-env-plain -out secret-env-cipher -k $KEY`
+
+In the piepline the decyption is done using the script `circleciscripts/decrypt_env_vars.sh` with the `$KEY` stored in circle-ci's env vars.
 
 As the signing keys are not in the github repo a script `circleciscripts/download_keystore.sh` does the job of downloading and decrypting the keys at build-time.
 For that to happen following addition environment variables must be set:
-- `$KEYSTORE_RELEASE` the name of the release keystore-file
-- `$KEYSTORE_DEDUB` the name of the debug keystore-file
 - `$KEYSTORE_URI` a public URI from where the files can be downloaded using http
 - `$KEY` the key to decrypt the keystores (same env var as for `google-services.json`)
 

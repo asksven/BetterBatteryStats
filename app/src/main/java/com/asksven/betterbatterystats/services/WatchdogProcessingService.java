@@ -82,7 +82,7 @@ public class WatchdogProcessingService extends IntentService
 					//Toast.makeText(this, getString(R.string.message_watchdog_processing), Toast.LENGTH_SHORT).show();
 
 					int awakePct = 0;
-					StatsProvider stats = StatsProvider.getInstance(this);
+					StatsProvider stats = StatsProvider.getInstance();
 					// make sure to flush cache
 					BatteryStatsProxy.getInstance(this).invalidate();
 
@@ -95,7 +95,7 @@ public class WatchdogProcessingService extends IntentService
 					{
 						// restore any available since screen reference
 						Reference refFrom = ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, this);
-						StatsProvider.getInstance(this).setCurrentReference(0);
+						StatsProvider.getInstance().setCurrentReference(0);
 						//Reference refTo = StatsProvider.getInstance(this).getUncachedPartialReference(0);
 						Reference refTo = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
 						ArrayList<StatElement> otherStats = null;
@@ -202,8 +202,7 @@ public class WatchdogProcessingService extends IntentService
 		{
 			Log.e(TAG, "An error occured: " + e.getMessage());
 		}
-		
-		stopSelf();
+
 	}
 
 	@Override

@@ -26,7 +26,7 @@ import android.util.Log;
 import com.asksven.betterbatterystats.localeplugin.Constants;
 
 /**
- * Class for managing the {@link com.twofortyfouram.locale.Intent#EXTRA_BUNDLE} for this plug-in.
+ * Class for managing the com.twofortyfouram.locale.Intent#EXTRA_BUNDLE for this plug-in.
  */
 public final class PluginBundleManager
 {
@@ -48,7 +48,7 @@ public final class PluginBundleManager
     public static final String BUNDLE_EXTRA_BOOL_SAVE_REF 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_REF"; //$NON-NLS-1$
     public static final String BUNDLE_EXTRA_BOOL_SAVE_STAT 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_STAT"; //$NON-NLS-1$
     public static final String BUNDLE_EXTRA_BOOL_SAVE_JSON 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_JSON"; //$NON-NLS-1$
-    public static final String BUNDLE_EXTRA_STRING_REF_NAME	= "com.asksven.commandcenter.localeplugin.extra.REF_NAME"; //$NON-NLS-1$
+    public static final String BUNDLE_EXTRA_STRING_REF_NAME	= "com.asksven.betterbatterystats.localeplugin.extra.REF_NAME"; //$NON-NLS-1$
 
     
     /**
@@ -130,11 +130,13 @@ public final class PluginBundleManager
          * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
          * is the wrong number).
          */
-        if (4 != bundle.keySet().size())
+        if (5 != bundle.keySet().size())
         {
+            Log.e(Constants.LOG_TAG, String.format("bundle must contain 5 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet().toString())); //$NON-NLS-1$
+
             if (Constants.IS_LOGGABLE)
             {
-                Log.e(Constants.LOG_TAG, String.format("bundle must contain 4 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
+                Log.e(Constants.LOG_TAG, String.format("bundle must contain 5 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
                                                                                                                                                                        .toString()));
             }
             return false;

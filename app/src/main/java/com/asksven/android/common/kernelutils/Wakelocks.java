@@ -187,7 +187,7 @@ public class Wakelocks
 		return rows;
     }
 
-    public static boolean fileExists()
+    public static boolean fileIsWorldReadableExists()
     {
     	boolean exists = false;
     	FileReader fr = null;

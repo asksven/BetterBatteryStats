@@ -124,7 +124,12 @@ public class ReferencesAdapter extends ArrayAdapter<String>
         return m_listNames.get(position);
     }
 
-    public int getPosition(String name)
+	public String getItemLabel(int position)
+	{
+		return m_listLabels.get(position);
+	}
+
+	public int getPosition(String name)
     {
     	int ret = m_listNames.indexOf(name);
         return ret;

@@ -58,7 +58,7 @@ public class WriteBootReferenceService extends IntentService
 	    	nM.cancel(EventWatcherService.NOTFICATION_ID);
 	    	
 			Wakelock.aquireWakelock(this);
-			StatsProvider.getInstance(this).setReferenceSinceBoot(0);
+			StatsProvider.getInstance().setReferenceSinceBoot(0);
 			
 			// delete screen on time counters
 	        SharedPreferences.Editor updater = sharedPrefs.edit();
@@ -82,8 +82,6 @@ public class WriteBootReferenceService extends IntentService
 		{
 			Wakelock.releaseWakelock();
 		}
-
-		stopSelf();
 	}
 
 	@Override

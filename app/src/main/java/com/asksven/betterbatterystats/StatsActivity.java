@@ -23,7 +23,6 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
-import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -36,6 +35,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -69,6 +69,7 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
+import com.asksven.betterbatterystats.appanalytics.Analytics;
 import com.asksven.betterbatterystats.contrib.ObservableScrollView;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
@@ -86,13 +87,16 @@ import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import de.cketti.library.changelog.ChangeLog;
 
-import java.util.ArrayList;
-
 public class StatsActivity extends ActionBarListActivity 
-		implements AdapterView.OnItemSelectedListener, ObservableScrollView.Callbacks
-{    
+		implements AdapterView.OnItemSelectedListener
+{
 	public static String STAT 				= "STAT";
 	public static String STAT_TYPE_FROM		= "STAT_TYPE_FROM";
 	public static String STAT_TYPE_TO		= "STAT_TYPE_TO";
@@ -102,14 +106,7 @@ public class StatsActivity extends ActionBarListActivity
     private static final int STATE_OFFSCREEN = 1;
     private static final int STATE_RETURNING = 2;
     
-    private TextView mQuickReturnView;
-    private View mPlaceholderView;
-    private ObservableScrollView mObservableScrollView;
-    private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
-    private int mMinRawY = 0;
     private int mState = STATE_ONSCREEN;
-    private int mQuickReturnHeight;
-    private int mMaxScrollY;
 	/**
 	 * The logging TAG
 	 */
@@ -154,8 +151,15 @@ public class StatsActivity extends ActionBarListActivity
 		super.onCreate(savedInstanceState);
 
 		// HockeyApp
-		MetricsManager.register(getApplication());
-		
+		try
+		{
+			MetricsManager.register(getApplication());
+		}
+		catch (Exception e)
+		{
+			Log.e(TAG, e.getMessage());
+		}
+
 		//Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	
 		
@@ -206,36 +210,50 @@ public class StatsActivity extends ActionBarListActivity
 			// nop strCurrentRelease is set to ""
 		}
 		
-		// if root is available use it
-		boolean ignoreSystemApp = sharedPrefs.getBoolean("ignore_system_app", false);
-			
-		// show install as system app screen if root available but perms missing
-		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(this))
+		// Grant permissions if they are missing and root is available
+		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
 		{
-        	// attempt to set perms using pm-comand
-			Log.i(TAG, "attempting to grant perms with 'pm grant'");
-			
-			String pkg = this.getPackageName();
-			RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
-            
-            Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
-            if (SysUtils.hasBatteryStatsPermission(this))
+		    if (( RootShell.getInstance().isRooted()))
             {
-            	Log.i(TAG, "succeeded");
+
+                // attempt to set perms using pm-comand
+                Log.i(TAG, "attempting to grant perms with 'pm grant'");
+
+                String pkg = this.getPackageName();
+                RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
+                RootShell.getInstance().run("pm grant " + pkg + " android.permission.DUMP");
+                RootShell.getInstance().run("pm grant " + pkg + " android.permission.PACKAGE_USAGE_STATS");
+
+
+                if (SysUtils.hasBatteryStatsPermission(this))
+                {
+                    Log.i(TAG, "succeeded");
+                } else
+                {
+                    Log.i(TAG, "failed");
+                }
             }
-            else
-            {
-            	Log.i(TAG, "failed");
-            }
-		}
-		
-		// show install as system app screen if root available but perms missing
-		if (!ignoreSystemApp && RootShell.getInstance().hasRootPermissions() && !SysUtils.hasBatteryStatsPermission(this))
-		{
-        	Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
-            this.startActivity(intentSystemApp);
 		}
 
+		// Package usage stats were introduced in SDK21 so we need to make the distinction
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		{
+			// show install as system app screen if root available but perms missing
+			if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
+			{
+				Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
+				this.startActivity(intentSystemApp);
+			}
+		}
+		else
+		{
+			if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this))
+			{
+				Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
+				this.startActivity(intentSystemApp);
+			}
+
+		}
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 
@@ -246,7 +264,8 @@ public class StatsActivity extends ActionBarListActivity
 			boolean firstLaunch = !prefs.getBoolean("launched", false);
 
 
-			if (firstLaunch) {
+			if (firstLaunch)
+			{
 				// Save that the app has been launched
 				SharedPreferences.Editor editor = prefs.edit();
 				editor.putBoolean("launched", true);
@@ -273,12 +292,13 @@ public class StatsActivity extends ActionBarListActivity
 	        updater.putString("last_release", strCurrentRelease);
 	        updater.commit();
 
-			Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
-			ReferenceStore.deleteAllRefs(this);
-			Intent i = new Intent(this, WriteBootReferenceService.class);
-			this.startService(i);
-			i = new Intent(this, WriteUnpluggedReferenceService.class);
-			this.startService(i);
+// we don't need to delete refs as long as we don't change the database schema
+//			Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
+//			ReferenceStore.deleteAllRefs(this);
+//			Intent i = new Intent(this, WriteBootReferenceService.class);
+//			this.startService(i);
+//			i = new Intent(this, WriteUnpluggedReferenceService.class);
+//			this.startService(i);
 	        ChangeLog cl = new ChangeLog(this);
 	        cl.getLogDialog().show();
     			
@@ -444,9 +464,10 @@ public class StatsActivity extends ActionBarListActivity
 		super.onResume();
 		Log.i(TAG, "OnResume called");
 
-		CrashManager.register(this);
-		Tracking.startUsage(this);
-
+		if (Analytics.getInstance(this).isEnabled())
+		{
+			Tracking.startUsage(this);
+		}
 
 
 		// if debug we check for updates
@@ -456,10 +477,12 @@ public class StatsActivity extends ActionBarListActivity
 			if (pinfo.packageName.endsWith("_xdaedition"))
 			{
 				UpdateManager.register(this);
+				CrashManager.register(this);
 			}
 		}
 		catch (Exception e)
 		{
+		    Log.e(TAG, "An error occured registering update/crash manager: " + e.getMessage());
 		}
 
         // Analytics opt-in
@@ -587,12 +610,17 @@ public class StatsActivity extends ActionBarListActivity
 	protected void onPause()
 	{
 		super.onPause();
+
 		// Hockeyapp
-		UpdateManager.unregister();
-		Tracking.stopUsage(this);
-		
-//		Log.i(TAG, "OnPause called");
-//		Log.i(TAG, "onPause reference state: refFrom=" + m_refFromName + " refTo=" + m_refToName);
+		try
+		{
+			UpdateManager.unregister();
+			Tracking.stopUsage(this);
+		}
+		catch (Exception e)
+		{
+		}
+
 		// unregister boradcast receiver for saved references
 		this.unregisterReceiver(this.m_referenceSavedReceiver);
 		
@@ -605,7 +633,14 @@ public class StatsActivity extends ActionBarListActivity
 		super.onDestroy();
 
 		// Hockeyapp
-		UpdateManager.unregister();
+		try
+		{
+			UpdateManager.unregister();
+		}
+		catch (Exception e)
+		{
+		}
+
 	}
 
 	/**
@@ -646,8 +681,8 @@ public class StatsActivity extends ActionBarListActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {  
         switch (item.getItemId())
-        {  
-	        case R.id.preferences:  
+        {
+			case R.id.preferences:
 	        	Intent intentPrefs = null;
 	        	
 				intentPrefs = new Intent(this, PreferencesFragmentActivity.class);
@@ -789,12 +824,12 @@ public class StatsActivity extends ActionBarListActivity
 
         TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
 
-        long sinceMs = StatsProvider.getInstance(this).getSince(myReferenceFrom, myReferenceTo);
+        long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
 
         if (sinceMs != -1)
         {
 	        String sinceText =  DateUtils.formatDuration(sinceMs);
-        	sinceText += " " + StatsProvider.getInstance(this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
+        	sinceText += " " + StatsProvider.getInstance().getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, true);
 	        
 	        tvSince.setText(sinceText);
 	        if (LogSettings.DEBUG) Log.i(TAG, "Since " + sinceText);
@@ -885,7 +920,7 @@ public class StatsActivity extends ActionBarListActivity
 		LinearLayout notificationPanel = (LinearLayout) findViewById(R.id.Notification);
 		ListView listView = (ListView) findViewById(android.R.id.list);
 		
-		ArrayList<StatElement> myStats = StatsProvider.getInstance(this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
+		ArrayList<StatElement> myStats = StatsProvider.getInstance().getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
 		if ((myStats != null) && (!myStats.isEmpty()))
 		{
 			// check if notification
@@ -916,7 +951,7 @@ public class StatsActivity extends ActionBarListActivity
     		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
-        	long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(myReferenceFrom, myReferenceTo);
+        	long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
         	m_listViewAdapter.setTotalTime(sinceMs);
 		
 			setListAdapter(m_listViewAdapter);
@@ -929,7 +964,18 @@ public class StatsActivity extends ActionBarListActivity
 		if (SysUtils.hasBatteryStatsPermission(this)) BatteryStatsProxy.getInstance(this).invalidate();
 		
 		refreshSpinners();
-		new LoadStatData().execute(updateCurrent);	
+
+		// debug only
+//        SimpleDateFormat date =
+//                new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+//        String logDate = date.format(new Date());
+//        Debug.startMethodTracing(
+//                "doRefreshTrace-" + logDate);
+
+		new LoadStatData().execute(updateCurrent);
+
+		// Debug only
+//		Debug.stopMethodTracing();
 	}
 
 	// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
@@ -945,7 +991,7 @@ public class StatsActivity extends ActionBarListActivity
 			if (refresh[0])
 			{
 				// make sure to create a valid "current" stat
-				StatsProvider.getInstance(StatsActivity.this).setCurrentReference(m_iSorting);		
+				StatsProvider.getInstance().setCurrentReference(m_iSorting);
 			}
 			//super.doInBackground(params);
 			m_listViewAdapter = null;
@@ -954,7 +1000,7 @@ public class StatsActivity extends ActionBarListActivity
 				if (LogSettings.DEBUG) Log.i(TAG, "LoadStatData: refreshing display for stats " + m_refFromName + " to " + m_refToName);
 				m_listViewAdapter = new StatsAdapter(
 						StatsActivity.this,
-						StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName),
+						StatsProvider.getInstance().getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName),
 						StatsActivity.this);
 			}
 			catch (BatteryInfoUnavailableException e)
@@ -1009,7 +1055,7 @@ public class StatsActivity extends ActionBarListActivity
     		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
-        	long sinceMs = StatsProvider.getInstance(StatsActivity.this).getSince(myReferenceFrom, myReferenceTo);
+        	long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
         	if (o != null)
         	{
         		o.setTotalTime(sinceMs);
@@ -1020,7 +1066,7 @@ public class StatsActivity extends ActionBarListActivity
 		        String sinceText = DateUtils.formatDuration(sinceMs);
 		        
 				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
-		        sinceText += " " + StatsProvider.getInstance(StatsActivity.this).getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
+		        sinceText += " " + StatsProvider.getInstance().getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
 		        
 		        tvSince.setText(sinceText);
 		        if (LogSettings.DEBUG) Log.i(TAG, "Since " + sinceText);
@@ -1034,11 +1080,11 @@ public class StatsActivity extends ActionBarListActivity
 			LinearLayout notificationPanel = (LinearLayout) findViewById(R.id.Notification);
 			ListView listView = (ListView) findViewById(android.R.id.list);
 			
-			ArrayList<StatElement> myStats;
+			List<StatElement> myStats;
 			try
 			{
-				myStats = StatsProvider.getInstance(StatsActivity.this).getStatList(m_iStat, m_refFromName, m_iSorting, m_refToName);
-				
+				myStats = o.getList();
+
 				if ((myStats != null) && (!myStats.isEmpty()))
 				{
 					// check if notification
@@ -1064,7 +1110,6 @@ public class StatsActivity extends ActionBarListActivity
 			}
 			catch (Exception e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    	StatsActivity.this.setListAdapter(o);
@@ -1169,12 +1214,12 @@ public class StatsActivity extends ActionBarListActivity
 						// save logcat if selected
 						if (selectedSaveActions.contains(1))
 						{
-							attachements.add(StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile());
+							attachements.add(StatsProvider.getInstance().writeLogcatToFile());
 						}
 						// save dmesg if selected
 						if (selectedSaveActions.contains(2))
 						{
-							attachements.add(StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile());
+							attachements.add(StatsProvider.getInstance().writeDmesgToFile());
 						}
 
 
@@ -1200,7 +1245,7 @@ public class StatsActivity extends ActionBarListActivity
 				    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 	
 				    		Reading reading = new Reading(StatsActivity.this, myReferenceFrom, myReferenceTo);
-	
+
 							// save as text is selected
 							if (selectedSaveActions.contains(0))
 							{
@@ -1209,16 +1254,16 @@ public class StatsActivity extends ActionBarListActivity
 							// save logcat if selected
 							if (selectedSaveActions.contains(1))
 							{
-								StatsProvider.getInstance(StatsActivity.this).writeLogcatToFile();
+								StatsProvider.getInstance().writeLogcatToFile();
 							}
 							// save dmesg if selected
 							if (selectedSaveActions.contains(2))
 							{
-								StatsProvider.getInstance(StatsActivity.this).writeDmesgToFile();
+								StatsProvider.getInstance().writeDmesgToFile();
 							}
 						
 							Snackbar
-							  .make(findViewById(android.R.id.content), R.string.info_files_written, Snackbar.LENGTH_LONG)
+							  .make(findViewById(android.R.id.content), getString(R.string.info_files_written) + ": " + StatsProvider.getWritableFilePath(), Snackbar.LENGTH_LONG)
 							  .show();
 						}
 						catch (Exception e)
@@ -1242,106 +1287,4 @@ public class StatsActivity extends ActionBarListActivity
 		return builder.create();
 	}
 	
-	@Override
-    public void onDownMotionEvent() {
-        mScrollSettleHandler.setSettleEnabled(false);
-    }
-	
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-	@Override
-    public void onScrollChanged(int scrollY) {
-        scrollY = Math.min(mMaxScrollY, scrollY);
-
-        mScrollSettleHandler.onScroll(scrollY);
-
-        int rawY = mPlaceholderView.getTop() - scrollY;
-        int translationY = 0;
-
-        switch (mState) {
-            case STATE_OFFSCREEN:
-                if (rawY <= mMinRawY) {
-                    mMinRawY = rawY;
-                } else {
-                    mState = STATE_RETURNING;
-                }
-                translationY = rawY;
-                break;
-
-            case STATE_ONSCREEN:
-                if (rawY < -mQuickReturnHeight) {
-                    mState = STATE_OFFSCREEN;
-                    mMinRawY = rawY;
-                }
-                translationY = rawY;
-                break;
-
-            case STATE_RETURNING:
-                translationY = (rawY - mMinRawY) - mQuickReturnHeight;
-                if (translationY > 0) {
-                    translationY = 0;
-                    mMinRawY = rawY - mQuickReturnHeight;
-                }
-
-                if (rawY > 0) {
-                    mState = STATE_ONSCREEN;
-                    translationY = rawY;
-                }
-
-                if (translationY < -mQuickReturnHeight) {
-                    mState = STATE_OFFSCREEN;
-                    mMinRawY = rawY;
-                }
-                break;
-        }
-        mQuickReturnView.animate().cancel();
-        mQuickReturnView.setTranslationY(translationY + scrollY);
-    }
-	
-	@Override
-    public void onUpOrCancelMotionEvent() {
-        mScrollSettleHandler.setSettleEnabled(true);
-        mScrollSettleHandler.onScroll(mObservableScrollView.getScrollY());
-    }
-	
-	
-	private class ScrollSettleHandler extends Handler {
-        private static final int SETTLE_DELAY_MILLIS = 100;
-
-        private int mSettledScrollY = Integer.MIN_VALUE;
-        private boolean mSettleEnabled;
-
-        public void onScroll(int scrollY) {
-            if (mSettledScrollY != scrollY) {
-                 // Clear any pending messages and post delayed
-                removeMessages(0);
-                sendEmptyMessageDelayed(0, SETTLE_DELAY_MILLIS);
-                mSettledScrollY = scrollY;
-            }
-        }
-
-        public void setSettleEnabled(boolean settleEnabled) {
-            mSettleEnabled = settleEnabled;
-        }
-
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-		@Override
-        public void handleMessage(Message msg) {
-            // Handle the scroll settling.
-            if (STATE_RETURNING == mState && mSettleEnabled) {
-                int mDestTranslationY;
-                if (mSettledScrollY - mQuickReturnView.getTranslationY() > mQuickReturnHeight / 2) {
-                    mState = STATE_OFFSCREEN;
-                    mDestTranslationY = Math.max(
-                            mSettledScrollY - mQuickReturnHeight,
-                            mPlaceholderView.getTop());
-                } else {
-                    mDestTranslationY = mSettledScrollY;
-                }
-
-                mMinRawY = mPlaceholderView.getTop() - mQuickReturnHeight - mDestTranslationY;
-                mQuickReturnView.animate().translationY(mDestTranslationY);
-            }
-            mSettledScrollY = Integer.MIN_VALUE; // reset
-        }
-    }
 }

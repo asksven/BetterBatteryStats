@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.asksven.betterbatterystats"
-          android:installLocation="internalOnly"
-          android:versionCode="82"
-          android:versionName="2.2.0.0">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.asksven.betterbatterystats"
+    android:installLocation="internalOnly"
+    android:versionCode="82"
+    android:versionName="2.2.0.0">
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="22"/>
+        android:targetSdkVersion="22" />
 
-    <!--
-SKN 2016-12-25 we ignore this for now
+    <uses-permission android:name="android.permission.DUMP" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
 
-<uses-permission android:name="android.permission.DUMP" />
-    -->
     <!-- required for writing dump files -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- required by M-preview -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- required by GA -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- store kernel wakelock ref boot -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- detect when battery is charged -->
-    <uses-permission android:name="android.permission.BATTERY_STATS"/>
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
     <!-- detect  when screen is turned on/off -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- detect unplug actions -->
     <!--
 @todo we need to check if required: SKN 2016-12-25 we ignore this for now
@@ -37,46 +35,49 @@ SKN 2016-12-25 we ignore this for now
 <uses-permission android:name="android.permission.DEVICE_POWER" />
     -->
     <!-- retrieve ps list (running tasks) -->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- tentative to fix bug #173 -->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
     <!-- need to hold wakelocks for writing operations -->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- needed to read logcat -->
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
     <!-- permission to access su (optional if available for dumpsys and network stats -->
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
 
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
         android:normalScreens="true"
         android:resizeable="true"
-        android:smallScreens="true"/>
+        android:smallScreens="true" />
 
     <uses-feature
         android:name="android.software.app_widgets"
-        android:required="true"/>
+        android:required="true" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".BbsApplication"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="BBS"
         android:supportsRtl="true"
         android:theme="@style/Theme.Bbs">
-
-        <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" />
+        <meta-data
+            android:name="net.hockeyapp.android.appIdentifier"
+            android:value="${HOCKEYAPP_APP_ID}" />
 
         <activity
             android:name=".StatsActivity"
             android:configChanges="orientation|screenSize"
             android:label="BetterBatteryStats">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -84,38 +85,30 @@ SKN 2016-12-25 we ignore this for now
             android:parentActivityName=".StatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.StatsActivity"/>
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
             android:name=".CreditsActivity"
             android:parentActivityName=".StatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.StatsActivity"/>
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
-
         <activity
             android:name=".ImportExportPreferencesActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
-                <action android:name="com.asksven.betterbatterystats.ImportExportPreferencesActivity"/>
+                <action android:name="com.asksven.betterbatterystats.ImportExportPreferencesActivity" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".SystemAppActivity">
             <intent-filter>
-                <action android:name="com.asksven.betterbatterystats.SystemAppActivity"/>
+                <action android:name="com.asksven.betterbatterystats.SystemAppActivity" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".HelpActivity"
-            android:parentActivityName=".StatsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.StatsActivity"/>
         </activity>
         <activity
             android:name=".HistActivity"
@@ -123,7 +116,7 @@ SKN 2016-12-25 we ignore this for now
             android:parentActivityName=".NewGraphActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.NewGraphActivity"/>
+                android:value="com.asksven.betterbatterystats.NewGraphActivity" />
         </activity>
         <activity
             android:name=".RawStatsActivity"
@@ -131,7 +124,7 @@ SKN 2016-12-25 we ignore this for now
             android:parentActivityName=".StatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.StatsActivity"/>
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
             android:name=".PackageInfoActivity"
@@ -139,64 +132,41 @@ SKN 2016-12-25 we ignore this for now
             android:parentActivityName=".StatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.StatsActivity"/>
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
             android:name=".NewGraphActivity"
             android:parentActivityName=".StatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.StatsActivity"/>
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
             android:name=".PreferencesFragmentActivity"
             android:parentActivityName=".StatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.StatsActivity"/>
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
-
-        <!--
-        SKN 2016-12-25 we ignore this for now
-        <activity android:name="com.asksven.betterbatterystats.ResponsiveListActivity" />
-        -->
-        <activity
-            android:name=".localeplugin.ui.EditActivity"
-            android:exported="false"
-            android:label="@string/plugin_name"
-            android:theme="@style/Theme.AppCompat"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize"
-            tools:ignore="UnusedAttribute">
-        </activity>
-
-        <!--
-      This is the "edit" Activity. Note that the host will reject plug-in
-      Activities for the following reasons:
-          - Missing "android:label=[...]"
-          - Missing "android:icon=[...]"
-          - The Activity isn't exported (e.g. android:exported="false")
-          - The Activity isn't enabled (e.g. android:enabled="false")
-          - The Activity requires permissions not available to the host
-        -->
-        <activity-alias
-            android:name=".localeplugin.ui.activity.PluginActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/plugin_name"
-            android:targetActivity=".localeplugin.ui.EditActivity"
-            tools:ignore="ExportedActivity">
-
-            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION"/>
-            </intent-filter>
-        </activity-alias>
 
         <activity
             android:name=".DashClockSettingsActivity"
             android:exported="true"
-            android:label="Settings"/>
+            android:label="Settings" />
+
+        <activity
+            android:name=".localeplugin.ui.EditActivity"
+            android:exported="true"
+            android:label="@string/plugin_name"
+            android:theme="@style/Theme.AppCompat"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:icon="@mipmap/ic_launcher">
+            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+        </activity>
+
         <!--
              This is the "fire" BroadcastReceiver. Note that Locale will reject plug-in BroadcastReceivers for the following reasons:
                 - The BroadcastReceiver isn't exported (e.g. android:exported="false")
@@ -212,121 +182,114 @@ SKN 2016-12-25 we ignore this for now
 
             <!-- this Intent filter allows the plug-in to discovered by Locale -->
             <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.QUERY_CONDITION"/>
+                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
+
         <receiver android:name=".handlers.OnBootHandler">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver android:name=".handlers.OnUnplugHandler">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".widgetproviders.LargeWidgetProvider"
             android:label="BBS 2 x 2 Widget (legacy)">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <intent-filter>
-                <action android:name="BBS_WIDGET_UPDATE"/>
+                <action android:name="BBS_WIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/large_widget_info"/>
+                android:resource="@xml/large_widget_info" />
         </receiver>
         <receiver
             android:name=".widgetproviders.MediumWidgetProvider"
             android:label="BBS 2 x 1 Widget (legacy)">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <intent-filter>
-                <action android:name="BBS_WIDGET_UPDATE"/>
+                <action android:name="BBS_WIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/medium_widget_info"/>
+                android:resource="@xml/medium_widget_info" />
         </receiver>
         <receiver
             android:name=".widgetproviders.SmallWidgetProvider"
             android:label="BBS 1 x 1 Widget (legacy)">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <intent-filter>
-                <action android:name="BBS_WIDGET_UPDATE"/>
+                <action android:name="BBS_WIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/small_widget_info"/>
+                android:resource="@xml/small_widget_info" />
         </receiver>
         <receiver
             android:name=".ActiveMonAlarmReceiver"
-            android:process=":remote"/>
+            android:process=":remote" />
         <receiver
             android:name=".widgetproviders.AppWidget"
             android:label="BBS Widget (responsive)">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="android.appwidget.action.APPWIDGET_OPTIONS_CHANGED"/>
-                <action android:name="BBS_WIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_OPTIONS_CHANGED" />
+                <action android:name="BBS_WIDGET_UPDATE" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_provider"/>
+                android:resource="@xml/widget_provider" />
         </receiver>
 
-        <service android:name=".services.UpdateLargeWidgetService">
-        </service>
-        <service android:name=".services.UpdateMediumWidgetService">
-        </service>
-        <service android:name=".services.UpdateSmallWidgetService">
-        </service>
-        <service android:name=".services.UpdateWidgetService"/>
-        <service android:name=".services.EventWatcherService"/>
-
-        <!--
-        not active right now
-        <service android:name="com.asksven.betterbatterystats.services.KbReaderService" />
-        -->
-        <service android:name=".services.WriteUnpluggedReferenceService"/>
-        <service android:name=".services.WriteCustomReferenceService"/>
-        <service android:name=".services.WriteCurrentReferenceService"/>
-        <service android:name=".services.WriteDumpfileService"/>
-        <service android:name=".services.WriteScreenOffReferenceService"/>
-        <service android:name=".services.WriteTimerReferenceService"/>
-        <service android:name=".services.WriteScreenOnReferenceService"/>
-        <service android:name=".services.WriteBootReferenceService"/>
-        <service android:name=".services.WatchdogProcessingService"/>
+        <service android:name=".services.UpdateLargeWidgetService" />
+        <service android:name=".services.UpdateMediumWidgetService" />
+        <service android:name=".services.UpdateSmallWidgetService" />
+        <service android:name=".services.UpdateWidgetService" />
+        <service android:name=".services.EventWatcherService" />
+        <service android:name=".services.WriteUnpluggedReferenceService" />
+        <service android:name=".services.WriteCustomReferenceService" />
+        <service android:name=".services.WriteCurrentReferenceService" />
+        <service android:name=".services.WriteDumpfileService" />
+        <service android:name=".services.WriteScreenOffReferenceService" />
+        <service android:name=".services.WriteTimerReferenceService" />
+        <service android:name=".services.WriteScreenOnReferenceService" />
+        <service android:name=".services.WriteBootReferenceService" />
+        <service android:name=".services.WatchdogProcessingService" />
         <service
             android:name=".services.BbsDashClockExtension"
             android:icon="@drawable/ic_stat_notification"
             android:label="BetterBatteryStats"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
             <intent-filter>
-                <action android:name="com.google.android.apps.dashclock.Extension"/>
+                <action android:name="com.google.android.apps.dashclock.Extension" />
             </intent-filter>
 
             <meta-data
                 android:name="protocolVersion"
-                android:value="2"/>
+                android:value="2" />
             <meta-data
                 android:name="worldReadable"
-                android:value="true"/>
+                android:value="true" />
             <meta-data
                 android:name="description"
-                android:value="Show info about awake times and drain per hour"/>
+                android:value="Show info about awake times and drain per hour" />
             <meta-data
                 android:name="settingsActivity"
-                android:value="com.asksven.betterbatterystats.DashClockSettingsActivity"/>
+                android:value="com.asksven.betterbatterystats.DashClockSettingsActivity" />
         </service>
 
     </application>

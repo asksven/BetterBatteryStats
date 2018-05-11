@@ -46,6 +46,7 @@ import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
 import android.os.Parcelable;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.util.SparseArray;
@@ -62,9 +63,12 @@ import com.asksven.android.system.AndroidVersion;
 
 /**
  * A proxy to the non-public API BatteryStats
- * http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/2.3.3_r1/android/os/BatteryStats.java/?v=source
  * @author sven
- *
+ * Oreo (SDK26-27):     http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#106
+ * Nougat (SDK25-26):   http://androidxref.com/7.1.2_r36/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java
+ * Marshmallow (DSK23): http://androidxref.com/6.0.1_r10/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#94
+ * Lolipop (SDK21-22):  http://androidxref.com/5.1.1_r6/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#85
+ * Kitkat: (SDK19):     http://androidxref.com/4.4.4_r1/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#75
  */
 public class BatteryStatsProxy
 {
@@ -493,7 +497,6 @@ public class BatteryStatsProxy
      * Returns the total, last, or current battery realtime in microseconds.
      *
      * @param curTime the current elapsed realtime in microseconds.
-     * @param iStatsType one of STATS_TOTAL, STATS_LAST, or STATS_CURRENT.
      */
     public Long getBatteryRealtime(long curTime) throws BatteryInfoUnavailableException
 	{
@@ -624,8 +627,6 @@ public class BatteryStatsProxy
 	/**
      * Returns if phone is on battery.
      *
-     * @param batteryRealtime the battery realtime in microseconds (@see computeBatteryRealtime).
-     * @param iStatsType one of STATS_TOTAL, STATS_LAST, or STATS_CURRENT.
      */
     public boolean getIsOnBattery() throws BatteryInfoUnavailableException
 	{
@@ -1106,7 +1107,7 @@ public class BatteryStatsProxy
           paramTypes[2]= int.class;          
 
           @SuppressWarnings("unchecked")
-		  Method method = m_ClassDefinition.getMethod("getPhoneDataConnectionTime", paramTypes);
+		  Method method = m_ClassDefinition.getMethod("getPhoneSignalStrengthTime", paramTypes);
 
           //Parameters
           Object[] params= new Object[3];
@@ -1553,7 +1554,7 @@ public class BatteryStatsProxy
 						    }
 						    SensorUsage myData = new SensorUsage(uidTotalSensorTime.longValue()/1000);
 							// try resolving names
-							UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+							UidInfo myInfo = UidNameResolver.getInstance().getNameForUid(uid);
 							myData.setUidInfo(myInfo);
 							myData.setItems(myItems);
 							myRet.add(myData);
@@ -1637,7 +1638,7 @@ public class BatteryStatsProxy
 						    }
 						    SensorUsage myData = new SensorUsage(uidTotalSensorTime.longValue()/1000);
 							// try resolving names
-							UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+							UidInfo myInfo = UidNameResolver.getInstance().getNameForUid(uid);
 							myData.setUidInfo(myInfo);
 							myData.setItems(myItems);
 							myRet.add(myData);
@@ -1889,36 +1890,88 @@ public class BatteryStatsProxy
     /**
      * Returns the total, last, or current bluetooth on time in microseconds.
      *
-     * @param batteryRealtime the battery realtime in microseconds (@see computeBatteryRealtime).
-     * @param iStatsType one of STATS_TOTAL, STATS_LAST, or STATS_CURRENT.
      */
-    public Long getBluetoothInStateTime(int state, int iStatsType) throws BatteryInfoUnavailableException
+    public Long getBluetoothInStateTime(Context ctx, int iStatsType) throws BatteryInfoUnavailableException
 	{
     	Long ret = new Long(0);
 
-    	if (Build.VERSION.SDK_INT < 6)
+    	if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
     	{
     		Log.e(TAG, "Bluetooth in state time is supported only from Marshmallow");
+    		throw new BatteryInfoUnavailableException("Bluetooth in state time is supported only from Marshmallow");
     	}
     	
         try
         {
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-          Class[] paramTypes= new Class[2];
-          paramTypes[0]= int.class;
-          paramTypes[1]= int.class;          
+            if (Build.VERSION.SDK_INT < 24)
+            {
+                //Parameters Types
+                @SuppressWarnings("rawtypes")
+                Class[] paramTypes = new Class[2];
+                paramTypes[0] = int.class;
+                paramTypes[1] = int.class;
 
-          @SuppressWarnings("unchecked")
-		  Method method = m_ClassDefinition.getMethod("getBluetoothControllerActivity", paramTypes);
+                @SuppressWarnings("unchecked")
+                Method method = m_ClassDefinition.getMethod("getBluetoothControllerActivity", paramTypes);
 
-          //Parameters
-          Object[] params= new Object[2];
-          params[0]= new Integer(state);
-          params[1]= new Integer(iStatsType);
+                //Parameters
+                Object[] paramsIdle = new Object[2];
+                paramsIdle[0] = new Integer(BatteryStatsTypes.CONTROLLER_IDLE_TIME);
+                paramsIdle[1] = new Integer(iStatsType);
 
-          ret= (Long) method.invoke(m_Instance, params);
+                Object[] paramsRx = new Object[2];
+                paramsRx[0] = new Integer(BatteryStatsTypes.CONTROLLER_IDLE_TIME);
+                paramsRx[1] = new Integer(iStatsType);
 
+                Object[] paramsTx = new Object[2];
+                paramsTx[0] = new Integer(BatteryStatsTypes.CONTROLLER_IDLE_TIME);
+                paramsTx[1] = new Integer(iStatsType);
+
+                Long idleTimeMs     = (Long) method.invoke(m_Instance, paramsIdle);
+                Long rxTimeMs       = (Long) method.invoke(m_Instance, paramsRx);
+                Long txTimeMs       = (Long) method.invoke(m_Instance, paramsTx);
+
+                ret                 = idleTimeMs + txTimeMs + rxTimeMs;
+
+            }
+            else
+            {
+                // we need to sum-up the time. See http://androidxref.com/7.1.2_r36/xref/frameworks/base/core/java/com/android/internal/os/BluetoothPowerCalculator.java#67.
+                //         final long idleTimeMs = counter.getIdleTimeCounter().getCountLocked(statsType);
+                //        final long rxTimeMs = counter.getRxTimeCounter().getCountLocked(statsType);
+                //        final long txTimeMs = counter.getTxTimeCounters()[0].getCountLocked(statsType);
+                //        final long totalTimeMs = idleTimeMs + txTimeMs + rxTimeMs;
+                //Parameters Types
+                Method method = m_ClassDefinition.getMethod("getBluetoothControllerActivity");
+
+                Object counter = (Object) method.invoke(m_Instance);
+                // counter is of type BatteryStats.ControllerActivityCounter
+                ClassLoader cl = ctx.getClassLoader();
+                @SuppressWarnings("rawtypes")
+                Class iBatteryStatsControllerActivityCounter = cl.loadClass("com.android.internal.os.BatteryStatsImpl$ControllerActivityCounterImpl");
+                Class iBatteryStatsLongSamplingCounter = cl.loadClass("com.android.internal.os.BatteryStatsImpl$LongSamplingCounter");
+
+                Method getIdleTimeCounter = iBatteryStatsControllerActivityCounter.getMethod("getIdleTimeCounter");
+                Method getRxTimeCounter = iBatteryStatsControllerActivityCounter.getMethod("getRxTimeCounter");
+                Method getTxTimeCounters = iBatteryStatsControllerActivityCounter.getMethod("getTxTimeCounters");
+
+                //Parameters Types
+                @SuppressWarnings("rawtypes")
+                Class[] paramTypes = new Class[1];
+                paramTypes[0] = int.class;
+
+                @SuppressWarnings("unchecked")
+                Method getCountLocked = iBatteryStatsLongSamplingCounter.getMethod("getCountLocked", paramTypes);
+
+                //Parameters
+                Object[] params = new Object[1];
+                params[0] = new Integer(iStatsType);
+
+                Long idleTimeMs = (Long) getCountLocked.invoke(getIdleTimeCounter.invoke(counter), params);
+                Long rxTimeMs = (Long) getCountLocked.invoke(getRxTimeCounter.invoke(counter), params);
+                Long txTimeMs = (Long) getCountLocked.invoke(((Object[])getTxTimeCounters.invoke(counter))[0], params);
+                ret = idleTimeMs + txTimeMs + rxTimeMs;
+            }
         }
         catch( IllegalArgumentException e )
         {
@@ -1989,37 +2042,86 @@ public class BatteryStatsProxy
 	{
     	Long ret = new Long(0);
 
-        try
+        if (Build.VERSION.SDK_INT < 21)
         {
-          //Parameters Types
-          @SuppressWarnings("rawtypes")
-          Class[] paramTypes= new Class[2];
-          paramTypes[0]= long.class;
-          paramTypes[1]= int.class;          
-
-          @SuppressWarnings("unchecked")
-		  Method method = m_ClassDefinition.getMethod("getDeviceIdleModeEnabledTime", paramTypes);
-
-          //Parameters
-          Object[] params= new Object[2];
-          params[0]= new Long(batteryRealtime);
-          params[1]= new Integer(iStatsType);
-
-          ret= (Long) method.invoke(m_Instance, params);
-
-        }
-        catch( IllegalArgumentException e )
-        {
-            throw e;
-        }
-        catch( Exception e )
-        {
-            ret = new Long(0);
-            throw new BatteryInfoUnavailableException();
+            Log.e(TAG, "Doze idle time is supported only from Marshmallow");
         }
 
-        return ret;
+        if (Build.VERSION.SDK_INT < 24)
+        {
 
+            try
+            {
+                //Parameters Types
+                @SuppressWarnings("rawtypes")
+                Class[] paramTypes = new Class[2];
+                paramTypes[0] = long.class;
+                paramTypes[1] = int.class;
+
+                @SuppressWarnings("unchecked")
+                Method method = m_ClassDefinition.getMethod("getDeviceIdleModeEnabledTime", paramTypes);
+
+                //Parameters
+                Object[] params = new Object[2];
+                params[0] = new Long(batteryRealtime);
+                params[1] = new Integer(iStatsType);
+
+                ret = (Long) method.invoke(m_Instance, params);
+
+            } catch (IllegalArgumentException e)
+            {
+                throw e;
+            } catch (Exception e)
+            {
+                ret = new Long(0);
+                throw new BatteryInfoUnavailableException();
+            }
+
+            return ret;
+        }
+        else
+        {
+            try
+            {
+                //Parameters Types
+                @SuppressWarnings("rawtypes")
+                Class[] paramTypes = new Class[3];
+                paramTypes[0] = int.class;
+                paramTypes[1] = long.class;
+                paramTypes[2] = int.class;
+
+                @SuppressWarnings("unchecked")
+                Method method = m_ClassDefinition.getMethod("getDeviceIdleModeTime", paramTypes);
+
+                //Parameters
+                Object[] paramsLight = new Object[3];
+                paramsLight[0] = new Integer(BatteryStatsTypes.DEVICE_IDLE_MODE_LIGHT);
+                paramsLight[1] = new Long(batteryRealtime);
+                paramsLight[2] = new Integer(iStatsType);
+
+                //Parameters
+                Object[] paramsDeep = new Object[3];
+                paramsDeep[0] = new Integer(BatteryStatsTypes.DEVICE_IDLE_MODE_DEEP);
+                paramsDeep[1] = new Long(batteryRealtime);
+                paramsDeep[2] = new Integer(iStatsType);
+
+                Long timeLight = (Long) method.invoke(m_Instance, paramsLight);
+                Long timeDeep = (Long) method.invoke(m_Instance, paramsDeep);
+
+                ret = timeLight + timeDeep;
+
+            } catch (IllegalArgumentException e)
+            {
+                throw e;
+            } catch (Exception e)
+            {
+                ret = new Long(0);
+                throw new BatteryInfoUnavailableException();
+            }
+
+            return ret;
+
+        }
 	
 	}
 
@@ -2294,8 +2396,10 @@ public class BatteryStatsProxy
 			Log.e(TAG, "Invalid WakeType or StatType");
 			throw new Exception("Invalid WakeType of StatType");
 		}
-		
-		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+
+		String entropy =  Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID); // this is the best practice described here: https://android-developers.googleblog.com/2011/03/identifying-app-installations.html
+
+        ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 		
 		this.collectUidStats();
 		if (m_uidStats != null)
@@ -2418,12 +2522,12 @@ public class BatteryStatsProxy
 						Wakelock myWl = null;
 						if (Build.VERSION.SDK_INT >= 20)
 						{
-							myWl = new Wakelock(iWakeType, wakelockEntry.getKey(), wakelockTime, uSec, wakelockCount);
+							myWl = new Wakelock(entropy, iWakeType, wakelockEntry.getKey(), wakelockTime, uSec, wakelockCount);
 								
 						}
 						else
 						{
-							myWl = new Wakelock(iWakeType, wakelockEntry.getKey(), wakelockTime, uSec / 1000, wakelockCount);
+							myWl = new Wakelock(entropy, iWakeType, wakelockEntry.getKey(), wakelockTime, uSec / 1000, wakelockCount);
 						}
 						
 						// opt for lazy loading: do no populate UidInfo, just uid. UidInfo will be fetched on demand
@@ -2446,8 +2550,6 @@ public class BatteryStatsProxy
 	/**
 	 * Obtain the wakelock stats as a list of Wakelocks (@see com.asksven.android.common.privateapiproxies.Wakelock}
 	 * @param context a Context
-	 * @param iWakeType a type of wakelock @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
-	 * @param iStatType a type of stat @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
 	 * @return a List of Wakelock s
 	 * @throws Exception
 	 */
@@ -3158,7 +3260,7 @@ public class BatteryStatsProxy
                     	// we have data separated for Wifi and Mobile
 						myData = new NetworkUsage(uid, "Wifi", bytesReceivedWifi, bytesSentWifi);
 						// try resolving names
-						UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+						UidInfo myInfo = UidNameResolver.getInstance().getNameForUid(uid);
 						myData.setUidInfo(myInfo);
 						myStats.add(myData);
 
@@ -3168,10 +3270,11 @@ public class BatteryStatsProxy
 						myStats.add(myData);
 
                     }
+                    else 
                     {
 						myData = new NetworkUsage(uid, bytesReceived, bytesSent);
 						// try resolving names
-						UidInfo myInfo = UidNameResolver.getInstance(context).getNameForUid(uid);
+						UidInfo myInfo = UidNameResolver.getInstance().getNameForUid(uid);
 						myData.setUidInfo(myInfo);
 						myStats.add(myData);
                     }
@@ -3188,8 +3291,6 @@ public class BatteryStatsProxy
 
 	/**
 	 * Obtain the network usage stats as a list of NetworkUsages (@see com.asksven.android.common.privateapiproxies.NetworkUsage}
-	 * @param context a Context
-	 * @param iStatType a type of stat @see com.asksven.android.common.privateapiproxies.BatteryStatsTypes
 	 * @return a List of NetworkUsage s
 	 * @throws Exception
 	 */
@@ -3301,13 +3402,21 @@ public class BatteryStatsProxy
 					{
 						updateCmd = HistoryItemJellyBean.CMD_UPDATE;
 					}
-					else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) )
+					else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) )
 					{
 						updateCmd = HistoryItemLolipop.CMD_UPDATE;
 					}
-					else
+                    else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) )
+                    {
+                        updateCmd = HistoryItemMarshmallow.CMD_UPDATE;
+                    }
+                    else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) )
+                    {
+                        updateCmd = HistoryItemNougat.CMD_UPDATE;
+                    }
+                    else
 					{
-						updateCmd = HistoryItem.CMD_UPDATE;
+						updateCmd = HistoryItemOreo.CMD_UPDATE;
 					}
 					
 					if (cmdValue == updateCmd)
@@ -3321,7 +3430,16 @@ public class BatteryStatsProxy
 				        Field batteryVoltageField 		= classHistoryItem.getField("batteryVoltage"); 	// char
 				        
 				        Field statesField 				= classHistoryItem.getField("states"); 			// int
-				        
+                        Field states2Field              = null;
+                        try
+                        {
+                            states2Field = classHistoryItem.getField("states2");            // int
+                        }
+                        catch (NoSuchFieldException e)
+                        {
+                            // it's ok, this field exists only since Lolipop
+                        }
+
 				        // retrieve all values
 				        @SuppressWarnings("rawtypes")
 				        Long timeValue = (Long) timeField.get(params[0]);
@@ -3338,6 +3456,12 @@ public class BatteryStatsProxy
 					        String batteryVoltageValue = String.valueOf(batteryVoltageField.get(params[0]));
 					        
 					        Integer statesValue = (Integer) statesField.get(params[0]);
+                            Integer states2Value = 0;
+
+                            if (states2Field != null)
+                            {
+                                states2Value = (Integer) states2Field.get(params[0]);
+                            }
 
 					        HistoryItem myItem = null;
 					        
@@ -3346,31 +3470,43 @@ public class BatteryStatsProxy
 							{
 								myItem = new HistoryItemIcs(timeValue, cmdValue, batteryLevelValue,
 						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
-						        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+						        		batteryTemperatureValue, batteryVoltageValue, statesValue, 0);
 							}
 							else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT_WATCH) )
 							{
 								myItem = new HistoryItemKitKat(timeValue, cmdValue, batteryLevelValue,
 						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
-						        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+						        		batteryTemperatureValue, batteryVoltageValue, statesValue, 0);
 							}
 							else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR1) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR2))
 							{
 								myItem = new HistoryItemJellyBean(timeValue, cmdValue, batteryLevelValue,
 						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
-						        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+						        		batteryTemperatureValue, batteryVoltageValue, statesValue, 0);
 							}
-							else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+							else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)
 							{
 								myItem = new HistoryItemLolipop(timeValue, cmdValue, batteryLevelValue,
 						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
-						        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+						        		batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
 							}
-							else
+                            else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+                            {
+                                myItem = new HistoryItemLolipop(timeValue, cmdValue, batteryLevelValue,
+                                        batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+                                        batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
+                            }
+                            else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N)
+                            {
+                                myItem = new HistoryItemLolipop(timeValue, cmdValue, batteryLevelValue,
+                                        batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+                                        batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
+                            }
+                            else
 							{
-								myItem = new HistoryItem(timeValue, cmdValue, batteryLevelValue,
+								myItem = new HistoryItemOreo(timeValue, cmdValue, batteryLevelValue,
 						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
-						        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+						        		batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
 							}
 							
 					        myStats.add(myItem);
@@ -3419,185 +3555,185 @@ public class BatteryStatsProxy
 	}
 	
 
-	@SuppressWarnings("unchecked")
-	public ArrayList<HistoryItem> dumpHistory(Context context) throws Exception
-	{
-		
-		ArrayList<HistoryItem> myStats = new ArrayList<HistoryItem>();
-	        	 
-        try
-        {			
-			ClassLoader cl = context.getClassLoader();
-			@SuppressWarnings("rawtypes")
-			Class classHistoryItem = cl.loadClass("android.os.BatteryStats$HistoryItem");
-												   
-			
-			// get constructor
-			Constructor cctor = classHistoryItem.getConstructor();
-			
-			Object myHistoryItem = cctor.newInstance();
-
-			// prepare the method call for getNextHistoryItem
-			//Parameters Types
-			@SuppressWarnings("rawtypes")
-			Class[] paramTypes= new Class[1];
-			paramTypes[0]= classHistoryItem;
-
-
-			@SuppressWarnings("unchecked")
-			Method methodNext = m_ClassDefinition.getMethod("getNextHistoryLocked", paramTypes);
-
-			//Parameters
-			Object[] params= new Object[1];
-
-			// initalize hist and iterate like this
-			// if (stats.startIteratingHistoryLocked()) {
-            // final HistoryItem rec = new HistoryItem();
-            // while (stats.getNextHistoryLocked(rec)) {
-			int statsType = 0;
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-			{
-				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
-			}
-			else
-			{
-				statsType = BatteryStatsTypes.STATS_CURRENT;
-			}
-			
-			// read the time of query for history
-	        Long statTimeRef = Long.valueOf(this.computeBatteryRealtime(SystemClock.elapsedRealtime() * 1000,
-	                statsType));
-	        statTimeRef = System.currentTimeMillis(); 
-	        
-	        if (CommonLogSettings.DEBUG)
-	        {	
-	        	Log.d(TAG, "Reference time (" + statTimeRef + ": " + DateUtils.format(DateUtils.DATE_FORMAT_NOW, statTimeRef));
-	        }
-	        // statTimeLast stores the timestamp of the last sample
-	        Long statTimeLast = Long.valueOf(0);
-	        
-			if (this.startIteratingHistoryLocked())
-			{
-				params[0]= myHistoryItem;
-				Boolean bNext = (Boolean) methodNext.invoke(m_Instance, params);
-				while (bNext)
-				{
-					// process stats: create HistoryItems from params
-					Field timeField 				= classHistoryItem.getField("time"); 			// long
-					
-					
-					Field cmdField 					= classHistoryItem.getField("cmd"); 			// byte
-					Byte cmdValue = (Byte) cmdField.get(params[0]);
-					
-					// process only valid items
-					byte updateCmd = 0;
-					
-					// ICS has a different implementation of HistoryItems constants
-					if (AndroidVersion.isIcs())
-					{
-						updateCmd = HistoryItemIcs.CMD_UPDATE;
-					}
-					else
-					{
-						updateCmd = HistoryItem.CMD_UPDATE;
-					}
-					
-					if (true) //(cmdValue == updateCmd)
-					{
-				        Field batteryLevelField 		= classHistoryItem.getField("batteryLevel"); 	// byte
-				        Field batteryStatusField 		= classHistoryItem.getField("batteryStatus"); 	// byte
-				        Field batteryHealthField 		= classHistoryItem.getField("batteryHealth"); 	// byte
-				        Field batteryPlugTypeField 		= classHistoryItem.getField("batteryPlugType"); // byte
-				        
-				        Field batteryTemperatureField 	= classHistoryItem.getField("batteryTemperature"); // char
-				        Field batteryVoltageField 		= classHistoryItem.getField("batteryVoltage"); 	// char
-				        
-				        Field statesField 				= classHistoryItem.getField("states"); 			// int
-				        
-				        // retrieve all values
-				        @SuppressWarnings("rawtypes")
-				        Long timeValue = (Long) timeField.get(params[0]);
-				        
-				        Byte batteryLevelValue = (Byte) batteryLevelField.get(params[0]);
-				        Byte batteryStatusValue = (Byte) batteryStatusField.get(params[0]);
-				        Byte batteryHealthValue = (Byte) batteryHealthField.get(params[0]);
-				        Byte batteryPlugTypeValue = (Byte) batteryPlugTypeField.get(params[0]);
-				        
-				        String batteryTemperatureValue = String.valueOf(batteryTemperatureField.get(params[0]));
-				        String batteryVoltageValue = String.valueOf(batteryVoltageField.get(params[0]));
-				        
-				        Integer statesValue = (Integer) statesField.get(params[0]);
-
-				        HistoryItem myItem = null;
-				        
-				        // There different implementation of HistoryItems constants
-				        if (AndroidVersion.isLolipop())
-						{
-							myItem = new HistoryItemLolipop(timeValue, cmdValue, batteryLevelValue,
-					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
-					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
-						}
-				        if (AndroidVersion.isKitKat())
-						{
-							myItem = new HistoryItemKitKat(timeValue, cmdValue, batteryLevelValue,
-					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
-					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
-						}
-				        else if (AndroidVersion.isIcs())
-						{
-							myItem = new HistoryItemIcs(timeValue, cmdValue, batteryLevelValue,
-					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
-					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
-						}
-						else
-						{
-							myItem = new HistoryItem(timeValue, cmdValue, batteryLevelValue,
-					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
-					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
-						}
-						
-				        myStats.add(myItem);
-					}
-					else
-					{
-						Log.d(TAG, "Skipped item");
-					}
-					
-					bNext = (Boolean) methodNext.invoke(m_Instance, params);
-				}
-				
-				// norm the time of each sample
-				// stat time last is the number of millis since
-				// the stats is being collected
-				// the ref time is a full plain time (with date)
-				Long offset = statTimeRef - statTimeLast;
-				
-				// be sure to release 
-//				this.finishIteratingHistoryLocked();
-				
-				for (int i=0; i < myStats.size(); i++)
-				{
-					myStats.get(i).setOffset(offset);
-				}
-				
-			}
-        }
-        catch( Exception e )
-        {
-        	Log.e(TAG, "An exception occured in dumpHistory(). Message: " + e.getMessage() + ", cause: " + e.getCause().getMessage());
-            throw e;
-        }
-			
-        int oldVal = 0;
-        // iterate over myStats
-        for (int i=0; i < myStats.size(); i++)
-        {
-        	HistoryItem myItem = myStats.get(i);
-        	Log.i(TAG, myItem.toString() + " " + myItem.printBitDescriptions(oldVal, myItem.m_statesValue));
-        	oldVal = myItem.m_statesValue;
-        }
-        	return myStats;
-	}
+//	@SuppressWarnings("unchecked")
+//	public ArrayList<HistoryItem> dumpHistory(Context context) throws Exception
+//	{
+//
+//		ArrayList<HistoryItem> myStats = new ArrayList<HistoryItem>();
+//
+//        try
+//        {
+//			ClassLoader cl = context.getClassLoader();
+//			@SuppressWarnings("rawtypes")
+//			Class classHistoryItem = cl.loadClass("android.os.BatteryStats$HistoryItem");
+//
+//
+//			// get constructor
+//			Constructor cctor = classHistoryItem.getConstructor();
+//
+//			Object myHistoryItem = cctor.newInstance();
+//
+//			// prepare the method call for getNextHistoryItem
+//			//Parameters Types
+//			@SuppressWarnings("rawtypes")
+//			Class[] paramTypes= new Class[1];
+//			paramTypes[0]= classHistoryItem;
+//
+//
+//			@SuppressWarnings("unchecked")
+//			Method methodNext = m_ClassDefinition.getMethod("getNextHistoryLocked", paramTypes);
+//
+//			//Parameters
+//			Object[] params= new Object[1];
+//
+//			// initalize hist and iterate like this
+//			// if (stats.startIteratingHistoryLocked()) {
+//            // final HistoryItem rec = new HistoryItem();
+//            // while (stats.getNextHistoryLocked(rec)) {
+//			int statsType = 0;
+//			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//			{
+//				statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+//			}
+//			else
+//			{
+//				statsType = BatteryStatsTypes.STATS_CURRENT;
+//			}
+//
+//			// read the time of query for history
+//	        Long statTimeRef = Long.valueOf(this.computeBatteryRealtime(SystemClock.elapsedRealtime() * 1000,
+//	                statsType));
+//	        statTimeRef = System.currentTimeMillis();
+//
+//	        if (CommonLogSettings.DEBUG)
+//	        {
+//	        	Log.d(TAG, "Reference time (" + statTimeRef + ": " + DateUtils.format(DateUtils.DATE_FORMAT_NOW, statTimeRef));
+//	        }
+//	        // statTimeLast stores the timestamp of the last sample
+//	        Long statTimeLast = Long.valueOf(0);
+//
+//			if (this.startIteratingHistoryLocked())
+//			{
+//				params[0]= myHistoryItem;
+//				Boolean bNext = (Boolean) methodNext.invoke(m_Instance, params);
+//				while (bNext)
+//				{
+//					// process stats: create HistoryItems from params
+//					Field timeField 				= classHistoryItem.getField("time"); 			// long
+//
+//
+//					Field cmdField 					= classHistoryItem.getField("cmd"); 			// byte
+//					Byte cmdValue = (Byte) cmdField.get(params[0]);
+//
+//					// process only valid items
+//					byte updateCmd = 0;
+//
+//					// ICS has a different implementation of HistoryItems constants
+//					if (AndroidVersion.isIcs())
+//					{
+//						updateCmd = HistoryItemIcs.CMD_UPDATE;
+//					}
+//					else
+//					{
+//						updateCmd = HistoryItem.CMD_UPDATE;
+//					}
+//
+//					if (true) //(cmdValue == updateCmd)
+//					{
+//				        Field batteryLevelField 		= classHistoryItem.getField("batteryLevel"); 	// byte
+//				        Field batteryStatusField 		= classHistoryItem.getField("batteryStatus"); 	// byte
+//				        Field batteryHealthField 		= classHistoryItem.getField("batteryHealth"); 	// byte
+//				        Field batteryPlugTypeField 		= classHistoryItem.getField("batteryPlugType"); // byte
+//
+//				        Field batteryTemperatureField 	= classHistoryItem.getField("batteryTemperature"); // char
+//				        Field batteryVoltageField 		= classHistoryItem.getField("batteryVoltage"); 	// char
+//
+//				        Field statesField 				= classHistoryItem.getField("states"); 			// int
+//
+//				        // retrieve all values
+//				        @SuppressWarnings("rawtypes")
+//				        Long timeValue = (Long) timeField.get(params[0]);
+//
+//				        Byte batteryLevelValue = (Byte) batteryLevelField.get(params[0]);
+//				        Byte batteryStatusValue = (Byte) batteryStatusField.get(params[0]);
+//				        Byte batteryHealthValue = (Byte) batteryHealthField.get(params[0]);
+//				        Byte batteryPlugTypeValue = (Byte) batteryPlugTypeField.get(params[0]);
+//
+//				        String batteryTemperatureValue = String.valueOf(batteryTemperatureField.get(params[0]));
+//				        String batteryVoltageValue = String.valueOf(batteryVoltageField.get(params[0]));
+//
+//				        Integer statesValue = (Integer) statesField.get(params[0]);
+//
+//				        HistoryItem myItem = null;
+//
+//				        // There different implementation of HistoryItems constants
+//				        if (AndroidVersion.isLolipop())
+//						{
+//							myItem = new HistoryItemLolipop(timeValue, cmdValue, batteryLevelValue,
+//					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+//					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+//						}
+//				        if (AndroidVersion.isKitKat())
+//						{
+//							myItem = new HistoryItemKitKat(timeValue, cmdValue, batteryLevelValue,
+//					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+//					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+//						}
+//				        else if (AndroidVersion.isIcs())
+//						{
+//							myItem = new HistoryItemIcs(timeValue, cmdValue, batteryLevelValue,
+//					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+//					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+//						}
+//						else
+//						{
+//							myItem = new HistoryItem(timeValue, cmdValue, batteryLevelValue,
+//					        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+//					        		batteryTemperatureValue, batteryVoltageValue, statesValue);
+//						}
+//
+//				        myStats.add(myItem);
+//					}
+//					else
+//					{
+//						Log.d(TAG, "Skipped item");
+//					}
+//
+//					bNext = (Boolean) methodNext.invoke(m_Instance, params);
+//				}
+//
+//				// norm the time of each sample
+//				// stat time last is the number of millis since
+//				// the stats is being collected
+//				// the ref time is a full plain time (with date)
+//				Long offset = statTimeRef - statTimeLast;
+//
+//				// be sure to release
+////				this.finishIteratingHistoryLocked();
+//
+//				for (int i=0; i < myStats.size(); i++)
+//				{
+//					myStats.get(i).setOffset(offset);
+//				}
+//
+//			}
+//        }
+//        catch( Exception e )
+//        {
+//        	Log.e(TAG, "An exception occured in dumpHistory(). Message: " + e.getMessage() + ", cause: " + e.getCause().getMessage());
+//            throw e;
+//        }
+//
+//        int oldVal = 0;
+//        // iterate over myStats
+//        for (int i=0; i < myStats.size(); i++)
+//        {
+//        	HistoryItem myItem = myStats.get(i);
+//        	Log.i(TAG, myItem.toString() + " " + myItem.printBitDescriptions(oldVal, myItem.m_statesValue));
+//        	oldVal = myItem.m_statesValue;
+//        }
+//        	return myStats;
+//	}
 
 
 }

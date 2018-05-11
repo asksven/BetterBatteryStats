@@ -19,6 +19,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -85,30 +86,6 @@ public class PreferencesFragmentActivity extends BaseActivity
 			final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 			prefs.registerOnSharedPreferenceChangeListener(this);
 
-			Preference filePicker = (Preference) findPreference("storage_path");
-			filePicker.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
-			{
-				@Override
-				public boolean onPreferenceClick(Preference preference)
-				{
-
-					final int RC_PICK_FOLDER = 1001;
-					 
-					Intent myIntent = new Intent("org.openintents.action.PICK_DIRECTORY");
-                    myIntent.putExtra("org.openintents.extra.TITLE", getString(R.string.pref_select_dir_title));
-                    myIntent.putExtra("org.openintents.extra.BUTTON_TEXT", getString(R.string.pref_select_dir_button));
-				    try {
-				        startActivityForResult(myIntent, RC_PICK_FOLDER);
-				    }
-				    catch (ActivityNotFoundException e)
-				    {
-						Toast.makeText(getActivity(), R.string.message_no_fileman_error, Toast.LENGTH_LONG).show();
-				    }
-					return true;
-				
-					
-				}
-			});
 		}
 
 		@Override
@@ -212,7 +189,7 @@ public class PreferencesFragmentActivity extends BaseActivity
 				else
 				{
 					// cancel any existing alarms
-					StatsProvider.cancelActiveMonAlarm(getActivity());
+					StatsProvider.cancelActiveMonAlarm(BbsApplication.getAppContext());
 
 				}
 

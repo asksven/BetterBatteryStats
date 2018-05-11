@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="plugin_name">Better Battery Stats</string>
@@ -10,6 +10,7 @@
     <string name="message_hint_stat_type">Typ statistiky</string>
     <string name="message_enable_root">Povolení root funkcí předpokládá, že zařízení je "rootnuto".\nZajistěte, že aplikace bude mít trvale přidělena \'su\' oprávnění kvůli statistikám alarmů a sítě.\nPokud se oprávnění nezachovají trvale, je to problém \'su\' aplikace, ne BBS.\nPokračovat?</string>
     <string name="message_enable_active_mon">Aktivní monitorování zvyšuje spotřebu a zátěž a proto by mělo být používáno uváženě.\nPokračovat?</string>
+    <string name="message_first_start">První spuštění: vytváření ref. bodu \'odpojeno\'</string>
     <string name="message_copied_to_clipboard">%s byl zkopírován do schránky</string>
     <string name="message_no_hist_froyo">Android 2,2 (Froyo) bohužel nepodporuje historická data</string>
     <string name="message_no_appops">App Ops neexistují ve vaší ROM</string>
@@ -76,6 +77,11 @@
 	<string name="label_battery">Baterie</string>
 	<string name="label_name">Jméno</string>
     <string name="label_description">Popis</string>
+    <string name="label_perm_type">Oprávnění</string>
+    <string name="label_perm_normal">Běžná</string>
+    <string name="label_perm_system">Systémová</string>
+    <string name="label_perm_dangerous">Nebezpečná</string>
+
     <string name="label_package_name">Jméno balíčku</string>
     <string name="label_on_on_android_4_3plus">Dostupné pouze na Android 4.3+</string>
 
@@ -119,6 +125,8 @@
     <string name="label_tab_package">Balíček</string>
     <string name="label_tab_permissions">Oprávnění</string>
     <string name="label_tab_services">Služby</string>
+    <string name="label_discard_changes">Zahodit změny</string>
+
 
     <!-- About screen -->
     <string name="label_about_author">Autor: asksven</string>
@@ -130,8 +138,10 @@
     <string name="label_about_translation4">Chorvatština: seky2205 @ xda</string>
     <string name="label_about_translation5">Francouzština: xavihernandez @ xda</string>
     <string name="label_about_translation6">Němčina: Minty123 @ xda</string>
+    <string name="label_about_translation7">Brazilská Portugalština: @caiorrs</string>
     <string name="label_about_follow">Následovat na Twitteru</string>
     <string name="label_about_rate">Hodnotit na Google Play</string>
+    <string name="label_about_xda">Vlákno na fóru XDA</string>
 
     <!-- Preferences -->
     <string name="label_theme_dark">Tmavé</string>
@@ -140,7 +150,10 @@
     <string name="pref_theme_summary">Přepnout témata</string>
 
     <!-- System app activity -->
-    <string name="expl_system_app">Ve verzi Android 4.4 odebral Google oprávnění běžných aplikací pro přístup ke statistikám využití baterie.\n\nJe doporučeno nainstalovat BetterBatteryStats jako systémovou aplikaci (toto neznemožní instalaci aktualizací).\n\nPokud se oprávnění v budoucnu změní, muže být vyžadováno odinstalování, nebo opětovná instalace jako systémové aplikace.</string>
+    <string name="expl_system_app">Pokud je vaše zařízení "rootnuto", BBS si automaticky přidělí požadovaná oprávnění.\nV případě "nerootnutých" zařízení lze oprávnění přidělit pomocí ADB.</string>
+
+
+
     <string name="install_system_app">Instalovat jako systémovou apl.</string>
     <string name="uninstall_system_app">Odinstalovat systémovou apl.</string>
     <string name="info_installed_system_app">Systémová aplikace nainstalována. Prosím restartujte pro aktivaci.</string>
@@ -202,6 +215,8 @@
     <string name="pref_enable_watchdog_summary">Povolit zpracování watchdog</string>
     <string name="pref_watchdog_on_unlock_title">Watchdog při odemknutí</string>
     <string name="pref_watchdog_on_unlock_summary">Watchdog poběží při \'odemknutí\' (jinak při \'zap. obrazovky\')</string>
+    <string name="pref_charged_trigger_percentage_title">Minimální úroveň [%%] považovaná za nabitý stav</string>
+    <string name="pref_charged_trigger_percentage_summary">Pokud je stav baterie vyšší a je odpojen kabel napájení, je uložen ref. bod \'Od nabití\'</string>
     <string name="pref_section_warnings">Varování</string>
     <string name="pref_watchdog_awake_threshold_title">Hranice probuzení</string>
     <string name="pref_watchdog_awake_threshold_summary">Hranice pro varování (čas probuzení / celkový)</string>
@@ -219,8 +234,6 @@
     <string name="pref_debug_logging_title">Debug</string>
     <string name="pref_files_to_private_storage_summary">Zapisovat soubory do /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Privátní uložiště</string>
-    <string name="pref_ignore_system_app_summary">Neprovádět detekci systémové aplikace (pro uživatele XPosed modulu \'Enable BATTERY_STATS\')</string>
-    <string name="pref_ignore_system_app_title">Nezjišťovat instalaci syst. aplikace</string>
     <string name="pref_select_dir_summary">Zvolte kam budou soubory uloženy</string>
     <string name="pref_select_dir_title">Vybrat cílový adresář</string>
     <string name="pref_select_dir_button">Vybrat</string>
@@ -236,14 +249,13 @@
     <string name="pref_save_logcat_summary">Sdílet (ukládat) logcat log</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Sdílet (ukládat) dmesg výpis</string>
-    <string name="pref_force_alarms_api_title">Alarmy pomocí API</string>
-    <string name="pref_force_alarms_api_summary">Vynutit získávání statistik alarmů prostřednictvím API</string>
-    <string name="pref_force_kwl_api_title">Wakelocky jádra (kernel) pomocí API</string>
-    <string name="pref_force_kwl_api_summary">Vynutit získávání statistik wakelocků jádra (kernel) prostřednictvím API</string>
-    <string name="pref_force_network_api_title">Statistiky sítě pomocí API</string>
-    <string name="pref_force_network_api_summary">Vynutit získávání statistik sítě prostřednictvím API</string>
+    <string name="pref_screen_permissions_title">Oprávnění aplikace</string>
+    <string name="pref_screen_permissions_summary">Zkontrolovat požadovaná oprávnění</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Importovat a exportovat nastavení</string>
+    <string name="pref_app_analytics_title">Analytics</string>
+    <string name="pref_app_analytics_summary">Pomozte zlepšit aplikaci: povolit analytics</string>
+
 
     <string name="pref_section_settings">Nastavení</string>
     <string name="pref_screen_widgets_title">Widgety</string>
@@ -277,7 +289,7 @@
 
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Zařízení připojeno: žádné statistiky</string>
-    <string name="NO_ROOT_ERR">Tato statistika vyžaduje oprávnění root</string>
+<!--    <string name="NO_ROOT_ERR">Tato statistika vyžaduje oprávnění root</string> -->
     <string name="NO_PERM_ERR">Tato statistika vyžaduje oprávnění BATTERY_STATS</string>
     <string name="NO_PERM_INFO">Pokus získat oprávnění bez systémové aplikace.</string>
     <string name="NO_REF_ERR">Prozatím nenastaven žádný ref. bod</string>
@@ -303,5 +315,55 @@
     <string name="widget_fontsize_12">Standardní (12)</string>
     <string name="widget_fontsize_10">*Malé (10)</string>
     <string name="widget_fontsize_8">Velmi malé (8)</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+    <string-array name="pref_example_list_titles">
+        <item>Vždy</item>
+        <item>Je-li to možné</item>
+        <item>Nikdy</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minut</item>
+        <item>30 minut</item>
+        <item>1 hodina</item>
+        <item>3 hodiny</item>
+        <item>6 hodin</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Záznam 1</item>
+        <item>Záznam 2</item>
+        <item>Záznam 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value"/>
+    <string name="title_activity_settings">Nastavení</string>
+
 
 </resources>

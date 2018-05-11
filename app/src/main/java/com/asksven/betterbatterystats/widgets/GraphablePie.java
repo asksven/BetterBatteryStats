@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ImageView;
@@ -83,7 +84,15 @@ public class GraphablePie extends ImageView
         {
 	        TypedValue tv = new TypedValue();
 	        m_context.getTheme().resolveAttribute(android.R.attr.textColorPrimary, tv, true);
-	        color = getResources().getColor(tv.resourceId);
+
+            if (Build.VERSION.SDK_INT >= 23)
+            {
+                color = getResources().getColor(tv.resourceId, m_context.getTheme());
+            }
+            else
+            {
+                color = getResources().getColor(tv.resourceId);
+            }
         }
         catch (Exception e)
         {

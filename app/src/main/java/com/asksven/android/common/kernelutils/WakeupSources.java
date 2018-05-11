@@ -203,7 +203,7 @@ public class WakeupSources extends Wakelocks
     	return myRet;
     }
     
-    public static boolean fileExists()
+    public static boolean fileIsWorldReadableExists()
     {
     	boolean exists = false;
     	FileReader fr = null;
@@ -214,16 +214,7 @@ public class WakeupSources extends Wakelocks
     	}
     	catch (Exception e)
     	{
-    		List<String> res = Shell.SU.run("cat " + FILE_PATH);
-    		
-    		if ((res == null)||(res.size()==0))
-    		{
-    			exists = false;
-    		}
-    		else
-    		{
-    			exists = true;
-    		}
+			exists = false;
     	}
     	finally
     	{

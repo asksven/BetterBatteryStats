@@ -65,7 +65,7 @@ public class UpdateSmallWidgetService extends Service
 		int[] allWidgetIds = intent
 				.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 		
-		StatsProvider stats = StatsProvider.getInstance(this);
+		StatsProvider stats = StatsProvider.getInstance();
 		// make sure to flush cache
 		BatteryStatsProxy.getInstance(this).invalidate();
 		
@@ -103,7 +103,7 @@ public class UpdateSmallWidgetService extends Service
 			try
 			{
 				
-				Reference currentRef = StatsProvider.getInstance(this).getUncachedPartialReference(0);
+				Reference currentRef = StatsProvider.getInstance().getUncachedPartialReference(0);
 				Reference fromRef = ReferenceStore.getReferenceByName(refFrom, this);
 
 

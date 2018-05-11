@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release
-        version="2.3"
-        versioncode="85">
-        <change>Added application analytics</change>
-        <change>UI improvements</change>
+    <release version="2.4" versioncode="94">
+        <change>Fixed preferences export/import</change>
+        <change>Root only to be used when installing</change>
+        <change>I18N</change>
     </release>
 
 </changelog>

@@ -10,3 +10,5 @@
 /app/google-services.json
 /app/src/gplay/google-services.json
 /app/src/xdaedition/google-services.json
+
+secret-env-plain

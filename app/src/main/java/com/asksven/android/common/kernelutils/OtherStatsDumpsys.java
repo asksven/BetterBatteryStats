@@ -30,7 +30,7 @@ import com.asksven.android.common.utils.DateUtils;
 public class OtherStatsDumpsys
 {
 	static final String TAG = "OtherStatsDumpsys";
-	static final String PERMISSION_DENIED = "su rights required to access alarms are not available / were not granted";
+	static final String PERMISSION_DENIED = "rights required to access stats are not available / were not granted";
 
 	/**
 	 * Returns a list of alarm value objects

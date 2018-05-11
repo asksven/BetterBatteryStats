@@ -63,7 +63,7 @@ public class WriteDumpfileService extends IntentService
 		// if we want a reading until "current" make sure to update that ref
 		if (refTo == Reference.CURRENT_REF_FILENAME)
 		{
-			StatsProvider.getInstance(this).setCurrentReference(0);
+			StatsProvider.getInstance().setCurrentReference(0);
 		}
 		
 		
@@ -96,8 +96,6 @@ public class WriteDumpfileService extends IntentService
 			Log.i(TAG, "No dumpfile written: " + refFrom + " and " + refTo);
 			
 		}
-		
-		stopSelf();
 	}
 
 	@Override

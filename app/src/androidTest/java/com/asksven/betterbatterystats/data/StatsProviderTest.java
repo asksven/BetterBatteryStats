@@ -35,7 +35,7 @@ public class StatsProviderTest
 	{
 		Context ctx = InstrumentationRegistry.getContext();
 		assertNotNull(ctx);
-		mStats = StatsProvider.getInstance(ctx);
+		mStats = StatsProvider.getInstance();
 
 	}
 

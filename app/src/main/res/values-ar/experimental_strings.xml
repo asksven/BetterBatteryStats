@@ -217,10 +217,6 @@
     <string name="pref_save_logcat_summary">Share logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Share dmesg</string>
-    <string name="pref_force_alarms_api_title">Alarms using API</string>
-    <string name="pref_force_alarms_api_summary">Force to retrieve Alarms using the API</string>
-    <string name="pref_force_kwl_api_title">Kernel Wakelocks using API</string>
-    <string name="pref_force_kwl_api_summary">Force to retrieve Kernel Wakelocks using the API</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Import and Export Preferences</string>
     

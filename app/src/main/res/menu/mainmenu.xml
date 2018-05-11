@@ -5,8 +5,7 @@
     <item
         android:id="@+id/refresh"
         android:title="@string/label_refresh"
-        android:icon="@drawable/ic_refresh_white_48dp"
-        app:showAsAction="ifRoom"/>
+        android:icon="@drawable/ic_refresh_white_48dp"/>
     <item
         android:id="@+id/share"
         android:title="@string/label_share"
@@ -28,7 +27,10 @@
         android:title="@string/label_raw_stats"/>
     <item
         android:id="@+id/preferences"
-        android:title="@string/label_preferences"/>
+        android:title="@string/label_preferences"
+        android:icon="@drawable/ic_settings_white_48dp"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/about"
         android:title="@string/label_about"/>

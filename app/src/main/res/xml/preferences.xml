@@ -21,20 +21,6 @@
             android:key="show_bat_details"
             android:summary="@string/pref_show_bat_details_summary"
             android:title="@string/pref_show_bat_details_title" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="show_gauge"
-            android:summary="@string/pref_show_gauge_summary"
-            android:title="@string/pref_show_gauge_title" />
-
-        <ListPreference
-            android:defaultValue="10"
-            android:dependency="show_gauge"
-            android:entries="@array/graphBarHeigthLabels"
-            android:entryValues="@array/graphBarHeigthValues"
-            android:key="graph_bar_height"
-            android:summary="@string/pref_graph_bar_height_summary"
-            android:title="@string/pref_graph_bar_height_title" />
 
         <PreferenceScreen android:title="@string/pref_section_customize_views" >
             <ListPreference
@@ -92,7 +78,20 @@
                 android:key="show_other_doze"
                 android:summary="@string/pref_show_other_doze_summary"
                 android:title="@string/pref_show_other_doze_title" />
-            
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="show_gauge"
+                android:summary="@string/pref_show_gauge_summary"
+                android:title="@string/pref_show_gauge_title" />
+            <ListPreference
+                android:defaultValue="10"
+                android:dependency="show_gauge"
+                android:entries="@array/graphBarHeigthLabels"
+                android:entryValues="@array/graphBarHeigthValues"
+                android:key="graph_bar_height"
+                android:summary="@string/pref_graph_bar_height_summary"
+                android:title="@string/pref_graph_bar_height_title" />
+
         </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_section_defaults" >
@@ -110,6 +109,29 @@
             android:key="default_stat_type"
             android:summary="@string/pref_default_stat_type_summary"
             android:title="@string/pref_default_stat_type_title" />
+        <PreferenceScreen android:title="@string/pref_section_sharing" >
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="save_as_text"
+                android:summary="@string/pref_save_dumpfile_summary"
+                android:title="@string/pref_save_dumpfile_title" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="save_logcat"
+                android:summary="@string/pref_save_logcat_summary"
+                android:title="@string/pref_save_logcat_title" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="save_dmesg"
+                android:summary="@string/pref_save_dmesg_summary"
+                android:title="@string/pref_save_dmesg_title" />
+        </PreferenceScreen>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="auto_refresh"
+            android:summary="@string/pref_auto_refresh_summary"
+            android:title="@string/pref_auto_refresh_title" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_section_settings" >
 
@@ -150,17 +172,17 @@
                 android:key="new_widget_default_stat_type"
                 android:summary="@string/widget_default_stat_type_summary"
                 android:title="@string/widget_default_stat_type_title" />
-            
-             <com.asksven.betterbatterystats.contrib.SeekBarPreference
-                        android:defaultValue="80"
-                        android:key="new_widget_bg_opacity"
-                        android:max="100"
-                        android:summary="@string/widget_opacity_summary"
-                        android:title="@string/widget_opacity_title"
-                        robobunny:interval="10"
-                        robobunny:min="10"
-                        robobunny:unitsLeft=""
-                        robobunny:unitsRight="%" />
+
+            <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                android:defaultValue="80"
+                android:key="new_widget_bg_opacity"
+                android:max="100"
+                android:summary="@string/widget_opacity_summary"
+                android:title="@string/widget_opacity_title"
+                robobunny:interval="10"
+                robobunny:min="10"
+                robobunny:unitsLeft=""
+                robobunny:unitsRight="%" />
 
             <PreferenceScreen android:title="@string/pref_screen_legacy_widgets_title" >
                 <CheckBoxPreference
@@ -170,7 +192,7 @@
                     android:summary="@string/widget_show_stat_type_summary"
                     android:title="@string/widget_show_stat_type_title" />
 
-                <PreferenceCategory android:title="@string/pref_category_widgets_2x2_and_2x1" >
+                <PreferenceCategory android:title="@string/pref_category_widgets_2x2_and_2x1">
                     <ListPreference
                         android:defaultValue="ref_unplugged"
                         android:entries="@array/statTypeLabels"
@@ -214,7 +236,7 @@
                         robobunny:unitsLeft=""
                         robobunny:unitsRight="%" />
                 </PreferenceCategory>
-                <PreferenceCategory android:title="@string/pref_category_widget_1x1" >
+                <PreferenceCategory android:title="@string/pref_category_widget_1x1">
                     <ListPreference
                         android:defaultValue="ref_unplugged"
                         android:entries="@array/statTypeLabels"
@@ -327,65 +349,24 @@
                 android:defaultValue="false"
                 android:key="files_to_private_storage"
                 android:summary="@string/pref_files_to_private_storage_summary"
-                android:title="@string/pref_files_to_private_storage_title"
-                android:disableDependentsState="true"/>
-            
-            <Preference
-                android:summary="@string/pref_select_dir_summary"
-            	android:title="@string/pref_select_dir_title"
-            	android:key="storage_path"
-            	android:defaultValue=""
-            	android:dependency="files_to_private_storage"
-            	 />
-             
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="ignore_system_app"
-                android:summary="@string/pref_ignore_system_app_summary"
-                android:title="@string/pref_ignore_system_app_title" />
+                android:title="@string/pref_files_to_private_storage_title" />
+
+            <com.asksven.betterbatterystats.contrib.SeekBarPreference
+                android:defaultValue="100"
+                android:key="battery_charged_minimum_threshold"
+                android:max="100"
+                android:summary="@string/pref_charged_trigger_percentage_summary"
+                android:title="@string/pref_charged_trigger_percentage_title"
+                robobunny:interval="1"
+                robobunny:min="0"
+                robobunny:unitsLeft=""
+                robobunny:unitsRight="%" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="developer"
                 android:summary="@string/pref_developer_summary"
                 android:title="@string/pref_developer_title" />
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="auto_refresh"
-                android:summary="@string/pref_auto_refresh_summary"
-                android:title="@string/pref_auto_refresh_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="force_alarms_api"
-                android:summary="@string/pref_force_alarms_api_summary"
-                android:title="@string/pref_force_alarms_api_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="force_kwl_api"
-                android:summary="@string/pref_force_kwl_api_summary"
-                android:title="@string/pref_force_kwl_api_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="force_network_api"
-                android:summary="@string/pref_force_network_api_summary"
-                android:title="@string/pref_force_network_api_title" />
-            
-            <PreferenceScreen android:title="@string/pref_section_sharing" >
-                <CheckBoxPreference
-                    android:defaultValue="true"
-                    android:key="save_as_text"
-                    android:summary="@string/pref_save_dumpfile_summary" 
-                    android:title="@string/pref_save_dumpfile_title" />
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:key="save_logcat"
-                    android:summary="@string/pref_save_logcat_summary"
-                    android:title="@string/pref_save_logcat_title" />
-                <CheckBoxPreference
-                    android:defaultValue="false"
-                    android:key="save_dmesg"
-                    android:summary="@string/pref_save_dmesg_summary"
-                    android:title="@string/pref_save_dmesg_title" />
-            </PreferenceScreen>
+
             <PreferenceScreen
                 android:summary="@string/pref_screen_permissions_summary"
                 android:title="@string/pref_screen_permissions_title">
@@ -396,6 +377,8 @@
                 android:title="@string/pref_screen_import_export_title" >
                 <intent android:action="com.asksven.betterbatterystats.ImportExportPreferencesActivity" />
             </PreferenceScreen>
+
+
         </PreferenceScreen>
     </PreferenceCategory>
 
