@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- Translated to Brazilian Portuguese by Caio Roberto @caiorrs -->
-
 <resources>
 
     <string name="plugin_name">Better Battery Stats</string>
@@ -80,6 +77,11 @@
     <string name="label_battery">Bateria</string>
     <string name="label_name">Nome</string>
     <string name="label_description">Descrição</string>
+    <string name="label_perm_type">Permissão</string>
+    <string name="label_perm_normal">Normal</string>
+    <string name="label_perm_system">Sistema</string>
+    <string name="label_perm_dangerous">Perigoso</string>
+
     <string name="label_package_name">Nome do Pacote</string>
     <string name="label_on_on_android_4_3plus">Disponível apenas para Android 4.3+</string>
 
@@ -139,6 +141,7 @@
     <string name="label_about_translation7">Português do Brasil por caiorrs @ xda</string>
     <string name="label_about_follow">Siga-me no Twitter</string>
     <string name="label_about_rate">Avaliar / Opinar no Google Play</string>
+    <string name="label_about_xda">Tópico no XDA</string>
 
     <!-- Preferences -->
     <string name="label_theme_dark">Escuro</string>
@@ -147,7 +150,8 @@
     <string name="pref_theme_summary">Mudar temas</string>
 
     <!-- System app activity -->
-    <string name="expl_system_app">Se o seu celular tem root o BBS irá automaticamente conceder as permissões necessárias.\nPara dispositivos sem root as permissões poder ser concedidas usado o ADB.</string>
+    <string name="expl_system_app">Se seu telefone tem root o BBS irá automaticamente conceder as permissões necessárias.\nPara dispositivos sem root as permissões podem ser concedidas usando o ADB.</string>
+
     <string name="install_system_app">Instalar como app de sistema</string>
     <string name="uninstall_system_app">Desinstalar app de sistema</string>
     <string name="info_installed_system_app">Instalado como app de sistema. Por favor, reinicie para ativar.</string>
@@ -209,6 +213,8 @@
     <string name="pref_enable_watchdog_summary">Habilita o processamento watchdog</string>
     <string name="pref_watchdog_on_unlock_title">Watchdog no desbloqueio</string>
     <string name="pref_watchdog_on_unlock_summary">Watchdog roda no \'desbloqueio\' (ou então em \'tela acesa\')</string>
+    <string name="pref_charged_trigger_percentage_title">Porcentagem mínima que conta como carregado</string>
+    <string name="pref_charged_trigger_percentage_summary">Se a bateria estiver acima desta porcentagem quando o cabo estiver desconectado, então a referência Desde Carregado é armazenada</string>
     <string name="pref_section_warnings">Avisos</string>
     <string name="pref_watchdog_awake_threshold_title">Limiar de despertar</string>
     <string name="pref_watchdog_awake_threshold_summary">Limiar de aviso (despertar / total)</string>
@@ -241,13 +247,7 @@
     <string name="pref_save_logcat_summary">Compartilhar logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Compartilhar dmesg</string>
-    <string name="pref_force_alarms_api_title">Alarmes usando API</string>
-    <string name="pref_force_alarms_api_summary">Forçar a recuperação de Alames usando a API</string>
-    <string name="pref_force_kwl_api_title">Wakelocks do Kernel usando API</string>
-    <string name="pref_force_kwl_api_summary">Forçar a recuperação de Wakelocks do Kernel usando a API</string>
-    <string name="pref_force_network_api_title">Estatísticas de Rede usando API</string>
-    <string name="pref_force_network_api_summary">Forçar a recuperação de Estatísticas de Rede usando a API</string>
-    <string name="pref_screen_permissions_title">Permissões do APP</string>
+    <string name="pref_screen_permissions_title">Permissões do App</string>
     <string name="pref_screen_permissions_summary">Verifique pelas permissões necessárias</string>
     <string name="pref_screen_import_export_title">Importar/Exportar</string>
     <string name="pref_screen_import_export_summary">Importar e Exportar Preferências</string>
@@ -287,7 +287,7 @@
 
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">O dispositivo está conectado: sem estatísticas</string>
-    <string name="NO_ROOT_ERR">Esta estatística exige permissões de root</string>
+<!--    <string name="NO_ROOT_ERR">This stat requires root permissions</string> -->
     <string name="NO_PERM_ERR">Esta estatística exige Permissão de BATTERY_STATS</string>
     <string name="NO_PERM_INFO">Tentando conceder permissões sem app de sistema.</string>
     <string name="NO_REF_ERR">Nenhuma referência configurada ainda</string>
@@ -313,5 +313,55 @@
     <string name="widget_fontsize_12">Normal (12)</string>
     <string name="widget_fontsize_10">*Pequena (10)</string>
     <string name="widget_fontsize_8">Minúscula (8)</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+    <string-array name="pref_example_list_titles">
+        <item>Sempre</item>
+        <item>Quando possível</item>
+        <item>Nunca</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>1 hora</item>
+        <item>3 horas</item>
+        <item>6 horas</item>
+        <item>Nunca</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Entrada 1</item>
+        <item>Entrada 2</item>
+        <item>Entrada 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+    <string name="title_activity_settings">Configurações</string>
+
 
 </resources>
