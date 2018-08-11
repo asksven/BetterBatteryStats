@@ -354,7 +354,7 @@ public class StatsProvider
         // use root if available as root delivers more data
         if (SysUtils.hasBatteryStatsPermission(ctx) && SysUtils.hasDumpsysPermission(ctx))
         {
-            myAlarms = AlarmsDumpsys.getAlarms(!SysUtils.hasDumpsysPermission(ctx));//, false);
+            myAlarms = AlarmsDumpsys.getAlarms();
         }
         else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
         {

@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
@@ -66,7 +67,9 @@
             android:layout_below="@+id/textView3"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:text="@string/expl_adb_gplay" />
+            android:text="@string/expl_adb_gplay"
+            android:textSize="10sp"
+            android:typeface="monospace" />
 
     </RelativeLayout>
 

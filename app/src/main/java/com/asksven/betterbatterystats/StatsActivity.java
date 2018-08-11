@@ -59,6 +59,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asksven.android.common.CommonLogSettings;
+import com.asksven.android.common.NonRootShell;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -235,7 +236,14 @@ public class StatsActivity extends ActionBarListActivity
             }
 		}
 
-		// Package usage stats were introduced in SDK21 so we need to make the distinction
+		// On Pie we disable private API checks
+		if (Build.VERSION.SDK_INT >= 28)
+		{
+			NonRootShell.getInstance().run("settings put global hidden_api_policy_pre_p_apps 0");
+			NonRootShell.getInstance().run("settings put global hidden_api_policy_p_apps 0");
+		}
+
+			// Package usage stats were introduced in SDK21 so we need to make the distinction
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 		{
 			// show install as system app screen if root available but perms missing

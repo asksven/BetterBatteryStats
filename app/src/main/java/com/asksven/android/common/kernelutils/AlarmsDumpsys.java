@@ -12,9 +12,7 @@ import android.os.Build;
 import android.util.Log;
 
 
-//import com.asksven.android.contrib.Shell;
 import com.asksven.android.common.NonRootShell;
-import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.StatElement;
 
@@ -30,21 +28,15 @@ public class AlarmsDumpsys
 	static final String PERMISSION_DENIED = "rights required to access stats are not available / were not granted";
 	static final String SERVICE_NOT_ACCESSIBLE = "Can't find service: alarm";
 
-	public static ArrayList<StatElement> getAlarms(boolean useRoot)
+	public static ArrayList<StatElement> getAlarms()
 	{
 		String release = Build.VERSION.RELEASE;
 		int sdk = Build.VERSION.SDK_INT;
 		Log.i(TAG, "getAlarms: SDK=" + sdk + ", RELEASE=" + release);
 		
 		List<String> res = null;
-		if (useRoot) // dumpsys seems to always require root, even if perm is available
-		{
-			res = RootShell.getInstance().run("dumpsys alarm");
-		}
-		else
-		{
-			res = NonRootShell.getInstance().run("dumpsys alarm");
-		}
+
+		res = NonRootShell.getInstance().run("dumpsys alarm");
 
 		if (sdk < 17) // Build.VERSION_CODES.JELLY_BEAN_MR1)
 		{
@@ -720,27 +712,6 @@ public class AlarmsDumpsys
 			}
 		}
 		return myAlarms;
-	}
-	public static boolean alarmsAccessible()
-	{
-		List<String> res = RootShell.getInstance().run("dumpsys alarm");	
-		
-		if ((res == null) || (res.size() == 0))
-		{
-			return false;
-		}
-		else
-		{
-			String val = res.get(0);
-			if (val.equals(SERVICE_NOT_ACCESSIBLE))
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
 	}
 
 }

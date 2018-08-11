@@ -5,6 +5,7 @@
         <change>Root only to be used when installing</change>
         <change>I18N</change>
         <change>Android Pie support</change>
+        <change>Removed dependency to root for anything else that granting BBS the right permissions</change>
     </release>
 
 </changelog>

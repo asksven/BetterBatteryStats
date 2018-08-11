@@ -15,6 +15,35 @@
  */
 package com.asksven.betterbatterystats.data;
 
+import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.net.Uri;
+import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.asksven.android.common.kernelutils.State;
+import com.asksven.android.common.kernelutils.Wakelocks;
+import com.asksven.android.common.nameutils.UidNameResolver;
+import com.asksven.android.common.privateapiproxies.Alarm;
+import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.Process;
+import com.asksven.android.common.privateapiproxies.SensorUsage;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.privateapiproxies.Wakelock;
+import com.asksven.android.common.utils.DataStorage;
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
+import com.asksven.betterbatterystats.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,38 +52,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-
-import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
-import com.asksven.android.common.kernelutils.State;
-import com.asksven.android.common.kernelutils.Wakelocks;
-import com.asksven.android.common.nameutils.UidNameResolver;
-import com.asksven.android.common.privateapiproxies.Alarm;
-import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.NetworkUsage;
-import com.asksven.android.common.privateapiproxies.SensorUsage;
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.privateapiproxies.Wakelock;
-import com.asksven.android.common.privateapiproxies.Process;
-import com.asksven.android.common.utils.DataStorage;
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.SysUtils;
-import com.asksven.android.contrib.Util;
-import com.asksven.betterbatterystats.R;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * A reading represents the data that was collected on a device between two references.

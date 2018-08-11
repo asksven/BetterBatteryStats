@@ -15,14 +15,11 @@
  */
 package com.asksven.android.common.utils;
 
-import java.util.List;
-
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.shellutils.Exec;
-import com.asksven.android.common.shellutils.ExecResult;
-
 import android.content.Context;
 import android.content.pm.PackageManager;
+
+import com.asksven.android.common.shellutils.Exec;
+import com.asksven.android.common.shellutils.ExecResult;
 
 /**
  * @author sven

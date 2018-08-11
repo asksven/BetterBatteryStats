@@ -41,18 +41,7 @@
         android:layout_height="wrap_content"
 	    android:editable="true"/>
 		
-	<TextView
-	    android:text="@string/message_hint_savestatjson"
-	    android:id="@+id/TextView05"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"/>
-	<CheckBox
-	    android:text=""
-	    android:id="@+id/CheckBoxSaveStatJson"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-	    android:editable="true"/>
-		
+
 	<TextView
 	    android:text="@string/message_hint_stat_type"
 	    android:id="@+id/TextView06"

@@ -70,7 +70,6 @@ public final class FireReceiver extends BroadcastReceiver
 		{
             boolean saveRef = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF);
             boolean saveStat = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT);
-            boolean saveJson = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_JSON);
 
             String refFrom = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_REF_NAME);
 
@@ -85,17 +84,6 @@ public final class FireReceiver extends BroadcastReceiver
 
                 Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
                 serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE_FROM, refFrom);
-                context.startService(serviceIntent);
-            }
-
-            if (saveJson)
-            {
-                Log.d(TAG, "Preparing to save a json dumpfile");
-
-                Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
-                serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE_FROM, refFrom);
-                serviceIntent.putExtra(WriteDumpfileService.OUTPUT, "JSON");
-
                 context.startService(serviceIntent);
             }
 

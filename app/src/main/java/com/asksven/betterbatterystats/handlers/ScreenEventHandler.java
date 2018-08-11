@@ -15,20 +15,17 @@
  */
 package com.asksven.betterbatterystats.handlers;
 
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.utils.SysUtils;
-import com.asksven.betterbatterystats.services.EventWatcherService;
-import com.asksven.betterbatterystats.services.WatchdogProcessingService;
-import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.asksven.betterbatterystats.services.EventWatcherService;
+import com.asksven.betterbatterystats.services.WatchdogProcessingService;
+import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
+import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 
 /**
  * @author sven

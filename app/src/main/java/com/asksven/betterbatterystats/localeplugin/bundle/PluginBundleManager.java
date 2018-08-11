@@ -47,7 +47,6 @@ public final class PluginBundleManager
      */
     public static final String BUNDLE_EXTRA_BOOL_SAVE_REF 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_REF"; //$NON-NLS-1$
     public static final String BUNDLE_EXTRA_BOOL_SAVE_STAT 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_STAT"; //$NON-NLS-1$
-    public static final String BUNDLE_EXTRA_BOOL_SAVE_JSON 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_JSON"; //$NON-NLS-1$
     public static final String BUNDLE_EXTRA_STRING_REF_NAME	= "com.asksven.betterbatterystats.localeplugin.extra.REF_NAME"; //$NON-NLS-1$
 
     
@@ -98,15 +97,7 @@ public final class PluginBundleManager
             }
             return false;
         }
-        if (!bundle.containsKey(BUNDLE_EXTRA_BOOL_SAVE_JSON))
-        {
-            if (Constants.IS_LOGGABLE)
-            {
-                Log.e(Constants.LOG_TAG, String.format("bundle must contain extra %s", BUNDLE_EXTRA_BOOL_SAVE_JSON)); //$NON-NLS-1$
-            }
-            return false;
-        }
-        
+
         if (!bundle.containsKey(BUNDLE_EXTRA_STRING_REF_NAME))
         {
             if (Constants.IS_LOGGABLE)
@@ -130,7 +121,7 @@ public final class PluginBundleManager
          * error message is more useful. (E.g. the caller will see what extras are missing, rather than just a message that there
          * is the wrong number).
          */
-        if (5 != bundle.keySet().size())
+        if (4 != bundle.keySet().size())
         {
             Log.e(Constants.LOG_TAG, String.format("bundle must contain 5 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet().toString())); //$NON-NLS-1$
 

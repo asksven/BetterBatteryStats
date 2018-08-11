@@ -122,7 +122,6 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
         {
             ((CheckBox) findViewById(R.id.CheckBoxSaveRef)).setChecked(previousBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF));
             ((CheckBox) findViewById(R.id.CheckBoxSaveStat)).setChecked(previousBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT));
-            ((CheckBox) findViewById(R.id.CheckBoxSaveStatJson)).setChecked(previousBundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_JSON));
 
             Spinner mySpinner = (Spinner) findViewById(R.id.spinnerStatType);
 
@@ -143,7 +142,6 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
 
         final boolean saveRef = ((CheckBox) findViewById(R.id.CheckBoxSaveRef)).isChecked();
         final boolean saveStat = ((CheckBox) findViewById(R.id.CheckBoxSaveStat)).isChecked();
-        final boolean saveStatJson = ((CheckBox) findViewById(R.id.CheckBoxSaveStatJson)).isChecked();
 
         int pos = ((Spinner) findViewById(R.id.spinnerStatType)).getSelectedItemPosition();
         final String ref = m_spinnerAdapter.getItemLabel(pos);
@@ -158,7 +156,6 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
         resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VERSION_CODE, Constants.getVersionCode(this));
         resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF, saveRef);
         resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT, saveStat);
-        resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_JSON, saveStatJson);
         resultBundle.putString(PluginBundleManager.BUNDLE_EXTRA_STRING_REF_NAME, ref);
 
         Log.i(TAG, "Saved Bundle: " + resultBundle.toString());

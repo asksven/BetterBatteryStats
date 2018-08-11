@@ -24,9 +24,7 @@ import android.content.pm.PackageInfo;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.TextView;
 
-import com.asksven.android.common.RootShell;
 import com.asksven.betterbatterystats.appanalytics.Analytics;
 import com.asksven.betterbatterystats.appanalytics.Events;
 
@@ -102,8 +100,6 @@ public class BbsApplication extends Application
 
         // set a few analytics user properties
 
-        // device rooted
-        // we skip on this info as it seems to cause ANRs Analytics.getInstance(this).setRootedDevice(RootShell.getInstance().hasRootPermissions());
 
         try
         {

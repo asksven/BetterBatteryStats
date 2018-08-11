@@ -3,24 +3,23 @@
  */
 package com.asksven.android.common.kernelutils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.asksven.android.common.NonRootShell;
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.privateapiproxies.Process;
+import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Parses the content of 'dumpsys battery'
@@ -54,15 +53,7 @@ public class ProcessStatsDumpsys
 		
 		List<String> res = null;
 		
-		if (SysUtils.hasDumpsysPermission(ctx))
-		{
-			res = NonRootShell.getInstance().run("dumpsys batterystats");
-		}
-		else
-		{
-			res = RootShell.getInstance().run("dumpsys batterystats");
-			
-		}
+		res = NonRootShell.getInstance().run("dumpsys batterystats");
 
 		HashMap<String, List<Process>> xrefUserNames = getProcesses(res);
 
