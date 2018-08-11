@@ -24,6 +24,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -64,11 +65,15 @@ import com.asksven.android.system.AndroidVersion;
 /**
  * A proxy to the non-public API BatteryStats
  * @author sven
+ * P preview 2:         https://android.googlesource.com/platform/frameworks/base/+/android-p-preview-2/core/java/com/android/internal/app/IBatteryStats.aidl
+ *                      https://android.googlesource.com/platform/frameworks/base/+/android-p-preview-2/core/java/com/android/internal/os/BatteryStatsImpl.java
+ *                      https://android.googlesource.com/platform/frameworks/base/+/android-p-preview-2/core/java/android/os/BatteryStats.java
  * Oreo (SDK26-27):     http://androidxref.com/8.0.0_r4/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#106
  * Nougat (SDK25-26):   http://androidxref.com/7.1.2_r36/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java
  * Marshmallow (DSK23): http://androidxref.com/6.0.1_r10/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#94
  * Lolipop (SDK21-22):  http://androidxref.com/5.1.1_r6/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#85
  * Kitkat: (SDK19):     http://androidxref.com/4.4.4_r1/xref/frameworks/base/core/java/com/android/internal/os/BatteryStatsImpl.java#75
+ *
  */
 public class BatteryStatsProxy
 {
@@ -166,112 +171,117 @@ public class BatteryStatsProxy
 				
 		try
 		{
-	          ClassLoader cl = context.getClassLoader();
-	          
-	          m_ClassDefinition = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
-	          
-	          // get the IBinder to the "batteryinfo" service
-	          @SuppressWarnings("rawtypes")
-			  Class serviceManagerClass = cl.loadClass("android.os.ServiceManager");
-	          
-	          // parameter types
-	          @SuppressWarnings("rawtypes")
-			  Class[] paramTypesGetService= new Class[1];
-	          paramTypesGetService[0]= String.class;
-	          
-	          @SuppressWarnings("unchecked")
-			  Method methodGetService = serviceManagerClass.getMethod("getService", paramTypesGetService);
-	          
-	          String service = "";
-	          if (Build.VERSION.SDK_INT >= 19)
-	          {
-	        	  // kitkat and following
-	        	  service = "batterystats";
-	          }
-	          else
-	          {
-	        	  service = "batteryinfo";
-	          }
-	          // parameters
-	          Object[] paramsGetService= new Object[1];
-	          paramsGetService[0] = service;
-	          
-	          if (CommonLogSettings.DEBUG)
-	          {
-	        	  Log.i(TAG, "invoking android.os.ServiceManager.getService(\"batteryinfo\")");
-	          }
-	          IBinder serviceBinder = (IBinder) methodGetService.invoke(serviceManagerClass, paramsGetService); 
+            ClassLoader cl = context.getClassLoader();
 
-	          if (CommonLogSettings.DEBUG)
-	          {
-	        	  Log.i(TAG, "android.os.ServiceManager.getService(\"batteryinfo\") returned a service binder");
-	          }
-	          
-	          // now we have a binder. Let's us that on IBatteryStats.Stub.asInterface
-	          // to get an IBatteryStats
-	          // Note the $-syntax here as Stub is a nested class
-	          @SuppressWarnings("rawtypes")
-			  Class iBatteryStatsStub = cl.loadClass("com.android.internal.app.IBatteryStats$Stub");
+            m_ClassDefinition = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
 
-	          //Parameters Types
-	          @SuppressWarnings("rawtypes")
-			  Class[] paramTypesAsInterface= new Class[1];
-	          paramTypesAsInterface[0]= IBinder.class;
+            // enumerate some data
+//            dumpClass(m_ClassDefinition);
+//            Class iBatteryStatsUid = cl.loadClass("com.android.internal.os.BatteryStatsImpl$Uid");
+//            dumpClass(iBatteryStatsUid);
 
-	          @SuppressWarnings("unchecked")
-			  Method methodAsInterface = iBatteryStatsStub.getMethod("asInterface", paramTypesAsInterface);
+            // get the IBinder to the "batteryinfo" service
+            @SuppressWarnings("rawtypes")
+            Class serviceManagerClass = cl.loadClass("android.os.ServiceManager");
 
-	          // Parameters
-	          Object[] paramsAsInterface= new Object[1];
-	          paramsAsInterface[0] = serviceBinder;
-	          
-	          if (CommonLogSettings.DEBUG)
-	          {
-	        	  Log.i(TAG, "invoking com.android.internal.app.IBatteryStats$Stub.asInterface");
-	          }
-	          Object iBatteryStatsInstance = methodAsInterface.invoke(iBatteryStatsStub, paramsAsInterface);
-	          
-	          // and finally we call getStatistics from that IBatteryStats to obtain a Parcel
-	          @SuppressWarnings("rawtypes")
-			  Class iBatteryStats = cl.loadClass("com.android.internal.app.IBatteryStats");
-	          
-	          @SuppressWarnings("unchecked")
-	          Method methodGetStatistics = iBatteryStats.getMethod("getStatistics");
-	          
-	          if (CommonLogSettings.DEBUG)
-	          {
-	        	  Log.i(TAG, "invoking getStatistics");
-	          }
-	          byte[] data = (byte[]) methodGetStatistics.invoke(iBatteryStatsInstance);
-	          
-	          if (CommonLogSettings.DEBUG)
-	          {
-	        	  Log.i(TAG, "retrieving parcel");
-	          }
-	          
-	          Parcel parcel = Parcel.obtain();
-	          parcel.unmarshall(data, 0, data.length);
-	          parcel.setDataPosition(0);
-	          
-	          @SuppressWarnings("rawtypes")
-			  Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
+            // parameter types
+            @SuppressWarnings("rawtypes")
+            Class[] paramTypesGetService= new Class[1];
+            paramTypesGetService[0]= String.class;
 
-	          if (CommonLogSettings.DEBUG)
-	          {
-	        	  Log.i(TAG, "reading CREATOR field");
-	          }
-	          Field creatorField = batteryStatsImpl.getField("CREATOR");
-	          
-	          // From here on we don't need reflection anymore
-	          @SuppressWarnings("rawtypes")
-			  Parcelable.Creator batteryStatsImpl_CREATOR = (Parcelable.Creator) creatorField.get(batteryStatsImpl); 
-	          
-	          m_Instance = batteryStatsImpl_CREATOR.createFromParcel(parcel);        
+            @SuppressWarnings("unchecked")
+            Method methodGetService = serviceManagerClass.getMethod("getService", paramTypesGetService);
+
+            String service = "";
+            if (Build.VERSION.SDK_INT >= 19)
+            {
+              // kitkat and following
+              service = "batterystats";
+            }
+            else
+            {
+              service = "batteryinfo";
+            }
+            // parameters
+            Object[] paramsGetService= new Object[1];
+            paramsGetService[0] = service;
+
+            if (CommonLogSettings.DEBUG)
+            {
+              Log.i(TAG, "invoking android.os.ServiceManager.getService(\"batteryinfo\")");
+            }
+            IBinder serviceBinder = (IBinder) methodGetService.invoke(serviceManagerClass, paramsGetService);
+
+            if (CommonLogSettings.DEBUG)
+            {
+              Log.i(TAG, "android.os.ServiceManager.getService(\"batteryinfo\") returned a service binder");
+            }
+
+            // now we have a binder. Let's us that on IBatteryStats.Stub.asInterface
+            // to get an IBatteryStats
+            // Note the $-syntax here as Stub is a nested class
+            @SuppressWarnings("rawtypes")
+            Class iBatteryStatsStub = cl.loadClass("com.android.internal.app.IBatteryStats$Stub");
+
+            //Parameters Types
+            @SuppressWarnings("rawtypes")
+            Class[] paramTypesAsInterface= new Class[1];
+            paramTypesAsInterface[0]= IBinder.class;
+
+            @SuppressWarnings("unchecked")
+            Method methodAsInterface = iBatteryStatsStub.getMethod("asInterface", paramTypesAsInterface);
+
+            // Parameters
+            Object[] paramsAsInterface= new Object[1];
+            paramsAsInterface[0] = serviceBinder;
+
+            if (CommonLogSettings.DEBUG)
+            {
+              Log.i(TAG, "invoking com.android.internal.app.IBatteryStats$Stub.asInterface");
+            }
+            Object iBatteryStatsInstance = methodAsInterface.invoke(iBatteryStatsStub, paramsAsInterface);
+
+            // and finally we call getStatistics from that IBatteryStats to obtain a Parcel
+            @SuppressWarnings("rawtypes")
+            Class iBatteryStats = cl.loadClass("com.android.internal.app.IBatteryStats");
+
+            @SuppressWarnings("unchecked")
+            Method methodGetStatistics = iBatteryStats.getMethod("getStatistics");
+
+            if (CommonLogSettings.DEBUG)
+            {
+              Log.i(TAG, "invoking getStatistics");
+            }
+            byte[] data = (byte[]) methodGetStatistics.invoke(iBatteryStatsInstance);
+
+            if (CommonLogSettings.DEBUG)
+            {
+              Log.i(TAG, "retrieving parcel");
+            }
+
+            Parcel parcel = Parcel.obtain();
+            parcel.unmarshall(data, 0, data.length);
+            parcel.setDataPosition(0);
+
+            @SuppressWarnings("rawtypes")
+            Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
+
+            if (CommonLogSettings.DEBUG)
+            {
+              Log.i(TAG, "reading CREATOR field");
+            }
+            Field creatorField = batteryStatsImpl.getField("CREATOR");
+
+            // From here on we don't need reflection anymore
+            @SuppressWarnings("rawtypes")
+            Parcelable.Creator batteryStatsImpl_CREATOR = (Parcelable.Creator) creatorField.get(batteryStatsImpl);
+
+            m_Instance = batteryStatsImpl_CREATOR.createFromParcel(parcel);
 	    }
 		catch( Exception e )
 		{
 			if (e instanceof InvocationTargetException && e.getCause() != null) {
-				Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getCause().getMessage());
+   				Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getCause().getMessage());
 			} else {
 				Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getMessage());
 			}
@@ -279,6 +289,31 @@ public class BatteryStatsProxy
 	    	
 	    }    
 	}
+
+	protected void dumpClass(Class someClass)
+    {
+        List<Method> result = new ArrayList<Method>();
+
+        Class clazz = someClass;
+        while (clazz != null) {
+            for (Method method : clazz.getDeclaredMethods()) {
+                int modifiers = method.getModifiers();
+                if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers)) {
+                    result.add(method);
+                }
+            }
+            clazz = clazz.getSuperclass();
+        }
+
+        Log.i(TAG, "Attributes of " + someClass.getName());
+
+        for (int i=0; i < result.size(); i++)
+        {
+            Method method = result.get(i);
+            Log.i(TAG, someClass.getName() + "." + method.getName());
+        }
+
+    }
 
 	protected BatteryStatsProxy(Context context, boolean dummy) // just need a different signature
 	{
@@ -2529,10 +2564,10 @@ public class BatteryStatsProxy
 						{
 							myWl = new Wakelock(entropy, iWakeType, wakelockEntry.getKey(), wakelockTime, uSec / 1000, wakelockCount);
 						}
-						
-						// opt for lazy loading: do no populate UidInfo, just uid. UidInfo will be fetched on demand
-						myWl.setUid(uid);
-						myStats.add(myWl);
+
+                        myStats.add(myWl);
+                        // opt for lazy loading: do no populate UidInfo, just uid. UidInfo will be fetched on demand
+                        myWl.setUid(uid);
 
 //						Log.d(TAG, "Wakelocks: Process = " + wakelockEntry.getKey() + " wakelock [s] " + wakelockTime + ", count " + wakelockCount);
 		            }
@@ -2579,10 +2614,16 @@ public class BatteryStatsProxy
 			@SuppressWarnings("rawtypes")
 			Class iBatteryStats = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
 
+			Field fKernelWakelockStats = iBatteryStats.getDeclaredField("mTmpWakelockStats");
+			fKernelWakelockStats.setAccessible(true);
+
 			// Process wake lock usage
 			Method methodGetKernelWakelockStats = iBatteryStats.getMethod("getKernelWakelockStats");
-			
-			Class classSamplingTimer = cl.loadClass("com.android.internal.os.BatteryStatsImpl$SamplingTimer");
+            // Map of String, BatteryStatsImpl.SamplingTimer
+//            Map<String, ? extends Object> kernelWakelockStats2 = (Map<String, ? extends Object>)  fKernelWakelockStats.get(m_Instance);
+
+
+            Class classSamplingTimer = cl.loadClass("com.android.internal.os.BatteryStatsImpl$SamplingTimer");
 
 			Field currentReportedCount  		= classSamplingTimer.getDeclaredField("mCurrentReportedCount");
 			Field currentReportedTotalTime  	= classSamplingTimer.getDeclaredField("mCurrentReportedTotalTime");

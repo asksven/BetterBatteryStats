@@ -57,6 +57,15 @@ public class StatsProviderTest
 	}
 
 	@Test
+	public void getCurrentAlarmsStatList() throws Exception
+	{
+		ArrayList<StatElement> res = mStats.getCurrentAlarmsStatList(true);
+		assertNotNull(res);
+		Log.i(TAG, "Retrieved " + res.size() + " elements");
+
+	}
+
+	@Test
 	public void getCurrentProcessStatList() throws Exception
 	{
 		ArrayList<StatElement> res = mStats.getCurrentProcessStatList(true, 0);

@@ -4,6 +4,7 @@
         <change>Fixed preferences export/import</change>
         <change>Root only to be used when installing</change>
         <change>I18N</change>
+        <change>Android Pie support</change>
     </release>
 
 </changelog>

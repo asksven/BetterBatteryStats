@@ -54,7 +54,7 @@ public class NonRootShellTest
     }
 
     @Test
-    public void test_dumpsys() throws Exception
+    public void test_dumpsys_alam() throws Exception
     {
         List<String> res = new ArrayList<String>();
         String command = "dumpsys alarm";
@@ -65,5 +65,16 @@ public class NonRootShellTest
     }
 
 
+    @Test
+    public void test_dumpsys() throws Exception
+    {
+        List<String> res = new ArrayList<String>();
+        String command = "dumpsys";
+        res = shell.run(command);
+
+        assertTrue(res != null);
 
     }
+
+
+}

@@ -139,14 +139,14 @@ dependencies {
     implementation group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.3, 5.0['
     implementation 'com.android.support:support-compat:25.4.0'
     implementation 'com.android.support:support-vector-drawable:25.4.0'
-    implementation 'net.hockeyapp.android:HockeySDK:5.0.4'
+    implementation 'net.hockeyapp.android:HockeySDK:5.1.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test:rules:1.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
 }
 
 
