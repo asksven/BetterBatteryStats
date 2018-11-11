@@ -4,7 +4,7 @@ apply plugin: 'com.github.triplet.play'
 
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 28
 
     playAccountConfigs {
         defaultAccountConfig {
@@ -20,9 +20,9 @@ android {
     defaultConfig {
         applicationId "com.asksven.betterbatterystats"
         minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 94
-        versionName "2.4"
+        targetSdkVersion 26
+        versionCode 95
+        versionName "2.5"
         versionNameSuffix = getBuildSuffix()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug

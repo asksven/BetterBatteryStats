@@ -243,25 +243,13 @@ public class StatsActivity extends ActionBarListActivity
 			NonRootShell.getInstance().run("settings put global hidden_api_policy_p_apps 0");
 		}
 
-			// Package usage stats were introduced in SDK21 so we need to make the distinction
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+		// show install as system app screen if root available but perms missing
+		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
 		{
-			// show install as system app screen if root available but perms missing
-			if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
-			{
-				Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
-				this.startActivity(intentSystemApp);
-			}
+			Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
+			this.startActivity(intentSystemApp);
 		}
-		else
-		{
-			if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this))
-			{
-				Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
-				this.startActivity(intentSystemApp);
-			}
 
-		}
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 

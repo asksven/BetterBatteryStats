@@ -2921,24 +2921,14 @@ public class StatsProvider
         {
             // open file for writing
             File root;
-            boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
-
-            if (bSaveToPrivateStorage)
-            {
-                try
-                {
-                    root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-                }
-                catch (Exception e)
-                {
-                    root = Environment.getExternalStorageDirectory();
-                }
-            }
-            else
-            {
-                root = new File(sharedPrefs.getString("storage_path",
-                        Environment.getExternalStorageDirectory().getAbsolutePath()));
-            }
+			try
+			{
+				root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+			}
+			catch (Exception e)
+			{
+				root = Environment.getExternalStorageDirectory();
+			}
 
             // check if file can be written
             if (root.canWrite())

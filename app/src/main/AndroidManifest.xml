@@ -7,43 +7,40 @@
     android:versionName="2.2.0.0">
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="22" />
+        android:minSdkVersion="15"
+        android:targetSdkVersion="26" />
 
+    <!-- these are static, we can not ask users for these -->
     <uses-permission android:name="android.permission.DUMP" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <!-- needed to read logcat -->
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!-- permission to access su (optional if available for dumpsys and network stats -->
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
+
 
     <!-- required for writing dump files -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <!-- we do not require this permission anymore; instead all file write actions are done to the app's directory under /sdcard/Android... -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <!-- required by M-preview -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- required by GA -->
+    <!-- required by HockeyApp -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- store kernel wakelock ref boot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!-- detect when battery is charged -->
-    <uses-permission android:name="android.permission.BATTERY_STATS" />
     <!-- detect  when screen is turned on/off -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- detect unplug actions -->
-    <!--
-@todo we need to check if required: SKN 2016-12-25 we ignore this for now
+    <!-- <uses-permission android:name="android.permission.DEVICE_POWER" /> -->
 
-<uses-permission android:name="android.permission.DEVICE_POWER" />
-    -->
     <!-- retrieve ps list (running tasks) -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- tentative to fix bug #173 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <!-- need to hold wakelocks for writing operations -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!-- needed to read logcat -->
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <!-- permission to access su (optional if available for dumpsys and network stats -->
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
 
     <supports-screens
         android:anyDensity="true"

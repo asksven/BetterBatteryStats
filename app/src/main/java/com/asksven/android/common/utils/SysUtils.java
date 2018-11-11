@@ -15,8 +15,10 @@
  */
 package com.asksven.android.common.utils;
 
+import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import com.asksven.android.common.shellutils.Exec;
 import com.asksven.android.common.shellutils.ExecResult;
@@ -58,7 +60,17 @@ public class SysUtils
 
 	public static boolean hasPackageUsageStatsPermission(Context context)
 	{
-		return wasPermissionGranted(context, android.Manifest.permission.PACKAGE_USAGE_STATS);
+		if (Build.VERSION.SDK_INT >= 21)
+		{
+			AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+			int mode = appOps.checkOpNoThrow("android:get_usage_stats", android.os.Process.myUid(), context.getPackageName());
+			boolean granted = mode == AppOpsManager.MODE_ALLOWED;
+			return granted;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	private static boolean wasPermissionGranted(Context context, String permission)

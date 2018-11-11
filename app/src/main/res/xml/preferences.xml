@@ -345,11 +345,6 @@
                 android:key="debug_logging"
                 android:summary="@string/pref_debug_logging_summary"
                 android:title="@string/pref_debug_logging_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="files_to_private_storage"
-                android:summary="@string/pref_files_to_private_storage_summary"
-                android:title="@string/pref_files_to_private_storage_title" />
 
             <com.asksven.betterbatterystats.contrib.SeekBarPreference
                 android:defaultValue="100"

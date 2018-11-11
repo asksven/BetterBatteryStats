@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="perm_rationale_READ_PHONE_STATE">This permission is required to detect when the phone was turned on and off.</string>
+    <string name="perm_rationale_RECEIVE_BOOT_COMPLETED">This permission is required to collect \"on boot\" stats.</string>
+    <string name="perm_rationale_INTERNET">This permission is required for analytics purposes.</string>
+    <string name="perm_rationale_ACCESS_NETWORK_STATE">This permission is required to connect network stats.</string>
+    <string name="perm_rationale_ACCESS_WIFI_STATE">This permission is required to access Wifi stats.</string>
+    <string name="perm_rationale_PACKAGE_USAGE_STATS">This permission is required to access app stats. Please grant it in the following dialog.</string>
 
     <string name="plugin_name">Better Battery Stats</string>
     <string name="message_hint">Scheduled Toast</string>
@@ -150,16 +156,11 @@
     <string name="pref_theme_summary">Switch themes</string>
 
     <!-- System app activity -->
-    <string name="expl_system_app">If your phone has root BBS will automatically grant the required permissions.\nFor unrooted devices the permissions can be granted using ADB.</string>
-    <string name="expl_adb_gplay" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.BATTERY_STATS\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS</string>
-    <string name="expl_adb_xda" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="expl_system_app">If your phone has root BBS will automatically grant these required permissions.\nFor unrooted devices the permissions can be granted using ADB.</string>
+    <string name="expl_adb_gplay" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.BATTERY_STATS\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.DUMP</string>
+    <string name="expl_adb_xda" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP</string>
 
-    <string name="install_system_app">Install as system app</string>
-    <string name="uninstall_system_app">Uninstall system app</string>
-    <string name="info_installed_system_app">Installed system app. Please reboot to activate.</string>
-    <string name="info_uninstalled_system_app">Uninstalled system app: your preferences have been reset. Please reboot to clean up and update your preferences.</string>
     <string name="info_succeeded">Succeeded</string>
-    <string name="info_failed">Failed, try recovery ZIP</string>
     <string name="info_root_required">In order to use this feature the app must have root permissions</string>
     <string name="info_unknown_state">Error: could not resolve what changed</string>
     <string name="info_service_connection_error">BatteryInfo Service could not be contacted</string>
@@ -178,6 +179,7 @@ line break at unicode
     <string name="info_fallback_to_default">Fallback to default reference</string>
     <string name="label_granted">granted</string>
     <string name="label_not_granted">not granted</string>
+    <string name="label_not_needed">not needed</string>
 
     <!-- Preferences labels and texts -->
     <string name="pref_section_display">Display</string>
@@ -232,8 +234,6 @@ line break at unicode
     <string name="pref_section_advanced">Advanced</string>
     <string name="pref_debug_logging_summary">Add debug info to logcat</string>
     <string name="pref_debug_logging_title">Debug</string>
-    <string name="pref_files_to_private_storage_summary">Write files to /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
-    <string name="pref_files_to_private_storage_title">Private storage</string>
     <string name="pref_select_dir_summary">Select where to write dumpfiles</string>
     <string name="pref_select_dir_title">Select Output Directory</string>
     <string name="pref_select_dir_button">Select</string>
