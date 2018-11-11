@@ -11,11 +11,13 @@
         android:targetSdkVersion="26" />
 
     <!-- these are static, we can not ask users for these -->
+
     <uses-permission android:name="android.permission.DUMP" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
-    <!-- needed to read logcat -->
-    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <!-- needed to read logcat : removed-->
+    <!-- <uses-permission android:name="android.permission.READ_LOGS" /> -->
     <!-- permission to access su (optional if available for dumpsys and network stats -->
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
 
@@ -188,11 +190,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".handlers.OnUnplugHandler">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-            </intent-filter>
-        </receiver>
+
         <receiver
             android:name=".widgetproviders.LargeWidgetProvider"
             android:label="BBS 2 x 2 Widget (legacy)">

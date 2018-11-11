@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="2.5.1" versioncode="95">
+        <change>Fixed missing alarms with SDK26</change>
+        <change>Fixed unplugged reference missing with SDK26</change>
+    </release>
+
     <release version="2.5" versioncode="95">
         <change>App now asks the user to confirm permissions</change>
         <change>Reduce the number of permissions that need to be granted through adb</change>

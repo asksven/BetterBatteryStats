@@ -25,6 +25,8 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+
+import com.asksven.betterbatterystats.handlers.OnUnplugHandler;
 import com.asksven.betterbatterystats.handlers.ScreenEventHandler;
 
 /**
@@ -37,6 +39,8 @@ public class EventWatcherService extends Service
 	static final String TAG = "EventWatcherService";
 	public static String SERVICE_NAME = "com.asksven.betterbatterystats.services.EventWatcherService";
 	public static final int NOTFICATION_ID = 1002;
+    BroadcastReceiver mReceiver = null;
+    BroadcastReceiver mReceiver2 = null;
 
 
 	// This is the object that receives interactions from clients.  See
@@ -71,8 +75,28 @@ public class EventWatcherService extends Service
         IntentFilter filter = new IntentFilter(Intent.ACTION_USER_PRESENT);
         filter.addAction(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
-        BroadcastReceiver mReceiver = new ScreenEventHandler();
+        mReceiver = new ScreenEventHandler();
         registerReceiver(mReceiver, filter);
+
+        IntentFilter filter2 = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
+        mReceiver2 = new OnUnplugHandler();
+        registerReceiver(mReceiver2, filter2);
+
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        // The service is no longer used and is being destroyed
+        if (mReceiver != null)
+        {
+            unregisterReceiver(mReceiver);
+        }
+
+        if (mReceiver2 != null)
+        {
+            unregisterReceiver(mReceiver2);
+        }
     }
     
     /** 

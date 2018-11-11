@@ -65,6 +65,7 @@ public class SystemAppActivity extends BaseActivity
     final static int CONST_READ_PHONE_STATE         = 1006;
     final static int CONST_BLUETOOTH                = 1007;
     final static int CONST_WAKE_LOCK                = 1008;
+    final static int CONST_PACKAGE_USAGE_STATS      = 1009;
 
     private View mLayout;
 
@@ -137,6 +138,7 @@ public class SystemAppActivity extends BaseActivity
 		final TextView permBATTERY = (TextView) findViewById(R.id.textViewBATTERY_STATS);
         final TextView permDUMP = (TextView) findViewById(R.id.textViewDUMP);
         final TextView permPACKAGE = (TextView) findViewById(R.id.textViewPACKAGE_USAGE_STATS);
+        final TextView permAPPOPS = (TextView) findViewById(R.id.textViewAPPOP_USAGE_STATS);
 		final TextView permACCESS_WIFI_STATE = (TextView) findViewById(R.id.textViewACCESS_WIFI_STATE);
 		final TextView permACCESS_NETWORK_STATE = (TextView) findViewById(R.id.textViewACCESS_NETWORK_STATE);
 		final TextView permINTERNET = (TextView) findViewById(R.id.textViewINTERNET);
@@ -168,7 +170,6 @@ public class SystemAppActivity extends BaseActivity
 
         if (Build.VERSION.SDK_INT >= 21)
         {
-            checkAndRequestPermissionPackageUsageStats();
             if (SysUtils.hasPackageUsageStatsPermission(this))
             {
                 permPACKAGE.setText("PACKAGE_USAGE_STATS " + getString(R.string.label_granted));
@@ -182,6 +183,25 @@ public class SystemAppActivity extends BaseActivity
         else
         {
             permPACKAGE.setText("PACKAGE_USAGE_STATS " + getString(R.string.label_not_needed));
+
+        }
+
+        if (Build.VERSION.SDK_INT >= 21)
+        {
+            checkAndRequestPermissionAppOpsUsageStats();
+            if (SystemAppActivity.hasPermissionAppOpsUsageStats(this))
+            {
+                permAPPOPS.setText("APPOPS_USAGE_STATS " + getString(R.string.label_granted));
+                permAPPOPS.setBackgroundColor(Color.WHITE);
+            } else
+            {
+                permAPPOPS.setText("APPOPS_USAGE_STATS  " + getString(R.string.label_not_granted));
+                permAPPOPS.setBackgroundColor(Color.RED);
+            }
+        }
+        else
+        {
+            permAPPOPS.setText("APPOPS_USAGE_STATS " + getString(R.string.label_not_needed));
 
         }
 
@@ -283,6 +303,7 @@ public class SystemAppActivity extends BaseActivity
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.READ_PHONE_STATE, ctx);
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.BLUETOOTH, ctx);
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.WAKE_LOCK, ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermissionAppOpsUsageStats(ctx);
 
         return hasPermissions;
 
@@ -332,6 +353,16 @@ public class SystemAppActivity extends BaseActivity
 		}
 	}
 
+	@TargetApi(21)
+    private static boolean hasPermissionAppOpsUsageStats(Context ctx)
+    {
+
+        AppOpsManager appOps = (AppOpsManager) ctx.getSystemService(Context.APP_OPS_SERVICE);
+        int mode = appOps.checkOpNoThrow("android:get_usage_stats", android.os.Process.myUid(), ctx.getPackageName());
+        boolean granted = mode == AppOpsManager.MODE_ALLOWED;
+        return granted;
+    }
+
 	private void checkAndRequestPermission(String permission, int perm_const, String perm_rationale)
     {
         if (ContextCompat.checkSelfPermission(this, permission)
@@ -351,16 +382,14 @@ public class SystemAppActivity extends BaseActivity
     }
 
     @TargetApi(19)
-    private void checkAndRequestPermissionPackageUsageStats()
+    private void checkAndRequestPermissionAppOpsUsageStats()
     {
-        AppOpsManager appOps = (AppOpsManager) this.getSystemService(Context.APP_OPS_SERVICE);
-        int mode = appOps.checkOpNoThrow("android:get_usage_stats", android.os.Process.myUid(), this.getPackageName());
-        boolean granted = mode == AppOpsManager.MODE_ALLOWED;
+        boolean granted = SystemAppActivity.hasPermissionAppOpsUsageStats(this);
 
         if (!granted)
         {
             Log.i(TAG, " Displaying permission rationale to provide additional context.");
-            Snackbar.make(mLayout, getString(R.string.perm_rationale_PACKAGE_USAGE_STATS),
+            Snackbar.make(mLayout, getString(R.string.perm_rationale_APPOPS_USAGE_STATS),
                     Snackbar.LENGTH_INDEFINITE)
                     .setAction("OK", new View.OnClickListener() {
                         @Override
@@ -374,6 +403,7 @@ public class SystemAppActivity extends BaseActivity
 
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)

@@ -102,24 +102,6 @@ public class PreferencesFragmentActivity extends BaseActivity
 			{
 				boolean serviceShouldBeRunning = sharedPreferences.getBoolean(key, false);
 
-				if (serviceShouldBeRunning)
-				{
-					if (!EventWatcherService.isServiceRunning(getActivity()))
-					{
-						Intent i = new Intent(getActivity(), EventWatcherService.class);
-						getActivity().startService(i);
-					}
-				} else
-				{
-					if (EventWatcherService.isServiceRunning(getActivity()))
-					{
-						Intent i = new Intent(getActivity(), EventWatcherService.class);
-						getActivity().stopService(i);
-
-					}
-
-				}
-
 				// enable / disable sliders
 				// enable sliders
 				findPreference("watchdog_awake_threshold").setEnabled(serviceShouldBeRunning);

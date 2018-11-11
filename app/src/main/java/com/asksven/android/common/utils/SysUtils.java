@@ -62,10 +62,7 @@ public class SysUtils
 	{
 		if (Build.VERSION.SDK_INT >= 21)
 		{
-			AppOpsManager appOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-			int mode = appOps.checkOpNoThrow("android:get_usage_stats", android.os.Process.myUid(), context.getPackageName());
-			boolean granted = mode == AppOpsManager.MODE_ALLOWED;
-			return granted;
+            return wasPermissionGranted(context, android.Manifest.permission.PACKAGE_USAGE_STATS);
 		}
 		else
 		{

@@ -33,12 +33,20 @@
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
+        <TextView
+            android:id="@+id/textViewPACKAGE_USAGE_STATS"
+            android:layout_below="@+id/textViewDUMP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="false"
+            android:text="Permission..."
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewDUMP"
+            android:layout_below="@+id/textViewPACKAGE_USAGE_STATS"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="@string/expl_system_app"
@@ -57,7 +65,7 @@
             android:typeface="monospace" />
 
         <TextView
-            android:id="@+id/textViewPACKAGE_USAGE_STATS"
+            android:id="@+id/textViewAPPOP_USAGE_STATS"
             android:layout_below="@+id/textViewAdb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +75,7 @@
 
         <TextView
             android:id="@+id/textViewACCESS_WIFI_STATE"
-            android:layout_below="@+id/textViewPACKAGE_USAGE_STATS"
+            android:layout_below="@+id/textViewAPPOP_USAGE_STATS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="false"
