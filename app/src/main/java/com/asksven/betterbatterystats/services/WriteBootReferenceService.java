@@ -55,7 +55,7 @@ public class WriteBootReferenceService extends IntentService
 			
 			// Clear any notifications taht may still be shown as the reference in going to be overwritten
 	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
-	    	nM.cancel(EventWatcherService.NOTFICATION_ID);
+	    	nM.cancel(EventWatcherService.NOTIFICATION_ID);
 	    	
 			Wakelock.aquireWakelock(this);
 			StatsProvider.getInstance().setReferenceSinceBoot(0);

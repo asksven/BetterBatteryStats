@@ -9,6 +9,7 @@
     <string name="perm_rationale_APPOPS_USAGE_STATS">This permission is required to access alarm stats.Please grant it in the following dialog.</string>
 
     <string name="plugin_name">Better Battery Stats</string>
+    <string name="foreground_service_text">Event processing service</string>
     <string name="message_hint">Scheduled Toast</string>
     <string name="message_hint_saveref">Save a Custom Reference</string>
     <string name="message_hint_savestat">Save a Text Dumpfile</string>
@@ -215,8 +216,8 @@ line break at unicode
     <string name="pref_section_watchdog">Watchdog</string>
     <string name="pref_enable_watchdog_title">Enable</string>
     <string name="pref_enable_watchdog_summary">Enables watchdog processing</string>
-    <string name="pref_watchdog_on_unlock_title">Watchdog on unlock</string>
-    <string name="pref_watchdog_on_unlock_summary">Watchdog runs upon \'unlock\' (else on \'screen on\')</string>
+    <string name="pref_watchdog_on_unlock_title">Reference on unlock</string>
+    <string name="pref_watchdog_on_unlock_summary">Reference is saved on \'unlock\' (else on \'screen on\')</string>
     <string name="pref_charged_trigger_percentage_title">Minimum percentage that counts as charged</string>
     <string name="pref_charged_trigger_percentage_summary">If battery is over this percentage when charging cable is unplugged, then Since Charged reference is stored</string>
     <string name="pref_section_warnings">Warnings</string>

@@ -22,7 +22,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 95
-        versionName "2.5"
+        versionName "2.5.2"
         versionNameSuffix = getBuildSuffix()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug

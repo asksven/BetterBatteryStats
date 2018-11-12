@@ -25,6 +25,7 @@ import android.util.Log;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WatchdogProcessingService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
+import com.asksven.betterbatterystats.services.WriteScreenOnReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
 
 /**
@@ -44,28 +45,24 @@ public class ScreenEventHandler extends BroadcastReceiver
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_OFF");
-			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);
-
-			if (watchdogActive)
-			{
-				// start service to persist reference
-				Intent serviceIntent = new Intent(context, WriteScreenOffReferenceService.class);
-				context.startService(serviceIntent);
-			}
+			// start service to persist reference
+			Intent serviceIntent = new Intent(context, WriteScreenOffReferenceService.class);
+			context.startService(serviceIntent);
 
 		}
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_ON");
-			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);
 			boolean bRunOnUnlock = sharedPrefs.getBoolean("watchdog_on_unlock", false);
 
-			if (watchdogActive && !bRunOnUnlock)
+			if (!bRunOnUnlock)
 			{
 				// start service to process watchdog
-				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
-				context.startService(serviceIntent);
+//				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
+//				context.startService(serviceIntent);
+				Intent serviceIntent2 = new Intent(context, WriteScreenOnReferenceService.class);
+				context.startService(serviceIntent2);
 
 			}
 
@@ -78,14 +75,16 @@ public class ScreenEventHandler extends BroadcastReceiver
         if (intent.getAction().equals(Intent.ACTION_USER_PRESENT))
 		{
 			Log.i(TAG, "Received Broadcast ACTION_USER_PRESENT");
-			boolean watchdogActive = sharedPrefs.getBoolean("ref_for_screen_off", false);		
 			boolean bRunOnUnlock = sharedPrefs.getBoolean("watchdog_on_unlock", false);
 
-			if (watchdogActive && bRunOnUnlock)
+			if (bRunOnUnlock)
 			{
 				// start service to process watchdog
-				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
-				context.startService(serviceIntent);
+//				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
+//				context.startService(serviceIntent);
+				Intent serviceIntent2 = new Intent(context, WriteScreenOnReferenceService.class);
+				context.startService(serviceIntent2);
+
 
 			}
 			

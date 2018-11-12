@@ -180,7 +180,7 @@ public class WatchdogProcessingService extends IntentService
 					    	    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 					    	// Builds an anonymous Notification object from the builder, and
 					    	// passes it to the NotificationManager
-					    	mNotificationManager.notify(EventWatcherService.NOTFICATION_ID, builder.build());
+					    	mNotificationManager.notify(EventWatcherService.NOTIFICATION_ID, builder.build());
 
 						}
 					}

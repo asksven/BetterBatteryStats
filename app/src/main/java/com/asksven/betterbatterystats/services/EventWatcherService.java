@@ -16,6 +16,9 @@
 package com.asksven.betterbatterystats.services;
 
 import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.BroadcastReceiver;
@@ -24,8 +27,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.handlers.OnUnplugHandler;
 import com.asksven.betterbatterystats.handlers.ScreenEventHandler;
 
@@ -38,7 +44,9 @@ public class EventWatcherService extends Service
 	
 	static final String TAG = "EventWatcherService";
 	public static String SERVICE_NAME = "com.asksven.betterbatterystats.services.EventWatcherService";
-	public static final int NOTFICATION_ID = 1002;
+	public static final int NOTIFICATION_ID = 1002;
+    public static final int FOREGROUND_ID = 1003;
+
     BroadcastReceiver mReceiver = null;
     BroadcastReceiver mReceiver2 = null;
 
@@ -82,7 +90,21 @@ public class EventWatcherService extends Service
         mReceiver2 = new OnUnplugHandler();
         registerReceiver(mReceiver2, filter2);
 
+        Intent notificationIntent = new Intent(this, StatsActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                notificationIntent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.plugin_name))
+                .setContentText(getString(R.string.foreground_service_text))
+                .setPriority(NotificationManager.IMPORTANCE_MIN)
+                .setContentIntent(pendingIntent).build();
+
+        startForeground(FOREGROUND_ID, notification);
     }
+
 
     @Override
     public void onDestroy()
@@ -102,15 +124,15 @@ public class EventWatcherService extends Service
     /** 
      * Called when service is started
      */
-    public int onStartCommand(Intent intent, int flags, int startId)
-    {
-        Log.i(getClass().getSimpleName(), "Received start id " + startId + ": " + intent);
-
-        // We want this service to continue running until it is explicitly
-        // stopped, so return sticky.
-        
-        return Service.START_STICKY;
-    }
+//    public int onStartCommand(Intent intent, int flags, int startId)
+//    {
+//        Log.i(getClass().getSimpleName(), "Received start id " + startId + ": " + intent);
+//
+//        // We want this service to continue running until it is explicitly
+//        // stopped, so return sticky.
+//
+//        return Service.START_STICKY;
+//    }
 
     
 	public static boolean isServiceRunning(Context context)

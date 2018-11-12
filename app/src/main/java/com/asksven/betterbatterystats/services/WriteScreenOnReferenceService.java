@@ -51,11 +51,7 @@ public class WriteScreenOnReferenceService extends IntentService
 		try
 		{
 			
-//			// Clear any notifications taht may still be shown as the reference in going to be overwritten
-//	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
-//	    	nM.cancel(EventWatcherService.NOTFICATION_ID);
-
-			// Store the "since screen off" ref
+			// Store the "since screen on" ref
 			Wakelock.aquireWakelock(this);
 			StatsProvider.getInstance().setReferenceScreenOn(0);
 
@@ -64,18 +60,9 @@ public class WriteScreenOnReferenceService extends IntentService
 
 			StatsProvider.getInstance().setCurrentReference(0);
 
-//			// save a new current ref
-//			StatsProvider.getInstance(this).setCurrentReference(0);
-//			i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
-//		    this.sendBroadcast(i);
-
-			
 			// Build the intent to update the widget
 			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
 			this.sendBroadcast(intentRefreshWidgets);
-			
-
-			
 		}
 		catch (Exception e)
 		{
@@ -99,5 +86,4 @@ public class WriteScreenOnReferenceService extends IntentService
 		Log.e(TAG, "Destroyed at" + DateUtils.now());
 		Wakelock.releaseWakelock();
 	}
-
 }

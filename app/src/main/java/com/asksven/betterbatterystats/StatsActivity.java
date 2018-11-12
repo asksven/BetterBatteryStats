@@ -22,6 +22,7 @@ package com.asksven.betterbatterystats;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -41,6 +42,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -119,6 +121,10 @@ public class StatsActivity extends ActionBarListActivity
 	private static final String LOGFILE = "BetterBatteryStats_Dump.log";
 
 	/**
+
+
+
+
 	 * The ArrayAdpater for rendering the ListView
 	 */
 	private StatsAdapter m_listViewAdapter;
@@ -221,7 +227,9 @@ public class StatsActivity extends ActionBarListActivity
                 Log.i(TAG, "attempting to grant perms with 'pm grant'");
 
                 String pkg = this.getPackageName();
-                RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
+                RootShell.getInstance().run(
+
+"pm grant " + pkg + " android.permission.BATTERY_STATS");
                 RootShell.getInstance().run("pm grant " + pkg + " android.permission.DUMP");
                 RootShell.getInstance().run("pm grant " + pkg + " android.permission.PACKAGE_USAGE_STATS");
 
@@ -363,7 +371,7 @@ public class StatsActivity extends ActionBarListActivity
 			if (bCalledFromNotification)
 			{
 		    	NotificationManager nM = (NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE);
-		    	nM.cancel(EventWatcherService.NOTFICATION_ID);
+		    	nM.cancel(EventWatcherService.NOTIFICATION_ID);
 			}
 		}
         
@@ -558,7 +566,15 @@ public class StatsActivity extends ActionBarListActivity
 		if (!EventWatcherService.isServiceRunning(this))
 		{
 			Intent i = new Intent(this, EventWatcherService.class);
-			this.startService(i);
+
+			if (Build.VERSION.SDK_INT >= 26)
+            {
+                this.startForegroundService(i);
+            }
+            else
+            {
+                this.startService(i);
+            }
 		}    				
 
 		// make sure to create a valid "current" stat if none exists
@@ -600,6 +616,7 @@ public class StatsActivity extends ActionBarListActivity
 		
 		
 	}
+
 
 	/* Remove the locationlistener updates when Activity is paused */
 	@Override
