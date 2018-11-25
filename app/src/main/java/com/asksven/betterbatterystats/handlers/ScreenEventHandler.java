@@ -91,8 +91,6 @@ public class ScreenEventHandler extends BroadcastReceiver
 
 		}
 
-        Intent i = new Intent(context, EventWatcherService.class);
-        context.startService(i);
     }
     
 }

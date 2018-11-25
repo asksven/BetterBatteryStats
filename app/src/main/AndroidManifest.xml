@@ -2,13 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.asksven.betterbatterystats"
-    android:installLocation="internalOnly"
-    android:versionCode="82"
-    android:versionName="2.2.0.0">
+    android:installLocation="internalOnly">
 
-    <uses-sdk
-        android:minSdkVersion="15"
-        android:targetSdkVersion="26" />
 
     <!-- these are static, we can not ask users for these -->
 
@@ -196,8 +191,6 @@
             android:label="BBS 2 x 2 Widget (legacy)">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="BBS_WIDGET_UPDATE" />
             </intent-filter>
 
@@ -210,8 +203,6 @@
             android:label="BBS 2 x 1 Widget (legacy)">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="BBS_WIDGET_UPDATE" />
             </intent-filter>
 
@@ -219,13 +210,12 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/medium_widget_info" />
         </receiver>
+
         <receiver
             android:name=".widgetproviders.SmallWidgetProvider"
             android:label="BBS 1 x 1 Widget (legacy)">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="BBS_WIDGET_UPDATE" />
             </intent-filter>
 
@@ -253,7 +243,8 @@
         <service android:name=".services.UpdateLargeWidgetService" />
         <service android:name=".services.UpdateMediumWidgetService" />
         <service android:name=".services.UpdateSmallWidgetService" />
-        <service android:name=".services.UpdateWidgetService" />
+        <service android:name=".services.UpdateWidgetService" android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service android:name=".services.AppWidgetJobService" android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:name=".services.EventWatcherService" />
         <service android:name=".services.WriteUnpluggedReferenceService" />
         <service android:name=".services.WriteCustomReferenceService" />
@@ -262,7 +253,7 @@
         <service android:name=".services.WriteScreenOffReferenceService" />
         <service android:name=".services.WriteTimerReferenceService" />
         <service android:name=".services.WriteScreenOnReferenceService" />
-        <service android:name=".services.WriteBootReferenceService" />
+        <service android:name=".services.WriteBootReferenceService" android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".services.WatchdogProcessingService" />
         <service
             android:name=".services.BbsDashClockExtension"

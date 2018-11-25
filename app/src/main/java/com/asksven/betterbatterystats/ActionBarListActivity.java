@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package com.asksven.betterbatterystats;
 
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;

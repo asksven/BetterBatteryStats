@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.asksven.betterbatterystats.appanalytics.Analytics;
 import com.asksven.betterbatterystats.appanalytics.Events;
 
-@SuppressWarnings("deprecation")
-public class BaseActivity extends ActionBarActivity
+public class BaseActivity extends AppCompatActivity
 {
 	@Override
 	protected void onResume()

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ public class AppWidget extends BbsWidgetProvider
 		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		// Update the widgets via the service
-		startService(context, this.getClass(), appWidgetManager, UpdateWidgetService.class);
+		UpdateWidgetService.enqueueWork(context, new Intent());
 		
 		setAlarm(context);
 		

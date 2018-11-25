@@ -76,7 +76,7 @@ public class WriteCurrentReferenceService extends IntentService
 	@Override
 	public void onDestroy()
 	{
-		Log.d(TAG, "Destroyed at " + DateUtils.now());
+		Log.i(TAG, "Destroyed at " + DateUtils.now());
 		Wakelock.releaseWakelock();
 	}
 

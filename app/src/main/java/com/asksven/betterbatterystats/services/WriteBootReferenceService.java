@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-14 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,17 @@
  */
 package com.asksven.betterbatterystats.services;
 
-import android.app.IntentService;
+import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.app.job.JobInfo;
+import android.app.job.JobParameters;
+import android.app.job.JobScheduler;
+import android.app.job.JobService;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -35,28 +40,22 @@ import com.asksven.betterbatterystats.data.StatsProvider;
  * @author sven
  *
  */
-public class WriteBootReferenceService extends IntentService
+@TargetApi(23)
+public class WriteBootReferenceService extends JobService
 {
 	private static final String TAG = "WriteBootRefService";
 
-	public WriteBootReferenceService()
-	{
-	    super("WriteBootReferenceService");
-	}
-	
-	@Override
-	public void onHandleIntent(Intent intent)
-	{
+
+
+    @Override
+    public boolean onStartJob(JobParameters params)
+    {
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		Log.i(TAG, "Called at " + DateUtils.now());
 		try
 		{
 			
-			// Clear any notifications taht may still be shown as the reference in going to be overwritten
-	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
-	    	nM.cancel(EventWatcherService.NOTIFICATION_ID);
-	    	
 			Wakelock.aquireWakelock(this);
 			StatsProvider.getInstance().setReferenceSinceBoot(0);
 			
@@ -77,24 +76,33 @@ public class WriteBootReferenceService extends IntentService
 		catch (Exception e)
 		{
 			Log.e(TAG, "An error occured: " + e.getMessage());
+            return false;
 		}
 		finally
 		{
 			Wakelock.releaseWakelock();
 		}
+        return true;
 	}
 
-	@Override
-	public IBinder onBind(Intent intent)
-	{
-		return null;
-	}
-	
-	@Override
-	public void onDestroy()
-	{
-		Log.e(TAG, "Destroyed at" + DateUtils.now());
-		Wakelock.releaseWakelock();
-	}
+    @Override
+    public boolean onStopJob(JobParameters params)
+    {
+        return true;
+    }
+
+    // schedule the start of the service every 10 - 30 seconds
+    public static void scheduleJob(Context context)
+    {
+        ComponentName serviceComponent = new ComponentName(context, WriteBootReferenceService.class);
+        JobInfo.Builder builder = new JobInfo.Builder(0, serviceComponent);
+        builder.setMinimumLatency(1 * 1000); // wait at least 1 second
+        builder.setOverrideDeadline(5 * 1000); // maximum delay 5 seconds
+        //builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+        //builder.setRequiresDeviceIdle(true); // device should be idle
+        //builder.setRequiresCharging(false); // we don't care if the device is charging or not
+        JobScheduler jobScheduler = context.getSystemService(JobScheduler.class);
+        jobScheduler.schedule(builder.build());
+    }
 
 }

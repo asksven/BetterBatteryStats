@@ -22,7 +22,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 95
-        versionName "2.5.2"
+        versionName "2.5"
         versionNameSuffix = getBuildSuffix()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -72,10 +72,8 @@ android {
             // Gradle ignores any variants that satisfy the conditions above.
             setIgnore(true)
         }
-        if (names.contains("xdaedition") && variant.buildType.name == "release") {
-            // Gradle ignores any variants that satisfy the conditions above.
-            setIgnore(true)
-        }
+
+        // for xda edition we want to be able to build both debug and release version
 
     }
     // and a naming policy for the apks
@@ -129,17 +127,17 @@ dependencies {
 
     implementation files('libs/RootTools-5.0.aar')
     implementation files('libs/RootShell-1.6.aar')
-    implementation 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'de.cketti.library.changelog:ckchangelog:1.2.2'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    implementation 'com.android.support:design:25.4.0'
+    implementation 'com.android.support:design:28.0.0'
     implementation group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.3, 5.0['
-    implementation 'com.android.support:support-compat:25.4.0'
-    implementation 'com.android.support:support-vector-drawable:25.4.0'
+    implementation 'com.android.support:support-vector-drawable:28.0.0'
     implementation 'net.hockeyapp.android:HockeySDK:5.1.0'
+    implementation 'com.android.support:support-compat:28.0.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'

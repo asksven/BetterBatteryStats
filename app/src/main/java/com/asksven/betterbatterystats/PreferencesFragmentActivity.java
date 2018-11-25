@@ -30,7 +30,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.services.EventWatcherService;
 
 /**
  * Demonstration of the use of a CursorLoader to load and display contacts data
