@@ -1,7 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<resources>
-        
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>        
+    <string name="perm_rationale_READ_PHONE_STATE">Это разрешение необходимо для определения выключенного или включенного состояния телефона.</string>
+    <string name="perm_rationale_RECEIVE_BOOT_COMPLETED">Это разрешение необходимо для сбора статистики \"от загрузки"\.</string>
+    <string name="perm_rationale_INTERNET">Это разрешение необходимо для задач аналитики.</string>
+    <string name="perm_rationale_ACCESS_NETWORK_STATE">Это разрешение необходимо для подключения статистики сети.</string>
+    <string name="perm_rationale_ACCESS_WIFI_STATE">Это разрешение необходимо для доступа к статистике Wifi.</string>
+    <string name="perm_rationale_PACKAGE_USAGE_STATS">Это разрешение необходимо для доступа к статистике пакетов.</string>
+    <string name="perm_rationale_APPOPS_USAGE_STATS">Это разрешение необходимо для доступа к статистике сигналов.Пожалуйста, предоставьте разрешение в следующем окне.</string>
+
+    <string name="channel_name">BBS</string>
     <string name="plugin_name">BetterBatteryStats</string>
+    <string name="channel_description">Уведомления BBS</string>
+
+    <string name="foreground_service_text">Обработка событий</string>
     <string name="message_hint">Программное сообщение</string>
     <string name="message_hint_saveref">Сохранить польз. метку</string>
     <string name="message_hint_savestat">Сохранить текст. дамп</string>
@@ -125,10 +136,9 @@
     <string name="label_tab_package">Пакет</string>
     <string name="label_tab_permissions">Разрешения</string>
     <string name="label_tab_services">Службы</string>
-    
     <string name="label_discard_changes">Отменить изменения</string>
 
-
+    
     <!-- About screen -->
     <string name="label_about_author">Разработка: asksven</string>
     <string name="label_about_courtesy">Графика: Javi</string>
@@ -152,12 +162,9 @@
                
     <!-- System app activity -->
     <string name="expl_system_app">Если в Вашем телефоне есть рут, BBS автоматически предоставит необходимые разрешения.\nДля нерутованных устройств разрешения можно предоставить через ADB.</string>
-    <string name="install_system_app">Установить как системное</string>
-    <string name="uninstall_system_app">Удалить системное</string>
-    <string name="info_installed_system_app">Установлено системное приложение. Пожалуйста, перезагрузите устройство для активации.</string>
-    <string name="info_uninstalled_system_app">Удалено системное приложение: Ваши настройки сброшены. Пожалуйста, перезагрузите устройство для очистки и обновления настроек.</string>
+    <string name="expl_adb_gplay" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.BATTERY_STATS\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="expl_adb_xda" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.PACKAGE_USAGE_STATS</string>
     <string name="info_succeeded">Успешно</string>
-    <string name="info_failed">Сбой</string>
     <string name="info_root_required">Для использования данного параметра приложение должно иметь рут-разрешения</string>
     <string name="info_unknown_state">Ошибка: невозможно определить изменение</string>
     <string name="info_service_connection_error">Нет связи со службой информации батареи</string>
@@ -167,16 +174,16 @@
     <string name="info_pref_export_success">Настройки были сохранены в %s</string>
     <string name="info_pref_import_success">Настройки были импортированы из %s</string>
     <string name="info_pref_import_export_failed">Сбой операции</string>
-    
     <string name="info_files_written">Запись файлов выполнена</string>
     <string name="info_files_write_error">Произошла ошибка</string>
-    
+разрыв строки в unicode
     
     <string name="info_deleting_refs">Удаление и повторное создание меток</string>
     <string name="info_fallback_to_boot">Сброс к \'От загрузки\'</string>
     <string name="info_fallback_to_default">Сброс к метке по умолчанию</string>
     <string name="label_granted">предоставлено</string>
     <string name="label_not_granted">не предоставлено</string>
+    <string name="label_not_needed">не нужно</string>
 	
     <!-- Preferences labels and texts -->
     <string name="pref_section_display">Отображение</string>
@@ -231,9 +238,6 @@
     <string name="pref_section_advanced">Дополнительно</string>
     <string name="pref_debug_logging_summary">Добавить информацию об отладке в логкат</string>
     <string name="pref_debug_logging_title">Отладка</string>
-    <string name="pref_files_to_private_storage_summary">Записывать файлы в /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
-    <string name="pref_files_to_private_storage_title">Частное хранилище</string>
-
     <string name="pref_select_dir_summary">Выберите путь записи дампа</string>
     <string name="pref_select_dir_title">Выберите каталог размещения</string>
     <string name="pref_select_dir_button">Выбрать</string>
@@ -249,28 +253,17 @@
     <string name="pref_save_logcat_summary">Поделиться логкатом</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Поделиться dmesg</string>
-    <string name="pref_force_alarms_api_title">Сигналы с API</string>
-    <string name="pref_force_alarms_api_summary">Принудительное использование API для получения сигналов</string>
-    <string name="pref_force_kwl_api_title">Вэйклоки ядра с API</string>
-    <string name="pref_force_kwl_api_summary">Принудительное использование API для получения вэйклоков ядра</string>
-    <string name="pref_force_network_api_title">Статистика сети с API</string>
-    <string name="pref_force_network_api_summary">Принудительное использование API для получения статистики сети</string>
     <string name="pref_screen_permissions_title">Разрешения приложения</string>
     <string name="pref_screen_permissions_summary">Проверьте необходимые разрешения</string>
     <string name="pref_screen_import_export_title">Импорт/экспорт</string>
     <string name="pref_screen_import_export_summary">Импорт и экспорт настроек</string>
-        
     <string name="pref_app_analytics_title">Аналитика</string>
     <string name="pref_app_analytics_summary">Помогите улучшить приложение: разрешите аналитику</string>
 
 
-    <string name="pref_section_settings">Настройки</string>
+    <string name="pref_section_settings">Разное</string>
     <string name="pref_screen_widgets_title">Виджеты</string>
     <string name="pref_screen_legacy_widgets_title">Старые виджеты</string>
-    <string name="widget_refresh_freq_title">Частота обновления</string>
-    <string name="widget_refresh_freq_summary">Установить период обновления виджетов (постоянное обновление при включении экрана)</string>
-    <string name="widget_refresh_on_screen_on_title">Обновление при вкл экрана</string>
-    <string name="widget_refresh_on_screen_on_summary">Обновлять при включении экрана</string>
     <string name="widget_default_stat_title">Статистика по умолчанию при открытии</string>
     <string name="widget_default_stat_summary">Установить статистику, которую открывает виджет</string>
     <string name="widget_show_stat_type_title">Показать заголовок</string>
@@ -296,7 +289,7 @@
 	
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Устройство подключено к ЗУ: нет статистики</string>
-    <string name="NO_ROOT_ERR">Для данной статистики требуется разрешение рут</string>
+<!--    <string name="NO_ROOT_ERR">Для данной статистики необходим рут-доступ</string> -->
     <string name="NO_PERM_ERR">Для данной статистики требуется разрешение BATTERY_STATS</string>
     <string name="NO_PERM_INFO">Попытка предоставления разрешений без системного приложения</string>
     <string name="NO_REF_ERR">Метки ещё не установлено</string>
@@ -372,6 +365,5 @@
     <string-array name="multi_select_list_preference_default_value" />
     <string name="title_activity_settings">Настройки</string>
 
-    <!-- Example settings for Notifications -->
 
 </resources>
