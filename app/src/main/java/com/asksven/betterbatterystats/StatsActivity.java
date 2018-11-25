@@ -73,6 +73,7 @@ import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.appanalytics.Analytics;
+import com.asksven.betterbatterystats.appanalytics.Events;
 import com.asksven.betterbatterystats.contrib.ObservableScrollView;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
@@ -200,7 +201,44 @@ public class StatsActivity extends ActionBarListActivity
 			}
 		});
 
-		///////////////////////////////////////////////
+		//////////
+		// Analytics
+        boolean showBars = sharedPrefs.getBoolean("show_gauge", false);
+        if (showBars)
+        {
+            Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_LINEAR_GAUGES);
+        }
+        else
+        {
+            Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_ROUND_GAUGES);
+        }
+
+        try
+        {
+            PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = pinfo.versionName;
+            Analytics.getInstance(this).setVersion(version);
+
+            String edition = "";
+
+            if (pinfo.packageName.endsWith("_xdaedition"))
+            {
+                edition = "xda edition";
+            } else
+            {
+                edition = "google play edition";
+            }
+
+            Analytics.getInstance(this).setEdition(edition);
+
+        } catch (Exception e)
+        {
+            Log.e(TAG, "An error occured retrieveing the version info: " + e.getMessage());
+
+        }
+
+
+        ///////////////////////////////////////////////
 		// check if we have a new release
 		///////////////////////////////////////////////
 		// if yes do some migration (if required) and show release notes

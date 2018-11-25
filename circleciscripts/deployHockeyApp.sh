@@ -42,7 +42,7 @@ function uploadToHockeyApp {
   HOCKEYAPP_NOTES_HEADER_HTML=${HOCKEYAPP_NOTES_HEADER//$'\n'/<br>}
   HOCKEYAPP_NOTES="${HOCKEYAPP_NOTES_HEADER_HTML} ${GIT_PRETTY_COMMIT_LOG}"
 
-  HOCKEYAPP_EXPORT_APK_PATH=`find ./app/build/outputs/apk -name betterbatterystats_xda*.apk`
+  HOCKEYAPP_EXPORT_APK_PATH=`find ./app/build/outputs/apk -name betterbatterystats_xdaedition_debug_*.apk`
 
   curl --verbose \
        --fail \

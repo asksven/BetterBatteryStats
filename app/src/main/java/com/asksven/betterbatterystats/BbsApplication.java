@@ -74,16 +74,6 @@ public class BbsApplication extends Application
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean forceEN = settings.getBoolean("force_en", false);
 
-        boolean showBars = settings.getBoolean("show_gauge", false);
-        if (showBars)
-        {
-            Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_LINEAR_GAUGES);
-        }
-        else
-        {
-            Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_ROUND_GAUGES);
-        }
-
         Configuration config = getBaseContext().getResources().getConfiguration();
 
         Locale appLocale = null;
@@ -99,31 +89,6 @@ public class BbsApplication extends Application
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
         // set a few analytics user properties
-
-
-        try
-        {
-            PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = pinfo.versionName;
-            Analytics.getInstance(this).setVersion(version);
-
-            String edition = "";
-
-            if (pinfo.packageName.endsWith("_xdaedition"))
-            {
-                edition = "xda edition";
-            } else
-            {
-                edition = "google play edition";
-            }
-
-            Analytics.getInstance(this).setEdition(edition);
-
-        } catch (Exception e)
-        {
-            Log.e(TAG, "An error occured retrieveing the version info: " + e.getMessage());
-
-        }
     }
 
     public static Context getAppContext()
