@@ -78,12 +78,13 @@ import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.handlers.OnBootHandler;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.Tracking;
@@ -280,7 +281,7 @@ public class StatsActivity extends ActionBarListActivity
 				this.startService(serviceIntent);
 
 				// refresh widgets
-				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+				Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
 				this.sendBroadcast(intentRefreshWidgets);
 
 			}
@@ -566,7 +567,16 @@ public class StatsActivity extends ActionBarListActivity
             {
                 this.startService(i);
             }
-		}    				
+		}
+
+		// check if the widget refresh service is running and start it otherwise
+		if (Build.VERSION.SDK_INT >= 23)
+        {
+            if (!OnBootHandler.isAppWidgetsJobOn(this))
+            {
+                OnBootHandler.scheduleAppWidgetsJob(this);
+            }
+        }
 
 		// make sure to create a valid "current" stat if none exists
 		// or if prefs re set to auto refresh

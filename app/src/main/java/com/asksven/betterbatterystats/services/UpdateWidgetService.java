@@ -299,13 +299,11 @@ public class UpdateWidgetService extends JobIntentService
                 }
             }
         }
+        else
+        {
+            Log.i(TAG, "allWidgetIds was null");
+        }
         Log.i(TAG, "Completed service @ " + SystemClock.elapsedRealtime());
     }
 
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-
-    }
 }

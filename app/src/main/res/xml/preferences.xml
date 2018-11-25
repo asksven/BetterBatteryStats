@@ -170,6 +170,7 @@
                 robobunny:unitsLeft=""
                 robobunny:unitsRight="%" />
 
+            <!--
             <PreferenceScreen android:title="@string/pref_screen_legacy_widgets_title" >
                 <CheckBoxPreference
                     android:defaultValue="true"
@@ -260,6 +261,7 @@
                         robobunny:unitsRight="%" />
                 </PreferenceCategory>
             </PreferenceScreen>
+            -->
         </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_section_misc" >
 

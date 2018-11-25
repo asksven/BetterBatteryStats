@@ -20,13 +20,12 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.asksven.betterbatterystats.LogSettings;
-import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.handlers.OnBootHandler;
-import com.asksven.betterbatterystats.widgetproviders.BbsWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 
 /**
@@ -52,35 +51,40 @@ public class AppWidgetJobService extends JobService
 //        getApplicationContext().startService(serviceSmallWidget);
 //        getApplicationContext().startService(serviceWidget);
 
+        Context appContext = this.getApplicationContext();
 
         // Build the intent to call the services
         Log.i(TAG, "starting AppWidget update job");
 
-        Intent intentWidget = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
-        int idsWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(this, UpdateWidgetService.class));
+        Log.i(TAG, "re-schedule job");
+        OnBootHandler.scheduleAppWidgetsJob(getApplicationContext()); // reschedule the job
+
+        Log.i(TAG, "trigger widget update");
+        Intent intentWidget = new Intent(AppWidget.WIDGET_UPDATE);
+        int idsWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(appContext, UpdateWidgetService.class));
+        Log.i(TAG, "Widget ids: " + idsWidget.toString());
         intentWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsWidget);
 
         UpdateWidgetService.enqueueWork(this, intentWidget);
 
-        Intent intentSmallWidget = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
-        int idsSmallWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(this, UpdateSmallWidgetService.class));
-        intentSmallWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsSmallWidget);
+//        Intent intentSmallWidget = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
+//        int idsSmallWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(appContext, UpdateSmallWidgetService.class));
+//        intentSmallWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsSmallWidget);
+//
+//        UpdateWidgetService.enqueueWork(this, intentSmallWidget);
+//
+//        Intent intentMediumWidget = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
+//        int idsMediumWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(appContext, UpdateMediumWidgetService.class));
+//        intentMediumWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsMediumWidget);
+//
+//        UpdateWidgetService.enqueueWork(this, intentMediumWidget);
+//
+//        Intent intentLargeWidget = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
+//        int idsLargeWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(appContext, UpdateLargeWidgetService.class));
+//        intentMediumWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsLargeWidget);
+//
+//        UpdateWidgetService.enqueueWork(this, intentMediumWidget);
 
-        UpdateWidgetService.enqueueWork(this, intentSmallWidget);
-
-        Intent intentMediumWidget = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
-        int idsMediumWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(this, UpdateMediumWidgetService.class));
-        intentMediumWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsMediumWidget);
-
-        UpdateWidgetService.enqueueWork(this, intentMediumWidget);
-
-        Intent intentLargeWidget = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
-        int idsLargeWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(this, UpdateLargeWidgetService.class));
-        intentMediumWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsLargeWidget);
-
-        UpdateWidgetService.enqueueWork(this, intentMediumWidget);
-
-        OnBootHandler.scheduleAppWidgetsJob(getApplicationContext()); // reschedule the job
         return true;
     }
 

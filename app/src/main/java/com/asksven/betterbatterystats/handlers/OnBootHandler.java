@@ -46,6 +46,7 @@ import android.util.Log;
 public class OnBootHandler extends BroadcastReceiver
 {	
 	private static final String TAG = "OnBootHandler";
+	private static int JOB_ID=777;
 	
 	/* (non-Javadoc)
 	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
@@ -104,13 +105,32 @@ public class OnBootHandler extends BroadcastReceiver
     public static void scheduleAppWidgetsJob(Context context)
     {
         ComponentName serviceComponent = new ComponentName(context, AppWidgetJobService.class);
-        JobInfo.Builder builder = new JobInfo.Builder(0, serviceComponent);
-        builder.setMinimumLatency(10 * 60 * 1000); // wait at least
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceComponent);
+        builder.setMinimumLatency(5 * 60 * 1000); // wait at least
         builder.setOverrideDeadline(5 * 60 * 1000); // maximum delay
         //builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
         //builder.setRequiresDeviceIdle(true); // device should be idle
         //builder.setRequiresCharging(false); // we don't care if the device is charging or not
         JobScheduler jobScheduler = context.getSystemService(JobScheduler.class);
         jobScheduler.schedule(builder.build());
+    }
+
+    @TargetApi(23)
+    public static boolean isAppWidgetsJobOn(Context context)
+    {
+        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+
+        boolean hasBeenScheduled = false;
+
+        for (JobInfo jobInfo : scheduler.getAllPendingJobs())
+        {
+            if (jobInfo.getId() == JOB_ID)
+            {
+                hasBeenScheduled = true;
+                break;
+            }
+        }
+
+        return hasBeenScheduled;
     }
 }

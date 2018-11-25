@@ -26,7 +26,7 @@ import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WatchdogProcessingService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
 import com.asksven.betterbatterystats.services.WriteScreenOnReferenceService;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 /**
  * @author sven
@@ -67,7 +67,7 @@ public class ScreenEventHandler extends BroadcastReceiver
 			}
 
 			// Build the intent to update widgets
-			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+			Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
 			context.sendBroadcast(intentRefreshWidgets);
 			
 		}

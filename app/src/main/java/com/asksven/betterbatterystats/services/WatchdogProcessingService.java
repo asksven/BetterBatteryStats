@@ -38,7 +38,7 @@ import com.asksven.betterbatterystats.appanalytics.Events;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 import java.util.ArrayList;
 
@@ -193,7 +193,7 @@ public class WatchdogProcessingService extends IntentService
 				}
 			
 				// Build the intent to update the widget
-				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+				Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
 				this.sendBroadcast(intentRefreshWidgets);
 			}
 			
