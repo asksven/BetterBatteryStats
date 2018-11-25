@@ -83,7 +83,7 @@ public class WriteScreenOnReferenceService extends IntentService
 	@Override
 	public void onDestroy()
 	{
-		Log.e(TAG, "Destroyed at" + DateUtils.now());
+		Log.i(TAG, "Destroyed at" + DateUtils.now());
 		Wakelock.releaseWakelock();
 	}
 }

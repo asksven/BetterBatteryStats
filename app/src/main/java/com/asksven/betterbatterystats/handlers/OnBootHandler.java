@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,20 @@ package com.asksven.betterbatterystats.handlers;
 
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.services.AppWidgetJobService;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WriteBootReferenceService;
+import com.asksven.betterbatterystats.services.WriteBootReferenceServicePre21;
 
+import android.annotation.TargetApi;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -56,18 +63,28 @@ public class OnBootHandler extends BroadcastReceiver
 		
 		
 		// start service to persist boot reference
-		Intent serviceIntent = new Intent(context, WriteBootReferenceService.class);
-		context.startService(serviceIntent);
-
-		
-		boolean activeMonitoring	= sharedPrefs.getBoolean("ref_for_screen_off", false);
-		if (activeMonitoring)
+		if (Build.VERSION.SDK_INT < 23)
 		{
-			// start the service
-			Intent i = new Intent(context, EventWatcherService.class);
-	        context.startService(i);
+			Intent serviceIntent = new Intent(context, WriteBootReferenceServicePre21.class);
+			context.startService(serviceIntent);
 		}
-		
+		else
+		{
+			WriteBootReferenceService.scheduleJob(context);
+		}
+
+        // start the service
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            context.startForegroundService(new Intent(context, EventWatcherService.class));
+        }
+        else
+        {
+            Intent i = new Intent(context, EventWatcherService.class);
+            context.startService(i);
+        }
+
+
 		// if active monitoring enabled schedule the next alarm 
 		if (sharedPrefs.getBoolean("active_mon_enabled", false))
 		{
@@ -75,5 +92,25 @@ public class OnBootHandler extends BroadcastReceiver
 			StatsProvider.scheduleActiveMonAlarm(context);
 		}
 
+		if (Build.VERSION.SDK_INT >= 23)
+        {
+            // start the job refreshing widgets
+            OnBootHandler.scheduleAppWidgetsJob(context);
+        }
 	}
+
+    // schedule the start of the service every 10 to 15 minutes
+    @TargetApi(23)
+    public static void scheduleAppWidgetsJob(Context context)
+    {
+        ComponentName serviceComponent = new ComponentName(context, AppWidgetJobService.class);
+        JobInfo.Builder builder = new JobInfo.Builder(0, serviceComponent);
+        builder.setMinimumLatency(10 * 60 * 1000); // wait at least
+        builder.setOverrideDeadline(5 * 60 * 1000); // maximum delay
+        //builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
+        //builder.setRequiresDeviceIdle(true); // device should be idle
+        //builder.setRequiresCharging(false); // we don't care if the device is charging or not
+        JobScheduler jobScheduler = context.getSystemService(JobScheduler.class);
+        jobScheduler.schedule(builder.build());
+    }
 }

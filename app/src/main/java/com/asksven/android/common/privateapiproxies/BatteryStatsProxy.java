@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1406,11 +1406,13 @@ public class BatteryStatsProxy
 								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
 					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
 					        	ret += value;
-					        	
-					        	Log.i("BBS.Sensors",
-					        			"UID=" + uid 
-					        			+ ", Sensor=" +decodeSensor(handle) + " (" + handle + ") " 
-					        					+ ", time=" + DateUtils.formatDuration((long)value/1000) + " (" + value + ")");
+                                if (CommonLogSettings.DEBUG)
+                                {
+                                    Log.i("BBS.Sensors",
+                                            "UID=" + uid
+                                                    + ", Sensor=" + decodeSensor(handle) + " (" + handle + ") "
+                                                    + ", time=" + DateUtils.formatDuration((long) value / 1000) + " (" + value + ")");
+                                }
 						    }
 						}
 	        		}
@@ -1454,11 +1456,13 @@ public class BatteryStatsProxy
 								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
 					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
 					        	ret += value;
-					        	
-					        	Log.i("BBS.Sensors",
-					        			"UID=" + uid 
-					        			+ ", Sensor=" +decodeSensor(handle) + " (" + handle + ") " 
-					        					+ ", time=" + DateUtils.formatDuration((long)value/1000) + " (" + value + ")");
+                                if (CommonLogSettings.DEBUG)
+                                {
+                                    Log.i("BBS.Sensors",
+                                            "UID=" + uid
+                                                    + ", Sensor=" + decodeSensor(handle) + " (" + handle + ") "
+                                                    + ", time=" + DateUtils.formatDuration((long) value / 1000) + " (" + value + ")");
+                                }
 						    }
 						}
 	        			
@@ -1556,12 +1560,13 @@ public class BatteryStatsProxy
 								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
 					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
 					        	uidTotalSensorTime += value;
-					        	
-					        	Log.i("BBS.Sensors",
-					        			"UID=" + uid 
-					        			+ ", Sensor=" +decodeSensor(handle) + " (" + handle + ") " 
-					        					+ ", time=" + DateUtils.formatDuration((long)value/1000) + " (" + value + ")");
-					        	
+                                if (CommonLogSettings.DEBUG)
+                                {
+                                    Log.i("BBS.Sensors",
+                                            "UID=" + uid
+                                                    + ", Sensor=" + decodeSensor(handle) + " (" + handle + ") "
+                                                    + ", time=" + DateUtils.formatDuration((long) value / 1000) + " (" + value + ")");
+                                }
 					        	Sensor lookup = findSensor(context, handle);
 					        	
 					        	String sensorText = "";
@@ -1640,12 +1645,13 @@ public class BatteryStatsProxy
 								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
 					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
 					        	uidTotalSensorTime += value;
-					        	
-					        	Log.i("BBS.Sensors",
-					        			"UID=" + uid 
-					        			+ ", Sensor=" +decodeSensor(handle) + " (" + handle + ") " 
-					        					+ ", time=" + DateUtils.formatDuration((long)value/1000) + " (" + value + ")");
-					        	
+                                if (CommonLogSettings.DEBUG)
+                                {
+                                    Log.i("BBS.Sensors",
+                                            "UID=" + uid
+                                                    + ", Sensor=" + decodeSensor(handle) + " (" + handle + ") "
+                                                    + ", time=" + DateUtils.formatDuration((long) value / 1000) + " (" + value + ")");
+                                }
 					        	Sensor lookup = findSensor(context, handle);
 					        	
 					        	String sensorText = "";
@@ -1769,14 +1775,17 @@ public class BatteryStatsProxy
 				retVal = sensor;
 				return retVal;
 			}
-    		if (Build.VERSION.SDK_INT >= 21)
-    		{
-    			Log.i(TAG, "name=" + sensor.getName() + ", handle=" + handle+ ", wakeup=" + sensor.isWakeUpSensor() + ", type=" + sensor.getStringType());
-    		}
-    		else
-    		{
-    			Log.i(TAG, "name=" + sensor.getName()  + ", handle=" + handle);
-    		}
+
+			if (CommonLogSettings.DEBUG)
+            {
+                if (Build.VERSION.SDK_INT >= 21)
+                {
+                    Log.i(TAG, "name=" + sensor.getName() + ", handle=" + handle + ", wakeup=" + sensor.isWakeUpSensor() + ", type=" + sensor.getStringType());
+                } else
+                {
+                    Log.i(TAG, "name=" + sensor.getName() + ", handle=" + handle);
+                }
+            }
     	}
     	
     	return null;

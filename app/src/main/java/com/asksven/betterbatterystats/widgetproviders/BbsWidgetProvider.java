@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-12 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -42,36 +43,38 @@ public class BbsWidgetProvider extends AppWidgetProvider
 	
 	protected void setAlarm(Context context)
 	{
-		// set the alarm for next round
-		//prepare Alarm Service to trigger Widget
-		Intent intent = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
-		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-				1234567, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    // we use this method only for pre SDK23 phones. For post SDK23 we us the JobScheduler
+        if (Build.VERSION.SDK_INT < 23)
+        {
+            // set the alarm for next round
+            //prepare Alarm Service to trigger Widget
+            Intent intent = new Intent(BbsWidgetProvider.WIDGET_UPDATE);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                    1234567, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		int freqMinutes = Integer.valueOf(sharedPrefs.getString("widget_refresh_freq", "30"));
-		
-		AlarmManager alarmManager = (AlarmManager) context
-				.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.cancel(pendingIntent);
-		if (freqMinutes != 0)
-		{
-			if (LogSettings.DEBUG)
-			{
-				Log.i(TAG, "It is now " + DateUtils.now() + ", Scheduling alarm in " + freqMinutes + " minutes");
-			}
-			alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
-					pendingIntent);
-		}
-		else
-		{
-			if (LogSettings.DEBUG)
-			{
-				Log.i(TAG, "No alarm scheduled, freq is 0");
-			}
-		}
-		
+            SharedPreferences sharedPrefs = PreferenceManager
+                    .getDefaultSharedPreferences(context);
+            int freqMinutes = 30; //Integer.valueOf(sharedPrefs.getString("widget_refresh_freq", "30"));
+
+            AlarmManager alarmManager = (AlarmManager) context
+                    .getSystemService(Context.ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);
+            if (freqMinutes != 0)
+            {
+                if (LogSettings.DEBUG)
+                {
+                    Log.i(TAG, "It is now " + DateUtils.now() + ", Scheduling alarm in " + freqMinutes + " minutes");
+                }
+                alarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + (freqMinutes * 60 * 1000),
+                        pendingIntent);
+            } else
+            {
+                if (LogSettings.DEBUG)
+                {
+                    Log.i(TAG, "No alarm scheduled, freq is 0");
+                }
+            }
+        }
 	}
 	
 	protected void removeAlarm(Context context)

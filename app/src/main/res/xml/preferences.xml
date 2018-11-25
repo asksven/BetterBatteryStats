@@ -133,23 +133,9 @@
             android:title="@string/pref_auto_refresh_title" />
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_section_settings" >
 
-        <PreferenceScreen android:title="@string/pref_screen_widgets_title" >
-            <ListPreference
-                android:defaultValue="30"
-                android:entries="@array/widgetUpdateFreqLabels"
-                android:entryValues="@array/widgetUpdateFreqValues"
-                android:key="widget_refresh_freq"
-                android:summary="@string/widget_refresh_freq_summary"
-                android:title="@string/widget_refresh_freq_title" />
+    <PreferenceCategory android:title="@string/pref_screen_widgets_title" >
 
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:enabled="true"
-                android:key="widget_refresh_on_screen_on"
-                android:summary="@string/widget_refresh_on_screen_on_summary"
-                android:title="@string/widget_refresh_on_screen_on_title" />
 
             <ListPreference
                 android:defaultValue="0"
@@ -274,7 +260,9 @@
                         robobunny:unitsRight="%" />
                 </PreferenceCategory>
             </PreferenceScreen>
-        </PreferenceScreen>
+        </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_section_misc" >
+
         <PreferenceScreen android:title="@string/pref_section_watchdog" >
             <CheckBoxPreference
                 android:defaultValue="true"

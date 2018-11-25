@@ -42,7 +42,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -364,15 +364,6 @@ public class StatsActivity extends ActionBarListActivity
 			
 			if (LogSettings.DEBUG)
 				Log.i(TAG, "onCreate state from extra: refFrom=" + m_refFromName + " refTo=" + m_refToName);
-			
-			boolean bCalledFromNotification = extras.getBoolean(StatsActivity.FROM_NOTIFICATION, false);
-			
-			// Clear the notifications that was clicked to call the activity
-			if (bCalledFromNotification)
-			{
-		    	NotificationManager nM = (NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE);
-		    	nM.cancel(EventWatcherService.NOTIFICATION_ID);
-			}
 		}
         
 		// Spinner for selecting the stat

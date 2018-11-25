@@ -665,11 +665,8 @@ public class StatsProvider
 		if (!SysUtils.hasBatteryStatsPermission(ctx))
 		{
 			// stop straight away of root features are disabled
-			if (!SysUtils.hasBatteryStatsPermission(ctx))
-			{
-				myStats.add(new Notification(ctx.getString(R.string.NO_ROOT_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_PERM_ERR)));
 				return myStats;
-			}
 		}
 		
 		if ((refFrom == null) || (refTo == null))
@@ -2706,7 +2703,6 @@ public class StatsProvider
 
 			// After that we go on and try to write the rest. If this part
 			// fails at least there will be a partial ref saved
-			Log.i(TAG, "Trace: Calling root operations" + DateUtils.now());
 			try
 			{
 				refs.m_refNetworkStats = getCurrentNetworkUsageStatList(bFilterStats);

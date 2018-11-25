@@ -37,7 +37,7 @@ import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
  */
 public class WriteScreenOffReferenceService extends IntentService
 {
-	private static final String TAG = "WriteScreenOffRefService";
+	private static final String TAG = "WriteScreenOffRefServ";
 
 	public WriteScreenOffReferenceService()
 	{
@@ -53,9 +53,6 @@ public class WriteScreenOffReferenceService extends IntentService
 		try
 		{
 			
-			// Clear any notifications taht may still be shown as the reference in going to be overwritten
-	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
-	    	nM.cancel(EventWatcherService.NOTIFICATION_ID);
 
 			// Store the "since screen off" ref
 			Wakelock.aquireWakelock(this);

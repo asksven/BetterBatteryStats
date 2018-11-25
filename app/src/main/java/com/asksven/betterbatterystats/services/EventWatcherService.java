@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@ package com.asksven.betterbatterystats.services;
 
 import android.app.ActivityManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -26,8 +27,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.asksven.betterbatterystats.R;
@@ -49,6 +51,12 @@ public class EventWatcherService extends Service
 
     BroadcastReceiver mReceiver = null;
     BroadcastReceiver mReceiver2 = null;
+
+    String CHANNEL_ID = "bbs_channel_01";
+
+    // The user-visible description of the channel.
+    CharSequence CHANNEL_NAME = "BBS";
+    String CHANNEL_DESCRIPTION = "BBS Notifications";
 
 
 	// This is the object that receives interactions from clients.  See
@@ -90,16 +98,38 @@ public class EventWatcherService extends Service
         mReceiver2 = new OnUnplugHandler();
         registerReceiver(mReceiver2, filter2);
 
+        if (Build.VERSION.SDK_INT >= 26)
+        {
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            CHANNEL_NAME = getString(R.string.channel_name);
+            CHANNEL_DESCRIPTION = getString(R.string.channel_description);
+
+
+
+            int importance = NotificationManager.IMPORTANCE_LOW;
+
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
+
+            // Configure the notification channel.
+            mChannel.setDescription(CHANNEL_DESCRIPTION);
+            mChannel.enableLights(true);
+
+            mChannel.enableVibration(false);
+
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
+
         Intent notificationIntent = new Intent(this, StatsActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0);
 
-        Notification notification = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_stat_notification)
                 .setContentTitle(getString(R.string.plugin_name))
                 .setContentText(getString(R.string.foreground_service_text))
                 .setPriority(NotificationManager.IMPORTANCE_MIN)
+                .setChannelId(CHANNEL_ID)
                 .setContentIntent(pendingIntent).build();
 
         startForeground(FOREGROUND_ID, notification);
@@ -124,30 +154,42 @@ public class EventWatcherService extends Service
     /** 
      * Called when service is started
      */
-//    public int onStartCommand(Intent intent, int flags, int startId)
-//    {
-//        Log.i(getClass().getSimpleName(), "Received start id " + startId + ": " + intent);
-//
-//        // We want this service to continue running until it is explicitly
-//        // stopped, so return sticky.
-//
-//        return Service.START_STICKY;
-//    }
+    public int onStartCommand(Intent intent, int flags, int startId)
+    {
+        Log.i(getClass().getSimpleName(), "Received start id " + startId + ": " + intent);
+
+        // We want this service to continue running until it is explicitly
+        // stopped, so return sticky.
+
+        return Service.START_STICKY;
+    }
 
     
 	public static boolean isServiceRunning(Context context)
 	{
 		if (context == null) return false;
-		
-	    ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
-	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
-	    {
-	        if (EventWatcherService.SERVICE_NAME.equals(service.service.getClassName()))
-	        {
-	            return true;
-	        }
-	    }
-	    return false;
+
+		boolean ret = false;
+
+		try
+        {
+
+            ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+            for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+            {
+                if (EventWatcherService.SERVICE_NAME.equals(service.service.getClassName()))
+                {
+                    ret = true;
+                }
+            }
+            ret = false;
+        }
+        catch (NullPointerException e)
+        {
+            ret = false;
+        }
+
+        return ret;
 	}
 
 
