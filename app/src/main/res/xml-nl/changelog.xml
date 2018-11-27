@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release version="2.5" versioncode="95">
+        <change>Scherm aan/uit referenties worden altijd opgeslagen</change>
+        <change>Event management herontworpen om compatibel te zijn met SDK26</change>
+        <change>Verwijzing verwerking verplaatst naar een voorgrond service om te verhinderen dat Android's batterij besparing de evenementen stilt die nodig zijn voor BBS om goed te werken</change>
+        <change>Voorkeuren afgevlakt</change>
+        <change>Legacy widgets verwijderd</change>
+        <change>Uitgeplugde referentie ontbrekend met SDK26 opgelost</change>
+        <change>App vraagt de gebruiker nu om de toestemmingen te bevestigen</change>
+        <change>Aantal toestemmingen die toegestaan moeten worden via adb verminderd</change>
+    </release>
+
+</changelog>

@@ -46,6 +46,7 @@ public class CreditsAdapter extends ArrayAdapter<String>
         credits.add(new Credit(context.getString(R.string.label_about_translation5), "", ""));
         credits.add(new Credit(context.getString(R.string.label_about_translation6), "", ""));
         credits.add(new Credit(context.getString(R.string.label_about_translation7), "", ""));
+        credits.add(new Credit(context.getString(R.string.label_about_translation8), "", ""));
 
         // libs
         credits.add(new Credit("libsuperuser", "Chainfire", "Apache 2.0"));

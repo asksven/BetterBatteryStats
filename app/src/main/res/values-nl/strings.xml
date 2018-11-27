@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="perm_rationale_READ_PHONE_STATE">Deze toestemming is vereist om te detecteren wanneer de telefoon werd in- en uitgeschakeld.</string>
+    <string name="perm_rationale_RECEIVE_BOOT_COMPLETED">Deze toestemming is vereist om \"on boot\" statistieken te verzamelen.</string>
+    <string name="perm_rationale_INTERNET">Deze toestemming is vereist voor analytische doeleinden.</string>
+    <string name="perm_rationale_ACCESS_NETWORK_STATE">Deze toestemming is vereist om netwerk statistieken te verbinden.</string>
+    <string name="perm_rationale_ACCESS_WIFI_STATE">Deze toestemming is vereist om Wifi statistieken te kunnen lezen.</string>
+    <string name="perm_rationale_PACKAGE_USAGE_STATS">Deze toestemming is vereist om pakket statistieken te kunnen lezen.</string>
+    <string name="perm_rationale_APPOPS_USAGE_STATS">Deze toestemming is vereist om alarm statistieken te kunnen lezen. Gelieve dit toe te kennen in het volgend dialoogvenster.</string>
+
+    <string name="channel_name">BBS</string>
+    <string name="plugin_name">Better Battery Stats</string>
+    <string name="channel_description">BBS Meldingen</string>
+
+    <string name="foreground_service_text">Evenementverwerking</string>
+    <string name="message_hint">Geplande Toast</string>
+    <string name="message_hint_saveref">Bewaar een aangepaste verwijzing</string>
+    <string name="message_hint_savestat">Bewaar een tekst dumpbestand</string>
+    <string name="message_hint_savestatjson">Bewaar een JSON dumpbestand</string>
+    <string name="message_hint_sinceref">Dump vanaf laatste verwijzing</string>
+    <string name="message_hint_stat_type">Statistiek type</string>
+    <string name="message_enable_root">Root functionaliteiten inschakelen gaat er van uit dat uw telefoon geroot is.\nZorg er alstublieft voor dat su rechten heeft op Alarm en Netwerk statistieken.\nIndien deze rechten niet actief blijven steek het op de su app, niet op BBS.\nVerder?</string>
+    <string name="message_enable_active_mon">Actieve monitoring resulteert in een overhead van wakeups en verwerking and moet met zorg gebruikt worden.\nVerder?</string>
+    <string name="message_first_start">Eerste start. \'niet aangesloten\' aanmaken</string>
+    <string name="message_copied_to_clipboard">%s werd naar het klembord gekopieerd</string>
+    <string name="message_no_hist_froyo">Jammer genoeg ondersteunt Froyo historische data niet</string>
+    <string name="message_no_appops">AppOps bestaat niet op uw ROM</string>
+    <string name="message_external_storage_write_error">Externe opslag kan niet geschreven worden</string>
+    <string name="message_error_writing_dumpfile">Er trad een fout op bij het dumpen van de geschiedenis</string>
+    <string name="message_identical_references">Er trad een fout op. Beide statistieken zijn identiek (%1$1, %2$s)</string>
+    <string name="message_watchdog_processing">BBS: Watchdog verwerking...</string>
+    <string name="message_watchdog_awake_alert">BBS: Wakker melding: %1$d%% wakker</string>
+    <string name="message_computing">Verwerken...</string>
+    <string name="message_awake_alert">Wakker alarm</string>
+    <string name="message_awake_info">%1$d%% wakker terwijl het scherm uit stond</string>
+    <string name="message_no_fileman_error">Installeer alstublieft OI FileManager</string>
+    <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">Welkom bij %s</string>
+    <string name="app_pname">com.asksven.betterbatterystats</string>
+    <string name="label_button_remind">Herinner me later</string>
+    <string name="label_button_rate">Beoordeel</string>
+    <string name="label_button_no_thanks">Nee, bedankt</string>
+    <string name="text_dialog_rate">Indien je geniet van het gebruik van %s, gelieve een moment te nemen om het te beoordelen. Bedankt voor je steun!</string>
+    <string name="label_stat_type">Statistiektype</string>
+    <string name="label_since">Sinds</string>
+    <string name="label_fallback_stat_type">Fallback statistiektype</string>
+    <string name="label_title">Titel</string>
+    <string name="label_author">Auteur</string>
+    <string name="label_license">Licentie</string>
+    <string name="label_import_export_prefs">Importeren/Exporteren van Voorkeuren van/naar %s</string>
+    <string name="label_import_prefs">Importere</string>
+    <string name="label_export_prefs">Exporteren</string>
+
+    <string name="label_hist_time">Tijd</string>
+    <string name="label_hist_battery">Bat</string>
+    <string name="label_hist_power">Opl</string>
+    <string name="label_hist_screen">Sch</string>
+    <string name="label_hist_wakelock">WL</string>
+    <string name="label_hist_wifi">Wifi</string>
+    <string name="label_hist_gps">GPS</string>
+    <string name="label_hist_bluetooth">BT</string>
+    <string name="label_hist_incall">Gesp</string>
+    <string name="label_hist_scanning">Scan</string>
+
+    <string name="label_graph_battery">Batterij</string>
+    <string name="label_graph_power">Opladen</string>
+    <string name="label_graph_screen">Scherm aan</string>
+    <string name="label_graph_wakelock">Wakelock</string>
+    <string name="label_graph_wifi">Wifi</string>
+    <string name="label_graph_gps">GPS</string>
+    <string name="label_graph_bluetooth">Bluetooth</string>
+    <string name="label_graph_incall">In gesprek</string>
+    <string name="label_graph_scanning">Scannen</string>
+
+    <string name="label_widget_deep_sleep">Deep Sleep</string>
+    <string name="label_widget_since">Sinds</string>
+    <string name="label_widget_awake">Wakker</string>
+    <string name="label_widget_screen_on">Scherm aan</string>
+    <string name="label_widget_kernel_wakelock">KWL</string>
+    <string name="label_widget_partial_wakelock">PWL</string>
+    <string name="label_widget_deep_sleep_short">DS</string>
+    <string name="label_widget_awake_short">Aw</string>
+    <string name="label_widget_screen_on_short">Sch</string>
+    <string name="label_widget_kernel_wakelock_short">KWL</string>
+    <string name="label_widget_partial_wakelock_short">PWL</string>
+
+
+    <string name="label_battery">Batterij</string>
+    <string name="label_name">Naam</string>
+    <string name="label_description">Omschrijving</string>
+    <string name="label_perm_type">Toestemming</string>
+    <string name="label_perm_normal">Normaal</string>
+    <string name="label_perm_system">Syteem</string>
+    <string name="label_perm_dangerous">Gevaarlijk</string>
+
+    <string name="label_package_name">Pakket Naam</string>
+    <string name="label_on_on_android_4_3plus">Enkel beschikbaar op Android 4.3+</string>
+
+    <string name="label_permisions_dangerous">Toestemming gemarkeerd als \'gevaarlijk\'</string>
+    <string name="label_permisions_system">Toestemming voor \'systeem apps\'</string>
+    <string name="label_permisions_normal">Normale toestemming</string>
+
+    <string name="pref_dashclock_default_stat_type_summary">Zet het stat type om te tonen in dashclock</string>
+    <string name="pref_dashclock_fallback_stat_type_summary">Zet het terugval stat type om te tonen in dashclock indien het primaire geen referentie heeft</string>
+    <string name="label_awake_abbrev">wa.</string>
+    <string name="label_button_share">Deel naar...</string>
+    <string name="label_button_save">Opslaan</string>
+    <string name="label_button_cancel">Annuleren</string>
+    <string name="label_button_application_settings">Applicatie Instellingen</string>
+    <string name="label_button_appops">App Ops</string>
+
+
+    <string name="title_share_dialog">Deel data als...</string>
+    <string name="share_dialog_edit_title">Notitie</string>
+    <string name="text_since">Sinds</string>
+    <string name="label_preferences">Instellingen</string>
+    <string name="label_packageinfo">Pakket Info</string>
+    <string name="label_graphs">Grafieken</string>
+    <string name="label_moregraphs">Meer Grafieken</string>
+    <string name="label_series">Geschiedenis</string>
+    <string name="label_raw_stats">Rauwe Statistieken</string>
+    <string name="label_about">Over</string>
+    <string name="label_credits">Credits</string>
+    <string name="label_help">Help</string>
+    <string name="label_howto">How-To</string>
+    <string name="label_system_app">Systeem App</string>
+    <string name="label_import_export">Importeren/Exporteren</string>
+    <string name="label_refresh">Verversen</string>
+    <string name="label_share">Delen</string>
+    <string name="label_custom_ref">Set Aangepaste Ref.</string>
+    <string name="label_release_notes">Release Notes</string>
+    <string name="label_legend">Legende</string>
+    <string name="label_button_yes">Ja</string>
+    <string name="label_button_no">Nee</string>
+    <string name="label_button_ok">OK</string>
+    <string name="label_tab_package">Pakket</string>
+    <string name="label_tab_permissions">Toestemmingen</string>
+    <string name="label_tab_services">Services</string>
+    <string name="label_discard_changes">Wijzigingen verwerpen</string>
+
+
+    <!-- About screen -->
+    <string name="label_about_author">Door asksven</string>
+    <string name="label_about_courtesy">Graphics door Javi</string>
+    <string name="label_about_translations">Vertalingen</string>
+    <string name="label_about_translation1">Russisch door gaich @ xda</string>
+    <string name="label_about_translation2">Spaans door @vldesco</string>
+    <string name="label_about_translation3">Italiaans door code010101 @ xda</string>
+    <string name="label_about_translation4">Croatisch door seky2205 @ xda</string>
+    <string name="label_about_translation5">Frans door xavihernandez @ xda</string>
+    <string name="label_about_translation6">Duits door Minty123 @ xda</string>
+    <string name="label_about_translation7">Braziliaans Portugees door @caiorrs</string>
+    <string name="label_about_translation8">Nederlands door @Matthias-vdE</string>
+    <string name="label_about_follow">Volg me op Twitter</string>
+    <string name="label_about_rate">Beoordeel / Recenseer op Google Play</string>
+    <string name="label_about_xda">Thread op XDA</string>
+
+    <!-- Preferences -->
+    <string name="label_theme_dark">Donker</string>
+    <string name="label_theme_light">Licht</string>
+    <string name="pref_theme_title">Thema</string>
+    <string name="pref_theme_summary">Wissel themas</string>
+
+    <!-- System app activity -->
+    <string name="expl_system_app">Indien uw telefoon geroot is zal BSS automatisch deze toestemmingen toekennen.\nVoor niet-geroote toestellen kunnen de toestemmingen toegekend worden via ADB.</string>
+    <string name="expl_adb_gplay" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.BATTERY_STATS\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="expl_adb_xda" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="info_succeeded">Succes</string>
+    <string name="info_root_required">Om deze functionaliteit te kunnen gebruiken met de app root toestemming hebben</string>
+    <string name="info_unknown_state">Fout: kon niet oplossen wat veranderd is</string>
+    <string name="info_service_connection_error">BatteryInfo Service kon niet gecontacteerd worden</string>
+    <string name="info_loading_refs_error">Geselecteerde \'van\' of \'naar\' referentie kon niet geladen worden. Gelieve te verversen</string>
+    <string name="info_unknown_stat_error">Een onbekende fout trad op bij het ophalen van de statistieken. Gelieve uw logcat na te kijken</string>
+    <string name="info_state_recovery_error">Een fout trad op bij het ophalen van de vorige staat</string>
+    <string name="info_pref_export_success">Voorkeuren werden opgeslagen naar %s</string>
+    <string name="info_pref_import_success">Voorkeuren werden geïmporteerd van %s</string>
+    <string name="info_pref_import_export_failed">De handeling is mislukt</string>
+    <string name="info_files_written">Bestanden werden geschreven</string>
+    <string name="info_files_write_error">Een fout trad op</string>
+
+    <string name="info_deleting_refs">Verwijzingen verwijderen en opnieuw aanmaken</string>
+    <string name="info_fallback_to_boot">Terugvallen naar \'Sinds Opstart\'</string>
+    <string name="info_fallback_to_default">Terugvallen naar standaardverwijzing</string>
+    <string name="label_granted">toegestaan</string>
+    <string name="label_not_granted">niet toegestaan</string>
+    <string name="label_not_needed">niet nodig</string>
+
+    <!-- Preferences labels and texts -->
+    <string name="pref_section_display">Weergave</string>
+    <string name="pref_filter_data_title">Filter statistieken</string>
+    <string name="pref_filter_data_summary">Het filteren van data naar niet-nul waarden aanzetten</string>
+    <string name="pref_show_bat_details_title">Batterij Details</string>
+    <string name="pref_show_bat_details_summary">Toon batterij van/naar prc. op scherm</string>
+    <string name="pref_show_gauge_title">Toon balken</string>
+    <string name="pref_show_gauge_summary">Toon balken in plaats van taart diagrammen</string>
+    <string name="pref_graph_bar_height_title">Hoogte van de grafiekbalken</string>
+    <string name="pref_graph_bar_height_summary">Indien u niet-standaard dichtheden gebruikt kan u hier de hoogte van de balken aanpassen</string>
+    <string name="pref_section_customize_views">Weergaven aanpassen</string>
+    <string name="pref_show_from_to_ref_title">Van/Naar Referenties</string>
+    <string name="pref_show_from_to_ref_summary">Toon de spinners voor het selecteren van de referenties</string>
+    <string name="pref_show_other_wifi_title">Toon Wifi</string>
+    <string name="pref_show_other_wifi_summary">Toon Wifi waarden</string>
+    <string name="pref_show_other_signal_title">Toon signaal</string>
+    <string name="pref_show_other_signal_summary">Toon signaalwaarden</string>
+    <string name="pref_show_other_screen_brightness_title">Toon scherm</string>
+    <string name="pref_show_other_screen_brightness_summary">Toon schermhelderheid</string>
+    <string name="pref_show_other_connection_title">Toon connectie</string>
+    <string name="pref_show_other_connection_summary">Toon connectiewaarden</string>
+    <string name="pref_show_other_bt_title">Toon Bluetooth</string>
+    <string name="pref_show_other_bt_summary">Toon Bluetooth waarden</string>
+    <string name="pref_show_other_doze_title">Toon Doze Modus</string>
+    <string name="pref_show_other_doze_summary">Toon Doze Modus waarden</string>
+
+    <string name="pref_section_defaults">Standaarden</string>
+    <string name="pref_default_stat_title">Standaard statistieken</string>
+    <string name="pref_default_stat_summary">Stel de statistiek in die getoond moet worden bij het starten van de app</string>
+    <string name="pref_default_stat_type_title">Standaard statistiektype</string>
+    <string name="pref_default_stat_type_summary">Stel het statistiektype in dat getoond moet worden bij het starten van de app</string>
+    <string name="pref_section_watchdog">Watchdog</string>
+    <string name="pref_enable_watchdog_title">Zet aan</string>
+    <string name="pref_enable_watchdog_summary">Zet de watchdog verwerking aan</string>
+    <string name="pref_watchdog_on_unlock_title">Verwijzing bij ontgrendelen</string>
+    <string name="pref_watchdog_on_unlock_summary">Verwijzing is opgeslagen op \'ontgrendel\' (anders op \'scherm aan\')</string>
+    <string name="pref_charged_trigger_percentage_title">Minimaal percentage dat telt als opgeladen</string>
+    <string name="pref_charged_trigger_percentage_summary">Indien de batterij boven dit percentage zit wanneer de kabel is uitgetrokken, dan wordt de Sinds Opgeladen verwijzing opgeslagen</string>
+    <string name="pref_section_warnings">Waarschuwingen</string>
+    <string name="pref_watchdog_awake_threshold_title">Wakker drempel</string>
+    <string name="pref_watchdog_awake_threshold_summary">Drempen voor waarschuwing (wakker / totaal)</string>
+    <string name="pref_ref_for_screen_off_title">Duurtijd drempen [Min.]</string>
+    <string name="pref_ref_for_screen_off_summary">Scherm Uit duurtijd tot starten</string>
+    <string name="pref_section_active_mon">Actieve Monitoring</string>
+    <string name="pref_active_mon_enabled_title">Zet aan</string>
+    <string name="pref_active_mon_enabled_summary">Zet actieve monitoring aan. Waarschuwing: wees er van op de hoogte dat actieve monitoring kosten heeft met betrekking tot de batterij</string>
+    <string name="pref_active_mon_freq_title">Frequentie [Min.]</string>
+    <string name="pref_active_mon_freq_summary">Frequentie voor het opslaan van de timer verwijzingen</string>
+    <string name="pref_force_en_title">Forceer Engels</string>
+    <string name="pref_force_en_summary">Forceer BBS in het Engels (vereist herstart)</string>
+    <string name="pref_section_advanced">Geavanceerd</string>
+    <string name="pref_debug_logging_summary">Voeg debug info toe aan logcat</string>
+    <string name="pref_debug_logging_title">Debug</string>
+    <string name="pref_select_dir_summary">Selecteer naar waar de dumpfiles geschreven moeten worden</string>
+    <string name="pref_select_dir_title">Selecteer Output map</string>
+    <string name="pref_select_dir_button">Selecteer</string>
+
+    <string name="pref_developer_title">Zet aan tijdens opladen</string>
+    <string name="pref_developer_summary">Zet statistieken aan tijdens opladen (op eigen risico, de statistieken zijn hierdoor mogelijk inconsistent)</string>
+    <string name="pref_auto_refresh_title">Automatisch verversen</string>
+    <string name="pref_auto_refresh_summary">Herlaad \'huidig\' automatisch bij wisselen schermen/instellingen</string>
+    <string name="pref_section_sharing">Deelopties</string>
+    <string name="pref_save_dumpfile_title">Dumpfile</string>
+    <string name="pref_save_dumpfile_summary">Deel dumpfile</string>
+    <string name="pref_save_logcat_title">Logcat</string>
+    <string name="pref_save_logcat_summary">Deel logcat</string>
+    <string name="pref_save_dmesg_title">dmesg</string>
+    <string name="pref_save_dmesg_summary">Deel dmesg</string>
+    <string name="pref_screen_permissions_title">App toestemmingen</string>
+    <string name="pref_screen_permissions_summary">Controleer de vereiste toestemmingen</string>
+    <string name="pref_screen_import_export_title">Importeren/Exporteren</string>
+    <string name="pref_screen_import_export_summary">Voorkeuren Importeren en Exporteren</string>
+    <string name="pref_app_analytics_title">Analytics</string>
+    <string name="pref_app_analytics_summary">Help om de app te verbeteren: Sta analytics toe</string>
+
+
+    <string name="pref_section_misc">Overige</string>
+    <string name="pref_screen_widgets_title">Widgets</string>
+    <string name="pref_screen_legacy_widgets_title">Legacy Widgets</string>
+    <string name="widget_default_stat_title">Standaard statistiek om te openen</string>
+    <string name="widget_default_stat_summary">Kies de statistiek die opgeroepen wordt van de widget</string>
+    <string name="widget_show_stat_type_title">Toon Titel</string>
+    <string name="widget_show_stat_type_summary">Toon Statistiektype</string>
+    <string name="widget_fallback_stat_type_title">Terugval statistiektype</string>
+    <string name="widget_fallback_stat_type_summary">Kies het terugval statistiektype dat getoond moet worden in de widget indien het primary geen verwijzing heeft</string>
+    <string name="pref_category_widgets_2x2_and_2x1">2x2 en 2x1 Widgets</string>
+    <string name="widget_default_stat_type_title">Statistiektype</string>
+    <string name="widget_default_stat_type_summary">Kies het statistiektype dat getoond wordt in de widget</string>
+    <string name="large_widget_font_size_title">Font Grootte</string>
+    <string name="large_widget_font_size_summary">Kies de font grootte van de widget</string>
+    <string name="large_widget_show_pct_title">Toon %</string>
+    <string name="large_widget_show_pct_summary">Toon duurtijd in % van de totale tijd</string>
+    <string name="widget_opacity_title">Doorzichtigheid</string>
+    <string name="widget_opacity_summary">Pas de widget doorzichtigheid aan</string>
+    <string name="widget_bg_opacity_title">Achtergrond doorzichtigheid</string>
+    <string name="widget_bg_opacity_summary">Pas de achtergrond doorzichtigheid aan</string>
+    <string name="pref_category_widget_1x1">1x1 Widget</string>
+    <string name="small_widget_refresh_on_tap_title">Verversen bij tik</string>
+    <string name="small_widget_refresh_on_tap_summary">Tikken op de widget ververst het (indien niet ingeschakeld open het de app)</string>
+    <string name="thumbnail_size_title">Thumbnail Grootte</string>
+    <string name="medium_font_size_title">Gemiddelde Font Grootte</string>
+
+    <!-- stats error / warnings -->
+    <string name="NO_STATS_WHEN_CHARGING">Toestel is ingeplugd: geen statistieken</string>
+   <string name="NO_ROOT_ERR">Deze statistiek vereist root toestemming</string>
+    <string name="NO_PERM_ERR">Deze statistiek vereist BATTERY_STATS toestemming</string>
+    <string name="NO_PERM_INFO">Proberen om toestemming te verlenen zonder system app.</string>
+    <string name="NO_REF_ERR">Nog geen referentie gezet</string>
+    <string name="NO_STATS">Er zijn nog geen statistieken verzameld</string>
+    <string name="KWL_ACCESS_ERROR">Kernel Wakelocks kunnen niet bereikt worden, niet via bestand noch via API</string>
+
+    <!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">Sinds opgeladen</string>
+    <string name="stat_type_label_since_unplugged">Sinds uitgetrokken</string>
+    <string name="stat_type_label_since_custom">Sinds aangepaste verw.</string>
+    <string name="stat_type_label_since_screen_off">Sinds Scherm Uit</string>
+    <string name="stat_type_label_since_boot">Sinds Start</string>
+
+
+    <string name="widget_freq_label_none">Geen</string>
+    <string name="widget_freq_label_5">5 Min.</string>
+    <string name="widget_freq_label_15">15 Min.</string>
+    <string name="widget_freq_label_30">*30 Min.</string>
+    <string name="widget_freq_label_60">60 Min.</string>
+
+    <string name="widget_fontsize_16">X-Groot (16)</string>
+    <string name="widget_fontsize_14">Groot (14)</string>
+    <string name="widget_fontsize_12">Normaal (12)</string>
+    <string name="widget_fontsize_10">*Klein (10)</string>
+    <string name="widget_fontsize_8">Mini (8)</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+    <string-array name="pref_example_list_titles">
+        <item>Altijd</item>
+        <item>Wanneer mogelijk</item>
+        <item>Nooit</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 minuten</item>
+        <item>30 minuten</item>
+        <item>1 uur</item>
+        <item>3 uur</item>
+        <item>6 uur</item>
+        <item>Nooit</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Ingave 1</item>
+        <item>Ingave 2</item>
+        <item>Ingave 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+    <string name="title_activity_settings">Intellingen</string>
+
+
+</resources>
