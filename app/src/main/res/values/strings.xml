@@ -8,9 +8,10 @@
     <string name="perm_rationale_PACKAGE_USAGE_STATS">This permission is required to access package stats.</string>
     <string name="perm_rationale_APPOPS_USAGE_STATS">This permission is required to access alarm stats.Please grant it in the following dialog.</string>
 
-    <string name="channel_name">BBS</string>
+    <string name="event_processing_channel_name">BBS Event Processing</string>
+    <string name="event_processing_channel_description">BBS Notification for Backgroud Service</string>
+
     <string name="plugin_name">Better Battery Stats</string>
-    <string name="channel_description">BBS Notifications</string>
 
     <string name="foreground_service_text">Event processing</string>
     <string name="message_hint">Scheduled Toast</string>
@@ -150,6 +151,8 @@
     <string name="label_about_translation5">French by xavihernandez @ xda</string>
     <string name="label_about_translation6">German by Minty123 @ xda</string>
     <string name="label_about_translation7">Brazilian Portuguese by @caiorrs</string>
+    <string name="label_about_translation8">Nederlands door @Matthias-vdE</string>
+
     <string name="label_about_follow">Follow me on Twitter</string>
     <string name="label_about_rate">Rate / Review on Google Play</string>
     <string name="label_about_xda">Thread on XDA</string>

@@ -52,11 +52,11 @@ public class EventWatcherService extends Service
     BroadcastReceiver mReceiver = null;
     BroadcastReceiver mReceiver2 = null;
 
-    String CHANNEL_ID = "bbs_channel_01";
+    String CHANNEL_ID = "bbs_channel_event_processing";
 
     // The user-visible description of the channel.
-    CharSequence CHANNEL_NAME = "BBS";
-    String CHANNEL_DESCRIPTION = "BBS Notifications";
+    CharSequence CHANNEL_NAME = "BBS Event Processing";
+    String CHANNEL_DESCRIPTION = "BBS Notification for Backgroud Service";
 
 
 	// This is the object that receives interactions from clients.  See
@@ -101,19 +101,19 @@ public class EventWatcherService extends Service
         if (Build.VERSION.SDK_INT >= 26)
         {
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            CHANNEL_NAME = getString(R.string.channel_name);
-            CHANNEL_DESCRIPTION = getString(R.string.channel_description);
+            CharSequence channelName = getString(R.string.event_processing_channel_name);
+            String channelDescription = getString(R.string.event_processing_channel_description);
 
 
 
             int importance = NotificationManager.IMPORTANCE_LOW;
 
-            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, channelName, importance);
 
             // Configure the notification channel.
-            mChannel.setDescription(CHANNEL_DESCRIPTION);
-            mChannel.enableLights(true);
+            mChannel.setDescription(channelDescription);
 
+            mChannel.enableLights(false);
             mChannel.enableVibration(false);
 
             mNotificationManager.createNotificationChannel(mChannel);

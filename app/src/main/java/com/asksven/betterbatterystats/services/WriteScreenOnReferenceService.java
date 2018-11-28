@@ -18,6 +18,7 @@ package com.asksven.betterbatterystats.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.asksven.betterbatterystats.Wakelock;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.handlers.OnBootHandler;
 import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 /**
@@ -60,9 +62,17 @@ public class WriteScreenOnReferenceService extends IntentService
 
 			StatsProvider.getInstance().setCurrentReference(0);
 
-			// Build the intent to update the widget
-			Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
-			this.sendBroadcast(intentRefreshWidgets);
+			// Refresh the widgets
+			if (Build.VERSION.SDK_INT >= 23)
+            {
+                OnBootHandler.scheduleAppWidgetsJobImmediate(this);
+            }
+            else
+            {
+                // Build the intent to update the widget
+                Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
+                this.sendBroadcast(intentRefreshWidgets);
+            }
 		}
 		catch (Exception e)
 		{

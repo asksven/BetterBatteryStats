@@ -104,15 +104,32 @@ public class OnBootHandler extends BroadcastReceiver
     @TargetApi(23)
     public static void scheduleAppWidgetsJob(Context context)
     {
+        OnBootHandler.deletePendingAppWidgetsJobs(context);
+        OnBootHandler.scheduleJob(context, 5 * 60 * 1000, 1 * 60 * 1000);
+    }
+
+    // schedule an immediate refresh job
+    @TargetApi(23)
+    public static void scheduleAppWidgetsJobImmediate(Context context)
+    {
+        OnBootHandler.deletePendingAppWidgetsJobs(context);
+        OnBootHandler.scheduleJob(context, 5 * 1000, 10 * 1000);
+    }
+
+    @TargetApi(23)
+    static void scheduleJob(Context context, long minLatencyMs, long maxDelayMs)
+    {
         ComponentName serviceComponent = new ComponentName(context, AppWidgetJobService.class);
         JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, serviceComponent);
-        builder.setMinimumLatency(5 * 60 * 1000); // wait at least
-        builder.setOverrideDeadline(5 * 60 * 1000); // maximum delay
-        //builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
-        //builder.setRequiresDeviceIdle(true); // device should be idle
-        //builder.setRequiresCharging(false); // we don't care if the device is charging or not
+        builder.setMinimumLatency(minLatencyMs); // wait at least
+        builder.setOverrideDeadline(maxDelayMs); // maximum delay
+        if (Build.VERSION.SDK_INT >= 28)
+        {
+            //builder.setImportantWhileForeground(true);
+        }
         JobScheduler jobScheduler = context.getSystemService(JobScheduler.class);
         jobScheduler.schedule(builder.build());
+
     }
 
     @TargetApi(23)
@@ -133,4 +150,12 @@ public class OnBootHandler extends BroadcastReceiver
 
         return hasBeenScheduled;
     }
+
+    @TargetApi(23)
+    public static void deletePendingAppWidgetsJobs(Context context)
+    {
+        JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(JOB_ID);
+    }
+
 }

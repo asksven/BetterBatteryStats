@@ -90,9 +90,16 @@ public class UpdateWidgetService extends JobIntentService
 
         if (allWidgetIds != null)
         {
+            if (allWidgetIds.length == 0)
+            {
+                Log.i(TAG, "allWidgetIds was empty");
+
+            }
+
             for (int widgetId : allWidgetIds)
             {
 
+                Log.i(TAG, "Update widget " + widgetId);
                 RemoteViews remoteViews = new RemoteViews(this
                         .getApplicationContext().getPackageName(),
                         R.layout.widget);
@@ -303,7 +310,7 @@ public class UpdateWidgetService extends JobIntentService
         {
             Log.i(TAG, "allWidgetIds was null");
         }
-        Log.i(TAG, "Completed service @ " + SystemClock.elapsedRealtime());
+        Log.i(TAG, "Completed service @ " + DateUtils.formatDurationLong(SystemClock.elapsedRealtime()));
     }
 
 }

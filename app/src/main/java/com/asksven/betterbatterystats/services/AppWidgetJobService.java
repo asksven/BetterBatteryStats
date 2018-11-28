@@ -61,8 +61,12 @@ public class AppWidgetJobService extends JobService
 
         Log.i(TAG, "trigger widget update");
         Intent intentWidget = new Intent(AppWidget.WIDGET_UPDATE);
-        int idsWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(appContext, UpdateWidgetService.class));
-        Log.i(TAG, "Widget ids: " + idsWidget.toString());
+        int idsWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(appContext, AppWidget.class));
+        for (int widgetId : idsWidget)
+        {
+            Log.i(TAG, "Widget to be updaped: " + widgetId);
+        }
+
         intentWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsWidget);
 
         UpdateWidgetService.enqueueWork(this, intentWidget);
