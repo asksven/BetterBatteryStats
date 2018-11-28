@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.4" versioncode="94">
-        <change>Corretto esportazione/importazione delle impostazioni</change>
-        <change>Root necessario solo per l\'installazioe</change>
+    <release version="2.5" versioncode="95">
+        <change>I riferimenti per schermo on/off vengono sempre salvati</change>
+        <change>Gestione eventi ridisegnata per compatibilita\' con SDK26</change>
+        <change>I riferimenti sono ora gestiti da un servizio in primo piano per evitare che si perdano eventi a causa del risparmio energetico di Android</change>
+        <change>Flattened preferences</change>
+        <change>I vecchi widget sono stati rimossi</change>
+        <change>Corretto riferimento a \"sconnesso\" che mancava in SDK26</change>
+        <change>L\'app ora chiede all\'utente di confermare i permessi</change>
+        <change>Ridotto il numero di permessi da fornire attraverso adb</change>
     </release>
 
 </changelog>
