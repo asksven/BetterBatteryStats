@@ -54,7 +54,7 @@ public class AppWidgetJobService extends JobService
         int idsWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(appContext, AppWidget.class));
         for (int widgetId : idsWidget)
         {
-            Log.i(TAG, "Responsive widget to be updaped: " + widgetId);
+            Log.i(TAG, "Responsive widget to be updated: " + widgetId);
         }
 
         intentWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsWidget);
@@ -66,12 +66,12 @@ public class AppWidgetJobService extends JobService
         int idsTextWidget[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(appContext, TextAppWidget.class));
         for (int textWidgetId : idsTextWidget)
         {
-            Log.i(TAG, "Text widget to be updaped: " + textWidgetId);
+            Log.i(TAG, "Text widget to be updated: " + textWidgetId);
         }
 
-        intentWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsTextWidget);
+        intentTextWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, idsTextWidget);
 
-        UpdateWidgetService.enqueueWork(this, intentTextWidget);
+        UpdateTextWidgetService.enqueueWork(this, intentTextWidget);
 
         return true;
     }

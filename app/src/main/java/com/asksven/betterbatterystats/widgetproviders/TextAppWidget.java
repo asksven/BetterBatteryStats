@@ -57,7 +57,7 @@ public class TextAppWidget extends AppWidgetProvider
 		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		// Update the widgets via the service
-		UpdateWidgetService.enqueueWork(context, new Intent());
+		UpdateTextWidgetService.enqueueWork(context, new Intent());
 
 		for (int appWidgetId : appWidgetIds)
 		{
