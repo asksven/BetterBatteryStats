@@ -107,18 +107,12 @@ public class UpdateTextWidgetService extends JobIntentService
                 final int cellSize = 40;
                 int width = 3;
                 int height = 2;
-                int widthDim = 0;
-                int heightDim = 0;
 
                 if (Build.VERSION.SDK_INT >= 16)
                 {
                     Bundle widgetOptions = appWidgetManager.getAppWidgetOptions(widgetId);
-                    //				width = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)) / cellSize;
-                    //				height = (widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)) / cellSize;
                     width = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) - 10);
                     height = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) + 10);
-                    widthDim = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-                    heightDim = widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
 
                     Log.i(TAG, "[" + widgetId + "] height=" + height + " (" + widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) + ")");
                     Log.i(TAG, "[" + widgetId + "] width=" + width + "(" + widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) + ")");
@@ -134,7 +128,6 @@ public class UpdateTextWidgetService extends JobIntentService
                 int opacity = sharedPrefs.getInt("new_widget_bg_opacity", 20);
                 opacity = (255 * opacity) / 100;
                 remoteViews.setInt(R.id.background, "setBackgroundColor", (opacity << 24) & android.graphics.Color.BLACK);
-                //remoteViews.setInt(R.id.layoutBackground, "setImageAlpha", opacity);
 
                 long timeAwake = 0;
                 long timeSince = 0;
@@ -201,8 +194,6 @@ public class UpdateTextWidgetService extends JobIntentService
                         timeKWL = stats.sum(kWakelockStats);
                     } else
                     {
-                        // no proper reference found
-                        //			        remoteViews.setInt(R.id.graph, "setVisibility", View.GONE);
                     }
                 } catch (Exception e)
                 {
@@ -222,27 +213,29 @@ public class UpdateTextWidgetService extends JobIntentService
 
                     remoteViews.setTextViewText(R.id.textViewSinceVal, AppWidget.formatDuration(timeSince));
 
-                    // Show % depending on width and if vertical or horz
-                    if ((width > height) && (width <= 2))
+                    // Show % depending on width and preferences
+
+                    boolean show_pwc_only = sharedPrefs.getBoolean("widget_show_pct", false);
+                    if (show_pwc_only)
                     {
-                        remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake - timeScreenOn));
-                        remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep));
-                        remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn));
-                        remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL));
-                        remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL));
-                    } else
-                    {
-                        remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake - timeScreenOn)
-                                + " (" + StringUtils.formatRatio(timeAwake - timeScreenOn, timeSince) + ")");
-                        remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep)
-                                + " (" + StringUtils.formatRatio(timeDeepSleep, timeSince) + ")");
-                        remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn)
-                                + " (" + StringUtils.formatRatio(timeScreenOn, timeSince) + ")");
-                        remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL)
-                                + " (" + StringUtils.formatRatio(timeKWL, timeSince) + ")");
-                        remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL)
-                                + " (" + StringUtils.formatRatio(timePWL, timeSince) + ")");
+                        UpdateWidgetService.setValuesToPct(remoteViews, timeAwake, timeSince, timeScreenOn, timeDeepSleep, timePWL, timeKWL);
                     }
+                    else
+                    {
+                        if (width <= 2)
+                        {
+
+                            UpdateWidgetService.setValuesToDuration(remoteViews, timeAwake, timeSince, timeScreenOn, timeDeepSleep, timePWL, timeKWL);
+                        }
+                        else
+                        {
+
+                            UpdateWidgetService.setValuesToDurationAndPct(remoteViews, timeAwake, timeSince, timeScreenOn, timeDeepSleep, timePWL, timeKWL);
+                        }
+                    }
+
+                    boolean showColor = sharedPrefs.getBoolean("text_widget_color", true);
+                    UpdateWidgetService.setTextColor(remoteViews, showColor, this);
 
                     // tap zones
 
@@ -285,5 +278,4 @@ public class UpdateTextWidgetService extends JobIntentService
         }
         Log.i(TAG, "Completed service @ " + DateUtils.formatDurationLong(SystemClock.elapsedRealtime()));
     }
-
 }

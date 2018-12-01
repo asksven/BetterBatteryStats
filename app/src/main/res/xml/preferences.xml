@@ -167,11 +167,18 @@
             robobunny:min="10"
             robobunny:unitsLeft=""
             robobunny:unitsRight="%" />
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="text_widget_color"
             android:summary="@string/widget_show_text_color_summary"
             android:title="@string/widget_show_text_color_title" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="widget_show_pct"
+            android:summary="@string/large_widget_show_pct_summary"
+            android:title="@string/large_widget_show_pct_title" />
 
     </PreferenceCategory>
 

@@ -165,35 +165,18 @@ public class TextAppWidget extends AppWidgetProvider
 			{
 				// set the Labels
 				Log.i(TAG, "[" + appWidgetId + "] using short labels");
-				updateViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake_short));
-				updateViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep_short));
-				updateViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on_short));
-				updateViews.setTextViewText(R.id.textViewKWL, context.getResources().getString(R.string.label_widget_kernel_wakelock_short));
-				updateViews.setTextViewText(R.id.textViewPWL, context.getResources().getString(R.string.label_widget_partial_wakelock_short));
+                UpdateWidgetService.setShortLabels(updateViews, context, true);
 			}
 			else
 			{
 				// set the Labels
 				Log.i(TAG, "[" + appWidgetId + "] using long labels");
-				updateViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake));
-				updateViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep));
-				updateViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on));
-				updateViews.setTextViewText(R.id.textViewKWL, context.getResources().getString(R.string.label_widget_kernel_wakelock));
-				updateViews.setTextViewText(R.id.textViewPWL, context.getResources().getString(R.string.label_widget_partial_wakelock));
+                UpdateWidgetService.setShortLabels(updateViews, context, false);
 			}
 
             SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
             boolean showColor = sharedPrefs.getBoolean("text_widget_color", true);
-
-            if (!showColor)
-            {
-                Log.i(TAG, "[" + appWidgetId + "] removing text color");
-                updateViews.setTextColor(R.id.textViewAwake, context.getResources().getColor(R.color.primary_text_default_material_dark));
-                updateViews.setTextColor(R.id.textViewDeepSleep, context.getResources().getColor(R.color.primary_text_default_material_dark));
-                updateViews.setTextColor(R.id.textViewScreenOn, context.getResources().getColor(R.color.primary_text_default_material_dark));
-                updateViews.setTextColor(R.id.textViewKWL, context.getResources().getColor(R.color.primary_text_default_material_dark));
-                updateViews.setTextColor(R.id.textViewPWL, context.getResources().getColor(R.color.primary_text_default_material_dark));
-            }
+            UpdateWidgetService.setTextColor(updateViews, showColor, context);
 		}
 
 		appWidgetManager.updateAppWidget(appWidgetId, updateViews);

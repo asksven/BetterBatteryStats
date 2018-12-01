@@ -280,8 +280,8 @@ line break at unicode
     <string name="widget_default_stat_type_summary">Set the stat type to be shown in the widget</string>
     <string name="large_widget_font_size_title">Font Size</string>
     <string name="large_widget_font_size_summary">Set the font size to be used in the widget</string>
-    <string name="large_widget_show_pct_title">Show %</string>
-    <string name="large_widget_show_pct_summary">Show durations in % of total time</string>
+    <string name="large_widget_show_pct_title">Show only %</string>
+    <string name="large_widget_show_pct_summary">Show durations only in % of total time</string>
     <string name="widget_opacity_title">Opacity</string>
     <string name="widget_opacity_summary">Adjust the widget opacity</string>
     <string name="widget_bg_opacity_title">Background Opacity</string>
