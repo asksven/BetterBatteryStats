@@ -29,6 +29,7 @@ import android.support.v4.app.JobIntentService;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.RemoteViews;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -309,6 +310,18 @@ public class UpdateWidgetService extends JobIntentService
         Log.i(TAG, "Completed service @ " + DateUtils.formatDurationLong(SystemClock.elapsedRealtime()));
     }
 
+    static void setValuesAlignmentLeft(RemoteViews remoteViews, boolean leftGravity)
+    {
+        if (leftGravity)
+        {
+            remoteViews.setInt(R.id.layoutLegendValues, "setGravity", Gravity.LEFT);
+        }
+        else
+        {
+            remoteViews.setInt(R.id.layoutLegendValues, "setGravity", Gravity.RIGHT);
+        }
+    }
+
     static void setValuesToDuration(RemoteViews remoteViews, long timeAwake, long timeSince,long  timeScreenOn, long timeDeepSleep, long timePWL, long timeKWL)
     {
         remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake - timeScreenOn));
@@ -316,6 +329,8 @@ public class UpdateWidgetService extends JobIntentService
         remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn));
         remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL));
         remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL));
+
+        UpdateWidgetService.setValuesAlignmentLeft(remoteViews, false);
 
     }
 
@@ -331,6 +346,7 @@ public class UpdateWidgetService extends JobIntentService
                 + " (" + StringUtils.formatRatio(timeKWL, timeSince) + ")");
         remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL)
                 + " (" + StringUtils.formatRatio(timePWL, timeSince) + ")");
+        UpdateWidgetService.setValuesAlignmentLeft(remoteViews, false);
     }
 
     static void setValuesToPct(RemoteViews remoteViews, long timeAwake, long timeSince,long  timeScreenOn, long timeDeepSleep, long timePWL, long timeKWL)
@@ -340,6 +356,8 @@ public class UpdateWidgetService extends JobIntentService
         remoteViews.setTextViewText(R.id.textViewScreenOnVal, StringUtils.formatRatio(timeScreenOn, timeSince));
         remoteViews.setTextViewText(R.id.textViewKWLVal, StringUtils.formatRatio(timeKWL, timeSince));
         remoteViews.setTextViewText(R.id.textViewPWLVal, StringUtils.formatRatio(timePWL, timeSince));
+
+        UpdateWidgetService.setValuesAlignmentLeft(remoteViews, false);
     }
 
     public static void setTextColor(RemoteViews remoteViews, boolean color, Context context)

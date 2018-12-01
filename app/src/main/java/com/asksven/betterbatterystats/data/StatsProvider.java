@@ -2356,6 +2356,7 @@ public class StatsProvider
 
 	public StatElement getElementByKey(ArrayList<StatElement> myList, String key)
 	{
+		Log.i(TAG, "Looking for key: " + key);
 		StatElement ret = null;
 
 		if (myList == null)
@@ -2367,8 +2368,8 @@ public class StatsProvider
 		for (int i = 0; i < myList.size(); i++)
 		{
 			StatElement item = myList.get(i);
-
 			if (item.getName().equals(key))
+
 			{
 				ret = item;
 				break;
