@@ -11,11 +11,11 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/large_widget_shape"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/imageView1"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:minHeight="32dp"
@@ -24,7 +24,8 @@
 
         <LinearLayout
             android:id="@+id/layoutLegend"
-            android:layout_width="wrap_content"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -33,6 +34,7 @@
             <include layout="@layout/widget_legend" />
         </LinearLayout>
 
+        <!--
         <ImageView
             android:id="@+id/imageViewRefresh"
             android:layout_width="16dp"
@@ -40,7 +42,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_action_refresh" />
-
+        -->
     </RelativeLayout>
 
 </FrameLayout>

@@ -18,6 +18,7 @@ package com.asksven.betterbatterystats.widgetproviders;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.services.UpdateTextWidgetService;
 import com.asksven.betterbatterystats.services.UpdateWidgetService;
 
 import android.annotation.SuppressLint;
@@ -27,29 +28,29 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 
 /**
  * @author android
- * 
+ *
  */
-public class AppWidget extends AppWidgetProvider
+public class TextAppWidget extends AppWidgetProvider
 {
-	static String TAG = "AppWidget";
-    public static final String WIDGET_UPDATE = "BBS_WIDGET_UPDATE";
-    public static final String WIDGET_PREFS_REFRESH = "BBS_WIDGET_PREFS_REFRESH";
+	static String TAG = "TextAppWidget";
+	public static final String WIDGET_UPDATE = "BBS_WIDGET_UPDATE";
 
-	// based on http://stackoverflow.com/a/18552461/115145
 	@SuppressLint("NewApi")
 	@Override
 	public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
 	{
-		
+
 		if (LogSettings.DEBUG)
 		{
 			Log.i(TAG, "onUpdate method called, starting service and setting alarm");
@@ -57,7 +58,7 @@ public class AppWidget extends AppWidgetProvider
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		// Update the widgets via the service
 		UpdateWidgetService.enqueueWork(context, new Intent());
-		
+
 		for (int appWidgetId : appWidgetIds)
 		{
 			if (Build.VERSION.SDK_INT >= 16)
@@ -77,7 +78,7 @@ public class AppWidget extends AppWidgetProvider
 		{
 			Log.i(TAG, "onReceive method called, action = '" + intent.getAction() + "' at " + DateUtils.now());
 		}
-		
+
 		if ( (WIDGET_UPDATE.equals(intent.getAction())) ||
 				intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE") ||
 				intent.getAction().equals("com.sec.android.widgetapp.APPWIDGET_RESIZE") ||
@@ -126,13 +127,13 @@ public class AppWidget extends AppWidgetProvider
 		super.onAppWidgetOptionsChanged(ctx, mgr, appWidgetId, newOptions);
 		drawWidget(ctx, appWidgetId);
 	}
-	
+
 	@SuppressLint("NewApi")
 	private void drawWidget(Context context, int appWidgetId)
 	{
 		RemoteViews updateViews;
 		final int cellSize = 40;
-		
+
 		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 		Resources res = context.getResources();
 		updateViews = null; //new RemoteViews(context.getPackageName(), R.layout.widget);
@@ -140,45 +141,27 @@ public class AppWidget extends AppWidgetProvider
 		if (Build.VERSION.SDK_INT >= 16)
 		{
 			Bundle widgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
-	
-			
+
+
 			int width = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH));
 			int height = AppWidget.sizeToCells(widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT));
-			
+
 			//int width = AppWidget.sizeToCells(widgetOptions.getInt("widgetspanx", 0));
-	        //int height = AppWidget.sizeToCells(widgetOptions.getInt("widgetspany", 0)) - 1;
+			//int height = AppWidget.sizeToCells(widgetOptions.getInt("widgetspany", 0)) - 1;
 			Log.i(TAG, "[" + appWidgetId + "] height=" + height + " (" + widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT) + ")");
 			Log.i(TAG, "[" + appWidgetId + "] width=" + width + "(" + widgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) + ")");
 			//Log.i(TAG, "[" + appWidgetId + "] spanHeight=" + spanHeight);
 			//Log.i(TAG, "[" + appWidgetId + "] spanWidth=" + spanWidth);
-			
+
 			// responsive rules
 			// if (height > width) -> vertial layout
 			// else -> horizontal layout
-					
-			// if (1 x 1, 1 x 2, 2 x 1, 2 x 2) -> Only the graph is visible
-			// if (higher than 2 and wider than 2) -> show the graph
-			if ((height <= 2) && (width <= 2)) 
-			{
-				// switch to image-only
-				Log.i(TAG, "[" + appWidgetId + "] using image-only layout");
-				updateViews = new RemoteViews(context.getPackageName(), R.layout.widget);
-			}
-			else if (height < width)
-			{
-				// switch to horizontal
-				Log.i(TAG, "[" + appWidgetId + "] using horizontal layout");
-				updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_horz);
-			}
-			else
-			{
-				// switch to normal
-				Log.i(TAG, "[" + appWidgetId + "] using vertical layout");
-				updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_vert);
-			}
+
+            Log.i(TAG, "[" + appWidgetId + "] using horizontal layout");
+            updateViews = new RemoteViews(context.getPackageName(), R.layout.text_widget_horz);
 
 			// check for legend text size
-			if ((width < 4))
+			if ((width < 3))
 			{
 				// set the Labels
 				Log.i(TAG, "[" + appWidgetId + "] using short labels");
@@ -198,43 +181,40 @@ public class AppWidget extends AppWidgetProvider
 				updateViews.setTextViewText(R.id.textViewKWL, context.getResources().getString(R.string.label_widget_kernel_wakelock));
 				updateViews.setTextViewText(R.id.textViewPWL, context.getResources().getString(R.string.label_widget_partial_wakelock));
 			}
+
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean showColor = sharedPrefs.getBoolean("text_widget_color", true);
+
+            if (!showColor)
+            {
+                Log.i(TAG, "[" + appWidgetId + "] removing text color");
+                updateViews.setTextColor(R.id.textViewAwake, context.getResources().getColor(R.color.primary_text_default_material_dark));
+                updateViews.setTextColor(R.id.textViewDeepSleep, context.getResources().getColor(R.color.primary_text_default_material_dark));
+                updateViews.setTextColor(R.id.textViewScreenOn, context.getResources().getColor(R.color.primary_text_default_material_dark));
+                updateViews.setTextColor(R.id.textViewKWL, context.getResources().getColor(R.color.primary_text_default_material_dark));
+                updateViews.setTextColor(R.id.textViewPWL, context.getResources().getColor(R.color.primary_text_default_material_dark));
+            }
 		}
-		
+
 		appWidgetManager.updateAppWidget(appWidgetId, updateViews);
 		// Build the intent to call the service
 //		Intent intent = new Intent(context.getApplicationContext(), UpdateWidgetService.class);
-		
+
 		ComponentName thisWidget = new ComponentName(context, this.getClass());
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-		
-//		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
-		
-		// Update the widgets via the service
-//		context.startService(intent);
 
-        Log.i(TAG, "trigger widget update");
-        Intent intentWidget = new Intent(AppWidget.WIDGET_UPDATE);
-        Log.i(TAG, "Widget ids: " + allWidgetIds.toString());
-        intentWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+		Log.i(TAG, "trigger widget update");
+		Intent intentWidget = new Intent(AppWidget.WIDGET_UPDATE);
+		Log.i(TAG, "Widget ids: " + allWidgetIds.toString());
+		intentWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
 
-        UpdateWidgetService.enqueueWork(context.getApplicationContext(), intentWidget);
+		UpdateTextWidgetService.enqueueWork(context.getApplicationContext(), intentWidget);
 
-    }
-	
+	}
+
 	public static String formatDuration(long timeMs)
 	{
 		return DateUtils.formatDurationCompressed(timeMs);
 	}
-	
-	public static int sizeToCells(int size)
-	{
-		// width = 70 × n − 30
-		// n = (width + 30) / 70
-		int ratio = (size + 30) / 70;
-		//int cells = (int) (Math.floor(ratio));
-		Log.i(TAG, "size=" + size);
-		Log.i(TAG, "Ratio: " + ratio);//, rounded:" + cells);
-		
-		return (ratio); 
-	}
+
 }

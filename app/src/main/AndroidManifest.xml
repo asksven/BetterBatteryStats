@@ -186,48 +186,6 @@
             </intent-filter>
         </receiver>
 
-        <!--
-        <receiver
-            android:name=".widgetproviders.LargeWidgetProvider"
-            android:label="BBS 2 x 2 Widget (legacy)">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="BBS_WIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/large_widget_info" />
-        </receiver>
-        <receiver
-            android:name=".widgetproviders.MediumWidgetProvider"
-            android:label="BBS 2 x 1 Widget (legacy)">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="BBS_WIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/medium_widget_info" />
-        </receiver>
-
-        <receiver
-            android:name=".widgetproviders.SmallWidgetProvider"
-            android:label="BBS 1 x 1 Widget (legacy)">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="BBS_WIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/small_widget_info" />
-        </receiver>
-        <receiver
-            android:name=".ActiveMonAlarmReceiver"
-            android:process=":remote" />
-        -->
         <receiver
             android:name=".widgetproviders.AppWidget"
             android:label="BBS Widget">
@@ -242,12 +200,28 @@
                 android:resource="@xml/widget_provider" />
         </receiver>
 
+        <receiver
+            android:name=".widgetproviders.TextAppWidget"
+            android:label="BBS Text Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_OPTIONS_CHANGED" />
+                <action android:name="BBS_WIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/text_widget_provider" />
+        </receiver>
+
         <!--
         <service android:name=".services.UpdateLargeWidgetService" android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:name=".services.UpdateMediumWidgetService" android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:name=".services.UpdateSmallWidgetService" android:permission="android.permission.BIND_JOB_SERVICE"/>
         -->
         <service android:name=".services.UpdateWidgetService" android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <service android:name=".services.UpdateTextWidgetService" android:permission="android.permission.BIND_JOB_SERVICE"/>
+
         <service android:name=".services.AppWidgetJobService" android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:name=".services.EventWatcherService" />
         <service android:name=".services.WriteUnpluggedReferenceService" />

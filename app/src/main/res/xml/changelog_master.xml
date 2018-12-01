@@ -5,8 +5,7 @@
         <change>Redesigned the event management to be compatible with SDK26</change>
         <change>Moved reference processing to a foreground service to prevent Android's battery saver from muting events that are needed for BBS to run properly</change>
         <change>Flattened preferences</change>
-        <change>Removed legacy widgets</change>
-        <change>Fixed unplugged reference missing with SDK26</change>
+        <change>Updated widget layout and option</change>
         <change>App now asks the user to confirm permissions</change>
         <change>Reduce the number of permissions that need to be granted through adb</change>
     </release>

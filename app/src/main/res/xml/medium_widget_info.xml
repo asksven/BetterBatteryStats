@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<appwidget-provider 
-    	xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialLayout="@layout/medium_widget_layout"
-    android:minHeight="40dp"
-    android:minWidth="110dp"
-    android:updatePeriodMillis="0"
-    android:previewImage="@drawable/icon_widget_medium">    
-</appwidget-provider>

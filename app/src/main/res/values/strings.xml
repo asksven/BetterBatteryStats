@@ -266,11 +266,13 @@ line break at unicode
 
     <string name="pref_section_misc">Misc</string>
     <string name="pref_screen_widgets_title">Widgets</string>
-    <string name="pref_screen_legacy_widgets_title">Legacy Widgets</string>
+    <string name="pref_screen_legacy_widgets_title">Text Widget</string>
     <string name="widget_default_stat_title">Default stat to open</string>
     <string name="widget_default_stat_summary">Set the stat to be called from widget</string>
     <string name="widget_show_stat_type_title">Show Title</string>
     <string name="widget_show_stat_type_summary">Show Stat Type</string>
+    <string name="widget_show_text_color_title">Text colored</string>
+    <string name="widget_show_text_color_summary">Show colors on text-only widget</string>
     <string name="widget_fallback_stat_type_title">Fallback stat type</string>
     <string name="widget_fallback_stat_type_summary">Set the fallback stat type to be shown in the widget if the primary one has no reference</string>
     <string name="pref_category_widgets_2x2_and_2x1">2x2 and 2x1 Widgets</string>

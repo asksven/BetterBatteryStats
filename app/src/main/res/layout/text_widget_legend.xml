@@ -12,6 +12,19 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textViewSince"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="@string/label_widget_since"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:singleLine="true"
+            android:textSize="10sp" >
+        </TextView>
+
+        <TextView
             android:id="@+id/textViewDeepSleep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,7 +34,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/deep_sleep"
             android:singleLine="true"
-            android:textSize="12sp" >
+            android:textSize="10sp" >
         </TextView>
 
         <TextView
@@ -33,7 +46,7 @@
             android:text="@string/label_widget_screen_on"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/screen_on"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true">
         </TextView>
 
@@ -46,7 +59,7 @@
             android:text="@string/label_widget_awake"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/awake"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true">
         </TextView>
 
@@ -59,7 +72,7 @@
             android:text="@string/label_widget_kernel_wakelock"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/kwl"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true">
         </TextView>
 
@@ -72,7 +85,7 @@
             android:text="@string/label_widget_partial_wakelock"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/pwl"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true">
         </TextView>
     </LinearLayout>
@@ -84,6 +97,18 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textViewSinceVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="50m"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:textSize="10sp"
+            android:singleLine="true"/>
+
+        <TextView
             android:id="@+id/textViewDeepSleepVal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,7 +117,7 @@
             android:text="50m"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/primary_text_default_material_dark"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true">
 <!--            android:ellipsize="end"> -->
         </TextView>
@@ -106,7 +131,7 @@
             android:text="50m"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/primary_text_default_material_dark"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true">
         </TextView>
 
@@ -119,7 +144,7 @@
             android:text="50m"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/primary_text_default_material_dark"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true">
         </TextView>
 
@@ -132,7 +157,7 @@
             android:text="50m"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/primary_text_default_material_dark"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true">
         </TextView>
 
@@ -145,7 +170,7 @@
             android:text="50m"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/primary_text_default_material_dark"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:singleLine="true">
         </TextView>
     </LinearLayout>
