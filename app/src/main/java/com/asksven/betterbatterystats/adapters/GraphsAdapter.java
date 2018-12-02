@@ -38,7 +38,7 @@ public class GraphsAdapter extends ArrayAdapter<String>
 
 	public GraphsAdapter(Context context, GraphSeriesFactory history)
 	{
-		super(context, R.layout.credits_row);
+		super(context, R.layout.graph_row);
 		this.m_context = context;
 		//m_histList = history;
 		m_series = history;
@@ -70,7 +70,7 @@ public class GraphsAdapter extends ArrayAdapter<String>
             LayoutInflater inflater = (LayoutInflater) m_context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             
-        	convertView = inflater.inflate(R.layout.timeline, null);
+        	convertView = inflater.inflate(R.layout.graph_row, null);
         }
 
 		TextView textViewTitle = (TextView) convertView.findViewById(R.id.textViewTitle);

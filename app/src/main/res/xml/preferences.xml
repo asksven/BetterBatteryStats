@@ -24,13 +24,6 @@
 
         <PreferenceScreen android:title="@string/pref_section_customize_views">
             <ListPreference
-                android:defaultValue="58"
-                android:entries="@array/thumbnailSizeLabels"
-                android:entryValues="@array/thumbnailSizeValues"
-                android:key="thumbnail_size"
-                android:summary=""
-                android:title="@string/thumbnail_size_title" />
-            <ListPreference
                 android:defaultValue="16"
                 android:entries="@array/mediumFontSizeLabels"
                 android:entryValues="@array/mediumFontSizeValues"
@@ -83,17 +76,9 @@
                 android:key="show_gauge"
                 android:summary="@string/pref_show_gauge_summary"
                 android:title="@string/pref_show_gauge_title" />
-            <ListPreference
-                android:defaultValue="10"
-                android:dependency="show_gauge"
-                android:entries="@array/graphBarHeigthLabels"
-                android:entryValues="@array/graphBarHeigthValues"
-                android:key="graph_bar_height"
-                android:summary="@string/pref_graph_bar_height_summary"
-                android:title="@string/pref_graph_bar_height_title" />
-
         </PreferenceScreen>
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_section_defaults">
         <ListPreference
             android:defaultValue="0"

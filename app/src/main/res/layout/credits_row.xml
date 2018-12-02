@@ -7,10 +7,10 @@
         android:layout_height="wrap_content"
         android:background="?android:colorForegroundInverse" 
         android:orientation="vertical"
-        android:paddingBottom="4dp"
+        android:paddingBottom="2dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="4dp" >
+        android:paddingTop="2dp" >
 
         <TextView
             android:id="@+id/textViewName"

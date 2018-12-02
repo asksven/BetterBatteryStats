@@ -28,7 +28,9 @@
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
             android:text="@string/label_battery"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"/>
 
         <com.asksven.betterbatterystats.widgets.GraphableBarsPlot
             android:id="@+id/Battery"
@@ -42,7 +44,9 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:background="?android:attr/colorBackground"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="?android:colorForegroundInverse"
         android:dividerHeight="1px" />
 
 </LinearLayout>

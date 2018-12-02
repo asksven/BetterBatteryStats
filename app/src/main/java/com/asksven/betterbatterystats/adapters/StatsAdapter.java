@@ -92,8 +92,7 @@ public class StatsAdapter extends BaseAdapter
         this.m_parent = parent;
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
-        boolean bKbEnabled = sharedPrefs.getBoolean("enable_kb", true);
-        
+
         if ((m_listData != null) && (!m_listData.isEmpty()))
         {
         	if (m_listData.get(0) instanceof NetworkUsage)
@@ -190,8 +189,7 @@ public class StatsAdapter extends BaseAdapter
     	StatElement entry = m_listData.get(position);
     	
     	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.m_context);
-        boolean bShowBars = sharedPrefs.getBoolean("show_gauge", false);
-        
+
         if (LogSettings.DEBUG)
         {
         	Log.i(TAG, "Values: " +entry.getVals());
@@ -202,15 +200,7 @@ public class StatsAdapter extends BaseAdapter
             LayoutInflater inflater = (LayoutInflater) m_context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             
-            // depending on settings show new pie gauge or old bar gauge
-            if (!bShowBars)
-            {
-            	convertView = inflater.inflate(R.layout.stat_row, null);
-            }
-            else
-            {
-            	convertView = inflater.inflate(R.layout.stat_row_gauge, null);
-            }
+            convertView = inflater.inflate(R.layout.stat_row, null);
         }
         
         final float scale = this.m_context.getResources().getDisplayMetrics().density;
@@ -237,10 +227,6 @@ public class StatsAdapter extends BaseAdapter
         	tvName.setText(entry.getName());
         }
 
-        boolean bShowKb = sharedPrefs.getBoolean("enable_kb", true);
-        ImageView iconKb = (ImageView) convertView.findViewById(R.id.imageKB);
-        
-        iconKb.setVisibility(View.INVISIBLE);
 
         TextView tvFqn = (TextView) convertView.findViewById(R.id.TextViewFqn);
         tvFqn.setText(entry.getFqn(UidNameResolver.getInstance()));
@@ -257,87 +243,34 @@ public class StatsAdapter extends BaseAdapter
         	tvData.setText(entry.getData((long)m_maxValue));
         }
         
-        //LinearLayout myLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutBar);
         LinearLayout myFqnLayout = (LinearLayout) convertView.findViewById(R.id.LinearLayoutFqn);
         LinearLayout myRow = (LinearLayout) convertView.findViewById(R.id.LinearLayoutEntry);
         
         // long press for "copy to clipboard"
         convertView.setOnLongClickListener(new OnItemLongClickListener(position));
 
-        if (!bShowBars)
+        GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
+
+        if (entry instanceof NetworkUsage)
         {
-	        GraphablePie gauge = (GraphablePie) convertView.findViewById(R.id.Gauge);
-	        
-	        /////////////////////////////////////////
-			// we do some stuff here to handle settings about font size and thumbnail size
-			String iconDim = sharedPrefs.getString("thumbnail_size", "56");
-			int iconSize = Integer.parseInt(iconDim);
-			int pixels = (int) (iconSize * scale + 0.5f);
-			//we need to change "since" fontsize
-			gauge.getLayoutParams().height = pixels;
-			gauge.getLayoutParams().width = pixels;
-			gauge.requestLayout();
-			
-			////////////////////////////////////////////////////////////////////////////////////
-	        if (entry instanceof NetworkUsage)
-	        {
-	        	gauge.setValue(entry.getValues()[0], ((NetworkUsage) entry).getTotal());
-	        	
-	        }
-	        else
-	        {
-	        	double max = m_maxValue;
-	        	// avoid rounding errors leading to values > 100 %
-	        	if (entry.getValues()[0] > max)
-	        	{
-	        		max = entry.getValues()[0];
-	        		Log.i(TAG, "Upping gauge max to " + max);
-	        	}
-	        	gauge.setValue(entry.getValues()[0], max);
-	        }
+            gauge.setValue(entry.getValues()[0], ((NetworkUsage) entry).getTotal());
+
         }
         else
         {
-        	GraphableBars buttonBar = (GraphableBars) convertView.findViewById(R.id.ButtonBar);
-        	int iHeight = 10;
-        	try
-    		{
-    			iHeight = Integer.valueOf(sharedPrefs.getString("graph_bar_height", "10"));
-    		}
-    		catch (Exception e)
-    		{
-    			iHeight = 10;
-    		}    		
-        	if (iHeight == 0)
-        	{
-        		iHeight = 10;
-        	}
-
-   			buttonBar.setMinimumHeight(iHeight);
-   			buttonBar.setName(entry.getName());
-        	buttonBar.setValues(entry.getValues(), m_maxValue);        	
+            double max = m_maxValue;
+            // avoid rounding errors leading to values > 100 %
+            if (entry.getValues()[0] > max)
+            {
+                max = entry.getValues()[0];
+                Log.i(TAG, "Upping gauge max to " + max);
+            }
+            gauge.setValue(entry.getValues()[0], max);
         }
+
         ImageView iconView = (ImageView) convertView.findViewById(R.id.icon);
         LinearLayout iconLayout = (LinearLayout) convertView.findViewById(R.id.LayoutIcon);
-        /////////////////////////////////////////
-		// we do some stuff here to handle settings about font size and thumbnail size
-		String iconDim = sharedPrefs.getString("thumbnail_size", "56");
-		int iconSize = Integer.parseInt(iconDim);
-		int pixels = (int) (iconSize * scale + 0.5f);
-		//we need to change "since" fontsize
-		iconView.getLayoutParams().width = pixels;
-		iconView.getLayoutParams().height = pixels;
-		iconView.requestLayout();
-		//n 20;setLay.setTextSize(TypedValue.COMPLEX_UNIT_DIP, iconSize);
-		
-		////////////////////////////////////////////////////////////////////////////////////
-                
-        // add on click listener for the icon only if KB is enabled
-//        if (bShowKb)
-//        {
-//	        // set a click listener for the list
-//	        iconKb.setOnClickListener(new OnIconClickListener(position));
-//        }
+
 
         // show / hide fqn text
         if ((entry instanceof Process) || (entry instanceof State) || (entry instanceof Misc)

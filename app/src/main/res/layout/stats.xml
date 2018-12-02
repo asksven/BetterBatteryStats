@@ -17,8 +17,8 @@
         android:background="?android:colorForegroundInverse"
         android:elevation="8dp"
         android:orientation="vertical"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp" >
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" >
 
         <Spinner
             android:id="@+id/spinnerStat"
@@ -122,13 +122,16 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="?android:colorForegroundInverse">
         <ListView
             android:id="@android:id/list"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
-            android:background="?android:attr/colorBackground"
+            android:background="?android:colorForegroundInverse"
             android:dividerHeight="1px" />
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

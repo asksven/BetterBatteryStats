@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2015 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,9 @@ package com.asksven.betterbatterystats;
  * @author sven
  *
  */
-import android.annotation.TargetApi;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,13 +33,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -74,14 +67,12 @@ import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 import com.asksven.betterbatterystats.appanalytics.Analytics;
 import com.asksven.betterbatterystats.appanalytics.Events;
-import com.asksven.betterbatterystats.contrib.ObservableScrollView;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.handlers.OnBootHandler;
 import com.asksven.betterbatterystats.services.EventWatcherService;
-import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
@@ -92,12 +83,9 @@ import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import de.cketti.library.changelog.ChangeLog;
 
 public class StatsActivity extends ActionBarListActivity 
 		implements AdapterView.OnItemSelectedListener
@@ -334,17 +322,6 @@ public class StatsActivity extends ActionBarListActivity
 	        SharedPreferences.Editor updater = sharedPrefs.edit();
 	        updater.putString("last_release", strCurrentRelease);
 	        updater.commit();
-
-// we don't need to delete refs as long as we don't change the database schema
-//			Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
-//			ReferenceStore.deleteAllRefs(this);
-//			Intent i = new Intent(this, WriteBootReferenceService.class);
-//			this.startService(i);
-//			i = new Intent(this, WriteUnpluggedReferenceService.class);
-//			this.startService(i);
-	        ChangeLog cl = new ChangeLog(this);
-	        cl.getLogDialog().show();
-    			
     	}
 
 		///////////////////////////////////////////////
@@ -743,7 +720,7 @@ public class StatsActivity extends ActionBarListActivity
 
 	        case R.id.graph:  
 	        	//Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
-	        	Intent intentGraph = new Intent(this, NewGraphActivity.class);
+	        	Intent intentGraph = new Intent(this, GraphActivity.class);
 	            this.startActivity(intentGraph);
 	        	break;
 	        	

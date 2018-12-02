@@ -93,13 +93,6 @@
                 android:text="DataGoesHere"
                 android:textSize="@dimen/text_size_tiny" />
 
-            <ImageView
-                android:id="@+id/imageKB"
-                android:layout_width="32dp"
-                android:layout_height="match_parent"
-                
-                android:src="@drawable/icon_kb" >
-            </ImageView>
         </LinearLayout>
 
     </LinearLayout>

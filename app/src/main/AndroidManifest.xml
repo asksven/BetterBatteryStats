@@ -89,6 +89,14 @@
                 android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
+            android:name=".ChangeLogActivity"
+            android:parentActivityName=".StatsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.asksven.betterbatterystats.StatsActivity" />
+        </activity>
+
+        <activity
             android:name=".ImportExportPreferencesActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
@@ -103,14 +111,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".HistActivity"
-            android:configChanges="orientation"
-            android:parentActivityName=".NewGraphActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.asksven.betterbatterystats.NewGraphActivity" />
         </activity>
         <activity
             android:name=".RawStatsActivity"
@@ -129,7 +129,7 @@
                 android:value="com.asksven.betterbatterystats.StatsActivity" />
         </activity>
         <activity
-            android:name=".NewGraphActivity"
+            android:name=".GraphActivity"
             android:parentActivityName=".StatsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

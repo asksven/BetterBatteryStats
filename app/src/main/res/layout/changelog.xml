@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?android:attr/colorBackground"
-    android:orientation="vertical" >
+    android:background="#e5e5e5"
+    android:orientation="vertical"
+>
 
     <include layout="@layout/toolbar_icon"/>
 
@@ -13,10 +14,6 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:background="?android:colorForegroundInverse"
-        android:elevation="8dp"
-        android:orientation="vertical"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"/>
+        android:background="?android:attr/colorBackground" />
 
 </LinearLayout>

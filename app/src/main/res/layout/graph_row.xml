@@ -9,8 +9,8 @@
     android:elevation="0dp"
     android:orientation="vertical"
     android:paddingBottom="2dp"
-    android:paddingLeft="4dp"
-    android:paddingRight="2dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     android:paddingTop="2dp" >
 
     <TextView
