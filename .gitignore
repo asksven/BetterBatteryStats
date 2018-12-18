@@ -1,16 +1,13 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-.idea/misc.xml
-/.idea/caches/
-/.idea/libraries
+.idea
 .DS_Store
-/build
-/captures
+build
+captures
 .externalNativeBuild
-/app/google-services.json
-/app/src/gplay/google-services.json
-/app/src/xdaedition/google-services.json
+app/google-services.json
+app/src/gplay/google-services.json
+app/src/xdaedition/google-services.json
 
 secret-env-plain

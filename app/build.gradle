@@ -1,10 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.triplet.play'
-//apply plugin: 'com.google.gms.google-services'
-
 
 android {
     compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     playAccountConfigs {
         defaultAccountConfig {
@@ -20,17 +19,16 @@ android {
     defaultConfig {
         applicationId "com.asksven.betterbatterystats"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 95
         versionName "2.5"
         versionNameSuffix = getBuildSuffix()
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.debug
-        testBuildType "debug"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [HOCKEYAPP_APP_ID: System.getenv("HOCKEYAPP_APP_ID") ?: "xx-xx-xxxx"]
-
-
+        testBuildType "debug"
+        signingConfig signingConfigs.debug
     }
 
     signingConfigs {
@@ -41,26 +39,24 @@ android {
             keyPassword System.getenv("KEY_PASSWORD")
         }
         debug {
-            if(file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore").exists()) {
+            if (file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore").exists()) {
                 storeFile = file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore")
             }
         }
     }
 
-    // we have different package name for the variants
+    // we have different package names for the variants
     flavorDimensions "edition"
     productFlavors {
         gplay {
             dimension "edition"
-            applicationId "com.asksven.betterbatterystats"
             signingConfig signingConfigs.release
             playAccountConfig = playAccountConfigs.defaultAccountConfig
-
-
         }
         xdaedition {
             dimension "edition"
-            applicationId "com.asksven.betterbatterystats_xdaedition"
+            //noinspection GradlePath
+            applicationIdSuffix "_xdaedition"
             signingConfig signingConfigs.debug
         }
     }
@@ -74,8 +70,8 @@ android {
         }
 
         // for xda edition we want to be able to build both debug and release version
-
     }
+
     // and a naming policy for the apks
     applicationVariants.all { variant ->
         variant.outputs.all {
@@ -89,64 +85,73 @@ android {
             def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + ".apk"
             outputFileName = newApkName
         }
-
     }
-
-
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
             signingConfig signingConfigs.release
         }
         debug {
-            minifyEnabled false
             debuggable true
             signingConfig signingConfigs.debug
         }
     }
+
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/ASL2.0'
     }
+
     lintOptions {
         disable 'MissingTranslation'
         abortOnError false
+    }
+
+    compileOptions {
+        encoding = 'UTF-8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    // for local tests (app/src/test)
-    // Required for instrumented tests (app/src/androidTest)
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+
 
     implementation files('libs/RootTools-5.0.aar')
     implementation files('libs/RootShell-1.6.aar')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'de.cketti.library.changelog:ckchangelog:1.2.2'
-    implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    implementation 'com.google.code.gson:gson:2.8.0'
-    implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
-    implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+
     implementation 'com.android.support:design:28.0.0'
-    implementation group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.3, 5.0['
-    implementation 'com.android.support:support-vector-drawable:28.0.0'
-    implementation 'net.hockeyapp.android:HockeySDK:5.1.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:support-compat:28.0.0'
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
-    testImplementation 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
-    testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.5'
-    testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
+    implementation 'com.android.support:support-vector-drawable:28.0.0'
+
+    implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
+
+    implementation 'de.cketti.library.changelog:ckchangelog:1.2.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
+    //implementation 'com.fasterxml.jackson.core:jackson-core:2.9.7'
+    implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+    //implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+    implementation group: 'com.twofortyfouram', name: 'android-plugin-client-sdk-for-locale', version: '[4.0.3, 5.0['
+
+    implementation 'net.hockeyapp.android:HockeySDK:5.1.1'
+
+    testImplementation 'junit:junit:4.13-beta-1'
+    testImplementation 'org.powermock:powermock-api-mockito:1.7.4'
+    testImplementation 'org.powermock:powermock-module-junit4-rule-agent:1.7.4' //2.0.0-RC.4
+    testImplementation 'org.powermock:powermock-module-junit4-rule:1.7.4' //2.0.0-RC.4
+    testImplementation 'org.powermock:powermock-module-junit4:1.7.4' //2.0.0-RC.4
+    androidTestImplementation 'junit:junit:4.13-beta-1'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    // for local tests (app/src/test)
+    // Required for instrumented tests (app/src/androidTest)
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }
-
 
 def getBuildSuffix() {
     def ret = ""
@@ -155,6 +160,8 @@ def getBuildSuffix() {
         ret = "-" + buildNumber
     }
 
-    println ">>>>> Build number: \"" + ret + "\"";
+    println ">>>>> Build number: \"" + ret + "\""
     return ret
 }
+
+//apply plugin: 'com.google.gms.google-services'
