@@ -29,43 +29,35 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     var database: DatabaseConnection? = null
 
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-        fun testConnection() {
-            this.connect()
-        }
-    }
-
-    @Test
-    fun testConnection() {
-        this.connect()
-        assert(database != null)
-    }
-
-    @Test
-    fun testWrite() {
-        this.connect()
-        assert(database != null)
-
-        for (i in 0..20) {
-            val now = System.currentTimeMillis()
-            database?.sendMsg(OtherStatsDataPoint("tes-uuid", "test-value", 125.0 + i, 30000.0+(100*i), 20.0 + (2 * i), now * 1000 * 1000))
-        }
-
-        database?.send()
-    }
-
-
-    private fun connect() {
-        var address = "https://influxdb.gke-dev.asksven.io"
-        var login = "admin"
-        var password = "qQZqEtD5yK"
-        var dbName = "tests"
-
-        database = DatabaseConnection(address, login, password, dbName)
-
-        database?.start()
-
-    }
+//    @Test
+//    fun testConnection() {
+//        this.connect()
+//        assert(database != null)
+//    }
+//
+//    @Test
+//    fun testWrite() {
+//        this.connect()
+//        assert(database != null)
+//
+//        for (i in 0..20) {
+//            val now = System.currentTimeMillis()
+//            database?.sendMsg(OtherStatsDataPoint("tes-uuid", "test-value", 125.0 + i, 30000.0+(100*i), 20.0 + (2 * i), now * 1000 * 1000))
+//        }
+//
+//        database?.send()
+//    }
+//
+//
+//    private fun connect() {
+//        var address = "https://influxdb.gke-dev.asksven.io"
+//        var login = "admin"
+//        var password = "qQZqEtD5yK"
+//        var dbName = "tests"
+//
+//        database = DatabaseConnection(address, login, password, dbName)
+//
+//        database?.start()
+//
+//    }
 }
