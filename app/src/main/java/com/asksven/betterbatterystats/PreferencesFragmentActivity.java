@@ -35,6 +35,8 @@ import com.asksven.betterbatterystats.handlers.OnBootHandler;
 import com.asksven.betterbatterystats.services.UpdateTextWidgetService;
 import com.asksven.betterbatterystats.services.UpdateWidgetService;
 
+import java.util.UUID;
+
 /**
  * Demonstration of the use of a CursorLoader to load and display contacts data
  * in a fragment.
@@ -180,6 +182,21 @@ public class PreferencesFragmentActivity extends BaseActivity
 					startActivity(i);
 				}
 			}
+
+            if (key.equals("flag_time_series"))
+            {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+                // get guid value
+                String uuid = preferences.getString("uuid", "");
+                if (uuid.equals(""))
+                {
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("uuid", UUID.randomUUID().toString());
+                    editor.commit();
+                }
+
+            }
 
 			// if widget settings changed force them to update
 			if (key.equals("text_widget_color") || key.equals("widget_show_pct"))

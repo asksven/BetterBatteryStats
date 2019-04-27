@@ -337,7 +337,7 @@ public class Reference implements Serializable
     }
     public void setTimestamp()
     {
-    	m_creationTime = SystemClock.elapsedRealtime();
+    	m_creationTime = System.currentTimeMillis(); //SystemClock.elapsedRealtime();
     }
     
     public long getCreationTime()

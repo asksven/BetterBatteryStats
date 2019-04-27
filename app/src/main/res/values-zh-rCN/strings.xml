@@ -156,8 +156,7 @@
     <string name="info_pref_import_success">已从%s导入设置</string>
     <string name="info_pref_import_export_failed">操作失败</string>
     <string name="info_files_written">已写入文件</string>
-    <string name="info_files_write_error">发生错误</string>
-    
+
     <string name="info_deleting_refs">正删除并重置设置</string>
     <string name="info_fallback_to_boot">回滚到\'boot\'</string>
     <string name="info_fallback_to_default">恢复默认设置</string>
@@ -214,7 +213,6 @@
     <string name="pref_section_advanced">高级</string>
     <string name="pref_debug_logging_summary">向logcat日志增加调试信息</string>
     <string name="pref_debug_logging_title">调试</string>
-    <string name="pref_files_to_private_storage_summary">向/sdcard/Android/data/com.asksven.betterbatterystats/files/Download写入文件</string>
     <string name="pref_files_to_private_storage_title">私人存储</string>
     <string name="pref_select_dir_summary">选择转存文件写入的位置</string>
     <string name="pref_select_dir_title">选择输出文件夹</string>

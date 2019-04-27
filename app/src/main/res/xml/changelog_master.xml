@@ -10,5 +10,7 @@
         <change>Updated widget layout and option</change>
         <change>App now asks the user to confirm permissions</change>
         <change>Reduce the number of permissions that need to be granted through adb</change>
+        <change>Fixed Samsung Galaxy S10 issue</change>
+        <change>Fixed help link</change>
     </release>
 </changelog>

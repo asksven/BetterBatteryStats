@@ -202,10 +202,7 @@
     <string name="pref_section_advanced">ضبط متقدم</string>
     <string name="pref_debug_logging_summary">Add debug info to logcat</string>
     <string name="pref_debug_logging_title">Debug</string>
-    <string name="pref_files_to_private_storage_summary">Write files to /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Private storage</string>
-    <string name="pref_ignore_system_app_summary">Ignore System App detection (for XPosed Module \'Enable BATTERY_STATS\' users)</string>
-    <string name="pref_ignore_system_app_title">Do not detect system app</string>
 
 
     <string name="pref_developer_title">Enable while charging</string>

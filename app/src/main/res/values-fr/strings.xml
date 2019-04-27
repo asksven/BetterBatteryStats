@@ -203,7 +203,6 @@
     <string name="pref_section_advanced">Avancé</string>
     <string name="pref_debug_logging_summary">Ajouter les informations de débuggage dans le logcat</string>
     <string name="pref_debug_logging_title">Débuggage</string>
-    <string name="pref_files_to_private_storage_summary">Écrire les fichiers vers /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Stockage privé</string>
 
 
@@ -278,5 +277,13 @@
     <string name="widget_fontsize_12">Normale (12)</string>
     <string name="widget_fontsize_10">*Petite (10)</string>
     <string name="widget_fontsize_8">Très petite (8)</string>
+    <string name="widget_show_text_color_title">Texte coloré</string>
+    <string name="widget_show_text_color_summary">Affiche le text en couleur pour le widget simple</string>
+    <string name="label_about_translation8">Neerlandais par @Matthias-vdE</string>
+    <string name="label_changelog">Historique</string>
+    <string name="label_discard_changes">Ignorer les changements</string>
+    <string name="label_about_translation7">Portugais Bresilien par @caiorrs</string>
+    <string name="label_about_xda">Thread sur XDA</string>
+    <string name="info_files_written">Fichers ont été écris</string>
 
 </resources>

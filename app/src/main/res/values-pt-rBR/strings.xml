@@ -164,7 +164,6 @@
     <string name="info_pref_import_success">Preferências foram importadas de %s</string>
     <string name="info_pref_import_export_failed">A operação falhou</string>
     <string name="info_files_written">Arquivos foram escritos</string>
-    <string name="info_files_write_error">Ocorreu um erro</string>
 
 
     <string name="info_deleting_refs">Excluindo e recriando as referências</string>
@@ -224,7 +223,6 @@
     <string name="pref_section_advanced">Avançado</string>
     <string name="pref_debug_logging_summary">Adicionar informações de depuração para o logcat</string>
     <string name="pref_debug_logging_title">Depurar</string>
-    <string name="pref_files_to_private_storage_summary">Escrever arquivos para /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Armazenamento privado</string>
     <string name="pref_select_dir_summary">Escolher onde escrever os dumpfiles</string>
     <string name="pref_select_dir_title">Escolher Diretório de Saída</string>

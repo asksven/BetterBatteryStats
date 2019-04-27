@@ -40,7 +40,7 @@ import com.asksven.betterbatterystats.data.StatsProvider;
  * @author sven
  *
  */
-@TargetApi(23)
+@TargetApi(21)
 public class WriteBootReferenceService extends JobService
 {
 	private static final String TAG = "WriteBootRefService";
@@ -59,15 +59,6 @@ public class WriteBootReferenceService extends JobService
 			Wakelock.aquireWakelock(this);
 			StatsProvider.getInstance().setReferenceSinceBoot(0);
 			
-			// delete screen on time counters
-	        SharedPreferences.Editor updater = sharedPrefs.edit();
-			long elapsedRealtime = SystemClock.elapsedRealtime();
-	        updater.putLong("time_screen_on", elapsedRealtime);
-	        updater.putLong("screen_on_counter", 0);
-
-	        updater.commit();
-
-
 			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.BOOT_REF_FILENAME);
 		    this.sendBroadcast(i);
 
@@ -101,7 +92,7 @@ public class WriteBootReferenceService extends JobService
         //builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
         //builder.setRequiresDeviceIdle(true); // device should be idle
         //builder.setRequiresCharging(false); // we don't care if the device is charging or not
-        JobScheduler jobScheduler = context.getSystemService(JobScheduler.class);
+		JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(builder.build());
     }
 

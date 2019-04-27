@@ -12,10 +12,8 @@
         android:icon="@drawable/ic_share_white_48dp"
         app:showAsAction="ifRoom"/>
 
-    <!--
-    <item android:id="@+id/test"    
+    <item android:id="@+id/test"
           android:title="Test" />
-    -->
 
     <item
         android:id="@+id/custom_ref"

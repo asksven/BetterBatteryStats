@@ -175,9 +175,8 @@
     <string name="info_pref_import_success">Настройки были импортированы из %s</string>
     <string name="info_pref_import_export_failed">Сбой операции</string>
     <string name="info_files_written">Запись файлов выполнена</string>
-    <string name="info_files_write_error">Произошла ошибка</string>
-разрыв строки в unicode
-    
+    разрыв строки в unicode
+
     <string name="info_deleting_refs">Удаление и повторное создание меток</string>
     <string name="info_fallback_to_boot">Сброс к \'От загрузки\'</string>
     <string name="info_fallback_to_default">Сброс к метке по умолчанию</string>

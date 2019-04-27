@@ -40,6 +40,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.opengl.GLES10;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.MemoryFile;
@@ -116,8 +117,13 @@ public class BatteryStatsProxy
             if (Build.VERSION.SDK_INT >= 22)
             {
                 m_proxy = new BatteryStatsProxy(ctx, true);
-            }
-            else
+                // some devices, e.g. Samsung Galaxy S10 throw a Permission denied when reading the FileInputStream
+                // if the instance could not be created try the old way
+                if (m_proxy.m_Instance == null)
+                {
+                    m_proxy = new BatteryStatsProxy(ctx);
+                }
+            } else
             {
                 m_proxy = new BatteryStatsProxy(ctx);
             }

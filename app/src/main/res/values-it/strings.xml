@@ -175,9 +175,8 @@
   <string name="info_pref_import_success">Le preferenze sono state importate da %s</string>
   <string name="info_pref_import_export_failed">L\'operazione e\' fallita</string>
   <string name="info_files_written">I files sono stati scritti</string>
-  <string name="info_files_write_error">Si e\' verificato un errore</string>
 
-  <string name="info_deleting_refs">Le preferenze vengono cancellate e ricalcolate</string>
+    <string name="info_deleting_refs">Le preferenze vengono cancellate e ricalcolate</string>
   <string name="info_fallback_to_boot">Cambio a\: \'Dall\'Avvio\'</string>
   <string name="info_fallback_to_default">Cambio a\: riferimento predefinito</string>
   <string name="label_granted">permesso</string>

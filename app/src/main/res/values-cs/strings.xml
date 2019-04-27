@@ -170,7 +170,6 @@
     <string name="info_pref_import_success">Nastavení bylo načteno z %s</string>
     <string name="info_pref_import_export_failed">Operace selhala</string>
     <string name="info_files_written">Soubory byly uloženy</string>
-    <string name="info_files_write_error">Došlo k chybě</string>
 
 
     <string name="info_deleting_refs">Mažu a obnovuji ref. body</string>
@@ -232,7 +231,6 @@
     <string name="pref_section_advanced">Pokročilé</string>
     <string name="pref_debug_logging_summary">Přidávat debug informace do logcat logu</string>
     <string name="pref_debug_logging_title">Debug</string>
-    <string name="pref_files_to_private_storage_summary">Zapisovat soubory do /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
     <string name="pref_files_to_private_storage_title">Privátní uložiště</string>
     <string name="pref_select_dir_summary">Zvolte kam budou soubory uloženy</string>
     <string name="pref_select_dir_title">Vybrat cílový adresář</string>

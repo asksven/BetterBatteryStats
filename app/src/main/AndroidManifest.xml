@@ -11,15 +11,11 @@
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
 
-    <!-- needed to read logcat : removed-->
-    <!-- <uses-permission android:name="android.permission.READ_LOGS" /> -->
-    <!-- permission to access su (optional if available for dumpsys and network stats -->
+    <!-- permission to access su -->
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
 
 
     <!-- required for writing dump files -->
-    <!-- we do not require this permission anymore; instead all file write actions are done to the app's directory under /sdcard/Android... -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <!-- required by M-preview -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -29,8 +25,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- detect  when screen is turned on/off -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- detect unplug actions -->
-    <!-- <uses-permission android:name="android.permission.DEVICE_POWER" /> -->
 
     <!-- retrieve ps list (running tasks) -->
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -51,6 +45,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
 
     <application
         android:name=".BbsApplication"
@@ -232,6 +227,7 @@
         <service android:name=".services.WriteTimerReferenceService" />
         <service android:name=".services.WriteScreenOnReferenceService" />
         <service android:name=".services.WriteBootReferenceService" android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name=".services.WriteTimeSeriesService" android:permission="android.permission.BIND_JOB_SERVICE" />
         <service android:name=".services.WatchdogProcessingService" />
         <service
             android:name=".services.BbsDashClockExtension"

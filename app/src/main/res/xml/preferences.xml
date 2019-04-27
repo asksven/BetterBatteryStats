@@ -71,11 +71,6 @@
                 android:key="show_other_doze"
                 android:summary="@string/pref_show_other_doze_summary"
                 android:title="@string/pref_show_other_doze_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="show_gauge"
-                android:summary="@string/pref_show_gauge_summary"
-                android:title="@string/pref_show_gauge_title" />
         </PreferenceScreen>
     </PreferenceCategory>
 
@@ -258,6 +253,12 @@
                 android:title="@string/pref_screen_import_export_title">
                 <intent android:action="com.asksven.betterbatterystats.ImportExportPreferencesActivity" />
             </PreferenceScreen>
+
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="flag_time_series"
+                android:summary="@string/pref_time_series_summary"
+                android:title="@string/pref_time_series_title" />
 
 
         </PreferenceScreen>

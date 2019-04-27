@@ -35,6 +35,7 @@ public class Events
     public static final String EVENT_PROCESS_WATCHDOG = "process_watchdog";
 
     public static final String EVENT_PERFORM_SAVEDUMPFILE = "perform_savedumpfile";
+    public static final String EVENT_PERFORM_SAVETIMESERIES = "perform_savetimeseries";
 
 
 }

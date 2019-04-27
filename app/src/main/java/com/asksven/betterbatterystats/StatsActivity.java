@@ -71,10 +71,13 @@ import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.features.FeatureFlags;
 import com.asksven.betterbatterystats.handlers.OnBootHandler;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
+import com.asksven.betterbatterystats.services.WriteDumpfileService;
+import com.asksven.betterbatterystats.services.WriteTimeSeriesService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
@@ -648,6 +651,7 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		catch (Exception e)
 		{
+			Log.e(TAG, "An exception occured on onPause(): " + e.getMessage());
 		}
 
 		// unregister boradcast receiver for saved references
@@ -668,6 +672,7 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		catch (Exception e)
 		{
+			Log.e(TAG, "An exception occured on onPause(): " + e.getMessage());
 		}
 
 	}
@@ -699,9 +704,23 @@ public class StatsActivity extends ActionBarListActivity
     {  
     	MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.mainmenu, menu);
-        return true;
-    }  
 
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        if (!FeatureFlags.getInstance(StatsActivity.this).isTimeSeriesEnabled())
+        {
+            if (menu.findItem(R.id.test) != null)
+            {
+                menu.removeItem(R.id.test);
+            }
+        }
+        super.onPrepareOptionsMenu(menu);
+        return true;
+    }
     /** 
      * Define menu action
      * 
@@ -740,10 +759,10 @@ public class StatsActivity extends ActionBarListActivity
         		Intent serviceIntent = new Intent(this, WriteCustomReferenceService.class);
         		this.startService(serviceIntent);
             	break;	            	
-//            case R.id.test:
-//    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
-//    			this.startService(serviceIntent);
-//    			break;	
+            case R.id.test:
+                // save time-series if selected
+                WriteTimeSeriesService.scheduleJob(StatsActivity.this);
+    			break;
 
             case R.id.about:
             	// About
@@ -752,7 +771,7 @@ public class StatsActivity extends ActionBarListActivity
             	break;
 
             case R.id.help:
-            	String url = "http://better.asksven.org/bbs-help/";
+            	String url = "https://better.asksven.io/betterbatterystats/help/";
             	Intent i = new Intent(Intent.ACTION_VIEW);
             	i.setData(Uri.parse(url));
             	startActivity(i);
@@ -1064,9 +1083,6 @@ public class StatsActivity extends ActionBarListActivity
 	    			Snackbar
 		  			  .make(findViewById(android.R.id.content), R.string.info_service_connection_error, Snackbar.LENGTH_LONG)
 		  			  .show();
-//	    			Toast.makeText(StatsActivity.this,
-//	    					getString(R.string.info_service_connection_error),
-//	    					Toast.LENGTH_LONG).show();
 
 	    		}
 	    		else
@@ -1074,17 +1090,23 @@ public class StatsActivity extends ActionBarListActivity
 	    			Snackbar
 		  			  .make(findViewById(android.R.id.content), R.string.info_unknown_stat_error, Snackbar.LENGTH_LONG)
 		  			  .show();
-//	    			Toast.makeText(StatsActivity.this,
-//	    					getString(R.string.info_unknown_stat_error),
-//	    					Toast.LENGTH_LONG).show();
-	    			
+
 	    		}
 	    	}
+
 	        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
     		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
-        	long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
+
+            if (FeatureFlags.getInstance(StatsActivity.this).isTimeSeriesEnabled())
+            {
+                // schedule time series upload
+                WriteTimeSeriesService.scheduleJob(StatsActivity.this);
+            }
+
+            long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
         	if (o != null)
         	{
         		o.setTotalTime(sinceMs);
@@ -1094,8 +1116,7 @@ public class StatsActivity extends ActionBarListActivity
 	        {
 		        String sinceText = DateUtils.formatDuration(sinceMs);
 		        
-				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
-		        sinceText += " " + StatsProvider.getInstance().getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
+				sinceText += " " + StatsProvider.getInstance().getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
 		        
 		        tvSince.setText(sinceText);
 		        if (LogSettings.DEBUG) Log.i(TAG, "Since " + sinceText);
@@ -1151,14 +1172,26 @@ public class StatsActivity extends ActionBarListActivity
 	}
 	
 
-	public Dialog getShareDialog()
+	public AlertDialog getShareDialog()
 	{
 	
 		final ArrayList<Integer> selectedSaveActions = new ArrayList<Integer>();
 
 		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		
+		AlertDialog.Builder dialog = new AlertDialog.Builder(StatsActivity.this);
+
+/*
+		dialog.setTitle("Alert");
+		dialog.setMessage("Alert message to be shown");
+		dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+		return dialog;
+*/
+
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean saveDumpfile = sharedPrefs.getBoolean("save_dumpfile", true);
 		boolean saveLogcat = sharedPrefs.getBoolean("save_logcat", false);
@@ -1200,9 +1233,9 @@ public class StatsActivity extends ActionBarListActivity
         layout.addView(editDescription, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		
 		//----
-		
+
 		// Set the dialog title
-		builder.setTitle(R.string.title_share_dialog)
+		dialog.setTitle(R.string.title_share_dialog)
 				.setMultiChoiceItems(R.array.saveAsLabels, new boolean[]{saveDumpfile, saveLogcat, saveDmesg}, new DialogInterface.OnMultiChoiceClickListener()
 				{
 					@Override
@@ -1290,7 +1323,7 @@ public class StatsActivity extends ActionBarListActivity
 							{
 								StatsProvider.getInstance().writeDmesgToFile();
 							}
-						
+
 							Snackbar
 							  .make(findViewById(android.R.id.content), getString(R.string.info_files_written) + ": " + StatsProvider.getWritableFilePath(), Snackbar.LENGTH_LONG)
 							  .show();
@@ -1312,8 +1345,8 @@ public class StatsActivity extends ActionBarListActivity
 							// do nothing
 						}
 					});
-	
-		return builder.create();
+
+		return dialog.create();
 	}
 	
 }

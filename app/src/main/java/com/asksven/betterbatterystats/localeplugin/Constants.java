@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 asksven
+ * Copyright (C) 2012-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,6 @@ public final class Constants
     /**
      * Log tag for logcat messages
      */
-    // TODO: Change this to your application's own log tag
     public static final String LOG_TAG = "BBSLocalePlugin"; //$NON-NLS-1$
 
     /**

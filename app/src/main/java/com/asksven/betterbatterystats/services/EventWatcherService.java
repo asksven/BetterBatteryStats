@@ -51,6 +51,7 @@ public class EventWatcherService extends Service
 
     BroadcastReceiver mReceiver = null;
     BroadcastReceiver mReceiver2 = null;
+    BroadcastReceiver mReceiver3 = null;
 
     String CHANNEL_ID = "bbs_channel_event_processing";
 

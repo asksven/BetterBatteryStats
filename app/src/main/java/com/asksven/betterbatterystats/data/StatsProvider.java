@@ -3040,7 +3040,6 @@ public class StatsProvider
 		return fileUri;
 	}
 
-
 	/**
 	 * translate the stat type (see arrays.xml) to the corresponding label
 	 * 

@@ -101,7 +101,7 @@ public class OnBootHandler extends BroadcastReceiver
 	}
 
     // schedule the start of the service every 10 to 15 minutes
-    @TargetApi(23)
+    @TargetApi(21)
     public static void scheduleAppWidgetsJob(Context context)
     {
         OnBootHandler.deletePendingAppWidgetsJobs(context);
@@ -109,14 +109,14 @@ public class OnBootHandler extends BroadcastReceiver
     }
 
     // schedule an immediate refresh job
-    @TargetApi(23)
+    @TargetApi(21)
     public static void scheduleAppWidgetsJobImmediate(Context context)
     {
         OnBootHandler.deletePendingAppWidgetsJobs(context);
         OnBootHandler.scheduleJob(context, 5 * 1000, 10 * 1000);
     }
 
-    @TargetApi(23)
+    @TargetApi(21)
     static void scheduleJob(Context context, long minLatencyMs, long maxDelayMs)
     {
         ComponentName serviceComponent = new ComponentName(context, AppWidgetJobService.class);
@@ -127,12 +127,12 @@ public class OnBootHandler extends BroadcastReceiver
         {
             //builder.setImportantWhileForeground(true);
         }
-        JobScheduler jobScheduler = context.getSystemService(JobScheduler.class);
+        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(builder.build());
 
     }
 
-    @TargetApi(23)
+    @TargetApi(21)
     public static boolean isAppWidgetsJobOn(Context context)
     {
         JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
@@ -151,7 +151,7 @@ public class OnBootHandler extends BroadcastReceiver
         return hasBeenScheduled;
     }
 
-    @TargetApi(23)
+    @TargetApi(21)
     public static void deletePendingAppWidgetsJobs(Context context)
     {
         JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);

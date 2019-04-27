@@ -33,7 +33,7 @@ import com.asksven.betterbatterystats.widgetproviders.TextAppWidget;
  * JobService to be scheduled by the JobScheduler.
  * Refresh all widgets
  */
-@TargetApi(23)
+@TargetApi(21)
 public class AppWidgetJobService extends JobService
 {
     private static final String TAG = "AppWidgetJobService";
