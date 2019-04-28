@@ -282,7 +282,8 @@ public class StatsActivity extends ActionBarListActivity
 		}
 
 		// show install as system app screen if root available but perms missing
-		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
+		if (!SystemAppActivity.hasAllPermissions(this))
+//		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
 		{
 			Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
 			this.startActivity(intentSystemApp);
@@ -1009,7 +1010,8 @@ public class StatsActivity extends ActionBarListActivity
 	private void doRefresh(boolean updateCurrent)
 	{
 
-		if (SysUtils.hasBatteryStatsPermission(this)) BatteryStatsProxy.getInstance(this).invalidate();
+		// do not hammer on the service
+		// if (SysUtils.hasBatteryStatsPermission(this) ) BatteryStatsProxy.getInstance(this).invalidate();
 		
 		refreshSpinners();
 

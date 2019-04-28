@@ -26,21 +26,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningAppProcessInfo;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.opengl.GLES10;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.MemoryFile;
@@ -49,7 +41,6 @@ import android.os.ParcelFileDescriptor;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -57,10 +48,6 @@ import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.nameutils.UidInfo;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.system.AndroidVersion;
-
-
-
 
 
 /**
@@ -82,6 +69,10 @@ public class BatteryStatsProxy
 	 * Instance of the BatteryStatsImpl
 	 */
 	private Object m_Instance = null;
+
+	private static String m_lastError = "";
+	private static boolean m_fallbackStats = false;
+
 	@SuppressWarnings("rawtypes")
 	private Class m_ClassDefinition = null;
 	
@@ -112,8 +103,12 @@ public class BatteryStatsProxy
 	
 	synchronized public static BatteryStatsProxy getInstance(Context ctx)
 	{
-		if (m_proxy == null)
+
+		if ((m_proxy == null) || (m_proxy.m_Instance == null))
 		{
+            m_fallbackStats = false;
+            m_lastError = "";
+
             if (Build.VERSION.SDK_INT >= 22)
             {
                 m_proxy = new BatteryStatsProxy(ctx, true);
@@ -121,16 +116,29 @@ public class BatteryStatsProxy
                 // if the instance could not be created try the old way
                 if (m_proxy.m_Instance == null)
                 {
+                    m_fallbackStats = true;
                     m_proxy = new BatteryStatsProxy(ctx);
                 }
-            } else
+            }
+            else
             {
+                m_fallbackStats = false;
                 m_proxy = new BatteryStatsProxy(ctx);
             }
 		}
 		
 		return m_proxy;
 	}
+
+    public String getError()
+    {
+        return m_lastError;
+    }
+
+    public boolean isFallback()
+    {
+        return m_fallbackStats;
+    }
 
     public void invalidate()
 	{
@@ -214,13 +222,13 @@ public class BatteryStatsProxy
 
             if (CommonLogSettings.DEBUG)
             {
-              Log.i(TAG, "invoking android.os.ServiceManager.getService(\"batteryinfo\")");
+              Log.i(TAG, "invoking android.os.ServiceManager.getService(\"" + service + "\")");
             }
             IBinder serviceBinder = (IBinder) methodGetService.invoke(serviceManagerClass, paramsGetService);
 
             if (CommonLogSettings.DEBUG)
             {
-              Log.i(TAG, "android.os.ServiceManager.getService(\"batteryinfo\") returned a service binder");
+              Log.i(TAG, "android.os.ServiceManager.getService(\"" + service + "\") returned a service binder");
             }
 
             // now we have a binder. Let's us that on IBatteryStats.Stub.asInterface
@@ -283,13 +291,19 @@ public class BatteryStatsProxy
             Parcelable.Creator batteryStatsImpl_CREATOR = (Parcelable.Creator) creatorField.get(batteryStatsImpl);
 
             m_Instance = batteryStatsImpl_CREATOR.createFromParcel(parcel);
+            m_lastError = "";
 	    }
 		catch( Exception e )
 		{
-			if (e instanceof InvocationTargetException && e.getCause() != null) {
+			if (e instanceof InvocationTargetException && e.getCause() != null)
+			{
    				Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getCause().getMessage());
-			} else {
+   				m_lastError = e.getCause().getMessage();
+			}
+			else
+			{
 				Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getMessage());
+                m_lastError = e.getMessage();
 			}
 	    	m_Instance = null;
 	    	
@@ -354,13 +368,13 @@ public class BatteryStatsProxy
 
 			if (CommonLogSettings.DEBUG)
 			{
-				Log.i(TAG, "invoking android.os.ServiceManager.getService(\"batteryinfo\")");
+				Log.i(TAG, "invoking android.os.ServiceManager.getService(\"" + service + "\")");
 			}
 			IBinder serviceBinder = (IBinder) methodGetService.invoke(serviceManagerClass, paramsGetService);
 
 			if (CommonLogSettings.DEBUG)
 			{
-				Log.i(TAG, "android.os.ServiceManager.getService(\"batteryinfo\") returned a service binder");
+				Log.i(TAG, "android.os.ServiceManager.getService(\"" + service + "\") returned a service binder");
 			}
 
 			// now we have a binder. Let's us that on IBatteryStats.Stub.asInterface
@@ -418,7 +432,10 @@ public class BatteryStatsProxy
                     // we want to access MemoryFile.getSize(pfd.getFileDescriptor()) but this methos id hidden
                     Method methodGetSize = MemoryFile.class.getMethod("getSize", paramTypes);
                     methodGetSize.setAccessible(true);
+
                     int size = (int) methodGetSize.invoke(null, /* null = static method */ pfd.getFileDescriptor());
+                    long size2 = pfd.getStatSize();
+
                     byte[] data = readFully(fis, size);
                     Parcel parcel = Parcel.obtain();
                     parcel.unmarshall(data, 0, data.length);
@@ -435,21 +452,28 @@ public class BatteryStatsProxy
                     Parcelable.Creator batteryStatsImpl_CREATOR = (Parcelable.Creator) creatorField.get(batteryStatsImpl);
 
                     m_Instance = batteryStatsImpl_CREATOR.createFromParcel(parcel);
+                    m_lastError = "";
 
                 }
                 catch (IOException e)
                 {
                     Log.w(TAG, "Unable to read statistics stream", e);
+                    m_lastError = "Unable to read statistics stream: " + e.getMessage();
                 }
             }
 
 		}
 		catch( Exception e )
 		{
-			if (e instanceof InvocationTargetException && e.getCause() != null) {
+			if (e instanceof InvocationTargetException && e.getCause() != null)
+			{
 				Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getCause().getMessage());
-			} else {
+                m_lastError = e.getCause().getMessage();
+			}
+			else
+			{
 				Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getMessage());
+                m_lastError = e.getMessage();
 			}
 			m_Instance = null;
 

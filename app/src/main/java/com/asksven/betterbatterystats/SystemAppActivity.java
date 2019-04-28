@@ -40,6 +40,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.utils.SysUtils;
 
 import java.io.ByteArrayInputStream;
@@ -136,6 +137,7 @@ public class SystemAppActivity extends BaseActivity
         Log.i(TAG, "OnResume called");
 
 		final TextView permBATTERY = (TextView) findViewById(R.id.textViewBATTERY_STATS);
+        final TextView statusBATTERY = (TextView) findViewById(R.id.textViewBATTERY_STATS_STATUS);
         final TextView permDUMP = (TextView) findViewById(R.id.textViewDUMP);
         final TextView permPACKAGE = (TextView) findViewById(R.id.textViewPACKAGE_USAGE_STATS);
         final TextView permAPPOPS = (TextView) findViewById(R.id.textViewAPPOP_USAGE_STATS);
@@ -159,7 +161,28 @@ public class SystemAppActivity extends BaseActivity
             permBATTERY.setBackgroundColor(Color.RED);
         }
 
-		if (SysUtils.hasDumpsysPermission(this))
+        BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
+		String status = "";
+		if (stats.initFailed())
+        {
+            status = getString(R.string.label_failed);
+            if (!stats.getError().equals(""))
+            {
+                status = status + ": " + stats.getError();
+            }
+
+        }
+		else
+        {
+            status = getString(R.string.label_success);
+            if (stats.isFallback())
+            {
+                status = status + " (" + getString(R.string.label_fallback) + ")";
+            }
+        }
+        statusBATTERY.setText("STATUS: " + status);
+
+        if (SysUtils.hasDumpsysPermission(this))
 		{
 			permDUMP.setText("DUMP " + getString(R.string.label_granted));
 		}
@@ -303,13 +326,13 @@ public class SystemAppActivity extends BaseActivity
         }
         else
         {
-            permAPPOPS.setText("READ_EXTERNAL_STORAGE " + getString(R.string.label_not_needed));
+            permREAD_EXTERNAL_STORAGE.setText("READ_EXTERNAL_STORAGE " + getString(R.string.label_not_needed));
 
         }
 
     }
 
-    private static boolean hasAllPermissions(Context ctx)
+    protected static boolean hasAllPermissions(Context ctx)
     {
         boolean hasPermissions = true;
 

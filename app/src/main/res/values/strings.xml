@@ -189,6 +189,9 @@
     <string name="label_granted">granted</string>
     <string name="label_not_granted">not granted</string>
     <string name="label_not_needed">not needed</string>
+    <string name="label_failed">Failed</string>
+    <string name="label_success">Success</string>
+    <string name="label_fallback">fallback</string>
 
     <!-- Preferences labels and texts -->
     <string name="pref_section_display">Display</string>

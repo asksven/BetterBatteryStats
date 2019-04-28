@@ -25,8 +25,17 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
-            android:id="@+id/textViewDUMP"
+            android:id="@+id/textViewBATTERY_STATS_STATUS"
             android:layout_below="@+id/textViewBATTERY_STATS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="false"
+            android:text="Permission..."
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textViewDUMP"
+            android:layout_below="@+id/textViewBATTERY_STATS_STATUS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="false"

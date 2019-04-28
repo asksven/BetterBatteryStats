@@ -30,6 +30,7 @@ import com.asksven.android.common.kernelutils.State;
 import com.asksven.android.common.kernelutils.Wakelocks;
 import com.asksven.android.common.nameutils.UidNameResolver;
 import com.asksven.android.common.privateapiproxies.Alarm;
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
 import com.asksven.android.common.privateapiproxies.NetworkUsage;
@@ -62,35 +63,36 @@ import java.util.List;
 public class Reading implements Serializable
 {
 	
-	static final String TAG = "Reading";
-	String bbsVersion;
-	String creationDate;
-	Long readingTimeMs;
-	String statType;
-	String duration;
-	long totalTime;
-	String buildVersionRelease;
-	String buildBrand;
-	String buildDevice;
-	String buildManufacturer;
-	String buildModel;
-	String osVersion;
-	String buildBootloader;
-	String buildHardware;
-	String buildFingerprint;
-	String buildId;
-	String buildTags;
-	String buildUser;
-	String buildProduct;
-	String buildRadio;
+	static 	final String TAG = "Reading";
+	String 	bbsVersion;
+	String 	creationDate;
+	Long 	readingTimeMs;
+	String 	statType;
+	String 	duration;
+	long 	totalTime;
+	String 	buildVersionRelease;
+	String 	buildBrand;
+	String 	buildDevice;
+	String 	buildManufacturer;
+	String 	buildModel;
+	String 	osVersion;
+	String 	buildBootloader;
+	String 	buildHardware;
+	String 	buildFingerprint;
+	String 	buildId;
+	String 	buildTags;
+	String 	buildUser;
+	String 	buildProduct;
+	String 	buildRadio;
 	boolean rootPermissions;
 	boolean batteryStatsPermGranted;
-	String seLinuxPolicy;
-	int batteryLevelLost;
-	int batteryVoltageLost;
-	String batteryLevelLostText;
-	String batteryVoltageLostText;
-	String note;
+	String 	batteryServiceState;
+	String 	seLinuxPolicy;
+	int 	batteryLevelLost;
+	int 	batteryVoltageLost;
+	String 	batteryLevelLostText;
+	String 	batteryVoltageLostText;
+	String 	note;
 	
 	
 	ArrayList<StatElement> otherStats;
@@ -170,6 +172,30 @@ public class Reading implements Serializable
 		SharedPreferences sharedPrefs 	= PreferenceManager.getDefaultSharedPreferences(context);
 		
 		batteryStatsPermGranted = SysUtils.hasBatteryStatsPermission(context);
+
+		// Determine the status of the batteryinfo service
+		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(context);
+		String status = "";
+		if (stats.initFailed())
+		{
+			status = "Failed";
+			if (!stats.getError().equals(""))
+			{
+				status = status + ": " + stats.getError();
+			}
+
+		}
+		else
+		{
+			status = "Success";
+			if (stats.isFallback())
+			{
+				status = status + " (fallback)";
+			}
+		}
+
+		batteryServiceState = status;
+
 		seLinuxPolicy = SysUtils.getSELinuxPolicy();
 		
 		batteryLevelLost 		= StatsProvider.getInstance().getBatteryLevelStat(refFrom, refTo);
@@ -366,7 +392,7 @@ public class Reading implements Serializable
 		out.write("Root perms: " + rootPermissions + "\n");
 		out.write("SELinux Policy: " + seLinuxPolicy + "\n");
 		out.write("BATTERY_STATS permission granted: " + batteryStatsPermGranted + "\n");
-
+		out.write("BATTERY_STATS status: " + batteryServiceState + "\n");
 
 		out.write("============\n");
 		out.write("Battery Info\n");
@@ -532,6 +558,7 @@ public class Reading implements Serializable
 		{
 			String uuid = sharedPrefs.getString("uuid", "guest");
 
+			// don't bother trying to access this URL: it does not exist ;)
             String address = "https://influxdb.gke-dev.asksven.io";
             String login = "admin";
             String password = "qQZqEtD5yK";
