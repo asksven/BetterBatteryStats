@@ -145,15 +145,6 @@
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/textViewREAD_EXTERNAL_STORAGE"
-            android:layout_below="@+id/textViewWAKE_LOCK"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="false"
-            android:text="Permission..."
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
     </RelativeLayout>
 
 </LinearLayout>

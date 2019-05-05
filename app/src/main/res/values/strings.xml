@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="perm_rationale_READ_PHONE_STATE">This permission is required to detect when the phone was turned on and off.</string>
-    <string name="perm_rationale_RECEIVE_BOOT_COMPLETED">This permission is required to collect \"on boot\" stats.</string>
-    <string name="perm_rationale_INTERNET">This permission is required for analytics purposes.</string>
-    <string name="perm_rationale_ACCESS_NETWORK_STATE">This permission is required to connect network stats.</string>
-    <string name="perm_rationale_ACCESS_WIFI_STATE">This permission is required to access Wifi stats.</string>
-    <string name="perm_rationale_PACKAGE_USAGE_STATS">This permission is required to access package stats.</string>
-    <string name="perm_rationale_APPOPS_USAGE_STATS">This permission is required to access alarm stats.Please grant it in the following dialog.</string>
-    <string name="perm_rationale_READ_EXTERNAL_STORAGE">This permission is required to access files, i.e. read the battery stats .</string>
+    <string name="perm_rationale_READ_PHONE_STATE">READ_PHONE_STATE: This permission is required to detect when the phone was turned on and off.</string>
+    <string name="perm_rationale_RECEIVE_BOOT_COMPLETED">RECEIVE_BOOT_COMPLETED: This permission is required to collect \"on boot\" stats.</string>
+    <string name="perm_rationale_INTERNET">INTERNET: This permission is required for analytics purposes.</string>
+    <string name="perm_rationale_ACCESS_NETWORK_STATE">ACCESS_NETWORK_STATE: This permission is required to connect network stats.</string>
+    <string name="perm_rationale_ACCESS_WIFI_STATE">ACCESS_WIFI_STATE: This permission is required to access Wifi stats.</string>
+    <string name="perm_rationale_PACKAGE_USAGE_STATS">PACKAGE_USAGE_STATS: This permission is required to access package stats.</string>
+    <string name="perm_rationale_APPOPS_USAGE_STATS">APPOPS_USAGE_STATS: This permission is required to access alarm stats.Please grant it in the following dialog.</string>
+    <string name="perm_rationale_READ_EXTERNAL_STORAGE">READ_EXTERNAL_STORAGE: This permission is required to access files, i.e. read the battery stats .</string>
+    <string name="perm_rationale_WRITE_EXTERNAL_STORAGE">WRITE_EXTERNAL_STORAGE: This permission is required to access the battery stats .</string>
 
     <string name="event_processing_channel_name" translatable="false">BBS Event Processing</string>
     <string name="event_processing_channel_description" translatable="false">BBS Notification for Backgroud Service</string>

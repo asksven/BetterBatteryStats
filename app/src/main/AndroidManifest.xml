@@ -33,6 +33,8 @@
     <!-- need to hold wakelocks for writing operations -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
+
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -43,8 +45,6 @@
     <uses-feature
         android:name="android.software.app_widgets"
         android:required="true" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
     <application

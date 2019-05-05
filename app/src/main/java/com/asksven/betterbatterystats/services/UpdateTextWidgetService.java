@@ -85,8 +85,13 @@ public class UpdateTextWidgetService extends JobIntentService
                 .getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 
         StatsProvider stats = StatsProvider.getInstance();
+
         // make sure to flush cache
-        BatteryStatsProxy.getInstance(this).invalidate();
+        BatteryStatsProxy proxy = BatteryStatsProxy.getInstance(this);
+        if ( proxy != null)
+        {
+            proxy.invalidate();
+        }
 
         if (allWidgetIds != null)
         {

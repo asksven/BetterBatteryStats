@@ -67,6 +67,7 @@ public class SystemAppActivity extends BaseActivity
     final static int CONST_BLUETOOTH                = 1007;
     final static int CONST_WAKE_LOCK                = 1008;
     final static int CONST_PACKAGE_USAGE_STATS      = 1009;
+    final static int CONST_WRITE_EXTERNAL_STORAGE   = 1010;
 
     private View mLayout;
 
@@ -148,7 +149,6 @@ public class SystemAppActivity extends BaseActivity
 		final TextView permREAD_PHONE_STATE = (TextView) findViewById(R.id.textViewREAD_PHONE_STATE);
 		final TextView permBLUETOOTH = (TextView) findViewById(R.id.textViewBLUETOOTH);
 		final TextView permWAKE_LOCK = (TextView) findViewById(R.id.textViewWAKE_LOCK);
-        final TextView permREAD_EXTERNAL_STORAGE = (TextView) findViewById(R.id.textViewREAD_EXTERNAL_STORAGE);
 
 		String text = "";
 		if (SysUtils.hasBatteryStatsPermission(this))
@@ -311,24 +311,6 @@ public class SystemAppActivity extends BaseActivity
             permWAKE_LOCK.setBackgroundColor(Color.RED);
         }
 
-        if (Build.VERSION.SDK_INT >= 23)
-        {
-            checkAndRequestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, CONST_READ_EXTERNAL_STORAGE, getString(R.string.perm_rationale_READ_EXTERNAL_STORAGE));
-            if (SystemAppActivity.hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE, this))
-            {
-                permREAD_EXTERNAL_STORAGE.setText("READ_EXTERNAL_STORAGE " + getString(R.string.label_granted));
-            }
-            else
-            {
-                permREAD_EXTERNAL_STORAGE.setText("READ_EXTERNAL_STORAGE  " + getString(R.string.label_not_granted));
-                permREAD_EXTERNAL_STORAGE.setBackgroundColor(Color.RED);
-            }
-        }
-        else
-        {
-            permREAD_EXTERNAL_STORAGE.setText("READ_EXTERNAL_STORAGE " + getString(R.string.label_not_needed));
-
-        }
 
     }
 
@@ -346,7 +328,6 @@ public class SystemAppActivity extends BaseActivity
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.READ_PHONE_STATE, ctx);
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.BLUETOOTH, ctx);
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.WAKE_LOCK, ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE, ctx);
         hasPermissions = hasPermissions && SystemAppActivity.hasPermissionAppOpsUsageStats(ctx);
 
         return hasPermissions;
