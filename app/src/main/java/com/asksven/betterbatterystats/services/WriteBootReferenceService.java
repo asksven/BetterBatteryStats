@@ -61,6 +61,7 @@ public class WriteBootReferenceService extends JobService
 			
 			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.BOOT_REF_FILENAME);
 		    this.sendBroadcast(i);
+			jobFinished(params, false);
 
 			
 		}
@@ -79,19 +80,18 @@ public class WriteBootReferenceService extends JobService
     @Override
     public boolean onStopJob(JobParameters params)
     {
+		Wakelock.releaseWakelock();
+		// Job was finished by system: make sure to re-schedule it
         return true;
     }
 
-    // schedule the start of the service every 10 - 30 seconds
+    // Schedule the start right after boot
     public static void scheduleJob(Context context)
     {
         ComponentName serviceComponent = new ComponentName(context, WriteBootReferenceService.class);
         JobInfo.Builder builder = new JobInfo.Builder(0, serviceComponent);
         builder.setMinimumLatency(1 * 1000); // wait at least 1 second
         builder.setOverrideDeadline(5 * 1000); // maximum delay 5 seconds
-        //builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED); // require unmetered network
-        //builder.setRequiresDeviceIdle(true); // device should be idle
-        //builder.setRequiresCharging(false); // we don't care if the device is charging or not
 		JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(builder.build());
     }
