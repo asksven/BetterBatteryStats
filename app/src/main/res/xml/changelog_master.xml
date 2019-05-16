@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.5" versioncode="95">
+    <release version="2.5" versioncode="96">
         <change>Screen on/off references are always saved</change>
         <change>Some UI tweaks</change>
         <change>Remote obstrusive release notes</change>
@@ -13,5 +13,6 @@
         <change>Fixed Samsung Galaxy S10 issue</change>
         <change>Fixed help link</change>
         <change>Fixed crash conditions from analytics</change>
+        <change>Fixed potential reason for long wakelocks when saving ON_BOOT reference</change>
     </release>
 </changelog>
