@@ -142,7 +142,11 @@ public class BatteryStatsProxy
 
     public void invalidate()
 	{
-		m_proxy = null;
+	    // if using fallback mode we try to not call batterinfo too often
+	    if (!isFallback())
+	    {
+            m_proxy = null;
+        }
 	}
 	
     /**
@@ -434,9 +438,9 @@ public class BatteryStatsProxy
                     methodGetSize.setAccessible(true);
 
                     int size = (int) methodGetSize.invoke(null, /* null = static method */ pfd.getFileDescriptor());
-                    long size2 = pfd.getStatSize();
 
                     byte[] data = readFully(fis, size);
+
                     Parcel parcel = Parcel.obtain();
                     parcel.unmarshall(data, 0, data.length);
                     parcel.setDataPosition(0);
