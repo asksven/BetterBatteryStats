@@ -8,15 +8,16 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 28
 
-    playAccountConfigs {
-        defaultAccountConfig {
-            jsonFile = file('sa-google-play.json')
-        }
-    }
+//    playAccountConfigs {
+//        defaultAccountConfig {
+//            jsonFile = file('sa-google-play.json')
+//        }
+//    }
 
     play {
         track = 'beta'
-        untrackOld = true // will untrack 'alpha' while upload to 'beta'
+//        untrackOld = true // will untrack 'alpha' while upload to 'beta'
+        serviceAccountCredentials = file("sa-google-play.json")
     }
 
     defaultConfig {
@@ -56,7 +57,7 @@ android {
             dimension "edition"
             applicationId "com.asksven.betterbatterystats"
             signingConfig signingConfigs.release
-            playAccountConfig = playAccountConfigs.defaultAccountConfig
+//            playAccountConfig = playAccountConfigs.defaultAccountConfig
 
 
         }
