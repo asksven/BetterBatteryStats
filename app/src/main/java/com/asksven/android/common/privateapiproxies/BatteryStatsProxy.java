@@ -142,11 +142,11 @@ public class BatteryStatsProxy
 
     public void invalidate()
 	{
-	    // if using fallback mode we try to not call batterinfo too often
-	    if (!isFallback())
-	    {
+//	    // if using fallback mode we try to not call batterinfo too often
+//	    if (!isFallback())
+//	    {
             m_proxy = null;
-        }
+//        }
 	}
 	
     /**
