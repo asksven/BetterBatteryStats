@@ -21,7 +21,6 @@ package com.asksven.betterbatterystats;
  */
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,6 +34,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -57,7 +57,6 @@ import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.NonRootShell;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
-import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Notification;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DataStorage;
@@ -76,7 +75,6 @@ import com.asksven.betterbatterystats.handlers.OnBootHandler;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
-import com.asksven.betterbatterystats.services.WriteDumpfileService;
 import com.asksven.betterbatterystats.services.WriteTimeSeriesService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.AppWidget;
@@ -86,6 +84,7 @@ import net.hockeyapp.android.Tracking;
 import net.hockeyapp.android.UpdateManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1273,17 +1272,38 @@ public class StatsActivity extends ActionBarListActivity
 						// save as text is selected
 						if (selectedSaveActions.contains(0))
 						{
-							attachements.add(reading.writeDumpfile(StatsActivity.this, editDescription.getText().toString()));
+							Uri fileUri = reading.writeDumpfile(StatsActivity.this, editDescription.getText().toString());
+							File file = new File(fileUri.getPath());
+							Uri shareableUri = FileProvider.getUriForFile(
+									StatsActivity.this,
+									StatsActivity.this.getPackageName() + ".provider",
+									file);
+							attachements.add(shareableUri);
 						}
 						// save logcat if selected
 						if (selectedSaveActions.contains(1))
 						{
-							attachements.add(StatsProvider.getInstance().writeLogcatToFile());
+							Uri fileUri = StatsProvider.getInstance().writeLogcatToFile();
+							File file = new File(fileUri.getPath());
+							Uri shareableUri = FileProvider.getUriForFile(
+									StatsActivity.this,
+									StatsActivity.this.getPackageName() + ".provider",
+									file);
+							attachements.add(shareableUri);
+
 						}
 						// save dmesg if selected
 						if (selectedSaveActions.contains(2))
 						{
-							attachements.add(StatsProvider.getInstance().writeDmesgToFile());
+//							attachements.add();
+							Uri fileUri = StatsProvider.getInstance().writeDmesgToFile();
+							File file = new File(fileUri.getPath());
+							Uri shareableUri = FileProvider.getUriForFile(
+									StatsActivity.this,
+									StatsActivity.this.getPackageName() + ".provider",
+									file);
+							attachements.add(shareableUri);
+
 						}
 
 
@@ -1291,8 +1311,9 @@ public class StatsActivity extends ActionBarListActivity
 						{
 							Intent shareIntent = new Intent();
 							shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+
 							shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachements);
-							shareIntent.setType("text/*");
+							shareIntent.setType("text/plain");
 							startActivity(Intent.createChooser(shareIntent, "Share info to.."));
 						}
 					}

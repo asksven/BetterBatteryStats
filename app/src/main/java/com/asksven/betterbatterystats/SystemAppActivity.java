@@ -83,7 +83,7 @@ public class SystemAppActivity extends BaseActivity
         toolbar.setTitle(getString(R.string.label_system_app));
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayUseLogoEnabled(false);
 
         SharedPreferences sharedPrefs = PreferenceManager
@@ -197,7 +197,7 @@ public class SystemAppActivity extends BaseActivity
             if (SysUtils.hasPackageUsageStatsPermission(this))
             {
                 permPACKAGE.setText("PACKAGE_USAGE_STATS " + getString(R.string.label_granted));
-                permPACKAGE.setBackgroundColor(Color.WHITE);
+                //permPACKAGE.setBackgroundColor(Color.WHITE);
             } else
             {
                 permPACKAGE.setText("PACKAGE_USAGE_STATS  " + getString(R.string.label_not_granted));
@@ -216,7 +216,7 @@ public class SystemAppActivity extends BaseActivity
             if (SystemAppActivity.hasPermissionAppOpsUsageStats(this))
             {
                 permAPPOPS.setText("APPOPS_USAGE_STATS " + getString(R.string.label_granted));
-                permAPPOPS.setBackgroundColor(Color.WHITE);
+                //permAPPOPS.setBackgroundColor(Color.WHITE);
             } else
             {
                 permAPPOPS.setText("APPOPS_USAGE_STATS  " + getString(R.string.label_not_granted));
