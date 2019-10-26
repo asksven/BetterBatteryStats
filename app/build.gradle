@@ -24,7 +24,7 @@ android {
         applicationId "com.asksven.betterbatterystats"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 97
+        versionCode 98
         versionName "2.5"
         versionNameSuffix = getBuildSuffix()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

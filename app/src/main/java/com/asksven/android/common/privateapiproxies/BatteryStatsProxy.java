@@ -104,29 +104,41 @@ public class BatteryStatsProxy
 	synchronized public static BatteryStatsProxy getInstance(Context ctx)
 	{
 
-		if ((m_proxy == null) || (m_proxy.m_Instance == null))
-		{
-            m_fallbackStats = false;
-            m_lastError = "";
+	    try {
+            if ((m_proxy == null) || (m_proxy.m_Instance == null)) {
+                m_fallbackStats = false;
+                m_lastError = "";
 
-            if (Build.VERSION.SDK_INT >= 22)
-            {
-                m_proxy = new BatteryStatsProxy(ctx, true);
-                // some devices, e.g. Samsung Galaxy S10 throw a Permission denied when reading the FileInputStream
-                // if the instance could not be created try the old way
-                if (m_proxy.m_Instance == null)
-                {
-                    m_fallbackStats = true;
+                if (Build.VERSION.SDK_INT >= 22) {
+                    m_proxy = new BatteryStatsProxy(ctx, true);
+                    // some devices, e.g. Samsung Galaxy S10 throw a Permission denied when reading the FileInputStream
+                    // if the instance could not be created try the old way
+                    if (m_proxy.m_Instance == null) {
+                        m_fallbackStats = true;
+                        m_proxy = new BatteryStatsProxy(ctx);
+                    }
+                } else {
+                    m_fallbackStats = false;
                     m_proxy = new BatteryStatsProxy(ctx);
                 }
             }
-            else
-            {
+        }
+        catch (NullPointerException e)
+        {
+            if (Build.VERSION.SDK_INT >= 22) {
+                m_proxy = new BatteryStatsProxy(ctx, true);
+                // some devices, e.g. Samsung Galaxy S10 throw a Permission denied when reading the FileInputStream
+                // if the instance could not be created try the old way
+                if (m_proxy.m_Instance == null) {
+                    m_fallbackStats = true;
+                    m_proxy = new BatteryStatsProxy(ctx);
+                }
+            } else {
                 m_fallbackStats = false;
                 m_proxy = new BatteryStatsProxy(ctx);
             }
-		}
-		
+
+        }
 		return m_proxy;
 	}
 
