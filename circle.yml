@@ -71,10 +71,10 @@ jobs:
       - store_test_results:
           path: app/build/test-results
 
-  deploy-hockeyapp:
+  deploy-appcenter:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-28
+      - image: circleci/node:10
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -132,7 +132,7 @@ workflows:
       - test:
           requires:
             - build
-      - deploy-hockeyapp: # never for branches
+      - deploy-appcenter: # never for branches
           requires:
             - test
           filters:
