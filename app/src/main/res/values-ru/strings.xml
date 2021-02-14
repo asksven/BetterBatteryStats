@@ -8,9 +8,7 @@
     <string name="perm_rationale_PACKAGE_USAGE_STATS">Это разрешение необходимо для доступа к статистике пакетов.</string>
     <string name="perm_rationale_APPOPS_USAGE_STATS">Это разрешение необходимо для доступа к статистике сигналов.Пожалуйста, предоставьте разрешение в следующем окне.</string>
 
-    <string name="channel_name">BBS</string>
     <string name="plugin_name">BetterBatteryStats</string>
-    <string name="channel_description">Уведомления BBS</string>
 
     <string name="foreground_service_text">Обработка событий</string>
     <string name="message_hint">Программное сообщение</string>
@@ -260,7 +258,6 @@
     <string name="pref_app_analytics_summary">Помогите улучшить приложение: разрешите аналитику</string>
 
 
-    <string name="pref_section_settings">Разное</string>
     <string name="pref_screen_widgets_title">Виджеты</string>
     <string name="pref_screen_legacy_widgets_title">Старые виджеты</string>
     <string name="widget_default_stat_title">Статистика по умолчанию при открытии</string>

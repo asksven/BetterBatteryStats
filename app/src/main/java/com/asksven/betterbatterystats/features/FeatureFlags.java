@@ -26,7 +26,7 @@ import android.util.Log;
 import com.asksven.betterbatterystats.appanalytics.Analytics;
 import com.asksven.betterbatterystats.appanalytics.Events;
 
-import net.hockeyapp.android.metrics.MetricsManager;
+//import net.hockeyapp.android.metrics.MetricsManager;
 
 /**
  * Singleton provider for all the statistics

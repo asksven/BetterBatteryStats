@@ -154,12 +154,7 @@
 
 
 
-    <string name="install_system_app">Instalovat jako systémovou apl.</string>
-    <string name="uninstall_system_app">Odinstalovat systémovou apl.</string>
-    <string name="info_installed_system_app">Systémová aplikace nainstalována. Prosím restartujte pro aktivaci.</string>
-    <string name="info_uninstalled_system_app">Systémová aplikace odinstalována: vaše nastavení byla vymazána. Prosím restartujte pro dokončení a poté proveďte nové nastavení.</string>
     <string name="info_succeeded">Uspělo</string>
-    <string name="info_failed">Selhalo, zkuste Recovery ZIP</string>
     <string name="info_root_required">Tato funkce vyžaduje přidělení oprávnění root této aplikaci</string>
     <string name="info_unknown_state">Chyba: nepodařilo se rozlišit co se změnilo</string>
     <string name="info_service_connection_error">Nepodařilo se kontaktovat službu BatteryInfo Service</string>
@@ -231,7 +226,6 @@
     <string name="pref_section_advanced">Pokročilé</string>
     <string name="pref_debug_logging_summary">Přidávat debug informace do logcat logu</string>
     <string name="pref_debug_logging_title">Debug</string>
-    <string name="pref_files_to_private_storage_title">Privátní uložiště</string>
     <string name="pref_select_dir_summary">Zvolte kam budou soubory uloženy</string>
     <string name="pref_select_dir_title">Vybrat cílový adresář</string>
     <string name="pref_select_dir_button">Vybrat</string>
@@ -255,13 +249,8 @@
     <string name="pref_app_analytics_summary">Pomozte zlepšit aplikaci: povolit analytics</string>
 
 
-    <string name="pref_section_settings">Nastavení</string>
     <string name="pref_screen_widgets_title">Widgety</string>
     <string name="pref_screen_legacy_widgets_title">Staré Widgety</string>
-    <string name="widget_refresh_freq_title">Frekvence obnovení</string>
-    <string name="widget_refresh_freq_summary">Nastavit jak často se widgety aktualizují (aktualizují se pokud je obrazovka zapnuta)</string>
-    <string name="widget_refresh_on_screen_on_title">Obnovit při zapnutí obrazovky</string>
-    <string name="widget_refresh_on_screen_on_summary">Obnovit ihned po zapnutí obrazovky</string>
     <string name="widget_default_stat_title">Výchozí statistika k otevření</string>
     <string name="widget_default_stat_summary">Nastavit statistiku otevřenou z widgetu</string>
     <string name="widget_show_stat_type_title">Zobrazit titulek</string>

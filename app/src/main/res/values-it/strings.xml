@@ -8,9 +8,7 @@
   <string name="perm_rationale_PACKAGE_USAGE_STATS">Questo permesso e\' necessario per l\'accesso alle statistiche di pacchetto.</string>
   <string name="perm_rationale_APPOPS_USAGE_STATS">Questo permesso e\' necessario per l\'accesso alle statistiche degli allarmi. Dare il consenso nella prossima finestra.</string>
 
-  <string name="channel_name">BBS</string>
   <string name="plugin_name">Better Battery Stats</string>
-  <string name="channel_description">BBS Notifiche</string>
 
   <string name="foreground_service_text">Elaborazione dell\'evento</string>
   <string name="message_hint">Messaggio Toast pianificato</string>

@@ -8,9 +8,7 @@
     <string name="perm_rationale_PACKAGE_USAGE_STATS">Deze toestemming is vereist om pakket statistieken te kunnen lezen.</string>
     <string name="perm_rationale_APPOPS_USAGE_STATS">Deze toestemming is vereist om alarm statistieken te kunnen lezen. Gelieve dit toe te kennen in het volgend dialoogvenster.</string>
 
-    <string name="channel_name">BBS</string>
     <string name="plugin_name">Better Battery Stats</string>
-    <string name="channel_description">BBS Meldingen</string>
 
     <string name="foreground_service_text">Evenementverwerking</string>
     <string name="message_hint">Geplande Toast</string>
@@ -289,7 +287,6 @@
 
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Toestel is ingeplugd: geen statistieken</string>
-   <string name="NO_ROOT_ERR">Deze statistiek vereist root toestemming</string>
     <string name="NO_PERM_ERR">Deze statistiek vereist BATTERY_STATS toestemming</string>
     <string name="NO_PERM_INFO">Proberen om toestemming te verlenen zonder system app.</string>
     <string name="NO_REF_ERR">Nog geen referentie gezet</string>

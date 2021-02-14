@@ -22,7 +22,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import net.hockeyapp.android.metrics.MetricsManager;
+//import net.hockeyapp.android.metrics.MetricsManager;
 
 public class Analytics
 {
@@ -53,18 +53,18 @@ public class Analytics
 
     public void trackActivity(Activity activity, String name)
     {
-        if (!disableAnalytics) {
-            Log.i(TAG, "Tracked Activity " + activity.getClass().getSimpleName() + " with name " + name);
-            MetricsManager.trackEvent("activity_launched_" + activity.getClass().getSimpleName());
-        }
+//        if (!disableAnalytics) {
+//            Log.i(TAG, "Tracked Activity " + activity.getClass().getSimpleName() + " with name " + name);
+//            MetricsManager.trackEvent("activity_launched_" + activity.getClass().getSimpleName());
+//        }
     }
 
     public void setRootedDevice(boolean rooted)
     {
-        if (!disableAnalytics)
-        {
-            MetricsManager.trackEvent((rooted) ? Events.EVENT_LAUNCH_ROOTED : Events.EVENT_LAUNCH_UNROOTED);
-        }
+//        if (!disableAnalytics)
+//        {
+//            MetricsManager.trackEvent((rooted) ? Events.EVENT_LAUNCH_ROOTED : Events.EVENT_LAUNCH_UNROOTED);
+//        }
     }
 
     public void setVersion(String value)
@@ -76,16 +76,16 @@ public class Analytics
 
     public void setEdition(String value)
     {
-        if (!disableAnalytics) {
-            MetricsManager.trackEvent((value.equals("xda edition")) ? Events.EVENT_LAUNCH_XDA : Events.EVENT_LAUNCH_GPLAY);
-        }
+//        if (!disableAnalytics) {
+//            MetricsManager.trackEvent((value.equals("xda edition")) ? Events.EVENT_LAUNCH_XDA : Events.EVENT_LAUNCH_GPLAY);
+//        }
     }
 
     public void trackEvent(String value)
     {
-        if (!disableAnalytics) {
-            MetricsManager.trackEvent(value);
-        }
+//        if (!disableAnalytics) {
+//            MetricsManager.trackEvent(value);
+//        }
     }
 
 }

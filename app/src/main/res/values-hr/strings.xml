@@ -133,12 +133,7 @@
 	
     <!-- System app activity -->
     <string name="expl_system_app">Na Android-u 4.4 Google je skinuo ovlasti s normalnih aplikacija da pristupe bateriji.\n\nPreporučeno je instalirati BetterBatteryStats kao sistemsku aplikaciju (ovo ne priječi nadogradnju aplikacije).\n\nDeinstaliranje/reinstaliranje aplikacije kao sistemske datoteke će biti potrebno ako se ovlasti promjene.</string>
-    <string name="install_system_app">Instaliraj kao sistemsku datoteku</string>
-    <string name="uninstall_system_app">Deinstaliraj kao sistemsku datoteku</string>
-    <string name="info_installed_system_app">Instalirana sistemska datoteka. Ponovno pokrenite uređaj za aktivaciju.</string>
-    <string name="info_uninstalled_system_app">Deinstalirana sistemska aplikacija: Vaše postavke su izbrisane. Molim Vas, ponovno pokrenite i iznova odaberite Vaše postavke.</string>
     <string name="info_succeeded">Uspijelo je</string>
-    <string name="info_failed">Nije uspijelo</string>
     <string name="info_root_required">Da biste koristili ove mogućnosti \'Root\' opcija mora biti uključena (napredne postavke)</string>
     <string name="info_unknown_state">Greška: nije moguće razriješiti promjenu</string>
     <string name="info_service_connection_error">BatteryInfo Servis nije moguće kontaktirati</string>
@@ -203,7 +198,6 @@
     <string name="pref_section_advanced">Napredno</string>
     <string name="pref_debug_logging_summary">Dodaj debug info u logcat</string>
     <string name="pref_debug_logging_title">Debug</string>
-    <string name="pref_files_to_private_storage_title">Privatna memorija</string>
 
 
     <string name="pref_developer_title">Omogući za vrijeme punjenja</string>
@@ -215,21 +209,12 @@
     <string name="pref_save_logcat_summary">Podijeli logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Podijeli dmesg</string>
-    <string name="pref_force_alarms_api_title">Alarmi koriste API</string>
-    <string name="pref_force_alarms_api_summary">Forsiraj brojenje alarma koji koriste API</string>
-    <string name="pref_force_kwl_api_title">Kernel Wakelocks koji koriste API</string>
-    <string name="pref_force_kwl_api_summary">Forsiraj brojenje Kernel Wakelocks koji koriste API</string>
 
 
     <string name="pref_screen_import_export_title">Uvezi/izvezi</string>
     <string name="pref_screen_import_export_summary">Postavke uvoza i izvoza</string>
     
-    <string name="pref_section_settings">Postavke</string>
     <string name="pref_screen_widgets_title">Widget</string>
-    <string name="widget_refresh_freq_title">Frekvencija osvježivanja</string>
-    <string name="widget_refresh_freq_summary">Postavite koliko će često widget biti osvježen (bit će uvijek kad je i zaslon upaljen)</string>
-    <string name="widget_refresh_on_screen_on_title">Osvježi kad se upali zaslon</string>
-    <string name="widget_refresh_on_screen_on_summary">Osvježi kad se zaslon upali</string>
     <string name="widget_default_stat_title">Statistike koje se prikazuju</string>
     <string name="widget_default_stat_summary">Postavite statistike koje će widget prikazivati</string>    
     <string name="widget_show_stat_type_title">Pokaži naslov</string>
@@ -255,7 +240,6 @@
     
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Uređaj se puni: nema statistika</string>
-    <string name="NO_ROOT_ERR">Ova statistika zahtjeva root</string>
     <string name="NO_PERM_ERR">Ova statistika zahtjeva BATTERY_STATS odobrenje</string>
     <string name="NO_REF_ERR">Referenca još nije postavljena</string>
     <string name="NO_STATS">Statistike još nisu prikupljene</string>

@@ -79,10 +79,10 @@ import com.asksven.betterbatterystats.services.WriteTimeSeriesService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.Tracking;
-import net.hockeyapp.android.UpdateManager;
-import net.hockeyapp.android.metrics.MetricsManager;
+//import net.hockeyapp.android.CrashManager;
+//import net.hockeyapp.android.Tracking;
+//import net.hockeyapp.android.UpdateManager;
+//import net.hockeyapp.android.metrics.MetricsManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -150,14 +150,14 @@ public class StatsActivity extends ActionBarListActivity
 		super.onCreate(savedInstanceState);
 
 		// HockeyApp
-		try
-		{
-			MetricsManager.register(getApplication());
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, e.getMessage());
-		}
+//		try
+//		{
+//			MetricsManager.register(getApplication());
+//		}
+//		catch (Exception e)
+//		{
+//			Log.e(TAG, e.getMessage());
+//		}
 
 		//Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	
@@ -480,7 +480,7 @@ public class StatsActivity extends ActionBarListActivity
 
 		if (Analytics.getInstance(this).isEnabled())
 		{
-			Tracking.startUsage(this);
+//			Tracking.startUsage(this);
 		}
 
 
@@ -490,8 +490,8 @@ public class StatsActivity extends ActionBarListActivity
 			PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 			if (pinfo.packageName.endsWith("_xdaedition"))
 			{
-				UpdateManager.register(this);
-				CrashManager.register(this);
+//				UpdateManager.register(this);
+//				CrashManager.register(this);
 			}
 		}
 		catch (Exception e)
@@ -646,8 +646,8 @@ public class StatsActivity extends ActionBarListActivity
 		// Hockeyapp
 		try
 		{
-			UpdateManager.unregister();
-			Tracking.stopUsage(this);
+//			UpdateManager.unregister();
+//			Tracking.stopUsage(this);
 		}
 		catch (Exception e)
 		{
@@ -668,7 +668,7 @@ public class StatsActivity extends ActionBarListActivity
 		// Hockeyapp
 		try
 		{
-			UpdateManager.unregister();
+//			UpdateManager.unregister();
 		}
 		catch (Exception e)
 		{

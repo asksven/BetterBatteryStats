@@ -132,12 +132,7 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">On Android 4.4 Google removed the permission for normal apps to access battery stats.\n\nIt is recommended to install BetterBatteryStats as a system app (this does not prevent from installing updates).\n\nUninstalling/reinstalling it as a system app may be required if permissions change.</string>
-    <string name="install_system_app">Install as system app</string>
-    <string name="uninstall_system_app">Uninstall system app</string>
-    <string name="info_installed_system_app">Installed system app. Please reboot to activate.</string>
-    <string name="info_uninstalled_system_app">Uninstalled system app: your preferences have been reset. Please reboot to clean up and update your preferences.</string>
     <string name="info_succeeded">Succeeded</string>
-    <string name="info_failed">Failed, try recovery ZIP</string>
     <string name="info_root_required">In order to use this feature \'Root\' Features must be enabled (Advanced Preferences)</string>
     <string name="info_unknown_state">Error: could not resolve what changed</string>
     <string name="info_service_connection_error">BatteryInfo Service could not be contacted</string>
@@ -202,7 +197,6 @@
     <string name="pref_section_advanced">ضبط متقدم</string>
     <string name="pref_debug_logging_summary">Add debug info to logcat</string>
     <string name="pref_debug_logging_title">Debug</string>
-    <string name="pref_files_to_private_storage_title">Private storage</string>
 
 
     <string name="pref_developer_title">Enable while charging</string>
@@ -217,12 +211,7 @@
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Import and Export Preferences</string>
     
-    <string name="pref_section_settings">الإعدادات</string>
     <string name="pref_screen_widgets_title">مصغرات التطبيق</string>
-    <string name="widget_refresh_freq_title">Refresh Frequency</string>
-    <string name="widget_refresh_freq_summary">Set how often the Widgets will update (they always will when screen is turned on)</string>
-    <string name="widget_refresh_on_screen_on_title">Screen on refresh</string>
-    <string name="widget_refresh_on_screen_on_summary">Refresh when screen goes on</string>
     <string name="widget_default_stat_title">Default stat to open</string>
     <string name="widget_default_stat_summary">Set the stat to be called from widget</string>    
     <string name="widget_show_stat_type_title">Show Title</string>
@@ -248,7 +237,6 @@
     
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Device is plugged in: no stats</string>
-    <string name="NO_ROOT_ERR">This stat requires root</string>
     <string name="NO_PERM_ERR">This stat requires BATTERY_STATS Permission</string>
     <string name="NO_REF_ERR">No reference set yet</string>
     <string name="NO_STATS">No stats have been collected yet</string>

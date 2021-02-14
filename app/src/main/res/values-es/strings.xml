@@ -139,12 +139,7 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">En Android 4.4 Google removió el permiso para que aplicaciones normales accesen las estadísticas de batería.\n\nEs recomendable instalar BetterBatteryStats como aplicación de sistema (esto no previene la instalación de actualizaciones).\n\nDesinstalar/Reinstalar BBS como aplicación de sistema puede ser necesario si los permisos cambian.</string>
-    <string name="install_system_app">Instalar como aplicación de sistema</string>
-    <string name="uninstall_system_app">Desinstalar aplicación de sistema</string>
-    <string name="info_installed_system_app">Aplicación de sistema instalada. Por favor reinicie el teléfono para activar.</string>
-    <string name="info_uninstalled_system_app">Aplicación de sistema desinstalada: Sus preferencias han sido borradas. Por favor reinicie el teléfono para limpiar y actualizar sus preferencias.</string>
     <string name="info_succeeded">Exitoso</string>
-    <string name="info_failed">Fallido, intente con un ZIP de recuperación</string>
     <string name="info_root_required">A fin de usar esta característica, acceso \'Root\' debe estar habilitado (Preferencias avanzadas)</string>
     <string name="info_unknown_state">Error: No se puede determinar qué cambió</string>
     <string name="info_service_connection_error">Servicio BatteryInfo no se pudo contactar</string>
@@ -209,7 +204,6 @@
     <string name="pref_section_advanced">Avanzado</string>
     <string name="pref_debug_logging_summary">Añadir información de debug a logcat</string>
     <string name="pref_debug_logging_title">Debug</string>
-    <string name="pref_files_to_private_storage_title">Almacenamiento privado</string>
 
 
     <string name="pref_developer_title">Habilitar durante carga</string>
@@ -221,20 +215,11 @@
     <string name="pref_save_logcat_summary">Compartir logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Compartir dmesg</string>
-    <string name="pref_force_alarms_api_title">Usar API para alarmas</string>
-    <string name="pref_force_alarms_api_summary">Forzar la recuperación de Alarmas usando el API</string>
-    <string name="pref_force_kwl_api_title">Usar API para Kernel Wakelocks</string>
-    <string name="pref_force_kwl_api_summary">Forzar la recuperación de Kernel Wakelocks usando el API</string>
     <string name="pref_screen_import_export_title">Importar/Exportar</string>
     <string name="pref_screen_import_export_summary">Importar y Exportar Preferencias</string>
 
-    <string name="pref_section_settings">Configuraciones</string>
     <string name="pref_screen_widgets_title">Widgets</string>
     <string name="pref_screen_legacy_widgets_title">Legacy Widgets</string>
-    <string name="widget_refresh_freq_title">Frecuencia de refresco</string>
-    <string name="widget_refresh_freq_summary">Asigna la frecuencia de actualización de los Widgets (Siempre se actualizarán cuando la pantalla esté encendida)</string>
-    <string name="widget_refresh_on_screen_on_title">Refrescar al encender la pantalla</string>
-    <string name="widget_refresh_on_screen_on_summary">Refrescar cuandola pantalla enciende</string>
     <string name="widget_default_stat_title">Estadística por defecto al abrir</string>
     <string name="widget_default_stat_summary">Asigna la estadística a ser llamada por el widget</string>
     <string name="widget_show_stat_type_title">Mostrar título</string>
@@ -260,7 +245,6 @@
 
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">El dispositivo está conectado: no estadísticas</string>
-    <string name="NO_ROOT_ERR">Esta estadística requiere root</string>
     <string name="NO_PERM_ERR">Esta estadística requiere el permiso BATTERY_STATS</string>
     <string name="NO_REF_ERR">Aún no se ha asignado una referencia</string>
     <string name="NO_STATS">Aún no se han recolectado estadísticas</string>
