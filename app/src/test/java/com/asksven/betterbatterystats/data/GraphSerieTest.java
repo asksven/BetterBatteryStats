@@ -1,3 +1,4 @@
+/*
 package com.asksven.betterbatterystats.data;
 
 import android.util.Log;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+*/
 /**
  * Created by android on 12/26/16.
- */
+ *//*
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Log.class)
 public class GraphSerieTest
@@ -53,4 +56,4 @@ public class GraphSerieTest
 	}
 
 
-}
+}*/

@@ -79,11 +79,6 @@ import com.asksven.betterbatterystats.services.WriteTimeSeriesService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
-//import net.hockeyapp.android.CrashManager;
-//import net.hockeyapp.android.Tracking;
-//import net.hockeyapp.android.UpdateManager;
-//import net.hockeyapp.android.metrics.MetricsManager;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -149,15 +144,6 @@ public class StatsActivity extends ActionBarListActivity
 
 		super.onCreate(savedInstanceState);
 
-		// HockeyApp
-//		try
-//		{
-//			MetricsManager.register(getApplication());
-//		}
-//		catch (Exception e)
-//		{
-//			Log.e(TAG, e.getMessage());
-//		}
 
 		//Log.i(TAG, "OnCreated called");
 		setContentView(R.layout.stats);	

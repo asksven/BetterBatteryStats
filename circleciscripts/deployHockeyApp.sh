@@ -32,6 +32,8 @@
 
 function uploadToHockeyApp {
 
+  echo "Upload is disabled for now"
+  exit 0
   GIT_COMPARE_KEY=${CIRCLE_COMPARE_URL##*/}
   GIT_PRETTY_COMMIT_LOG=$(echo "<ul>$(git log ${GIT_COMPARE_KEY} --pretty=format:'<li>[%ad] %s (%an)</li>' --date=short)</ul>" | tr -d '\n')
 
