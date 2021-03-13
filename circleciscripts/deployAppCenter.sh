@@ -15,7 +15,7 @@ function uploadToAppCenter {
   RELEASENOTES_HEADER_HTML=${HOCKEYAPP_NOTES_HEADER//$'\n'/<br>}
   RELEASENOTES="${HOCKEYAPP_NOTES_HEADER_HTML} ${GIT_PRETTY_COMMIT_LOG}"
 
-  npm install appcenter-cli -g
+  npm install --prefix=$HOME/.local --global appcenter-cli
   appcenter login --disable-telemetry --token ${APPCENTER_TOKEN}
   appcenter distribute release \
     --app ${APPCENTER_APP} \
