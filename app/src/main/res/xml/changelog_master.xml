@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.5" versioncode="97">
-        <change>Screen on/off references are always saved</change>
-        <change>Some UI tweaks</change>
-        <change>Remote obstrusive release notes</change>
-        <change>Redesigned the event management to be compatible with SDK26</change>
-        <change>Moved reference processing to a foreground service to prevent Android's battery saver from muting events that are needed for BBS to run properly</change>
-        <change>Flattened preferences</change>
-        <change>Updated widget layout and option</change>
-        <change>App now asks the user to confirm permissions</change>
-        <change>Reduce the number of permissions that need to be granted through adb</change>
-        <change>Fixed Samsung Galaxy S10 issue (caveat: this is only a workaround that does not always sticks)</change>
-        <change>Fixed help link</change>
-        <change>Fixed various crash conditions</change>
-        <change>Fixed potential reason for long wakelocks when saving ON_BOOT reference</change>
+    <release version="2.6" versioncode="99">
+        <change>Remove hockeyapp crash analytics</change>
+        <change>Testing update to API 29 since google is forcing that as a minimum for the play store. This may break BBS</change>
     </release>
 </changelog>

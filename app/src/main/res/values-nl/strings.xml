@@ -255,9 +255,6 @@
     <string name="pref_screen_permissions_summary">Controleer de vereiste toestemmingen</string>
     <string name="pref_screen_import_export_title">Importeren/Exporteren</string>
     <string name="pref_screen_import_export_summary">Voorkeuren Importeren en Exporteren</string>
-    <string name="pref_app_analytics_title">Analytics</string>
-    <string name="pref_app_analytics_summary">Help om de app te verbeteren: Sta analytics toe</string>
-
 
     <string name="pref_section_misc">Overige</string>
     <string name="pref_screen_widgets_title">Widgets</string>

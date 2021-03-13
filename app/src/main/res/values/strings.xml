@@ -266,11 +266,6 @@
     <string name="pref_screen_permissions_summary">Check for the required permissions</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Import and Export Preferences</string>
-    <string name="pref_app_analytics_title">Analytics</string>
-    <string name="pref_app_analytics_summary">Help improving app: allow analytics</string>
-    <string name="pref_time_series_title">Time Series</string>
-    <string name="pref_time_series_summary">Allow the collection of anonymous time-series data</string>
-
 
     <string name="pref_section_misc">Misc</string>
     <string name="pref_screen_widgets_title">Widgets</string>

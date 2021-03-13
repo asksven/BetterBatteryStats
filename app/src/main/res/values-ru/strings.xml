@@ -254,9 +254,6 @@
     <string name="pref_screen_permissions_summary">Проверьте необходимые разрешения</string>
     <string name="pref_screen_import_export_title">Импорт/экспорт</string>
     <string name="pref_screen_import_export_summary">Импорт и экспорт настроек</string>
-    <string name="pref_app_analytics_title">Аналитика</string>
-    <string name="pref_app_analytics_summary">Помогите улучшить приложение: разрешите аналитику</string>
-
 
     <string name="pref_screen_widgets_title">Виджеты</string>
     <string name="pref_screen_legacy_widgets_title">Старые виджеты</string>

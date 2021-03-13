@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<changelog>
-    <release version="2.4" versioncode="94">
-        <change>Oprava nastavení pro export/import</change>
-        <change>Oprávnění root je použito pouze během instalace</change>
-    </release>
-
-</changelog>

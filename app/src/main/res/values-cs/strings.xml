@@ -245,8 +245,6 @@
     <string name="pref_screen_permissions_summary">Zkontrolovat požadovaná oprávnění</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Importovat a exportovat nastavení</string>
-    <string name="pref_app_analytics_title">Analytics</string>
-    <string name="pref_app_analytics_summary">Pomozte zlepšit aplikaci: povolit analytics</string>
 
 
     <string name="pref_screen_widgets_title">Widgety</string>

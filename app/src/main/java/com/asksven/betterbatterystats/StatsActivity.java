@@ -418,35 +418,6 @@ public class StatsActivity extends ActionBarListActivity
 		super.onResume();
 		Log.i(TAG, "OnResume called");
 
-        // Analytics opt-in
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        boolean wasPresentedOptOutAnalytics = prefs.getBoolean("analytics_opt_out_offered", false);
-
-        if (!wasPresentedOptOutAnalytics)
-        {
-            Log.i(TAG, "Application was launched for the first time with analytics");
-            Snackbar
-                    .make(findViewById(android.R.id.content), R.string.message_first_start, Snackbar.LENGTH_LONG)
-                    .show();
-
-            Snackbar bar = Snackbar.make(findViewById(android.R.id.content), R.string.pref_app_analytics_summary, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.label_button_no, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putBoolean("analytics", false);
-                            editor.commit();
-                        }
-                    });
-
-            bar.show();
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("analytics_opt_out_offered", true);
-            editor.commit();
-        }
-
 
         Log.i(TAG, "OnResume called");
 		

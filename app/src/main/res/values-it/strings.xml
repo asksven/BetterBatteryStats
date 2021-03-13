@@ -253,9 +253,6 @@
   <string name="pref_screen_permissions_summary">Verifica dei permessi necessari</string>
   <string name="pref_screen_import_export_title">Importa/Esporta</string>
   <string name="pref_screen_import_export_summary">Importa e Esporta le Impostazioni</string>
-  <string name="pref_app_analytics_title">Analitica</string>
-  <string name="pref_app_analytics_summary">Aiuta a migliorare l\'app: consenti l\'analitica</string>
-
 
   <string name="pref_section_misc">Varie</string>
   <string name="pref_screen_widgets_title">Widget</string>
