@@ -20,8 +20,6 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-
 public abstract class ActionBarListActivity extends BaseActivity
 {
 

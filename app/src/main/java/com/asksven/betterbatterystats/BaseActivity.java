@@ -21,9 +21,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-import com.asksven.betterbatterystats.appanalytics.Events;
-
 public class BaseActivity extends AppCompatActivity
 {
 	@Override
@@ -33,7 +30,6 @@ public class BaseActivity extends AppCompatActivity
 		this.setTheme(BaseActivity.getTheme(this));
 		super.onResume();
 
-		Analytics.getInstance(this).trackActivity(this, this.getClass().getSimpleName());
 	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -43,15 +39,6 @@ public class BaseActivity extends AppCompatActivity
 
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String theme = sharedPrefs.getString("theme", "0");
-		if (theme.equals("0"))
-		{
-			this.setTheme(R.style.Theme_Bbs);
-			Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_LIGHT_THEME);
-		} else
-		{
-			this.setTheme(R.style.Theme_Bbs_Dark);
-			Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_DARK_THEME);
-		}
 		super.onCreate(savedInstanceState);
 	}
 

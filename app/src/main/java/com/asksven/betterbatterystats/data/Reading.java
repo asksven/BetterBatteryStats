@@ -545,62 +545,6 @@ public class Reading implements Serializable
 		return fileUri;
 	}
 
-	@SuppressLint("NewApi")
-	public boolean writeTimeSeries(Context context)
-	{
-
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(context);
-
-		boolean timeSeriesEnabled = sharedPrefs.getBoolean("flag_time_series", false);
-
-		if (timeSeriesEnabled)
-		{
-			String uuid = sharedPrefs.getString("uuid", "guest");
-
-			// don't bother trying to access this URL: it does not exist ;)
-            String address = "https://influxdb.gke-dev.asksven.io";
-            String login = "admin";
-            String password = "qQZqEtD5yK";
-            String dbName = "tests";
-            String creationTime = DateUtils.format(readingTimeMs);
-
-            Long readingTimeNs = readingTimeMs * 1000* 1000;
-            Long now = System.currentTimeMillis();
-            String nowTime = DateUtils.format(now);
-
-
-            DatabaseConnection database = new DatabaseConnection(address, login, password, dbName);
-
-
-            for (int i=0 ; i < otherStats.size(); i++)
-            {
-                Misc data = (Misc) otherStats.get(i);
-
-
-                OtherStatsDataPoint dataPoint = new OtherStatsDataPoint(
-                        uuid,
-                        data.getName(),
-                        data.getTimeOn(),
-                        data.getTimeRunning(),
-                        data.getValues()[0]/data.getTimeRunning()*100,
-                        readingTimeNs
-                );
-                Log.i(TAG, "Pushing " + data.getName() + " to influxdb");
-                database.sendMsg(dataPoint);
-
-            }
-
-            // push the data
-            database.send();
-
-
-		}
-
-        return true;
-
-	}
-
 	@SuppressLint("NewApi") 
 	public String toStringJson(Context context)
 	{

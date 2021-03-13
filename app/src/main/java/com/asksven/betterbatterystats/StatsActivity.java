@@ -64,8 +64,6 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-import com.asksven.betterbatterystats.appanalytics.Events;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
@@ -82,7 +80,6 @@ import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class StatsActivity extends ActionBarListActivity 
 		implements AdapterView.OnItemSelectedListener
@@ -108,10 +105,6 @@ public class StatsActivity extends ActionBarListActivity
 	private static final String LOGFILE = "BetterBatteryStats_Dump.log";
 
 	/**
-
-
-
-
 	 * The ArrayAdpater for rendering the ListView
 	 */
 	private StatsAdapter m_listViewAdapter;
@@ -144,9 +137,7 @@ public class StatsActivity extends ActionBarListActivity
 
 		super.onCreate(savedInstanceState);
 
-
-		//Log.i(TAG, "OnCreated called");
-		setContentView(R.layout.stats);	
+		setContentView(R.layout.stats);
 		
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.app_name));
@@ -176,43 +167,6 @@ public class StatsActivity extends ActionBarListActivity
                 doRefresh(true);
 			}
 		});
-
-		//////////
-		// Analytics
-        boolean showBars = sharedPrefs.getBoolean("show_gauge", false);
-        if (showBars)
-        {
-            Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_LINEAR_GAUGES);
-        }
-        else
-        {
-            Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_ROUND_GAUGES);
-        }
-
-        try
-        {
-            PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = pinfo.versionName;
-            Analytics.getInstance(this).setVersion(version);
-
-            String edition = "";
-
-            if (pinfo.packageName.endsWith("_xdaedition"))
-            {
-                edition = "xda edition";
-            } else
-            {
-                edition = "google play edition";
-            }
-
-            Analytics.getInstance(this).setEdition(edition);
-
-        } catch (Exception e)
-        {
-            Log.e(TAG, "An error occured retrieveing the version info: " + e.getMessage());
-
-        }
-
 
         ///////////////////////////////////////////////
 		// check if we have a new release
@@ -464,27 +418,6 @@ public class StatsActivity extends ActionBarListActivity
 		super.onResume();
 		Log.i(TAG, "OnResume called");
 
-		if (Analytics.getInstance(this).isEnabled())
-		{
-//			Tracking.startUsage(this);
-		}
-
-
-		// if debug we check for updates
-		try
-		{
-			PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			if (pinfo.packageName.endsWith("_xdaedition"))
-			{
-//				UpdateManager.register(this);
-//				CrashManager.register(this);
-			}
-		}
-		catch (Exception e)
-		{
-		    Log.e(TAG, "An error occured registering update/crash manager: " + e.getMessage());
-		}
-
         // Analytics opt-in
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -629,17 +562,6 @@ public class StatsActivity extends ActionBarListActivity
 	{
 		super.onPause();
 
-		// Hockeyapp
-		try
-		{
-//			UpdateManager.unregister();
-//			Tracking.stopUsage(this);
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An exception occured on onPause(): " + e.getMessage());
-		}
-
 		// unregister boradcast receiver for saved references
 		this.unregisterReceiver(this.m_referenceSavedReceiver);
 		
@@ -650,16 +572,6 @@ public class StatsActivity extends ActionBarListActivity
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
-		// Hockeyapp
-		try
-		{
-//			UpdateManager.unregister();
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An exception occured on onPause(): " + e.getMessage());
-		}
 
 	}
 

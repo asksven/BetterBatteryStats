@@ -16,27 +16,21 @@
 package com.asksven.betterbatterystats.services;
 
 import android.annotation.TargetApi;
-import android.app.IntentService;
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.Wakelock;
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-import com.asksven.betterbatterystats.appanalytics.Events;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
-import com.asksven.betterbatterystats.data.StatsProvider;
 
 /**
  * @author sven
@@ -54,8 +48,6 @@ public class WriteTimeSeriesService extends JobService
 	public boolean onStartJob(JobParameters params)
 	{
 		Log.i(TAG, "Called at " + DateUtils.now());
-
-		Analytics.getInstance(this).trackEvent(Events.EVENT_PERFORM_SAVETIMESERIES);
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 

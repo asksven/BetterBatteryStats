@@ -17,14 +17,9 @@
 package com.asksven.betterbatterystats.features;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-import com.asksven.betterbatterystats.appanalytics.Events;
 
 //import net.hockeyapp.android.metrics.MetricsManager;
 

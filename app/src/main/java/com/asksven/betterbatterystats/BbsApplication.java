@@ -20,13 +20,8 @@ import java.util.Locale;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-import com.asksven.betterbatterystats.appanalytics.Events;
 
 
 /**

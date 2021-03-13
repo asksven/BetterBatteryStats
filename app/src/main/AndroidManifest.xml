@@ -66,10 +66,6 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <meta-data
-            android:name="net.hockeyapp.android.appIdentifier"
-            android:value="${HOCKEYAPP_APP_ID}" />
-
         <activity
             android:name=".StatsActivity"
             android:configChanges="orientation|screenSize"

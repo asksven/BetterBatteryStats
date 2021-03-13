@@ -16,8 +16,6 @@
 package com.asksven.betterbatterystats.services;
 
 import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-import com.asksven.betterbatterystats.appanalytics.Events;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
@@ -50,7 +48,6 @@ public class WriteDumpfileService extends IntentService
 	{
 		Log.i(TAG, "Called at " + DateUtils.now());
 
-		Analytics.getInstance(this).trackEvent(Events.EVENT_PERFORM_SAVEDUMPFILE);
 
 		String refFrom = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_FROM);
 		String refTo = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_TO);
