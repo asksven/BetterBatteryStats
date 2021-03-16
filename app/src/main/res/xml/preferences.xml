@@ -3,13 +3,6 @@
     xmlns:robobunny="http://robobunny.com">
 
     <PreferenceCategory android:title="@string/pref_section_display">
-        <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/themeLabels"
-            android:entryValues="@array/themeValues"
-            android:key="theme"
-            android:summary="@string/pref_theme_summary"
-            android:title="@string/pref_theme_title" />
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -215,6 +208,14 @@
                 robobunny:unitsRight="Min." />
         </PreferenceScreen>
         <PreferenceScreen android:title="@string/pref_section_advanced">
+            <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/themeLabels"
+                android:entryValues="@array/themeValues"
+                android:key="theme"
+                android:summary="@string/pref_theme_summary"
+                android:title="@string/pref_theme_title" />
+
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="debug_logging"
