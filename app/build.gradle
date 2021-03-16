@@ -1,18 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.triplet.play'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android'
 //apply plugin: 'com.google.gms.google-services'
-
 
 android {
     compileSdkVersion 29
+    buildToolsVersion "30.0.3"
 
-//    playAccountConfigs {
-//        defaultAccountConfig {
-//            jsonFile = file('sa-google-play.json')
-//        }
-//    }
+    /*playAccountConfigs {
+        defaultAccountConfig {
+            jsonFile = file('sa-google-play.json')
+        }
+    }*/
 
     play {
         track = 'beta'
@@ -27,12 +26,9 @@ android {
         versionCode 99
         versionName "2.6"
         versionNameSuffix = getBuildSuffix()
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        signingConfig signingConfigs.debug
+        vectorDrawables.useSupportLibrary true
         testBuildType "debug"
-        vectorDrawables.useSupportLibrary = true
-
-
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     signingConfigs {
@@ -43,7 +39,7 @@ android {
             keyPassword System.getenv("KEY_PASSWORD")
         }
         debug {
-            if(file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore").exists()) {
+            if (file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore").exists()) {
                 storeFile = file(System.getenv("KEYSTORE_DEBUG") ?: "app.keystore")
             }
         }
@@ -57,8 +53,6 @@ android {
             applicationId "com.asksven.betterbatterystats"
             signingConfig signingConfigs.release
 //            playAccountConfig = playAccountConfigs.defaultAccountConfig
-
-
         }
         xdaedition {
             dimension "edition"
@@ -75,10 +69,10 @@ android {
             setIgnore(true)
         }
 
-        // for xda edition we want to be able to build both debug and release version
-
+        // for XDA edition we want to be able to build both debug and release version
     }
-    // and a naming policy for the apks
+
+    // and a naming policy for the APKs
     applicationVariants.all { variant ->
         variant.outputs.all {
             def project = "betterbatterystats"
@@ -88,14 +82,10 @@ android {
             // update gradle // def buildType = variant.variantData.variantConfiguration.buildType.name
             def version = variant.versionName
 
-            //def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + ".apk"
             def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + ".apk"
             outputFileName = newApkName
         }
-
     }
-
-
 
     buildTypes {
         release {
@@ -110,10 +100,17 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/ASL2.0'
+
+    compileOptions {
+        encoding "UTF-8"
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        exclude 'META-INF/*'
+    }
+
     lintOptions {
         disable 'MissingTranslation'
         abortOnError false
@@ -121,38 +118,38 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    // for local tests (app/src/test)
-    // Required for instrumented tests (app/src/androidTest)
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    implementation files('libs/RootTools-5.0.aar')
     implementation files('libs/RootShell-1.6.aar')
+    implementation files('libs/RootTools-5.0.aar')
+
+// Kotlin
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+// AndroidX
     implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.core:core:1.0.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+
+// Third-party
     implementation 'de.cketti.library.changelog:ckchangelog:1.2.2'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.3, 5.0['
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
+    implementation 'com.twofortyfouram:android-plugin-client-sdk-for-locale:4.0.3'
+
+// Testing
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
-    testImplementation 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
-    testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
+    // for local tests (app/src/test)
+    // Required for instrumented tests (app/src/androidTest)
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:rules:1.1.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
-
 }
-repositories {
-    mavenCentral()
-}
-
 
 def getBuildSuffix() {
     def ret = ""
