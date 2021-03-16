@@ -41,41 +41,41 @@
     <string name="label_export_prefs">Exportovat</string>
 
     <string name="label_hist_time">Čas</string>
-	<string name="label_hist_battery">Bat</string>
-	<string name="label_hist_power">Nab</string>
-	<string name="label_hist_screen">Obr</string>
-	<string name="label_hist_wakelock">WL</string>
-	<string name="label_hist_wifi">Wifi</string>
-	<string name="label_hist_gps">GPS</string>
-	<string name="label_hist_bluetooth">BT</string>
-	<string name="label_hist_incall">Hov</string>
-	<string name="label_hist_scanning">Vyhl</string>
+    <string name="label_hist_battery">Bat</string>
+    <string name="label_hist_power">Nab</string>
+    <string name="label_hist_screen">Obr</string>
+    <string name="label_hist_wakelock">WL</string>
+    <string name="label_hist_wifi">Wifi</string>
+    <string name="label_hist_gps">GPS</string>
+    <string name="label_hist_bluetooth">BT</string>
+    <string name="label_hist_incall">Hov</string>
+    <string name="label_hist_scanning">Vyhl</string>
 
-	<string name="label_graph_battery">Baterie</string>
-	<string name="label_graph_power">Nabíjení</string>
-	<string name="label_graph_screen">Obr. zap.</string>
-	<string name="label_graph_wakelock">Wakelock</string>
-	<string name="label_graph_wifi">Wifi</string>
-	<string name="label_graph_gps">GPS</string>
-	<string name="label_graph_bluetooth">Bluetooth</string>
-	<string name="label_graph_incall">Hovor</string>
-	<string name="label_graph_scanning">Vyhl. sig.</string>
+    <string name="label_graph_battery">Baterie</string>
+    <string name="label_graph_power">Nabíjení</string>
+    <string name="label_graph_screen">Obr. zap.</string>
+    <string name="label_graph_wakelock">Wakelock</string>
+    <string name="label_graph_wifi">Wifi</string>
+    <string name="label_graph_gps">GPS</string>
+    <string name="label_graph_bluetooth">Bluetooth</string>
+    <string name="label_graph_incall">Hovor</string>
+    <string name="label_graph_scanning">Vyhl. sig.</string>
 
-	<string name="label_widget_deep_sleep">Spánek</string>
-	<string name="label_widget_since">Od</string>
-	<string name="label_widget_awake">Probuzen</string>
-	<string name="label_widget_screen_on">Obr. zap.</string>
-	<string name="label_widget_kernel_wakelock">WLJ</string>
-	<string name="label_widget_partial_wakelock">ČWL</string>
-	<string name="label_widget_deep_sleep_short">Sp</string>
-	<string name="label_widget_awake_short">Pr</string>
-	<string name="label_widget_screen_on_short">Obr</string>
-	<string name="label_widget_kernel_wakelock_short">WLJ</string>
-	<string name="label_widget_partial_wakelock_short">ČWL</string>
+    <string name="label_widget_deep_sleep">Spánek</string>
+    <string name="label_widget_since">Od</string>
+    <string name="label_widget_awake">Probuzen</string>
+    <string name="label_widget_screen_on">Obr. zap.</string>
+    <string name="label_widget_kernel_wakelock">WLJ</string>
+    <string name="label_widget_partial_wakelock">ČWL</string>
+    <string name="label_widget_deep_sleep_short">Sp</string>
+    <string name="label_widget_awake_short">Pr</string>
+    <string name="label_widget_screen_on_short">Obr</string>
+    <string name="label_widget_kernel_wakelock_short">WLJ</string>
+    <string name="label_widget_partial_wakelock_short">ČWL</string>
 
 
-	<string name="label_battery">Baterie</string>
-	<string name="label_name">Jméno</string>
+    <string name="label_battery">Baterie</string>
+    <string name="label_name">Jméno</string>
     <string name="label_description">Popis</string>
     <string name="label_perm_type">Oprávnění</string>
     <string name="label_perm_normal">Běžná</string>
@@ -153,7 +153,6 @@
     <string name="expl_system_app">Pokud je vaše zařízení "rootnuto", BBS si automaticky přidělí požadovaná oprávnění.\nV případě "nerootnutých" zařízení lze oprávnění přidělit pomocí ADB.</string>
 
 
-
     <string name="info_succeeded">Uspělo</string>
     <string name="info_root_required">Tato funkce vyžaduje přidělení oprávnění root této aplikaci</string>
     <string name="info_unknown_state">Chyba: nepodařilo se rozlišit co se změnilo</string>
@@ -198,7 +197,7 @@
     <string name="pref_show_other_bt_summary">Zobrazit data Bluetooth</string>
     <string name="pref_show_other_doze_title">Zobrazit režim Doze</string>
     <string name="pref_show_other_doze_summary">Zobrazit hodnoty režimu Doze</string>
-    
+
     <string name="pref_section_defaults">Výchozí</string>
     <string name="pref_default_stat_title">Výchozí statistika</string>
     <string name="pref_default_stat_summary">Nastavit statistiku zobrazenou po startu aplikace</string>
@@ -274,14 +273,14 @@
 
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Zařízení připojeno: žádné statistiky</string>
-<!--    <string name="NO_ROOT_ERR">Tato statistika vyžaduje oprávnění root</string> -->
+    <!--    <string name="NO_ROOT_ERR">Tato statistika vyžaduje oprávnění root</string> -->
     <string name="NO_PERM_ERR">Tato statistika vyžaduje oprávnění BATTERY_STATS</string>
     <string name="NO_PERM_INFO">Pokus získat oprávnění bez systémové aplikace.</string>
     <string name="NO_REF_ERR">Prozatím nenastaven žádný ref. bod</string>
     <string name="NO_STATS">Prozatím nebyly získány žádné statistiky</string>
-	<string name="KWL_ACCESS_ERROR">Nepodařilo se načíst Wakelocky jádra (kernel) ani prostřednictvím souboru ani API</string>
+    <string name="KWL_ACCESS_ERROR">Nepodařilo se načíst Wakelocky jádra (kernel) ani prostřednictvím souboru ani API</string>
 
-	<!-- from arrays.xml -->
+    <!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">Od nabití</string>
     <string name="stat_type_label_since_unplugged">Od odpojení</string>
     <string name="stat_type_label_since_custom">Od vlastního ref. bodu</string>
@@ -347,7 +346,7 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="multi_select_list_preference_default_value"/>
+    <string-array name="multi_select_list_preference_default_value" />
     <string name="title_activity_settings">Nastavení</string>
 
 

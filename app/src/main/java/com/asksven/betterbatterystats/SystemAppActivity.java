@@ -31,16 +31,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.utils.SysUtils;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayInputStream;
 import java.security.cert.CertificateException;
@@ -52,28 +53,67 @@ import javax.security.auth.x500.X500Principal;
 public class SystemAppActivity extends BaseActivity
 {
 
-	final static String TAG = "SystemAppActivity";
-	final static String BBS_SIGNED_APK = "com.asksven.betterbatterystats_signed.apk";
-	final static String BBS_DEBUG_APK 	= "com.asksven.betterbatterystats_debug.apk";
-	final static String BBS_XDA_APK		= "com.asksven.betterbatterystats_xdaedition.apk";
+    final static String TAG = "SystemAppActivity";
+    final static String BBS_SIGNED_APK = "com.asksven.betterbatterystats_signed.apk";
+    final static String BBS_DEBUG_APK = "com.asksven.betterbatterystats_debug.apk";
+    final static String BBS_XDA_APK = "com.asksven.betterbatterystats_xdaedition.apk";
 
-    final static int CONST_READ_EXTERNAL_STORAGE    = 1001;
-    final static int CONST_ACCESS_WIFI_STATE        = 1002;
-    final static int CONST_ACCESS_NETWORK_STATE     = 1003;
-    final static int CONST_INTERNET                 = 1004;
-    final static int CONST_RECEIVE_BOOT_COMPLETED   = 1005;
-    final static int CONST_READ_PHONE_STATE         = 1006;
-    final static int CONST_BLUETOOTH                = 1007;
-    final static int CONST_WAKE_LOCK                = 1008;
-    final static int CONST_PACKAGE_USAGE_STATS      = 1009;
-    final static int CONST_WRITE_EXTERNAL_STORAGE   = 1010;
-
+    final static int CONST_READ_EXTERNAL_STORAGE = 1001;
+    final static int CONST_ACCESS_WIFI_STATE = 1002;
+    final static int CONST_ACCESS_NETWORK_STATE = 1003;
+    final static int CONST_INTERNET = 1004;
+    final static int CONST_RECEIVE_BOOT_COMPLETED = 1005;
+    final static int CONST_READ_PHONE_STATE = 1006;
+    final static int CONST_BLUETOOTH = 1007;
+    final static int CONST_WAKE_LOCK = 1008;
+    final static int CONST_PACKAGE_USAGE_STATS = 1009;
+    final static int CONST_WRITE_EXTERNAL_STORAGE = 1010;
+    private static final X500Principal DEBUG_DN = new X500Principal("CN=Android Debug,O=Android,C=US");
+    String systemAPKName = "";
     private View mLayout;
 
-	String systemAPKName = "";
+    protected static boolean hasAllPermissions(Context ctx)
+    {
+        boolean hasPermissions = true;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
+        hasPermissions = hasPermissions && SysUtils.hasBatteryStatsPermission(ctx);
+        hasPermissions = hasPermissions && SysUtils.hasDumpsysPermission(ctx);
+        hasPermissions = hasPermissions && SysUtils.hasPackageUsageStatsPermission(ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.ACCESS_WIFI_STATE, ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.ACCESS_NETWORK_STATE, ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.INTERNET, ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.RECEIVE_BOOT_COMPLETED, ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.READ_PHONE_STATE, ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.BLUETOOTH, ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.WAKE_LOCK, ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermissionAppOpsUsageStats(ctx);
+
+        return hasPermissions;
+    }
+
+    private static boolean hasPermission(String perm, Context ctx)
+    {
+        if (ContextCompat.checkSelfPermission(ctx, perm) != PackageManager.PERMISSION_GRANTED)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    @TargetApi(21)
+    private static boolean hasPermissionAppOpsUsageStats(Context ctx)
+    {
+        AppOpsManager appOps = (AppOpsManager) ctx.getSystemService(Context.APP_OPS_SERVICE);
+        int mode = appOps.checkOpNoThrow("android:get_usage_stats", android.os.Process.myUid(), ctx.getPackageName());
+        boolean granted = mode == AppOpsManager.MODE_ALLOWED;
+        return granted;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_systemapp);
@@ -108,11 +148,13 @@ public class SystemAppActivity extends BaseActivity
             if (!debug)
             {
                 systemAPKName = BBS_SIGNED_APK;
-            } else
+            }
+            else
             {
                 systemAPKName = BBS_DEBUG_APK;
             }
-        } else
+        }
+        else
         {
             systemAPKName = BBS_XDA_APK;
         }
@@ -123,9 +165,7 @@ public class SystemAppActivity extends BaseActivity
         if (packageName.contains("xdaedition"))
         {
             tvADB.setText(getString(R.string.expl_adb_xda));
-
         }
-
 
         Log.i(TAG, "SystemAPKName = " + systemAPKName);
     }
@@ -136,42 +176,41 @@ public class SystemAppActivity extends BaseActivity
         super.onResume();
         Log.i(TAG, "OnResume called");
 
-		final TextView permBATTERY = (TextView) findViewById(R.id.textViewBATTERY_STATS);
+        final TextView permBATTERY = (TextView) findViewById(R.id.textViewBATTERY_STATS);
         final TextView statusBATTERY = (TextView) findViewById(R.id.textViewBATTERY_STATS_STATUS);
         final TextView permDUMP = (TextView) findViewById(R.id.textViewDUMP);
         final TextView permPACKAGE = (TextView) findViewById(R.id.textViewPACKAGE_USAGE_STATS);
         final TextView permAPPOPS = (TextView) findViewById(R.id.textViewAPPOP_USAGE_STATS);
-		final TextView permACCESS_WIFI_STATE = (TextView) findViewById(R.id.textViewACCESS_WIFI_STATE);
-		final TextView permACCESS_NETWORK_STATE = (TextView) findViewById(R.id.textViewACCESS_NETWORK_STATE);
-		final TextView permINTERNET = (TextView) findViewById(R.id.textViewINTERNET);
-		final TextView permRECEIVE_BOOT_COMPLETED = (TextView) findViewById(R.id.textViewRECEIVE_BOOT_COMPLETED);
-		final TextView permREAD_PHONE_STATE = (TextView) findViewById(R.id.textViewREAD_PHONE_STATE);
-		final TextView permBLUETOOTH = (TextView) findViewById(R.id.textViewBLUETOOTH);
-		final TextView permWAKE_LOCK = (TextView) findViewById(R.id.textViewWAKE_LOCK);
+        final TextView permACCESS_WIFI_STATE = (TextView) findViewById(R.id.textViewACCESS_WIFI_STATE);
+        final TextView permACCESS_NETWORK_STATE = (TextView) findViewById(R.id.textViewACCESS_NETWORK_STATE);
+        final TextView permINTERNET = (TextView) findViewById(R.id.textViewINTERNET);
+        final TextView permRECEIVE_BOOT_COMPLETED = (TextView) findViewById(R.id.textViewRECEIVE_BOOT_COMPLETED);
+        final TextView permREAD_PHONE_STATE = (TextView) findViewById(R.id.textViewREAD_PHONE_STATE);
+        final TextView permBLUETOOTH = (TextView) findViewById(R.id.textViewBLUETOOTH);
+        final TextView permWAKE_LOCK = (TextView) findViewById(R.id.textViewWAKE_LOCK);
 
-		String text = "";
-		if (SysUtils.hasBatteryStatsPermission(this))
-		{
-			permBATTERY.setText("BATTERY_STATS " + getString(R.string.label_granted));
-		}
-		else
-		{
+        String text = "";
+        if (SysUtils.hasBatteryStatsPermission(this))
+        {
+            permBATTERY.setText("BATTERY_STATS " + getString(R.string.label_granted));
+        }
+        else
+        {
             permBATTERY.setText("BATTERY_STATS  " + getString(R.string.label_not_granted));
             permBATTERY.setBackgroundColor(Color.RED);
         }
 
         BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
-		String status = "";
-		if (stats.initFailed())
+        String status = "";
+        if (stats.initFailed())
         {
             status = getString(R.string.label_failed);
             if (!stats.getError().equals(""))
             {
                 status = status + ": " + stats.getError();
             }
-
         }
-		else
+        else
         {
             status = getString(R.string.label_success);
             if (stats.isFallback())
@@ -182,11 +221,11 @@ public class SystemAppActivity extends BaseActivity
         statusBATTERY.setText("STATUS: " + status);
 
         if (SysUtils.hasDumpsysPermission(this))
-		{
-			permDUMP.setText("DUMP " + getString(R.string.label_granted));
-		}
-		else
-		{
+        {
+            permDUMP.setText("DUMP " + getString(R.string.label_granted));
+        }
+        else
+        {
             permDUMP.setText("DUMP  " + getString(R.string.label_not_granted));
             permDUMP.setBackgroundColor(Color.RED);
         }
@@ -197,7 +236,8 @@ public class SystemAppActivity extends BaseActivity
             {
                 permPACKAGE.setText("PACKAGE_USAGE_STATS " + getString(R.string.label_granted));
                 //permPACKAGE.setBackgroundColor(Color.WHITE);
-            } else
+            }
+            else
             {
                 permPACKAGE.setText("PACKAGE_USAGE_STATS  " + getString(R.string.label_not_granted));
                 permPACKAGE.setBackgroundColor(Color.RED);
@@ -206,7 +246,6 @@ public class SystemAppActivity extends BaseActivity
         else
         {
             permPACKAGE.setText("PACKAGE_USAGE_STATS " + getString(R.string.label_not_needed));
-
         }
 
         if (Build.VERSION.SDK_INT >= 21)
@@ -216,7 +255,8 @@ public class SystemAppActivity extends BaseActivity
             {
                 permAPPOPS.setText("APPOPS_USAGE_STATS " + getString(R.string.label_granted));
                 //permAPPOPS.setBackgroundColor(Color.WHITE);
-            } else
+            }
+            else
             {
                 permAPPOPS.setText("APPOPS_USAGE_STATS  " + getString(R.string.label_not_granted));
                 permAPPOPS.setBackgroundColor(Color.RED);
@@ -225,17 +265,16 @@ public class SystemAppActivity extends BaseActivity
         else
         {
             permAPPOPS.setText("APPOPS_USAGE_STATS " + getString(R.string.label_not_needed));
-
         }
 
         checkAndRequestPermission(Manifest.permission.ACCESS_WIFI_STATE, CONST_ACCESS_WIFI_STATE, getString(R.string.perm_rationale_ACCESS_WIFI_STATE));
-		if (SystemAppActivity.hasPermission(Manifest.permission.ACCESS_WIFI_STATE, this))
-		{
-			permACCESS_WIFI_STATE.setText("ACCESS_WIFI_STATE " + getString(R.string.label_granted));
-		}
-		else
-		{
-			permACCESS_WIFI_STATE.setText("ACCESS_WIFI_STATE  " + getString(R.string.label_not_granted));
+        if (SystemAppActivity.hasPermission(Manifest.permission.ACCESS_WIFI_STATE, this))
+        {
+            permACCESS_WIFI_STATE.setText("ACCESS_WIFI_STATE " + getString(R.string.label_granted));
+        }
+        else
+        {
+            permACCESS_WIFI_STATE.setText("ACCESS_WIFI_STATE  " + getString(R.string.label_not_granted));
             permACCESS_WIFI_STATE.setBackgroundColor(Color.RED);
         }
 
@@ -248,7 +287,6 @@ public class SystemAppActivity extends BaseActivity
         {
             permACCESS_NETWORK_STATE.setText("ACCESS_NETWORK_STATE  " + getString(R.string.label_not_granted));
             permACCESS_NETWORK_STATE.setBackgroundColor(Color.RED);
-
         }
 
         checkAndRequestPermission(Manifest.permission.INTERNET, CONST_INTERNET, getString(R.string.perm_rationale_INTERNET));
@@ -260,7 +298,6 @@ public class SystemAppActivity extends BaseActivity
         {
             permINTERNET.setText("INTERNET  " + getString(R.string.label_not_granted));
             permINTERNET.setBackgroundColor(Color.RED);
-
         }
 
         checkAndRequestPermission(Manifest.permission.RECEIVE_BOOT_COMPLETED, CONST_RECEIVE_BOOT_COMPLETED, getString(R.string.perm_rationale_RECEIVE_BOOT_COMPLETED));
@@ -272,7 +309,6 @@ public class SystemAppActivity extends BaseActivity
         {
             permRECEIVE_BOOT_COMPLETED.setText("RECEIVE_BOOT_COMPLETED  " + getString(R.string.label_not_granted));
             permRECEIVE_BOOT_COMPLETED.setBackgroundColor(Color.RED);
-
         }
 
         checkAndRequestPermission(Manifest.permission.READ_PHONE_STATE, CONST_READ_PHONE_STATE, getString(R.string.perm_rationale_READ_PHONE_STATE));
@@ -284,7 +320,6 @@ public class SystemAppActivity extends BaseActivity
         {
             permREAD_PHONE_STATE.setText("READ_PHONE_STATE  " + getString(R.string.label_not_granted));
             permREAD_PHONE_STATE.setBackgroundColor(Color.RED);
-
         }
 
         checkAndRequestPermission(Manifest.permission.BLUETOOTH, CONST_BLUETOOTH, "");
@@ -296,7 +331,6 @@ public class SystemAppActivity extends BaseActivity
         {
             permBLUETOOTH.setText("BLUETOOTH  " + getString(R.string.label_not_granted));
             permBLUETOOTH.setBackgroundColor(Color.RED);
-
         }
 
         checkAndRequestPermission(Manifest.permission.WAKE_LOCK, CONST_WAKE_LOCK, "");
@@ -309,85 +343,40 @@ public class SystemAppActivity extends BaseActivity
             permWAKE_LOCK.setText("WAKE_LOCK  " + getString(R.string.label_not_granted));
             permWAKE_LOCK.setBackgroundColor(Color.RED);
         }
-
-
     }
 
-    protected static boolean hasAllPermissions(Context ctx)
+    private boolean isDebuggable(Context ctx)
     {
-        boolean hasPermissions = true;
+        boolean debuggable = false;
 
-        hasPermissions = hasPermissions && SysUtils.hasBatteryStatsPermission(ctx);
-        hasPermissions = hasPermissions && SysUtils.hasDumpsysPermission(ctx);
-        hasPermissions = hasPermissions && SysUtils.hasPackageUsageStatsPermission(ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.ACCESS_WIFI_STATE, ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.ACCESS_NETWORK_STATE, ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.INTERNET, ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.RECEIVE_BOOT_COMPLETED, ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.READ_PHONE_STATE, ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.BLUETOOTH, ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.WAKE_LOCK, ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermissionAppOpsUsageStats(ctx);
-
-        return hasPermissions;
-
-    }
-
-	private static final X500Principal DEBUG_DN = new X500Principal("CN=Android Debug,O=Android,C=US");
-	private boolean isDebuggable(Context ctx)
-	{
-	    boolean debuggable = false;
-
-	    try
-	    {
-	        PackageInfo pinfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(),PackageManager.GET_SIGNATURES);
-	        Signature signatures[] = pinfo.signatures;
-
-	        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-
-	        for ( int i = 0; i < signatures.length;i++)
-	        {   
-	            ByteArrayInputStream stream = new ByteArrayInputStream(signatures[i].toByteArray());
-	            X509Certificate cert = (X509Certificate) cf.generateCertificate(stream);       
-	            debuggable = cert.getSubjectX500Principal().equals(DEBUG_DN);
-	            if (debuggable)
-	                break;
-	        }
-	    }
-	    catch (NameNotFoundException e)
-	    {
-	        //debuggable variable will remain false
-	    }
-	    catch (CertificateException e)
-	    {
-	        //debuggable variable will remain false
-	    }
-	    return debuggable;
-	}
-
-	private static boolean hasPermission(String perm, Context ctx)
-	{
-        if (ContextCompat.checkSelfPermission(ctx, perm) != PackageManager.PERMISSION_GRANTED)
+        try
         {
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
+            PackageInfo pinfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), PackageManager.GET_SIGNATURES);
+            Signature signatures[] = pinfo.signatures;
 
-	@TargetApi(21)
-    private static boolean hasPermissionAppOpsUsageStats(Context ctx)
-    {
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
 
-        AppOpsManager appOps = (AppOpsManager) ctx.getSystemService(Context.APP_OPS_SERVICE);
-        int mode = appOps.checkOpNoThrow("android:get_usage_stats", android.os.Process.myUid(), ctx.getPackageName());
-        boolean granted = mode == AppOpsManager.MODE_ALLOWED;
-        return granted;
+            for (int i = 0; i < signatures.length; i++)
+            {
+                ByteArrayInputStream stream = new ByteArrayInputStream(signatures[i].toByteArray());
+                X509Certificate cert = (X509Certificate) cf.generateCertificate(stream);
+                debuggable = cert.getSubjectX500Principal().equals(DEBUG_DN);
+                if (debuggable)
+                    break;
+            }
+        }
+        catch (NameNotFoundException e)
+        {
+            //debuggable variable will remain false
+        }
+        catch (CertificateException e)
+        {
+            //debuggable variable will remain false
+        }
+        return debuggable;
     }
 
-	private void checkAndRequestPermission(String permission, int perm_const, String perm_rationale)
+    private void checkAndRequestPermission(String permission, int perm_const, String perm_rationale)
     {
         if (ContextCompat.checkSelfPermission(this, permission)
                 != PackageManager.PERMISSION_GRANTED)
@@ -415,7 +404,8 @@ public class SystemAppActivity extends BaseActivity
             Log.i(TAG, " Displaying permission rationale to provide additional context.");
             Snackbar.make(mLayout, getString(R.string.perm_rationale_APPOPS_USAGE_STATS),
                     Snackbar.LENGTH_INDEFINITE)
-                    .setAction("OK", new View.OnClickListener() {
+                    .setAction("OK", new View.OnClickListener()
+                    {
                         @Override
                         public void onClick(View view)
                         {
@@ -424,7 +414,6 @@ public class SystemAppActivity extends BaseActivity
                         }
                     })
                     .show();
-
         }
     }
 
@@ -455,7 +444,8 @@ public class SystemAppActivity extends BaseActivity
     String toString(String arr[])
     {
         StringBuilder builder = new StringBuilder();
-        for(String s : arr) {
+        for (String s : arr)
+        {
             builder.append(s);
         }
         return builder.toString();
@@ -463,17 +453,19 @@ public class SystemAppActivity extends BaseActivity
 
     private void requestPermission(final String perm, final int const_perm, String perm_rationale)
     {
-        final String SUBTAG="requestPermission";
-        Log.i(TAG, SUBTAG + " entering method with params " + perm +  ", " + const_perm);
+        final String SUBTAG = "requestPermission";
+        Log.i(TAG, SUBTAG + " entering method with params " + perm + ", " + const_perm);
 
-        if ((true) || (ActivityCompat.shouldShowRequestPermissionRationale(this, perm))) {
+        if ((true) || (ActivityCompat.shouldShowRequestPermissionRationale(this, perm)))
+        {
             // Provide an additional rationale to the user if the permission was not granted
             // and the user would benefit from additional context for the use of the permission.
             // For example if the user has previously denied the permission.
             Log.i(TAG, SUBTAG + " Displaying permission rationale to provide additional context.");
             Snackbar.make(mLayout, perm_rationale,
                     Snackbar.LENGTH_INDEFINITE)
-                    .setAction("OK", new View.OnClickListener() {
+                    .setAction("OK", new View.OnClickListener()
+                    {
                         @Override
                         public void onClick(View view)
                         {
@@ -482,7 +474,9 @@ public class SystemAppActivity extends BaseActivity
                         }
                     })
                     .show();
-        } else {
+        }
+        else
+        {
 
             // Request permission directly.
             Log.i(TAG, SUBTAG + " Requesting permission directly: " + perm + ", " + const_perm);
@@ -490,5 +484,4 @@ public class SystemAppActivity extends BaseActivity
             ActivityCompat.requestPermissions(this, new String[]{perm}, const_perm);
         }
     }
-
 }

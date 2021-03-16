@@ -20,39 +20,36 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.MenuItem;
-import com.asksven.betterbatterystats.R;
 
 public class DashClockSettingsActivity extends PreferenceActivity
 {
-	@SuppressLint("NewApi")
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		//getActionBar().setIcon(R.drawable.icon_notext);
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
-	}
+    @SuppressLint("NewApi")
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        //getActionBar().setIcon(R.drawable.icon_notext);
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState)
-	{
-		super.onPostCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.pref_dashboard);
-	}
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState)
+    {
+        super.onPostCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.pref_dashboard);
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		if (item.getItemId() == android.R.id.home)
-		{
-			// TODO: if the previous activity on the stack isn't a
-			// ConfigurationActivity,
-			// launch it.
-			finish();
-			return true;
-		}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == android.R.id.home)
+        {
+            // TODO: if the previous activity on the stack isn't a
+            // ConfigurationActivity,
+            // launch it.
+            finish();
+            return true;
+        }
 
-		return super.onOptionsItemSelected(item);
-	}
-
-
+        return super.onOptionsItemSelected(item);
+    }
 }

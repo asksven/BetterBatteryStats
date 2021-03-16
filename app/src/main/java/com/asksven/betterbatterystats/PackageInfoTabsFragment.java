@@ -16,26 +16,28 @@
 
 package com.asksven.betterbatterystats;
 
-import com.asksven.betterbatterystats.contrib.SlidingTabLayout;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+
+import com.asksven.betterbatterystats.contrib.SlidingTabLayout;
 
 /**
  * A basic sample which shows how to use {@link com.example.android.common.view.SlidingTabLayout}
  * to display a custom {@link ViewPager} title strip which gives continuous feedback to the user
  * when scrolling.
  */
-public class PackageInfoTabsFragment extends Fragment {
+public class PackageInfoTabsFragment extends Fragment
+{
 
     static final String TAG = "SlidingTabsBasicFragment";
 
@@ -57,22 +59,25 @@ public class PackageInfoTabsFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
         return inflater.inflate(R.layout.package_info_tabs, container, false);
     }
 
     // BEGIN_INCLUDE (fragment_onviewcreated)
+
     /**
      * This is called after the {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} has finished.
      * Here we can pick out the {@link View}s we need to configure from the content view.
-     *
+     * <p>
      * We set the {@link ViewPager}'s adapter to be an instance of {@link SamplePagerAdapter}. The
      * {@link SlidingTabLayout} is then given the {@link ViewPager} so that it can populate itself.
      *
      * @param view View created in {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}
      */
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
         // BEGIN_INCLUDE (setup_viewpager)
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
@@ -80,22 +85,25 @@ public class PackageInfoTabsFragment extends Fragment {
         mViewPager.setAdapter(new SamplePagerAdapter(this.getActivity(), getFragmentManager()));
         // END_INCLUDE (setup_viewpager)
 
-       
+
         // BEGIN_INCLUDE (setup_slidingtablayout)
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);
-        
-        mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+
+        mSlidingTabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer()
+        {
 
             @Override
-            public int getIndicatorColor(int position) {
+            public int getIndicatorColor(int position)
+            {
                 return getResources().getColor(R.color.color_accent);
             }
 
             @Override
-            public int getDividerColor(int position) {
+            public int getDividerColor(int position)
+            {
                 return Color.GRAY;
             }
 
@@ -110,47 +118,48 @@ public class PackageInfoTabsFragment extends Fragment {
      * this class is the {@link #getPageTitle(int)} method which controls what is displayed in the
      * {@link SlidingTabLayout}.
      */
-    class SamplePagerAdapter extends FragmentPagerAdapter {
+    class SamplePagerAdapter extends FragmentPagerAdapter
+    {
+        String[] labels = {getString(R.string.label_tab_package),
+                getString(R.string.label_tab_permissions),
+                getString(R.string.label_tab_services)};
 
-    	String[] labels = {getString(R.string.label_tab_package),
-    			getString(R.string.label_tab_permissions),
-    			getString(R.string.label_tab_services)};
-    	
-    	 public SamplePagerAdapter(Context ctxt, FragmentManager mgr) {
-    		    super(mgr);
-    		    
-    		  }
+        public SamplePagerAdapter(Context ctxt, FragmentManager mgr)
+        {
+            super(mgr);
+
+        }
+
         /**
          * @return the number of pages to display
          */
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return labels.length;
         }
-        
-        @Override
-        public Fragment getItem(int position) {
-          switch (position)
-          {
-          case 0:
-        	  return new PackageFragmentActivity.PackageFragment();
 
-          case 1:
-        	  return new PermissionsFragmentActivity.PermissionsListFragment();
- 
-          case 2:
-        	  return new ServicesFragmentActivity.ServicesListFragment();
-        	  
-        	  
-          }
-          return null;
+        @Override
+        public Fragment getItem(int position)
+        {
+            switch (position)
+            {
+                case 0:
+                    return new PackageFragmentActivity.PackageFragment();
+
+                case 1:
+                    return new PermissionsFragmentActivity.PermissionsListFragment();
+
+                case 2:
+                    return new ServicesFragmentActivity.ServicesListFragment();
+            }
+            return null;
         }
 
         @Override
-        public String getPageTitle(int position) {
-          return(labels[position]);
+        public String getPageTitle(int position)
+        {
+            return (labels[position]);
         }
-
-
     }
 }

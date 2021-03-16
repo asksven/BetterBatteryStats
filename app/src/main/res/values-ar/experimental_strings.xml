@@ -37,46 +37,46 @@
     <string name="label_import_export_prefs">Import/Export Preferences from/to %s</string>
     <string name="label_import_prefs">Import</string>
     <string name="label_export_prefs">Export</string>
-    
-    <string name="label_hist_time">Time</string>
-	<string name="label_hist_battery">Bat</string>
-	<string name="label_hist_power">Chrg</string>
-	<string name="label_hist_screen">Scr</string>
-	<string name="label_hist_wakelock">WL</string>
-	<string name="label_hist_wifi">Wifi</string>
-	<string name="label_hist_gps">GPS</string>
-	<string name="label_hist_bluetooth">BT</string>
-	<string name="label_hist_incall">Call</string>
-	<string name="label_hist_scanning">Scan</string>
 
-	<string name="label_graph_battery">Battery</string>
-	<string name="label_graph_power">Charging</string>
-	<string name="label_graph_screen">Screen On</string>
-	<string name="label_graph_wakelock">Wakelock</string>
-	<string name="label_graph_wifi">Wifi</string>
-	<string name="label_graph_gps">GPS</string>
-	<string name="label_graph_bluetooth">Bluetooth</string>
-	<string name="label_graph_incall">In Call</string>
-	<string name="label_graph_scanning">Scanning</string>
-		
-	
-	<string name="label_widget_since">Since:</string>
-	<string name="label_widget_deep_sleep">Deep Sleep</string>
-	<string name="label_widget_awake">Awake:</string>
-	<string name="label_widget_screen_on">Screen on:</string>
-	<string name="label_widget_kernel_wakelock">KWL:</string>
-	<string name="label_widget_partial_wakelock">PWL:</string>
-	
-	<string name="label_battery">Battery</string>
-	<string name="label_name">Name</string>
+    <string name="label_hist_time">Time</string>
+    <string name="label_hist_battery">Bat</string>
+    <string name="label_hist_power">Chrg</string>
+    <string name="label_hist_screen">Scr</string>
+    <string name="label_hist_wakelock">WL</string>
+    <string name="label_hist_wifi">Wifi</string>
+    <string name="label_hist_gps">GPS</string>
+    <string name="label_hist_bluetooth">BT</string>
+    <string name="label_hist_incall">Call</string>
+    <string name="label_hist_scanning">Scan</string>
+
+    <string name="label_graph_battery">Battery</string>
+    <string name="label_graph_power">Charging</string>
+    <string name="label_graph_screen">Screen On</string>
+    <string name="label_graph_wakelock">Wakelock</string>
+    <string name="label_graph_wifi">Wifi</string>
+    <string name="label_graph_gps">GPS</string>
+    <string name="label_graph_bluetooth">Bluetooth</string>
+    <string name="label_graph_incall">In Call</string>
+    <string name="label_graph_scanning">Scanning</string>
+
+
+    <string name="label_widget_since">Since:</string>
+    <string name="label_widget_deep_sleep">Deep Sleep</string>
+    <string name="label_widget_awake">Awake:</string>
+    <string name="label_widget_screen_on">Screen on:</string>
+    <string name="label_widget_kernel_wakelock">KWL:</string>
+    <string name="label_widget_partial_wakelock">PWL:</string>
+
+    <string name="label_battery">Battery</string>
+    <string name="label_name">Name</string>
     <string name="label_description">Description</string>
     <string name="label_package_name">Package Name</string>
     <string name="label_on_on_android_4_3plus">Only available on Android 4.3+</string>
-    
+
     <string name="label_permisions_dangerous">Permission marked as \'dangerous\'</string>
     <string name="label_permisions_system">Permissions for \'system apps\'</string>
     <string name="label_permisions_normal">Normal permissions</string>
-    
+
     <string name="pref_dashclock_default_stat_type_summary">Set the stat type to be shown in dashclock</string>
     <string name="pref_dashclock_fallback_stat_type_summary">Set the fallback stat type to be shown in the dashclock if the primary one has no reference</string>
     <string name="label_awake_abbrev">aw.</string>
@@ -85,8 +85,8 @@
     <string name="label_button_cancel">Cancel</string>
     <string name="label_button_application_settings">Application Settings</string>
     <string name="label_button_appops">App Ops</string>
-    
-    
+
+
     <string name="title_share_dialog">Share data as...</string>
     <string name="text_since">Since</string>
     <string name="label_preferences">Settings</string>
@@ -112,7 +112,7 @@
     <string name="label_tab_package">Package</string>
     <string name="label_tab_permissions">Permissions</string>
     <string name="label_tab_services">Services</string>
-    
+
     <!-- About screen -->
     <string name="label_about_author">By asksven</string>
     <string name="label_about_courtesy">Graphics courtesy to @cri</string>
@@ -123,7 +123,7 @@
     <string name="label_about_translation4">Croatian by seky2205 @ xda</string>
     <string name="label_about_follow">Follow me on Twitter</string>
     <string name="label_about_rate">Rate / Review on Google Play</string>
-    
+
     <!-- Preferences -->
     <string name="label_theme_dark">Dark</string>
     <string name="label_theme_light">Light</string>
@@ -142,7 +142,7 @@
     <string name="info_pref_export_success">Preferences were saved to %s</string>
     <string name="info_pref_import_success">Preferences were imported from %s</string>
     <string name="info_pref_import_export_failed">The operation failed</string>
-    
+
     <string name="info_deleting_refs">Deleting and re-creating references</string>
     <string name="info_fallback_to_boot">Fallback to \'Since Boot\'</string>
     <string name="info_fallback_to_default">Fallback to default reference</string>
@@ -210,10 +210,10 @@
     <string name="pref_save_dmesg_summary">Share dmesg</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Import and Export Preferences</string>
-    
+
     <string name="pref_screen_widgets_title">مصغرات التطبيق</string>
     <string name="widget_default_stat_title">Default stat to open</string>
-    <string name="widget_default_stat_summary">Set the stat to be called from widget</string>    
+    <string name="widget_default_stat_summary">Set the stat to be called from widget</string>
     <string name="widget_show_stat_type_title">Show Title</string>
     <string name="widget_show_stat_type_summary">Show Stat Type</string>
     <string name="widget_fallback_stat_type_title">Fallback stat type</string>
@@ -234,27 +234,27 @@
     <string name="small_widget_refresh_on_tap_summary">Tapping the widget refreshes it (if disabled tapping opens the app)</string>
     <string name="thumbnail_size_title">Thumbnail Size</string>
     <string name="medium_font_size_title">Medium Font Size</string>
-    
+
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Device is plugged in: no stats</string>
     <string name="NO_PERM_ERR">This stat requires BATTERY_STATS Permission</string>
     <string name="NO_REF_ERR">No reference set yet</string>
     <string name="NO_STATS">No stats have been collected yet</string>
-    
-	<!-- from arrays.xml -->
+
+    <!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">Since charged</string>
     <string name="stat_type_label_since_unplugged">Since unplugged</string>
     <string name="stat_type_label_since_custom">Since Custom Ref.</string>
     <string name="stat_type_label_since_screen_off">Since Screen Off</string>
     <string name="stat_type_label_since_boot">Since Boot</string>
 
-    
+
     <string name="widget_freq_label_none">None</string>
     <string name="widget_freq_label_5">5 Min.</string>
     <string name="widget_freq_label_15">15 Min.</string>
     <string name="widget_freq_label_30">*30 Min.</string>
     <string name="widget_freq_label_60">60 Min.</string>
-    
+
     <string name="widget_fontsize_16">X-Large (16)</string>
     <string name="widget_fontsize_14">Large (14)</string>
     <string name="widget_fontsize_12">Normal (12)</string>

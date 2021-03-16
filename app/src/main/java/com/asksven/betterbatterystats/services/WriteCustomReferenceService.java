@@ -29,60 +29,58 @@ import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 /**
  * @author sven
- *
  */
 public class WriteCustomReferenceService extends IntentService
 {
-	private static final String TAG = "WriteCustomRefService";
+    private static final String TAG = "WriteCustomRefService";
 
-	public WriteCustomReferenceService()
-	{
-	    super("WriteCustomReferenceService");
-	}
-	
-	@Override
-	public void onHandleIntent(Intent intent)
-	{
-		Log.i(TAG, "Called at " + DateUtils.now());
-		try
-		{
-			Wakelock.aquireWakelock(this);
-			// Store the "custom
-			StatsProvider.getInstance().setCustomReference(0);
-			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CUSTOM_REF_FILENAME);
-		    this.sendBroadcast(i);
+    public WriteCustomReferenceService()
+    {
+        super("WriteCustomReferenceService");
+    }
 
-//			StatsProvider.getInstance(this).setCurrentReference(0);
-//			i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
-//		    this.sendBroadcast(i);
+    @Override
+    public void onHandleIntent(Intent intent)
+    {
+        Log.i(TAG, "Called at " + DateUtils.now());
+        try
+        {
+            Wakelock.aquireWakelock(this);
+            // Store the "custom
+            StatsProvider.getInstance().setCustomReference(0);
+            Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CUSTOM_REF_FILENAME);
+            this.sendBroadcast(i);
 
-			// Build the intent to update the widget
-			Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
-			this.sendBroadcast(intentRefreshWidgets);
-			
+//            StatsProvider.getInstance(this).setCurrentReference(0);
+//            i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
+//            this.sendBroadcast(i);
 
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An error occured: " + e.getMessage());
-		}
-		finally
-		{
-			Wakelock.releaseWakelock();
-		}
-	}
+            // Build the intent to update the widget
+            Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
+            this.sendBroadcast(intentRefreshWidgets);
 
-	@Override
-	public IBinder onBind(Intent intent)
-	{
-		return null;
-	}
-	
-	@Override
-	public void onDestroy()
-	{
-		Log.i(TAG, "Destroyed at" + DateUtils.now());
-		Wakelock.releaseWakelock();
-	}
 
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "An error occured: " + e.getMessage());
+        }
+        finally
+        {
+            Wakelock.releaseWakelock();
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent)
+    {
+        return null;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.i(TAG, "Destroyed at" + DateUtils.now());
+        Wakelock.releaseWakelock();
+    }
 }

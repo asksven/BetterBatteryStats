@@ -24,8 +24,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
@@ -42,169 +43,165 @@ import java.util.ArrayList;
 
 /**
  * @author sven
- *
  */
 public class WatchdogProcessingService extends IntentService
 {
-	private static final String TAG = "WatchdogProcService";
+    private static final String TAG = "WatchdogProcService";
 
-	public WatchdogProcessingService()
-	{
-	    super("WatchdogProcessingService");
-	}
-	
-	@Override
-	public void onHandleIntent(Intent intent)
-	{
-		Log.i(TAG, "Called at " + DateUtils.now());
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+    public WatchdogProcessingService()
+    {
+        super("WatchdogProcessingService");
+    }
 
-		try
-		{
+    @Override
+    public void onHandleIntent(Intent intent)
+    {
+        Log.i(TAG, "Called at " + DateUtils.now());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-			if (true)
-			{
+        try
+        {
+            if (true)
+            {
+                int minScreenOffDurationMin = sharedPrefs.getInt("watchdog_duration_threshold", 10);
+                int awakeThresholdPct = sharedPrefs.getInt("watchdog_awake_threshold", 30);
+                long now = System.currentTimeMillis();
+                Long screenOffTime = sharedPrefs.getLong("screen_went_off_at", now);
 
-				int minScreenOffDurationMin 	= sharedPrefs.getInt("watchdog_duration_threshold", 10);
-				int awakeThresholdPct		= sharedPrefs.getInt("watchdog_awake_threshold", 30);
-				long now = System.currentTimeMillis();
-				Long screenOffTime 			= sharedPrefs.getLong("screen_went_off_at", now );
-				
-				Long screenOffDurationMs 		= now - screenOffTime;
-				
-				// we process only if screenOffDuration is >= minScreenOffDuration
-				if (screenOffDurationMs >= ((long)minScreenOffDurationMin*60*1000))
-				{
+                Long screenOffDurationMs = now - screenOffTime;
 
-					//Toast.makeText(this, getString(R.string.message_watchdog_processing), Toast.LENGTH_SHORT).show();
+                // we process only if screenOffDuration is >= minScreenOffDuration
+                if (screenOffDurationMs >= ((long) minScreenOffDurationMin * 60 * 1000))
+                {
 
-					int awakePct = 0;
-					StatsProvider stats = StatsProvider.getInstance();
-					// make sure to flush cache
-					BatteryStatsProxy.getInstance(this).invalidate();
+                    //Toast.makeText(this, getString(R.string.message_watchdog_processing), Toast.LENGTH_SHORT).show();
+
+                    int awakePct = 0;
+                    StatsProvider stats = StatsProvider.getInstance();
+                    // make sure to flush cache
+                    BatteryStatsProxy.getInstance(this).invalidate();
 
 
-					// save screen on reference
-					Intent serviceIntent = new Intent(this.getApplicationContext(), WriteScreenOnReferenceService.class);
-					this.startService(serviceIntent);
+                    // save screen on reference
+                    Intent serviceIntent = new Intent(this.getApplicationContext(), WriteScreenOnReferenceService.class);
+                    this.startService(serviceIntent);
 
-					if (stats.hasScreenOffRef())
-					{
-						// restore any available since screen reference
-						Reference refFrom = ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, this);
-						StatsProvider.getInstance().setCurrentReference(0);
-						//Reference refTo = StatsProvider.getInstance(this).getUncachedPartialReference(0);
-						Reference refTo = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
-						ArrayList<StatElement> otherStats = null;
-						
-						// only process if both references are in the right order
-						if (refFrom.getCreationTime() < refTo.getCreationTime())
-						{		
-							otherStats = stats.getOtherUsageStatList(true, refFrom, false, false, refTo);
-						}
-						else
-						{
-							otherStats = null;
-						}
+                    if (stats.hasScreenOffRef())
+                    {
+                        // restore any available since screen reference
+                        Reference refFrom = ReferenceStore.getReferenceByName(Reference.SCREEN_OFF_REF_FILENAME, this);
+                        StatsProvider.getInstance().setCurrentReference(0);
+                        //Reference refTo = StatsProvider.getInstance(this).getUncachedPartialReference(0);
+                        Reference refTo = ReferenceStore.getReferenceByName(Reference.CURRENT_REF_FILENAME, this);
+                        ArrayList<StatElement> otherStats = null;
 
-						long timeAwake = 0;
-						long timeSince = 0;
+                        // only process if both references are in the right order
+                        if (refFrom.getCreationTime() < refTo.getCreationTime())
+                        {
+                            otherStats = stats.getOtherUsageStatList(true, refFrom, false, false, refTo);
+                        }
+                        else
+                        {
+                            otherStats = null;
+                        }
 
-						if ( (otherStats != null) && ( otherStats.size() > 1) )
-						{
-							
-							timeAwake = ((Misc) stats.getElementByKey(otherStats, StatsProvider.LABEL_MISC_AWAKE)).getTimeOn();
-							timeSince = stats.getBatteryRealtime(StatsProvider.STATS_SCREEN_OFF);
-							Log.i(TAG, "Other stats found. Since=" + timeSince + ", Awake=" + timeAwake);
-						}
-						else
-						{
-							// no stats means the phone was awake
-							timeSince = stats.getBatteryRealtime(StatsProvider.STATS_SCREEN_OFF);
-							timeAwake = timeSince;
-							Log.i(TAG, "Other stats do not have any data. Since=" + timeSince + ", Awake=" + timeAwake);
-						}
-						
-						if (timeSince > 0)
-						{
-							awakePct = (int) ((timeAwake *100 / timeSince));
-						}
-						else
-						{
-							awakePct = 0;
-						}
+                        long timeAwake = 0;
+                        long timeSince = 0;
 
-						Log.i(TAG, "Awake %=" + awakePct);
-						// we issue a warning if awakePct > awakeThresholdPct
-						if (awakePct >= awakeThresholdPct)
-						{
-					    	// Instantiate a Builder object.
-					    	NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-					    	
-					    	String alertText = "";
-					    	try
-					    	{
-					    		alertText = getString(R.string.message_awake_info, awakePct);
-					    	}
-					    	catch (Exception e)
-					    	{
-					    		alertText = getString(R.string.message_awake_alert);
-					    	}
-					    	
-					    	builder.setSmallIcon(R.drawable.ic_stat_notification);
-					        builder.setContentTitle(this.getText(R.string.app_name));
-					        builder.setContentText(alertText);
-					    	
-					    	// Creates an Intent for the Activity
-					    	Intent i = new Intent(Intent.ACTION_MAIN);
-							PackageManager manager = this.getPackageManager();
-							
-							i = manager.getLaunchIntentForPackage(this.getPackageName());
-							i.addCategory(Intent.CATEGORY_LAUNCHER);
-						    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-							i.putExtra(StatsActivity.STAT, 0);
-							i.putExtra(StatsActivity.STAT_TYPE_FROM, Reference.SCREEN_OFF_REF_FILENAME);
-							i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.SCREEN_ON_REF_FILENAME);
-							i.putExtra(StatsActivity.FROM_NOTIFICATION, true);
+                        if ((otherStats != null) && (otherStats.size() > 1))
+                        {
 
-					    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+                            timeAwake = ((Misc) stats.getElementByKey(otherStats, StatsProvider.LABEL_MISC_AWAKE)).getTimeOn();
+                            timeSince = stats.getBatteryRealtime(StatsProvider.STATS_SCREEN_OFF);
+                            Log.i(TAG, "Other stats found. Since=" + timeSince + ", Awake=" + timeAwake);
+                        }
+                        else
+                        {
+                            // no stats means the phone was awake
+                            timeSince = stats.getBatteryRealtime(StatsProvider.STATS_SCREEN_OFF);
+                            timeAwake = timeSince;
+                            Log.i(TAG, "Other stats do not have any data. Since=" + timeSince + ", Awake=" + timeAwake);
+                        }
 
-					    	// Puts the PendingIntent into the notification builder
-					    	builder.setContentIntent(contentIntent);
-					    	// Notifications are issued by sending them to the
-					    	// NotificationManager system service.
-					    	NotificationManager mNotificationManager =
-					    	    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-					    	// Builds an anonymous Notification object from the builder, and
-					    	// passes it to the NotificationManager
-					    	mNotificationManager.notify(EventWatcherService.NOTIFICATION_ID, builder.build());
+                        if (timeSince > 0)
+                        {
+                            awakePct = (int) ((timeAwake * 100 / timeSince));
+                        }
+                        else
+                        {
+                            awakePct = 0;
+                        }
 
-						}
-					}
-				}
-				else
-				{
-					// delete screen on ref
-					ReferenceStore.invalidate(Reference.SCREEN_ON_REF_FILENAME, this);
+                        Log.i(TAG, "Awake %=" + awakePct);
+                        // we issue a warning if awakePct > awakeThresholdPct
+                        if (awakePct >= awakeThresholdPct)
+                        {
+                            // Instantiate a Builder object.
+                            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-				}
-			
-				// Build the intent to update the widget
-				Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
-				this.sendBroadcast(intentRefreshWidgets);
-			}
-			
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An error occured: " + e.getMessage());
-		}
+                            String alertText = "";
+                            try
+                            {
+                                alertText = getString(R.string.message_awake_info, awakePct);
+                            }
+                            catch (Exception e)
+                            {
+                                alertText = getString(R.string.message_awake_alert);
+                            }
 
-	}
+                            builder.setSmallIcon(R.drawable.ic_stat_notification);
+                            builder.setContentTitle(this.getText(R.string.app_name));
+                            builder.setContentText(alertText);
 
-	@Override
-	public IBinder onBind(Intent intent)
-	{
-		return null;
-	}
+                            // Creates an Intent for the Activity
+                            Intent i = new Intent(Intent.ACTION_MAIN);
+                            PackageManager manager = this.getPackageManager();
+
+                            i = manager.getLaunchIntentForPackage(this.getPackageName());
+                            i.addCategory(Intent.CATEGORY_LAUNCHER);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.putExtra(StatsActivity.STAT, 0);
+                            i.putExtra(StatsActivity.STAT_TYPE_FROM, Reference.SCREEN_OFF_REF_FILENAME);
+                            i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.SCREEN_ON_REF_FILENAME);
+                            i.putExtra(StatsActivity.FROM_NOTIFICATION, true);
+
+                            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                            // Puts the PendingIntent into the notification builder
+                            builder.setContentIntent(contentIntent);
+                            // Notifications are issued by sending them to the
+                            // NotificationManager system service.
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            // Builds an anonymous Notification object from the builder, and
+                            // passes it to the NotificationManager
+                            mNotificationManager.notify(EventWatcherService.NOTIFICATION_ID, builder.build());
+
+                        }
+                    }
+                }
+                else
+                {
+                    // delete screen on ref
+                    ReferenceStore.invalidate(Reference.SCREEN_ON_REF_FILENAME, this);
+
+                }
+
+                // Build the intent to update the widget
+                Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
+                this.sendBroadcast(intentRefreshWidgets);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "An error occured: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent)
+    {
+        return null;
+    }
 }

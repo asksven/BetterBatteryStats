@@ -16,8 +16,6 @@
 package com.asksven.betterbatterystats.services;
 
 import android.annotation.TargetApi;
-import android.app.NotificationManager;
-import android.app.Service;
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
@@ -26,7 +24,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -38,52 +35,11 @@ import com.asksven.betterbatterystats.data.StatsProvider;
 
 /**
  * @author sven
- *
  */
 @TargetApi(21)
 public class WriteBootReferenceService extends JobService
 {
-	private static final String TAG = "WriteBootRefService";
-
-
-
-    @Override
-    public boolean onStartJob(JobParameters params)
-    {
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-		Log.i(TAG, "Called at " + DateUtils.now());
-		try
-		{
-			
-			Wakelock.aquireWakelock(this);
-			StatsProvider.getInstance().setReferenceSinceBoot(0);
-			
-			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.BOOT_REF_FILENAME);
-		    this.sendBroadcast(i);
-			jobFinished(params, false);
-
-			
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An error occured: " + e.getMessage());
-            return false;
-		}
-		finally
-		{
-			Wakelock.releaseWakelock();
-		}
-        return true;
-	}
-
-    @Override
-    public boolean onStopJob(JobParameters params)
-    {
-		Wakelock.releaseWakelock();
-		// Job was finished by system: make sure to re-schedule it
-        return true;
-    }
+    private static final String TAG = "WriteBootRefService";
 
     // Schedule the start right after boot
     public static void scheduleJob(Context context)
@@ -92,8 +48,45 @@ public class WriteBootReferenceService extends JobService
         JobInfo.Builder builder = new JobInfo.Builder(0, serviceComponent);
         builder.setMinimumLatency(1 * 1000); // wait at least 1 second
         builder.setOverrideDeadline(5 * 1000); // maximum delay 5 seconds
-		JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(builder.build());
     }
 
+    @Override
+    public boolean onStartJob(JobParameters params)
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        Log.i(TAG, "Called at " + DateUtils.now());
+        try
+        {
+
+            Wakelock.aquireWakelock(this);
+            StatsProvider.getInstance().setReferenceSinceBoot(0);
+
+            Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.BOOT_REF_FILENAME);
+            this.sendBroadcast(i);
+            jobFinished(params, false);
+
+
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "An error occured: " + e.getMessage());
+            return false;
+        }
+        finally
+        {
+            Wakelock.releaseWakelock();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onStopJob(JobParameters params)
+    {
+        Wakelock.releaseWakelock();
+        // Job was finished by system: make sure to re-schedule it
+        return true;
+    }
 }

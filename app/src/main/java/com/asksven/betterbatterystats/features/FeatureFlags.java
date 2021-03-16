@@ -26,9 +26,7 @@ import android.preference.PreferenceManager;
 /**
  * Singleton provider for all the statistics
  *
- *
  * @author sven
- *
  */
 public class FeatureFlags
 {
@@ -36,7 +34,9 @@ public class FeatureFlags
     private static FeatureFlags singleton = null;
     private static SharedPreferences prefs;
 
-    private FeatureFlags() {}
+    private FeatureFlags()
+    {
+    }
 
     public static FeatureFlags getInstance(Context ctx)
     {
@@ -55,6 +55,4 @@ public class FeatureFlags
         boolean enabled = prefs.getBoolean("flag_time_series", false);
         return enabled;
     }
-
-
 }

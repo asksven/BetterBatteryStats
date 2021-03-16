@@ -18,13 +18,14 @@ package com.asksven.betterbatterystats.localeplugin.ui;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.Spinner;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
@@ -62,7 +63,8 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
             callingApplicationLabel =
                     getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(getCallingPackage(),
                             0));
-        } catch (final PackageManager.NameNotFoundException e)
+        }
+        catch (final PackageManager.NameNotFoundException e)
         {
             Log.e(TAG, "Calling package couldn't be found %s", e); //$NON-NLS-1$
         }
@@ -97,7 +99,8 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
         if (android.R.id.home == item.getItemId())
         {
             finish();
-        } else if (R.id.menu_discard_changes == item.getItemId())
+        }
+        else if (R.id.menu_discard_changes == item.getItemId())
         {
             // Signal to AbstractAppCompatPluginActivity that the user canceled.
             mIsCancelled = true;
@@ -146,13 +149,13 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
         int pos = ((Spinner) findViewById(R.id.spinnerStatType)).getSelectedItemPosition();
         final String ref = m_spinnerAdapter.getItemLabel(pos);
 
-		/*
-		 * This extra is the data to ourselves: either for the Activity or the BroadcastReceiver. Note that anything
-		 * placed in this Bundle must be available to Locale's class loader. So storing String, int, and other standard
-		 * objects will work just fine. However Parcelable objects must also be Serializable. And Serializable objects
-		 * must be standard Java objects (e.g. a private subclass to this plug-in cannot be stored in the Bundle, as
-		 * Locale's classloader will not recognize it).
-		 */
+        /*
+         * This extra is the data to ourselves: either for the Activity or the BroadcastReceiver. Note that anything
+         * placed in this Bundle must be available to Locale's class loader. So storing String, int, and other standard
+         * objects will work just fine. However Parcelable objects must also be Serializable. And Serializable objects
+         * must be standard Java objects (e.g. a private subclass to this plug-in cannot be stored in the Bundle, as
+         * Locale's classloader will not recognize it).
+         */
         resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VERSION_CODE, Constants.getVersionCode(this));
         resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF, saveRef);
         resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT, saveStat);

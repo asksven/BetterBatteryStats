@@ -20,29 +20,26 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Build.VERSION;
 
 /**
  * @author sven
- * 
  */
 public class Installation
 {
-	public static boolean isInstalledOnSdCard(Context context)
-	{
+    public static boolean isInstalledOnSdCard(Context context)
+    {
+        PackageManager pm = context.getPackageManager();
+        try
+        {
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            ApplicationInfo ai = pi.applicationInfo;
+            return (ai.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) == ApplicationInfo.FLAG_EXTERNAL_STORAGE;
+        }
+        catch (NameNotFoundException e)
+        {
+            // ignore
+        }
 
-		PackageManager pm = context.getPackageManager();
-		try
-		{
-			PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-			ApplicationInfo ai = pi.applicationInfo;
-			return (ai.flags & ApplicationInfo.FLAG_EXTERNAL_STORAGE) == ApplicationInfo.FLAG_EXTERNAL_STORAGE;
-		}
-		catch (NameNotFoundException e)
-		{
-			// ignore
-		}
-
-		return false;
-	}
+        return false;
+    }
 }

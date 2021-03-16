@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="?android:attr/colorBackground"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar_icon" />
 
@@ -12,13 +11,13 @@
         android:id="@+id/Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
         android:background="?android:colorForegroundInverse"
         android:elevation="8dp"
         android:orientation="vertical"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp" >
+        android:paddingRight="8dp">
 
         <TextView
             android:id="@+id/textViewTitle"
@@ -27,10 +26,10 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
-            android:text="@string/label_battery"
-            android:textSize="@dimen/text_size_medium"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"/>
+            android:paddingRight="8dp"
+            android:text="@string/label_battery"
+            android:textSize="@dimen/text_size_medium" />
 
         <com.asksven.betterbatterystats.widgets.GraphableBarsPlot
             android:id="@+id/Battery"
@@ -44,9 +43,9 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:background="?android:colorForegroundInverse"
-        android:dividerHeight="1px" />
+        android:dividerHeight="1px"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp" />
 
 </LinearLayout>

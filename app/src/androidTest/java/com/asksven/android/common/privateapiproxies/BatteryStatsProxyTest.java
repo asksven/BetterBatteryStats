@@ -3,6 +3,7 @@ package com.asksven.android.common.privateapiproxies;
 import android.content.Context;
 import android.os.Build;
 import android.os.SystemClock;
+
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Before;
@@ -15,12 +16,12 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by sven on 01/05/2017.
  */
+public class BatteryStatsProxyTest
+{
 
-public class BatteryStatsProxyTest {
-
+    static final String TAG = "BatteryStatsProxyTest";
     private BatteryStatsProxy mStats = null;
     private BatteryStatsProxy mStats2 = null;
-    static final String TAG = "BatteryStatsProxyTest";
 
     @Before
     public void createInstance() throws Exception
@@ -30,7 +31,6 @@ public class BatteryStatsProxyTest {
         mStats = BatteryStatsProxy.getInstance(ctx);
         assertNotNull(mStats);
         assertFalse(mStats.initFailed());
-
     }
 
     @Test
@@ -49,10 +49,9 @@ public class BatteryStatsProxyTest {
         long whichRealtime = mStats.computeBatteryRealtime(SystemClock.elapsedRealtime() * 1000, statsType) / 1000;
 
         assertTrue(whichRealtime != 0);
-
     }
 
-    /*
+/*
     @Test
     public void test_alarms() throws Exception
     {
@@ -75,14 +74,14 @@ public class BatteryStatsProxyTest {
 
         // parameter types
         @SuppressWarnings("rawtypes")
-        Class[] paramTypesGetService= new Class[1];
-        paramTypesGetService[0]= String.class;
+        Class[] paramTypesGetService = new Class[1];
+        paramTypesGetService[0] = String.class;
 
         @SuppressWarnings("unchecked")
         Method methodGetService = serviceManagerClass.getMethod("getService", paramTypesGetService);
 
         // parameters
-        Object[] paramsGetService= new Object[1];
+        Object[] paramsGetService = new Object[1];
         paramsGetService[0] = "alarmmanager";
 
         IBinder serviceBinder = (IBinder) methodGetService.invoke(serviceManagerClass, paramsGetService);
@@ -92,14 +91,14 @@ public class BatteryStatsProxyTest {
 
         //Parameters Types
         @SuppressWarnings("rawtypes")
-        Class[] paramTypesAsInterface= new Class[1];
-        paramTypesAsInterface[0]= IBinder.class;
+        Class[] paramTypesAsInterface = new Class[1];
+        paramTypesAsInterface[0] = IBinder.class;
 
         @SuppressWarnings("unchecked")
         Method methodAsInterface = iAlarmManagerStub.getMethod("asInterface", paramTypesAsInterface);
 
         // Parameters
-        Object[] paramsAsInterface= new Object[1];
+        Object[] paramsAsInterface = new Object[1];
         paramsAsInterface[0] = serviceBinder;
 
         Object iAlarmManagerInstance = methodAsInterface.invoke(iAlarmManagerStub, paramsAsInterface);
@@ -110,8 +109,6 @@ public class BatteryStatsProxyTest {
         SparseArray<? extends Object> broadcastStats = (SparseArray<? extends Object>) broadcastStatsField.get(iAlarmManagerInstance);
 
         assertNotNull(broadcastStats);
-
     }
 */
-
 }

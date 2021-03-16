@@ -16,7 +16,6 @@
 
 package com.asksven.betterbatterystats.contrib;
 
-import com.asksven.betterbatterystats.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -26,7 +25,10 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 
-class SlidingTabStrip extends LinearLayout {
+import com.asksven.betterbatterystats.R;
+
+class SlidingTabStrip extends LinearLayout
+{
 
     private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 2;
     private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
@@ -47,18 +49,18 @@ class SlidingTabStrip extends LinearLayout {
 
     private final Paint mDividerPaint;
     private final float mDividerHeight;
-
+    private final SimpleTabColorizer mDefaultTabColorizer;
     private int mSelectedPosition;
     private float mSelectionOffset;
-
     private SlidingTabLayout.TabColorizer mCustomTabColorizer;
-    private final SimpleTabColorizer mDefaultTabColorizer;
 
-    SlidingTabStrip(Context context) {
+    SlidingTabStrip(Context context)
+    {
         this(context, null);
     }
 
-    SlidingTabStrip(Context context, AttributeSet attrs) {
+    SlidingTabStrip(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         setWillNotDraw(false);
 
@@ -66,7 +68,7 @@ class SlidingTabStrip extends LinearLayout {
 
         TypedValue outValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.colorAccent, outValue, true);
-        final int themeForegroundColor =  outValue.data;
+        final int themeForegroundColor = outValue.data;
 
         mDefaultBottomBorderColor = setColorAlpha(themeForegroundColor,
                 DEFAULT_BOTTOM_BORDER_COLOR_ALPHA);
@@ -88,33 +90,61 @@ class SlidingTabStrip extends LinearLayout {
         mDividerPaint.setStrokeWidth((int) (DEFAULT_DIVIDER_THICKNESS_DIPS * density));
     }
 
-    void setCustomTabColorizer(SlidingTabLayout.TabColorizer customTabColorizer) {
+    /**
+     * Set the alpha value of the {@code color} to be the given {@code alpha} value.
+     */
+    private static int setColorAlpha(int color, byte alpha)
+    {
+        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
+    }
+
+    /**
+     * Blend {@code color1} and {@code color2} using the given ratio.
+     *
+     * @param ratio of which to blend. 1.0 will return {@code color1}, 0.5 will give an even blend,
+     *              0.0 will return {@code color2}.
+     */
+    private static int blendColors(int color1, int color2, float ratio)
+    {
+        final float inverseRation = 1f - ratio;
+        float r = (Color.red(color1) * ratio) + (Color.red(color2) * inverseRation);
+        float g = (Color.green(color1) * ratio) + (Color.green(color2) * inverseRation);
+        float b = (Color.blue(color1) * ratio) + (Color.blue(color2) * inverseRation);
+        return Color.rgb((int) r, (int) g, (int) b);
+    }
+
+    void setCustomTabColorizer(SlidingTabLayout.TabColorizer customTabColorizer)
+    {
         mCustomTabColorizer = customTabColorizer;
         invalidate();
     }
 
-    void setSelectedIndicatorColors(int... colors) {
+    void setSelectedIndicatorColors(int... colors)
+    {
         // Make sure that the custom colorizer is removed
         mCustomTabColorizer = null;
         mDefaultTabColorizer.setIndicatorColors(colors);
         invalidate();
     }
 
-    void setDividerColors(int... colors) {
+    void setDividerColors(int... colors)
+    {
         // Make sure that the custom colorizer is removed
         mCustomTabColorizer = null;
         mDefaultTabColorizer.setDividerColors(colors);
         invalidate();
     }
 
-    void onViewPagerPageChanged(int position, float positionOffset) {
+    void onViewPagerPageChanged(int position, float positionOffset)
+    {
         mSelectedPosition = position;
         mSelectionOffset = positionOffset;
         invalidate();
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas)
+    {
         final int height = getHeight();
         final int childCount = getChildCount();
         final int dividerHeightPx = (int) (Math.min(Math.max(0f, mDividerHeight), 1f) * height);
@@ -123,15 +153,18 @@ class SlidingTabStrip extends LinearLayout {
                 : mDefaultTabColorizer;
 
         // Thick colored underline below the current selection
-        if (childCount > 0) {
+        if (childCount > 0)
+        {
             View selectedTitle = getChildAt(mSelectedPosition);
             int left = selectedTitle.getLeft();
             int right = selectedTitle.getRight();
             int color = tabColorizer.getIndicatorColor(mSelectedPosition);
 
-            if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
+            if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1))
+            {
                 int nextColor = tabColorizer.getIndicatorColor(mSelectedPosition + 1);
-                if (color != nextColor) {
+                if (color != nextColor)
+                {
                     color = blendColors(nextColor, color, mSelectionOffset);
                 }
 
@@ -154,7 +187,8 @@ class SlidingTabStrip extends LinearLayout {
 
         // Vertical separators between the titles
         int separatorTop = (height - dividerHeightPx) / 2;
-        for (int i = 0; i < childCount - 1; i++) {
+        for (int i = 0; i < childCount - 1; i++)
+        {
             View child = getChildAt(i);
             mDividerPaint.setColor(tabColorizer.getDividerColor(i));
             canvas.drawLine(child.getRight(), separatorTop, child.getRight(),
@@ -162,46 +196,30 @@ class SlidingTabStrip extends LinearLayout {
         }
     }
 
-    /**
-     * Set the alpha value of the {@code color} to be the given {@code alpha} value.
-     */
-    private static int setColorAlpha(int color, byte alpha) {
-        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
-    }
-
-    /**
-     * Blend {@code color1} and {@code color2} using the given ratio.
-     *
-     * @param ratio of which to blend. 1.0 will return {@code color1}, 0.5 will give an even blend,
-     *              0.0 will return {@code color2}.
-     */
-    private static int blendColors(int color1, int color2, float ratio) {
-        final float inverseRation = 1f - ratio;
-        float r = (Color.red(color1) * ratio) + (Color.red(color2) * inverseRation);
-        float g = (Color.green(color1) * ratio) + (Color.green(color2) * inverseRation);
-        float b = (Color.blue(color1) * ratio) + (Color.blue(color2) * inverseRation);
-        return Color.rgb((int) r, (int) g, (int) b);
-    }
-
-    private static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer {
+    private static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer
+    {
         private int[] mIndicatorColors;
         private int[] mDividerColors;
 
         @Override
-        public final int getIndicatorColor(int position) {
+        public final int getIndicatorColor(int position)
+        {
             return mIndicatorColors[position % mIndicatorColors.length];
         }
 
         @Override
-        public final int getDividerColor(int position) {
+        public final int getDividerColor(int position)
+        {
             return mDividerColors[position % mDividerColors.length];
         }
 
-        void setIndicatorColors(int... colors) {
+        void setIndicatorColors(int... colors)
+        {
             mIndicatorColors = colors;
         }
 
-        void setDividerColors(int... colors) {
+        void setDividerColors(int... colors)
+        {
             mDividerColors = colors;
         }
     }

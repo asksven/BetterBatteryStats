@@ -25,12 +25,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import androidx.core.app.JobIntentService;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.RemoteViews;
+
+import androidx.core.app.JobIntentService;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
@@ -50,15 +51,15 @@ import java.util.ArrayList;
 
 /**
  * @author sven
- *
  */
 public class UpdateWidgetService extends JobIntentService
 {
-	private static final String TAG = "UpdateWidgetService";
-	/** must be unique for each widget */
-	private static final int PI_CODE = 1;
-
     static final int JOB_ID = 1000;
+    private static final String TAG = "UpdateWidgetService";
+    /**
+     * must be unique for each widget
+     */
+    private static final int PI_CODE = 1;
 
     /**
      * Convenience method for enqueuing work in to this service.
@@ -67,6 +68,101 @@ public class UpdateWidgetService extends JobIntentService
     public static void enqueueWork(Context context, Intent work)
     {
         enqueueWork(context, UpdateWidgetService.class, JOB_ID, work);
+    }
+
+    static void setValuesAlignmentLeft(RemoteViews remoteViews, boolean leftGravity)
+    {
+        if (leftGravity)
+        {
+            remoteViews.setInt(R.id.layoutLegendValues, "setGravity", Gravity.LEFT);
+        }
+        else
+        {
+            remoteViews.setInt(R.id.layoutLegendValues, "setGravity", Gravity.RIGHT);
+        }
+    }
+
+    static void setValuesToDuration(RemoteViews remoteViews, long timeAwake, long timeSince, long timeScreenOn, long timeDeepSleep, long timePWL, long timeKWL)
+    {
+        remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake - timeScreenOn));
+        remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep));
+        remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn));
+        remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL));
+        remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL));
+
+        UpdateWidgetService.setValuesAlignmentLeft(remoteViews, false);
+
+    }
+
+    static void setValuesToDurationAndPct(RemoteViews remoteViews, long timeAwake, long timeSince, long timeScreenOn, long timeDeepSleep, long timePWL, long timeKWL)
+    {
+        remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake - timeScreenOn)
+                + " (" + StringUtils.formatRatio(timeAwake - timeScreenOn, timeSince) + ")");
+        remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep)
+                + " (" + StringUtils.formatRatio(timeDeepSleep, timeSince) + ")");
+        remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn)
+                + " (" + StringUtils.formatRatio(timeScreenOn, timeSince) + ")");
+        remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL)
+                + " (" + StringUtils.formatRatio(timeKWL, timeSince) + ")");
+        remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL)
+                + " (" + StringUtils.formatRatio(timePWL, timeSince) + ")");
+        UpdateWidgetService.setValuesAlignmentLeft(remoteViews, false);
+    }
+
+    static void setValuesToPct(RemoteViews remoteViews, long timeAwake, long timeSince, long timeScreenOn, long timeDeepSleep, long timePWL, long timeKWL)
+    {
+        remoteViews.setTextViewText(R.id.textViewAwakeVal, StringUtils.formatRatio(timeAwake - timeScreenOn, timeSince));
+        remoteViews.setTextViewText(R.id.textViewDeepSleepVal, StringUtils.formatRatio(timeDeepSleep, timeSince));
+        remoteViews.setTextViewText(R.id.textViewScreenOnVal, StringUtils.formatRatio(timeScreenOn, timeSince));
+        remoteViews.setTextViewText(R.id.textViewKWLVal, StringUtils.formatRatio(timeKWL, timeSince));
+        remoteViews.setTextViewText(R.id.textViewPWLVal, StringUtils.formatRatio(timePWL, timeSince));
+
+        UpdateWidgetService.setValuesAlignmentLeft(remoteViews, false);
+    }
+
+    public static void setTextColor(RemoteViews remoteViews, boolean color, Context context)
+    {
+        if (!color)
+        {
+            Log.i(TAG, "removing text color");
+            remoteViews.setTextColor(R.id.textViewAwake, context.getResources().getColor(R.color.primary_text_default_material_dark));
+            remoteViews.setTextColor(R.id.textViewDeepSleep, context.getResources().getColor(R.color.primary_text_default_material_dark));
+            remoteViews.setTextColor(R.id.textViewScreenOn, context.getResources().getColor(R.color.primary_text_default_material_dark));
+            remoteViews.setTextColor(R.id.textViewKWL, context.getResources().getColor(R.color.primary_text_default_material_dark));
+            remoteViews.setTextColor(R.id.textViewPWL, context.getResources().getColor(R.color.primary_text_default_material_dark));
+        }
+        else
+        {
+            Log.i(TAG, "adding text color");
+            remoteViews.setTextColor(R.id.textViewAwake, context.getResources().getColor(R.color.awake));
+            remoteViews.setTextColor(R.id.textViewDeepSleep, context.getResources().getColor(R.color.deep_sleep));
+            remoteViews.setTextColor(R.id.textViewScreenOn, context.getResources().getColor(R.color.screen_on));
+            remoteViews.setTextColor(R.id.textViewKWL, context.getResources().getColor(R.color.kwl));
+            remoteViews.setTextColor(R.id.textViewPWL, context.getResources().getColor(R.color.pwl));
+
+        }
+
+    }
+
+    public static void setShortLabels(RemoteViews remoteViews, Context context, boolean shortLabels)
+    {
+        if (shortLabels)
+        {
+            remoteViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake_short));
+            remoteViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep_short));
+            remoteViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on_short));
+            remoteViews.setTextViewText(R.id.textViewKWL, context.getResources().getString(R.string.label_widget_kernel_wakelock_short));
+            remoteViews.setTextViewText(R.id.textViewPWL, context.getResources().getString(R.string.label_widget_partial_wakelock_short));
+        }
+        else
+        {
+            remoteViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake));
+            remoteViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep));
+            remoteViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on));
+            remoteViews.setTextViewText(R.id.textViewKWL, context.getResources().getString(R.string.label_widget_kernel_wakelock));
+            remoteViews.setTextViewText(R.id.textViewPWL, context.getResources().getString(R.string.label_widget_partial_wakelock));
+        }
+
     }
 
     @Override
@@ -88,7 +184,7 @@ public class UpdateWidgetService extends JobIntentService
         StatsProvider stats = StatsProvider.getInstance();
         // make sure to flush cache
         BatteryStatsProxy proxy = BatteryStatsProxy.getInstance(this);
-        if ( proxy != null)
+        if (proxy != null)
         {
             proxy.invalidate();
         }
@@ -131,12 +227,14 @@ public class UpdateWidgetService extends JobIntentService
                         // switch to image only
                         Log.i(TAG, "[" + widgetId + "] using image-only layout");
                         remoteViews = new RemoteViews(this.getPackageName(), R.layout.widget);
-                    } else if (height < width)
+                    }
+                    else if (height < width)
                     {
                         // switch to horizontal
                         Log.i(TAG, "[" + widgetId + "] using horizontal layout");
                         remoteViews = new RemoteViews(this.getPackageName(), R.layout.widget_horz);
-                    } else
+                    }
+                    else
                     {
                         // switch to vertical
                         Log.i(TAG, "[" + widgetId + "] using vertical layout");
@@ -185,7 +283,8 @@ public class UpdateWidgetService extends JobIntentService
                         if (timeAwakeStat != null)
                         {
                             timeAwake = timeAwakeStat.getTimeOn();
-                        } else
+                        }
+                        else
                         {
                             timeAwake = 0;
                         }
@@ -194,7 +293,8 @@ public class UpdateWidgetService extends JobIntentService
                         if (timeScreenOnStat != null)
                         {
                             timeScreenOn = timeScreenOnStat.getTimeOn();
-                        } else
+                        }
+                        else
                         {
                             timeScreenOn = 0;
                         }
@@ -203,7 +303,8 @@ public class UpdateWidgetService extends JobIntentService
                         if (deepSleepStat != null)
                         {
                             timeDeepSleep = deepSleepStat.getTimeOn();
-                        } else
+                        }
+                        else
                         {
                             timeDeepSleep = 0;
                         }
@@ -217,10 +318,12 @@ public class UpdateWidgetService extends JobIntentService
                     else
                     {
                     }
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
-                } finally
+                }
+                finally
                 {
                     if (LogSettings.DEBUG)
                     {
@@ -313,101 +416,4 @@ public class UpdateWidgetService extends JobIntentService
         }
         Log.i(TAG, "Completed service @ " + DateUtils.formatDurationLong(SystemClock.elapsedRealtime()));
     }
-
-    static void setValuesAlignmentLeft(RemoteViews remoteViews, boolean leftGravity)
-    {
-        if (leftGravity)
-        {
-            remoteViews.setInt(R.id.layoutLegendValues, "setGravity", Gravity.LEFT);
-        }
-        else
-        {
-            remoteViews.setInt(R.id.layoutLegendValues, "setGravity", Gravity.RIGHT);
-        }
-    }
-
-    static void setValuesToDuration(RemoteViews remoteViews, long timeAwake, long timeSince,long  timeScreenOn, long timeDeepSleep, long timePWL, long timeKWL)
-    {
-        remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake - timeScreenOn));
-        remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep));
-        remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn));
-        remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL));
-        remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL));
-
-        UpdateWidgetService.setValuesAlignmentLeft(remoteViews, false);
-
-    }
-
-    static void setValuesToDurationAndPct(RemoteViews remoteViews, long timeAwake, long timeSince,long  timeScreenOn, long timeDeepSleep, long timePWL, long timeKWL)
-    {
-        remoteViews.setTextViewText(R.id.textViewAwakeVal, AppWidget.formatDuration(timeAwake - timeScreenOn)
-                + " (" + StringUtils.formatRatio(timeAwake - timeScreenOn, timeSince) + ")");
-        remoteViews.setTextViewText(R.id.textViewDeepSleepVal, AppWidget.formatDuration(timeDeepSleep)
-                + " (" + StringUtils.formatRatio(timeDeepSleep, timeSince) + ")");
-        remoteViews.setTextViewText(R.id.textViewScreenOnVal, AppWidget.formatDuration(timeScreenOn)
-                + " (" + StringUtils.formatRatio(timeScreenOn, timeSince) + ")");
-        remoteViews.setTextViewText(R.id.textViewKWLVal, AppWidget.formatDuration(timeKWL)
-                + " (" + StringUtils.formatRatio(timeKWL, timeSince) + ")");
-        remoteViews.setTextViewText(R.id.textViewPWLVal, AppWidget.formatDuration(timePWL)
-                + " (" + StringUtils.formatRatio(timePWL, timeSince) + ")");
-        UpdateWidgetService.setValuesAlignmentLeft(remoteViews, false);
-    }
-
-    static void setValuesToPct(RemoteViews remoteViews, long timeAwake, long timeSince,long  timeScreenOn, long timeDeepSleep, long timePWL, long timeKWL)
-    {
-        remoteViews.setTextViewText(R.id.textViewAwakeVal, StringUtils.formatRatio(timeAwake - timeScreenOn, timeSince));
-        remoteViews.setTextViewText(R.id.textViewDeepSleepVal, StringUtils.formatRatio(timeDeepSleep, timeSince));
-        remoteViews.setTextViewText(R.id.textViewScreenOnVal, StringUtils.formatRatio(timeScreenOn, timeSince));
-        remoteViews.setTextViewText(R.id.textViewKWLVal, StringUtils.formatRatio(timeKWL, timeSince));
-        remoteViews.setTextViewText(R.id.textViewPWLVal, StringUtils.formatRatio(timePWL, timeSince));
-
-        UpdateWidgetService.setValuesAlignmentLeft(remoteViews, false);
-    }
-
-    public static void setTextColor(RemoteViews remoteViews, boolean color, Context context)
-    {
-        if (!color)
-        {
-            Log.i(TAG, "removing text color");
-            remoteViews.setTextColor(R.id.textViewAwake, context.getResources().getColor(R.color.primary_text_default_material_dark));
-            remoteViews.setTextColor(R.id.textViewDeepSleep, context.getResources().getColor(R.color.primary_text_default_material_dark));
-            remoteViews.setTextColor(R.id.textViewScreenOn, context.getResources().getColor(R.color.primary_text_default_material_dark));
-            remoteViews.setTextColor(R.id.textViewKWL, context.getResources().getColor(R.color.primary_text_default_material_dark));
-            remoteViews.setTextColor(R.id.textViewPWL, context.getResources().getColor(R.color.primary_text_default_material_dark));
-        }
-        else
-        {
-            Log.i(TAG, "adding text color");
-            remoteViews.setTextColor(R.id.textViewAwake, context.getResources().getColor(R.color.awake));
-            remoteViews.setTextColor(R.id.textViewDeepSleep, context.getResources().getColor(R.color.deep_sleep));
-            remoteViews.setTextColor(R.id.textViewScreenOn, context.getResources().getColor(R.color.screen_on));
-            remoteViews.setTextColor(R.id.textViewKWL, context.getResources().getColor(R.color.kwl));
-            remoteViews.setTextColor(R.id.textViewPWL, context.getResources().getColor(R.color.pwl));
-
-        }
-
-    }
-
-    public static void setShortLabels(RemoteViews remoteViews, Context context, boolean shortLabels)
-    {
-        if (shortLabels)
-        {
-            remoteViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake_short));
-            remoteViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep_short));
-            remoteViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on_short));
-            remoteViews.setTextViewText(R.id.textViewKWL, context.getResources().getString(R.string.label_widget_kernel_wakelock_short));
-            remoteViews.setTextViewText(R.id.textViewPWL, context.getResources().getString(R.string.label_widget_partial_wakelock_short));
-        }
-        else
-        {
-            remoteViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake));
-            remoteViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep));
-            remoteViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on));
-            remoteViews.setTextViewText(R.id.textViewKWL, context.getResources().getString(R.string.label_widget_kernel_wakelock));
-            remoteViews.setTextViewText(R.id.textViewPWL, context.getResources().getString(R.string.label_widget_partial_wakelock));
-        }
-
-    }
-
-
 }

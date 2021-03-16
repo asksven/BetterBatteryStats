@@ -16,7 +16,6 @@
 package com.asksven.betterbatterystats.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,18 +31,18 @@ import de.cketti.library.changelog.ChangeLog;
 
 public class ChangeLogAdapter extends ArrayAdapter<String>
 {
-	private final Context m_context;
+    private final Context m_context;
 
     private List<String> changeLog = null;
 
     private String releaseName = "";
 
-	public ChangeLogAdapter(Context context)
-	{
-		super(context, R.layout.changelog_row);
-		this.m_context = context;
+    public ChangeLogAdapter(Context context)
+    {
+        super(context, R.layout.changelog_row);
+        this.m_context = context;
 
-		changeLog = new ArrayList<String>();
+        changeLog = new ArrayList<String>();
         ChangeLog cl = new ChangeLog(context);
         List<ChangeLog.ReleaseItem> releases = cl.getChangeLog(true);
         if (releases.size() > 0)
@@ -51,7 +50,7 @@ public class ChangeLogAdapter extends ArrayAdapter<String>
             releaseName = releases.get(0).versionName;
             List<String> changes = releases.get(0).changes;
 
-            for (int j=0; j < changes.size(); j++)
+            for (int j = 0; j < changes.size(); j++)
             {
                 changeLog.add(changes.get(j));
             }
@@ -62,28 +61,28 @@ public class ChangeLogAdapter extends ArrayAdapter<String>
         }
     }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
-	{
-		LayoutInflater inflater = (LayoutInflater) m_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.changelog_row, parent, false);
-		TextView textViewChange = (TextView) rowView.findViewById(R.id.textViewChange);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+        LayoutInflater inflater = (LayoutInflater) m_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View rowView = inflater.inflate(R.layout.changelog_row, parent, false);
+        TextView textViewChange = (TextView) rowView.findViewById(R.id.textViewChange);
 
         textViewChange.setText(changeLog.get(position));
 
-		return rowView;
-	}
-	
-	public int getCount()
+        return rowView;
+    }
+
+    public int getCount()
     {
-    	if (changeLog != null)
-    	{
-    		return changeLog.size();
-    	}
-    	else
-    	{
-    		return 0;
-    	}
+        if (changeLog != null)
+        {
+            return changeLog.size();
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public String getItem(int position)
@@ -100,5 +99,4 @@ public class ChangeLogAdapter extends ArrayAdapter<String>
     {
         return position;
     }
-
 }

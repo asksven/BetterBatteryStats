@@ -23,43 +23,43 @@ import android.widget.ListView;
 public abstract class ActionBarListActivity extends BaseActivity
 {
 
-	private ListView mListView;
+    private ListView mListView;
 
-	protected ListView getListView()
-	{
-		if (mListView == null)
-		{
-			mListView = (ListView) findViewById(android.R.id.list);
-		}
-		return mListView;
-	}
+    protected ListView getListView()
+    {
+        if (mListView == null)
+        {
+            mListView = (ListView) findViewById(android.R.id.list);
+        }
+        return mListView;
+    }
 
-	protected void setListAdapter(ListAdapter adapter)
-	{
-		getListView().setAdapter(adapter);
-	}
+    protected ListAdapter getListAdapter()
+    {
+        ListAdapter adapter = getListView().getAdapter();
+        if (adapter instanceof HeaderViewListAdapter)
+        {
+            return ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+        }
+        else
+        {
+            return adapter;
+        }
+    }
 
-	protected ListAdapter getListAdapter()
-	{
-		ListAdapter adapter = getListView().getAdapter();
-		if (adapter instanceof HeaderViewListAdapter)
-		{
-			return ((HeaderViewListAdapter) adapter).getWrappedAdapter();
-		} else
-		{
-			return adapter;
-		}
-	}
+    protected void setListAdapter(ListAdapter adapter)
+    {
+        getListView().setAdapter(adapter);
+    }
 
-	protected void onListItemClick(ListView lv, View v, int position, long id)
-	{
-		getListView().getOnItemClickListener().onItemClick(lv, v, position, id);
-	}
+    protected void onListItemClick(ListView lv, View v, int position, long id)
+    {
+        getListView().getOnItemClickListener().onItemClick(lv, v, position, id);
+    }
 
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-	}
-
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
 }

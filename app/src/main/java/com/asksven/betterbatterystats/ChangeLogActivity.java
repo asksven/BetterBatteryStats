@@ -16,6 +16,7 @@
 package com.asksven.betterbatterystats;
 
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.asksven.betterbatterystats.adapters.ChangeLogAdapter;
@@ -24,23 +25,23 @@ public class ChangeLogActivity extends ActionBarListActivity
 {
 
     private static final String TAG = "ChangeLogActivity";
-    
-    
-	/** Called when the activity is first created. */
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.changelog);
-        
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.label_changelog));
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
 
-	    setSupportActionBar(toolbar);
-	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	    getSupportActionBar().setDisplayUseLogoEnabled(false);
-	    
         ChangeLogAdapter adapter = new ChangeLogAdapter(this);
         setListAdapter(adapter);
 
@@ -52,9 +53,5 @@ public class ChangeLogActivity extends ActionBarListActivity
         {
             toolbar.setTitle(getString(R.string.label_changelog) + " (" + adapter.getReleaseName() + ")");
         }
-
-        
-
-    }   
-    
+    }
 }

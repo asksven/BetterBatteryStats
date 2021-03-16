@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This file was contributed by two forty four a.m. LLC <http://www.twofortyfouram.com>
  * unter the terms of the Apache License, Version 2.0
  */
@@ -27,6 +27,23 @@ import android.content.Context;
 public final class Constants
 {
     /**
+     * Log tag for logcat messages
+     */
+    public static final String LOG_TAG = "BBSLocalePlugin"; //$NON-NLS-1$
+    /**
+     * Flag to enable logcat messages.
+     */
+    public static final boolean IS_LOGGABLE = true;
+    /**
+     * Flag to enable runtime checking of method parameters
+     */
+    public static final boolean IS_PARAMETER_CHECKING_ENABLED = false;
+    /**
+     * Flag to enable runtime checking of whether a method is called on the correct thread
+     */
+    public static final boolean IS_CORRECT_THREAD_CHECKING_ENABLED = false;
+
+    /**
      * Private constructor prevents instantiation
      *
      * @throws UnsupportedOperationException because this class cannot be instantiated.
@@ -35,26 +52,6 @@ public final class Constants
     {
         throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
     }
-
-    /**
-     * Log tag for logcat messages
-     */
-    public static final String LOG_TAG = "BBSLocalePlugin"; //$NON-NLS-1$
-
-    /**
-     * Flag to enable logcat messages.
-     */
-    public static final boolean IS_LOGGABLE = true;
-
-    /**
-     * Flag to enable runtime checking of method parameters
-     */
-    public static final boolean IS_PARAMETER_CHECKING_ENABLED = false;
-
-    /**
-     * Flag to enable runtime checking of whether a method is called on the correct thread
-     */
-    public static final boolean IS_CORRECT_THREAD_CHECKING_ENABLED = false;
 
     /**
      * Determines the "versionCode" in the {@code AndroidManifest}.

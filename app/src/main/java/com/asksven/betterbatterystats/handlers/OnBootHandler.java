@@ -16,14 +16,6 @@
 
 package com.asksven.betterbatterystats.handlers;
 
-
-import com.asksven.betterbatterystats.data.ReferenceStore;
-import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.services.AppWidgetJobService;
-import com.asksven.betterbatterystats.services.EventWatcherService;
-import com.asksven.betterbatterystats.services.WriteBootReferenceService;
-import com.asksven.betterbatterystats.services.WriteBootReferenceServicePre21;
-
 import android.annotation.TargetApi;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -33,72 +25,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.asksven.betterbatterystats.data.ReferenceStore;
+import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.services.AppWidgetJobService;
+import com.asksven.betterbatterystats.services.EventWatcherService;
+import com.asksven.betterbatterystats.services.WriteBootReferenceService;
+import com.asksven.betterbatterystats.services.WriteBootReferenceServicePre21;
 
 /**
  * General broadcast handler: handles event as registered on Manifest
- * @author sven
  *
+ * @author sven
  */
 public class OnBootHandler extends BroadcastReceiver
-{	
-	private static final String TAG = "OnBootHandler";
-	private static int JOB_ID=777;
-	
-	/* (non-Javadoc)
-	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
-	 */
-	@Override
-	public void onReceive(Context context, Intent intent)
-	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-
- 
-		Log.i(TAG, "Received Broadcast " + intent.getAction());
-		
-		// delete whatever references we have saved here
-		ReferenceStore.deleteAllRefs(context);
-		
-		
-		// start service to persist boot reference
-		if (Build.VERSION.SDK_INT < 23)
-		{
-			Intent serviceIntent = new Intent(context, WriteBootReferenceServicePre21.class);
-			context.startService(serviceIntent);
-		}
-		else
-		{
-			WriteBootReferenceService.scheduleJob(context);
-		}
-
-        // start the service
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
-            context.startForegroundService(new Intent(context, EventWatcherService.class));
-        }
-        else
-        {
-            Intent i = new Intent(context, EventWatcherService.class);
-            context.startService(i);
-        }
-
-
-		// if active monitoring enabled schedule the next alarm 
-		if (sharedPrefs.getBoolean("active_mon_enabled", false))
-		{
-			// reschedule next timer
-			StatsProvider.scheduleActiveMonAlarm(context);
-		}
-
-		if (Build.VERSION.SDK_INT >= 23)
-        {
-            // start the job refreshing widgets
-            OnBootHandler.scheduleAppWidgetsJob(context);
-        }
-	}
+{
+    private static final String TAG = "OnBootHandler";
+    private static int JOB_ID = 777;
 
     // schedule the start of the service every 10 to 15 minutes
     @TargetApi(21)
@@ -129,7 +74,6 @@ public class OnBootHandler extends BroadcastReceiver
         }
         JobScheduler jobScheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(builder.build());
-
     }
 
     @TargetApi(21)
@@ -158,4 +102,54 @@ public class OnBootHandler extends BroadcastReceiver
         scheduler.cancel(JOB_ID);
     }
 
+    /* (non-Javadoc)
+     * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+     */
+    @Override
+    public void onReceive(Context context, Intent intent)
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+
+        Log.i(TAG, "Received Broadcast " + intent.getAction());
+
+        // delete whatever references we have saved here
+        ReferenceStore.deleteAllRefs(context);
+
+
+        // start service to persist boot reference
+        if (Build.VERSION.SDK_INT < 23)
+        {
+            Intent serviceIntent = new Intent(context, WriteBootReferenceServicePre21.class);
+            context.startService(serviceIntent);
+        }
+        else
+        {
+            WriteBootReferenceService.scheduleJob(context);
+        }
+
+        // start the service
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            context.startForegroundService(new Intent(context, EventWatcherService.class));
+        }
+        else
+        {
+            Intent i = new Intent(context, EventWatcherService.class);
+            context.startService(i);
+        }
+
+        // if active monitoring enabled schedule the next alarm
+        if (sharedPrefs.getBoolean("active_mon_enabled", false))
+        {
+            // reschedule next timer
+            StatsProvider.scheduleActiveMonAlarm(context);
+        }
+
+        if (Build.VERSION.SDK_INT >= 23)
+        {
+            // start the job refreshing widgets
+            OnBootHandler.scheduleAppWidgetsJob(context);
+        }
+    }
 }

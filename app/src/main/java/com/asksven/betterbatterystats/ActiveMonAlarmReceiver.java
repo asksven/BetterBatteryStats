@@ -29,43 +29,42 @@ import com.asksven.betterbatterystats.services.WriteTimerReferenceService;
 
 /**
  * Handles alarms to turn off Wifi is a connection could not be established
- * @author sven
  *
+ * @author sven
  */
 public class ActiveMonAlarmReceiver extends BroadcastReceiver
-{		 
-	private static String TAG = "ActiveMonAlarmReceiver";
-	public static int ACTIVE_MON_ALARM = 323;
-	
-	@Override
-	public void onReceive(Context context, Intent intent)
-	{
-		Log.d(TAG, "Alarm received: processing");
-		
+{
+    public static int ACTIVE_MON_ALARM = 323;
+    private static String TAG = "ActiveMonAlarmReceiver";
 
-		try
-		{
-	    	SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-	    	
-			// if enabled write the ref and schedule the next alarm 
-			if (prefs.getBoolean("active_mon_enabled", false))
-			{
-				// reschedule next timer
-				StatsProvider.scheduleActiveMonAlarm(context);
-				
-				// write the reference
-				Intent serviceIntent = new Intent(context, WriteTimerReferenceService.class);
-				context.startService(serviceIntent);				
-			}
-			else
-			{
-				StatsProvider.cancelActiveMonAlarm(context);
-				return;
-			}
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An error occured receiving the alarm" + e.getMessage());
-		}
-	}
+    @Override
+    public void onReceive(Context context, Intent intent)
+    {
+        Log.d(TAG, "Alarm received: processing");
+
+        try
+        {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            // if enabled write the ref and schedule the next alarm
+            if (prefs.getBoolean("active_mon_enabled", false))
+            {
+                // reschedule next timer
+                StatsProvider.scheduleActiveMonAlarm(context);
+
+                // write the reference
+                Intent serviceIntent = new Intent(context, WriteTimerReferenceService.class);
+                context.startService(serviceIntent);
+            }
+            else
+            {
+                StatsProvider.cancelActiveMonAlarm(context);
+                return;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "An error occured receiving the alarm" + e.getMessage());
+        }
+    }
 }

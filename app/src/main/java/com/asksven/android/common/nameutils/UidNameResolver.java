@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.asksven.android.common.nameutils;
 
-import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -27,50 +26,49 @@ import com.asksven.betterbatterystats.BbsApplication;
 
 /**
  * @author sven
- *
  */
-public class UidNameResolver 
+public class UidNameResolver
 {
-	
-	protected String[] m_packages;
-	protected String[] m_packageNames;
-    private static UidNameResolver m_instance;
-    
-	public static UidNameResolver getInstance()
-	{
-		if (m_instance == null)
-		{
-			m_instance = new UidNameResolver();
-		}
-		
-		return m_instance;
-	}
-	
-	public Drawable getIcon(String packageName)
-	{
-		Drawable icon = null;
-		// retrieve and store the icon for that package
-		String myPackage = packageName;
-		if (!myPackage.equals(""))
-		{
-			PackageManager manager = BbsApplication.getAppContext().getPackageManager();
-			try
-			{
-				icon = manager.getApplicationIcon(myPackage);
-			}
-			catch (Exception e)
-			{
-				// nop: no icon found
-				icon = null;
-			}
-		}				
-		return icon;
-	}
 
-	public String getLabel(String packageName)
-	{
-		String ret = packageName;
-		PackageManager pm = BbsApplication.getAppContext().getPackageManager();
+    private static UidNameResolver m_instance;
+    protected String[] m_packages;
+    protected String[] m_packageNames;
+
+    public static UidNameResolver getInstance()
+    {
+        if (m_instance == null)
+        {
+            m_instance = new UidNameResolver();
+        }
+
+        return m_instance;
+    }
+
+    public Drawable getIcon(String packageName)
+    {
+        Drawable icon = null;
+        // retrieve and store the icon for that package
+        String myPackage = packageName;
+        if (!myPackage.equals(""))
+        {
+            PackageManager manager = BbsApplication.getAppContext().getPackageManager();
+            try
+            {
+                icon = manager.getApplicationIcon(myPackage);
+            }
+            catch (Exception e)
+            {
+                // nop: no icon found
+                icon = null;
+            }
+        }
+        return icon;
+    }
+
+    public String getLabel(String packageName)
+    {
+        String ret = packageName;
+        PackageManager pm = BbsApplication.getAppContext().getPackageManager();
         try
         {
             ApplicationInfo ai = pm.getApplicationInfo(packageName, 0);
@@ -84,39 +82,38 @@ public class UidNameResolver
         {
             ret = packageName;
         }
-        
+
         return ret;
     }
-	
-	// Side effects: sets mName and mUniqueName
-	// Sets mNamePackage, mName and mUniqueName
+
+    // Side effects: sets mName and mUniqueName
+    // Sets mNamePackage, mName and mUniqueName
     public synchronized UidInfo getNameForUid(int uid)
     {
-    	String uidName = "";
-    	String uidNamePackage = "";
-    	boolean uidUniqueName = false;
-    	
-    	UidInfo myInfo = new UidInfo();
-    	myInfo.setUid(uid);
-    	myInfo.setName(uidName);
-    	myInfo.setNamePackage(uidNamePackage);
-    	myInfo.setUniqueName(uidUniqueName);
+        String uidName = "";
+        String uidNamePackage = "";
+        boolean uidUniqueName = false;
 
-        
+        UidInfo myInfo = new UidInfo();
+        myInfo.setUid(uid);
+        myInfo.setName(uidName);
+        myInfo.setNamePackage(uidNamePackage);
+        myInfo.setUniqueName(uidUniqueName);
+
         PackageManager pm = BbsApplication.getAppContext().getPackageManager();
         m_packages = pm.getPackagesForUid(uid);
-        
+
         if (m_packages == null)
         {
             uidName = Integer.toString(uid);
 
-        	myInfo.setName(uidName);
+            myInfo.setName(uidName);
             return myInfo;
         }
-        
+
         m_packageNames = new String[m_packages.length];
         System.arraycopy(m_packages, 0, m_packageNames, 0, m_packages.length);
-        
+
         // Convert package names to user-facing labels where possible
         for (int i = 0; i < m_packageNames.length; i++)
         {
@@ -154,71 +151,70 @@ public class UidNameResolver
                 }
             }
         }
-    	myInfo.setName(uidName);
-    	myInfo.setNamePackage(uidNamePackage);
-    	myInfo.setUniqueName(uidUniqueName);
+        myInfo.setName(uidName);
+        myInfo.setNamePackage(uidNamePackage);
+        myInfo.setUniqueName(uidUniqueName);
 
-    	return myInfo;
+        return myInfo;
     }
-    
+
     /**
      * Returns the name for UIDs < 2000
+     *
      * @param uid
      * @return
      */
     String getName(int uid)
     {
-    	String ret = "";
-    	switch (uid)
-    	{
-    		case 0:
-    			ret = "root";
-    			break;
-    		case 1000:
-    			ret = "system";
-    			break;
-    		case 1001:
-    			ret = "radio";
-    			break;
-    		case 1002:
-    			ret = "bluetooth";
-    			break;
-    		case 1003:
-    			ret = "graphics";
-    			break;
-    		case 1004:
-    			ret = "input";
-    			break;
-    		case 1005:
-    			ret = "audio";
-    			break;
-    		case 1006:
-    			ret = "camera";
-    			break;
-    		case 1007:
-    			ret = "log";
-    			break;
-    		case 1008:
-    			ret = "compass";
-    			break;
-    		case 1009:
-    			ret = "mount";
-    			break;
-    		case 1010:
-    			ret = "wifi";
-    			break;
-    		case 1011:
-    			ret = "adb";
-    			break;
-    		case 1013:
-    			ret = "media";
-    			break;
-    		case 1014:
-    			ret = "dhcp";
-    			break;
-    			
-    	}
-    	return ret;
+        String ret = "";
+        switch (uid)
+        {
+            case 0:
+                ret = "root";
+                break;
+            case 1000:
+                ret = "system";
+                break;
+            case 1001:
+                ret = "radio";
+                break;
+            case 1002:
+                ret = "bluetooth";
+                break;
+            case 1003:
+                ret = "graphics";
+                break;
+            case 1004:
+                ret = "input";
+                break;
+            case 1005:
+                ret = "audio";
+                break;
+            case 1006:
+                ret = "camera";
+                break;
+            case 1007:
+                ret = "log";
+                break;
+            case 1008:
+                ret = "compass";
+                break;
+            case 1009:
+                ret = "mount";
+                break;
+            case 1010:
+                ret = "wifi";
+                break;
+            case 1011:
+                ret = "adb";
+                break;
+            case 1013:
+                ret = "media";
+                break;
+            case 1014:
+                ret = "dhcp";
+                break;
+        }
+        return ret;
     }
-
 }

@@ -17,8 +17,9 @@
 package com.asksven.betterbatterystats;
 
 import android.os.Bundle;
-import androidx.fragment.app.FragmentTransaction;
+
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI that
@@ -28,31 +29,27 @@ import androidx.appcompat.widget.Toolbar;
 public class PackageInfoActivity extends BaseActivity
 {
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        // setTheme(SampleList.THEME); //Used for theme switching in samples
+        super.onCreate(savedInstanceState);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		// setTheme(SampleList.THEME); //Used for theme switching in samples
-		super.onCreate(savedInstanceState);
+        setContentView(R.layout.package_info);
 
-		setContentView(R.layout.package_info);
-		
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             PackageInfoTabsFragment fragment = new PackageInfoTabsFragment();
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
         }
-		
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setTitle(getString(R.string.label_packageinfo));
-		
-	    setSupportActionBar(toolbar);
-	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	    getSupportActionBar().setDisplayUseLogoEnabled(false);
-	    
-		
-	}
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.label_packageinfo));
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
+    }
 }

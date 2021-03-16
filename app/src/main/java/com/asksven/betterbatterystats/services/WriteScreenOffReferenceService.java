@@ -16,8 +16,6 @@
 package com.asksven.betterbatterystats.services;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
@@ -33,65 +31,63 @@ import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 /**
  * @author sven
- *
  */
 public class WriteScreenOffReferenceService extends IntentService
 {
-	private static final String TAG = "WriteScreenOffRefServ";
+    private static final String TAG = "WriteScreenOffRefServ";
 
-	public WriteScreenOffReferenceService()
-	{
-	    super("WriteScreenOffReferenceService");
-	}
-	
-	@Override
-	public void onHandleIntent(Intent intent)
-	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+    public WriteScreenOffReferenceService()
+    {
+        super("WriteScreenOffReferenceService");
+    }
 
-		Log.i(TAG, "Called at " + DateUtils.now());
-		try
-		{
-			
+    @Override
+    public void onHandleIntent(Intent intent)
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-			// Store the "since screen off" ref
-			Wakelock.aquireWakelock(this);
-			StatsProvider.getInstance().setReferenceSinceScreenOff(0);
-			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.SCREEN_OFF_REF_FILENAME);
-			this.sendBroadcast(i);
+        Log.i(TAG, "Called at " + DateUtils.now());
+        try
+        {
 
-			long now = System.currentTimeMillis();
-			// Save current time to prefs
-			SharedPreferences.Editor editor = sharedPrefs.edit();
-			editor.putLong("screen_went_off_at", now);
-			editor.commit();
 
-			// Build the intent to update the widget
-			Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
-			this.sendBroadcast(intentRefreshWidgets);
+            // Store the "since screen off" ref
+            Wakelock.aquireWakelock(this);
+            StatsProvider.getInstance().setReferenceSinceScreenOff(0);
+            Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.SCREEN_OFF_REF_FILENAME);
+            this.sendBroadcast(i);
 
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An error occured: " + e.getMessage());
-		}
-		finally
-		{
-			Wakelock.releaseWakelock();
-		}
-	}
+            long now = System.currentTimeMillis();
+            // Save current time to prefs
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            editor.putLong("screen_went_off_at", now);
+            editor.commit();
 
-	@Override
-	public IBinder onBind(Intent intent)
-	{
-		return null;
-	}
-	
-	@Override
-	public void onDestroy()
-	{
-		Log.i(TAG, "Destroyed at" + DateUtils.now());
-		Wakelock.releaseWakelock();
-	}
+            // Build the intent to update the widget
+            Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
+            this.sendBroadcast(intentRefreshWidgets);
 
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "An error occured: " + e.getMessage());
+        }
+        finally
+        {
+            Wakelock.releaseWakelock();
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent)
+    {
+        return null;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.i(TAG, "Destroyed at" + DateUtils.now());
+        Wakelock.releaseWakelock();
+    }
 }

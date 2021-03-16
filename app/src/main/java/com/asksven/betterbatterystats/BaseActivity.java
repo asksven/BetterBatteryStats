@@ -19,41 +19,42 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity
 {
-	@Override
-	protected void onResume()
-	{
-		
-		this.setTheme(BaseActivity.getTheme(this));
-		super.onResume();
+    public final static int getTheme(Context ctx)
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        String theme = sharedPrefs.getString("theme", "0");
 
-	}
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		// Obtain the shared Tracker instance.
-		BbsApplication application = (BbsApplication) getApplication();
+        if (theme.equals("0"))
+        {
+            return R.style.Theme_Bbs_Light;
+        }
+        else
+        {
+            return R.style.Theme_Bbs_Auto;
+        }
+    }
 
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String theme = sharedPrefs.getString("theme", "0");
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    protected void onResume()
+    {
+        this.setTheme(BaseActivity.getTheme(this));
+        super.onResume();
+    }
 
-	public final static int getTheme(Context ctx)
-	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		String theme = sharedPrefs.getString("theme", "0");
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        // Obtain the shared Tracker instance.
+        BbsApplication application = (BbsApplication) getApplication();
 
-		if (theme.equals("0"))
-		{
-			return R.style.Theme_Bbs_Light;
-		} else
-		{
-			return R.style.Theme_Bbs_Auto;
-		}
-	}
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String theme = sharedPrefs.getString("theme", "0");
+        super.onCreate(savedInstanceState);
+    }
 }
 

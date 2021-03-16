@@ -1,4 +1,3 @@
-package com.asksven.android.common.privateapiproxies;
 /*
  * Copyright (C) 2017 asksven
  *
@@ -15,31 +14,25 @@ package com.asksven.android.common.privateapiproxies;
  * limitations under the License.
  */
 
+package com.asksven.android.common.privateapiproxies;
+
+import android.os.Parcelable;
 
 import java.io.Serializable;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.asksven.android.common.privateapiproxies.HistoryItem.BitDescription;
-import com.asksven.android.common.utils.DateUtils;
-
 /**
  * ICS specific Value holder for BatteryStats$HistoryItem
- * @author sven
  *
+ * @author sven
  */
 public class HistoryItemNougat extends HistoryItem implements Serializable, Parcelable
 {
-
     public static final byte CMD_UPDATE = 0;        // These can be written as deltas
     private static final byte CMD_NULL = -1;
     private static final byte CMD_START = 4;
     private static final byte CMD_CURRENT_TIME = 5;
     private static final byte CMD_OVERFLOW = 6;
     private static final byte CMD_RESET = 7;
-
-    private byte cmd = CMD_NULL;
     // Constants from SCREEN_BRIGHTNESS_*
     private static final int STATE_BRIGHTNESS_SHIFT = 0;
     private static final int STATE_BRIGHTNESS_MASK = 0x7;
@@ -52,32 +45,30 @@ public class HistoryItemNougat extends HistoryItem implements Serializable, Parc
     // Constants from DATA_CONNECTION_*
     private static final int STATE_DATA_CONNECTION_SHIFT = 9;
     private static final int STATE_DATA_CONNECTION_MASK = 0x1f << STATE_DATA_CONNECTION_SHIFT;
-
     // These states always appear directly in the first int token
     // of a delta change; they should be ones that change relatively
     // frequently.
-    private static final int STATE_CPU_RUNNING_FLAG = 1<<31;
-    private static final int STATE_WAKE_LOCK_FLAG = 1<<30;
-    private static final int STATE_GPS_ON_FLAG = 1<<29;
-    private static final int STATE_WIFI_FULL_LOCK_FLAG = 1<<28;
-    private static final int STATE_WIFI_SCAN_FLAG = 1<<27;
-    private static final int STATE_WIFI_RADIO_ACTIVE_FLAG = 1<<26;
-    private static final int STATE_MOBILE_RADIO_ACTIVE_FLAG = 1<<25;
+    private static final int STATE_CPU_RUNNING_FLAG = 1 << 31;
+    private static final int STATE_WAKE_LOCK_FLAG = 1 << 30;
+    private static final int STATE_GPS_ON_FLAG = 1 << 29;
+    private static final int STATE_WIFI_FULL_LOCK_FLAG = 1 << 28;
+    private static final int STATE_WIFI_SCAN_FLAG = 1 << 27;
+    private static final int STATE_WIFI_RADIO_ACTIVE_FLAG = 1 << 26;
+    private static final int STATE_MOBILE_RADIO_ACTIVE_FLAG = 1 << 25;
     // Do not use, this is used for coulomb delta count.
-    private static final int STATE_RESERVED_0 = 1<<24;
+    private static final int STATE_RESERVED_0 = 1 << 24;
     // These are on the lower bits used for the command; if they change
     // we need to write another int of data.
-    private static final int STATE_SENSOR_ON_FLAG = 1<<23;
-    private static final int STATE_AUDIO_ON_FLAG = 1<<22;
-    private static final int STATE_PHONE_SCANNING_FLAG = 1<<21;
-    private static final int STATE_SCREEN_ON_FLAG = 1<<20;       // consider moving to states2
-    private static final int STATE_BATTERY_PLUGGED_FLAG = 1<<19; // consider moving to states2
+    private static final int STATE_SENSOR_ON_FLAG = 1 << 23;
+    private static final int STATE_AUDIO_ON_FLAG = 1 << 22;
+    private static final int STATE_PHONE_SCANNING_FLAG = 1 << 21;
+    private static final int STATE_SCREEN_ON_FLAG = 1 << 20;       // consider moving to states2
+    private static final int STATE_BATTERY_PLUGGED_FLAG = 1 << 19; // consider moving to states2
     // empty slot
     // empty slot
-    private static final int STATE_WIFI_MULTICAST_ON_FLAG = 1<<16;
+    private static final int STATE_WIFI_MULTICAST_ON_FLAG = 1 << 16;
     private static final int MOST_INTERESTING_STATES =
             STATE_BATTERY_PLUGGED_FLAG | STATE_SCREEN_ON_FLAG;
-
     // Constants from WIFI_SUPPL_STATE_*
     private static final int STATE2_WIFI_SUPPL_STATE_SHIFT = 0;
     private static final int STATE2_WIFI_SUPPL_STATE_MASK = 0xf;
@@ -85,23 +76,24 @@ public class HistoryItemNougat extends HistoryItem implements Serializable, Parc
     private static final int STATE2_WIFI_SIGNAL_STRENGTH_SHIFT = 4;
     private static final int STATE2_WIFI_SIGNAL_STRENGTH_MASK =
             0x7 << STATE2_WIFI_SIGNAL_STRENGTH_SHIFT;
-    private static final int STATE2_POWER_SAVE_FLAG = 1<<31;
-    private static final int STATE2_VIDEO_ON_FLAG = 1<<30;
-    private static final int STATE2_WIFI_RUNNING_FLAG = 1<<29;
-    private static final int STATE2_WIFI_ON_FLAG = 1<<28;
-    private static final int STATE2_FLASHLIGHT_FLAG = 1<<27;
+    private static final int STATE2_POWER_SAVE_FLAG = 1 << 31;
+    private static final int STATE2_VIDEO_ON_FLAG = 1 << 30;
+    private static final int STATE2_WIFI_RUNNING_FLAG = 1 << 29;
+    private static final int STATE2_WIFI_ON_FLAG = 1 << 28;
+    private static final int STATE2_FLASHLIGHT_FLAG = 1 << 27;
     private static final int STATE2_DEVICE_IDLE_SHIFT = 25;
     private static final int STATE2_DEVICE_IDLE_MASK = 0x3 << STATE2_DEVICE_IDLE_SHIFT;
-    private static final int STATE2_CHARGING_FLAG = 1<<24;
-    private static final int STATE2_PHONE_IN_CALL_FLAG = 1<<23;
-    private static final int STATE2_BLUETOOTH_ON_FLAG = 1<<22;
-    private static final int STATE2_CAMERA_FLAG = 1<<21;
+    private static final int STATE2_CHARGING_FLAG = 1 << 24;
+    private static final int STATE2_PHONE_IN_CALL_FLAG = 1 << 23;
+    private static final int STATE2_BLUETOOTH_ON_FLAG = 1 << 22;
+    private static final int STATE2_CAMERA_FLAG = 1 << 21;
     private static final int STATE2_BLUETOOTH_SCAN_FLAG = 1 << 20;
+    private byte cmd = CMD_NULL;
 
     public HistoryItemNougat(Long time, Byte cmd, Byte batteryLevel, Byte batteryStatusValue,
-                                  Byte batteryHealthValue, Byte batteryPlugTypeValue,
-                                  String batteryTemperatureValue,	String batteryVoltageValue,
-                                  Integer	statesValue, Integer states2Value)
+                             Byte batteryHealthValue, Byte batteryPlugTypeValue,
+                             String batteryTemperatureValue, String batteryVoltageValue,
+                             Integer statesValue, Integer states2Value)
     {
         super(time, cmd, batteryLevel, batteryStatusValue,
                 batteryHealthValue, batteryPlugTypeValue,
@@ -185,5 +177,4 @@ public class HistoryItemNougat extends HistoryItem implements Serializable, Parc
 
         return bBluetoothOn;
     }
-
 }

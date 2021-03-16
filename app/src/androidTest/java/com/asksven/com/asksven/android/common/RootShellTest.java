@@ -13,19 +13,17 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by sven on 01/05/2017.
  */
-
 public class RootShellTest
 {
 
-    private RootShell shell = null;
     static final String TAG = "rootShellTest";
+    private RootShell shell = null;
 
     @Before
     public void createInstance() throws Exception
     {
         shell = RootShell.getInstance();
         assertNotNull(shell);
-
     }
 
     @Test
@@ -47,7 +45,6 @@ public class RootShellTest
         {
             assertTrue(res.get(0).equals(command));
         }
-
     }
 
     @Test
@@ -58,9 +55,5 @@ public class RootShellTest
         res = shell.run(command);
 
         assertTrue(res != null);
-
     }
-
-
-
 }

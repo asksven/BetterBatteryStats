@@ -33,37 +33,36 @@ import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 /**
  * @author sven
- *
  */
 public class WriteScreenOnReferenceService extends IntentService
 {
-	private static final String TAG = "WriteScreenOnRefService";
+    private static final String TAG = "WriteScreenOnRefService";
 
-	public WriteScreenOnReferenceService()
-	{
-	    super("WriteScreenOnReferenceService");
-	}
+    public WriteScreenOnReferenceService()
+    {
+        super("WriteScreenOnReferenceService");
+    }
 
-	@Override
-	public void onHandleIntent(Intent intent)
-	{
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+    @Override
+    public void onHandleIntent(Intent intent)
+    {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		Log.i(TAG, "Called at " + DateUtils.now());
-		try
-		{
-			
-			// Store the "since screen on" ref
-			Wakelock.aquireWakelock(this);
-			StatsProvider.getInstance().setReferenceScreenOn(0);
+        Log.i(TAG, "Called at " + DateUtils.now());
+        try
+        {
 
-			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.SCREEN_ON_REF_FILENAME);
-		    this.sendBroadcast(i);
+            // Store the "since screen on" ref
+            Wakelock.aquireWakelock(this);
+            StatsProvider.getInstance().setReferenceScreenOn(0);
 
-			StatsProvider.getInstance().setCurrentReference(0);
+            Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.SCREEN_ON_REF_FILENAME);
+            this.sendBroadcast(i);
 
-			// Refresh the widgets
-			if (Build.VERSION.SDK_INT >= 23)
+            StatsProvider.getInstance().setCurrentReference(0);
+
+            // Refresh the widgets
+            if (Build.VERSION.SDK_INT >= 23)
             {
                 OnBootHandler.scheduleAppWidgetsJobImmediate(this);
             }
@@ -73,27 +72,27 @@ public class WriteScreenOnReferenceService extends IntentService
                 Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
                 this.sendBroadcast(intentRefreshWidgets);
             }
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An error occured: " + e.getMessage());
-		}
-		finally
-		{
-			Wakelock.releaseWakelock();
-		}
-	}
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "An error occured: " + e.getMessage());
+        }
+        finally
+        {
+            Wakelock.releaseWakelock();
+        }
+    }
 
-	@Override
-	public IBinder onBind(Intent intent)
-	{
-		return null;
-	}
-	
-	@Override
-	public void onDestroy()
-	{
-		Log.i(TAG, "Destroyed at" + DateUtils.now());
-		Wakelock.releaseWakelock();
-	}
+    @Override
+    public IBinder onBind(Intent intent)
+    {
+        return null;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.i(TAG, "Destroyed at" + DateUtils.now());
+        Wakelock.releaseWakelock();
+    }
 }

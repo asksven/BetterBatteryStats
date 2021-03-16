@@ -15,9 +15,6 @@
  */
 package com.asksven.betterbatterystats.adapters;
 
-import java.util.List;
-import java.util.Map;
-
 import android.content.Context;
 import android.content.pm.PermissionInfo;
 import android.view.LayoutInflater;
@@ -30,16 +27,18 @@ import android.widget.TextView;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.Permission;
 
+import java.util.List;
+import java.util.Map;
+
 
 public class PermissionsAdapter extends BaseAdapter
 {
-    private Context m_context;
-
-    private List<String> m_listData;
-    private Map<String, Permission> m_dictionary;
     private static final String TAG = "PermissionsAdapter";
     int m_selectedPosition = 0;
     boolean m_expanded = false;
+    private Context m_context;
+    private List<String> m_listData;
+    private Map<String, Permission> m_dictionary;
 
 
     public PermissionsAdapter(Context context, List<String> listData, Map<String, Permission> dictionary)
@@ -47,9 +46,7 @@ public class PermissionsAdapter extends BaseAdapter
         this.m_context = context;
         this.m_listData = listData;
         this.m_dictionary = dictionary;
-
     }
-
 
     public int getCount()
     {
@@ -111,9 +108,7 @@ public class PermissionsAdapter extends BaseAdapter
 //                    nameLayout.setBackgroundColor(m_context.getResources().getColor(color));
                     tvPermission.setText(m_context.getString(R.string.label_perm_normal));
                     tvPermission.setBackgroundColor(m_context.getResources().getColor(color));
-
             }
-
         }
 
         LinearLayout descriptionLayout = (LinearLayout) convertView.findViewById(R.id.LayoutDescription);
@@ -121,4 +116,3 @@ public class PermissionsAdapter extends BaseAdapter
         return convertView;
     }
 }
-

@@ -15,8 +15,6 @@
  */
 package com.asksven.betterbatterystats.adapters;
 
-import com.asksven.betterbatterystats.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,18 +22,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.asksven.betterbatterystats.R;
+
 import java.util.ArrayList;
 
 public class CreditsAdapter extends ArrayAdapter<String>
 {
-	private final Context m_context;
+    private final Context m_context;
 
     private ArrayList<Credit> credits = null;
 
-	public CreditsAdapter(Context context)
-	{
-		super(context, R.layout.credits_row);
-		this.m_context = context;
+    public CreditsAdapter(Context context)
+    {
+        super(context, R.layout.credits_row);
+        this.m_context = context;
         // special credits
         credits = new ArrayList<Credit>();
         credits.add(new Credit(context.getString(R.string.label_about_courtesy), "", ""));
@@ -55,35 +55,34 @@ public class CreditsAdapter extends ArrayAdapter<String>
         credits.add(new Credit("DashClock", "Roman Nurik", "Apache 2.0"));
         credits.add(new Credit("RootTools", "Stericson", "Apache 2.0"));
         credits.add(new Credit("ckChangeLog", "cketti", "Apache 2.0"));
-
     }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
-	{
-		LayoutInflater inflater = (LayoutInflater) m_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.credits_row, parent, false);
-		TextView textViewName = (TextView) rowView.findViewById(R.id.textViewName);
-		TextView textViewAuthor = (TextView) rowView.findViewById(R.id.textViewAuthor);
-		TextView textViewLicense = (TextView) rowView.findViewById(R.id.textViewLicense);
-
-		textViewName.setText(credits.get(position).mName);
-		textViewAuthor.setText(credits.get(position).mAuthor);
-		textViewLicense.setText(credits.get(position).mLicense);
-
-		return rowView;
-	}
-	
-	public int getCount()
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent)
     {
-    	if (credits != null)
-    	{
-    		return credits.size();
-    	}
-    	else
-    	{
-    		return 0;
-    	}
+        LayoutInflater inflater = (LayoutInflater) m_context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View rowView = inflater.inflate(R.layout.credits_row, parent, false);
+        TextView textViewName = (TextView) rowView.findViewById(R.id.textViewName);
+        TextView textViewAuthor = (TextView) rowView.findViewById(R.id.textViewAuthor);
+        TextView textViewLicense = (TextView) rowView.findViewById(R.id.textViewLicense);
+
+        textViewName.setText(credits.get(position).mName);
+        textViewAuthor.setText(credits.get(position).mAuthor);
+        textViewLicense.setText(credits.get(position).mLicense);
+
+        return rowView;
+    }
+
+    public int getCount()
+    {
+        if (credits != null)
+        {
+            return credits.size();
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public String getItem(int position)
@@ -98,19 +97,15 @@ public class CreditsAdapter extends ArrayAdapter<String>
 
     private class Credit
     {
-        String mName ="";
-        String mAuthor="";
-        String mLicense="";
+        String mName = "";
+        String mAuthor = "";
+        String mLicense = "";
 
         Credit(String name, String author, String license)
         {
             mName = name;
             mAuthor = author;
             mLicense = license;
-
         }
-
     }
-
-	
 }

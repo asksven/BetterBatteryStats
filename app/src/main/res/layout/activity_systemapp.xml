@@ -1,9 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:id="@+id/main_layout">
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar_icon" />
 
@@ -11,10 +10,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="4dp"
         android:paddingLeft="10dp"
+        android:paddingTop="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="10dp" >
+        android:paddingBottom="4dp">
 
         <TextView
             android:id="@+id/textViewBATTERY_STATS"
@@ -26,27 +25,27 @@
 
         <TextView
             android:id="@+id/textViewBATTERY_STATS_STATUS"
-            android:layout_below="@+id/textViewBATTERY_STATS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewBATTERY_STATS"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewDUMP"
-            android:layout_below="@+id/textViewBATTERY_STATS_STATUS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewBATTERY_STATS_STATUS"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewPACKAGE_USAGE_STATS"
-            android:layout_below="@+id/textViewDUMP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewDUMP"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -75,72 +74,72 @@
 
         <TextView
             android:id="@+id/textViewAPPOP_USAGE_STATS"
-            android:layout_below="@+id/textViewAdb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewAdb"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewACCESS_WIFI_STATE"
-            android:layout_below="@+id/textViewAPPOP_USAGE_STATS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewAPPOP_USAGE_STATS"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewACCESS_NETWORK_STATE"
-            android:layout_below="@+id/textViewACCESS_WIFI_STATE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewACCESS_WIFI_STATE"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewINTERNET"
-            android:layout_below="@+id/textViewACCESS_NETWORK_STATE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewACCESS_NETWORK_STATE"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewRECEIVE_BOOT_COMPLETED"
-            android:layout_below="@+id/textViewINTERNET"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewINTERNET"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewREAD_PHONE_STATE"
-            android:layout_below="@+id/textViewRECEIVE_BOOT_COMPLETED"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewRECEIVE_BOOT_COMPLETED"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewBLUETOOTH"
-            android:layout_below="@+id/textViewREAD_PHONE_STATE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewREAD_PHONE_STATE"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textViewWAKE_LOCK"
-            android:layout_below="@+id/textViewBLUETOOTH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewBLUETOOTH"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />

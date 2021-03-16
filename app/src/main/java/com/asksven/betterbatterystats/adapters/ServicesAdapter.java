@@ -15,7 +15,6 @@
  */
 package com.asksven.betterbatterystats.adapters;
 
-import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,35 +22,35 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.asksven.betterbatterystats.R;
+
+import java.util.List;
 
 public class ServicesAdapter extends BaseAdapter
 {
-    private Context m_context;
-
-    private List<String> m_listData;
     private static final String TAG = "ServicesAdapter";
-	int m_selectedPosition = 0;
-	boolean m_expanded = false;
-
+    int m_selectedPosition = 0;
+    boolean m_expanded = false;
+    private Context m_context;
+    private List<String> m_listData;
 
     public ServicesAdapter(Context context, List<String> listData)
     {
         this.m_context = context;
         this.m_listData = listData;
-
     }
 
     public void setSelectedPosition(int position)
     {
-    	m_selectedPosition = position;
-    	notifyDataSetChanged();
+        m_selectedPosition = position;
+        notifyDataSetChanged();
     }
-    
+
     public void toggleExpand()
     {
-    	m_expanded = !m_expanded;
-    	notifyDataSetChanged();
+        m_expanded = !m_expanded;
+        notifyDataSetChanged();
     }
 
     public int getCount()
@@ -71,7 +70,7 @@ public class ServicesAdapter extends BaseAdapter
 
     public View getView(int position, View convertView, ViewGroup viewGroup)
     {
-    	String entry = m_listData.get(position);
+        String entry = m_listData.get(position);
         if (convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater) m_context
@@ -79,11 +78,10 @@ public class ServicesAdapter extends BaseAdapter
             convertView = inflater.inflate(R.layout.package_info_row, null);
         }
         TextView tvName = (TextView) convertView.findViewById(R.id.TextViewName);
-       	tvName.setText(entry);
-       	LinearLayout descriptionLayout = (LinearLayout) convertView.findViewById(R.id.LayoutDescription);
+        tvName.setText(entry);
+        LinearLayout descriptionLayout = (LinearLayout) convertView.findViewById(R.id.LayoutDescription);
 
-  		descriptionLayout.setVisibility(View.GONE);
+        descriptionLayout.setVisibility(View.GONE);
         return convertView;
     }
 }
-

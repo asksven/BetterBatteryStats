@@ -15,97 +15,95 @@
  */
 package com.asksven.betterbatterystats.services;
 
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.betterbatterystats.data.Reading;
-import com.asksven.betterbatterystats.data.Reference;
-import com.asksven.betterbatterystats.data.ReferenceStore;
-import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.Wakelock;
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.betterbatterystats.Wakelock;
+import com.asksven.betterbatterystats.data.Reading;
+import com.asksven.betterbatterystats.data.Reference;
+import com.asksven.betterbatterystats.data.ReferenceStore;
+import com.asksven.betterbatterystats.data.StatsProvider;
+
 /**
  * @author sven
- *
  */
 public class WriteDumpfileService extends IntentService
 {
-	private static final String TAG = "WriteDumpfileService";
-	public static final String STAT_TYPE_FROM = "StatTypeFrom";
-	public static final String STAT_TYPE_TO = "StatTypeTo";
-	public static final String OUTPUT = "Output";
+    public static final String STAT_TYPE_FROM = "StatTypeFrom";
+    public static final String STAT_TYPE_TO = "StatTypeTo";
+    public static final String OUTPUT = "Output";
+    private static final String TAG = "WriteDumpfileService";
 
-	public WriteDumpfileService()
-	{
-	    super("WriteDumpfileService");
-	}
-	
-	@Override
-	public void onHandleIntent(Intent intent)
-	{
-		Log.i(TAG, "Called at " + DateUtils.now());
+    public WriteDumpfileService()
+    {
+        super("WriteDumpfileService");
+    }
+
+    @Override
+    public void onHandleIntent(Intent intent)
+    {
+        Log.i(TAG, "Called at " + DateUtils.now());
 
 
-		String refFrom = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_FROM);
-		String refTo = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_TO);
-		String output = intent.getStringExtra(WriteDumpfileService.OUTPUT);
-		if (refTo == null)
-		{
-			refTo = Reference.CURRENT_REF_FILENAME;
-		}
-		
-		// if we want a reading until "current" make sure to update that ref
-		if (refTo == Reference.CURRENT_REF_FILENAME)
-		{
-			StatsProvider.getInstance().setCurrentReference(0);
-		}
-		
-		
-		Log.i(TAG, "Called with extra " + refFrom + " and " + refTo);
+        String refFrom = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_FROM);
+        String refTo = intent.getStringExtra(WriteDumpfileService.STAT_TYPE_TO);
+        String output = intent.getStringExtra(WriteDumpfileService.OUTPUT);
+        if (refTo == null)
+        {
+            refTo = Reference.CURRENT_REF_FILENAME;
+        }
 
-		if ((refTo != null) && (refFrom != null) && !refFrom.equals("") && !refTo.equals(""))
-		{
-			try
-			{
-				Wakelock.aquireWakelock(this);
-				// restore any available references if required
-	        	Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(refFrom, this);
-	    		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(refTo, this);
-	    		Reading data = new Reading(this,myReferenceFrom, myReferenceTo);
-	    		
-	    		data.writeDumpfile(this, "");
-	
-			}
-			catch (Exception e)
-			{
-				Log.e(TAG, "An error occured: " + e.getMessage());
-			}
-			finally
-			{
-				Wakelock.releaseWakelock();
-			}
-		}
-		else
-		{
-			Log.i(TAG, "No dumpfile written: " + refFrom + " and " + refTo);
-			
-		}
-	}
+        // if we want a reading until "current" make sure to update that ref
+        if (refTo == Reference.CURRENT_REF_FILENAME)
+        {
+            StatsProvider.getInstance().setCurrentReference(0);
+        }
 
-	@Override
-	public IBinder onBind(Intent intent)
-	{
-		return null;
-	}
-	
-	@Override
-	public void onDestroy()
-	{
-		Log.e(TAG, "Destroyed at" + DateUtils.now());
-		Wakelock.releaseWakelock();
-	}
 
+        Log.i(TAG, "Called with extra " + refFrom + " and " + refTo);
+
+        if ((refTo != null) && (refFrom != null) && !refFrom.equals("") && !refTo.equals(""))
+        {
+            try
+            {
+                Wakelock.aquireWakelock(this);
+                // restore any available references if required
+                Reference myReferenceFrom = ReferenceStore.getReferenceByName(refFrom, this);
+                Reference myReferenceTo = ReferenceStore.getReferenceByName(refTo, this);
+                Reading data = new Reading(this, myReferenceFrom, myReferenceTo);
+
+                data.writeDumpfile(this, "");
+
+            }
+            catch (Exception e)
+            {
+                Log.e(TAG, "An error occured: " + e.getMessage());
+            }
+            finally
+            {
+                Wakelock.releaseWakelock();
+            }
+        }
+        else
+        {
+            Log.i(TAG, "No dumpfile written: " + refFrom + " and " + refTo);
+
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent)
+    {
+        return null;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.e(TAG, "Destroyed at" + DateUtils.now());
+        Wakelock.releaseWakelock();
+    }
 }

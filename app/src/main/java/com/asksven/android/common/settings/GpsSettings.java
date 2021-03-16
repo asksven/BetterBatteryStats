@@ -23,38 +23,38 @@ import android.provider.Settings;
 
 /**
  * Manages the GPS settings (
- * @author sven
  *
+ * @author sven
  */
 @TargetApi(8)
 public class GpsSettings
 {
-	@TargetApi(8)
-	public static void turnGPSOn(Context context)
-	{
-	    String provider = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-	    Settings.Secure.setLocationProviderEnabled(context.getContentResolver(), "gps", true);
-	    if(!provider.contains("gps"))
-	    {
-	        final Intent poke = new Intent();
-	        poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider"); 
-	        poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-	        poke.setData(Uri.parse("3")); 
-	        context.sendBroadcast(poke);
-	    }
-	}
+    @TargetApi(8)
+    public static void turnGPSOn(Context context)
+    {
+        String provider = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        Settings.Secure.setLocationProviderEnabled(context.getContentResolver(), "gps", true);
+        if (!provider.contains("gps"))
+        {
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            context.sendBroadcast(poke);
+        }
+    }
 
-	public static void turnGPSOff(Context context)
-	{
-	    String provider = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+    public static void turnGPSOff(Context context)
+    {
+        String provider = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 
-	    if(provider.contains("gps"))
-	    {
-	        final Intent poke = new Intent();
-	        poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
-	        poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
-	        poke.setData(Uri.parse("3")); 
-	        context.sendBroadcast(poke);
-	    }
-	}
+        if (provider.contains("gps"))
+        {
+            final Intent poke = new Intent();
+            poke.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+            poke.addCategory(Intent.CATEGORY_ALTERNATIVE);
+            poke.setData(Uri.parse("3"));
+            context.sendBroadcast(poke);
+        }
+    }
 }

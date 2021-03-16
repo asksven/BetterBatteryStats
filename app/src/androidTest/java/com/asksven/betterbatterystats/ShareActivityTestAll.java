@@ -1,14 +1,14 @@
 package com.asksven.betterbatterystats;
 
-
-import androidx.test.espresso.ViewInteraction;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
+
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -31,16 +31,43 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ShareActivityTestAll {
+public class ShareActivityTestAll
+{
 
     @Rule
     public ActivityTestRule<StatsActivity> mActivityTestRule = new ActivityTestRule<>(StatsActivity.class);
 
+    private static Matcher<View> childAtPosition(
+            final Matcher<View> parentMatcher, final int position)
+    {
+
+        return new TypeSafeMatcher<View>()
+        {
+            @Override
+            public void describeTo(Description description)
+            {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
+
+            @Override
+            public boolean matchesSafely(View view)
+            {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
+    }
+
     @Before
-    public void setUp() {
+    public void setUp()
+    {
         final StatsActivity activity = mActivityTestRule.getActivity();
-        Runnable wakeUpDevice = new Runnable() {
-            public void run() {
+        Runnable wakeUpDevice = new Runnable()
+        {
+            public void run()
+            {
                 activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -50,7 +77,8 @@ public class ShareActivityTestAll {
     }
 
     @Test
-    public void shareActivityTestAll() {
+    public void shareActivityTestAll()
+    {
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.share), withContentDescription("Share"), isDisplayed()));
         actionMenuItemView.perform(click());
@@ -80,25 +108,5 @@ public class ShareActivityTestAll {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(android.R.id.button3), withText("Save"), isDisplayed()));
         appCompatButton.perform(click());
-
-    }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
     }
 }

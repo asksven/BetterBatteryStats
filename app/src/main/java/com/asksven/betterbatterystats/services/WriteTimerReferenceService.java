@@ -28,52 +28,50 @@ import com.asksven.betterbatterystats.data.StatsProvider;
 
 /**
  * @author sven
- *
  */
 public class WriteTimerReferenceService extends IntentService
 {
-	private static final String TAG = "WriteTimerRefService";
+    private static final String TAG = "WriteTimerRefService";
 
-	public WriteTimerReferenceService()
-	{
-	    super("WriteTimerReferenceService");
-	}
-	
-	@Override
-	public void onHandleIntent(Intent intent)
-	{
-		Log.i(TAG, "Called at " + DateUtils.now());
-		try
-		{
-			Wakelock.aquireWakelock(this);
-			// Store the "custom
-			String refName = StatsProvider.getInstance().setTimedReference(0);
-			
-			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, refName);
-		    this.sendBroadcast(i);
+    public WriteTimerReferenceService()
+    {
+        super("WriteTimerReferenceService");
+    }
 
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An error occured: " + e.getMessage());
-		}
-		finally
-		{
-			Wakelock.releaseWakelock();
-		}
-	}
+    @Override
+    public void onHandleIntent(Intent intent)
+    {
+        Log.i(TAG, "Called at " + DateUtils.now());
+        try
+        {
+            Wakelock.aquireWakelock(this);
+            // Store the "custom
+            String refName = StatsProvider.getInstance().setTimedReference(0);
 
-	@Override
-	public IBinder onBind(Intent intent)
-	{
-		return null;
-	}
-	
-	@Override
-	public void onDestroy()
-	{
-		Log.e(TAG, "Destroyed at" + DateUtils.now());
-		Wakelock.releaseWakelock();
-	}
+            Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, refName);
+            this.sendBroadcast(i);
 
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "An error occured: " + e.getMessage());
+        }
+        finally
+        {
+            Wakelock.releaseWakelock();
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent)
+    {
+        return null;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.e(TAG, "Destroyed at" + DateUtils.now());
+        Wakelock.releaseWakelock();
+    }
 }
