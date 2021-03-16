@@ -40,34 +40,34 @@ import java.util.Locale;
 public final class FireReceiver extends BroadcastReceiver
 {
 
-	private static final String TAG = "FireReceiver";
+    private static final String TAG = "FireReceiver";
 
-	@Override
-	public void onReceive(final Context context, final Intent intent)
-	{
+    @Override
+    public void onReceive(final Context context, final Intent intent)
+    {
         /*
          * Always be strict on input parameters! A malicious third-party app could send a malformed Intent.
          */
 
         Log.i(TAG, "task plugin onReceive was called");
 
-		if (!com.twofortyfouram.locale.api.Intent.ACTION_FIRE_SETTING.equals(intent.getAction()))
-		{
-			if (Constants.IS_LOGGABLE)
-			{
-				Log.e(Constants.LOG_TAG,
-						String.format(Locale.US, "Received unexpected Intent action %s", intent.getAction())); //$NON-NLS-1$
-			}
-			return;
-		}
+        if (!com.twofortyfouram.locale.api.Intent.ACTION_FIRE_SETTING.equals(intent.getAction()))
+        {
+            if (Constants.IS_LOGGABLE)
+            {
+                Log.e(Constants.LOG_TAG,
+                        String.format(Locale.US, "Received unexpected Intent action %s", intent.getAction())); //$NON-NLS-1$
+            }
+            return;
+        }
 
-		BundleScrubber.scrub(intent);
+        BundleScrubber.scrub(intent);
 
-		final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.api.Intent.EXTRA_BUNDLE);
-		BundleScrubber.scrub(bundle);
+        final Bundle bundle = intent.getBundleExtra(com.twofortyfouram.locale.api.Intent.EXTRA_BUNDLE);
+        BundleScrubber.scrub(bundle);
 
-		if (PluginBundleManager.isBundleValid(bundle))
-		{
+        if (PluginBundleManager.isBundleValid(bundle))
+        {
             boolean saveRef = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF);
             boolean saveStat = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT);
 
@@ -93,7 +93,6 @@ public final class FireReceiver extends BroadcastReceiver
                 Intent serviceIntent = new Intent(context, WriteCustomReferenceService.class);
                 context.startService(serviceIntent);
             }
-
-		}
-	}
+        }
+    }
 }

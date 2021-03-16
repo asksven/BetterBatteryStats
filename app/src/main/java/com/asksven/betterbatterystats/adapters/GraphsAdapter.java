@@ -15,12 +15,6 @@
  */
 package com.asksven.betterbatterystats.adapters;
 
-import java.util.ArrayList;
-
-import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.data.GraphSerie;
-import com.asksven.betterbatterystats.data.GraphSeriesFactory;
-import com.asksven.betterbatterystats.widgets.GraphableBarsPlot;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,71 +22,78 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.asksven.betterbatterystats.R;
+import com.asksven.betterbatterystats.data.GraphSerie;
+import com.asksven.betterbatterystats.data.GraphSeriesFactory;
+import com.asksven.betterbatterystats.widgets.GraphableBarsPlot;
+
+import java.util.ArrayList;
+
 public class GraphsAdapter extends ArrayAdapter<String>
 {
-	private static final String TAG = "GraphsAdapter";
-	private final Context m_context;
-	private ArrayList<GraphSerie> m_graphs = new ArrayList<GraphSerie>();
-	private GraphSeriesFactory m_series = null;
-	//protected static ArrayList<HistoryItem> m_histList;
+    private static final String TAG = "GraphsAdapter";
+    private final Context m_context;
+    private ArrayList<GraphSerie> m_graphs = new ArrayList<GraphSerie>();
+    private GraphSeriesFactory m_series = null;
+    //protected static ArrayList<HistoryItem> m_histList;
 
-	public GraphsAdapter(Context context, GraphSeriesFactory history)
-	{
-		super(context, R.layout.graph_row);
-		this.m_context = context;
-		//m_histList = history;
-		m_series = history;
-		if (m_series != null)
-		{
-			this.seriesSetup();
-		}
-	}
+    public GraphsAdapter(Context context, GraphSeriesFactory history)
+    {
+        super(context, R.layout.graph_row);
+        this.m_context = context;
+        //m_histList = history;
+        m_series = history;
+        if (m_series != null)
+        {
+            this.seriesSetup();
+        }
+    }
 
-//	public void setList(ArrayList<HistoryItem> history)
-//	{
-//		m_histList = history;
-//		m_graphs.clear();
-//		this.seriesSetup();
-//	}
-	
-	public void setSeries(GraphSeriesFactory series)
-	{
-		m_series = series;
-		m_graphs.clear();
-		this.seriesSetup();
-	}
-	
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
-	{
+    /*
+        public void setList(ArrayList<HistoryItem> history)
+        {
+            m_histList = history;
+            m_graphs.clear();
+            this.seriesSetup();
+        }
+    */
+    public void setSeries(GraphSeriesFactory series)
+    {
+        m_series = series;
+        m_graphs.clear();
+        this.seriesSetup();
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         if (convertView == null)
         {
             LayoutInflater inflater = (LayoutInflater) m_context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            
-        	convertView = inflater.inflate(R.layout.graph_row, null);
+
+            convertView = inflater.inflate(R.layout.graph_row, null);
         }
 
-		TextView textViewTitle = (TextView) convertView.findViewById(R.id.textViewTitle);
-		textViewTitle.setText(m_graphs.get(position).getTitle());
-		
-        GraphableBarsPlot bars = (GraphableBarsPlot) convertView.findViewById(R.id.Timeline);	
+        TextView textViewTitle = (TextView) convertView.findViewById(R.id.textViewTitle);
+        textViewTitle.setText(m_graphs.get(position).getTitle());
+
+        GraphableBarsPlot bars = (GraphableBarsPlot) convertView.findViewById(R.id.Timeline);
         bars.setValues(m_graphs.get(position).getValues());
 
+        return convertView;
+    }
 
-		return convertView;
-	}
-	
-	public int getCount()
+    public int getCount()
     {
-    	if (m_graphs != null)
-    	{
-    		return m_graphs.size();
-    	}
-    	else
-    	{
-    		return 0;
-    	}
+        if (m_graphs != null)
+        {
+            return m_graphs.size();
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public String getItem(int position)
@@ -104,58 +105,43 @@ public class GraphsAdapter extends ArrayAdapter<String>
     {
         return position;
     }
-    
-	private void seriesSetup()
+
+    private void seriesSetup()
     {
         // SERIES #2:
         GraphSerie mySerie1 = new GraphSerie(
-        		m_context.getString(R.string.label_graph_wakelock),
-        		m_series.getValues(GraphSeriesFactory.SERIE_WAKELOCK));
+                m_context.getString(R.string.label_graph_wakelock),
+                m_series.getValues(GraphSeriesFactory.SERIE_WAKELOCK));
+        m_graphs.add(mySerie1);
 
-        m_graphs.add(mySerie1);	        
-
-        
         // SERIES #3:
         GraphSerie mySerie2 = new GraphSerie(
-        		m_context.getString(R.string.label_graph_screen),
-        		m_series.getValues(GraphSeriesFactory.SERIE_SCREENON));
-
-		m_graphs.add(mySerie2);	        
-
+                m_context.getString(R.string.label_graph_screen),
+                m_series.getValues(GraphSeriesFactory.SERIE_SCREENON));
+        m_graphs.add(mySerie2);
 
         // SERIES #4:
-		GraphSerie mySerie3 = new GraphSerie(
-        		m_context.getString(R.string.label_graph_wifi),
-        		m_series.getValues(GraphSeriesFactory.SERIE_WIFI));
-
-		m_graphs.add(mySerie3);	        
-
+        GraphSerie mySerie3 = new GraphSerie(
+                m_context.getString(R.string.label_graph_wifi),
+                m_series.getValues(GraphSeriesFactory.SERIE_WIFI));
+        m_graphs.add(mySerie3);
 
         // SERIES #4:
-		GraphSerie mySerie4 = new GraphSerie(
-        		m_context.getString(R.string.label_graph_power),
-        		m_series.getValues(GraphSeriesFactory.SERIE_CHARGING));
-
-		m_graphs.add(mySerie4);	                
+        GraphSerie mySerie4 = new GraphSerie(
+                m_context.getString(R.string.label_graph_power),
+                m_series.getValues(GraphSeriesFactory.SERIE_CHARGING));
+        m_graphs.add(mySerie4);
 
         // SERIES #6:
-		GraphSerie mySerie6 = new GraphSerie(
-        		m_context.getString(R.string.label_graph_gps),
-        		m_series.getValues(GraphSeriesFactory.SERIE_GPS));
-
-		m_graphs.add(mySerie6);	        
-
+        GraphSerie mySerie6 = new GraphSerie(
+                m_context.getString(R.string.label_graph_gps),
+                m_series.getValues(GraphSeriesFactory.SERIE_GPS));
+        m_graphs.add(mySerie6);
 
         // SERIES #7:
-		GraphSerie mySerie7 = new GraphSerie(
-        		m_context.getString(R.string.label_graph_bluetooth),
-        		m_series.getValues(GraphSeriesFactory.SERIE_BT));
-
-		m_graphs.add(mySerie7);	        
-
-
-
+        GraphSerie mySerie7 = new GraphSerie(
+                m_context.getString(R.string.label_graph_bluetooth),
+                m_series.getValues(GraphSeriesFactory.SERIE_BT));
+        m_graphs.add(mySerie7);
     }
-
-	
 }

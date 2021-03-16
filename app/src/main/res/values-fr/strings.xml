@@ -37,7 +37,7 @@
     <string name="label_import_export_prefs">Importer/Exporter vos préférences depuis/vers %s</string>
     <string name="label_import_prefs">Importer</string>
     <string name="label_export_prefs">Exporter</string>
-    
+
     <string name="label_hist_time">Temps</string>
     <string name="label_hist_battery">Bat</string>
     <string name="label_hist_power">Chrg</string>
@@ -58,25 +58,25 @@
     <string name="label_graph_bluetooth">Bluetooth</string>
     <string name="label_graph_incall">En appel</string>
     <string name="label_graph_scanning">En scan</string>
-		
-	
+
+
     <string name="label_widget_since">Depuis :</string>
     <string name="label_widget_deep_sleep">Veille profonde</string>
     <string name="label_widget_awake">Éveillé :</string>
     <string name="label_widget_screen_on">Écran allumé :</string>
     <string name="label_widget_kernel_wakelock">KWL :</string>
     <string name="label_widget_partial_wakelock">PWL :</string>
-	
+
     <string name="label_battery">Batterie</string>
     <string name="label_name">Nom</string>
     <string name="label_description">Description</string>
     <string name="label_package_name">Nom du paquet</string>
     <string name="label_on_on_android_4_3plus">Uniquement disponible sur Android 4.3+</string>
-    
+
     <string name="label_permisions_dangerous">Autorisation signalée comme \'dangereuse\'</string>
     <string name="label_permisions_system">Autorisations pour les \'applications système\'</string>
     <string name="label_permisions_normal">Autorisations standards</string>
-    
+
     <string name="pref_dashclock_default_stat_type_summary">Configurer le type de statistiques pour qu\'elles soient présentes dans DashClock</string>
     <string name="pref_dashclock_fallback_stat_type_summary">Configurer le type de statistiques de repli pour qu\'elles soient présentes dans DashClock si celui par défaut n\'a pas de référence</string>
     <string name="label_awake_abbrev">ev.</string>
@@ -85,8 +85,8 @@
     <string name="label_button_cancel">Annuler</string>
     <string name="label_button_application_settings">Paramètres de l\'application</string>
     <string name="label_button_appops">App Ops</string>
-    
-    
+
+
     <string name="title_share_dialog">Partager les données comme...</string>
     <string name="text_since">Depuis</string>
     <string name="label_preferences">Paramètres</string>
@@ -112,7 +112,7 @@
     <string name="label_tab_package">Paquet</string>
     <string name="label_tab_permissions">Autorisations</string>
     <string name="label_tab_services">Services</string>
-    
+
     <!-- About screen -->
     <string name="label_about_author">Par asksven</string>
     <string name="label_about_courtesy">Graphiques par Javi</string>
@@ -124,7 +124,7 @@
     <string name="label_about_translation5">Français par xavihernandez @ xda</string>
     <string name="label_about_follow">Suivez-moi sur Twitter</string>
     <string name="label_about_rate">Noter/Annoter sur le Play Store</string>
-    
+
     <!-- Preferences -->
     <string name="label_theme_dark">Sombre</string>
     <string name="label_theme_light">Clair</string>
@@ -143,7 +143,7 @@
     <string name="info_pref_export_success">Préférences sauvegardées vers %s</string>
     <string name="info_pref_import_success">Préférences importées depuis %s</string>
     <string name="info_pref_import_export_failed">L\'opération a échoué</string>
-    
+
     <string name="info_deleting_refs">Suppression et re-création des références</string>
     <string name="info_fallback_to_boot">Repli vers \'Depuis Démarrage\'</string>
     <string name="info_fallback_to_default">Repli vers la référence par défaut</string>
@@ -211,10 +211,10 @@
     <string name="pref_save_dmesg_summary">Partager le dmesg</string>
     <string name="pref_screen_import_export_title">Importer/Exporter</string>
     <string name="pref_screen_import_export_summary">Importer et Exporter les préférences</string>
-    
+
     <string name="pref_screen_widgets_title">Widgets</string>
     <string name="widget_default_stat_title">Statistique à ouvrir par défaut</string>
-    <string name="widget_default_stat_summary">Configurer la statistique appelée par le widget</string>    
+    <string name="widget_default_stat_summary">Configurer la statistique appelée par le widget</string>
     <string name="widget_show_stat_type_title">Afficher le titre</string>
     <string name="widget_show_stat_type_summary">Afficher le type de statistiques</string>
     <string name="widget_fallback_stat_type_title">Type de statistiques de repli</string>
@@ -235,13 +235,13 @@
     <string name="small_widget_refresh_on_tap_summary">Tapoter le widget l\'actualise (si désactivé tapoter ouvre l\'application)</string>
     <string name="thumbnail_size_title">Taille des aperçus</string>
     <string name="medium_font_size_title">Taille moyenne de la police</string>
-    
+
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">L\'appareil est branché : aucune statistique</string>
     <string name="NO_PERM_ERR">Cette statistique requiert l\'autorisation BATTERY_STATS</string>
     <string name="NO_REF_ERR">Aucune référence n\'a encore été configurée</string>
     <string name="NO_STATS">Aucune statistique n\'a encore été collectée</string>
-    
+
     <!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">Depuis chargé</string>
     <string name="stat_type_label_since_unplugged">Depuis débranché</string>
@@ -249,13 +249,13 @@
     <string name="stat_type_label_since_screen_off">Depuis écran éteint</string>
     <string name="stat_type_label_since_boot">Depuis démarrage</string>
 
-    
+
     <string name="widget_freq_label_none">Aucune</string>
     <string name="widget_freq_label_5">5 Min.</string>
     <string name="widget_freq_label_15">15 Min.</string>
     <string name="widget_freq_label_30">*30 Min.</string>
     <string name="widget_freq_label_60">60 Min.</string>
-    
+
     <string name="widget_fontsize_16">Très grande (16)</string>
     <string name="widget_fontsize_14">Grande (14)</string>
     <string name="widget_fontsize_12">Normale (12)</string>

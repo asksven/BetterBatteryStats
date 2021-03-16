@@ -16,8 +16,6 @@
 package com.asksven.betterbatterystats.services;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
@@ -33,7 +31,6 @@ import com.asksven.betterbatterystats.data.StatsProvider;
 
 /**
  * @author sven
- *
  */
 public class WriteBootReferenceServicePre21 extends IntentService
 {
@@ -92,5 +89,4 @@ public class WriteBootReferenceServicePre21 extends IntentService
         Log.e(TAG, "Destroyed at" + DateUtils.now());
         Wakelock.releaseWakelock();
     }
-
 }

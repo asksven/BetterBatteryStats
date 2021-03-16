@@ -30,7 +30,7 @@
         <item name="0">Dumpfile</item>
         <item name="1">logcat</item>
         <item name="2">dmesg</item>
-<!--        <item name="3">time series</item> -->
+        <!--        <item name="3">time series</item> -->
     </string-array>
     <string-array name="statValues">
         <item name="0">0</item>
@@ -91,7 +91,7 @@
         <item name="1">0</item>
         <item name="2">1</item>
     </string-array>
-    
+
     <string-array name="thumbnailSizeLabels">
         <item name="0">58dp*</item>
         <item name="1">52dp</item>
@@ -104,7 +104,7 @@
         <item name="2">48</item>
         <item name="2">42</item>
     </string-array>
-    
+
     <string-array name="mediumFontSizeLabels">
         <item name="0">18dp</item>
         <item name="1">16dp*</item>
@@ -117,5 +117,5 @@
         <item name="2">14</item>
         <item name="3">12</item>
     </string-array>
-    
+
 </resources>

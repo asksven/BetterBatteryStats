@@ -16,29 +16,29 @@
 
 package com.asksven.android.common.dto;
 
-import java.io.Serializable;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.asksven.android.common.nameutils.UidInfo;
-import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
 /**
  * A DTO for State
- * @author sven
  *
+ * @author sven
  */
 public class StateDto implements Serializable
 {
 
-	// from StatElement
-	@JsonProperty("uid") public int m_uid = -1;
+    // from StatElement
+    @JsonProperty("uid")
+    public int m_uid = -1;
 
-	@JsonProperty("total") public long m_total;	
+    @JsonProperty("total")
+    public long m_total;
 
-	// from State
-	@JsonProperty("freq") public int m_freq = 0;
-	
-	@JsonProperty("duration_ms") public long m_duration = 0;
+    // from State
+    @JsonProperty("freq")
+    public int m_freq = 0;
 
+    @JsonProperty("duration_ms")
+    public long m_duration = 0;
 }

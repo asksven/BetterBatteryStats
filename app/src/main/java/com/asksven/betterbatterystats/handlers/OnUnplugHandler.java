@@ -16,35 +16,32 @@
 
 package com.asksven.betterbatterystats.handlers;
 
-
-import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 
+import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 
 /**
  * General broadcast handler: handles event as registered on Manifest
- * @author sven
  *
+ * @author sven
  */
 public class OnUnplugHandler extends BroadcastReceiver
-{	
-	private static final String TAG = "OnUnplugHandler";
-	
-	/* (non-Javadoc)
-	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
-	 */
-	@Override
-	public void onReceive(Context context, Intent intent)
-	{
-		Log.i(TAG, "Received Broadcast " + intent.getAction() + ", serializing 'since unplugged'");
-		
-		// start service to persist reference
-		Intent serviceIntent = new Intent(context, WriteUnpluggedReferenceService.class);
+{
+    private static final String TAG = "OnUnplugHandler";
+
+    /* (non-Javadoc)
+     * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
+     */
+    @Override
+    public void onReceive(Context context, Intent intent)
+    {
+        Log.i(TAG, "Received Broadcast " + intent.getAction() + ", serializing 'since unplugged'");
+
+        // start service to persist reference
+        Intent serviceIntent = new Intent(context, WriteUnpluggedReferenceService.class);
         context.startService(serviceIntent);
-	}
+    }
 }

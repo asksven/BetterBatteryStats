@@ -17,26 +17,24 @@ package com.asksven.betterbatterystats.data;
 
 /**
  * @author sven
- *
  */
 public class Datapoint
 {
-	public long mX;
-	public long mY;
-	
-	public Datapoint()
-	{
-		
-	}
-	
-	public Datapoint(long x, long y)
-	{
-		mX = x;
-		mY = y;
-	}
-	
-	public String toString()
-	{
-		return "X=" + mX + ", Y=" + mY;
-	}
+    public long mX;
+    public long mY;
+
+    public Datapoint()
+    {
+    }
+
+    public Datapoint(long x, long y)
+    {
+        mX = x;
+        mY = y;
+    }
+
+    public String toString()
+    {
+        return "X=" + mX + ", Y=" + mY;
+    }
 }

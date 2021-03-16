@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="?android:attr/colorBackground"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar_icon" />
 
@@ -12,13 +11,13 @@
         android:id="@+id/Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
         android:background="?android:colorForegroundInverse"
         android:elevation="8dp"
         android:orientation="vertical"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp" >
+        android:paddingRight="8dp">
 
         <Spinner
             android:id="@+id/spinnerStat"
@@ -31,7 +30,7 @@
             android:id="@+id/LayoutSpinners"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <Spinner
                 android:id="@+id/spinnerStatType"
@@ -54,10 +53,10 @@
             android:id="@+id/FrameLayoutSince"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
             android:paddingLeft="8dp"
+            android:paddingTop="4dp"
             android:paddingRight="8dp"
-            android:paddingTop="4dp" >
+            android:paddingBottom="4dp">
 
             <TextView
                 android:id="@+id/TextViewSince"
@@ -69,63 +68,62 @@
                 android:textSize="@dimen/text_size_medium" />
         </FrameLayout>
 
- 
 
     </LinearLayout>
-       <!-- Hidden Notification Panel -->
+    <!-- Hidden Notification Panel -->
 
-        <LinearLayout
-            android:id="@+id/Notification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="0dp"
-            android:layout_marginTop="0dp"
-            android:background="@color/state_yellow"
-            android:elevation="8dp"
-            android:orientation="horizontal"
+    <LinearLayout
+        android:id="@+id/Notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@color/state_yellow"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/thumbnail_size"
+            android:layout_height="@dimen/thumbnail_size"
+            android:layout_gravity="center_vertical"
             android:paddingLeft="4dp"
+            android:paddingTop="0dp"
             android:paddingRight="4dp"
-            android:visibility="gone">
+            android:paddingBottom="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_info_outline_black_48dp" />
 
-            <ImageView
-                android:id="@+id/icon"
-                android:layout_width="@dimen/thumbnail_size"
-                android:layout_height="@dimen/thumbnail_size"
-                android:layout_gravity="center_vertical"
-                android:paddingBottom="0dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="0dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_info_outline_black_48dp" />
-
-            <TextView
-                android:id="@+id/TextViewNotification"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-bold"
-                android:maxLines="1"
-                android:text="Notification Text goes here"
-                android:textColor="#000000"
-                android:textSize="@dimen/text_size_medium" />
-        </LinearLayout>
-        <!-- End Hidden Notification Panel -->
+        <TextView
+            android:id="@+id/TextViewNotification"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-bold"
+            android:maxLines="1"
+            android:text="Notification Text goes here"
+            android:textColor="#000000"
+            android:textSize="@dimen/text_size_medium" />
+    </LinearLayout>
+    <!-- End Hidden Notification Panel -->
     <!-- Set height to 0, and let the weight param expand it -->
     <!--
-         Note the use of the default ID! This lets us use a 
+         Note the use of the default ID! This lets us use a
          ListActivity still!
     -->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:colorForegroundInverse"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:background="?android:colorForegroundInverse">
+        android:paddingRight="8dp">
+
         <ListView
             android:id="@android:id/list"
             android:layout_width="fill_parent"

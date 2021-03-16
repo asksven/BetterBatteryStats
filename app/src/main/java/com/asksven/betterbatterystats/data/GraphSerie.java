@@ -27,47 +27,45 @@ import java.util.ArrayList;
 public class GraphSerie
 {
 
-	private String m_title;
-	private ArrayList<Datapoint> m_serie;
+    static final String TAG = "GraphSerie";
+    private String m_title;
+    private ArrayList<Datapoint> m_serie;
 
-	static final String TAG = "GraphSerie";
+    public GraphSerie(String title, ArrayList<Datapoint> serie)
+    {
+        if (serie != null)
+        {
+            m_serie = serie;
+        }
+        else
+        {
+            m_serie = new ArrayList<Datapoint>();
+        }
 
-	public GraphSerie(String title, ArrayList<Datapoint> serie)
-	{
-		if (serie != null)
-		{
-			m_serie = serie;
-		} else
-		{
-			m_serie = new ArrayList<Datapoint>();
-		}
+        m_title = title;
 
-		m_title = title;
+        if (m_serie != null)
+        {
+            Log.i(TAG, "Added Serie " + m_title + " with " + m_serie.size() + " entries");
+        }
+        else
+        {
+            Log.i(TAG, "Added Serie was null");
+        }
+    }
 
-		if (m_serie != null)
-		{
-			Log.i(TAG, "Added Serie " + m_title + " with " + m_serie.size() + " entries");
-		} else
-		{
-			Log.i(TAG, "Added Serie was null");
-		}
-	}
+    public String getTitle()
+    {
+        return m_title;
+    }
 
-	public String getTitle()
-	{
-		return m_title;
-	}
+    public int size()
+    {
+        return m_serie.size();
+    }
 
-	public int size()
-	{
-		return m_serie.size();
-	}
-
-
-	public ArrayList<Datapoint> getValues()
-	{
-		return m_serie;
-	}
-
-
+    public ArrayList<Datapoint> getValues()
+    {
+        return m_serie;
+    }
 }

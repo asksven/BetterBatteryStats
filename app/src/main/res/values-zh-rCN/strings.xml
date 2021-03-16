@@ -38,51 +38,51 @@
     <string name="label_import_export_prefs">从%s导入/导出应用设置</string>
     <string name="label_import_prefs">导入</string>
     <string name="label_export_prefs">导出</string>
-    
-    <string name="label_hist_time">时间</string>
-	<string name="label_hist_battery">电量</string>
-	<string name="label_hist_power">电源</string>
-	<string name="label_hist_screen">屏幕</string>
-	<string name="label_hist_wakelock">唤醒锁</string>
-	<string name="label_hist_wifi">Wifi</string>
-	<string name="label_hist_gps">GPS</string>
-	<string name="label_hist_bluetooth">蓝牙</string>
-	<string name="label_hist_incall">电话</string>
-	<string name="label_hist_scanning">扫描</string>
 
-	<string name="label_graph_battery">电量</string>
-	<string name="label_graph_power">充电</string>
-	<string name="label_graph_screen">亮屏</string>
-	<string name="label_graph_wakelock">唤醒锁</string>
-	<string name="label_graph_wifi">Wifi</string>
-	<string name="label_graph_gps">GPS</string>
-	<string name="label_graph_bluetooth">蓝牙</string>
-	<string name="label_graph_incall">通话</string>
-	<string name="label_graph_scanning">扫描</string>
-		
-	<string name="label_widget_deep_sleep">休眠</string>
-	<string name="label_widget_since">从</string>
-	<string name="label_widget_awake">唤醒</string>
-	<string name="label_widget_screen_on">亮屏</string>
-	<string name="label_widget_kernel_wakelock">内核唤醒锁</string>
-	<string name="label_widget_partial_wakelock">局部唤醒锁</string>
-	<string name="label_widget_deep_sleep_short">DS</string>
-	<string name="label_widget_awake_short">Aw</string>
-	<string name="label_widget_screen_on_short">Scr</string>
-	<string name="label_widget_kernel_wakelock_short">KWL</string>
-	<string name="label_widget_partial_wakelock_short">PWL</string>
-	
-		
-	<string name="label_battery">电量</string>
-	<string name="label_name">名字</string>
+    <string name="label_hist_time">时间</string>
+    <string name="label_hist_battery">电量</string>
+    <string name="label_hist_power">电源</string>
+    <string name="label_hist_screen">屏幕</string>
+    <string name="label_hist_wakelock">唤醒锁</string>
+    <string name="label_hist_wifi">Wifi</string>
+    <string name="label_hist_gps">GPS</string>
+    <string name="label_hist_bluetooth">蓝牙</string>
+    <string name="label_hist_incall">电话</string>
+    <string name="label_hist_scanning">扫描</string>
+
+    <string name="label_graph_battery">电量</string>
+    <string name="label_graph_power">充电</string>
+    <string name="label_graph_screen">亮屏</string>
+    <string name="label_graph_wakelock">唤醒锁</string>
+    <string name="label_graph_wifi">Wifi</string>
+    <string name="label_graph_gps">GPS</string>
+    <string name="label_graph_bluetooth">蓝牙</string>
+    <string name="label_graph_incall">通话</string>
+    <string name="label_graph_scanning">扫描</string>
+
+    <string name="label_widget_deep_sleep">休眠</string>
+    <string name="label_widget_since">从</string>
+    <string name="label_widget_awake">唤醒</string>
+    <string name="label_widget_screen_on">亮屏</string>
+    <string name="label_widget_kernel_wakelock">内核唤醒锁</string>
+    <string name="label_widget_partial_wakelock">局部唤醒锁</string>
+    <string name="label_widget_deep_sleep_short">DS</string>
+    <string name="label_widget_awake_short">Aw</string>
+    <string name="label_widget_screen_on_short">Scr</string>
+    <string name="label_widget_kernel_wakelock_short">KWL</string>
+    <string name="label_widget_partial_wakelock_short">PWL</string>
+
+
+    <string name="label_battery">电量</string>
+    <string name="label_name">名字</string>
     <string name="label_description">描述</string>
     <string name="label_package_name">应用名字</string>
     <string name="label_on_on_android_4_3plus">仅可在Android 4.3以上版本可用</string>
-    
+
     <string name="label_permisions_dangerous">被标为\'危险\'的权限</string>
     <string name="label_permisions_system">\'系统应用\'的权限</string>
     <string name="label_permisions_normal">普通权限</string>
-    
+
     <string name="pref_dashclock_default_stat_type_summary">设置在锁屏时钟插件默认显示的统计类型</string>
     <string name="pref_dashclock_fallback_stat_type_summary">若从未进行过设置，设置在锁屏时钟插件默认显示的统计类型</string>
     <string name="label_awake_abbrev">aw.</string>
@@ -91,8 +91,8 @@
     <string name="label_button_cancel">取消</string>
     <string name="label_button_application_settings">应用设置</string>
     <string name="label_button_appops">应用权限管理</string>
-    
-    
+
+
     <string name="title_share_dialog">保存数据为...</string>
     <string name="text_since">Since</string>
     <string name="label_preferences">设置</string>
@@ -118,7 +118,7 @@
     <string name="label_tab_package">应用</string>
     <string name="label_tab_permissions">权限</string>
     <string name="label_tab_services">服务</string>
-    
+
     <!-- About screen -->
     <string name="label_about_author">作者 asksven</string>
     <string name="label_about_courtesy">美工 Javi</string>
@@ -131,7 +131,7 @@
     <string name="label_about_translation6">德语 Minty123 @ xda</string>
     <string name="label_about_follow">在Twitter上关注我</string>
     <string name="label_about_rate">在Google Play上评分/评论</string>
-    
+
     <!-- Preferences -->
     <string name="label_theme_dark">暗色</string>
     <string name="label_theme_light">亮色</string>
@@ -223,11 +223,11 @@
     <string name="pref_save_dmesg_summary">分享dmesg</string>
     <string name="pref_screen_import_export_title">导入/导出</string>
     <string name="pref_screen_import_export_summary">导入与导出应用设置</string>
-    
+
     <string name="pref_screen_widgets_title">桌面小部件</string>
     <string name="pref_screen_legacy_widgets_title">原始桌面小部件</string>
     <string name="widget_default_stat_title">默认打开的统计</string>
-    <string name="widget_default_stat_summary">设置从桌面小部件进入后打开的统计</string>    
+    <string name="widget_default_stat_summary">设置从桌面小部件进入后打开的统计</string>
     <string name="widget_show_stat_type_title">显示标题</string>
     <string name="widget_show_stat_type_summary">显示统计类型</string>
     <string name="widget_fallback_stat_type_title">默认统计类型</string>
@@ -248,29 +248,29 @@
     <string name="small_widget_refresh_on_tap_summary">触摸小部件以刷新（若禁止触摸小部件进入应用）</string>
     <string name="thumbnail_size_title">缩略图大小</string>
     <string name="medium_font_size_title">中等字体大小</string>
-    
+
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">设备已接上电源：无统计数据</string>
     <string name="NO_PERM_ERR">该统计需要应用的BATTERY_STATS权限</string>
     <string name="NO_PERM_INFO">正在尝试以非系统应用方式获取权限</string>
     <string name="NO_REF_ERR">尚未设置区间</string>
     <string name="NO_STATS">尚无数据可被收集</string>
-	<string name="KWL_ACCESS_ERROR">无法获取内核唤醒锁文件或者API</string>
-    
-	<!-- from arrays.xml -->
+    <string name="KWL_ACCESS_ERROR">无法获取内核唤醒锁文件或者API</string>
+
+    <!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">从接通电源起</string>
     <string name="stat_type_label_since_unplugged">从断开电源起</string>
     <string name="stat_type_label_since_custom">从自定义起点起</string>
     <string name="stat_type_label_since_screen_off">从息屏起</string>
     <string name="stat_type_label_since_boot">从开机起</string>
 
-    
+
     <string name="widget_freq_label_none">无</string>
     <string name="widget_freq_label_5">5分钟</string>
     <string name="widget_freq_label_15">15分钟</string>
     <string name="widget_freq_label_30">*30分钟</string>
     <string name="widget_freq_label_60">60分钟</string>
-    
+
     <string name="widget_fontsize_16">超大(16)</string>
     <string name="widget_fontsize_14">大(14)</string>
     <string name="widget_fontsize_12">普通(12)</string>

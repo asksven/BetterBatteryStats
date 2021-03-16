@@ -16,44 +16,53 @@
 
 package com.asksven.android.common.dto;
 
-import java.io.Serializable;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.asksven.android.common.nameutils.UidInfo;
+import java.io.Serializable;
 
 /**
  * A DTO for NativeKernelWakelock
- * @author sven
  *
+ * @author sven
  */
 public class NativeKernelWakelockDto implements Serializable
 {
 
-	// from StatElement
-	@JsonProperty("uid") public int m_uid = -1;
+    // from StatElement
+    @JsonProperty("uid")
+    public int m_uid = -1;
 
-	@JsonProperty("total") public long m_total;	
+    @JsonProperty("total")
+    public long m_total;
 
-	// from NativeKernelWakelock
-	@JsonProperty("name") public String m_name;
-	
-	@JsonProperty("details") public String m_details;
+    // from NativeKernelWakelock
+    @JsonProperty("name")
+    public String m_name;
 
-	@JsonProperty("count") public int m_count;
+    @JsonProperty("details")
+    public String m_details;
 
-	@JsonProperty("expire_count") public int m_expireCount;
+    @JsonProperty("count")
+    public int m_count;
 
-	@JsonProperty("wake_count") public int m_wakeCount;
+    @JsonProperty("expire_count")
+    public int m_expireCount;
 
-	@JsonProperty("active_since") public long m_activeSince;
+    @JsonProperty("wake_count")
+    public int m_wakeCount;
 
-	@JsonProperty("total_time") public long m_ttlTime;
-	
-	@JsonProperty("sleep_time") public  long m_sleepTime;
-	
-	@JsonProperty("max_time") public long m_maxTime;
+    @JsonProperty("active_since")
+    public long m_activeSince;
 
-	@JsonProperty("last_change") public long m_lastChange;
+    @JsonProperty("total_time")
+    public long m_ttlTime;
 
+    @JsonProperty("sleep_time")
+    public long m_sleepTime;
+
+    @JsonProperty("max_time")
+    public long m_maxTime;
+
+    @JsonProperty("last_change")
+    public long m_lastChange;
 }

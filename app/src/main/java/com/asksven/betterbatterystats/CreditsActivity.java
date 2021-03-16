@@ -16,6 +16,7 @@
 package com.asksven.betterbatterystats;
 
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.asksven.betterbatterystats.adapters.CreditsAdapter;
@@ -24,27 +25,24 @@ public class CreditsActivity extends ActionBarListActivity
 {
 
     private static final String TAG = "CreditsActivity";
-    
-    
-	/** Called when the activity is first created. */
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.credits);
-        
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setTitle(getString(R.string.label_credits));
 
-	    setSupportActionBar(toolbar);
-	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	    getSupportActionBar().setDisplayUseLogoEnabled(false);
-	    
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.label_credits));
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
+
         CreditsAdapter adapter = new CreditsAdapter(this);
         setListAdapter(adapter);
-
-        
-
-    }   
-    
+    }
 }

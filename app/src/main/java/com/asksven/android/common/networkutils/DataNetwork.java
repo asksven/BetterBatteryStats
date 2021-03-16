@@ -21,43 +21,43 @@ import android.net.ConnectivityManager;
 
 /**
  * Helper class for data connectivity
- * @author sven
  *
+ * @author sven
  */
 public class DataNetwork
 {
-	public static boolean hasDataConnection(Context ctx)
-	{
-		boolean ret = true;
-		ConnectivityManager myConnectivity = 
-				(ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-		
-		// if no network connection is available buffer the update
-		// @see android.net.NetworkInfo
-		if ( (myConnectivity == null)
-				|| (myConnectivity.getActiveNetworkInfo() == null)
-				|| (!myConnectivity.getActiveNetworkInfo().isAvailable()) )
-		{
-			
-			ret = false;
-		}
-		
-		return ret;
-	}
-	
-	public static boolean hasWifiConnection(Context ctx)
-	{
-		boolean ret = false;
-		ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-	    if( cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting() )
-	    {
-	        ret = true; 
-	    }
-	    else
-	    {
-	    	ret = false;
-	    }
-	    
-	    return ret;
-	}
+    public static boolean hasDataConnection(Context ctx)
+    {
+        boolean ret = true;
+        ConnectivityManager myConnectivity =
+                (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // if no network connection is available buffer the update
+        // @see android.net.NetworkInfo
+        if ((myConnectivity == null)
+                || (myConnectivity.getActiveNetworkInfo() == null)
+                || (!myConnectivity.getActiveNetworkInfo().isAvailable()))
+        {
+
+            ret = false;
+        }
+
+        return ret;
+    }
+
+    public static boolean hasWifiConnection(Context ctx)
+    {
+        boolean ret = false;
+        ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting())
+        {
+            ret = true;
+        }
+        else
+        {
+            ret = false;
+        }
+
+        return ret;
+    }
 }

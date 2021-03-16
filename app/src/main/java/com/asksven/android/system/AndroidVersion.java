@@ -16,65 +16,66 @@
 package com.asksven.android.system;
 
 import android.os.Build;
+
 /**
  * Handles android version detection
- * @author sven
  *
+ * @author sven
  */
 public class AndroidVersion
 {
-	public static boolean isFroyo()
-	{
-		boolean bRet = false;
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.FROYO)
-		{
-			bRet = true;
-		}
-		
-		return bRet;
-	}
+    public static boolean isFroyo()
+    {
+        boolean bRet = false;
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.FROYO)
+        {
+            bRet = true;
+        }
 
-	public static boolean isGingerbread()
-	{
-		boolean bRet = false;
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.GINGERBREAD)
-		{
-			bRet = true;
-		}
-		
-		return bRet;
-	}
+        return bRet;
+    }
 
-	public static boolean isIcs()
-	{
-		boolean bRet = false;
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-		{
-			bRet = true;
-		}
-		
-		return bRet;
-	}
-	
-	public static boolean isKitKat()
-	{
-		boolean bRet = false;
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT)
-		{
-			bRet = true;
-		}
-		
-		return bRet;
-	}
-	
-	public static boolean isLolipop()
-	{
-		boolean bRet = false;
-		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)
-		{
-			bRet = true;
-		}
-		
-		return bRet;
-	}
+    public static boolean isGingerbread()
+    {
+        boolean bRet = false;
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.GINGERBREAD)
+        {
+            bRet = true;
+        }
+
+        return bRet;
+    }
+
+    public static boolean isIcs()
+    {
+        boolean bRet = false;
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        {
+            bRet = true;
+        }
+
+        return bRet;
+    }
+
+    public static boolean isKitKat()
+    {
+        boolean bRet = false;
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT)
+        {
+            bRet = true;
+        }
+
+        return bRet;
+    }
+
+    public static boolean isLolipop()
+    {
+        boolean bRet = false;
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP)
+        {
+            bRet = true;
+        }
+
+        return bRet;
+    }
 }

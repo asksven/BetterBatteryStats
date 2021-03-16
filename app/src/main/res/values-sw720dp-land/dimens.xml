@@ -3,7 +3,4 @@
     <!-- Dimensions for devices starting with 600dp (Nexus 7) -->
     <!-- dimensions for overview -->
     <dimen name="legend_margin">480dp</dimen>
-    
-    
-    
 </resources>

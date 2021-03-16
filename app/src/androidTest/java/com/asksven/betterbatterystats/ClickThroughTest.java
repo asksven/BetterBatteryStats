@@ -1,27 +1,26 @@
 package com.asksven.betterbatterystats;
 
-
-import androidx.test.espresso.ViewInteraction;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.WindowManager;
+
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
@@ -33,10 +32,13 @@ public class ClickThroughTest
     public ActivityTestRule<StatsActivity> mActivityTestRule = new ActivityTestRule<>(StatsActivity.class);
 
     @Before
-    public void setUp() {
+    public void setUp()
+    {
         final StatsActivity activity = mActivityTestRule.getActivity();
-        Runnable wakeUpDevice = new Runnable() {
-            public void run() {
+        Runnable wakeUpDevice = new Runnable()
+        {
+            public void run()
+            {
                 activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -54,7 +56,8 @@ public class ClickThroughTest
         try
         {
             Thread.sleep(2000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -71,7 +74,8 @@ public class ClickThroughTest
         try
         {
             Thread.sleep(2000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -88,7 +92,8 @@ public class ClickThroughTest
         try
         {
             Thread.sleep(2000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -105,7 +110,8 @@ public class ClickThroughTest
         try
         {
             Thread.sleep(2000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -122,7 +128,8 @@ public class ClickThroughTest
         try
         {
             Thread.sleep(2000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -139,7 +146,8 @@ public class ClickThroughTest
         try
         {
             Thread.sleep(2000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -156,7 +164,8 @@ public class ClickThroughTest
         try
         {
             Thread.sleep(2000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -173,7 +182,8 @@ public class ClickThroughTest
         try
         {
             Thread.sleep(2000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -190,7 +200,8 @@ public class ClickThroughTest
         try
         {
             Thread.sleep(2000);
-        } catch (InterruptedException e)
+        }
+        catch (InterruptedException e)
         {
             e.printStackTrace();
         }
@@ -200,7 +211,5 @@ public class ClickThroughTest
                         withParent(withId(R.id.toolbar)),
                         isDisplayed()));
         appCompatImageButton4.perform(click());
-
     }
-
 }

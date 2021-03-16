@@ -29,55 +29,53 @@ import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 /**
  * @author sven
- *
  */
 public class WriteCurrentReferenceService extends IntentService
 {
-	private static final String TAG = "WriteCurrentRefService";
+    private static final String TAG = "WriteCurrentRefService";
 
-	public WriteCurrentReferenceService()
-	{
-	    super("WriteCurrentReferenceService");
-	}
-	
-	@Override
-	public void onHandleIntent(Intent intent)
-	{
-		Log.i(TAG, "Called at " + DateUtils.now());
-		try
-		{
-			Wakelock.aquireWakelock(this);
-			// Store the "custom
-			StatsProvider.getInstance().setCurrentReference(0);
-			// Build the intent to update the widget
-			Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
-			this.sendBroadcast(intentRefreshWidgets);
-			
-			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
-		    this.sendBroadcast(i);
+    public WriteCurrentReferenceService()
+    {
+        super("WriteCurrentReferenceService");
+    }
 
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, "An error occurred: " + e.getMessage());
-		}
-		finally
-		{
-			Wakelock.releaseWakelock();
-		}
-	}
+    @Override
+    public void onHandleIntent(Intent intent)
+    {
+        Log.i(TAG, "Called at " + DateUtils.now());
+        try
+        {
+            Wakelock.aquireWakelock(this);
+            // Store the "custom
+            StatsProvider.getInstance().setCurrentReference(0);
+            // Build the intent to update the widget
+            Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
+            this.sendBroadcast(intentRefreshWidgets);
 
-	@Override
-	public IBinder onBind(Intent intent)
-	{
-		return null;
-	}
-	
-	@Override
-	public void onDestroy()
-	{
-		Log.i(TAG, "Destroyed at " + DateUtils.now());
-		Wakelock.releaseWakelock();
-	}
+            Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
+            this.sendBroadcast(i);
 
+        }
+        catch (Exception e)
+        {
+            Log.e(TAG, "An error occurred: " + e.getMessage());
+        }
+        finally
+        {
+            Wakelock.releaseWakelock();
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent)
+    {
+        return null;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.i(TAG, "Destroyed at " + DateUtils.now());
+        Wakelock.releaseWakelock();
+    }
 }

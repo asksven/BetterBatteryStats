@@ -6,8 +6,9 @@
     <style name="Theme.asksven.TextAppearance.Tiny" parent="@android:style/TextAppearance.Small">
         <item name="android:textSize">10sp</item>
     </style>
+
     <style name="Theme.asksven.TextAppearance.Tiny.Bold" parent="Theme.asksven.TextAppearance.Tiny">
         <item name="android:textStyle">bold</item>
     </style>
-    
+
 </resources>

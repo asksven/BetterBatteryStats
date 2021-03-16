@@ -25,10 +25,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import androidx.core.app.JobIntentService;
-
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import androidx.core.app.JobIntentService;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
@@ -46,15 +46,15 @@ import java.util.ArrayList;
 
 /**
  * @author sven
- *
  */
 public class UpdateTextWidgetService extends JobIntentService
 {
-	private static final String TAG = "UpdateTWidgetService";
-	/** must be unique for each widget */
-	private static final int PI_CODE = 1;
-
     static final int JOB_ID = 1001;
+    private static final String TAG = "UpdateTWidgetService";
+    /**
+     * must be unique for each widget
+     */
+    private static final int PI_CODE = 1;
 
     /**
      * Convenience method for enqueuing work in to this service.
@@ -85,7 +85,7 @@ public class UpdateTextWidgetService extends JobIntentService
 
         // make sure to flush cache
         BatteryStatsProxy proxy = BatteryStatsProxy.getInstance(this);
-        if ( proxy != null)
+        if (proxy != null)
         {
             proxy.invalidate();
         }
@@ -166,7 +166,8 @@ public class UpdateTextWidgetService extends JobIntentService
                         if (timeAwakeStat != null)
                         {
                             timeAwake = timeAwakeStat.getTimeOn();
-                        } else
+                        }
+                        else
                         {
                             timeAwake = 0;
                         }
@@ -175,7 +176,8 @@ public class UpdateTextWidgetService extends JobIntentService
                         if (timeScreenOnStat != null)
                         {
                             timeScreenOn = timeScreenOnStat.getTimeOn();
-                        } else
+                        }
+                        else
                         {
                             timeScreenOn = 0;
                         }
@@ -184,7 +186,8 @@ public class UpdateTextWidgetService extends JobIntentService
                         if (deepSleepStat != null)
                         {
                             timeDeepSleep = deepSleepStat.getTimeOn();
-                        } else
+                        }
+                        else
                         {
                             timeDeepSleep = 0;
                         }
@@ -194,13 +197,16 @@ public class UpdateTextWidgetService extends JobIntentService
 
                         ArrayList<StatElement> kWakelockStats = stats.getKernelWakelockStatList(true, fromRef, 0, 0, currentRef);
                         timeKWL = stats.sum(kWakelockStats);
-                    } else
+                    }
+                    else
                     {
                     }
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     Log.e(TAG, "Exception: " + Log.getStackTraceString(e));
-                } finally
+                }
+                finally
                 {
                     if (LogSettings.DEBUG)
                     {

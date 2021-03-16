@@ -1,9 +1,9 @@
 package com.asksven.com.asksven.android.common;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.test.platform.app.InstrumentationRegistry;
-import android.util.Log;
 
 import com.asksven.android.common.kernelutils.WakeupSources;
 import com.asksven.android.common.privateapiproxies.StatElement;
@@ -16,16 +16,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class WakeupSourcesTest
 {
 
-    private Context ctx = null;
     private static String FILE_PATH = "/d/wakeup_sources";
-
+    private Context ctx = null;
 
     @Before
     public void createInstance() throws Exception
@@ -62,7 +60,6 @@ public class WakeupSourcesTest
                 }
             }
         }
-
         assertTrue(exists);
     }
 
@@ -70,7 +67,7 @@ public class WakeupSourcesTest
     public void test_accessFile2() throws Exception
     {
         boolean exists = false;
-        byte[] buffer = new byte[32*1024];
+        byte[] buffer = new byte[32 * 1024];
         int len;
 
         try
@@ -86,8 +83,6 @@ public class WakeupSourcesTest
             Log.e("Test", "Test:" + e.getMessage());
             assertTrue(false);
         }
-
-
     }
 
     @Test
@@ -97,5 +92,4 @@ public class WakeupSourcesTest
         assertNotNull(result);
         assertTrue(!result.isEmpty());
     }
-
 }

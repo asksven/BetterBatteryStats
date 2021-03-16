@@ -16,12 +16,12 @@
 package com.asksven.betterbatterystats.services;
 
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.app.ActivityManager.RunningServiceInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,8 +29,9 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
@@ -39,43 +40,50 @@ import com.asksven.betterbatterystats.handlers.ScreenEventHandler;
 
 /**
  * @author sven
- *
  */
 public class EventWatcherService extends Service
 {
-	
-	static final String TAG = "EventWatcherService";
-	public static String SERVICE_NAME = "com.asksven.betterbatterystats.services.EventWatcherService";
-	public static final int NOTIFICATION_ID = 1002;
-    public static final int FOREGROUND_ID = 1003;
 
+    public static final int NOTIFICATION_ID = 1002;
+    public static final int FOREGROUND_ID = 1003;
+    static final String TAG = "EventWatcherService";
+    public static String SERVICE_NAME = "com.asksven.betterbatterystats.services.EventWatcherService";
+    // This is the object that receives interactions from clients.  See
+    // RemoteService for a more complete example.
+    private final IBinder mBinder = new LocalBinder();
     BroadcastReceiver mReceiver = null;
     BroadcastReceiver mReceiver2 = null;
     BroadcastReceiver mReceiver3 = null;
-
     String CHANNEL_ID = "bbs_channel_event_processing";
-
     // The user-visible description of the channel.
     CharSequence CHANNEL_NAME = "BBS Event Processing";
     String CHANNEL_DESCRIPTION = "BBS Notification for Backgroud Service";
 
-
-	// This is the object that receives interactions from clients.  See
-    // RemoteService for a more complete example.
-    private final IBinder mBinder = new LocalBinder();
-
-    /**
-     * Class for clients to access.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with
-     * IPC.
-     */
-    public class LocalBinder extends Binder
+    public static boolean isServiceRunning(Context context)
     {
-        public EventWatcherService getService()
+        if (context == null) return false;
+
+        boolean ret = false;
+
+        try
         {
-        	Log.i(TAG, "getService called");
-            return EventWatcherService.this;
+
+            ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+            for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+            {
+                if (EventWatcherService.SERVICE_NAME.equals(service.service.getClassName()))
+                {
+                    ret = true;
+                }
+            }
+            ret = false;
         }
+        catch (NullPointerException e)
+        {
+            ret = false;
+        }
+
+        return ret;
     }
 
     @Override
@@ -104,7 +112,6 @@ public class EventWatcherService extends Service
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             CharSequence channelName = getString(R.string.event_processing_channel_name);
             String channelDescription = getString(R.string.event_processing_channel_description);
-
 
 
             int importance = NotificationManager.IMPORTANCE_LOW;
@@ -151,8 +158,8 @@ public class EventWatcherService extends Service
             unregisterReceiver(mReceiver2);
         }
     }
-    
-    /** 
+
+    /**
      * Called when service is started
      */
     public int onStartCommand(Intent intent, int flags, int startId)
@@ -165,33 +172,17 @@ public class EventWatcherService extends Service
         return Service.START_STICKY;
     }
 
-    
-	public static boolean isServiceRunning(Context context)
-	{
-		if (context == null) return false;
-
-		boolean ret = false;
-
-		try
+    /**
+     * Class for clients to access.  Because we know this service always
+     * runs in the same process as its clients, we don't need to deal with
+     * IPC.
+     */
+    public class LocalBinder extends Binder
+    {
+        public EventWatcherService getService()
         {
-
-            ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
-            for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
-            {
-                if (EventWatcherService.SERVICE_NAME.equals(service.service.getClassName()))
-                {
-                    ret = true;
-                }
-            }
-            ret = false;
+            Log.i(TAG, "getService called");
+            return EventWatcherService.this;
         }
-        catch (NullPointerException e)
-        {
-            ret = false;
-        }
-
-        return ret;
-	}
-
-
+    }
 }

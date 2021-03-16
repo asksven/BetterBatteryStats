@@ -15,19 +15,20 @@
  */
 package com.asksven.betterbatterystats;
 
-import java.util.Map;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
-import androidx.cursoradapter.widget.SimpleCursorAdapter;
-import android.util.Log;
 
 import com.asksven.betterbatterystats.adapters.PermissionsAdapter;
 import com.asksven.betterbatterystats.data.Permission;
 import com.asksven.betterbatterystats.data.StatsProvider;
+
+import java.util.Map;
 
 /**
  * Demonstration of the use of a CursorLoader to load and display contacts data
@@ -35,96 +36,90 @@ import com.asksven.betterbatterystats.data.StatsProvider;
  */
 public class PermissionsFragmentActivity extends BaseActivity
 {
-	
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		// we need a layout to inflate the fragment into
-	    
-		FragmentManager fm = getSupportFragmentManager();
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        // we need a layout to inflate the fragment into
 
-		// Create the list fragment and add it as our sole content.
-		if (fm.findFragmentById(android.R.id.content) == null)
-		{
-			PermissionsListFragment list = new PermissionsListFragment();
-			fm.beginTransaction().add(android.R.id.content, list).commit();
-		}
-	}
+        FragmentManager fm = getSupportFragmentManager();
 
-	public static class PermissionsListFragment extends ListFragment
-	{
+        // Create the list fragment and add it as our sole content.
+        if (fm.findFragmentById(android.R.id.content) == null)
+        {
+            PermissionsListFragment list = new PermissionsListFragment();
+            fm.beginTransaction().add(android.R.id.content, list).commit();
+        }
+    }
 
-		/**
-		 * The logging TAG
-		 */
-		private static final String TAG = "PermissionsListFragment";
+    public static class PermissionsListFragment extends ListFragment
+    {
+        /**
+         * The logging TAG
+         */
+        private static final String TAG = "PermissionsListFragment";
+        // This is the Adapter being used to display the list's data.
+        SimpleCursorAdapter mAdapter;
+        // If non-null, this is the current filter the user has provided.
+        String mCurFilter;
+        private PermissionsAdapter m_listViewAdapter;
+        private Map<String, Permission> m_permDictionary;
+        private String m_packageName;
 
-		private PermissionsAdapter m_listViewAdapter;
-		private Map<String, Permission> m_permDictionary;
-		private String m_packageName;
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState)
+        {
+            super.onActivityCreated(savedInstanceState);
+            setHasOptionsMenu(true);
 
-		// This is the Adapter being used to display the list's data.
-		SimpleCursorAdapter mAdapter;
+            Bundle b = getActivity().getIntent().getExtras();
+            m_packageName = b.getString("package");
 
-		// If non-null, this is the current filter the user has provided.
-		String mCurFilter;
+            if (m_permDictionary == null)
+            {
+                m_permDictionary = StatsProvider.getInstance().getPermissionMap(getActivity());
+            }
 
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState)
-		{
-			super.onActivityCreated(savedInstanceState);
-			setHasOptionsMenu(true);
-			
-			Bundle b = getActivity().getIntent().getExtras();
-			m_packageName = b.getString("package");
+            new LoadStatData().execute(getActivity());
+        }
 
-			if (m_permDictionary == null)
-			{
-				m_permDictionary = StatsProvider.getInstance().getPermissionMap(getActivity());
-			}
+        /**
+         * Add menu items
+         *
+         * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+         */
 
-			new LoadStatData().execute(getActivity());
+        // @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
+        // for more details
+        private class LoadStatData extends AsyncTask<Context, Integer, PermissionsAdapter>
+        {
+            @Override
+            protected PermissionsAdapter doInBackground(Context... params)
+            {
 
-		}
+                try
+                {
+                    m_listViewAdapter = new PermissionsAdapter(getActivity(),
+                            StatsProvider.getInstance().getRequestedPermissionListForPackage(getActivity(), m_packageName), m_permDictionary);
 
-	    /** 
-	     * Add menu items
-	     * 
-	     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	     */
+                }
+                catch (Exception e)
+                {
+                    Log.e(TAG, "Loading of alarm stats failed");
+                    m_listViewAdapter = null;
+                }
+                //StatsActivity.this.setListAdapter(m_listViewAdapter);
+                // getStatList();
+                return m_listViewAdapter;
+            }
 
-		// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
-		// for more details
-		private class LoadStatData extends AsyncTask<Context, Integer, PermissionsAdapter>
-		{
-			@Override
-		    protected PermissionsAdapter doInBackground(Context... params)
-		    {
-
-				try
-				{
-					m_listViewAdapter = new PermissionsAdapter(getActivity(),
-							StatsProvider.getInstance().getRequestedPermissionListForPackage(getActivity(), m_packageName), m_permDictionary);
-
-				}
-				catch (Exception e)
-				{
-					Log.e(TAG, "Loading of alarm stats failed");
-					m_listViewAdapter = null;
-				}
-		    	//StatsActivity.this.setListAdapter(m_listViewAdapter);
-		        // getStatList();
-		        return m_listViewAdapter;
-		    }
-			
-			@Override
-			protected void onPostExecute(PermissionsAdapter o)
-		    {
-				super.onPostExecute(o);
-		    	setListAdapter(o);
-		    }
-		}
-	}
+            @Override
+            protected void onPostExecute(PermissionsAdapter o)
+            {
+                super.onPostExecute(o);
+                setListAdapter(o);
+            }
+        }
+    }
 }

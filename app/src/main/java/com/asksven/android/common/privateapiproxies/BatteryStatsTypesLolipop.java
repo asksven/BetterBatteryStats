@@ -16,25 +16,29 @@
 package com.asksven.android.common.privateapiproxies;
 
 
-
-
 /**
  * This class holds the required constants from BatteryStats
  * Copyright (C) 2008 The Android Open Source Project applies
- * @see android.os.BatteryStats
- * @author sven
  *
+ * @author sven
+ * @see android.os.BatteryStats
  */
 public class BatteryStatsTypesLolipop extends BatteryStatsTypes
 {
 
-    /** Include all of the data in the stats, including previously saved data */
+    /**
+     * Include all of the data in the stats, including previously saved data
+     */
     public static final int STATS_SINCE_CHARGED = 0;
 
-    /** Include only the current run in the stats */
+    /**
+     * Include only the current run in the stats
+     */
     public static final int STATS_CURRENT = 1;
 
-    /** Include only the run since the last time the device was unplugged in the stats */
+    /**
+     * Include only the run since the last time the device was unplugged in the stats
+     */
     public static final int STATS_SINCE_UNPLUGGED = 2;
-    
+
 }

@@ -16,21 +16,24 @@
 
 package com.asksven.android.common.dto;
 
-import java.io.Serializable;
-
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.io.Serializable;
 
 /**
  * A DTO for SensorItems
- * @author sven
  *
+ * @author sven
  */
 public class SensorUsageItemDto implements Serializable
 {
-	@JsonProperty("time") public long m_nTime;
-	@JsonProperty("handle") public int m_nHandle;
-	
-	@JsonProperty("sensor") public String m_strSensor;
-	
-	
+
+    @JsonProperty("time")
+    public long m_nTime;
+
+    @JsonProperty("handle")
+    public int m_nHandle;
+
+    @JsonProperty("sensor")
+    public String m_strSensor;
 }

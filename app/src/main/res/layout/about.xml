@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar_icon" />
 
@@ -39,7 +39,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
-
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
@@ -54,10 +53,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="4dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="14dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginBottom="4dp"
         android:onClick="showCredits"
         android:text="@string/label_credits" />
 
@@ -67,10 +66,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="4dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="14dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginBottom="4dp"
         android:onClick="showChangeLog"
         android:text="@string/label_release_notes" />
 
@@ -80,10 +79,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="4dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="14dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/label_about_follow" />
 
     <Button
@@ -92,10 +91,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="4dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/label_about_rate" />
 
     <Button
@@ -104,10 +103,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="4dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="4dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="4dp"
         android:text="@string/label_about_xda" />
 
 </LinearLayout>

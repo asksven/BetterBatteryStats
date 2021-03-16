@@ -40,21 +40,20 @@ import java.util.Map.Entry;
 public class SharedPreferencesUtils
 {
 
-	static final String TAG = "SharedPreferencesUtils";
+    static final String TAG = "SharedPreferencesUtils";
 
-
-	public static boolean saveSharedPreferencesToFile(SharedPreferences prefs, String file)
-	{
-		Context ctx = BbsApplication.getAppContext();
+    public static boolean saveSharedPreferencesToFile(SharedPreferences prefs, String file)
+    {
+        Context ctx = BbsApplication.getAppContext();
         Uri fileUri = null;
         boolean res = false;
 
-		if (!DataStorage.isExternalStorageWritable())
-		{
-			Log.e(TAG, "External storage can not be written");
-			Toast.makeText(ctx, ctx.getString(R.string.message_external_storage_write_error),
-					Toast.LENGTH_SHORT).show();
-		}
+        if (!DataStorage.isExternalStorageWritable())
+        {
+            Log.e(TAG, "External storage can not be written");
+            Toast.makeText(ctx, ctx.getString(R.string.message_external_storage_write_error),
+                    Toast.LENGTH_SHORT).show();
+        }
 
         String path = StatsProvider.getWritableFilePath();
 
@@ -99,14 +98,14 @@ public class SharedPreferencesUtils
         }
         else
         {
-            Log.i(TAG,"Write error. *" + path + "* couldn't be written");
+            Log.i(TAG, "Write error. *" + path + "* couldn't be written");
         }
-		return res;
-	}
+        return res;
+    }
 
-	@SuppressWarnings({ "unchecked" })
-	public static boolean loadSharedPreferencesFromFile(SharedPreferences prefs, String file)
-	{
+    @SuppressWarnings({"unchecked"})
+    public static boolean loadSharedPreferencesFromFile(SharedPreferences prefs, String file)
+    {
         Context ctx = BbsApplication.getAppContext();
         boolean res = false;
 
@@ -179,8 +178,8 @@ public class SharedPreferencesUtils
         }
         else
         {
-            Log.i(TAG,"Read error. *" + path + "* couldn't be read");
+            Log.i(TAG, "Read error. *" + path + "* couldn't be read");
         }
         return res;
-	}
+    }
 }

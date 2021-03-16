@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/LinearLayoutEntry"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -8,10 +7,10 @@
     android:baselineAligned="false"
     android:elevation="0dp"
     android:orientation="vertical"
-    android:paddingBottom="2dp"
     android:paddingLeft="8dp"
+    android:paddingTop="2dp"
     android:paddingRight="8dp"
-    android:paddingTop="2dp" >
+    android:paddingBottom="2dp">
 
     <TextView
         android:id="@+id/textViewTitle"

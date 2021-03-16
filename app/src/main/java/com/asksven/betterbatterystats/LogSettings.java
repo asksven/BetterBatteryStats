@@ -15,14 +15,11 @@
  */
 package com.asksven.betterbatterystats;
 
-
 /**
  * @author sven
- *
  */
 public class LogSettings
 {
-//	public static final String LOGGING_TAG = "BetterBatteryStats";
-	public static boolean DEBUG = false;
-
+    //public static final String LOGGING_TAG = "BetterBatteryStats";
+    public static boolean DEBUG = false;
 }

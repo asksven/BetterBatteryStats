@@ -37,7 +37,7 @@
     <string name="label_import_export_prefs">Uvezi/ izvezi postavke u/iz %s</string>
     <string name="label_import_prefs">Uvezi</string>
     <string name="label_export_prefs">Izvezi</string>
- 
+
     <string name="label_hist_time">Vrijeme</string>
     <string name="label_hist_battery">Bat</string>
     <string name="label_hist_power">Punjenje</string>
@@ -48,7 +48,7 @@
     <string name="label_hist_bluetooth">BT</string>
     <string name="label_hist_incall">Pozivi</string>
     <string name="label_hist_scanning">Scan</string>
-	
+
     <string name="label_graph_battery">Baterija</string>
     <string name="label_graph_power">Punjenje</string>
     <string name="label_graph_screen">Zaslon</string>
@@ -58,35 +58,35 @@
     <string name="label_graph_bluetooth">Bluetooth</string>
     <string name="label_graph_incall">Pozivi</string>
     <string name="label_graph_scanning">Skeniranje</string>
-	
-	
+
+
     <string name="label_widget_since">Od:</string>
     <string name="label_widget_deep_sleep">Dubok san</string>
     <string name="label_widget_awake">Budan:</string>
     <string name="label_widget_screen_on">Zaslon upaljen:</string>
     <string name="label_widget_kernel_wakelock">KWL:</string>
     <string name="label_widget_partial_wakelock">PWL:</string>
-	
+
     <string name="label_battery">Baterija</string>
     <string name="label_name">Ime</string>
     <string name="label_description">Opis</string>
     <string name="label_package_name">Ime paketa</string>
     <string name="label_on_on_android_4_3plus">Dostupno samo na Android-u 4.3+</string>
-	
+
     <string name="label_permisions_dangerous">Dozvola označena kao \'opasna\'</string>
     <string name="label_permisions_system">Dozvola za \'sistemske datoteke\'</string>
     <string name="label_permisions_normal">Normalna dozvola</string>
-	
+
     <string name="pref_dashclock_default_stat_type_summary">Tip statistike koji će biti prikazan na widgetu</string>
-    <string name="pref_dashclock_fallback_stat_type_summary">Odaberi tip statistike koji će biti prikazan u widgetu ako je primaran prazan</string> 
+    <string name="pref_dashclock_fallback_stat_type_summary">Odaberi tip statistike koji će biti prikazan u widgetu ako je primaran prazan</string>
     <string name="label_awake_abbrev">budan</string>
     <string name="label_button_share">Podijeli na...</string>
     <string name="label_button_save">Spremi</string>
     <string name="label_button_cancel">Prekid</string>
     <string name="label_button_application_settings">Postavke aplikacije</string>
     <string name="label_button_appops">App Ops</string>
-	
-    
+
+
     <string name="title_share_dialog">Podijeli podatke kao...</string>
     <string name="text_since">Od</string>
     <string name="label_preferences">Postavke</string>
@@ -112,7 +112,7 @@
     <string name="label_tab_package">Paket</string>
     <string name="label_tab_permissions">Dozvola</string>
     <string name="label_tab_services">Servisi</string>
-    
+
     <!-- About screen -->
     <string name="label_about_author">Izradio asksven</string>
     <string name="label_about_courtesy">Grafiku izradio Javi</string>
@@ -124,13 +124,13 @@
     <string name="label_about_translation5">Francuski: xavihernandez @ xda</string>
     <string name="label_about_follow">Prati me na Twitter-u</string>
     <string name="label_about_rate">Ocijeni/ recenziraj na Google Play</string>
-    
+
     <!-- Preferences -->
     <string name="label_theme_dark">Tamna</string>
     <string name="label_theme_light">Svijetla</string>
     <string name="pref_theme_title">Tema</string>
     <string name="pref_theme_summary">Promjeni temu</string>
-	
+
     <!-- System app activity -->
     <string name="expl_system_app">Na Android-u 4.4 Google je skinuo ovlasti s normalnih aplikacija da pristupe bateriji.\n\nPreporučeno je instalirati BetterBatteryStats kao sistemsku aplikaciju (ovo ne priječi nadogradnju aplikacije).\n\nDeinstaliranje/reinstaliranje aplikacije kao sistemske datoteke će biti potrebno ako se ovlasti promjene.</string>
     <string name="info_succeeded">Uspijelo je</string>
@@ -143,7 +143,7 @@
     <string name="info_pref_export_success">Postavke su spremljene u %s</string>
     <string name="info_pref_import_success">Postavke su uvezene iz %s</string>
     <string name="info_pref_import_export_failed">Radnja nije uspijela</string>
-    
+
     <string name="info_deleting_refs">Brisanje i ponovno stvaranje reference</string>
     <string name="info_fallback_to_boot">Vrati se na \'Od dizanja sustava\'</string>
     <string name="info_fallback_to_default">Vrati se na tvorničke postavke</string>
@@ -213,10 +213,10 @@
 
     <string name="pref_screen_import_export_title">Uvezi/izvezi</string>
     <string name="pref_screen_import_export_summary">Postavke uvoza i izvoza</string>
-    
+
     <string name="pref_screen_widgets_title">Widget</string>
     <string name="widget_default_stat_title">Statistike koje se prikazuju</string>
-    <string name="widget_default_stat_summary">Postavite statistike koje će widget prikazivati</string>    
+    <string name="widget_default_stat_summary">Postavite statistike koje će widget prikazivati</string>
     <string name="widget_show_stat_type_title">Pokaži naslov</string>
     <string name="widget_show_stat_type_summary">Postavi vrstu statistika</string>
     <string name="widget_fallback_stat_type_title">Vrsta statistike na koju se prebacuje</string>
@@ -237,30 +237,30 @@
     <string name="small_widget_refresh_on_tap_summary">Dodirivanje widgeta ga osvježuje (ako je onemogućeno, dodirivanje otvara aplikaciju)</string>
     <string name="thumbnail_size_title">Veličina thumbnail-a</string>
     <string name="medium_font_size_title">Veličina srednjeg fonta</string>
-    
+
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">Uređaj se puni: nema statistika</string>
     <string name="NO_PERM_ERR">Ova statistika zahtjeva BATTERY_STATS odobrenje</string>
     <string name="NO_REF_ERR">Referenca još nije postavljena</string>
     <string name="NO_STATS">Statistike još nisu prikupljene</string>
-    
+
     <!-- from arrays.xml -->
     <string name="stat_type_label_since_charged">Od punog punjenja</string>
     <string name="stat_type_label_since_unplugged">Od zadnjeg punjenja</string>
     <string name="stat_type_label_since_custom">Od vlastite reference</string>
     <string name="stat_type_label_since_screen_off">Od kad je ugašen zaslon</string>
     <string name="stat_type_label_since_boot">Od zadnjeg podizanja sustava</string>
-    
+
     <string name="widget_freq_label_none">Ništa</string>
     <string name="widget_freq_label_5">5 min</string>
     <string name="widget_freq_label_15">15 min</string>
     <string name="widget_freq_label_30">30 min</string>
     <string name="widget_freq_label_60">60 min</string>
-    
+
     <string name="widget_fontsize_16">Jako veliko (16)</string>
     <string name="widget_fontsize_14">Veliko(14)</string>
     <string name="widget_fontsize_12">Normalno(12)</string>
     <string name="widget_fontsize_10">Malo (10)</string>
     <string name="widget_fontsize_8">Sičušno (8)</string>
-    
+
 </resources>

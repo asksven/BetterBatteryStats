@@ -16,89 +16,89 @@
 
 package com.asksven.betterbatterystats;
 
-import com.asksven.android.common.utils.SharedPreferencesUtils;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.widget.Toolbar;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+
+import com.asksven.android.common.utils.SharedPreferencesUtils;
+import com.google.android.material.snackbar.Snackbar;
+
 public class ImportExportPreferencesActivity extends BaseActivity
 {
 
-	final static String TAG = "ImportExportPreferencesActivity";
+    public final static String BACKUP_FILE = "bbs_preferences.txt";
+    final static String TAG = "ImportExportPreferencesActivity";
 
-	public final static String BACKUP_FILE 	= "bbs_preferences.txt";
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.import_export_prefs);
-		
-		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-		toolbar.setTitle(getString(R.string.label_import_export));
-	    setSupportActionBar(toolbar);
-	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-	    getSupportActionBar().setDisplayUseLogoEnabled(false);
-		
-		final TextView explanation = (TextView) findViewById(R.id.textView1);
-		explanation.setText(getString(R.string.label_import_export_prefs, BACKUP_FILE));
-		
-		final Button buttonExport = (Button) findViewById(R.id.buttonExport);
-		final Button buttonImport = (Button) findViewById(R.id.buttonImport);
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.import_export_prefs);
 
-		buttonExport.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				SharedPreferences sharedPrefs = PreferenceManager
-						.getDefaultSharedPreferences(ImportExportPreferencesActivity.this);
-				if (SharedPreferencesUtils.saveSharedPreferencesToFile(sharedPrefs, BACKUP_FILE))
-				{
-					Snackbar
-					  .make(findViewById(android.R.id.content), getString(R.string.info_pref_export_success, BACKUP_FILE), Snackbar.LENGTH_LONG)
-					  .show();
-				}
-				else
-				{
-					Snackbar
-					  .make(findViewById(android.R.id.content), R.string.info_pref_import_export_failed, Snackbar.LENGTH_LONG)
-					  .show();
-				}
-			}
-		});
-		buttonImport.setOnClickListener(new View.OnClickListener()
-		{
-			public void onClick(View v)
-			{
-				SharedPreferences sharedPrefs = PreferenceManager
-						.getDefaultSharedPreferences(ImportExportPreferencesActivity.this);
-				if (SharedPreferencesUtils.loadSharedPreferencesFromFile(sharedPrefs, BACKUP_FILE))
-				{
-					Snackbar
-					  .make(findViewById(android.R.id.content), R.string.info_pref_import_success, Snackbar.LENGTH_LONG)
-					  .show();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.label_import_export));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(false);
 
-					// restart
-		        	Intent i = ImportExportPreferencesActivity.this.getBaseContext().getPackageManager()
-		                    .getLaunchIntentForPackage( ImportExportPreferencesActivity.this.getBaseContext().getPackageName() );
-		        	i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		        	startActivity(i);
-				}
-				else
-				{
-					Snackbar
-					  .make(findViewById(android.R.id.content), getString(R.string.info_pref_import_export_failed, BACKUP_FILE), Snackbar.LENGTH_LONG)
-					  .show();
-					
-				}
+        final TextView explanation = (TextView) findViewById(R.id.textView1);
+        explanation.setText(getString(R.string.label_import_export_prefs, BACKUP_FILE));
 
-			}
-		});
-	}
+        final Button buttonExport = (Button) findViewById(R.id.buttonExport);
+        final Button buttonImport = (Button) findViewById(R.id.buttonImport);
+
+        buttonExport.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                SharedPreferences sharedPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(ImportExportPreferencesActivity.this);
+                if (SharedPreferencesUtils.saveSharedPreferencesToFile(sharedPrefs, BACKUP_FILE))
+                {
+                    Snackbar
+                            .make(findViewById(android.R.id.content), getString(R.string.info_pref_export_success, BACKUP_FILE), Snackbar.LENGTH_LONG)
+                            .show();
+                }
+                else
+                {
+                    Snackbar
+                            .make(findViewById(android.R.id.content), R.string.info_pref_import_export_failed, Snackbar.LENGTH_LONG)
+                            .show();
+                }
+            }
+        });
+        buttonImport.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                SharedPreferences sharedPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(ImportExportPreferencesActivity.this);
+                if (SharedPreferencesUtils.loadSharedPreferencesFromFile(sharedPrefs, BACKUP_FILE))
+                {
+                    Snackbar
+                            .make(findViewById(android.R.id.content), R.string.info_pref_import_success, Snackbar.LENGTH_LONG)
+                            .show();
+
+                    // restart
+                    Intent i = ImportExportPreferencesActivity.this.getBaseContext().getPackageManager()
+                            .getLaunchIntentForPackage(ImportExportPreferencesActivity.this.getBaseContext().getPackageName());
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                }
+                else
+                {
+                    Snackbar
+                            .make(findViewById(android.R.id.content), getString(R.string.info_pref_import_export_failed, BACKUP_FILE), Snackbar.LENGTH_LONG)
+                            .show();
+
+                }
+            }
+        });
+    }
 }

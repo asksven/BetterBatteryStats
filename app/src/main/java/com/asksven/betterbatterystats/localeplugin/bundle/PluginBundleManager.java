@@ -12,7 +12,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * This file was contributed by two forty four a.m. LLC <http://www.twofortyfouram.com>
  * unter the terms of the Apache License, Version 2.0
  */
@@ -20,7 +20,6 @@
 package com.asksven.betterbatterystats.localeplugin.bundle;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.asksven.betterbatterystats.localeplugin.Constants;
@@ -31,25 +30,13 @@ import com.asksven.betterbatterystats.localeplugin.Constants;
 public final class PluginBundleManager
 {
     /**
-     * Private constructor prevents instantiation
-     * 
-     * @throws UnsupportedOperationException because this class cannot be instantiated.
-     */
-    private PluginBundleManager()
-    {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
-    }
-
-    /**
      * Type: {@code String}
      * <p>
      * String message to display in a Toast message.
      */
-    public static final String BUNDLE_EXTRA_BOOL_SAVE_REF 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_REF"; //$NON-NLS-1$
-    public static final String BUNDLE_EXTRA_BOOL_SAVE_STAT 	= "com.asksven.betterbatterystats.localeplugin.extra.SAVE_STAT"; //$NON-NLS-1$
-    public static final String BUNDLE_EXTRA_STRING_REF_NAME	= "com.asksven.betterbatterystats.localeplugin.extra.REF_NAME"; //$NON-NLS-1$
-
-    
+    public static final String BUNDLE_EXTRA_BOOL_SAVE_REF = "com.asksven.betterbatterystats.localeplugin.extra.SAVE_REF"; //$NON-NLS-1$
+    public static final String BUNDLE_EXTRA_BOOL_SAVE_STAT = "com.asksven.betterbatterystats.localeplugin.extra.SAVE_STAT"; //$NON-NLS-1$
+    public static final String BUNDLE_EXTRA_STRING_REF_NAME = "com.asksven.betterbatterystats.localeplugin.extra.REF_NAME"; //$NON-NLS-1$
     /**
      * Type: {@code int}
      * <p>
@@ -62,11 +49,22 @@ public final class PluginBundleManager
      */
     public static final String BUNDLE_EXTRA_INT_VERSION_CODE = "com.asksven.betterbatterystats.localeplugin.extra.INT_VERSION_CODE"; //$NON-NLS-1$
 
+
+    /**
+     * Private constructor prevents instantiation
+     *
+     * @throws UnsupportedOperationException because this class cannot be instantiated.
+     */
+    private PluginBundleManager()
+    {
+        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+    }
+
     /**
      * Method to verify the content of the bundle are correct.
      * <p>
      * This method will not mutate {@code bundle}.
-     * 
+     *
      * @param bundle bundle to verify. May be null, which will always return false.
      * @return true if the Bundle is valid, false if the bundle is invalid.
      */
@@ -128,12 +126,12 @@ public final class PluginBundleManager
             if (Constants.IS_LOGGABLE)
             {
                 Log.e(Constants.LOG_TAG, String.format("bundle must contain 5 keys, but currently contains %d keys: %s", Integer.valueOf(bundle.keySet().size()), bundle.keySet() //$NON-NLS-1$
-                                                                                                                                                                       .toString()));
+                        .toString()));
             }
             return false;
         }
 
-        
+
         /*
          * Make sure the extra is the correct type
          */

@@ -28,7 +28,6 @@ import com.asksven.betterbatterystats.handlers.OnBootHandler;
 import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 import com.asksven.betterbatterystats.widgetproviders.TextAppWidget;
 
-
 /**
  * JobService to be scheduled by the JobScheduler.
  * Refresh all widgets
@@ -81,5 +80,4 @@ public class AppWidgetJobService extends JobService
     {
         return true;
     }
-
 }

@@ -17,11 +17,10 @@ package com.asksven.betterbatterystats.data;
 
 /**
  * @author sven
- *
  */
 public class Permission
 {
-	public String 	name;
-	public String 	description;
-	public int 	level;
+    public String name;
+    public String description;
+    public int level;
 }

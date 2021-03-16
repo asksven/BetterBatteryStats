@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Bbs.Light" parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -9,9 +8,5 @@
         <item name="logo">@mipmap/ic_launcher</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-
-
-
     </style>
-
 </resources>

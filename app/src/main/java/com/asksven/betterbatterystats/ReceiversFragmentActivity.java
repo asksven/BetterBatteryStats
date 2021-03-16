@@ -19,9 +19,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
-import android.util.Log;
 
 import com.asksven.betterbatterystats.adapters.ServicesAdapter;
 import com.asksven.betterbatterystats.data.StatsProvider;
@@ -32,101 +33,94 @@ import com.asksven.betterbatterystats.data.StatsProvider;
  */
 public class ReceiversFragmentActivity extends BaseActivity
 {
-	
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
 
-		FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 
-		// Create the list fragment and add it as our sole content.
-		if (fm.findFragmentById(android.R.id.content) == null)
-		{
-			ReceiversListFragment list = new ReceiversListFragment();
-			fm.beginTransaction().add(android.R.id.content, list).commit();
-		}
-	}
+        // Create the list fragment and add it as our sole content.
+        if (fm.findFragmentById(android.R.id.content) == null)
+        {
+            ReceiversListFragment list = new ReceiversListFragment();
+            fm.beginTransaction().add(android.R.id.content, list).commit();
+        }
+    }
 
-	public static class ReceiversListFragment extends ListFragment
-	{
+    public static class ReceiversListFragment extends ListFragment
+    {
 
-		/**
-		 * The logging TAG
-		 */
-		private static final String TAG = "ReceiversListFragment";
+        /**
+         * The logging TAG
+         */
+        private static final String TAG = "ReceiversListFragment";
+        ProgressDialog m_progressDialog;
+        private ServicesAdapter m_listViewAdapter;
+        private String m_packageName;
 
-		private ServicesAdapter m_listViewAdapter;
-		private String m_packageName;
-		ProgressDialog m_progressDialog;
-		
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState)
+        {
+            super.onActivityCreated(savedInstanceState);
 
+            Bundle b = getActivity().getIntent().getExtras();
+            m_packageName = b.getString("package");
 
+            new LoadStatData().execute(getActivity());
 
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState)
-		{
-			super.onActivityCreated(savedInstanceState);
+        }
 
-			Bundle b = getActivity().getIntent().getExtras();
-			m_packageName = b.getString("package");
+        // @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
+        // for more details
+        private class LoadStatData extends AsyncTask<Context, Integer, ServicesAdapter>
+        {
+            @Override
+            protected ServicesAdapter doInBackground(Context... params)
+            {
+                try
+                {
+                    m_listViewAdapter = new ServicesAdapter(getActivity(),
+                            StatsProvider.getInstance().getReceiverListForPackage(getActivity(), m_packageName));
+                }
+                catch (Exception e)
+                {
+                    Log.e(TAG, "Loading of alarm stats failed");
+                    m_listViewAdapter = null;
+                }
+                //StatsActivity.this.setListAdapter(m_listViewAdapter);
+                // getStatList();
+                return m_listViewAdapter;
+            }
 
-			new LoadStatData().execute(getActivity());
+            @Override
+            protected void onPostExecute(ServicesAdapter o)
+            {
+                super.onPostExecute(o);
+                // update hourglass
+                if (m_progressDialog != null)
+                {
+                    m_progressDialog.hide();
+                    m_progressDialog = null;
+                }
+                setListAdapter(o);
+            }
 
-		}
-
-
-		// @see http://code.google.com/p/makemachine/source/browse/trunk/android/examples/async_task/src/makemachine/android/examples/async/AsyncTaskExample.java
-		// for more details
-		private class LoadStatData extends AsyncTask<Context, Integer, ServicesAdapter>
-		{
-			@Override
-		    protected ServicesAdapter doInBackground(Context... params)
-		    {
-
-				try
-				{
-					m_listViewAdapter = new ServicesAdapter(getActivity(),
-							StatsProvider.getInstance().getReceiverListForPackage(getActivity(), m_packageName));
-
-				}
-				catch (Exception e)
-				{
-					Log.e(TAG, "Loading of alarm stats failed");
-					m_listViewAdapter = null;
-				}
-		    	//StatsActivity.this.setListAdapter(m_listViewAdapter);
-		        // getStatList();
-		        return m_listViewAdapter;
-		    }
-			
-			@Override
-			protected void onPostExecute(ServicesAdapter o)
-		    {
-				super.onPostExecute(o);
-		        // update hourglass
-		    	if (m_progressDialog != null)
-		    	{
-		    		m_progressDialog.hide();
-		    		m_progressDialog = null;
-		    	}
-		    	setListAdapter(o);
-		    }
-		    @Override
-		    protected void onPreExecute()
-		    {
-		        // update hourglass
-		    	// @todo this code is only there because onItemSelected is called twice
-		    	if (m_progressDialog == null)
-		    	{
-			    	m_progressDialog = new ProgressDialog(getActivity());
-			    	m_progressDialog.setMessage(getString(R.string.message_computing));
-			    	m_progressDialog.setIndeterminate(true);
-			    	m_progressDialog.setCancelable(false);
-			    	m_progressDialog.show();
-		    	}
-		    }
-		}		
-	}
+            @Override
+            protected void onPreExecute()
+            {
+                // update hourglass
+                // @todo this code is only there because onItemSelected is called twice
+                if (m_progressDialog == null)
+                {
+                    m_progressDialog = new ProgressDialog(getActivity());
+                    m_progressDialog.setMessage(getString(R.string.message_computing));
+                    m_progressDialog.setIndeterminate(true);
+                    m_progressDialog.setCancelable(false);
+                    m_progressDialog.show();
+                }
+            }
+        }
+    }
 }

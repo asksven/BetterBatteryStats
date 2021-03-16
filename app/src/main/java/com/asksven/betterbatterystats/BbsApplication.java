@@ -15,14 +15,13 @@
  */
 package com.asksven.betterbatterystats;
 
-import java.util.Locale;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
+import java.util.Locale;
 
 /**
  * @author android
@@ -30,11 +29,14 @@ import android.preference.PreferenceManager;
 public class BbsApplication extends Application
 {
 
-    private Locale localeEN = Locale.ENGLISH;
     private static String TAG = "BbsApplication";
     private static Context context;
+    private Locale localeEN = Locale.ENGLISH;
 
-
+    public static Context getAppContext()
+    {
+        return BbsApplication.context;
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)
@@ -50,7 +52,8 @@ public class BbsApplication extends Application
         if (forceEN)
         {
             appLocale = localeEN;
-        } else
+        }
+        else
         {
             appLocale = getResources().getConfiguration().locale;
         }
@@ -75,7 +78,8 @@ public class BbsApplication extends Application
         if (forceEN)
         {
             appLocale = localeEN;
-        } else
+        }
+        else
         {
             appLocale = getResources().getConfiguration().locale;
         }
@@ -84,10 +88,5 @@ public class BbsApplication extends Application
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
         // set a few analytics user properties
-    }
-
-    public static Context getAppContext()
-    {
-        return BbsApplication.context;
     }
 }
