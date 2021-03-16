@@ -25,7 +25,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.v4.app.JobIntentService;
+import androidx.core.app.JobIntentService;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;

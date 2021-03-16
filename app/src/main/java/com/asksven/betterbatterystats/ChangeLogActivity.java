@@ -16,10 +16,9 @@
 package com.asksven.betterbatterystats;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.asksven.betterbatterystats.adapters.ChangeLogAdapter;
-import com.asksven.betterbatterystats.adapters.CreditsAdapter;
 
 public class ChangeLogActivity extends ActionBarListActivity
 {

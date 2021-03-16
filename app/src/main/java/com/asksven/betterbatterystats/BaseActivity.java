@@ -19,7 +19,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity
 {
@@ -46,12 +46,13 @@ public class BaseActivity extends AppCompatActivity
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 		String theme = sharedPrefs.getString("theme", "0");
+
 		if (theme.equals("0"))
 		{
-			return R.style.Theme_Bbs;
+			return R.style.Theme_Bbs_Light;
 		} else
 		{
-			return R.style.Theme_Bbs_Dark;
+			return R.style.Theme_Bbs_Auto;
 		}
 	}
 }

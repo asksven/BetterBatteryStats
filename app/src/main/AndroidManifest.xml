@@ -32,6 +32,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <!-- need to hold wakelocks for writing operations -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- needed starting with SDK 28 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
 
 
@@ -54,10 +56,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="BBS"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Bbs">
+        android:theme="@style/Theme.Bbs.Auto">
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">

@@ -1,22 +1,16 @@
 package com.asksven.com.asksven.android.common;
 
 import android.content.Context;
-import android.os.Build;
-import android.os.SystemClock;
-import android.support.test.InstrumentationRegistry;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 import android.util.Log;
 
 import com.asksven.android.common.kernelutils.WakeupSources;
-import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
-import com.asksven.android.common.privateapiproxies.BatteryStatsTypes;
-import com.asksven.android.common.privateapiproxies.BatteryStatsTypesLolipop;
 import com.asksven.android.common.privateapiproxies.StatElement;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;

@@ -1,21 +1,8 @@
 package com.asksven.android.common;
 
-import android.app.AlarmManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.IBinder;
-import android.os.SystemClock;
-import android.support.test.InstrumentationRegistry;
-import android.util.Log;
-import android.util.SparseArray;
-
-import com.asksven.android.common.CommonLogSettings;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -16,16 +16,16 @@
 
 package com.asksven.betterbatterystats;
 
-import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.contrib.SlidingTabLayout;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +105,7 @@ public class PackageInfoTabsFragment extends Fragment {
     // END_INCLUDE (fragment_onviewcreated)
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} used to display pages in this sample.
+     * The {@link PagerAdapter} used to display pages in this sample.
      * The individual pages are simple and just display two lines of text. The important section of
      * this class is the {@link #getPageTitle(int)} method which controls what is displayed in the
      * {@link SlidingTabLayout}.

@@ -2,9 +2,9 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.Bbs.Light" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
+    <style name="Theme.Bbs.Auto" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="logo">@mipmap/ic_launcher</item>
         <item name="colorAccent">@color/color_accent</item>

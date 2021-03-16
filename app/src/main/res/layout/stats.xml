@@ -118,7 +118,7 @@
          Note the use of the default ID! This lets us use a 
          ListActivity still!
     -->
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
@@ -133,5 +133,5 @@
             android:layout_weight="1"
             android:background="?android:colorForegroundInverse"
             android:dividerHeight="1px" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

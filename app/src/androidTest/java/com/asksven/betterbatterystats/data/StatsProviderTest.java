@@ -1,20 +1,18 @@
 package com.asksven.betterbatterystats.data;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
+import androidx.test.platform.app.InstrumentationRegistry;
 import android.util.Log;
 
 import com.asksven.android.common.privateapiproxies.StatElement;
 
 import java.util.ArrayList;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.util.Pair;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;

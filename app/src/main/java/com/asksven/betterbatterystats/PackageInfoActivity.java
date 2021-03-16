@@ -17,10 +17,8 @@
 package com.asksven.betterbatterystats;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
-
-import com.asksven.betterbatterystats.R;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Demonstrates combining a TabHost with a ViewPager to implement a tab UI that

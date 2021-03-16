@@ -16,8 +16,8 @@
 package com.asksven.betterbatterystats;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import com.asksven.betterbatterystats.R;
+import androidx.appcompat.widget.Toolbar;
+
 import com.asksven.betterbatterystats.adapters.CreditsAdapter;
 
 public class CreditsActivity extends ActionBarListActivity

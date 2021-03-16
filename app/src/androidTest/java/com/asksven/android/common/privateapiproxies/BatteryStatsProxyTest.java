@@ -1,22 +1,12 @@
 package com.asksven.android.common.privateapiproxies;
 
-import android.app.AlarmManager;
 import android.content.Context;
 import android.os.Build;
-import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.test.InstrumentationRegistry;
-import android.util.Log;
-import android.util.SparseArray;
-
-import com.asksven.android.common.CommonLogSettings;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;

@@ -25,17 +25,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.v4.app.JobIntentService;
-import android.util.DisplayMetrics;
+import androidx.core.app.JobIntentService;
+
 import android.util.Log;
-import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.StringUtils;
 import com.asksven.betterbatterystats.LogSettings;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
@@ -43,7 +41,6 @@ import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
 import com.asksven.betterbatterystats.widgetproviders.AppWidget;
-import com.asksven.betterbatterystats.widgets.WidgetSummary;
 
 import java.util.ArrayList;
 
