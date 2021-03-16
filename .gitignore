@@ -11,3 +11,5 @@ captures/
 /app/src/xdaedition/google-services.json
 
 secret-env-plain
+app/xdaedition/
+app/gplay/
