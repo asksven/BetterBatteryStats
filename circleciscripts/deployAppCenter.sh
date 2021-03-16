@@ -16,10 +16,11 @@ function uploadToAppCenter {
   RELEASENOTES="${HOCKEYAPP_NOTES_HEADER_HTML} ${GIT_PRETTY_COMMIT_LOG}"
 
   npm install --prefix=$HOME/.local --global appcenter-cli
-  appcenter login --disable-telemetry --token ${APPCENTER_TOKEN}
+  # appcenter login --disable-telemetry --token ${APPCENTER_TOKEN}
   appcenter distribute release \
     --app ${APPCENTER_APP} \
     --file ${APPCENTER_APK} \
     --group "${APPCENTER_GROUP}" \
-    --release-notes "${RELEASENOTES}"
+    --release-notes "${RELEASENOTES}" \
+    --token ${APPCENTER_TOKEN}
 }
