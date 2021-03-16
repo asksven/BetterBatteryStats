@@ -7,16 +7,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "30.0.3"
 
-    /*playAccountConfigs {
-        defaultAccountConfig {
-            jsonFile = file('sa-google-play.json')
-        }
-    }*/
-
     play {
-        track = 'beta'
+        track.set("beta")
 //        untrackOld = true // will untrack 'alpha' while upload to 'beta'
-        serviceAccountCredentials = file("sa-google-play.json")
+        serviceAccountCredentials.set(file("sa-google-play.json"))
     }
 
     defaultConfig {
