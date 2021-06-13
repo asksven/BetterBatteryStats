@@ -53,6 +53,11 @@ import com.asksven.android.common.utils.DateUtils;
 /**
  * A proxy to the non-public API BatteryStats
  * @author sven
+ * Android 11           https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android11-release/core/java/com/android/internal/app/IBatteryStats.aidl
+ *                      https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android11-release/core/java/android/os/BatteryStats.java
+ *                      https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android11-release/core/java/com/android/internal/os/BatteryStatsImpl.java
+ *                      See here on how to allow disabled API: https://developer.android.com/about/versions/10/non-sdk-q
+ *                      adb shell settings put global hidden_api_policy  1
  * P preview 2:         https://android.googlesource.com/platform/frameworks/base/+/android-p-preview-2/core/java/com/android/internal/app/IBatteryStats.aidl
  *                      https://android.googlesource.com/platform/frameworks/base/+/android-p-preview-2/core/java/com/android/internal/os/BatteryStatsImpl.java
  *                      https://android.googlesource.com/platform/frameworks/base/+/android-p-preview-2/core/java/android/os/BatteryStats.java
@@ -421,16 +426,42 @@ public class BatteryStatsProxy
 			@SuppressWarnings("rawtypes")
 			Class iBatteryStats = cl.loadClass("com.android.internal.app.IBatteryStats");
 
+			// Enumerate methods
+            Method[] methods = iBatteryStats.getDeclaredMethods();
+            for (int i = 0; i < methods.length; i++)
+            {
+                System.out.println("The method is: " + methods[i].toString());
+            }
+
             @SuppressWarnings("unchecked")
-            Method methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream");
+            // since there are yet undocumented changes in the signature of getStatisticsStream we need to implement this logic:
+            // a) try with getStatisticsStream()
+            // b) if a fails, retry with getStatisticsStream(boolean)
+            Method methodGetStatisticsStream;
+            boolean withBoolParam = false;
+            try
+            {
+                methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream");
+            }
+            catch (NoSuchMethodException e)
+            {
+                methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream", boolean.class);
+                withBoolParam = true;
+            }
             // returns a ParcelFileDescriptor
 
             if (CommonLogSettings.DEBUG)
 			{
 				Log.i(TAG, "invoking getStatisticsStream");
 			}
-            ParcelFileDescriptor pfd = (ParcelFileDescriptor) methodGetStatisticsStream.invoke(iBatteryStatsInstance);
-
+            ParcelFileDescriptor pfd;
+            if (withBoolParam) {
+                pfd = (ParcelFileDescriptor) methodGetStatisticsStream.invoke(iBatteryStatsInstance, true);
+            }
+            else
+            {
+                pfd = (ParcelFileDescriptor) methodGetStatisticsStream.invoke(iBatteryStatsInstance);
+            }
 
             if (pfd != null)
             {

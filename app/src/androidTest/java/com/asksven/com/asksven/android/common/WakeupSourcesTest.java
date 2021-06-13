@@ -2,6 +2,7 @@ package com.asksven.com.asksven.android.common;
 
 import android.content.Context;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import android.util.Log;
 
@@ -30,7 +31,7 @@ public class WakeupSourcesTest
     @Before
     public void createInstance() throws Exception
     {
-        Context ctx = InstrumentationRegistry.getContext();
+        Context ctx = ApplicationProvider.getApplicationContext();
         assertNotNull(ctx);
     }
 

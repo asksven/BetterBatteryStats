@@ -1,6 +1,8 @@
 package com.asksven.betterbatterystats.data;
 
 import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import android.util.Log;
 
@@ -31,7 +33,7 @@ public class StatsProviderTest
 	@Before
 	public void createStatsProvider() throws Exception
 	{
-		Context ctx = InstrumentationRegistry.getContext();
+		Context ctx = ApplicationProvider.getApplicationContext();
 		assertNotNull(ctx);
 		mStats = StatsProvider.getInstance();
 
@@ -111,7 +113,7 @@ public class StatsProviderTest
 	@Test
 	public void getRequestedPermissionListForPackage() throws Exception
 	{
-		ArrayList<String> res = mStats.getRequestedPermissionListForPackage(InstrumentationRegistry.getContext(), getPackageName());
+		ArrayList<String> res = mStats.getRequestedPermissionListForPackage(ApplicationProvider.getApplicationContext(), getPackageName());
 		assertNotNull(res);
 		assertTrue(res.size() > 0);
 	}
@@ -119,7 +121,7 @@ public class StatsProviderTest
 	@Test
 	public void getReceiverListForPackage() throws Exception
 	{
-		ArrayList<String> res = mStats.getReceiverListForPackage(InstrumentationRegistry.getContext(), getPackageName());
+		ArrayList<String> res = mStats.getReceiverListForPackage(ApplicationProvider.getApplicationContext(), getPackageName());
 		assertNotNull(res);
 		assertTrue(res.size() > 0);
 
@@ -128,7 +130,7 @@ public class StatsProviderTest
 	@Test
 	public void getServiceListForPackage() throws Exception
 	{
-		ArrayList<String> res = mStats.getServiceListForPackage(InstrumentationRegistry.getContext(), getPackageName());
+		ArrayList<String> res = mStats.getServiceListForPackage(ApplicationProvider.getApplicationContext(), getPackageName());
 		assertNotNull(res);
 		assertTrue(res.size() > 0);
 
@@ -145,7 +147,7 @@ public class StatsProviderTest
 
 	private String getPackageName()
 	{
-		String ret = InstrumentationRegistry.getTargetContext().getApplicationContext().getPackageName();
+		String ret = ApplicationProvider.getApplicationContext().getPackageName();
 		Log.i(TAG, "Current package: " + ret);
 
 		return ret;

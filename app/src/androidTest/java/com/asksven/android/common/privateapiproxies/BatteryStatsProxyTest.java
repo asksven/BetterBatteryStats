@@ -3,10 +3,13 @@ package com.asksven.android.common.privateapiproxies;
 import android.content.Context;
 import android.os.Build;
 import android.os.SystemClock;
-import androidx.test.platform.app.InstrumentationRegistry;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -22,10 +25,11 @@ public class BatteryStatsProxyTest {
     private BatteryStatsProxy mStats2 = null;
     static final String TAG = "BatteryStatsProxyTest";
 
+
     @Before
     public void createInstance() throws Exception
     {
-        Context ctx = InstrumentationRegistry.getContext();
+        Context ctx = ApplicationProvider.getApplicationContext();
         assertNotNull(ctx);
         mStats = BatteryStatsProxy.getInstance(ctx);
         assertNotNull(mStats);
@@ -47,6 +51,15 @@ public class BatteryStatsProxyTest {
         }
 
         long whichRealtime = mStats.computeBatteryRealtime(SystemClock.elapsedRealtime() * 1000, statsType) / 1000;
+
+        assertTrue(whichRealtime != 0);
+
+    }
+
+    @Test
+    public void test_getBatteryRealtime() throws Exception
+    {
+        long whichRealtime = mStats.getBatteryRealtime(SystemClock.elapsedRealtime() * 1000) / 1000;
 
         assertTrue(whichRealtime != 0);
 

@@ -4,7 +4,7 @@ package com.asksven.betterbatterystats;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
+//import android.support.test.filters.LargeTest;
 import android.view.WindowManager;
 
 import org.junit.Before;
