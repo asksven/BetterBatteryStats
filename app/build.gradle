@@ -135,7 +135,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'de.cketti.library.changelog:ckchangelog:1.2.2'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
     implementation 'com.google.android.material:material:1.0.0'
