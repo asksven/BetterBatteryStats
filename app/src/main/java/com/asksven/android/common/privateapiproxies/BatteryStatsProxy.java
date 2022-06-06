@@ -1622,18 +1622,41 @@ public class BatteryStatsProxy
 		
 								//Parameters Types
 								@SuppressWarnings("rawtypes")
-								Class[] paramsTypesGetTotalTimeLocked= new Class[1];
-								paramsTypesGetTotalTimeLocked[0]= long.class;
-		
+                                Class[] paramsTypesGetTotalTimeLocked= null;
+
+                                if (Build.VERSION.SDK_INT >= 31)
+                                {
+                                    paramsTypesGetTotalTimeLocked = new Class[2];
+                                    paramsTypesGetTotalTimeLocked[0] = long.class;
+                                    paramsTypesGetTotalTimeLocked[1] = long.class;
+                                }
+                                else
+                                {
+                                    paramsTypesGetTotalTimeLocked = new Class[1];
+                                    paramsTypesGetTotalTimeLocked[0] = long.class;
+
+                                }
+
 								// method is protected so we must make it accessible
 								Method computeRunTimeLocked = batteryStatsUidTimer.getDeclaredMethod("computeRunTimeLocked", paramsTypesGetTotalTimeLocked);
 								computeRunTimeLocked.setAccessible(true);
 		
 								
 					        	//Parameters
-					        	Object[] params= new Object[1];
-					        	params[0]= new Long(batteryRealtime);
-		
+                                Object[] params = null;
+                                if (Build.VERSION.SDK_INT >= 31)
+                                {
+                                    params = new Object[2];
+                                    params[0] = new Long(batteryRealtime);
+                                    params[1] = new Long(0);
+                                }
+                                else
+                                {
+                                    params = new Object[1];
+                                    params[0] = new Long(batteryRealtime);
+
+                                }
+
 								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
 					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
 					        	uidTotalSensorTime += value;
@@ -1707,17 +1730,18 @@ public class BatteryStatsProxy
 		
 								//Parameters Types
 								@SuppressWarnings("rawtypes")
-								Class[] paramsTypesGetTotalTimeLocked= new Class[1];
-								paramsTypesGetTotalTimeLocked[0]= long.class;
-		
-								// method is protected so we must make it accessible
+                                Class[] paramsTypesGetTotalTimeLocked= new Class[1];
+                                paramsTypesGetTotalTimeLocked[0]= long.class;
+
+                                    // method is protected so we must make it accessible
 								Method computeRunTimeLocked = batteryStatsUidTimer.getDeclaredMethod("computeRunTimeLocked", paramsTypesGetTotalTimeLocked);
 								computeRunTimeLocked.setAccessible(true);
 		
 								
 					        	//Parameters
-					        	Object[] params= new Object[1];
-					        	params[0]= new Long(batteryRealtime);
+
+                                Object[] params= new Object[1];
+                                params[0]= new Long(batteryRealtime);
 		
 								// call public long getTotalTimeLocked(long elapsedRealtimeUs, int which)
 					        	Long value = (Long) computeRunTimeLocked.invoke(timer, params);
