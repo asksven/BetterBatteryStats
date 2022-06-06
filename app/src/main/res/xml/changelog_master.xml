@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="2.6" versioncode="99">
-        <change>Remove hockeyapp crash analytics</change>
-        <change>Testing update to API 29 since google is forcing that as a minimum for the play store. This may break BBS</change>
-        <change>Fixed FC at startup</change>
-        <change>Fixed dark/light themes. Toggle moved to advanced prefs since we now follow the Android settings for dark-mode</change>
+    <release version="3.0-alpha-1" versioncode="99">
+        <change>The cat and mouse game continues</change>
+        <change>Update to API 29 since google is forcing that as a minimum for the play store</change>
+        <change>Currently works only on rooted devices</change>
     </release>
 </changelog>

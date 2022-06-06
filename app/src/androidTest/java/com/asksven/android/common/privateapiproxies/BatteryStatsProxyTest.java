@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static java.lang.Runtime.getRuntime;
 
 /**
  * Created by sven on 01/05/2017.
@@ -63,6 +64,12 @@ public class BatteryStatsProxyTest {
 
         assertTrue(whichRealtime != 0);
 
+    }
+
+    @Test
+    public void getPrivateApiAccessible() throws Exception
+    {
+        getRuntime().Exec("settings get global hidden_api_policy")
     }
 
     /*

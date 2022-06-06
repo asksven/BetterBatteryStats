@@ -23,9 +23,10 @@ android {
     defaultConfig {
         applicationId "com.asksven.betterbatterystats"
         minSdkVersion 15
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 29
         versionCode 99
-        versionName "2.6"
+        versionName "3.0-alpha-1"
         versionNameSuffix = getBuildSuffix()
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         signingConfig signingConfigs.debug
@@ -111,12 +112,13 @@ android {
         }
     }
     packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/ASL2.0'
+        resources {
+            excludes += ['META-INF/LICENSE', 'META-INF/ASL2.0']
+        }
     }
-    lintOptions {
-        disable 'MissingTranslation'
+    lint {
         abortOnError false
+        disable 'MissingTranslation'
     }
 }
 

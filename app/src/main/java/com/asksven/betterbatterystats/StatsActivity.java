@@ -194,16 +194,18 @@ public class StatsActivity extends ActionBarListActivity
 
                 // attempt to set perms using pm-comand
                 Log.i(TAG, "attempting to grant perms with 'pm grant'");
-
+				List<String> results = null;
                 String pkg = this.getPackageName();
-                RootShell.getInstance().run(
-
-"pm grant " + pkg + " android.permission.BATTERY_STATS");
+                RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
                 RootShell.getInstance().run("pm grant " + pkg + " android.permission.DUMP");
                 RootShell.getInstance().run("pm grant " + pkg + " android.permission.PACKAGE_USAGE_STATS");
+				//RootShell.getInstance().run("pm grant " + pkg + " android.permission.INTERACT_ACROSS_USERS");
+				results = RootShell.getInstance().run("settings get global hidden_api_policy");
+				RootShell.getInstance().run("settings put global hidden_api_policy 1");
 
 
-                if (SysUtils.hasBatteryStatsPermission(this))
+
+				if (SysUtils.hasBatteryStatsPermission(this))
                 {
                     Log.i(TAG, "succeeded");
                 } else
@@ -213,11 +215,13 @@ public class StatsActivity extends ActionBarListActivity
             }
 		}
 
-		// On Pie we disable private API checks
+		// On Pie and upward we disable private API checks
+
 		if (Build.VERSION.SDK_INT >= 28)
 		{
 			NonRootShell.getInstance().run("settings put global hidden_api_policy_pre_p_apps 0");
 			NonRootShell.getInstance().run("settings put global hidden_api_policy_p_apps 0");
+			NonRootShell.getInstance().run("settings put global hidden_api_policy 1");
 		}
 
 		// show install as system app screen if root available but perms missing

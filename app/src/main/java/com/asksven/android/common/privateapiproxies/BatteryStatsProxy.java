@@ -2711,20 +2711,47 @@ public class BatteryStatsProxy
 
             Class classSamplingTimer = cl.loadClass("com.android.internal.os.BatteryStatsImpl$SamplingTimer");
 
-			Field currentReportedCount  		= classSamplingTimer.getDeclaredField("mCurrentReportedCount");
-			Field currentReportedTotalTime  	= classSamplingTimer.getDeclaredField("mCurrentReportedTotalTime");
-			Field unpluggedReportedCount  		= classSamplingTimer.getDeclaredField("mUnpluggedReportedCount");
-			Field unpluggedReportedTotalTime  	= classSamplingTimer.getDeclaredField("mUnpluggedReportedTotalTime");
-			//Field inDischarge  					= classSamplingTimer.getDeclaredField("mInDischarge");
-			Field trackingReportedValues  		= classSamplingTimer.getDeclaredField("mTrackingReportedValues");
-			
-			currentReportedCount.setAccessible(true);
-			currentReportedTotalTime.setAccessible(true);
-			unpluggedReportedCount.setAccessible(true);
-			unpluggedReportedTotalTime.setAccessible(true);
-			//inDischarge.setAccessible(true);
-			trackingReportedValues.setAccessible(true);
-			
+            // Field names
+            // until Android 11
+            // https://android.googlesource.com/platform/frameworks/base.git/+/refs/heads/android11-platform-release/core/java/com/android/internal/os/BatteryStatsImpl.java
+            // long mCurrentReportedTotalTime;
+            // long mUnpluggedReportedTotalTime;
+            // from Android 12
+            // https://android.googlesource.com/platform/frameworks/base.git/+/refs/heads/android12--mainline-release/core/java/com/android/internal/os/BatteryStatsImpl.java
+            // long mCurrentReportedTotalTimeUs;
+            // long mUnpluggedReportedTotalTimeUs;
+
+            Field currentReportedCount = null;
+            Field currentReportedTotalTime = null;
+            Field unpluggedReportedCount = null;
+            Field unpluggedReportedTotalTime = null;
+            Field trackingReportedValues = null;
+
+            if (android.os.Build.VERSION.SDK_INT >= 31)
+            {
+                currentReportedCount = classSamplingTimer.getDeclaredField("mCurrentReportedCount");
+                currentReportedTotalTime = classSamplingTimer.getDeclaredField("mCurrentReportedTotalTimeUs");
+                unpluggedReportedCount = classSamplingTimer.getDeclaredField("mUnpluggedReportedCount");
+                unpluggedReportedTotalTime = classSamplingTimer.getDeclaredField("mUnpluggedReportedTotalTimeUs");
+                //Field inDischarge  					= classSamplingTimer.getDeclaredField("mInDischarge");
+                trackingReportedValues = classSamplingTimer.getDeclaredField("mTrackingReportedValues");
+            }
+            else {
+                currentReportedCount = classSamplingTimer.getDeclaredField("mCurrentReportedCount");
+                currentReportedTotalTime = classSamplingTimer.getDeclaredField("mCurrentReportedTotalTime");
+                unpluggedReportedCount = classSamplingTimer.getDeclaredField("mUnpluggedReportedCount");
+                unpluggedReportedTotalTime = classSamplingTimer.getDeclaredField("mUnpluggedReportedTotalTime");
+                //Field inDischarge  					= classSamplingTimer.getDeclaredField("mInDischarge");
+                trackingReportedValues = classSamplingTimer.getDeclaredField("mTrackingReportedValues");
+            }
+            currentReportedCount.setAccessible(true);
+            currentReportedTotalTime.setAccessible(true);
+            unpluggedReportedCount.setAccessible(true);
+            unpluggedReportedTotalTime.setAccessible(true);
+            //inDischarge.setAccessible(true);
+            trackingReportedValues.setAccessible(true);
+
+
 			//Parameters
 			Object[] params= new Object[1];
 
@@ -2833,6 +2860,11 @@ public class BatteryStatsProxy
 					myStats.add(myWl);
 //				}	
             }
+        }
+        catch( NoSuchFieldException e )
+        {
+            Log.e(TAG, "An exception occured in getKernelWakelockStats(). Message: " + e.getMessage());
+            throw e;
         }
         catch( Exception e )
         {
