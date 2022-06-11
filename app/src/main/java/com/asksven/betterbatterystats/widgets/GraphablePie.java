@@ -27,14 +27,16 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
+
+import androidx.appcompat.view.ContextThemeWrapper;
 
 /**
  * @author sven
  */
-public class GraphablePie extends ImageView
+public class GraphablePie extends AppCompatImageView
 {
     private static final String TAG = "GraphablePie";
-    private static final String ASKSVENNS="http://asksven.net";
     private Context m_context;
     
     private static final int STROKE_WIDTH = 6;
@@ -73,7 +75,7 @@ public class GraphablePie extends ImageView
     
     String mLabelPct = String.format("%.0f", mValue * 100) + "%";
     String m_name;
-    
+
     public GraphablePie(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -99,7 +101,12 @@ public class GraphablePie extends ImageView
         	color = Color.BLACK;
         }
 
-        sPaint.setColor(m_context.getResources().getColor(R.color.peterriver)); 
+        //sPaint.setColor(m_context.getResources().getColor(R.color.peterriver));
+        TypedValue typedValue = new TypedValue();
+        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(m_context, android.R.style.Theme_DeviceDefault);
+        contextThemeWrapper.getTheme().resolveAttribute(android.R.attr.colorAccent, typedValue, true);
+        int hilightColor = typedValue.data;
+        sPaint.setColor(hilightColor);
     	//sText.setTextSize(m_context.getResources().getDimension(R.dimen.text_size_medium));
     	sText.setColor(color); 
 

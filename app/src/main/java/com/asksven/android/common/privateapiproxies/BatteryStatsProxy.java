@@ -753,7 +753,7 @@ public class BatteryStatsProxy
           paramTypes[1]= int.class;          
 
           @SuppressWarnings("unchecked")
-		  Method method = m_ClassDefinition.getMethod("getIsOnBattery", paramTypes);
+		  Method method = m_ClassDefinition.getMethod("getIsOnBattery"); //, paramTypes);
 
 
           ret= (Boolean) method.invoke(m_Instance);

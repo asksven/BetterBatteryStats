@@ -17,6 +17,7 @@
 package com.asksven.betterbatterystats;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AppOpsManager;
 import android.content.Context;
@@ -126,6 +127,22 @@ public class SystemAppActivity extends BaseActivity
 
         }
 
+        final TextView tvADB2 = (TextView) findViewById(R.id.textViewAdb2);
+
+        // set the right adb text
+        if (Build.VERSION.SDK_INT == 28)
+        {
+            tvADB2.setText(getString(R.string.expl_adb2_api28));
+        }
+        else if (Build.VERSION.SDK_INT >= 29)
+        {
+            tvADB2.setText(getString(R.string.expl_adb2_api29));
+        }
+        else
+        {
+            tvADB2.setVisibility(View.GONE);
+        }
+
 
         Log.i(TAG, "SystemAPKName = " + systemAPKName);
     }
@@ -148,8 +165,12 @@ public class SystemAppActivity extends BaseActivity
 		final TextView permREAD_PHONE_STATE = (TextView) findViewById(R.id.textViewREAD_PHONE_STATE);
 		final TextView permBLUETOOTH = (TextView) findViewById(R.id.textViewBLUETOOTH);
 		final TextView permWAKE_LOCK = (TextView) findViewById(R.id.textViewWAKE_LOCK);
+        final TextView permCALL_PRIVATE_API = (TextView) findViewById(R.id.textViewPRIVATE_API);
+        final TextView explCALL_PRIVATE_API = (TextView) findViewById(R.id.textView4);
+        final TextView fixCALL_PRIVATE_API = (TextView) findViewById(R.id.textViewAdb2);
 
-		String text = "";
+
+        String text = "";
 		if (SysUtils.hasBatteryStatsPermission(this))
 		{
 			permBATTERY.setText("BATTERY_STATS " + getString(R.string.label_granted));
@@ -159,6 +180,19 @@ public class SystemAppActivity extends BaseActivity
             permBATTERY.setText("BATTERY_STATS  " + getString(R.string.label_not_granted));
             permBATTERY.setBackgroundColor(Color.RED);
         }
+
+        if (SystemAppActivity.hasPermissionToCallHiddenApis(this))
+        {
+            permCALL_PRIVATE_API.setText("Private APIs " + getString(R.string.label_granted));
+            explCALL_PRIVATE_API.setVisibility(View.GONE);
+            fixCALL_PRIVATE_API.setVisibility(View.GONE);
+        }
+        else
+        {
+            permCALL_PRIVATE_API.setText("Private APIs  " + getString(R.string.label_not_granted));
+            permCALL_PRIVATE_API.setBackgroundColor(Color.RED);
+        }
+
 
         BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
 		String status = "";
@@ -328,6 +362,7 @@ public class SystemAppActivity extends BaseActivity
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.BLUETOOTH, ctx);
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.WAKE_LOCK, ctx);
         hasPermissions = hasPermissions && SystemAppActivity.hasPermissionAppOpsUsageStats(ctx);
+        hasPermissions = hasPermissions && SystemAppActivity.hasPermissionToCallHiddenApis(ctx);
 
         return hasPermissions;
 
@@ -387,7 +422,24 @@ public class SystemAppActivity extends BaseActivity
         return granted;
     }
 
-	private void checkAndRequestPermission(String permission, int perm_const, String perm_rationale)
+    @SuppressLint("SoonBlockedPrivateApi")
+    private static boolean hasPermissionToCallHiddenApis(Context ctx)
+    {
+        boolean granted = true;
+        try
+        {
+            Class.forName("android.app.ActivityThread").getDeclaredField("mResourcesManager");
+        }
+        catch (Exception e)
+        {
+            Log.d("An error occured: ", e.getMessage());
+            granted = false;
+        }
+
+        return granted;
+    }
+
+    private void checkAndRequestPermission(String permission, int perm_const, String perm_rationale)
     {
         if (ContextCompat.checkSelfPermission(this, permission)
                 != PackageManager.PERMISSION_GRANTED)

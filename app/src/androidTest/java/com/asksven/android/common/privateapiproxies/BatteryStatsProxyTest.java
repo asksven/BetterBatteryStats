@@ -3,18 +3,21 @@ package com.asksven.android.common.privateapiproxies;
 import android.content.Context;
 import android.os.Build;
 import android.os.SystemClock;
+import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Method;
+import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static java.lang.Runtime.getRuntime;
+
+import com.asksven.android.common.NonRootShell;
 
 /**
  * Created by sven on 01/05/2017.
@@ -69,7 +72,15 @@ public class BatteryStatsProxyTest {
     @Test
     public void getPrivateApiAccessible() throws Exception
     {
-        getRuntime().Exec("settings get global hidden_api_policy")
+        try
+        {
+            Class.forName("android.app.ActivityThread").getDeclaredField("mResourcesManager");
+        }
+        catch (Exception e)
+        {
+            Log.d("An error occured: ", e.getMessage());
+            assertTrue(false);
+        }
     }
 
     /*

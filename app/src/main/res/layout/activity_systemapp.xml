@@ -16,6 +16,7 @@
         android:paddingRight="10dp"
         android:paddingTop="10dp" >
 
+
         <TextView
             android:id="@+id/textViewBATTERY_STATS"
             android:layout_width="wrap_content"
@@ -44,9 +45,9 @@
 
         <TextView
             android:id="@+id/textViewPACKAGE_USAGE_STATS"
-            android:layout_below="@+id/textViewDUMP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewDUMP"
             android:layout_centerHorizontal="false"
             android:text="Permission..."
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -74,8 +75,37 @@
             android:typeface="monospace" />
 
         <TextView
-            android:id="@+id/textViewAPPOP_USAGE_STATS"
+            android:id="@+id/textViewPRIVATE_API"
             android:layout_below="@+id/textViewAdb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="false"
+            android:text="Permission..."
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewPRIVATE_API"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/expl_system_app"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textViewAdb2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/expl_adb2_api28"
+            android:textSize="10sp"
+            android:typeface="monospace" />
+        <TextView
+            android:id="@+id/textViewAPPOP_USAGE_STATS"
+            android:layout_below="@+id/textViewAdb2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="false"

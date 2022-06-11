@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="3.0-alpha-1" versioncode="99">
+    <release version="3.0-alpha-2" versioncode="100">
         <change>The cat and mouse game continues</change>
-        <change>Update to API 29 since google is forcing that as a minimum for the play store</change>
-        <change>Currently works only on rooted devices</change>
+        <change>Update to API 30 since google is forcing that as a minimum for updates in the play store</change>
+        <change>Should work on rooted and unrooted devices</change>
+        <change>Updated permissions screen for instructions to grant access to private api</change>
+        <change>Gauges now use the system accent color</change>
     </release>
 </changelog>
