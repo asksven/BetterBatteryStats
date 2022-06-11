@@ -219,8 +219,8 @@ public class StatsActivity extends ActionBarListActivity
 
 		if (Build.VERSION.SDK_INT >= 28)
 		{
-			NonRootShell.getInstance().run("settings put global hidden_api_policy_pre_p_apps 0");
-			NonRootShell.getInstance().run("settings put global hidden_api_policy_p_apps 0");
+			NonRootShell.getInstance().run("settings put global hidden_api_policy_pre_p_apps 1");
+			NonRootShell.getInstance().run("settings put global hidden_api_policy_p_apps 1");
 			NonRootShell.getInstance().run("settings put global hidden_api_policy 1");
 		}
 

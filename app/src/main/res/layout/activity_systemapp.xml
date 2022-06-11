@@ -72,6 +72,7 @@
             android:layout_marginBottom="10dp"
             android:text="@string/expl_adb_gplay"
             android:textSize="10sp"
+            android:textIsSelectable="true"
             android:typeface="monospace" />
 
         <TextView
@@ -102,6 +103,7 @@
             android:layout_marginBottom="10dp"
             android:text="@string/expl_adb2_api28"
             android:textSize="10sp"
+            android:textIsSelectable="true"
             android:typeface="monospace" />
         <TextView
             android:id="@+id/textViewAPPOP_USAGE_STATS"
