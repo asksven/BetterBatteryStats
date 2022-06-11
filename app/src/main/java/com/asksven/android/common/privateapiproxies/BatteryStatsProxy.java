@@ -2698,7 +2698,8 @@ public class BatteryStatsProxy
 	 * @return a List of Wakelock s
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressLint({"SoonBlockedPrivateApi", "BlockedPrivateApi"})
+    @SuppressWarnings("unchecked")
 	public ArrayList<StatElement> getKernelWakelockStats(Context context, int iStatType, boolean bAlternate) throws Exception
 	{
 		// type checks
