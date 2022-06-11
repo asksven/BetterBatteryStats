@@ -12,7 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *//*
+
 
 package com.asksven.betterbatterystats.localeplugin.ui;
 
@@ -32,9 +33,11 @@ import com.asksven.betterbatterystats.localeplugin.Constants;
 import com.asksven.betterbatterystats.localeplugin.bundle.PluginBundleManager;
 import com.twofortyfouram.locale.sdk.client.ui.activity.AbstractAppCompatPluginActivity;
 
+*/
 /**
  * This is the "Edit" activity for a Locale Plug-in.
- */
+ *//*
+
 public final class EditActivity extends AbstractAppCompatPluginActivity
 {
 
@@ -52,10 +55,12 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
 
         setContentView(R.layout.locale_plugin_main);
 
-        /*
+        */
+/*
          * To help the user keep context, the title shows the host's name and the subtitle
          * shows the plug-in's name.
-         */
+         *//*
+
         CharSequence callingApplicationLabel = null;
         try
         {
@@ -146,13 +151,15 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
         int pos = ((Spinner) findViewById(R.id.spinnerStatType)).getSelectedItemPosition();
         final String ref = m_spinnerAdapter.getItemLabel(pos);
 
-		/*
+		*/
+/*
 		 * This extra is the data to ourselves: either for the Activity or the BroadcastReceiver. Note that anything
 		 * placed in this Bundle must be available to Locale's class loader. So storing String, int, and other standard
 		 * objects will work just fine. However Parcelable objects must also be Serializable. And Serializable objects
 		 * must be standard Java objects (e.g. a private subclass to this plug-in cannot be stored in the Bundle, as
 		 * Locale's classloader will not recognize it).
-		 */
+		 *//*
+
         resultBundle.putInt(PluginBundleManager.BUNDLE_EXTRA_INT_VERSION_CODE, Constants.getVersionCode(this));
         resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF, saveRef);
         resultBundle.putBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT, saveStat);
@@ -186,4 +193,4 @@ public final class EditActivity extends AbstractAppCompatPluginActivity
         }
         return index;
     }
-}
+}*/

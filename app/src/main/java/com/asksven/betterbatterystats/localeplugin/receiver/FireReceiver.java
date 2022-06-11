@@ -15,7 +15,8 @@
  *
  * This file was contributed by two forty four a.m. LLC <http://www.twofortyfouram.com>
  * unter the terms of the Apache License, Version 2.0
- */
+ *//*
+
 
 package com.asksven.betterbatterystats.localeplugin.receiver;
 
@@ -34,9 +35,11 @@ import com.asksven.betterbatterystats.services.WriteDumpfileService;
 
 import java.util.Locale;
 
+*/
 /**
  * This is the "fire" BroadcastReceiver for a Locale Plug-in setting.
- */
+ *//*
+
 public final class FireReceiver extends BroadcastReceiver
 {
 
@@ -45,9 +48,11 @@ public final class FireReceiver extends BroadcastReceiver
 	@Override
 	public void onReceive(final Context context, final Intent intent)
 	{
-        /*
+        */
+/*
          * Always be strict on input parameters! A malicious third-party app could send a malformed Intent.
-         */
+         *//*
+
 
         Log.i(TAG, "task plugin onReceive was called");
 
@@ -96,4 +101,4 @@ public final class FireReceiver extends BroadcastReceiver
 
 		}
 	}
-}
+}*/
