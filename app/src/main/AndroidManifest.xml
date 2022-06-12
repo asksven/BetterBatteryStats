@@ -71,7 +71,8 @@
         <activity
             android:name=".StatsActivity"
             android:configChanges="orientation|screenSize"
-            android:label="BetterBatteryStats">
+            android:label="BetterBatteryStats"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -102,14 +103,17 @@
 
         <activity
             android:name=".ImportExportPreferencesActivity"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.asksven.betterbatterystats.ImportExportPreferencesActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SystemAppActivity">
+        <activity
+            android:name=".SystemAppActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.asksven.betterbatterystats.SystemAppActivity" />
 
@@ -150,20 +154,21 @@
         <activity
             android:name=".DashClockSettingsActivity"
             android:exported="true"
-            android:label="Settings" />
+            android:label="Settings"
+            />
 
-        <activity
-            android:name=".localeplugin.ui.EditActivity"
-            android:exported="true"
-            android:label="@string/plugin_name"
-            android:theme="@style/Theme.AppCompat"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:icon="@mipmap/ic_launcher">
-            <!-- this Intent filter allows the plug-in to be discovered by the host. -->
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
-            </intent-filter>
-        </activity>
+<!--        <activity-->
+<!--            android:name=".localeplugin.ui.EditActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/plugin_name"-->
+<!--            android:theme="@style/Theme.AppCompat"-->
+<!--            android:uiOptions="splitActionBarWhenNarrow"-->
+<!--            android:icon="@mipmap/ic_launcher">-->
+<!--            &lt;!&ndash; this Intent filter allows the plug-in to be discovered by the host. &ndash;&gt;-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
         <!--
              This is the "fire" BroadcastReceiver. Note that Locale will reject plug-in BroadcastReceivers for the following reasons:
@@ -172,19 +177,21 @@
                 - The BroadcastReceiver requires permissions not available to Locale
                 - There are multiple BroadcastReceivers for com.twofortyfouram.locale.intent.action.FIRE_SETTING
         -->
+<!--        <receiver-->
+<!--            android:name=".localeplugin.receiver.FireReceiver"-->
+<!--            android:exported="true"-->
+<!--            android:process=":background"-->
+<!--            tools:ignore="ExportedReceiver">-->
+
+<!--            &lt;!&ndash; this Intent filter allows the plug-in to discovered by Locale &ndash;&gt;-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+
         <receiver
-            android:name=".localeplugin.receiver.FireReceiver"
-            android:exported="true"
-            android:process=":background"
-            tools:ignore="ExportedReceiver">
-
-            <!-- this Intent filter allows the plug-in to discovered by Locale -->
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
-            </intent-filter>
-        </receiver>
-
-        <receiver android:name=".handlers.OnBootHandler">
+            android:name=".handlers.OnBootHandler"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -192,7 +199,8 @@
 
         <receiver
             android:name=".widgetproviders.AppWidget"
-            android:label="BBS Widget">
+            android:label="BBS Widget"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.APPWIDGET_OPTIONS_CHANGED" />
@@ -206,7 +214,8 @@
 
         <receiver
             android:name=".widgetproviders.TextAppWidget"
-            android:label="BBS Text Widget">
+            android:label="BBS Text Widget"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.APPWIDGET_OPTIONS_CHANGED" />
@@ -242,7 +251,8 @@
             android:name=".services.BbsDashClockExtension"
             android:icon="@drawable/ic_stat_notification"
             android:label="BetterBatteryStats"
-            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
+            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.apps.dashclock.Extension" />
             </intent-filter>

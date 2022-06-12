@@ -23,7 +23,7 @@ android {
         applicationId "com.asksven.betterbatterystats"
         minSdkVersion 15
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 100
         versionName "3.0-alpha-3"
         versionNameSuffix = getBuildSuffix()
