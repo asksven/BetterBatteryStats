@@ -45,7 +45,7 @@ public class BaseActivity extends AppCompatActivity
 	public final static int getTheme(Context ctx)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		String theme = sharedPrefs.getString("theme", "0");
+		String theme = sharedPrefs.getString("theme", "1");
 
 		if (theme.equals("0"))
 		{

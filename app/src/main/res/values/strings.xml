@@ -161,8 +161,9 @@
     <string name="label_about_xda">Thread on XDA</string>
 
     <!-- Preferences -->
-    <string name="label_theme_dark">Dark</string>
+    <string name="label_theme_dark">System (default)</string>
     <string name="label_theme_light">Light</string>
+
     <string name="pref_theme_title">Theme</string>
     <string name="pref_theme_summary">Switch themes</string>
 
