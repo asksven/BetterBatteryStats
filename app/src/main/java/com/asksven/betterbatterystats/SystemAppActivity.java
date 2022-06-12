@@ -199,6 +199,15 @@ public class SystemAppActivity extends BaseActivity
         {
             permCALL_PRIVATE_API.setText("Private APIs  " + getString(R.string.label_not_granted));
             permCALL_PRIVATE_API.setBackgroundColor(Color.RED);
+            if (Build.VERSION.SDK_INT == 28)
+            {
+                fixCALL_PRIVATE_API.setText(R.string.expl_adb2_api28);
+            }
+            else if (Build.VERSION.SDK_INT >= 29)
+            {
+                fixCALL_PRIVATE_API.setText(R.string.expl_adb2_api29);
+            }
+
         }
 
 

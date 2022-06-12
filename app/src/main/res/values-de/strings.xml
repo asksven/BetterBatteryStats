@@ -128,11 +128,11 @@
 	<!-- Preferences -->
 	<string name="label_theme_dark">Dunkel</string>
 	<string name="label_theme_light">Hell</string>
-	<string name="pref_theme_title">Thema</string>
-	<string name="pref_theme_summary">Thema der App auswählen</string>
+	<string name="pref_theme_title">Theme</string>
+	<string name="pref_theme_summary">Theme der App auswählen</string>
 
 	<!-- System app activity -->
-	<string name="expl_system_app">Seit Android 4.4 haben ausschließlich System-Apps Zugriff auf Akku-Statistiken. BetterBatteryStats sollte daher als System-App installiert werden. Dadurch wird die App nicht beeinträchtigt.Wenn sich die Berechtigungen der App ändern, kann ein erneutes Installieren als System-App erforderlich werden.</string>
+	<string name="expl_system_app">Falls dein Handy gerootet ist wird BBS diese Berechtigungen authmatisch erteilen.\nFalls nicht müssen die Berechtigungen mittels ADB erteilt werden.</string>
 	<string name="info_succeeded">Erfolgreich</string>
 	<string name="info_root_required">Für diese Funktion muss der Root-Zugriff in den erweiterten Einstellungen aktiviert sein.</string>
 	<string name="info_unknown_state">Fehler: Änderung wurden nicht erkannt</string>

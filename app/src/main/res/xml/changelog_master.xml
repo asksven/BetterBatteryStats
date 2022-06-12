@@ -7,9 +7,11 @@
         <change>Updated permissions screen for instructions to grant access to private api</change>
         <change>Gauges now use the system accent color</change>
         <change>Make adb commands from the permissions screen selectable</change>
+        <change>Removed separators from adb command so that they can be copy pasted</change>
         <change>Fixed on-boarding in regards to PACKAGE_USAGE_STATS / APPOPS_USAGE_STATS</change>
-        <change>Theme now default to system theme</change>
+        <change>Theme now defaults to system theme</change>
         <change>Removed features (appops, graph) that are not supported anymore</change>
         <change>Updated target sdk since it will be required in Q3-2022</change>
+        <change>Fixed adb command for android 9</change>
     </release>
 </changelog>
