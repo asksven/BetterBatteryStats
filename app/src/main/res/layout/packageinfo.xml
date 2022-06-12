@@ -65,24 +65,6 @@
             android:layout_gravity="center_horizontal"
             android:text="@string/label_button_appops" />
     </FrameLayout>
-    <FrameLayout
-        android:id="@+id/FrameLayoutOnly4_3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="4dp" >
 
-        <TextView
-            android:id="@+id/TextViewOnly43"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/label_on_on_android_4_3plus"
-            android:textSize="16sp" />
-
-    </FrameLayout>
     
 </LinearLayout>

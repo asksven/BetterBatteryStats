@@ -105,8 +105,6 @@ public class PackageFragmentActivity extends BaseActivity
 			TextView pName = (TextView) v.findViewById(R.id.TextViewPName);
 			pName.setText(m_packageName);
 
-			TextView pOnly4_3 = (TextView) v.findViewById(R.id.TextViewOnly43);
-
 			final Button buttonSettings = (Button) v.findViewById(R.id.buttonSettings);
 			buttonSettings.setOnClickListener(new View.OnClickListener()
 			{
@@ -117,9 +115,8 @@ public class PackageFragmentActivity extends BaseActivity
 			});
 
 			final Button buttonAppOps = (Button) v.findViewById(R.id.ButtonAppOps);
-			if (Build.VERSION.SDK_INT >= 18)
+			if ((Build.VERSION.SDK_INT >= 18) && (Build.VERSION.SDK_INT <= 26))
 			{
-				pOnly4_3.setVisibility(View.GONE);
 				buttonAppOps.setOnClickListener(new View.OnClickListener()
 				{
 					public void onClick(View v)
@@ -131,6 +128,7 @@ public class PackageFragmentActivity extends BaseActivity
 			{
 				// disable as app ops is not available
 				buttonAppOps.setEnabled(false);
+				buttonAppOps.setVisibility(View.GONE);
 			}
 
 
@@ -175,7 +173,7 @@ public class PackageFragmentActivity extends BaseActivity
 		{
 			intent = new Intent("android.settings.APP_OPS_SETTINGS");
 			Uri uri = Uri.fromParts(SCHEME, packageName, null);
-		} else if (Build.VERSION.SDK_INT >= 19)
+		} else if ((Build.VERSION.SDK_INT >= 19) && (Build.VERSION.SDK_INT <= 26))
 		{
 			// @see http://brightechno.com/blog/archives/211
 			intent = new Intent();
