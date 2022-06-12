@@ -122,7 +122,7 @@ jobs:
           command: ./circleciscripts/download_pubprofile.sh
       - run:
           name: Deploy to gplay
-          command: ./gradlew publishApkGplayRelease
+          command: ./gradlew publishGplayReleaseApk
 
 workflows:
   version: 2
