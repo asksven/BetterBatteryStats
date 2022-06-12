@@ -169,6 +169,14 @@ public class SystemAppActivity extends BaseActivity
         final TextView explCALL_PRIVATE_API = (TextView) findViewById(R.id.textView4);
         final TextView fixCALL_PRIVATE_API = (TextView) findViewById(R.id.textViewAdb2);
 
+        if ((Build.VERSION.SDK_INT >= 21) && (Build.VERSION.SDK_INT < 23))
+        {
+            permPACKAGE.setVisibility(View.GONE);
+        }
+        if (Build.VERSION.SDK_INT >= 23)
+        {
+            permAPPOPS.setVisibility(View.GONE);
+        }
 
         String text = "";
 		if (SysUtils.hasBatteryStatsPermission(this))
@@ -225,7 +233,7 @@ public class SystemAppActivity extends BaseActivity
             permDUMP.setBackgroundColor(Color.RED);
         }
 
-        if (Build.VERSION.SDK_INT >= 21)
+        if (Build.VERSION.SDK_INT >= 23)
         {
             if (SysUtils.hasPackageUsageStatsPermission(this))
             {
@@ -243,7 +251,7 @@ public class SystemAppActivity extends BaseActivity
 
         }
 
-        if (Build.VERSION.SDK_INT >= 21)
+        if ((Build.VERSION.SDK_INT >= 21) && (Build.VERSION.SDK_INT < 23))
         {
             checkAndRequestPermissionAppOpsUsageStats();
             if (SystemAppActivity.hasPermissionAppOpsUsageStats(this))
@@ -361,7 +369,16 @@ public class SystemAppActivity extends BaseActivity
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.READ_PHONE_STATE, ctx);
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.BLUETOOTH, ctx);
         hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.WAKE_LOCK, ctx);
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermissionAppOpsUsageStats(ctx);
+        if ((Build.VERSION.SDK_INT >= 21) && (Build.VERSION.SDK_INT < 23))
+        {
+            hasPermissions = hasPermissions && SystemAppActivity.hasPermissionAppOpsUsageStats(ctx);
+        }
+
+        if (Build.VERSION.SDK_INT >= 23)
+        {
+            hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.PACKAGE_USAGE_STATS, ctx);;
+        }
+
         hasPermissions = hasPermissions && SystemAppActivity.hasPermissionToCallHiddenApis(ctx);
 
         return hasPermissions;
