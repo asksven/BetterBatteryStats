@@ -3289,9 +3289,17 @@ public class StatsProvider
 
 		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
 
-		PendingIntent sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
-				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent sender = null;
+		if (Build.VERSION.SDK_INT < 23) {
+			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+		}
+		else
+		{
+			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+		}
 		// Get the AlarmManager service
 		AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 		am.set(AlarmManager.RTC_WAKEUP, fireAt, sender);
@@ -3307,9 +3315,18 @@ public class StatsProvider
 		// check if there is an intent pending
 		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
 
-		PendingIntent sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
-				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent sender = null;
+		if (Build.VERSION.SDK_INT < 23)
+		{
+			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		}
+		else
+		{
+			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+		}
 		if (sender != null)
 		{
 
@@ -3322,10 +3339,19 @@ public class StatsProvider
 	public static boolean isActiveMonAlarmScheduled(Context ctx)
 	{
 		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
-		boolean alarmUp = (PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM, 
-		        intent, 
-		        PendingIntent.FLAG_NO_CREATE) != null);
+		boolean alarmUp = false;
+		if (Build.VERSION.SDK_INT < 23) {
+			alarmUp = (PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent,
+					PendingIntent.FLAG_NO_CREATE) != null);
+		}
+		else
+		{
+			alarmUp = (PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent,
+					PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE ) != null);
 
+		}
 		if (alarmUp)
 		{
 		    Log.i("myTag", "Alarm is already active");

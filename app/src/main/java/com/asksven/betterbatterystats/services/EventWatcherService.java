@@ -123,7 +123,8 @@ public class EventWatcherService extends Service
         Intent notificationIntent = new Intent(this, StatsActivity.class);
 
         PendingIntent pendingIntent = null;
-        if (Build.VERSION.SDK_INT < 23) {
+        if (Build.VERSION.SDK_INT < 23)
+        {
             pendingIntent = PendingIntent.getActivity(this, 0,
                     notificationIntent, 0);
         }

@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import androidx.core.app.NotificationCompat;
@@ -167,7 +168,16 @@ public class WatchdogProcessingService extends IntentService
 							i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.SCREEN_ON_REF_FILENAME);
 							i.putExtra(StatsActivity.FROM_NOTIFICATION, true);
 
-					    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+							PendingIntent contentIntent = null;
+							if (Build.VERSION.SDK_INT < 23)
+							{
+								contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+							}
+							else
+							{
+								contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+							}
 
 					    	// Puts the PendingIntent into the notification builder
 					    	builder.setContentIntent(contentIntent);

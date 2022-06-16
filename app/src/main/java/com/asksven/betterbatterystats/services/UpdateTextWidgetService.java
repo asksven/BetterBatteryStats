@@ -249,9 +249,19 @@ public class UpdateTextWidgetService extends JobIntentService
                     clickIntentRefresh.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
                             allWidgetIds);
 
-                    PendingIntent pendingIntentRefresh = PendingIntent.getBroadcast(
-                            getApplicationContext(), 0, clickIntentRefresh,
-                            PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pendingIntentRefresh = null;
+                    if (Build.VERSION.SDK_INT < 23) {
+                        pendingIntentRefresh = PendingIntent.getBroadcast(
+                                getApplicationContext(), 0, clickIntentRefresh,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
+                    }
+                    else
+                    {
+                        pendingIntentRefresh = PendingIntent.getBroadcast(
+                                getApplicationContext(), 0, clickIntentRefresh,
+                                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+                    }
                     remoteViews.setOnClickPendingIntent(R.id.imageViewRefresh, pendingIntentRefresh);
 
                     // Register an onClickListener for the widget -> call main activity
@@ -265,9 +275,18 @@ public class UpdateTextWidgetService extends JobIntentService
                     i.putExtra(StatsActivity.STAT_TYPE_FROM, refFrom);
                     i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.CURRENT_REF_FILENAME);
 
-                    PendingIntent clickPI = PendingIntent.getActivity(
-                            this.getApplicationContext(), PI_CODE,
-                            i, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent clickPI = null;
+                    if (Build.VERSION.SDK_INT < 23) {
+                        clickPI = PendingIntent.getActivity(
+                                this.getApplicationContext(), PI_CODE,
+                                i, PendingIntent.FLAG_UPDATE_CURRENT);
+                    }
+                    else
+                    {
+                        clickPI = PendingIntent.getActivity(
+                                this.getApplicationContext(), PI_CODE,
+                                i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                    }
                     remoteViews.setOnClickPendingIntent(R.id.imageView1, clickPI);
 
                     appWidgetManager.updateAppWidget(widgetId, remoteViews);

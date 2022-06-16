@@ -34,7 +34,7 @@ import com.asksven.betterbatterystats.widgetproviders.TextAppWidget;
  * Refresh all widgets
  */
 @TargetApi(21)
-public class AppWidgetJobService extends JobService
+public class    AppWidgetJobService extends JobService
 {
     private static final String TAG = "AppWidgetJobService";
 
