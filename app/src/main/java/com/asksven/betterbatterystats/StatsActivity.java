@@ -187,7 +187,7 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		
 		// Grant permissions if they are missing and root is available
-		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
+		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this) || !SysUtils.hasPermissionToCallHiddenApis(this))
 		{
 		    if (( RootShell.getInstance().isRooted()))
             {
@@ -200,12 +200,11 @@ public class StatsActivity extends ActionBarListActivity
                 RootShell.getInstance().run("pm grant " + pkg + " android.permission.DUMP");
                 RootShell.getInstance().run("pm grant " + pkg + " android.permission.PACKAGE_USAGE_STATS");
 				//RootShell.getInstance().run("pm grant " + pkg + " android.permission.INTERACT_ACROSS_USERS");
-				results = RootShell.getInstance().run("settings get global hidden_api_policy");
 				RootShell.getInstance().run("settings put global hidden_api_policy 1");
 
 
 
-				if (SysUtils.hasBatteryStatsPermission(this))
+				if ((SysUtils.hasBatteryStatsPermission(this) || SysUtils.hasDumpsysPermission(this) || SysUtils.hasPackageUsageStatsPermission(this) || SysUtils.hasPermissionToCallHiddenApis(this)))
                 {
                     Log.i(TAG, "succeeded");
                 } else

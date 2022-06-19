@@ -15,10 +15,12 @@
  */
 package com.asksven.android.common.utils;
 
+import android.annotation.SuppressLint;
 import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 
 import com.asksven.android.common.shellutils.Exec;
 import com.asksven.android.common.shellutils.ExecResult;
@@ -78,6 +80,24 @@ public class SysUtils
 		    context.getPackageName());
 		return (hasPerm == PackageManager.PERMISSION_GRANTED);
 	}
+
+	@SuppressLint("SoonBlockedPrivateApi")
+	public static boolean hasPermissionToCallHiddenApis(Context ctx)
+	{
+		boolean granted = true;
+		try
+		{
+			Class.forName("android.app.ActivityThread").getDeclaredField("mResourcesManager");
+		}
+		catch (Exception e)
+		{
+			Log.d("An error occured: ", e.getMessage());
+			granted = false;
+		}
+
+		return granted;
+	}
+
 	
 	/** 
 	 * Returns "n/a, Enforcing or Permissive", depending on the implemented policy

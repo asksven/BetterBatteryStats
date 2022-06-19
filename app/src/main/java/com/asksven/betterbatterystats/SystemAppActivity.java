@@ -189,7 +189,7 @@ public class SystemAppActivity extends BaseActivity
             permBATTERY.setBackgroundColor(Color.RED);
         }
 
-        if (SystemAppActivity.hasPermissionToCallHiddenApis(this))
+        if (SysUtils.hasPermissionToCallHiddenApis(this))
         {
             permCALL_PRIVATE_API.setText("Private APIs " + getString(R.string.label_granted));
             explCALL_PRIVATE_API.setVisibility(View.GONE);
@@ -388,7 +388,7 @@ public class SystemAppActivity extends BaseActivity
             hasPermissions = hasPermissions && SystemAppActivity.hasPermission(Manifest.permission.PACKAGE_USAGE_STATS, ctx);;
         }
 
-        hasPermissions = hasPermissions && SystemAppActivity.hasPermissionToCallHiddenApis(ctx);
+        hasPermissions = hasPermissions && SysUtils.hasPermissionToCallHiddenApis(ctx);
 
         return hasPermissions;
 
@@ -445,23 +445,6 @@ public class SystemAppActivity extends BaseActivity
         AppOpsManager appOps = (AppOpsManager) ctx.getSystemService(Context.APP_OPS_SERVICE);
         int mode = appOps.checkOpNoThrow("android:get_usage_stats", android.os.Process.myUid(), ctx.getPackageName());
         boolean granted = mode == AppOpsManager.MODE_ALLOWED;
-        return granted;
-    }
-
-    @SuppressLint("SoonBlockedPrivateApi")
-    private static boolean hasPermissionToCallHiddenApis(Context ctx)
-    {
-        boolean granted = true;
-        try
-        {
-            Class.forName("android.app.ActivityThread").getDeclaredField("mResourcesManager");
-        }
-        catch (Exception e)
-        {
-            Log.d("An error occured: ", e.getMessage());
-            granted = false;
-        }
-
         return granted;
     }
 
