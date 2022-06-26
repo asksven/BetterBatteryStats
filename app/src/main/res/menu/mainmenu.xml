@@ -18,11 +18,11 @@
     <item
         android:id="@+id/custom_ref"
         android:title="@string/label_custom_ref"/>
-<!--
+
     <item
         android:id="@+id/graph"
         android:title="@string/label_graphs"/>
--->
+
     <item
         android:id="@+id/rawstats"
         android:title="@string/label_raw_stats"/>

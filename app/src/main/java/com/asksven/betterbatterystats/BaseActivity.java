@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class BaseActivity extends AppCompatActivity
 {
@@ -38,20 +39,24 @@ public class BaseActivity extends AppCompatActivity
 		BbsApplication application = (BbsApplication) getApplication();
 
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String theme = sharedPrefs.getString("theme", "0");
+		String theme = sharedPrefs.getString("theme", "2");
 		super.onCreate(savedInstanceState);
 	}
 
 	public final static int getTheme(Context ctx)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		String theme = sharedPrefs.getString("theme", "1");
+		String theme = sharedPrefs.getString("theme", "2");
 
 		if (theme.equals("0"))
 		{
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 			return R.style.Theme_Bbs_Light;
-		} else
+		} else if (theme.equals("1"))
 		{
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+			return R.style.Theme_Bbs_Dark;
+		} else {
 			return R.style.Theme_Bbs_Auto;
 		}
 	}

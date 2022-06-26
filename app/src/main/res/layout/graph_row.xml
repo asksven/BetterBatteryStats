@@ -4,7 +4,6 @@
     android:id="@+id/LinearLayoutEntry"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="?android:colorForegroundInverse"
     android:baselineAligned="false"
     android:elevation="0dp"
     android:orientation="vertical"

@@ -5,7 +5,6 @@
     android:id="@+id/LinearLayoutEntry"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="?android:colorForegroundInverse" 
     android:elevation="0dp"
     android:orientation="horizontal"
     android:paddingBottom="2dp"
@@ -21,7 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:layout_weight="1">
 
 
@@ -47,8 +45,7 @@
         android:orientation="vertical"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
-        android:layout_weight="100"
-        android:background="?android:attr/selectableItemBackgroundBorderless">
+        android:layout_weight="100">
 
         <TextView
             android:id="@+id/TextViewName"
@@ -98,7 +95,6 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/LinearLayoutGauge"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp"
-        android:background="?android:colorForegroundInverse"
         android:elevation="8dp"
         android:orientation="vertical"
         android:paddingLeft="8dp"
@@ -46,7 +45,6 @@
         android:layout_weight="1"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:background="?android:colorForegroundInverse"
         android:dividerHeight="1px" />
 
 </LinearLayout>

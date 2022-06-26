@@ -4,14 +4,27 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.17386091127098321" />
-        <entry key="app/src/main/res/layout-v21/stat_row.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/drawable/card_background.xml" value="0.2205" />
+        <entry key="app/src/main/res/drawable/clickable.xml" value="0.2205" />
+        <entry key="app/src/main/res/layout-v21/stat_row.xml" value="0.24971923828125" />
+        <entry key="app/src/main/res/layout/about.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/activity_systemapp.xml" value="0.1921875" />
+        <entry key="app/src/main/res/layout/bbs_spinner_dropdown_item.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/bbs_spinner_layout.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/credits.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/credits_row.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/details_dialog.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/dialog_rate.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/graph_row.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/graphs.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/package_info.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/layout/package_info_row.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/layout/package_info_tabs.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/layout/packageinfo.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/pager_item.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/preferences_fragment.xml" value="0.21354166666666666" />
-        <entry key="app/src/main/res/layout/stat_row.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/raw_stats.xml" value="0.21354166666666666" />
+        <entry key="app/src/main/res/layout/stat_row.xml" value="0.25" />
         <entry key="app/src/main/res/layout/stats.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/menu/mainmenu.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/xml/preferences.xml" value="0.19166666666666668" />

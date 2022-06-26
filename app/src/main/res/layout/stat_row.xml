@@ -5,7 +5,6 @@
     android:id="@+id/LinearLayoutEntry"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="?android:colorForegroundInverse" 
     android:elevation="0dp"
     android:orientation="horizontal"
     android:paddingBottom="2dp"
@@ -21,7 +20,6 @@
         android:layout_height="48dp"
 
         android:layout_gravity="center_vertical"
-        android:background="@drawable/clickable"
         android:paddingBottom="0dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
