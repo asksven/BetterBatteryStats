@@ -57,6 +57,7 @@ public class BaseActivity extends AppCompatActivity
 			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 			return R.style.Theme_Bbs_Dark;
 		} else {
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 			return R.style.Theme_Bbs_Auto;
 		}
 	}
