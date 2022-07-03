@@ -1,0 +1,11 @@
+Screen on/off references are always saved
+Some UI tweaks
+Removed obstrusive release notes
+New event management for SDK26
+Moved reference processing to a foreground service 
+Flattened preferences
+Updated widget layout and options
+App now asks the user to confirm permissions
+Reduce the number of permissions that need to be granted through adb
+Fixed Samsung Galaxy S10 issue
+Fixed misc bugs reported

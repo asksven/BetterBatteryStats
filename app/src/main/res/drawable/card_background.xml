@@ -16,8 +16,6 @@
             android:shape="rectangle" >
             <corners android:radius="2dp" />
 
-            <solid android:color="?android:colorForegroundInverse" />
-
             <padding
                 android:bottom="8dp"
                 android:left="8dp"

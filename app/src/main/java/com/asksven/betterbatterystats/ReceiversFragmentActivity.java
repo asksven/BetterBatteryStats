@@ -19,13 +19,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.ListFragment;
 import android.util.Log;
 
 import com.asksven.betterbatterystats.adapters.ServicesAdapter;
 import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.R;
 
 /**
  * Demonstration of the use of a CursorLoader to load and display contacts data

@@ -157,7 +157,6 @@
     <string name="info_installed_system_app">Instalado como app de sistema. Por favor, reinicie para ativar.</string>
     <string name="info_uninstalled_system_app">App de sistema desinstalado: suas preferências foram restauradas. Por favor reinicice para limpar e atualizar suas preferências.</string>
     <string name="info_succeeded">Êxito</string>
-    <string name="info_failed">Falhou, tente o ZIP para recovery</string>
     <string name="info_root_required">Para usar este recurso o app precisa ter permissões root</string>
     <string name="info_unknown_state">Erro: não pôde resolver o que mudou</string>
     <string name="info_service_connection_error">BatteryInfo Service não pôde ser contactado</string>
@@ -168,7 +167,6 @@
     <string name="info_pref_import_success">Preferências foram importadas de %s</string>
     <string name="info_pref_import_export_failed">A operação falhou</string>
     <string name="info_files_written">Arquivos foram escritos</string>
-    <string name="info_files_write_error">Ocorreu um erro</string>
 
 
     <string name="info_deleting_refs">Excluindo e recriando as referências</string>
@@ -230,8 +228,6 @@
     <string name="pref_section_advanced">Avançado</string>
     <string name="pref_debug_logging_summary">Adicionar informações de depuração para o logcat</string>
     <string name="pref_debug_logging_title">Depurar</string>
-    <string name="pref_files_to_private_storage_summary">Escrever arquivos para /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
-    <string name="pref_files_to_private_storage_title">Armazenamento privado</string>
     <string name="pref_select_dir_summary">Escolher onde escrever os dumpfiles</string>
     <string name="pref_select_dir_title">Escolher Diretório de Saída</string>
     <string name="pref_select_dir_button">Escolher</string>
@@ -251,17 +247,10 @@
     <string name="pref_screen_permissions_summary">Verifique pelas permissões necessárias</string>
     <string name="pref_screen_import_export_title">Importar/Exportar</string>
     <string name="pref_screen_import_export_summary">Importar e Exportar Preferências</string>
-    <string name="pref_app_analytics_title">Analytics</string>
-    <string name="pref_app_analytics_summary">Ajudar a melhorar o app: permitir analytics</string>
 
 
-    <string name="pref_section_settings">Configurações</string>
     <string name="pref_screen_widgets_title">Widgets</string>
     <string name="pref_screen_legacy_widgets_title">Widgets Legacy</string>
-    <string name="widget_refresh_freq_title">Frequência de Atualzação</string>
-    <string name="widget_refresh_freq_summary">Configurar com que frequência os Widgets atualizarão (eles sempre atualiarão quando a tela estiver ligada)</string>
-    <string name="widget_refresh_on_screen_on_title">Atualizar quando a tela estiver ligada</string>
-    <string name="widget_refresh_on_screen_on_summary">Atualiza ao ligar a tela</string>
     <string name="widget_default_stat_title">Estatística padrão para abrir</string>
     <string name="widget_default_stat_summary">Configure a estatística a ser chamada pelo widget</string>
     <string name="widget_show_stat_type_title">Mostrar Título</string>
@@ -287,7 +276,7 @@
 
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">O dispositivo está conectado: sem estatísticas</string>
-<!--    <string name="NO_ROOT_ERR">This stat requires root permissions</string> -->
+  <!--    <string name="NO_ROOT_ERR">This stat requires root permissions</string> -->
     <string name="NO_PERM_ERR">Esta estatística exige Permissão de BATTERY_STATS</string>
     <string name="NO_PERM_INFO">Tentando conceder permissões sem app de sistema.</string>
     <string name="NO_REF_ERR">Nenhuma referência configurada ainda</string>

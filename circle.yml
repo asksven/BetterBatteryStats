@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-26-alpha
+      - image: cimg/android:2022.04
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -47,7 +47,7 @@ jobs:
   test:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-26-alpha
+      - image: cimg/android:2022.04
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -71,10 +71,10 @@ jobs:
       - store_test_results:
           path: app/build/test-results
 
-  deploy-hockeyapp:
+  deploy-appcenter:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-26-alpha
+      - image: circleci/node:10
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -88,12 +88,12 @@ jobs:
           command: chmod +x ./circleciscripts/*.sh
       - run:
           name: Deploy to hockeyapp
-          command: source ./circleciscripts/deployHockeyApp.sh && uploadToHockeyApp
+          command: source ./circleciscripts/deployAppCenter.sh && uploadToAppCenter
 
   deploy-gplay:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-26-alpha
+      - image: cimg/android:2022.04
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -122,7 +122,7 @@ jobs:
           command: ./circleciscripts/download_pubprofile.sh
       - run:
           name: Deploy to gplay
-          command: ./gradlew publishApkGplayRelease
+          command: ./gradlew publishGplayReleaseApk
 
 workflows:
   version: 2
@@ -132,7 +132,7 @@ workflows:
       - test:
           requires:
             - build
-      - deploy-hockeyapp: # never for branches
+      - deploy-appcenter: # never for branches
           requires:
             - test
           filters:

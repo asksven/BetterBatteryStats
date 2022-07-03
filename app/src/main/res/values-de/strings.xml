@@ -128,17 +128,12 @@
 	<!-- Preferences -->
 	<string name="label_theme_dark">Dunkel</string>
 	<string name="label_theme_light">Hell</string>
-	<string name="pref_theme_title">Thema</string>
-	<string name="pref_theme_summary">Thema der App auswählen</string>
+	<string name="pref_theme_title">Theme</string>
+	<string name="pref_theme_summary">Theme der App auswählen</string>
 
 	<!-- System app activity -->
-	<string name="expl_system_app">Seit Android 4.4 haben ausschließlich System-Apps Zugriff auf Akku-Statistiken. BetterBatteryStats sollte daher als System-App installiert werden. Dadurch wird die App nicht beeinträchtigt.Wenn sich die Berechtigungen der App ändern, kann ein erneutes Installieren als System-App erforderlich werden.</string>
-    <string name="install_system_app">In System-App umwandeln</string>
-	<string name="uninstall_system_app">System-App entfernen</string>
-	<string name="info_installed_system_app">Installation abgeschlossen. Bitte starten Sie Ihr Gerät neu.</string>
-	<string name="info_uninstalled_system_app">System-App entfernt: Ihre Einstellungen wurden zurückgesetzt. Bitte starten Sie Ihr Gerät neu.</string>
+	<string name="expl_system_app">Falls dein Handy gerootet ist wird BBS diese Berechtigungen authmatisch erteilen.\nFalls nicht müssen die Berechtigungen mittels ADB erteilt werden.</string>
 	<string name="info_succeeded">Erfolgreich</string>
-	<string name="info_failed">Ein Fehler ist aufgetreten. Versuchen Sie die Installation per Recovery-ZIP</string>
 	<string name="info_root_required">Für diese Funktion muss der Root-Zugriff in den erweiterten Einstellungen aktiviert sein.</string>
 	<string name="info_unknown_state">Fehler: Änderung wurden nicht erkannt</string>
 	<string name="info_service_connection_error">Der Dienst BatteryInfo ist nicht erreichbar.</string>
@@ -203,8 +198,6 @@
 	<string name="pref_section_advanced">Erweitert</string>
 	<string name="pref_debug_logging_summary">Debug-Infos zu Logcat hinzufügen</string>
 	<string name="pref_debug_logging_title">Debug</string>
-	<string name="pref_files_to_private_storage_summary">Zum Speichern den Ordner /sdcard/Android/data/com.asksven.betterbatterystats/files/Download nutzen</string>
-	<string name="pref_files_to_private_storage_title">Privater Speicher</string>
 
 
 	<string name="pref_developer_title">Beim Laden aktivieren</string>
@@ -216,19 +209,10 @@
 	<string name="pref_save_logcat_summary">Logcat teilen</string>
 	<string name="pref_save_dmesg_title">dmesg</string>
 	<string name="pref_save_dmesg_summary">dmesg teilen</string>
-	<string name="pref_force_alarms_api_title">API für Alarme verwenden</string>
-	<string name="pref_force_alarms_api_summary">Alarme mittels API abrufen</string>
-	<string name="pref_force_kwl_api_title">API für Kernel Wakelocks verwenden</string>
-	<string name="pref_force_kwl_api_summary">Kernel Wakelocks mittels API abrufen</string>
 	<string name="pref_screen_import_export_title">Importieren/Exportieren</string>
 	<string name="pref_screen_import_export_summary">Einstellungen sichern und wiederherstellen</string>
     
-	<string name="pref_section_settings">Einstellungen</string>
 	<string name="pref_screen_widgets_title">Widgets</string>
-	<string name="widget_refresh_freq_title">Häufigkeit der Aktualisierung</string>
-	<string name="widget_refresh_freq_summary">Intervall für Widget-Aktualisierung festlegen</string>
-	<string name="widget_refresh_on_screen_on_title">Bei aktiviertem Bildschirm</string>
-	<string name="widget_refresh_on_screen_on_summary">Widgets aktualisieren, wenn der Bildschirm aktiviert wird</string>
 	<string name="widget_default_stat_title">Anzuzeigende Statistik</string>
 	<string name="widget_default_stat_summary">Statistik wählen, die vom Widget aufgerufen wird</string>    
 	<string name="widget_show_stat_type_title">Titel anzeigen</string>
@@ -254,7 +238,6 @@
     
 	<!-- stats error / warnings -->
 	<string name="NO_STATS_WHEN_CHARGING">Gerät wird geladen: Keine Statistiken verfügbar</string>
-	<string name="NO_ROOT_ERR">Diese Statistik benötigt Root-Zugriff.</string>
 	<string name="NO_PERM_ERR">Diese Statistik benötigt die Berechtigung BATTERY_STATS.</string>
 	<string name="NO_REF_ERR">Es wurde noch keine Referenz gesetzt</string>
 	<string name="NO_STATS">Es wurden noch keine Statistiken erhoben</string>
@@ -277,5 +260,13 @@
 	<string name="widget_fontsize_12">Normal (12)</string>
 	<string name="widget_fontsize_10">*Klein (10)</string>
 	<string name="widget_fontsize_8">Sehr klein (8)</string>
+	<string name="widget_show_text_color_title">Texte in Farbe</string>
+	<string name="widget_show_text_color_summary">Farbige Labels im einfachen Widget</string>
+	<string name="label_about_translation8">Niederländisch durch @Matthias-vdE</string>
+	<string name="label_changelog">Änderungshistorie</string>
+	<string name="label_discard_changes">Änderungen ignorieren</string>
+	<string name="label_about_translation7">Brasilianisch-Portugesisch durch @caiorrs</string>
+	<string name="label_about_xda">Thread auf XDA</string>
+	<string name="info_files_written">Dateien wurden geschrieben</string>
 
 </resources>

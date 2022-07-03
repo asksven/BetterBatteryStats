@@ -1,26 +1,23 @@
 package com.asksven.android.common.privateapiproxies;
 
-import android.app.AlarmManager;
 import android.content.Context;
 import android.os.Build;
-import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.test.InstrumentationRegistry;
 import android.util.Log;
-import android.util.SparseArray;
 
-import com.asksven.android.common.CommonLogSettings;
+import androidx.test.core.app.ApplicationProvider;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static java.lang.Runtime.getRuntime;
+
+import com.asksven.android.common.NonRootShell;
 
 /**
  * Created by sven on 01/05/2017.
@@ -32,10 +29,11 @@ public class BatteryStatsProxyTest {
     private BatteryStatsProxy mStats2 = null;
     static final String TAG = "BatteryStatsProxyTest";
 
+
     @Before
     public void createInstance() throws Exception
     {
-        Context ctx = InstrumentationRegistry.getContext();
+        Context ctx = ApplicationProvider.getApplicationContext();
         assertNotNull(ctx);
         mStats = BatteryStatsProxy.getInstance(ctx);
         assertNotNull(mStats);
@@ -60,6 +58,29 @@ public class BatteryStatsProxyTest {
 
         assertTrue(whichRealtime != 0);
 
+    }
+
+    @Test
+    public void test_getBatteryRealtime() throws Exception
+    {
+        long whichRealtime = mStats.getBatteryRealtime(SystemClock.elapsedRealtime() * 1000) / 1000;
+
+        assertTrue(whichRealtime != 0);
+
+    }
+
+    @Test
+    public void getPrivateApiAccessible() throws Exception
+    {
+        try
+        {
+            Class.forName("android.app.ActivityThread").getDeclaredField("mResourcesManager");
+        }
+        catch (Exception e)
+        {
+            Log.d("An error occured: ", e.getMessage());
+            assertTrue(false);
+        }
     }
 
     /*

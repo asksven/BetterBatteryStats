@@ -1,5 +1,17 @@
-/**
- * 
+/*
+ * Copyright (C) 2011-2018 asksven
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.asksven.android.common.kernelutils;
 
@@ -12,9 +24,8 @@ import android.os.Build;
 import android.util.Log;
 
 
-//import com.asksven.android.contrib.Shell;
+import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.NonRootShell;
-import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.Alarm;
 import com.asksven.android.common.privateapiproxies.StatElement;
 
@@ -30,21 +41,15 @@ public class AlarmsDumpsys
 	static final String PERMISSION_DENIED = "rights required to access stats are not available / were not granted";
 	static final String SERVICE_NOT_ACCESSIBLE = "Can't find service: alarm";
 
-	public static ArrayList<StatElement> getAlarms(boolean useRoot)
+	public static ArrayList<StatElement> getAlarms()
 	{
 		String release = Build.VERSION.RELEASE;
 		int sdk = Build.VERSION.SDK_INT;
 		Log.i(TAG, "getAlarms: SDK=" + sdk + ", RELEASE=" + release);
 		
 		List<String> res = null;
-		if (useRoot) // dumpsys seems to always require root, even if perm is available
-		{
-			res = RootShell.getInstance().run("dumpsys alarm");
-		}
-		else
-		{
-			res = NonRootShell.getInstance().run("dumpsys alarm");
-		}
+
+		res = NonRootShell.getInstance().run("dumpsys alarm");
 
 		if (sdk < 17) // Build.VERSION_CODES.JELLY_BEAN_MR1)
 		{
@@ -673,7 +678,10 @@ public class AlarmsDumpsys
 							}
 							else
 							{
-								System.out.println("Added: " + strIntent + "(" + nNumber + ")");
+								if (CommonLogSettings.DEBUG)
+								{
+									Log.i(TAG, "Added: " + strIntent + "(" + nNumber + ")");
+								}
 								myAlarm.addItem(nNumber, strIntent);
 							}
 						}
@@ -720,27 +728,6 @@ public class AlarmsDumpsys
 			}
 		}
 		return myAlarms;
-	}
-	public static boolean alarmsAccessible()
-	{
-		List<String> res = RootShell.getInstance().run("dumpsys alarm");	
-		
-		if ((res == null) || (res.size() == 0))
-		{
-			return false;
-		}
-		else
-		{
-			String val = res.get(0);
-			if (val.equals(SERVICE_NOT_ACCESSIBLE))
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
 	}
 
 }

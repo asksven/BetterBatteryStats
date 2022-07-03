@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Bbs.Auto" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="logo">@mipmap/ic_launcher</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="popupTheme">@style/Theme.MaterialComponents.DayNight</item>
+    </style>
+
+    <style name="Theme.Bbs.Dark" parent="@style/ThemeOverlay.MaterialComponents.Dark">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="logo">@mipmap/ic_launcher</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="popupTheme">@style/ThemeOverlay.MaterialComponents.Dark</item>
+    </style>
+
+    <style name="Theme.Bbs.Light" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="logo">@mipmap/ic_launcher</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="popupTheme">@style/Theme.MaterialComponents.Light</item>
+    </style>
+
+
+</resources>
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Bbs.Auto" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="logo">@mipmap/ic_launcher</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="Theme.Bbs.Dark" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">true</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="logo">@mipmap/ic_launcher</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+    <style name="Theme.Bbs.Light" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="logo">@mipmap/ic_launcher</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+
+</resources>-->

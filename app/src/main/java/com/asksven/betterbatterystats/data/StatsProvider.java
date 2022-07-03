@@ -41,6 +41,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
 import com.asksven.android.common.kernelutils.CpuStates;
@@ -336,67 +337,142 @@ public class StatsProvider
 		return myStats;
 
 	}
-	
+
 	public ArrayList<StatElement> getCurrentAlarmsStatList(boolean bFilter) throws Exception
-	{
+    {
 
-		Context ctx = BbsApplication.getAppContext();
-		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+        Context ctx = BbsApplication.getAppContext();
+        ArrayList<StatElement> myStats = new ArrayList<StatElement>();
 
-		// stop straight away of root features are disabled
-		SharedPreferences sharedPrefs = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
+        // stop straight away of root features are disabled
+        SharedPreferences sharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(ctx);
+        boolean permsNotNeeded = sharedPrefs.getBoolean("ignore_system_app", false);
 
-		ArrayList<StatElement> myAlarms = null;
+        ArrayList<StatElement> myAlarms = null;
 
-        BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
-        int statsType = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        // use root if available as root delivers more data
+        if (SysUtils.hasBatteryStatsPermission(ctx) && SysUtils.hasDumpsysPermission(ctx))
         {
-            statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+            myAlarms = AlarmsDumpsys.getAlarms();
+        }
+        else if (permsNotNeeded || SysUtils.hasBatteryStatsPermission(ctx))
+        {
+            Log.i(TAG, "Accessing Alarms in API mode as dumpsys has failed");
+            BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
+            int statsType = 0;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            {
+                statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+            }
+            else
+            {
+                statsType = BatteryStatsTypes.STATS_CURRENT;
+            }
+
+            myAlarms = mStats.getWakeupStats(ctx, statsType);
         }
         else
         {
-            statsType = BatteryStatsTypes.STATS_CURRENT;
+            return myStats;
         }
 
-        myAlarms = mStats.getWakeupStats(ctx, statsType);
+        ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
+        // if we are using custom ref. always retrieve "stats current"
 
-		ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
-		// if we are using custom ref. always retrieve "stats current"
+        // sort @see
+        // com.asksven.android.common.privateapiproxies.Walkelock.compareTo
 
-		// sort @see
-		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+        long elapsedRealtime = SystemClock.elapsedRealtime();
+        for (int i = 0; i < myAlarms.size(); i++)
+        {
+            Alarm alarm = (Alarm) myAlarms.get(i);
+            if (alarm != null)
+            {
+                if ((!bFilter) || ((alarm.getWakeups()) > 0))
+                {
+                    alarm.setTimeRunning(elapsedRealtime);
+                    myRetAlarms.add(alarm);
+                }
+            }
+        }
 
-		long elapsedRealtime = SystemClock.elapsedRealtime();
-		for (int i = 0; i < myAlarms.size(); i++)
-		{
-			Alarm alarm = (Alarm) myAlarms.get(i);
-			if (alarm != null)
-			{
-				if ((!bFilter) || ((alarm.getWakeups()) > 0))
-				{
-					alarm.setTimeRunning(elapsedRealtime);
-					myRetAlarms.add(alarm);
-				}
-			}
-		}
+        Collections.sort(myRetAlarms);
 
-		Collections.sort(myRetAlarms);
+        for (int i = 0; i < myRetAlarms.size(); i++)
+        {
+            myStats.add((StatElement) myRetAlarms.get(i));
+        }
 
-		for (int i = 0; i < myRetAlarms.size(); i++)
-		{
-			myStats.add((StatElement) myRetAlarms.get(i));
-		}
+        if (LogSettings.DEBUG)
+        {
+            Log.d(TAG, "Result " + myStats.toString());
+        }
 
-		if (LogSettings.DEBUG)
-		{
-			Log.d(TAG, "Result " + myStats.toString());
-		}
+        return myStats;
 
-		return myStats;
+    }
 
-	}
+//	public ArrayList<StatElement> getCurrentAlarmsStatList(boolean bFilter) throws Exception
+//	{
+//
+//		Context ctx = BbsApplication.getAppContext();
+//		ArrayList<StatElement> myStats = new ArrayList<StatElement>();
+//
+//		// stop straight away of root features are disabled
+//		SharedPreferences sharedPrefs = PreferenceManager
+//				.getDefaultSharedPreferences(ctx);
+//
+//		ArrayList<StatElement> myAlarms = null;
+//
+//        BatteryStatsProxy mStats = BatteryStatsProxy.getInstance(ctx);
+//        int statsType = 0;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//        {
+//            statsType = BatteryStatsTypesLolipop.STATS_CURRENT;
+//        }
+//        else
+//        {
+//            statsType = BatteryStatsTypes.STATS_CURRENT;
+//        }
+//
+//        myAlarms = mStats.getWakeupStats(ctx, statsType);
+//
+//		ArrayList<Alarm> myRetAlarms = new ArrayList<Alarm>();
+//		// if we are using custom ref. always retrieve "stats current"
+//
+//		// sort @see
+//		// com.asksven.android.common.privateapiproxies.Walkelock.compareTo
+//
+//		long elapsedRealtime = SystemClock.elapsedRealtime();
+//		for (int i = 0; i < myAlarms.size(); i++)
+//		{
+//			Alarm alarm = (Alarm) myAlarms.get(i);
+//			if (alarm != null)
+//			{
+//				if ((!bFilter) || ((alarm.getWakeups()) > 0))
+//				{
+//					alarm.setTimeRunning(elapsedRealtime);
+//					myRetAlarms.add(alarm);
+//				}
+//			}
+//		}
+//
+//		Collections.sort(myRetAlarms);
+//
+//		for (int i = 0; i < myRetAlarms.size(); i++)
+//		{
+//			myStats.add((StatElement) myRetAlarms.get(i));
+//		}
+//
+//		if (LogSettings.DEBUG)
+//		{
+//			Log.d(TAG, "Result " + myStats.toString());
+//		}
+//
+//		return myStats;
+//
+//	}
 
 	/**
 	 * Get the Alarm Stat to be displayed
@@ -589,11 +665,8 @@ public class StatsProvider
 		if (!SysUtils.hasBatteryStatsPermission(ctx))
 		{
 			// stop straight away of root features are disabled
-			if (!SysUtils.hasBatteryStatsPermission(ctx))
-			{
-				myStats.add(new Notification(ctx.getString(R.string.NO_ROOT_ERR)));
+				myStats.add(new Notification(ctx.getString(R.string.NO_PERM_ERR)));
 				return myStats;
-			}
 		}
 		
 		if ((refFrom == null) || (refTo == null))
@@ -1845,7 +1918,7 @@ public class StatsProvider
 		long syncTime = 0;
 		try
 		{
-			if (Build.VERSION.SDK_INT >= 21)
+			if ((Build.VERSION.SDK_INT >= 21) && (Build.VERSION.SDK_INT < 27))
 			{
 				syncTime 	= mStats.getSyncOnTime(ctx, batteryRealtime, statsType) / 1000;
 			}
@@ -2283,6 +2356,7 @@ public class StatsProvider
 
 	public StatElement getElementByKey(ArrayList<StatElement> myList, String key)
 	{
+		Log.i(TAG, "Looking for key: " + key);
 		StatElement ret = null;
 
 		if (myList == null)
@@ -2294,8 +2368,8 @@ public class StatsProvider
 		for (int i = 0; i < myList.size(); i++)
 		{
 			StatElement item = myList.get(i);
-
 			if (item.getName().equals(key))
+
 			{
 				ret = item;
 				break;
@@ -2630,7 +2704,6 @@ public class StatsProvider
 
 			// After that we go on and try to write the rest. If this part
 			// fails at least there will be a partial ref saved
-			Log.i(TAG, "Trace: Calling root operations" + DateUtils.now());
 			try
 			{
 				refs.m_refNetworkStats = getCurrentNetworkUsageStatList(bFilterStats);
@@ -2653,7 +2726,7 @@ public class StatsProvider
 
 			try
 			{
-				refs.m_refSensorUsage = getCurrentSensorStatList(bFilterStats);
+                refs.m_refSensorUsage = getCurrentSensorStatList(bFilterStats);
 			}
 			catch (Exception e)
 			{
@@ -2845,24 +2918,14 @@ public class StatsProvider
         {
             // open file for writing
             File root;
-            boolean bSaveToPrivateStorage = sharedPrefs.getBoolean("files_to_private_storage", false);
-
-            if (bSaveToPrivateStorage)
-            {
-                try
-                {
-                    root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-                }
-                catch (Exception e)
-                {
-                    root = Environment.getExternalStorageDirectory();
-                }
-            }
-            else
-            {
-                root = new File(sharedPrefs.getString("storage_path",
-                        Environment.getExternalStorageDirectory().getAbsolutePath()));
-            }
+			try
+			{
+				root = ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
+			}
+			catch (Exception e)
+			{
+				root = Environment.getExternalStorageDirectory();
+			}
 
             // check if file can be written
             if (root.canWrite())
@@ -2976,7 +3039,6 @@ public class StatsProvider
 
 		return fileUri;
 	}
-
 
 	/**
 	 * translate the stat type (see arrays.xml) to the corresponding label
@@ -3227,9 +3289,17 @@ public class StatsProvider
 
 		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
 
-		PendingIntent sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
-				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent sender = null;
+		if (Build.VERSION.SDK_INT < 23) {
+			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		}
+		else
+		{
+			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+		}
 		// Get the AlarmManager service
 		AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
 		am.set(AlarmManager.RTC_WAKEUP, fireAt, sender);
@@ -3245,9 +3315,18 @@ public class StatsProvider
 		// check if there is an intent pending
 		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
 
-		PendingIntent sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
-				intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent sender = null;
+		if (Build.VERSION.SDK_INT < 23)
+		{
+			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		}
+		else
+		{
+			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+		}
 		if (sender != null)
 		{
 
@@ -3260,10 +3339,19 @@ public class StatsProvider
 	public static boolean isActiveMonAlarmScheduled(Context ctx)
 	{
 		Intent intent = new Intent(ctx, ActiveMonAlarmReceiver.class);
-		boolean alarmUp = (PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM, 
-		        intent, 
-		        PendingIntent.FLAG_NO_CREATE) != null);
+		boolean alarmUp = false;
+		if (Build.VERSION.SDK_INT < 23) {
+			alarmUp = (PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent,
+					PendingIntent.FLAG_NO_CREATE) != null);
+		}
+		else
+		{
+			alarmUp = (PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
+					intent,
+					PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE ) != null);
 
+		}
 		if (alarmUp)
 		{
 		    Log.i("myTag", "Alarm is already active");

@@ -4,7 +4,7 @@
     <dimen name="widget_margin">8dp</dimen>
     
     <dimen name="hist_font_size">10dp</dimen>
-    <dimen name="thumbnail_size">58dp</dimen>
+    <dimen name="thumbnail_size">48dp</dimen>
     <dimen name="large_graph_size">100dp</dimen>
     <dimen name="toolbar_icon_size">32dp</dimen>
     <dimen name="text_size_large">20sp</dimen>

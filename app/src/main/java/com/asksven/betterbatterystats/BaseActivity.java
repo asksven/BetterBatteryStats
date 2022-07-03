@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,13 +19,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-import com.asksven.betterbatterystats.appanalytics.Events;
-
-@SuppressWarnings("deprecation")
-public class BaseActivity extends ActionBarActivity
+public class BaseActivity extends AppCompatActivity
 {
 	@Override
 	protected void onResume()
@@ -34,7 +31,6 @@ public class BaseActivity extends ActionBarActivity
 		this.setTheme(BaseActivity.getTheme(this));
 		super.onResume();
 
-		Analytics.getInstance(this).trackActivity(this, this.getClass().getSimpleName());
 	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -43,29 +39,26 @@ public class BaseActivity extends ActionBarActivity
 		BbsApplication application = (BbsApplication) getApplication();
 
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String theme = sharedPrefs.getString("theme", "0");
-		if (theme.equals("0"))
-		{
-			this.setTheme(R.style.Theme_Bbs);
-			Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_LIGHT_THEME);
-		} else
-		{
-			this.setTheme(R.style.Theme_Bbs_Dark);
-			Analytics.getInstance(this).trackEvent(Events.EVENT_LAUNCH_DARK_THEME);
-		}
+		String theme = sharedPrefs.getString("theme", "2");
 		super.onCreate(savedInstanceState);
 	}
 
 	public final static int getTheme(Context ctx)
 	{
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		String theme = sharedPrefs.getString("theme", "0");
+		String theme = sharedPrefs.getString("theme", "2");
+
 		if (theme.equals("0"))
 		{
-			return R.style.Theme_Bbs;
-		} else
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+			return R.style.Theme_Bbs_Light;
+		} else if (theme.equals("1"))
 		{
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 			return R.style.Theme_Bbs_Dark;
+		} else {
+			AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+			return R.style.Theme_Bbs_Auto;
 		}
 	}
 }

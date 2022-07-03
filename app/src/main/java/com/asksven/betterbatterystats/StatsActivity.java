@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2015 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,8 @@ package com.asksven.betterbatterystats;
  * @author sven
  *
  */
-import android.annotation.TargetApi;
+
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.NotificationManager;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,13 +32,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.FileProvider;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -59,9 +54,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asksven.android.common.CommonLogSettings;
+import com.asksven.android.common.NonRootShell;
 import com.asksven.android.common.RootShell;
 import com.asksven.android.common.privateapiproxies.BatteryInfoUnavailableException;
-import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Notification;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DataStorage;
@@ -69,30 +64,22 @@ import com.asksven.android.common.utils.DateUtils;
 import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.adapters.ReferencesAdapter;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-import com.asksven.betterbatterystats.contrib.ObservableScrollView;
 import com.asksven.betterbatterystats.data.Reading;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
+import com.asksven.betterbatterystats.features.FeatureFlags;
+import com.asksven.betterbatterystats.handlers.OnBootHandler;
 import com.asksven.betterbatterystats.services.EventWatcherService;
-import com.asksven.betterbatterystats.services.WriteBootReferenceService;
 import com.asksven.betterbatterystats.services.WriteCurrentReferenceService;
 import com.asksven.betterbatterystats.services.WriteCustomReferenceService;
+import com.asksven.betterbatterystats.services.WriteTimeSeriesService;
 import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.Tracking;
-import net.hockeyapp.android.UpdateManager;
-import net.hockeyapp.android.metrics.MetricsManager;
-
-import java.text.SimpleDateFormat;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import de.cketti.library.changelog.ChangeLog;
 
 public class StatsActivity extends ActionBarListActivity 
 		implements AdapterView.OnItemSelectedListener
@@ -150,18 +137,7 @@ public class StatsActivity extends ActionBarListActivity
 
 		super.onCreate(savedInstanceState);
 
-		// HockeyApp
-		try
-		{
-			MetricsManager.register(getApplication());
-		}
-		catch (Exception e)
-		{
-			Log.e(TAG, e.getMessage());
-		}
-
-		//Log.i(TAG, "OnCreated called");
-		setContentView(R.layout.stats);	
+		setContentView(R.layout.stats);
 		
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		toolbar.setTitle(getString(R.string.app_name));
@@ -192,7 +168,7 @@ public class StatsActivity extends ActionBarListActivity
 			}
 		});
 
-		///////////////////////////////////////////////
+        ///////////////////////////////////////////////
 		// check if we have a new release
 		///////////////////////////////////////////////
 		// if yes do some migration (if required) and show release notes
@@ -211,21 +187,24 @@ public class StatsActivity extends ActionBarListActivity
 		}
 		
 		// Grant permissions if they are missing and root is available
-		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
+		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this) || !SysUtils.hasPermissionToCallHiddenApis(this))
 		{
 		    if (( RootShell.getInstance().isRooted()))
             {
 
                 // attempt to set perms using pm-comand
                 Log.i(TAG, "attempting to grant perms with 'pm grant'");
-
+				List<String> results = null;
                 String pkg = this.getPackageName();
                 RootShell.getInstance().run("pm grant " + pkg + " android.permission.BATTERY_STATS");
                 RootShell.getInstance().run("pm grant " + pkg + " android.permission.DUMP");
                 RootShell.getInstance().run("pm grant " + pkg + " android.permission.PACKAGE_USAGE_STATS");
+				//RootShell.getInstance().run("pm grant " + pkg + " android.permission.INTERACT_ACROSS_USERS");
+				RootShell.getInstance().run("settings put global hidden_api_policy 1");
 
 
-                if (SysUtils.hasBatteryStatsPermission(this))
+
+				if ((SysUtils.hasBatteryStatsPermission(this) || SysUtils.hasDumpsysPermission(this) || SysUtils.hasPackageUsageStatsPermission(this) || SysUtils.hasPermissionToCallHiddenApis(this)))
                 {
                     Log.i(TAG, "succeeded");
                 } else
@@ -235,25 +214,23 @@ public class StatsActivity extends ActionBarListActivity
             }
 		}
 
-		// Package usage stats were introduced in SDK21 so we need to make the distinction
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
-			// show install as system app screen if root available but perms missing
-			if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
-			{
-				Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
-				this.startActivity(intentSystemApp);
-			}
-		}
-		else
-		{
-			if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this))
-			{
-				Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
-				this.startActivity(intentSystemApp);
-			}
+		// On Pie and upward we disable private API checks
 
+		if (Build.VERSION.SDK_INT >= 28)
+		{
+			NonRootShell.getInstance().run("settings put global hidden_api_policy_pre_p_apps 1");
+			NonRootShell.getInstance().run("settings put global hidden_api_policy_p_apps 1");
+			NonRootShell.getInstance().run("settings put global hidden_api_policy 1");
 		}
+
+		// show install as system app screen if root available but perms missing
+		if (!SystemAppActivity.hasAllPermissions(this))
+//		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
+		{
+			Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
+			this.startActivity(intentSystemApp);
+		}
+
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 
@@ -276,7 +253,7 @@ public class StatsActivity extends ActionBarListActivity
 				this.startService(serviceIntent);
 
 				// refresh widgets
-				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+				Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
 				this.sendBroadcast(intentRefreshWidgets);
 
 			}
@@ -291,17 +268,6 @@ public class StatsActivity extends ActionBarListActivity
 	        SharedPreferences.Editor updater = sharedPrefs.edit();
 	        updater.putString("last_release", strCurrentRelease);
 	        updater.commit();
-
-// we don't need to delete refs as long as we don't change the database schema
-//			Toast.makeText(this, getString(R.string.info_deleting_refs), Toast.LENGTH_SHORT).show();
-//			ReferenceStore.deleteAllRefs(this);
-//			Intent i = new Intent(this, WriteBootReferenceService.class);
-//			this.startService(i);
-//			i = new Intent(this, WriteUnpluggedReferenceService.class);
-//			this.startService(i);
-	        ChangeLog cl = new ChangeLog(this);
-	        cl.getLogDialog().show();
-    			
     	}
 
 		///////////////////////////////////////////////
@@ -360,15 +326,6 @@ public class StatsActivity extends ActionBarListActivity
 			
 			if (LogSettings.DEBUG)
 				Log.i(TAG, "onCreate state from extra: refFrom=" + m_refFromName + " refTo=" + m_refToName);
-			
-			boolean bCalledFromNotification = extras.getBoolean(StatsActivity.FROM_NOTIFICATION, false);
-			
-			// Clear the notifications that was clicked to call the activity
-			if (bCalledFromNotification)
-			{
-		    	NotificationManager nM = (NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE);
-		    	nM.cancel(EventWatcherService.NOTFICATION_ID);
-			}
 		}
         
 		// Spinner for selecting the stat
@@ -464,56 +421,6 @@ public class StatsActivity extends ActionBarListActivity
 		super.onResume();
 		Log.i(TAG, "OnResume called");
 
-		if (Analytics.getInstance(this).isEnabled())
-		{
-			Tracking.startUsage(this);
-		}
-
-
-		// if debug we check for updates
-		try
-		{
-			PackageInfo pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			if (pinfo.packageName.endsWith("_xdaedition"))
-			{
-				UpdateManager.register(this);
-				CrashManager.register(this);
-			}
-		}
-		catch (Exception e)
-		{
-		    Log.e(TAG, "An error occured registering update/crash manager: " + e.getMessage());
-		}
-
-        // Analytics opt-in
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        boolean wasPresentedOptOutAnalytics = prefs.getBoolean("analytics_opt_out_offered", false);
-
-        if (!wasPresentedOptOutAnalytics)
-        {
-            Log.i(TAG, "Application was launched for the first time with analytics");
-            Snackbar
-                    .make(findViewById(android.R.id.content), R.string.message_first_start, Snackbar.LENGTH_LONG)
-                    .show();
-
-            Snackbar bar = Snackbar.make(findViewById(android.R.id.content), R.string.pref_app_analytics_summary, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.label_button_no, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putBoolean("analytics", false);
-                            editor.commit();
-                        }
-                    });
-
-            bar.show();
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("analytics_opt_out_offered", true);
-            editor.commit();
-        }
-
 
         Log.i(TAG, "OnResume called");
 		
@@ -562,8 +469,25 @@ public class StatsActivity extends ActionBarListActivity
 		if (!EventWatcherService.isServiceRunning(this))
 		{
 			Intent i = new Intent(this, EventWatcherService.class);
-			this.startService(i);
-		}    				
+
+			if (Build.VERSION.SDK_INT >= 26)
+            {
+                this.startForegroundService(i);
+            }
+            else
+            {
+                this.startService(i);
+            }
+		}
+
+		// check if the widget refresh service is running and start it otherwise
+		if (Build.VERSION.SDK_INT >= 23)
+        {
+            if (!OnBootHandler.isAppWidgetsJobOn(this))
+            {
+                OnBootHandler.scheduleAppWidgetsJob(this);
+            }
+        }
 
 		// make sure to create a valid "current" stat if none exists
 		// or if prefs re set to auto refresh
@@ -605,21 +529,12 @@ public class StatsActivity extends ActionBarListActivity
 		
 	}
 
+
 	/* Remove the locationlistener updates when Activity is paused */
 	@Override
 	protected void onPause()
 	{
 		super.onPause();
-
-		// Hockeyapp
-		try
-		{
-			UpdateManager.unregister();
-			Tracking.stopUsage(this);
-		}
-		catch (Exception e)
-		{
-		}
 
 		// unregister boradcast receiver for saved references
 		this.unregisterReceiver(this.m_referenceSavedReceiver);
@@ -631,15 +546,6 @@ public class StatsActivity extends ActionBarListActivity
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-
-		// Hockeyapp
-		try
-		{
-			UpdateManager.unregister();
-		}
-		catch (Exception e)
-		{
-		}
 
 	}
 
@@ -670,9 +576,23 @@ public class StatsActivity extends ActionBarListActivity
     {  
     	MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.mainmenu, menu);
-        return true;
-    }  
 
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        if (!FeatureFlags.getInstance(StatsActivity.this).isTimeSeriesEnabled())
+        {
+            if (menu.findItem(R.id.test) != null)
+            {
+                menu.removeItem(R.id.test);
+            }
+        }
+        super.onPrepareOptionsMenu(menu);
+        return true;
+    }
     /** 
      * Define menu action
      * 
@@ -691,7 +611,7 @@ public class StatsActivity extends ActionBarListActivity
 
 	        case R.id.graph:  
 	        	//Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
-	        	Intent intentGraph = new Intent(this, NewGraphActivity.class);
+	        	Intent intentGraph = new Intent(this, GraphActivity.class);
 	            this.startActivity(intentGraph);
 	        	break;
 	        	
@@ -711,10 +631,10 @@ public class StatsActivity extends ActionBarListActivity
         		Intent serviceIntent = new Intent(this, WriteCustomReferenceService.class);
         		this.startService(serviceIntent);
             	break;	            	
-//            case R.id.test:
-//    			Intent serviceIntent = new Intent(this, WriteUnpluggedReferenceService.class);
-//    			this.startService(serviceIntent);
-//    			break;	
+            case R.id.test:
+                // save time-series if selected
+                WriteTimeSeriesService.scheduleJob(StatsActivity.this);
+    			break;
 
             case R.id.about:
             	// About
@@ -723,7 +643,7 @@ public class StatsActivity extends ActionBarListActivity
             	break;
 
             case R.id.help:
-            	String url = "http://better.asksven.org/bbs-help/";
+            	String url = "https://better.asksven.io/betterbatterystats/help/";
             	Intent i = new Intent(Intent.ACTION_VIEW);
             	i.setData(Uri.parse(url));
             	startActivity(i);
@@ -961,7 +881,8 @@ public class StatsActivity extends ActionBarListActivity
 	private void doRefresh(boolean updateCurrent)
 	{
 
-		if (SysUtils.hasBatteryStatsPermission(this)) BatteryStatsProxy.getInstance(this).invalidate();
+		// do not hammer on the service
+		// if (SysUtils.hasBatteryStatsPermission(this) ) BatteryStatsProxy.getInstance(this).invalidate();
 		
 		refreshSpinners();
 
@@ -1035,9 +956,6 @@ public class StatsActivity extends ActionBarListActivity
 	    			Snackbar
 		  			  .make(findViewById(android.R.id.content), R.string.info_service_connection_error, Snackbar.LENGTH_LONG)
 		  			  .show();
-//	    			Toast.makeText(StatsActivity.this,
-//	    					getString(R.string.info_service_connection_error),
-//	    					Toast.LENGTH_LONG).show();
 
 	    		}
 	    		else
@@ -1045,17 +963,23 @@ public class StatsActivity extends ActionBarListActivity
 	    			Snackbar
 		  			  .make(findViewById(android.R.id.content), R.string.info_unknown_stat_error, Snackbar.LENGTH_LONG)
 		  			  .show();
-//	    			Toast.makeText(StatsActivity.this,
-//	    					getString(R.string.info_unknown_stat_error),
-//	    					Toast.LENGTH_LONG).show();
-	    			
+
 	    		}
 	    	}
+
 	        TextView tvSince = (TextView) findViewById(R.id.TextViewSince);
     		Reference myReferenceFrom 	= ReferenceStore.getReferenceByName(m_refFromName, StatsActivity.this);
     		Reference myReferenceTo	 	= ReferenceStore.getReferenceByName(m_refToName, StatsActivity.this);
 
-        	long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
+
+            if (FeatureFlags.getInstance(StatsActivity.this).isTimeSeriesEnabled())
+            {
+                // schedule time series upload
+                WriteTimeSeriesService.scheduleJob(StatsActivity.this);
+            }
+
+            long sinceMs = StatsProvider.getInstance().getSince(myReferenceFrom, myReferenceTo);
         	if (o != null)
         	{
         		o.setTotalTime(sinceMs);
@@ -1065,8 +989,7 @@ public class StatsActivity extends ActionBarListActivity
 	        {
 		        String sinceText = DateUtils.formatDuration(sinceMs);
 		        
-				SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(StatsActivity.this);
-		        sinceText += " " + StatsProvider.getInstance().getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
+				sinceText += " " + StatsProvider.getInstance().getBatteryLevelFromTo(myReferenceFrom, myReferenceTo, !sharedPrefs.getBoolean("show_bat_details", false));
 		        
 		        tvSince.setText(sinceText);
 		        if (LogSettings.DEBUG) Log.i(TAG, "Since " + sinceText);
@@ -1122,14 +1045,26 @@ public class StatsActivity extends ActionBarListActivity
 	}
 	
 
-	public Dialog getShareDialog()
+	public AlertDialog getShareDialog()
 	{
 	
 		final ArrayList<Integer> selectedSaveActions = new ArrayList<Integer>();
 
 		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		
+		AlertDialog.Builder dialog = new AlertDialog.Builder(StatsActivity.this);
+
+/*
+		dialog.setTitle("Alert");
+		dialog.setMessage("Alert message to be shown");
+		dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+		return dialog;
+*/
+
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean saveDumpfile = sharedPrefs.getBoolean("save_dumpfile", true);
 		boolean saveLogcat = sharedPrefs.getBoolean("save_logcat", false);
@@ -1171,9 +1106,9 @@ public class StatsActivity extends ActionBarListActivity
         layout.addView(editDescription, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		
 		//----
-		
+
 		// Set the dialog title
-		builder.setTitle(R.string.title_share_dialog)
+		dialog.setTitle(R.string.title_share_dialog)
 				.setMultiChoiceItems(R.array.saveAsLabels, new boolean[]{saveDumpfile, saveLogcat, saveDmesg}, new DialogInterface.OnMultiChoiceClickListener()
 				{
 					@Override
@@ -1209,17 +1144,38 @@ public class StatsActivity extends ActionBarListActivity
 						// save as text is selected
 						if (selectedSaveActions.contains(0))
 						{
-							attachements.add(reading.writeDumpfile(StatsActivity.this, editDescription.getText().toString()));
+							Uri fileUri = reading.writeDumpfile(StatsActivity.this, editDescription.getText().toString());
+							File file = new File(fileUri.getPath());
+							Uri shareableUri = FileProvider.getUriForFile(
+									StatsActivity.this,
+									StatsActivity.this.getPackageName() + ".provider",
+									file);
+							attachements.add(shareableUri);
 						}
 						// save logcat if selected
 						if (selectedSaveActions.contains(1))
 						{
-							attachements.add(StatsProvider.getInstance().writeLogcatToFile());
+							Uri fileUri = StatsProvider.getInstance().writeLogcatToFile();
+							File file = new File(fileUri.getPath());
+							Uri shareableUri = FileProvider.getUriForFile(
+									StatsActivity.this,
+									StatsActivity.this.getPackageName() + ".provider",
+									file);
+							attachements.add(shareableUri);
+
 						}
 						// save dmesg if selected
 						if (selectedSaveActions.contains(2))
 						{
-							attachements.add(StatsProvider.getInstance().writeDmesgToFile());
+//							attachements.add();
+							Uri fileUri = StatsProvider.getInstance().writeDmesgToFile();
+							File file = new File(fileUri.getPath());
+							Uri shareableUri = FileProvider.getUriForFile(
+									StatsActivity.this,
+									StatsActivity.this.getPackageName() + ".provider",
+									file);
+							attachements.add(shareableUri);
+
 						}
 
 
@@ -1227,8 +1183,9 @@ public class StatsActivity extends ActionBarListActivity
 						{
 							Intent shareIntent = new Intent();
 							shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+
 							shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachements);
-							shareIntent.setType("text/*");
+							shareIntent.setType("text/plain");
 							startActivity(Intent.createChooser(shareIntent, "Share info to.."));
 						}
 					}
@@ -1261,7 +1218,7 @@ public class StatsActivity extends ActionBarListActivity
 							{
 								StatsProvider.getInstance().writeDmesgToFile();
 							}
-						
+
 							Snackbar
 							  .make(findViewById(android.R.id.content), getString(R.string.info_files_written) + ": " + StatsProvider.getWritableFilePath(), Snackbar.LENGTH_LONG)
 							  .show();
@@ -1283,8 +1240,8 @@ public class StatsActivity extends ActionBarListActivity
 							// do nothing
 						}
 					});
-	
-		return builder.create();
+
+		return dialog.create();
 	}
 	
 }

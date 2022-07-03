@@ -31,7 +31,7 @@ import android.util.Log;
 public class Wakelock
 {
 	private static WakeLock m_saveWakelock;
-	static final String WAKELOCK = "BBS_WAKELOCK_WHILE_SAVING_REF";
+	static final String WAKELOCK = "bbs:wakelock_while_saving_ref"; //BBS_WAKELOCK_WHILE_SAVING_REF";
 	static final String TAG = "Wakelock";
 	static final long TIMEOUT = 120 * 1000; // we should not hold a wakelock for longer that 30s
 	

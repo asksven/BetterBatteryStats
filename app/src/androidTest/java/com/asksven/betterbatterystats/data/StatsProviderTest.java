@@ -1,20 +1,20 @@
 package com.asksven.betterbatterystats.data;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
 import android.util.Log;
 
 import com.asksven.android.common.privateapiproxies.StatElement;
 
 import java.util.ArrayList;
 
-import android.support.test.runner.AndroidJUnit4;
-import android.util.Pair;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
@@ -33,7 +33,7 @@ public class StatsProviderTest
 	@Before
 	public void createStatsProvider() throws Exception
 	{
-		Context ctx = InstrumentationRegistry.getContext();
+		Context ctx = ApplicationProvider.getApplicationContext();
 		assertNotNull(ctx);
 		mStats = StatsProvider.getInstance();
 
@@ -51,6 +51,15 @@ public class StatsProviderTest
 	public void getCurrentSensorStatList() throws Exception
 	{
 		ArrayList<StatElement> res = mStats.getCurrentSensorStatList(true);
+		assertNotNull(res);
+		Log.i(TAG, "Retrieved " + res.size() + " elements");
+
+	}
+
+	@Test
+	public void getCurrentAlarmsStatList() throws Exception
+	{
+		ArrayList<StatElement> res = mStats.getCurrentAlarmsStatList(true);
 		assertNotNull(res);
 		Log.i(TAG, "Retrieved " + res.size() + " elements");
 
@@ -104,7 +113,7 @@ public class StatsProviderTest
 	@Test
 	public void getRequestedPermissionListForPackage() throws Exception
 	{
-		ArrayList<String> res = mStats.getRequestedPermissionListForPackage(InstrumentationRegistry.getContext(), getPackageName());
+		ArrayList<String> res = mStats.getRequestedPermissionListForPackage(ApplicationProvider.getApplicationContext(), getPackageName());
 		assertNotNull(res);
 		assertTrue(res.size() > 0);
 	}
@@ -112,7 +121,7 @@ public class StatsProviderTest
 	@Test
 	public void getReceiverListForPackage() throws Exception
 	{
-		ArrayList<String> res = mStats.getReceiverListForPackage(InstrumentationRegistry.getContext(), getPackageName());
+		ArrayList<String> res = mStats.getReceiverListForPackage(ApplicationProvider.getApplicationContext(), getPackageName());
 		assertNotNull(res);
 		assertTrue(res.size() > 0);
 
@@ -121,7 +130,7 @@ public class StatsProviderTest
 	@Test
 	public void getServiceListForPackage() throws Exception
 	{
-		ArrayList<String> res = mStats.getServiceListForPackage(InstrumentationRegistry.getContext(), getPackageName());
+		ArrayList<String> res = mStats.getServiceListForPackage(ApplicationProvider.getApplicationContext(), getPackageName());
 		assertNotNull(res);
 		assertTrue(res.size() > 0);
 
@@ -138,7 +147,7 @@ public class StatsProviderTest
 
 	private String getPackageName()
 	{
-		String ret = InstrumentationRegistry.getTargetContext().getApplicationContext().getPackageName();
+		String ret = ApplicationProvider.getApplicationContext().getPackageName();
 		Log.i(TAG, "Current package: " + ret);
 
 		return ret;

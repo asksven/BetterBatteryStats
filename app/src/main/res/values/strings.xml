@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="perm_rationale_READ_PHONE_STATE">READ_PHONE_STATE: This permission is required to detect when the phone was turned on and off.</string>
+    <string name="perm_rationale_RECEIVE_BOOT_COMPLETED">RECEIVE_BOOT_COMPLETED: This permission is required to collect \"on boot\" stats.</string>
+    <string name="perm_rationale_INTERNET">INTERNET: This permission is required for analytics purposes.</string>
+    <string name="perm_rationale_ACCESS_NETWORK_STATE">ACCESS_NETWORK_STATE: This permission is required to connect network stats.</string>
+    <string name="perm_rationale_ACCESS_WIFI_STATE">ACCESS_WIFI_STATE: This permission is required to access Wifi stats.</string>
+    <string name="perm_rationale_PACKAGE_USAGE_STATS">PACKAGE_USAGE_STATS: This permission is required to access package stats.</string>
+    <string name="perm_rationale_APPOPS_USAGE_STATS">APPOPS_USAGE_STATS: This permission is required to access alarm stats.Please grant it in the following dialog.</string>
+    <string name="perm_rationale_READ_EXTERNAL_STORAGE">READ_EXTERNAL_STORAGE: This permission is required to access files, i.e. read the battery stats .</string>
+    <string name="perm_rationale_WRITE_EXTERNAL_STORAGE">WRITE_EXTERNAL_STORAGE: This permission is required to access the battery stats .</string>
+
+    <string name="event_processing_channel_name" translatable="false">BBS Event Processing</string>
+    <string name="event_processing_channel_description" translatable="false">BBS Notification for Backgroud Service</string>
 
     <string name="plugin_name">Better Battery Stats</string>
+
+    <string name="foreground_service_text">Event processing</string>
     <string name="message_hint">Scheduled Toast</string>
     <string name="message_hint_saveref">Save a Custom Reference</string>
     <string name="message_hint_savestat">Save a Text Dumpfile</string>
@@ -110,6 +124,7 @@
     <string name="label_raw_stats">Raw Stats</string>
     <string name="label_about">About</string>
     <string name="label_credits">Credits</string>
+    <string name="label_changelog">Change Log</string>
     <string name="label_help">Help</string>
     <string name="label_howto">How-To</string>
     <string name="label_system_app">System App</string>
@@ -139,27 +154,29 @@
     <string name="label_about_translation5">French by xavihernandez @ xda</string>
     <string name="label_about_translation6">German by Minty123 @ xda</string>
     <string name="label_about_translation7">Brazilian Portuguese by @caiorrs</string>
+    <string name="label_about_translation8">Nederlands door @Matthias-vdE</string>
+
     <string name="label_about_follow">Follow me on Twitter</string>
     <string name="label_about_rate">Rate / Review on Google Play</string>
     <string name="label_about_xda">Thread on XDA</string>
 
     <!-- Preferences -->
+    <string name="label_theme_system">System (default)</string>
     <string name="label_theme_dark">Dark</string>
     <string name="label_theme_light">Light</string>
+
     <string name="pref_theme_title">Theme</string>
     <string name="pref_theme_summary">Switch themes</string>
 
     <!-- System app activity -->
-    <string name="expl_system_app">If your phone has root BBS will automatically grant the required permissions.\nFor unrooted devices the permissions can be granted using ADB.</string>
-    <string name="expl_adb_gplay" translatable="false">adb -d shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats android.permission.DUMP\n\nadb -d shell pm grant com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS</string>
-    <string name="expl_adb_xda" translatable="false">adb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="expl_system_app">If your phone has root BBS will automatically grant these required permissions.\nFor unrooted devices the permissions can be granted using ADB.</string>
+    <string name="expl_private_api">Starting with SDK28 Android blocks certain private APIs that are needed to monitor battery. In order to unblock these you need to run:</string>
+    <string name="expl_adb_gplay" translatable="false">adb -d shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats android.permission.DUMP\n\nadb -d shell pm\ grant com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="expl_adb_xda" translatable="false">adb -d\ shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="expl_adb2_api28" translatable="false">adb -d shell settings put global hidden_api_policy_pre_p_apps 1\n\nadb -d shell settings put global hidden_api_policy_p_apps 1</string>
+    <string name="expl_adb2_api29" translatable="false">adb -d shell settings put global hidden_api_policy 1</string>
 
-    <string name="install_system_app">Install as system app</string>
-    <string name="uninstall_system_app">Uninstall system app</string>
-    <string name="info_installed_system_app">Installed system app. Please reboot to activate.</string>
-    <string name="info_uninstalled_system_app">Uninstalled system app: your preferences have been reset. Please reboot to clean up and update your preferences.</string>
     <string name="info_succeeded">Succeeded</string>
-    <string name="info_failed">Failed, try recovery ZIP</string>
     <string name="info_root_required">In order to use this feature the app must have root permissions</string>
     <string name="info_unknown_state">Error: could not resolve what changed</string>
     <string name="info_service_connection_error">BatteryInfo Service could not be contacted</string>
@@ -178,13 +195,17 @@
     <string name="info_fallback_to_default">Fallback to default reference</string>
     <string name="label_granted">granted</string>
     <string name="label_not_granted">not granted</string>
+    <string name="label_not_needed">not needed</string>
+    <string name="label_failed">Failed</string>
+    <string name="label_success">Success</string>
+    <string name="label_fallback">fallback</string>
 
     <!-- Preferences labels and texts -->
     <string name="pref_section_display">Display</string>
     <string name="pref_filter_data_title">Filter stats</string>
     <string name="pref_filter_data_summary">Enable the filtering of data to non-zero values</string>
     <string name="pref_show_bat_details_title">Battery Details</string>
-    <string name="pref_show_bat_details_summary">Show battery from/to %% on screen</string>
+    <string name="pref_show_bat_details_summary">Show battery from/to pct. on screen</string>
     <string name="pref_show_gauge_title">Show Bars</string>
     <string name="pref_show_gauge_summary">Show bars instead of pie gauge</string>
     <string name="pref_graph_bar_height_title">Height for graph bars</string>
@@ -213,8 +234,8 @@
     <string name="pref_section_watchdog">Watchdog</string>
     <string name="pref_enable_watchdog_title">Enable</string>
     <string name="pref_enable_watchdog_summary">Enables watchdog processing</string>
-    <string name="pref_watchdog_on_unlock_title">Watchdog on unlock</string>
-    <string name="pref_watchdog_on_unlock_summary">Watchdog runs upon \'unlock\' (else on \'screen on\')</string>
+    <string name="pref_watchdog_on_unlock_title">Reference on unlock</string>
+    <string name="pref_watchdog_on_unlock_summary">Reference is saved on \'unlock\' (else on \'screen on\')</string>
     <string name="pref_charged_trigger_percentage_title">Minimum percentage that counts as charged</string>
     <string name="pref_charged_trigger_percentage_summary">If battery is over this percentage when charging cable is unplugged, then Since Charged reference is stored</string>
     <string name="pref_section_warnings">Warnings</string>
@@ -232,8 +253,6 @@
     <string name="pref_section_advanced">Advanced</string>
     <string name="pref_debug_logging_summary">Add debug info to logcat</string>
     <string name="pref_debug_logging_title">Debug</string>
-    <string name="pref_files_to_private_storage_summary">Write files to /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
-    <string name="pref_files_to_private_storage_title">Private storage</string>
     <string name="pref_select_dir_summary">Select where to write dumpfiles</string>
     <string name="pref_select_dir_title">Select Output Directory</string>
     <string name="pref_select_dir_button">Select</string>
@@ -253,21 +272,16 @@
     <string name="pref_screen_permissions_summary">Check for the required permissions</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Import and Export Preferences</string>
-    <string name="pref_app_analytics_title">Analytics</string>
-    <string name="pref_app_analytics_summary">Help improving app: allow analytics</string>
 
-
-    <string name="pref_section_settings">Settings</string>
+    <string name="pref_section_misc">Misc</string>
     <string name="pref_screen_widgets_title">Widgets</string>
-    <string name="pref_screen_legacy_widgets_title">Legacy Widgets</string>
-    <string name="widget_refresh_freq_title">Refresh Frequency</string>
-    <string name="widget_refresh_freq_summary">Set how often the Widgets will update (they always will when screen is turned on)</string>
-    <string name="widget_refresh_on_screen_on_title">Screen on refresh</string>
-    <string name="widget_refresh_on_screen_on_summary">Refresh when screen goes on</string>
+    <string name="pref_screen_legacy_widgets_title">Text Widget</string>
     <string name="widget_default_stat_title">Default stat to open</string>
     <string name="widget_default_stat_summary">Set the stat to be called from widget</string>
     <string name="widget_show_stat_type_title">Show Title</string>
     <string name="widget_show_stat_type_summary">Show Stat Type</string>
+    <string name="widget_show_text_color_title">Text colored</string>
+    <string name="widget_show_text_color_summary">Show colors on text-only widget</string>
     <string name="widget_fallback_stat_type_title">Fallback stat type</string>
     <string name="widget_fallback_stat_type_summary">Set the fallback stat type to be shown in the widget if the primary one has no reference</string>
     <string name="pref_category_widgets_2x2_and_2x1">2x2 and 2x1 Widgets</string>
@@ -275,8 +289,8 @@
     <string name="widget_default_stat_type_summary">Set the stat type to be shown in the widget</string>
     <string name="large_widget_font_size_title">Font Size</string>
     <string name="large_widget_font_size_summary">Set the font size to be used in the widget</string>
-    <string name="large_widget_show_pct_title">Show %</string>
-    <string name="large_widget_show_pct_summary">Show durations in % of total time</string>
+    <string name="large_widget_show_pct_title">Show only %</string>
+    <string name="large_widget_show_pct_summary">Show durations only in % of total time</string>
     <string name="widget_opacity_title">Opacity</string>
     <string name="widget_opacity_summary">Adjust the widget opacity</string>
     <string name="widget_bg_opacity_title">Background Opacity</string>

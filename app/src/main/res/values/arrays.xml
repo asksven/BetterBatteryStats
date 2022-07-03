@@ -30,6 +30,7 @@
         <item name="0">Dumpfile</item>
         <item name="1">logcat</item>
         <item name="2">dmesg</item>
+<!--        <item name="3">time series</item> -->
     </string-array>
     <string-array name="statValues">
         <item name="0">0</item>
@@ -68,20 +69,6 @@
         <item name="2">10</item>
         <item name="3">12</item>
     </string-array>
-    <string-array name="widgetUpdateFreqLabels">
-        <item name="0">@string/widget_freq_label_none</item>
-        <item name="1">@string/widget_freq_label_5</item>
-        <item name="2">@string/widget_freq_label_15</item>
-        <item name="3">@string/widget_freq_label_30</item>
-        <item name="4">@string/widget_freq_label_60</item>
-    </string-array>
-    <string-array name="widgetUpdateFreqValues">
-        <item name="0">0</item>
-        <item name="1">5</item>
-        <item name="2">15</item>
-        <item name="3">30</item>
-        <item name="4">60</item>
-    </string-array>
     <string-array name="widgetFontSizeLabels">
         <item name="0">@string/widget_fontsize_16</item>
         <item name="1">@string/widget_fontsize_14</item>
@@ -99,10 +86,12 @@
     <string-array name="themeLabels">
         <item>@string/label_theme_light</item>
         <item>@string/label_theme_dark</item>
+        <item>@string/label_theme_system</item>
     </string-array>
     <string-array name="themeValues" translatable="false">
         <item name="1">0</item>
         <item name="2">1</item>
+        <item name="2">2</item>
     </string-array>
     
     <string-array name="thumbnailSizeLabels">

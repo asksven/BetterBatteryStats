@@ -18,6 +18,7 @@ package com.asksven.betterbatterystats.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -27,7 +28,8 @@ import com.asksven.betterbatterystats.Wakelock;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.handlers.OnBootHandler;
+import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 /**
  * @author sven
@@ -51,11 +53,7 @@ public class WriteScreenOnReferenceService extends IntentService
 		try
 		{
 			
-//			// Clear any notifications taht may still be shown as the reference in going to be overwritten
-//	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
-//	    	nM.cancel(EventWatcherService.NOTFICATION_ID);
-
-			// Store the "since screen off" ref
+			// Store the "since screen on" ref
 			Wakelock.aquireWakelock(this);
 			StatsProvider.getInstance().setReferenceScreenOn(0);
 
@@ -64,18 +62,17 @@ public class WriteScreenOnReferenceService extends IntentService
 
 			StatsProvider.getInstance().setCurrentReference(0);
 
-//			// save a new current ref
-//			StatsProvider.getInstance(this).setCurrentReference(0);
-//			i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
-//		    this.sendBroadcast(i);
-
-			
-			// Build the intent to update the widget
-			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
-			this.sendBroadcast(intentRefreshWidgets);
-			
-
-			
+			// Refresh the widgets
+			if (Build.VERSION.SDK_INT >= 23)
+            {
+                OnBootHandler.scheduleAppWidgetsJobImmediate(this);
+            }
+            else
+            {
+                // Build the intent to update the widget
+                Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
+                this.sendBroadcast(intentRefreshWidgets);
+            }
 		}
 		catch (Exception e)
 		{
@@ -96,8 +93,7 @@ public class WriteScreenOnReferenceService extends IntentService
 	@Override
 	public void onDestroy()
 	{
-		Log.e(TAG, "Destroyed at" + DateUtils.now());
+		Log.i(TAG, "Destroyed at" + DateUtils.now());
 		Wakelock.releaseWakelock();
 	}
-
 }

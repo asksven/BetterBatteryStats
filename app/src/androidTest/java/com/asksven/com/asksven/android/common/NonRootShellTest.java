@@ -1,21 +1,8 @@
 package com.asksven.android.common;
 
-import android.app.AlarmManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.IBinder;
-import android.os.SystemClock;
-import android.support.test.InstrumentationRegistry;
-import android.util.Log;
-import android.util.SparseArray;
-
-import com.asksven.android.common.CommonLogSettings;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +41,7 @@ public class NonRootShellTest
     }
 
     @Test
-    public void test_dumpsys() throws Exception
+    public void test_dumpsys_alam() throws Exception
     {
         List<String> res = new ArrayList<String>();
         String command = "dumpsys alarm";
@@ -65,5 +52,16 @@ public class NonRootShellTest
     }
 
 
+    @Test
+    public void test_dumpsys() throws Exception
+    {
+        List<String> res = new ArrayList<String>();
+        String command = "dumpsys";
+        res = shell.run(command);
+
+        assertTrue(res != null);
 
     }
+
+
+}

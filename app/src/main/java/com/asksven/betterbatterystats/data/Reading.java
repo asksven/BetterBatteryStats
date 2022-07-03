@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2014 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,36 @@
  */
 package com.asksven.betterbatterystats.data;
 
+import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.net.Uri;
+import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.asksven.android.common.kernelutils.State;
+import com.asksven.android.common.kernelutils.Wakelocks;
+import com.asksven.android.common.nameutils.UidNameResolver;
+import com.asksven.android.common.privateapiproxies.Alarm;
+import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
+import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
+import com.asksven.android.common.privateapiproxies.NetworkUsage;
+import com.asksven.android.common.privateapiproxies.Process;
+import com.asksven.android.common.privateapiproxies.SensorUsage;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.privateapiproxies.Wakelock;
+import com.asksven.android.common.utils.DataStorage;
+import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
+import com.asksven.betterbatterystats.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -23,38 +53,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-
-import android.annotation.SuppressLint;
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.privateapiproxies.NativeKernelWakelock;
-import com.asksven.android.common.kernelutils.State;
-import com.asksven.android.common.kernelutils.Wakelocks;
-import com.asksven.android.common.nameutils.UidNameResolver;
-import com.asksven.android.common.privateapiproxies.Alarm;
-import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.NetworkUsage;
-import com.asksven.android.common.privateapiproxies.SensorUsage;
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.privateapiproxies.Wakelock;
-import com.asksven.android.common.privateapiproxies.Process;
-import com.asksven.android.common.utils.DataStorage;
-import com.asksven.android.common.utils.DateUtils;
-import com.asksven.android.common.utils.SysUtils;
-import com.asksven.android.contrib.Util;
-import com.asksven.betterbatterystats.R;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * A reading represents the data that was collected on a device between two references.
@@ -65,35 +63,36 @@ import com.google.gson.GsonBuilder;
 public class Reading implements Serializable
 {
 	
-	static final String TAG = "Reading";
-	String bbsVersion;
-	String creationDate;
-	String statType;
-	String duration;
-	long totalTime;
-	String buildVersionRelease;
-	String buildBrand;
-	String buildDevice;
-	String buildManufacturer;
-	String buildModel;
-	String osVersion;
-	String buildBootloader;
-	String buildHardware;
-	String buildFingerprint;
-	String buildId;
-	String buildTags;
-	String buildUser;
-	String buildProduct;
-	String buildRadio;
+	static 	final String TAG = "Reading";
+	String 	bbsVersion;
+	String 	creationDate;
+	Long 	readingTimeMs;
+	String 	statType;
+	String 	duration;
+	long 	totalTime;
+	String 	buildVersionRelease;
+	String 	buildBrand;
+	String 	buildDevice;
+	String 	buildManufacturer;
+	String 	buildModel;
+	String 	osVersion;
+	String 	buildBootloader;
+	String 	buildHardware;
+	String 	buildFingerprint;
+	String 	buildId;
+	String 	buildTags;
+	String 	buildUser;
+	String 	buildProduct;
+	String 	buildRadio;
 	boolean rootPermissions;
 	boolean batteryStatsPermGranted;
-	boolean xposedBatteryStatsEnabled;
-	String seLinuxPolicy;
-	int batteryLevelLost;
-	int batteryVoltageLost;
-	String batteryLevelLostText;
-	String batteryVoltageLostText;
-	String note;
+	String 	batteryServiceState;
+	String 	seLinuxPolicy;
+	int 	batteryLevelLost;
+	int 	batteryVoltageLost;
+	String 	batteryLevelLostText;
+	String 	batteryVoltageLostText;
+	String 	note;
 	
 	
 	ArrayList<StatElement> otherStats;
@@ -137,6 +136,7 @@ public class Reading implements Serializable
 		}
 				
 		creationDate 		= DateUtils.now();
+		readingTimeMs       = refTo.m_creationTime;
 		statType 			= refFrom.getLabel() + " to "+ refTo.getLabel();
 		totalTime			= StatsProvider.getInstance().getSince(refFrom, refTo);
 		duration 			= DateUtils.formatDuration(totalTime);
@@ -172,7 +172,30 @@ public class Reading implements Serializable
 		SharedPreferences sharedPrefs 	= PreferenceManager.getDefaultSharedPreferences(context);
 		
 		batteryStatsPermGranted = SysUtils.hasBatteryStatsPermission(context);
-		xposedBatteryStatsEnabled = sharedPrefs.getBoolean("ignore_system_app", false);
+
+		// Determine the status of the batteryinfo service
+		BatteryStatsProxy stats = BatteryStatsProxy.getInstance(context);
+		String status = "";
+		if (stats.initFailed())
+		{
+			status = "Failed";
+			if (!stats.getError().equals(""))
+			{
+				status = status + ": " + stats.getError();
+			}
+
+		}
+		else
+		{
+			status = "Success";
+			if (stats.isFallback())
+			{
+				status = status + " (fallback)";
+			}
+		}
+
+		batteryServiceState = status;
+
 		seLinuxPolicy = SysUtils.getSELinuxPolicy();
 		
 		batteryLevelLost 		= StatsProvider.getInstance().getBatteryLevelStat(refFrom, refTo);
@@ -369,8 +392,7 @@ public class Reading implements Serializable
 		out.write("Root perms: " + rootPermissions + "\n");
 		out.write("SELinux Policy: " + seLinuxPolicy + "\n");
 		out.write("BATTERY_STATS permission granted: " + batteryStatsPermGranted + "\n");
-		out.write("XPosed BATTERY_STATS module enabled: " + xposedBatteryStatsEnabled + "\n");
-		
+		out.write("BATTERY_STATS status: " + batteryServiceState + "\n");
 
 		out.write("============\n");
 		out.write("Battery Info\n");

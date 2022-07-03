@@ -3,25 +3,21 @@
  */
 package com.asksven.android.common.kernelutils;
 
+import android.os.SystemClock;
+import android.util.Log;
+
+import com.asksven.android.common.NonRootShell;
+
+import com.asksven.android.common.privateapiproxies.Misc;
+import com.asksven.android.common.privateapiproxies.StatElement;
+import com.asksven.android.common.utils.DateUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.os.SystemClock;
-import android.util.Log;
-
-
-
-
-
-
 //import com.asksven.android.contrib.Shell;
-import com.asksven.android.common.NonRootShell;
-import com.asksven.android.common.RootShell;
-import com.asksven.android.common.privateapiproxies.Misc;
-import com.asksven.android.common.privateapiproxies.StatElement;
-import com.asksven.android.common.utils.DateUtils;
 
 /**
  * Parses the content of 'dumpsys battery'
@@ -37,7 +33,7 @@ public class OtherStatsDumpsys
 	 * @return
 	 * @throws Exception
 	 */
-	public static ArrayList<StatElement> getOtherStats(boolean showWifi, boolean showBt, boolean useRoot)
+	public static ArrayList<StatElement> getOtherStats(boolean showWifi, boolean showBt)
 	{
 		final String START_PATTERN = "Statistics since last charge";
 		final String STOP_PATTERN = "Statistics since last unplugged";
@@ -45,16 +41,10 @@ public class OtherStatsDumpsys
 		ArrayList<StatElement> myOther = null;
 		long nTotalCount = 0;
 		List<String> res = null;
-		
-		if (useRoot)
-		{
-			res = RootShell.getInstance().run("dumpsys batterystats");
-		}
-		else
-		{
-			res = NonRootShell.getInstance().run("dumpsys batterystats");
-		}
-			
+		boolean useRoot = false;
+
+        res = NonRootShell.getInstance().run("dumpsys batterystats");
+
 		//List<String> res = getTestData();
 		
 		if ((res != null) && (res.size() != 0))

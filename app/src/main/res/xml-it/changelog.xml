@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<changelog>
-    <release version="2.4" versioncode="94">
-        <change>Corretto esportazione/importazione delle impostazioni</change>
-        <change>Root necessario solo per l\'installazioe</change>
-    </release>
-
-</changelog>

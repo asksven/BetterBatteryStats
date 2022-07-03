@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_shape"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/stat_type"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        style="@style/Theme.asksven.TextAppearance.Tiny.Bold"
+        android:textColor="@color/primary_text_default_material_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="StatType"
+        android:singleLine="true"
+        android:textSize="10sp"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <!--android:background="@drawable/large_widget_shape"-->
+
+        <LinearLayout
+            android:id="@+id/layoutLegend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <include layout="@layout/text_widget_legend" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

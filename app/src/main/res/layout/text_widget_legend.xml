@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutLegend"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewSince"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="@string/label_widget_since"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:singleLine="true"
+            android:textSize="10sp" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewDeepSleep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="@string/label_widget_deep_sleep"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/deep_sleep"
+            android:singleLine="true"
+            android:textSize="10sp" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewScreenOn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="@string/label_widget_screen_on"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/screen_on"
+            android:textSize="10sp"
+            android:singleLine="true">
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewAwake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="@string/label_widget_awake"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/awake"
+            android:textSize="10sp"
+            android:singleLine="true">
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewKWL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="@string/label_widget_kernel_wakelock"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/kwl"
+            android:textSize="10sp"
+            android:singleLine="true">
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewPWL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="@string/label_widget_partial_wakelock"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/pwl"
+            android:textSize="10sp"
+            android:singleLine="true">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:id="@+id/layoutLegendValues"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewSinceVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="50m"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:textSize="10sp"
+            android:singleLine="true"/>
+
+        <TextView
+            android:id="@+id/textViewDeepSleepVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="50m"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:textSize="10sp"
+            android:singleLine="true">
+<!--            android:ellipsize="end"> -->
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewScreenOnVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="50m"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:textSize="10sp"
+            android:singleLine="true">
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewAwakeVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="50m"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:textSize="10sp"
+            android:singleLine="true">
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewKWLVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="50m"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:textSize="10sp"
+            android:singleLine="true">
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewPWLVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="0dp"
+            android:text="50m"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/primary_text_default_material_dark"
+            android:textSize="10sp"
+            android:singleLine="true">
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

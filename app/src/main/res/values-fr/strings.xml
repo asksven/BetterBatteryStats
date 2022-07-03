@@ -133,12 +133,7 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">Sur Android 4.4, Google a retiré l\'autorisation aux applications utilisateurs d\'accéder aux statistiques de la batterie.\n\nIl est recommandé d\'installer BetterBatteryStats comme une application système (cela n\'empêche pas d\'installer les mises à jour).\n\Désinstaller/réinstaller comme application système peut être nécessaire si les autorisations changent.</string>
-    <string name="install_system_app">Installer comme application système</string>
-    <string name="uninstall_system_app">Désinstaller l\'application système</string>
-    <string name="info_installed_system_app">Installé comme application système. Veuillez redémarrer.</string>
-    <string name="info_uninstalled_system_app">Application système désinstallée : vos préférences ont été réinitialisées. Veuillez redémarrer pour nettoyer et mettre à jour vos préférences.</string>
     <string name="info_succeeded">Réussi</string>
-    <string name="info_failed">Échoué, essayez le ZIP pour recovery</string>
     <string name="info_root_required">Afin d\'utiliser cette fonctionnalité, les fonctionnalités \'Root\' doivent être activées. (Paramètres avancés)</string>
     <string name="info_unknown_state">Erreur : ne peut pas déterminer ce qui a changé</string>
     <string name="info_service_connection_error">Le service BatteryInfo n\'a pas pu être contacté</string>
@@ -203,8 +198,6 @@
     <string name="pref_section_advanced">Avancé</string>
     <string name="pref_debug_logging_summary">Ajouter les informations de débuggage dans le logcat</string>
     <string name="pref_debug_logging_title">Débuggage</string>
-    <string name="pref_files_to_private_storage_summary">Écrire les fichiers vers /sdcard/Android/data/com.asksven.betterbatterystats/files/Download</string>
-    <string name="pref_files_to_private_storage_title">Stockage privé</string>
 
 
     <string name="pref_developer_title">Activer pendant le chargement</string>
@@ -216,19 +209,10 @@
     <string name="pref_save_logcat_summary">Partager le logcat</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">Partager le dmesg</string>
-    <string name="pref_force_alarms_api_title">Alarmes en utilisant l\'API</string>
-    <string name="pref_force_alarms_api_summary">Forcer la récupération des Alarmes en utilisant l\'API</string>
-    <string name="pref_force_kwl_api_title">Wakelocks Kernel en utilisant l\'API</string>
-    <string name="pref_force_kwl_api_summary">Forcer la récupération des Wakelocks Kernel en utilisant l\'API</string>
     <string name="pref_screen_import_export_title">Importer/Exporter</string>
     <string name="pref_screen_import_export_summary">Importer et Exporter les préférences</string>
     
-    <string name="pref_section_settings">Paramètres</string>
     <string name="pref_screen_widgets_title">Widgets</string>
-    <string name="widget_refresh_freq_title">Fréquence d\'actualisation</string>
-    <string name="widget_refresh_freq_summary">Configurer la fréquence d\'actualisation des Widgets (ils s\'actualisent automatiquement lorsque l\'écran est allumé)</string>
-    <string name="widget_refresh_on_screen_on_title">Actualisation allumage écran</string>
-    <string name="widget_refresh_on_screen_on_summary">Actualiser lorsque l\'écran s\'allume</string>
     <string name="widget_default_stat_title">Statistique à ouvrir par défaut</string>
     <string name="widget_default_stat_summary">Configurer la statistique appelée par le widget</string>    
     <string name="widget_show_stat_type_title">Afficher le titre</string>
@@ -254,7 +238,6 @@
     
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">L\'appareil est branché : aucune statistique</string>
-    <string name="NO_ROOT_ERR">Cette statistique requiert le root</string>
     <string name="NO_PERM_ERR">Cette statistique requiert l\'autorisation BATTERY_STATS</string>
     <string name="NO_REF_ERR">Aucune référence n\'a encore été configurée</string>
     <string name="NO_STATS">Aucune statistique n\'a encore été collectée</string>
@@ -278,5 +261,13 @@
     <string name="widget_fontsize_12">Normale (12)</string>
     <string name="widget_fontsize_10">*Petite (10)</string>
     <string name="widget_fontsize_8">Très petite (8)</string>
+    <string name="widget_show_text_color_title">Texte coloré</string>
+    <string name="widget_show_text_color_summary">Affiche le text en couleur pour le widget simple</string>
+    <string name="label_about_translation8">Neerlandais par @Matthias-vdE</string>
+    <string name="label_changelog">Historique</string>
+    <string name="label_discard_changes">Ignorer les changements</string>
+    <string name="label_about_translation7">Portugais Bresilien par @caiorrs</string>
+    <string name="label_about_xda">Thread sur XDA</string>
+    <string name="info_files_written">Fichers ont été écris</string>
 
 </resources>

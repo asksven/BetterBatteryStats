@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-14 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.v7.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
@@ -33,12 +34,10 @@ import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
-import com.asksven.betterbatterystats.appanalytics.Analytics;
-import com.asksven.betterbatterystats.appanalytics.Events;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 import java.util.ArrayList;
 
@@ -66,7 +65,6 @@ public class WatchdogProcessingService extends IntentService
 
 			if (true)
 			{
-				Analytics.getInstance(this).trackEvent(Events.EVENT_PROCESS_WATCHDOG);
 
 				int minScreenOffDurationMin 	= sharedPrefs.getInt("watchdog_duration_threshold", 10);
 				int awakeThresholdPct		= sharedPrefs.getInt("watchdog_awake_threshold", 30);
@@ -170,7 +168,16 @@ public class WatchdogProcessingService extends IntentService
 							i.putExtra(StatsActivity.STAT_TYPE_TO, Reference.SCREEN_ON_REF_FILENAME);
 							i.putExtra(StatsActivity.FROM_NOTIFICATION, true);
 
-					    	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+							PendingIntent contentIntent = null;
+							if (Build.VERSION.SDK_INT < 23)
+							{
+								contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+							}
+							else
+							{
+								contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+							}
 
 					    	// Puts the PendingIntent into the notification builder
 					    	builder.setContentIntent(contentIntent);
@@ -180,7 +187,7 @@ public class WatchdogProcessingService extends IntentService
 					    	    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 					    	// Builds an anonymous Notification object from the builder, and
 					    	// passes it to the NotificationManager
-					    	mNotificationManager.notify(EventWatcherService.NOTFICATION_ID, builder.build());
+					    	mNotificationManager.notify(EventWatcherService.NOTIFICATION_ID, builder.build());
 
 						}
 					}
@@ -193,7 +200,7 @@ public class WatchdogProcessingService extends IntentService
 				}
 			
 				// Build the intent to update the widget
-				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+				Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
 				this.sendBroadcast(intentRefreshWidgets);
 			}
 			

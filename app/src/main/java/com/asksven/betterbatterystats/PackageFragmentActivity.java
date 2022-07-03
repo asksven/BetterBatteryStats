@@ -25,9 +25,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.core.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +36,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.adapters.StatsAdapter;
 
 public class PackageFragmentActivity extends BaseActivity
@@ -106,8 +105,6 @@ public class PackageFragmentActivity extends BaseActivity
 			TextView pName = (TextView) v.findViewById(R.id.TextViewPName);
 			pName.setText(m_packageName);
 
-			TextView pOnly4_3 = (TextView) v.findViewById(R.id.TextViewOnly43);
-
 			final Button buttonSettings = (Button) v.findViewById(R.id.buttonSettings);
 			buttonSettings.setOnClickListener(new View.OnClickListener()
 			{
@@ -118,9 +115,8 @@ public class PackageFragmentActivity extends BaseActivity
 			});
 
 			final Button buttonAppOps = (Button) v.findViewById(R.id.ButtonAppOps);
-			if (Build.VERSION.SDK_INT >= 18)
+			if ((Build.VERSION.SDK_INT >= 18) && (Build.VERSION.SDK_INT <= 26))
 			{
-				pOnly4_3.setVisibility(View.GONE);
 				buttonAppOps.setOnClickListener(new View.OnClickListener()
 				{
 					public void onClick(View v)
@@ -132,6 +128,7 @@ public class PackageFragmentActivity extends BaseActivity
 			{
 				// disable as app ops is not available
 				buttonAppOps.setEnabled(false);
+				buttonAppOps.setVisibility(View.GONE);
 			}
 
 
@@ -176,7 +173,7 @@ public class PackageFragmentActivity extends BaseActivity
 		{
 			intent = new Intent("android.settings.APP_OPS_SETTINGS");
 			Uri uri = Uri.fromParts(SCHEME, packageName, null);
-		} else if (Build.VERSION.SDK_INT >= 19)
+		} else if ((Build.VERSION.SDK_INT >= 19) && (Build.VERSION.SDK_INT <= 26))
 		{
 			// @see http://brightechno.com/blog/archives/211
 			intent = new Intent();

@@ -29,7 +29,7 @@ import com.asksven.betterbatterystats.Wakelock;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 /**
  * @author sven
@@ -37,7 +37,7 @@ import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
  */
 public class WriteScreenOffReferenceService extends IntentService
 {
-	private static final String TAG = "WriteScrOffRefService";
+	private static final String TAG = "WriteScreenOffRefServ";
 
 	public WriteScreenOffReferenceService()
 	{
@@ -53,38 +53,23 @@ public class WriteScreenOffReferenceService extends IntentService
 		try
 		{
 			
-			// Clear any notifications taht may still be shown as the reference in going to be overwritten
-	    	NotificationManager nM = (NotificationManager)this.getSystemService(Service.NOTIFICATION_SERVICE);
-	    	nM.cancel(EventWatcherService.NOTFICATION_ID);
 
-			boolean bRefForScreenOff = sharedPrefs.getBoolean("ref_for_screen_off", false);
+			// Store the "since screen off" ref
+			Wakelock.aquireWakelock(this);
+			StatsProvider.getInstance().setReferenceSinceScreenOff(0);
+			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.SCREEN_OFF_REF_FILENAME);
+			this.sendBroadcast(i);
 
-			if (bRefForScreenOff)
-			{
-				// Store the "since screen off" ref
-				Wakelock.aquireWakelock(this);
-				StatsProvider.getInstance().setReferenceSinceScreenOff(0);
-				Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.SCREEN_OFF_REF_FILENAME);
-			    this.sendBroadcast(i);
-				
-//			    // save a new current ref
-//				StatsProvider.getInstance(this).setCurrentReference(0);
-//				i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
-//			    this.sendBroadcast(i);
+			long now = System.currentTimeMillis();
+			// Save current time to prefs
+			SharedPreferences.Editor editor = sharedPrefs.edit();
+			editor.putLong("screen_went_off_at", now);
+			editor.commit();
 
-			    long now = System.currentTimeMillis();
-				// Save current time to prefs 
-		        SharedPreferences.Editor editor = sharedPrefs.edit();
-		        editor.putLong("screen_went_off_at", now);
-		        editor.commit();
-		        
-				// Build the intent to update the widget
-				Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
-				this.sendBroadcast(intentRefreshWidgets);
-				
+			// Build the intent to update the widget
+			Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
+			this.sendBroadcast(intentRefreshWidgets);
 
-			}
-			
 		}
 		catch (Exception e)
 		{
@@ -105,7 +90,7 @@ public class WriteScreenOffReferenceService extends IntentService
 	@Override
 	public void onDestroy()
 	{
-		Log.e(TAG, "Destroyed at" + DateUtils.now());
+		Log.i(TAG, "Destroyed at" + DateUtils.now());
 		Wakelock.releaseWakelock();
 	}
 

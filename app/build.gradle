@@ -1,34 +1,36 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.triplet.play'
+apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
 //apply plugin: 'com.google.gms.google-services'
 
-
 android {
-    compileSdkVersion 25
+    compileSdkVersion 31
 
-    playAccountConfigs {
-        defaultAccountConfig {
-            jsonFile = file('sa-google-play.json')
-        }
-    }
+//    playAccountConfigs {
+//        defaultAccountConfig {
+//            jsonFile = file('sa-google-play.json')
+//        }
+//    }
 
     play {
         track = 'beta'
-        untrackOld = true // will untrack 'alpha' while upload to 'beta'
+//        untrackOld = true // will untrack 'alpha' while upload to 'beta'
+        serviceAccountCredentials = file("sa-google-play.json")
     }
 
     defaultConfig {
         applicationId "com.asksven.betterbatterystats"
         minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 94
-        versionName "2.4"
+        //noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 31
+        versionCode 100
+        versionName "3.0-beta-1"
         versionNameSuffix = getBuildSuffix()
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         signingConfig signingConfigs.debug
         testBuildType "debug"
         vectorDrawables.useSupportLibrary = true
-        manifestPlaceholders = [HOCKEYAPP_APP_ID: System.getenv("HOCKEYAPP_APP_ID") ?: "xx-xx-xxxx"]
 
 
     }
@@ -54,7 +56,7 @@ android {
             dimension "edition"
             applicationId "com.asksven.betterbatterystats"
             signingConfig signingConfigs.release
-            playAccountConfig = playAccountConfigs.defaultAccountConfig
+//            playAccountConfig = playAccountConfigs.defaultAccountConfig
 
 
         }
@@ -72,10 +74,8 @@ android {
             // Gradle ignores any variants that satisfy the conditions above.
             setIgnore(true)
         }
-        if (names.contains("xdaedition") && variant.buildType.name == "release") {
-            // Gradle ignores any variants that satisfy the conditions above.
-            setIgnore(true)
-        }
+
+        // for xda edition we want to be able to build both debug and release version
 
     }
     // and a naming policy for the apks
@@ -84,7 +84,8 @@ android {
             def project = "betterbatterystats"
             def SEP = "_"
             def flavor = variant.productFlavors[0].name
-            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def buildType = variant.buildType.name
+            // update gradle // def buildType = variant.variantData.variantConfiguration.buildType.name
             def version = variant.versionName
 
             //def newApkName = project + SEP + flavor + SEP + buildType + SEP + version + ".apk"
@@ -110,12 +111,13 @@ android {
         }
     }
     packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/ASL2.0'
+        resources {
+            excludes += ['META-INF/LICENSE', 'META-INF/ASL2.0']
+        }
     }
-    lintOptions {
-        disable 'MissingTranslation'
+    lint {
         abortOnError false
+        disable 'MissingTranslation'
     }
 }
 
@@ -123,30 +125,35 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // for local tests (app/src/test)
     // Required for instrumented tests (app/src/androidTest)
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
     implementation files('libs/RootTools-5.0.aar')
     implementation files('libs/RootShell-1.6.aar')
-    implementation 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'de.cketti.library.changelog:ckchangelog:1.2.2'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-    implementation 'com.android.support:design:25.4.0'
-    implementation group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.3, 5.0['
-    implementation 'com.android.support:support-compat:25.4.0'
-    implementation 'com.android.support:support-vector-drawable:25.4.0'
-    implementation 'net.hockeyapp.android:HockeySDK:5.0.4'
+    implementation 'com.google.android.material:material:1.6.1'
+//    implementation group:'com.twofortyfouram', name:'android-plugin-client-sdk-for-locale', version:'[4.0.3, 5.0['
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4-rule-agent:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4-rule:1.6.5'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test:rules:1.0.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+}
+repositories {
+    mavenCentral()
+    google()
 }
 
 
@@ -157,6 +164,6 @@ def getBuildSuffix() {
         ret = "-" + buildNumber
     }
 
-    println ">>>>> Build number: \"" + ret + "\"";
+    println ">>>>> Build number: \"" + ret + "\""
     return ret
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,15 @@ import com.asksven.betterbatterystats.services.UpdateWidgetService;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -37,9 +40,12 @@ import android.widget.RemoteViews;
  * @author android
  * 
  */
-public class AppWidget extends BbsWidgetProvider
+public class AppWidget extends AppWidgetProvider
 {
 	static String TAG = "AppWidget";
+    public static final String WIDGET_UPDATE = "BBS_WIDGET_UPDATE";
+    public static final String WIDGET_PREFS_REFRESH = "BBS_WIDGET_PREFS_REFRESH";
+
 	// based on http://stackoverflow.com/a/18552461/115145
 	@SuppressLint("NewApi")
 	@Override
@@ -52,9 +58,7 @@ public class AppWidget extends BbsWidgetProvider
 		}
 		super.onUpdate(context, appWidgetManager, appWidgetIds);
 		// Update the widgets via the service
-		startService(context, this.getClass(), appWidgetManager, UpdateWidgetService.class);
-		
-		setAlarm(context);
+		UpdateWidgetService.enqueueWork(context, new Intent());
 		
 		for (int appWidgetId : appWidgetIds)
 		{
@@ -174,56 +178,40 @@ public class AppWidget extends BbsWidgetProvider
 				Log.i(TAG, "[" + appWidgetId + "] using vertical layout");
 				updateViews = new RemoteViews(context.getPackageName(), R.layout.widget_vert);
 			}
-			
-//			// show only graph
-//			if ((height <= 2) && (width <= 2)) 
-//			{
-//				Log.i(TAG, "[" + appWidgetId + "] Setting legend to invisible");
-//				updateViews.setViewVisibility(R.id.layoutLegend, View.GONE);
-//			}
-//			else
-//			{
-//				Log.i(TAG, "[" + appWidgetId + "] Setting legend to visible");
-//				updateViews.setViewVisibility(R.id.layoutLegend, View.VISIBLE);
-//			}
-			
 
-			
 			// check for legend text size
-			if ((width <= 4)) 
+			if ((width < 4))
 			{
 				// set the Labels
 				Log.i(TAG, "[" + appWidgetId + "] using short labels");
-				updateViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake_short));
-				updateViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep_short));
-				updateViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on_short));
-				updateViews.setTextViewText(R.id.textViewKWL, context.getResources().getString(R.string.label_widget_kernel_wakelock_short));
-				updateViews.setTextViewText(R.id.textViewPWL, context.getResources().getString(R.string.label_widget_partial_wakelock_short));
+                UpdateWidgetService.setShortLabels(updateViews, context, true);
 			}
 			else
 			{
 				// set the Labels
 				Log.i(TAG, "[" + appWidgetId + "] using long labels");
-				updateViews.setTextViewText(R.id.textViewAwake, context.getResources().getString(R.string.label_widget_awake));
-				updateViews.setTextViewText(R.id.textViewDeepSleep, context.getResources().getString(R.string.label_widget_deep_sleep));
-				updateViews.setTextViewText(R.id.textViewScreenOn, context.getResources().getString(R.string.label_widget_screen_on));
-				updateViews.setTextViewText(R.id.textViewKWL, context.getResources().getString(R.string.label_widget_kernel_wakelock));
-				updateViews.setTextViewText(R.id.textViewPWL, context.getResources().getString(R.string.label_widget_partial_wakelock));
+                UpdateWidgetService.setShortLabels(updateViews, context, false);
 			}
-		}
+
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean showColor = sharedPrefs.getBoolean("text_widget_color", true);
+            UpdateWidgetService.setTextColor(updateViews, showColor, context);
+
+        }
 		
 		appWidgetManager.updateAppWidget(appWidgetId, updateViews);
-		// Build the intent to call the service
-		Intent intent = new Intent(context.getApplicationContext(), UpdateWidgetService.class);
-		
+
 		ComponentName thisWidget = new ComponentName(context, this.getClass());
 		int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-		
-		intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
-		
-		// Update the widgets via the service
-		context.startService(intent);
-	}
+
+        Log.i(TAG, "trigger widget update");
+        Intent intentWidget = new Intent(AppWidget.WIDGET_UPDATE);
+        Log.i(TAG, "Widget ids: " + allWidgetIds.toString());
+        intentWidget.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+
+        UpdateWidgetService.enqueueWork(context.getApplicationContext(), intentWidget);
+
+    }
 	
 	public static String formatDuration(long timeMs)
 	{

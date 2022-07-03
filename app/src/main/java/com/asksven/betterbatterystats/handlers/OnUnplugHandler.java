@@ -22,6 +22,7 @@ import com.asksven.betterbatterystats.services.WriteUnpluggedReferenceService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 
@@ -44,6 +45,6 @@ public class OnUnplugHandler extends BroadcastReceiver
 		
 		// start service to persist reference
 		Intent serviceIntent = new Intent(context, WriteUnpluggedReferenceService.class);
-		context.startService(serviceIntent);
+        context.startService(serviceIntent);
 	}
 }

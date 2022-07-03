@@ -22,9 +22,6 @@ import java.security.cert.X509Certificate;
 
 import javax.security.auth.x500.X500Principal;
 
-import com.asksven.betterbatterystats.R;
-import com.asksven.betterbatterystats.data.StatsProvider;
-
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -34,12 +31,11 @@ import android.content.pm.Signature;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import de.cketti.library.changelog.ChangeLog;
 
 public class AboutActivity extends BaseActivity
 {
@@ -130,9 +126,17 @@ public class AboutActivity extends BaseActivity
         }
     }
 
-    public void showChangeLog(View view) {
-        ChangeLog cl = new ChangeLog(this);
-        cl.getFullLogDialog().show();
+    public void showChangeLog(View view)
+    {
+//            ChangeLog cl = new ChangeLog(this);
+//        List<ChangeLog.ReleaseItem> changeLog = cl.getChangeLog(true);
+//        for (int i=0; i < changeLog.size(); i++)
+//        {
+//            Log.i(TAG, changeLog.get(i).changes.toString());
+//        }
+//        //cl.getFullLogDialog().show();
+        Intent intentChangeLog = new Intent(this, ChangeLogActivity.class);
+        this.startActivity(intentChangeLog);
     }
 
     public void showCredits(View view) {
@@ -171,5 +175,4 @@ public class AboutActivity extends BaseActivity
 	    }
 	    return debuggable;
 	}
-
 }

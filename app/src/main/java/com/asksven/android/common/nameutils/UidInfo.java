@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 asksven
+ * Copyright (C) 2011-2018 asksven
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +18,19 @@ package com.asksven.android.common.nameutils;
 
 import com.asksven.android.common.dto.UidInfoDto;
 
+import java.io.Serializable;
+
 /**
  * @author sven
  *
  */
-public class UidInfo
+public class UidInfo implements Serializable
 {
 	private int m_uid;
 	private String m_uidName = "";
 	private String m_uidNamePackage = "";
 	private boolean m_uidUniqueName = false;
+	private static final long serialVersionUID = 1L;
 
     public UidInfo()
     {

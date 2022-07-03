@@ -16,10 +16,7 @@
 package com.asksven.betterbatterystats;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,19 +24,15 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.asksven.android.common.CommonLogSettings;
-import com.asksven.android.common.RootShell;
-import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.services.EventWatcherService;
+import com.asksven.betterbatterystats.handlers.OnBootHandler;
+
+import java.util.UUID;
 
 /**
  * Demonstration of the use of a CursorLoader to load and display contacts data
@@ -110,24 +103,6 @@ public class PreferencesFragmentActivity extends BaseActivity
 			if (key.equals("ref_for_screen_off"))
 			{
 				boolean serviceShouldBeRunning = sharedPreferences.getBoolean(key, false);
-
-				if (serviceShouldBeRunning)
-				{
-					if (!EventWatcherService.isServiceRunning(getActivity()))
-					{
-						Intent i = new Intent(getActivity(), EventWatcherService.class);
-						getActivity().startService(i);
-					}
-				} else
-				{
-					if (EventWatcherService.isServiceRunning(getActivity()))
-					{
-						Intent i = new Intent(getActivity(), EventWatcherService.class);
-						getActivity().stopService(i);
-
-					}
-
-				}
 
 				// enable / disable sliders
 				// enable sliders
@@ -203,6 +178,29 @@ public class PreferencesFragmentActivity extends BaseActivity
 					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(i);
 				}
+			}
+
+            if (key.equals("flag_time_series"))
+            {
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+                // get guid value
+                String uuid = preferences.getString("uuid", "");
+                if (uuid.equals(""))
+                {
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("uuid", UUID.randomUUID().toString());
+                    editor.commit();
+                }
+
+            }
+
+			// if widget settings changed force them to update
+			if (key.equals("text_widget_color") || key.equals("widget_show_pct"))
+			{
+                OnBootHandler.scheduleAppWidgetsJobImmediate(BbsApplication.getAppContext());
+
+
 			}
 		}
 

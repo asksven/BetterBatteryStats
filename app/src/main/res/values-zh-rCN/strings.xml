@@ -140,12 +140,7 @@
 
     <!-- System app activity -->
     <string name="expl_system_app">在Android 4.4上Google移除了普通应用获取电量统计的权限\n\n建议安装BetterBatteryStats成为系统应用（这将无法进行更新）\n\n若权限变更，将要卸载或重装使其成为系统应用</string>
-    <string name="install_system_app">安装成为系统应用</string>
-    <string name="uninstall_system_app">取消系统应用状态</string>
-    <string name="info_installed_system_app">已成为系统应用，请重启手机激活</string>
-    <string name="info_uninstalled_system_app">取消系统应用状态将会重置你的设置，请重启以清除并更新设置</string>
     <string name="info_succeeded">成功</string>
-    <string name="info_failed">失败，请尝试使用恢复模式下的ZIP包</string>
     <string name="info_root_required">使用该特性必须获取root权限</string>
     <string name="info_unknown_state">错误：无法识别变更内容</string>
     <string name="info_service_connection_error">无法连接电池信息服务</string>
@@ -156,8 +151,7 @@
     <string name="info_pref_import_success">已从%s导入设置</string>
     <string name="info_pref_import_export_failed">操作失败</string>
     <string name="info_files_written">已写入文件</string>
-    <string name="info_files_write_error">发生错误</string>
-    
+
     <string name="info_deleting_refs">正删除并重置设置</string>
     <string name="info_fallback_to_boot">回滚到\'boot\'</string>
     <string name="info_fallback_to_default">恢复默认设置</string>
@@ -214,8 +208,6 @@
     <string name="pref_section_advanced">高级</string>
     <string name="pref_debug_logging_summary">向logcat日志增加调试信息</string>
     <string name="pref_debug_logging_title">调试</string>
-    <string name="pref_files_to_private_storage_summary">向/sdcard/Android/data/com.asksven.betterbatterystats/files/Download写入文件</string>
-    <string name="pref_files_to_private_storage_title">私人存储</string>
     <string name="pref_select_dir_summary">选择转存文件写入的位置</string>
     <string name="pref_select_dir_title">选择输出文件夹</string>
     <string name="pref_select_dir_button">选择</string>
@@ -229,22 +221,11 @@
     <string name="pref_save_logcat_summary">分享logcat日志</string>
     <string name="pref_save_dmesg_title">dmesg</string>
     <string name="pref_save_dmesg_summary">分享dmesg</string>
-    <string name="pref_force_alarms_api_title">定时器API</string>
-    <string name="pref_force_alarms_api_summary">强制回收定时器正在用的API</string>
-    <string name="pref_force_kwl_api_title">内核唤醒锁API</string>
-    <string name="pref_force_kwl_api_summary">强制回收内核唤醒锁正在使用的API</string>
-    <string name="pref_force_network_api_title">网络统计API</string>
-    <string name="pref_force_network_api_summary">强制回网络统计正在使用的API</string>
     <string name="pref_screen_import_export_title">导入/导出</string>
     <string name="pref_screen_import_export_summary">导入与导出应用设置</string>
     
-    <string name="pref_section_settings">设置</string>
     <string name="pref_screen_widgets_title">桌面小部件</string>
     <string name="pref_screen_legacy_widgets_title">原始桌面小部件</string>
-    <string name="widget_refresh_freq_title">更新频率</string>
-    <string name="widget_refresh_freq_summary">设置桌面小部件数据更新频率（亮屏时将会一直刷新）</string>
-    <string name="widget_refresh_on_screen_on_title">亮屏更新</string>
-    <string name="widget_refresh_on_screen_on_summary">当亮屏时更新统计数据</string>
     <string name="widget_default_stat_title">默认打开的统计</string>
     <string name="widget_default_stat_summary">设置从桌面小部件进入后打开的统计</string>    
     <string name="widget_show_stat_type_title">显示标题</string>
@@ -270,7 +251,6 @@
     
     <!-- stats error / warnings -->
     <string name="NO_STATS_WHEN_CHARGING">设备已接上电源：无统计数据</string>
-    <string name="NO_ROOT_ERR">该统计需要root权限</string>
     <string name="NO_PERM_ERR">该统计需要应用的BATTERY_STATS权限</string>
     <string name="NO_PERM_INFO">正在尝试以非系统应用方式获取权限</string>
     <string name="NO_REF_ERR">尚未设置区间</string>

@@ -25,7 +25,7 @@ import com.asksven.betterbatterystats.Wakelock;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
 import com.asksven.betterbatterystats.data.StatsProvider;
-import com.asksven.betterbatterystats.widgetproviders.LargeWidgetProvider;
+import com.asksven.betterbatterystats.widgetproviders.AppWidget;
 
 /**
  * @author sven
@@ -57,7 +57,7 @@ public class WriteCustomReferenceService extends IntentService
 //		    this.sendBroadcast(i);
 
 			// Build the intent to update the widget
-			Intent intentRefreshWidgets = new Intent(LargeWidgetProvider.WIDGET_UPDATE);
+			Intent intentRefreshWidgets = new Intent(AppWidget.WIDGET_UPDATE);
 			this.sendBroadcast(intentRefreshWidgets);
 			
 
@@ -81,7 +81,7 @@ public class WriteCustomReferenceService extends IntentService
 	@Override
 	public void onDestroy()
 	{
-		Log.e(TAG, "Destroyed at" + DateUtils.now());
+		Log.i(TAG, "Destroyed at" + DateUtils.now());
 		Wakelock.releaseWakelock();
 	}
 

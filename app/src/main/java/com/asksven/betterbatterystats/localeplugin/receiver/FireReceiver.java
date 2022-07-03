@@ -15,7 +15,8 @@
  *
  * This file was contributed by two forty four a.m. LLC <http://www.twofortyfouram.com>
  * unter the terms of the Apache License, Version 2.0
- */
+ *//*
+
 
 package com.asksven.betterbatterystats.localeplugin.receiver;
 
@@ -34,9 +35,11 @@ import com.asksven.betterbatterystats.services.WriteDumpfileService;
 
 import java.util.Locale;
 
+*/
 /**
  * This is the "fire" BroadcastReceiver for a Locale Plug-in setting.
- */
+ *//*
+
 public final class FireReceiver extends BroadcastReceiver
 {
 
@@ -45,9 +48,11 @@ public final class FireReceiver extends BroadcastReceiver
 	@Override
 	public void onReceive(final Context context, final Intent intent)
 	{
-        /*
+        */
+/*
          * Always be strict on input parameters! A malicious third-party app could send a malformed Intent.
-         */
+         *//*
+
 
         Log.i(TAG, "task plugin onReceive was called");
 
@@ -70,7 +75,6 @@ public final class FireReceiver extends BroadcastReceiver
 		{
             boolean saveRef = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_REF);
             boolean saveStat = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_STAT);
-            boolean saveJson = bundle.getBoolean(PluginBundleManager.BUNDLE_EXTRA_BOOL_SAVE_JSON);
 
             String refFrom = bundle.getString(PluginBundleManager.BUNDLE_EXTRA_STRING_REF_NAME);
 
@@ -88,17 +92,6 @@ public final class FireReceiver extends BroadcastReceiver
                 context.startService(serviceIntent);
             }
 
-            if (saveJson)
-            {
-                Log.d(TAG, "Preparing to save a json dumpfile");
-
-                Intent serviceIntent = new Intent(context, WriteDumpfileService.class);
-                serviceIntent.putExtra(WriteDumpfileService.STAT_TYPE_FROM, refFrom);
-                serviceIntent.putExtra(WriteDumpfileService.OUTPUT, "JSON");
-
-                context.startService(serviceIntent);
-            }
-
             if (saveRef)
             {
                 Log.d(TAG, "Preparing to save a custom ref");
@@ -108,4 +101,4 @@ public final class FireReceiver extends BroadcastReceiver
 
 		}
 	}
-}
+}*/
