@@ -3292,12 +3292,12 @@ public class StatsProvider
 		PendingIntent sender = null;
 		if (Build.VERSION.SDK_INT < 23) {
 			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
-					intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+					intent, PendingIntent.FLAG_UPDATE_CURRENT);
 		}
 		else
 		{
 			sender = PendingIntent.getBroadcast(ctx, ActiveMonAlarmReceiver.ACTIVE_MON_ALARM,
-					intent, PendingIntent.FLAG_UPDATE_CURRENT);
+					intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 		}
 		// Get the AlarmManager service

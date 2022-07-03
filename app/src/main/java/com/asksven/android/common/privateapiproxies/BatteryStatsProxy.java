@@ -426,13 +426,13 @@ public class BatteryStatsProxy
 			@SuppressWarnings("rawtypes")
 			Class iBatteryStats = cl.loadClass("com.android.internal.app.IBatteryStats");
 
-			// Enumerate methods
-            Method[] methods = iBatteryStats.getDeclaredMethods();
-            for (int i = 0; i < methods.length; i++)
-            {
-                System.out.println("The method is: " + methods[i].toString());
+            if (CommonLogSettings.DEBUG) {
+                // Enumerate methods
+                Method[] methods = iBatteryStats.getDeclaredMethods();
+                for (int i = 0; i < methods.length; i++) {
+                    System.out.println("The method is: " + methods[i].toString());
+                }
             }
-
             @SuppressWarnings("unchecked")
             // since there are yet undocumented changes in the signature of getStatisticsStream we need to implement this logic:
             // a) try with getStatisticsStream()
