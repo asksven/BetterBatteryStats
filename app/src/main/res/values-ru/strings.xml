@@ -7,7 +7,12 @@
     <string name="perm_rationale_ACCESS_WIFI_STATE">Это разрешение необходимо для доступа к статистике Wifi.</string>
     <string name="perm_rationale_PACKAGE_USAGE_STATS">Это разрешение необходимо для доступа к статистике пакетов.</string>
     <string name="perm_rationale_APPOPS_USAGE_STATS">Это разрешение необходимо для доступа к статистике сигналов.Пожалуйста, предоставьте разрешение в следующем окне.</string>
-
+    <string name="perm_rationale_READ_EXTERNAL_STORAGE">Это разрешение требуется для доступа к файлам, т.е. для чтения статистики батареи.</string>
+    <string name="perm_rationale_WRITE_EXTERNAL_STORAGE">Это разрешение требуется для доступа к статистике батареи.</string>
+    
+	
+	
+	
     <string name="plugin_name">BetterBatteryStats</string>
 
     <string name="foreground_service_text">Обработка событий</string>
@@ -119,6 +124,7 @@
     <string name="label_raw_stats">Необраб. статистика</string>
     <string name="label_about">О приложении</string>
     <string name="label_credits">Благодарности</string>
+    <string name="label_changelog">Список изменений</string>
     <string name="label_help">Помощь</string>
     <string name="label_howto">Как</string>
     <string name="label_system_app">Системное приложение</string>
@@ -148,21 +154,29 @@
     <string name="label_about_translation5">Французcкий: xavihernandez @ xda</string>
     <string name="label_about_translation6">Немецкий: Minty123 @ xda</string>
     <string name="label_about_translation7">Португальский (Бразилия): @caiorrs</string>
+    <string name="label_about_translation8">Голландский: @Matthias-vdE</string>
+	
     <string name="label_about_follow">Твиттер</string>
     <string name="label_about_rate">Оценка / отзыв на Google Play</string>
     <string name="label_about_xda">Форум XDA</string>
                
     <!-- Preferences -->
+    <string name="label_theme_system">Системная (по умолчанию)</string>
     <string name="label_theme_dark">Тёмная</string>
     <string name="label_theme_light">Светлая</string>
+    
     <string name="pref_theme_title">Тема</string>
     <string name="pref_theme_summary">Переключить тему</string>
                
     <!-- System app activity -->
     <string name="expl_system_app">Если в Вашем телефоне есть рут, BBS автоматически предоставит необходимые разрешения.\nДля нерутованных устройств разрешения можно предоставить через ADB.</string>
-    <string name="expl_adb_gplay" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.BATTERY_STATS\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS</string>
-    <string name="expl_adb_xda" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.PACKAGE_USAGE_STATS</string>
-    <string name="info_succeeded">Успешно</string>
+    <string name="expl_private_api">Начиная с SDK28, Android блокирует определенные частные API, необходимые для контроля заряда батареи. Чтобы разблокировать их, вам нужно запустить:</string>
+	
+	
+	
+	
+	
+	<string name="info_succeeded">Успешно</string>
     <string name="info_root_required">Для использования данного параметра приложение должно иметь рут-разрешения</string>
     <string name="info_unknown_state">Ошибка: невозможно определить изменение</string>
     <string name="info_service_connection_error">Нет связи со службой информации батареи</string>
@@ -175,12 +189,16 @@
     <string name="info_files_written">Запись файлов выполнена</string>
     разрыв строки в unicode
 
+	
     <string name="info_deleting_refs">Удаление и повторное создание меток</string>
     <string name="info_fallback_to_boot">Сброс к \'От загрузки\'</string>
     <string name="info_fallback_to_default">Сброс к метке по умолчанию</string>
     <string name="label_granted">предоставлено</string>
     <string name="label_not_granted">не предоставлено</string>
     <string name="label_not_needed">не нужно</string>
+	<string name="label_failed">Не удалось</string>
+	<string name="label_success">Успех</string>
+	<string name="label_fallback">Отступление</string>
 	
     <!-- Preferences labels and texts -->
     <string name="pref_section_display">Отображение</string>
@@ -255,13 +273,16 @@
     <string name="pref_screen_import_export_title">Импорт/экспорт</string>
     <string name="pref_screen_import_export_summary">Импорт и экспорт настроек</string>
 
-    <string name="pref_screen_widgets_title">Виджеты</string>
+    <string name="pref_section_misc">Разное</string>
+	<string name="pref_screen_widgets_title">Виджеты</string>
     <string name="pref_screen_legacy_widgets_title">Старые виджеты</string>
     <string name="widget_default_stat_title">Статистика по умолчанию при открытии</string>
     <string name="widget_default_stat_summary">Установить статистику, которую открывает виджет</string>
     <string name="widget_show_stat_type_title">Показать заголовок</string>
     <string name="widget_show_stat_type_summary">Показать тип статистики</string>
-    <string name="widget_fallback_stat_type_title">Сброс типа статистики</string>
+    <string name="widget_show_text_color_title">Цветной текст</string>
+	<string name="widget_show_text_color_summary">Отображать цвета в текстовом виджете</string>
+	<string name="widget_fallback_stat_type_title">Сброс типа статистики</string>
     <string name="widget_fallback_stat_type_summary">Установить сброс статистики для отображения виджетом при отсутствии метки</string>
     <string name="pref_category_widgets_2x2_and_2x1">Виджеты 2x2 и 2x1</string>
     <string name="widget_default_stat_type_title">Тип статистики</string>
