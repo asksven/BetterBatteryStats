@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
+<string name="perm_rationale_READ_PHONE_STATE">TELEFONZUSTAND LESEN: Diese Berechtigung ist erforderlich, um zu erkennen, wann das Telefon ein- und ausgeschaltet wurde.</string>
+    <string name="perm_rationale_RECEIVE_BOOT_COMPLETED">BOOT ERHALTEN ABGESCHLOSSEN: Diese Berechtigung ist erforderlich, um \"beim Booten\"-Statistiken zu sammeln.</string>
+    <string name="perm_rationale_INTERNET">INTERNET: Diese Berechtigung ist für Analysezwecke erforderlich.</string>
+    <string name="perm_rationale_ACCESS_NETWORK_STATE">ZUGRIFF AUF NETZWERKSTATUS: Diese Berechtigung ist erforderlich, um Netzwerkstatistiken zu verbinden.</string>
+    <string name="perm_rationale_ACCESS_WIFI_STATE">WLAN-ZUGRIFFSZUSTAND: Diese Berechtigung ist erforderlich, um auf WLAN-Statistiken zuzugreifen.</string>
+    <string name="perm_rationale_PACKAGE_USAGE_STATS">PAKETNUTZUNG STATS: Diese Berechtigung ist erforderlich, um auf Paketstatistiken zuzugreifen.</string>
+    <string name="perm_rationale_APPOPS_USAGE_STATS">APPOPS NUTZUNGSSTATS: Diese Berechtigung ist erforderlich, um auf Alarmstatistiken zuzugreifen. Bitte gewähren Sie sie im folgenden Dialog.</string>
+    <string name="perm_rationale_READ_EXTERNAL_STORAGE">EXTERNEN SPEICHER LESEN: Diese Berechtigung ist erforderlich, um auf Dateien zuzugreifen, d. h. die Batteriestatistiken zu lesen.</string>
+    <string name="perm_rationale_WRITE_EXTERNAL_STORAGE">EXTERNEN SPEICHER SCHREIBEN: Diese Berechtigung ist erforderlich, um auf die Batteriestatistik zuzugreifen.</string>
+	
+	
+	
+	
 	<string name="plugin_name">Better Battery Stats</string>
+	
+	<string name="foreground_service_text">Ereignisverarbeitung</string>
 	<string name="message_hint">Geplanter Toast</string>
 	<string name="message_hint_saveref">Eigene Referenz speichern</string>
 	<string name="message_hint_savestat">Text-Dump speichern</string>
@@ -10,6 +24,7 @@
 	<string name="message_hint_stat_type">Art der Statistik</string>
 	<string name="message_enable_root">Der Root-Zugriff benötigt ein gerootetes Gerät.\nStellen Sie sicher, dass BBS SU-Rechte erhält.\nOhne diese Rechte kann BBS nicht korrekt funktionieren.\nMöchten Sie fortfahren?</string>
 	<string name="message_enable_active_mon">Beim aktiven Überwachen wird das Gerät öfter geweckt und die Prozessorlast erhöht. Verwenden Sie es mit Bedacht.\nMöchten Sie fortfahren?</string>
+	<string name="message_first_start">Erster Start. \"Unplugged-Statistiken\" erstellen</string>
 	<string name="message_copied_to_clipboard">%s wurde in die Zwischenablage kopiert</string>
 	<string name="message_no_hist_froyo">Verlaufsdaten werden von Froyo nicht unterstützt.</string>
 	<string name="message_no_appops">AppOps wurde nicht gefunden</string>
@@ -21,6 +36,7 @@
 	<string name="message_computing">Wird berechnet...</string>
 	<string name="message_awake_alert">Weckalarm</string>
 	<string name="message_awake_info">%1$d%% wach während inaktivem Bildschirm</string>
+	<string name="message_no_fileman_error">Bitte installieren Sie OI FileManager</string>
 	<string name="app_name">BetterBatteryStats</string>
 	<string name="app_welcome">Willkommen bei %s</string>
 	<string name="app_pname">com.asksven.betterbatterystats</string>
@@ -39,37 +55,47 @@
 	<string name="label_export_prefs">Exportieren</string>
     
 	<string name="label_hist_time">Zeit</string>
-    <string name="label_hist_battery">Akku</string>
-    <string name="label_hist_power">Lädt</string>
-    <string name="label_hist_screen">Bild</string>
-    <string name="label_hist_wakelock">WL</string>
-    <string name="label_hist_wifi">WLAN</string>
-    <string name="label_hist_gps">GPS</string>
-    <string name="label_hist_bluetooth">BT</string>
-    <string name="label_hist_incall">Anr</string>
-    <string name="label_hist_scanning">Scan</string>
+    	<string name="label_hist_battery">Akku</string>
+    	<string name="label_hist_power">Lädt</string>
+    	<string name="label_hist_screen">Bild</string>
+    	<string name="label_hist_wakelock">WL</string>
+    	<string name="label_hist_wifi">WLAN</string>
+    	<string name="label_hist_gps">GPS</string>
+    	<string name="label_hist_bluetooth">BT</string>
+    	<string name="label_hist_incall">Anr</string>
+    	<string name="label_hist_scanning">Scan</string>
 
-    <string name="label_graph_battery">Akku</string>
-    <string name="label_graph_power">Ladend</string>
-    <string name="label_graph_screen">Aktiver Bildschirm</string>
-    <string name="label_graph_wakelock">Wakelock</string>
-    <string name="label_graph_wifi">WLAN</string>
-    <string name="label_graph_gps">GPS</string>
-    <string name="label_graph_bluetooth">Bluetooth</string>
-    <string name="label_graph_incall">Anruf</string>
-    <string name="label_graph_scanning">Scannen</string>
+    	<string name="label_graph_battery">Akku</string>
+    	<string name="label_graph_power">Ladend</string>
+    	<string name="label_graph_screen">Aktiver Bildschirm</string>
+    	<string name="label_graph_wakelock">Wakelock</string>
+    	<string name="label_graph_wifi">WLAN</string>
+    	<string name="label_graph_gps">GPS</string>
+    	<string name="label_graph_bluetooth">Bluetooth</string>
+    	<string name="label_graph_incall">Anruf</string>
+    	<string name="label_graph_scanning">Scannen</string>
    	 
-    
-    <string name="label_widget_since">Seit:</string>
-    <string name="label_widget_deep_sleep">Tiefschlaf</string>
-    <string name="label_widget_awake">Wach:</string>
-    <string name="label_widget_screen_on">Aktiver Bildschirm:</string>
-    <string name="label_widget_kernel_wakelock">KWL:</string>
-    <string name="label_widget_partial_wakelock">PWL:</string>
-    
-    <string name="label_battery">Akku</string>
-    <string name="label_name">Name</string>
+    	<string name="label_widget_deep_sleep">Tiefschlaf</string>
+    	<string name="label_widget_since">Seit:</string>
+    	<string name="label_widget_awake">Wach:</string>
+    	<string name="label_widget_screen_on">Aktiver Bildschirm:</string>
+    	<string name="label_widget_kernel_wakelock">KWL:</string>
+    	<string name="label_widget_partial_wakelock">PWL:</string>
+    	<string name="label_widget_deep_sleep_short">TS</string>
+	<string name="label_widget_awake_short">Er</string>
+	<string name="label_widget_screen_on_short">Bld</string>
+	<string name="label_widget_kernel_wakelock_short">KWL</string>
+	<string name="label_widget_partial_wakelock_short">PWL</string>
+    	
+	
+	<string name="label_battery">Akku</string>
+    	<string name="label_name">Name</string>
 	<string name="label_description">Beschreibung</string>
+	<string name="label_perm_type">Genehmigung</string>
+	<string name="label_perm_normal">Normal</string>
+	<string name="label_perm_system">System</string>
+	<string name="label_perm_dangerous">Gefährlich</string>
+	
 	<string name="label_package_name">Paketname</string>
 	<string name="label_on_on_android_4_3plus">Nur verfügbar ab Android 4.3</string>
     
@@ -86,7 +112,9 @@
 	<string name="label_button_application_settings">App-Einstellungen</string>
 	<string name="label_button_appops">AppOps</string>
 	
+	
 	<string name="title_share_dialog">Daten teilen als...</string>
+	<string name="share_dialog_edit_title">Notiz</string>
 	<string name="text_since">Seit</string>
 	<string name="label_preferences">Einstellungen</string>
 	<string name="label_packageinfo">Paket-Informationen</string>
@@ -96,6 +124,7 @@
 	<string name="label_raw_stats">Rohdaten</string>
 	<string name="label_about">Über</string>
 	<string name="label_credits">Danksagungen</string>
+	<string name="label_changelog">Änderungsprotokoll</string>
 	<string name="label_help">Hilfe</string>
 	<string name="label_howto">Anleitung</string>
 	<string name="label_system_app">System-App</string>
@@ -111,7 +140,9 @@
 	<string name="label_tab_package">Paket</string>
 	<string name="label_tab_permissions">Berechtigungen</string>
 	<string name="label_tab_services">Dienste</string>
-    
+    	<string name="label_discard_changes">Änderungen verwerfen</string>
+	
+	
 	<!-- About screen -->
 	<string name="label_about_author">Von asksven</string>
 	<string name="label_about_courtesy">Grafiken von Javi</string>
@@ -122,17 +153,29 @@
 	<string name="label_about_translation4">Kroatisch: seky2205 @ xda</string>
 	<string name="label_about_translation5">Französisch: xavihernandez @ xda</string>
 	<string name="label_about_translation6">Deutsch: Minty123 @ xda</string>
+	<string name="label_about_translation7">Brasilianisches Portugiesisch: @caiorrs</string>
+	<string name="label_about_translation8">Niederländisch: @Matthias-vdE</string>
+	
 	<string name="label_about_follow">Auf Twitter folgen</string>
 	<string name="label_about_rate">Auf Google Play bewerten</string>
+	<string name="label_about_xda">Thema auf XDA</string>
     
 	<!-- Preferences -->
+	<string name="label_theme_system">System (Standard)</string>
 	<string name="label_theme_dark">Dunkel</string>
 	<string name="label_theme_light">Hell</string>
+	
 	<string name="pref_theme_title">Theme</string>
 	<string name="pref_theme_summary">Theme der App auswählen</string>
 
 	<!-- System app activity -->
 	<string name="expl_system_app">Falls dein Handy gerootet ist wird BBS diese Berechtigungen authmatisch erteilen.\nFalls nicht müssen die Berechtigungen mittels ADB erteilt werden.</string>
+	<string name="expl_private_api">Beginnend mit SDK28 blockiert Android bestimmte private APIs, die zur Überwachung des Akkus benötigt werden. Um diese zu entsperren, müssen Sie sie ausführen:</string>
+	
+	
+	
+	
+	
 	<string name="info_succeeded">Erfolgreich</string>
 	<string name="info_root_required">Für diese Funktion muss der Root-Zugriff in den erweiterten Einstellungen aktiviert sein.</string>
 	<string name="info_unknown_state">Fehler: Änderung wurden nicht erkannt</string>
@@ -143,12 +186,19 @@
 	<string name="info_pref_export_success">Einstellungen wurden in %s gespeichert</string>
 	<string name="info_pref_import_success">Einstellungen wurden von %s geladen</string>
 	<string name="info_pref_import_export_failed">Fehlgeschlagen</string>
-    
+    	<string name="info_files_written">Dateien wurden geschrieben</string>
+	<string name="info_files_write_error">Es ist ein Fehler aufgetreten</string>
+	
+	
 	<string name="info_deleting_refs">Referenzen werden entfernt und neu erzeugt</string>
 	<string name="info_fallback_to_boot">Ausgewichen auf \'Seit Systemstart\'</string>
 	<string name="info_fallback_to_default">Ausgewichen auf Standard</string>
 	<string name="label_granted">abrufbar</string>
 	<string name="label_not_granted">nicht abrufbar</string>
+	<string name="label_not_needed">Nicht benötigt</string>
+	<string name="label_failed">Gescheitert</string>
+	<string name="label_success">Erfolg</string>
+	<string name="label_fallback">Zurückgreifen</string>
 
 	<!-- Preferences labels and texts -->
 	<string name="pref_section_display">Anzeige</string>
@@ -173,6 +223,9 @@
 	<string name="pref_show_other_connection_summary">Verbindungswerte anzeigen</string>
 	<string name="pref_show_other_bt_title">Bluetooth</string>
 	<string name="pref_show_other_bt_summary">Werte für Bluetooth anzeigen</string>
+	<string name="pref_show_other_doze_title">Doze-Modus anzeigen</string>
+	<string name="pref_show_other_doze_summary">Doze-Modus-Werte anzeigen</string>
+	
 	<string name="pref_section_defaults">Standard</string>
 	<string name="pref_default_stat_title">Statistik bei Start</string>
 	<string name="pref_default_stat_summary">Statistik wählen, die beim Starten der App angezeigt wird</string>
@@ -183,6 +236,8 @@
 	<string name="pref_enable_watchdog_summary">Aktiviert die Datenerhebung durch den Watchdog</string>
 	<string name="pref_watchdog_on_unlock_title">Nach Entsperren starten</string>
 	<string name="pref_watchdog_on_unlock_summary">Watchdog beim Entsperren starten und nicht wenn der Bildschirm aktiviert wird</string>
+	<string name="pref_charged_trigger_percentage_title">Mindestprozentsatz, der als aufgeladen gilt</string>
+	<string name="pref_charged_trigger_percentage_summary">Wenn der Akku bei abgezogenem Ladekabel über diesem Prozentsatz liegt, wird die Referenz \“Seit geladen\“ gespeichert</string>
 	<string name="pref_section_warnings">Warnungen</string>
 	<string name="pref_watchdog_awake_threshold_title">Schwellwert für wache Prozesse</string>
 	<string name="pref_watchdog_awake_threshold_summary">Wert ab dem Warnungen gezeigt werden (wach / gesamt)</string>
@@ -198,25 +253,35 @@
 	<string name="pref_section_advanced">Erweitert</string>
 	<string name="pref_debug_logging_summary">Debug-Infos zu Logcat hinzufügen</string>
 	<string name="pref_debug_logging_title">Debug</string>
-
+	<string name="pref_select_dir_summary">Wählen Sie aus, wohin Dumpfiles geschrieben werden sollen</string>
+	<string name="pref_select_dir_title">Wählen Sie Ausgabeverzeichnis</string>
+	<string name="pref_select_dir_button">Auswählen</string>
 
 	<string name="pref_developer_title">Beim Laden aktivieren</string>
 	<string name="pref_developer_summary">Statistiken beim Laden anzeigen (Können inkonsistent sein)</string>
 	<string name="pref_auto_refresh_title">Autom. Aktualisieren</string>
 	<string name="pref_auto_refresh_summary">Aktualisiert beim Wechseln des Bildschirms automatisch die Referenz \'aktuell\'</string>
 	<string name="pref_section_sharing">Teilen</string>
+	<string name="pref_save_dumpfile_title">Dumpfile</string>
+	<string name="pref_save_dumpfile_summary">Dumpfile teilen</string>
 	<string name="pref_save_logcat_title">Logcat</string>
 	<string name="pref_save_logcat_summary">Logcat teilen</string>
 	<string name="pref_save_dmesg_title">dmesg</string>
 	<string name="pref_save_dmesg_summary">dmesg teilen</string>
+	<string name="pref_screen_permissions_title">App-Berechtigungen</string>
+	<string name="pref_screen_permissions_summary">Überprüfen Sie die erforderlichen Berechtigungen</string>
 	<string name="pref_screen_import_export_title">Importieren/Exportieren</string>
 	<string name="pref_screen_import_export_summary">Einstellungen sichern und wiederherstellen</string>
     
+	<string name="pref_section_misc">Sonstiges</string>
 	<string name="pref_screen_widgets_title">Widgets</string>
+	<string name="pref_screen_legacy_widgets_title">Text-Widget</string>
 	<string name="widget_default_stat_title">Anzuzeigende Statistik</string>
 	<string name="widget_default_stat_summary">Statistik wählen, die vom Widget aufgerufen wird</string>    
 	<string name="widget_show_stat_type_title">Titel anzeigen</string>
 	<string name="widget_show_stat_type_summary">Art der Statistik anzeigen</string>
+	<string name="widget_default_stat_summary">Stellen Sie die Statistiken ein, die vom Widget aufgerufen werden sollen</string>
+	<string name="widget_show_stat_type_title">Titel anzeigen</string
 	<string name="widget_fallback_stat_type_title">Art der Ersatzstatistik</string>
 	<string name="widget_fallback_stat_type_summary">Art der auszuweichenden Ersatzstatistik wählen, wenn die primäre Statistik über keine Referenz verfügt.</string>
 	<string name="pref_category_widgets_2x2_and_2x1">Widgets der Größen 2x2 und 2x1</string>
@@ -238,9 +303,12 @@
     
 	<!-- stats error / warnings -->
 	<string name="NO_STATS_WHEN_CHARGING">Gerät wird geladen: Keine Statistiken verfügbar</string>
+	
 	<string name="NO_PERM_ERR">Diese Statistik benötigt die Berechtigung BATTERY_STATS.</string>
+	<string name="NO_PERM_INFO">Versuch, Berechtigungen ohne System-App zu erteilen.</string>
 	<string name="NO_REF_ERR">Es wurde noch keine Referenz gesetzt</string>
 	<string name="NO_STATS">Es wurden noch keine Statistiken erhoben</string>
+	<string name="KWL_ACCESS_ERROR">Auf Kernel-Wakelocks konnte nicht zugegriffen werden, weder per Datei noch per API</string>
     
     <!-- from arrays.xml -->
 	<string name="stat_type_label_since_charged">Seit geladen</string>
@@ -249,6 +317,7 @@
 	<string name="stat_type_label_since_screen_off">Seit inaktivem Bildschirm</string>
 	<string name="stat_type_label_since_boot">Seit Systemstart</string>
     
+	
 	<string name="widget_freq_label_none">Keine</string>
 	<string name="widget_freq_label_5">5 Min.</string>
 	<string name="widget_freq_label_15">15 Min.</string>
@@ -260,13 +329,55 @@
 	<string name="widget_fontsize_12">Normal (12)</string>
 	<string name="widget_fontsize_10">*Klein (10)</string>
 	<string name="widget_fontsize_8">Sehr klein (8)</string>
-	<string name="widget_show_text_color_title">Texte in Farbe</string>
-	<string name="widget_show_text_color_summary">Farbige Labels im einfachen Widget</string>
-	<string name="label_about_translation8">Niederländisch durch @Matthias-vdE</string>
-	<string name="label_changelog">Änderungshistorie</string>
-	<string name="label_discard_changes">Änderungen ignorieren</string>
-	<string name="label_about_translation7">Brasilianisch-Portugesisch durch @caiorrs</string>
-	<string name="label_about_xda">Thread auf XDA</string>
-	<string name="info_files_written">Dateien wurden geschrieben</string>
+	
+	<!-- Strings related to Settings -->
 
+   	<!-- Example General settings -->
+	
+	<string-array name="pref_example_list_titles">
+		<item>Immer</item>
+		<item>Wenn möglich</item>
+		<item>Niemals</item>
+	</string-array>
+	<string-array name="pref_example_list_values">
+		<item>1</item>
+		<item>0</item>
+		<item>-1</item>
+	</string-array>
+
+	<!-- Example settings for Data & Sync -->
+
+	<string-array name="pref_sync_frequency_titles">
+		<item>15 Minuten</item>
+		<item>30 Minuten</item>
+		<item>1 Stunde</item>
+		<item>3 Stunde</item>
+		<item>6 Stunde</item>
+		<item>Niemals</item>
+	</string-array>
+	<string-array name="pref_sync_frequency_values">
+		<item>15</item>
+		<item>30</item>
+		<item>60</item>
+		<item>180</item>
+		<item>360</item>
+		<item>-1</item>
+	</string-array>
+
+	<string-array name="list_preference_entries">
+		<item>Entry 1</item>
+		<item>Entry 2</item>
+		<item>Entry 3</item>
+	</string-array>
+
+	<string-array name="list_preference_entry_values">
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+	</string-array>
+
+	<string-array name="multi_select_list_preference_default_value" />
+	<string name="title_activity_settings">Einstellungen</string>
+
+	
 </resources>
