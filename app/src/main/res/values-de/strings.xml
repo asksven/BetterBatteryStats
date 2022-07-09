@@ -277,11 +277,9 @@
 	<string name="pref_screen_widgets_title">Widgets</string>
 	<string name="pref_screen_legacy_widgets_title">Text-Widget</string>
 	<string name="widget_default_stat_title">Anzuzeigende Statistik</string>
-	<string name="widget_default_stat_summary">Statistik wählen, die vom Widget aufgerufen wird</string>    
-	<string name="widget_show_stat_type_title">Titel anzeigen</string>
 	<string name="widget_show_stat_type_summary">Art der Statistik anzeigen</string>
 	<string name="widget_default_stat_summary">Stellen Sie die Statistiken ein, die vom Widget aufgerufen werden sollen</string>
-	<string name="widget_show_stat_type_title">Titel anzeigen</string
+	<string name="widget_show_stat_type_title">Titel anzeigen</string>
 	<string name="widget_fallback_stat_type_title">Art der Ersatzstatistik</string>
 	<string name="widget_fallback_stat_type_summary">Art der auszuweichenden Ersatzstatistik wählen, wenn die primäre Statistik über keine Referenz verfügt.</string>
 	<string name="pref_category_widgets_2x2_and_2x1">Widgets der Größen 2x2 und 2x1</string>
