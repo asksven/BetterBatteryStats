@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="perm_rationale_READ_PHONE_STATE">READ_PHONE_STATE: Bu izin, telefonun ne zaman açılıp kapatıldığını algılamak için gereklidir.</string>
+    <string name="perm_rationale_RECEIVE_BOOT_COMPLETED">RECEIVE_BOOT_COMPLETED: Bu izin, \"önyükleme\" istatistiklerini toplamak için gereklidir.</string>
+    <string name="perm_rationale_INTERNET">İNTERNET: Bu izin, analiz amacıyla gereklidir.</string>
+    <string name="perm_rationale_ACCESS_NETWORK_STATE">ACCESS_NETWORK_STATE: Bu izin, ağ istatistiklerine bağlanmak için gereklidir.</string>
+    <string name="perm_rationale_ACCESS_WIFI_STATE">ACCESS_WIFI_STATE: Bu izin Wifi istatistiklerine erişmek için gereklidir.</string>
+    <string name="perm_rationale_PACKAGE_USAGE_STATS">PACKAGE_USAGE_STATS: Paket istatistiklerine erişmek için bu izin gereklidir.</string>
+    <string name="perm_rationale_APPOPS_USAGE_STATS">APPOPS_USAGE_STATS: Bu izin, alarm istatistiklerine erişmek için gereklidir. Lütfen aşağıdaki iletişim kutusunda verin.</string>
+    <string name="perm_rationale_READ_EXTERNAL_STORAGE">READ_EXTERNAL_STORAGE: Bu izin, dosyalara erişmek, yani pil istatistiklerini okumak için gereklidir.</string>
+    <string name="perm_rationale_WRITE_EXTERNAL_STORAGE">WRITE_EXTERNAL_STORAGE: Pil istatistiklerine erişmek için bu izin gereklidir.</string>
+
+    
+    
+    
+    <string name="plugin_name">BetterBatteryStats</string>
+
+    <string name="foreground_service_text">Olay işleme</string>
+    <string name="message_hint">Planlı Tost</string>
+    <string name="message_hint_saveref">Bir Özel Referans Kaydet</string>
+    <string name="message_hint_savestat">Bir Metin Dumpfile Kaydet</string>
+    <string name="message_hint_savestatjson">Bir JSON Dumpfile kaydedin</string>
+    <string name="message_hint_sinceref">Son Referanstan Beri Dökümü</string>
+    <string name="message_hint_stat_type">İstatistik Türü</string>
+    <string name="message_enable_root">Kök özelliklerini etkinleştirmek, telefonunuzun root\'lu olduğunu varsayar.\nLütfen Alarmlar ve Ağ istatistiklerine su hakları verdiğinizden emin olun.\nBu haklar geçerli değilse, BBS\'yi değil, su uygulamasını suçlayın.\nDevam edilsin mi? </string>
+    <string name="message_enable_active_mon">Aktif izleme, uyandırma ve işleme açısından bir ek yüke neden olur ve dikkatle kullanılmalıdır.\nDevam edilsin mi?</string>
+    <string name="message_first_start">İlk başlatma. \'Şarjdan çıkarılmış\' oluşturuluyor</string> oluşturuluyor
+    <string name="message_copied_to_clipboard">%s panoya kopyalandı</string>
+    <string name="message_no_hist_froyo">Maalesef Froyo geçmiş verilerini desteklemiyor</string>
+    <string name="message_no_appops">AppOps, ROM\'unuzda mevcut değil</string>
+    <string name="message_external_storage_write_error">Harici Depolamaya yazılamıyor</string>
+    <string name="message_error_writing_dumpfile">Geçmiş boşaltılırken bir hata oluştu</string>
+    <string name="message_identical_references">Bir hata oluştu. Her iki istatistik de aynı (%1$1, %2$s)</string>
+    <string name="message_watchdog_processing">BBS: Watchdog işleniyor...</string>
+    <string name="message_watchdog_awake_alert">BBS: Uyanık uyarısı: %1$d%% uyanık</string>
+    <string name="message_computing">Bilgi işlem...</string>
+    <string name="message_awake_alert">Uyanış uyarısı</string>
+    <string name="message_awake_info">%1$d%% ekran kapalıyken uyanık</string>
+    <string name="message_no_fileman_error">Lütfen OI FileManager\'ı yükleyin</string>
+    <string name="app_name">BetterBatteryStats</string>
+    <string name="app_welcome">%s\'e hoş geldiniz</string>
+    <string name="app_pname">com.asksven.betterbatterystats</string>
+    <string name="label_button_remind">Daha sonra hatırlat</string>
+    <string name="label_button_rate">Oran</string>
+    <string name="label_button_no_thanks">Hayır, teşekkürler</string>
+    <string name="text_dialog_rate">%s kullanmaktan hoşlanıyorsanız, lütfen bir dakikanızı ayırın ve değerlendirin. Desteğiniz için teşekkürler!</string>
+    <string name="label_stat_type">İstatistik türü</string>
+    <string name="label_since">Bundan beri</string>
+    <string name="label_fallback_stat_type">Yedek istatistik türü</string>
+    <string name="label_title">Başlık</string>
+    <string name="label_author">Yazar</string>
+    <string name="label_license">Lisans</string>
+    <string name="label_import_export_prefs">Tercihleri ​​%s\\'den/den içe/dışa aktar</string>
+    <string name="label_import_prefs">İçe Aktar</string>
+    <string name="label_export_prefs">Dışa Aktar</string>
+
+    <string name="label_hist_time">Zaman</string>
+    <string name="label_hist_battery">Yarasa</string>
+    <string name="label_hist_power">Krg</string>
+    <string name="label_hist_screen">Scr</string>
+    <string name="label_hist_wakelock">WL</string>
+    <string name="label_hist_wifi">Wifi</string>
+	<string name="label_hist_gps">GPS</string>
+    <string name="label_hist_bluetooth">BT</string>
+    <string name="label_hist_incall">Ara</string>
+    <string name="label_hist_scanning">Tara</string>
+
+    <string name="label_graph_battery">Pil</string>
+    <string name="label_graph_power">Şarj oluyor</string>
+    <string name="label_graph_screen">Ekran Açık</string>
+    <string name="label_graph_wakelock">Uyandırma kilidi</string>
+    <string name="label_graph_wifi">Wifi</string>
+    <string name="label_graph_gps">GPS</string>
+    <string name="label_graph_bluetooth">Bluetooth</string>
+    <string name="label_graph_incall">Aramada</string>
+    <string name="label_graph_scanning">Tarama</string>
+
+    <string name="label_widget_deep_sleep">Derin Uyku</string>
+    <string name="label_widget_since">Bundan beri</string>
+    <string name="label_widget_awake">Uyanık</string>
+    <string name="label_widget_screen_on">Ekran açık</string>
+    <string name="label_widget_kernel_wakelock">KWL</string>
+    <string name="label_widget_partial_wakelock">PWL</string>
+    <string name="label_widget_deep_sleep_short">DS</string>
+    <string name="label_widget_awake_short">Hata</string>
+    <string name="label_widget_screen_on_short">Scr</string>
+    <string name="label_widget_kernel_wakelock_short">KWL</string>
+    <string name="label_widget_partial_wakelock_short">PWL</string>
+
+
+    <string name="label_battery">Pil</string>
+    <string name="label_name">Ad</string>
+    <string name="label_description">Açıklama</string>
+    <string name="label_perm_type">İzin</string>
+    <string name="label_perm_normal">Normal</string>
+    <string name="label_perm_system">Sistem</string>
+    <string name="label_perm_dangerous">Tehlikeli</string>
+
+    <string name="label_package_name">Paket Adı</string>
+    <string name="label_on_on_android_4_3plus">Yalnızca Android 4.3+ sürümlerinde kullanılabilir</string>
+
+    <string name="label_permissions_dangerous">İzin \'tehlikeli\' olarak işaretlendi</string>
+    <string name="label_permissions_system">\'sistem uygulamaları\' için izinler</string>
+    <string name="label_permissions_normal">Normal izinler</string>
+
+    <string name="pref_dashclock_default_stat_type_summary">Dashclock\'ta gösterilecek istatistik türünü ayarlayın</string>
+    <string name="pref_dashclock_fallback_stat_type_summary">Birincil olanın referansı yoksa, gösterge saatinde gösterilecek yedek istatistik türünü ayarlayın</string>
+    <string name="label_awake_abbrev">aw.</string>
+    <string name="label_button_share">Paylaş...</string>
+    <string name="label_button_save">Kaydet</string>
+    <string name="label_button_cancel">İptal</string>
+    <string name="label_button_application_settings">Uygulama Ayarları</string>
+    <string name="label_button_appops">Uygulama İşlemleri</string>
+
+
+    <string name="title_share_dialog">Verileri şu şekilde paylaş...</string>
+    <string name="share_dialog_edit_title">Not</string>
+    <string name="text_since">Bundan beri</string>
+    <string name="label_preferences">Ayarlar</string>
+    <string name="label_packageinfo">Paket Bilgisi</string>
+    <string name="label_graphs">Grafikler</string>
+    <string name="label_moregraphs">Daha Fazla Grafik</string>
+    <string name="label_series">Geçmiş</string>
+    <string name="label_raw_stats">Ham İstatistikler</string>
+    <string name="label_about">Hakkında</string>
+    <string name="label_credits">Krediler</string>
+    <string name="label_changelog">Değişiklik Günlüğü</string>
+    <string name="label_help">Yardım</string>
+    <string name="label_howto">Nasıl Yapılır</string>
+    <string name="label_system_app">Sistem Uygulaması</string>
+    <string name="label_import_export">İçe/Dışa Aktar</string>
+    <string name="label_refresh">Yenile</string>
+    <string name="label_share">Paylaş</string>
+    <string name="label_custom_ref">Özel Referans Ayarla.</string>
+    <string name="label_release_notes">Sürüm Notları</string>
+    <string name="label_legend">Efsane</string>
+    <string name="label_button_yes">Evet</string>
+    <string name="label_button_no">Hayır</string>
+    <string name="label_button_ok">Tamam</string>
+    <string name="label_tab_package">Paket</string>
+    <string name="label_tab_permissions">İzinler</string>
+    <string name="label_tab_services">Hizmetler</string>
+    <string name="label_discard_changes">Değişiklikleri sil</string>
+
+
+    <!-- About screen -->
+    <string name="label_about_courtesy">Grafiken von Javi</string>
+	<string name="label_about_translations">Tercümeler</string>
+	<string name="label_about_translation1">Rusça: gaich @ xda</string>
+	<string name="label_about_translation2">İspanyolca: @vldesco</string>
+	<string name="label_about_translation3">İtalyanca: code010101 @ xda</string>
+	<string name="label_about_translation4">Hırvatça: seky2205 @ xda</string>
+	<string name="label_about_translation5">Fransızca: xavihernandez @ xda</string>
+	<string name="label_about_translation6">Almanca: Minty123 @ xda</string>
+	<string name="label_about_translation7">Brazil Portekizce: @caiorrs</string>
+	<string name="label_about_translation8">Hollandaca: @Matthias-vdE</string>
+	
+
+    <string name="label_about_follow">Beni Twitter\'da takip edin</string>
+    <string name="label_about_rate">Google Play\'de Oyla / İncele</string>
+    <string name="label_about_xda">XDA\'daki Konu</string>
+
+    <!-- Preferences -->
+    <string name="label_theme_system">Sistem (varsayılan)</string>
+    <string name="label_theme_dark">Koyu</string>
+    <string name="label_theme_light">Açık</string>
+
+    <string name="pref_theme_title">Tema</string>
+    <string name="pref_theme_summary">Temaları değiştir</string>
+
+    <!-- System app activity -->
+    <string name="expl_system_app">Telefonunuzda root varsa, BBS bu gerekli izinleri otomatik olarak verecektir.\nrootsuz cihazlar için izinler ADB kullanılarak verilebilir.</string>
+    <string name="expl_private_api">SDK28 ile başlayarak Android, pili izlemek için gereken belirli özel API\'leri engeller. Bunların engellemesini kaldırmak için şunları çalıştırmanız gerekir:</string>
+    
+	
+    
+
+
+    <string name="info_succeeded">Başarılı</string>
+    <string name="info_root_required">Bu özelliği kullanabilmek için uygulamanın kök izinlerine sahip olması gerekir</string>
+    <string name="info_unknown_state">Hata: neyin değiştiğini çözemedi</string>
+    <string name="info_service_connection_error">BatteryInfo Service ile bağlantı kurulamadı</string>
+    <string name="info_loading_refs_error">Seçili \'başlangıç\' veya \'bitiş\' referansı yüklenemedi. Lütfen yenileyin</string>
+    <string name="info_unknown_stat_error">İstatistikler alınırken bilinmeyen bir hata oluştu. Lütfen logcat\'inizi kontrol edin</string>
+    <string name="info_state_recovery_error">Önceki durum kurtarılırken bir hata oluştu</string>
+    <string name="info_pref_export_success">Tercihler %s konumuna kaydedildi</string>
+    <string name="info_pref_import_success">Tercihler %s\'den içe aktarıldı</string>
+    <string name="info_pref_import_export_failed">İşlem başarısız oldu</string>
+    <string name="info_files_write">Dosyalar yazıldı</string>
+    <string name="info_files_write_error">Bir hata oluştu</string>
+
+
+    <string name="info_deleting_refs">Referansları silme ve yeniden oluşturma</string>
+    <string name="info_fallback_to_boot">\'Önyüklemeden Sonra\' konumuna geri dönüş</string>
+    <string name="info_fallback_to_default">Varsayılan referansa geri dönüş</string>
+    <string name="label_granted">verildi</string>
+    <string name="label_not_granted">verilmedi</string>
+    <string name="label_not_needed">gerekli değil</string>
+    <string name="label_failed">Başarısız</string>
+    <string name="label_success">Başarı</string>
+    <string name="label_fallback">yedek</string>
+
+    <!-- Preferences labels and texts -->
+    <string name="pref_section_display">Ekran</string>
+    <string name="pref_filter_data_title">Filtre istatistikleri</string>
+    <string name="pref_filter_data_summary">Verilerin sıfır olmayan değerlere göre filtrelenmesini etkinleştir</string>
+    <string name="pref_show_bat_details_title">Pil Ayrıntıları</string>
+    <string name="pref_show_bat_details_summary">Pilden pct\'ye kadar pili göster. ekranda</string>
+    <string name="pref_show_gauge_title">Çubukları Göster</string>
+    <string name="pref_show_gauge_summary">Pasta göstergesi yerine çubukları göster</string>
+    <string name="pref_graph_bar_height_title">Grafik çubukları için yükseklik</string>
+    <string name="pref_graph_bar_height_summary">Varsayılan olmayan yoğunluklar kullanıyorsanız, çubuk yüksekliğini buradan değiştirebilirsiniz</string>
+    <string name="pref_section_customize_views">Görünümleri Özelleştirin</string>
+    <string name="pref_show_from_to_ref_title">Referanslardan/Buna</string>
+    <string name="pref_show_from_to_ref_summary">Referansları seçmek için döndürücüleri göster</string>
+    <string name="pref_show_other_wifi_title">Wifi Göster</string>
+    <string name="pref_show_other_wifi_summary">Wifi değerlerini göster</string>
+    <string name="pref_show_other_signal_title">Sinyali göster</string>
+	<string name="pref_show_other_signal_summary">Sinyal değerlerini göster</string>
+    <string name="pref_show_other_screen_brightness_title">Ekranı göster</string>
+    <string name="pref_show_other_screen_brightness_summary">Ekran parlaklığını göster</string>
+    <string name="pref_show_other_connection_title">Bağlantıyı göster</string>
+    <string name="pref_show_other_connection_summary">Bağlantı değerlerini göster</string>
+    <string name="pref_show_other_bt_title">Bluetooth\'u göster</string>
+    <string name="pref_show_other_bt_summary">Bluetooth değerlerini göster</string>
+    <string name="pref_show_other_doze_title">Doze Modunu Göster</string>
+    <string name="pref_show_other_doze_summary">Doze Modu değerlerini göster</string>
+
+    <string name="pref_section_defaults">Varsayılanlar</string>
+    <string name="pref_default_stat_title">Varsayılan istatistik</string>
+    <string name="pref_default_stat_summary">Uygulamayı başlatırken gösterilecek istatistiği ayarlayın</string>
+    <string name="pref_default_stat_type_title">Varsayılan istatistik türü</string>
+    <string name="pref_default_stat_type_summary">Uygulamayı başlatırken gösterilecek istatistik türünü ayarlayın</string>
+    <string name="pref_section_watchdog">Gözcü köpeği</string>
+    <string name="pref_enable_watchdog_title">Etkinleştir</string>
+    <string name="pref_enable_watchdog_summary">İzleyici işlemeyi etkinleştirir</string>
+    <string name="pref_watchdog_on_unlock_title">Kilit açmayla ilgili referans</string>
+    <string name="pref_watchdog_on_unlock_summary">Referans \'kilidini açma\' konumuna kaydedilir (diğer durumlarda \'ekranda\' üzerine)</string>
+    <string name="pref_charged_trigger_percentage_title">Ücretli sayılan minimum yüzde</string>
+    <string name="pref_charged_trigger_percentage_summary">Şarj kablosu takılı değilken pil bu yüzdenin üzerindeyse, Şarj Edildiğinden Beri referansı saklanır</string>
+    <string name="pref_section_warnings">Uyarılar</string>
+    <string name="pref_watchdog_awake_threshold_title">Uyanma eşiği</string>
+    <string name="pref_watchdog_awake_threshold_summary">Uyarı eşiği (uyanık / toplam)</string>
+    <string name="pref_ref_for_screen_off_title">Süre eşiği [Min.]</string>
+    <string name="pref_ref_for_screen_off_summary">Tetiklemek için Ekran Kapalı kalma süresi</string>
+    <string name="pref_section_active_mon">Aktif İzleme</string>
+    <string name="pref_active_mon_enabled_title">Etkinleştir</string>
+    <string name="pref_active_mon_enabled_summary">Etkin izlemeyi etkinleştirir. Dikkat: Etkin izlemenin pil açısından maliyeti olduğunu unutmayın</string>
+    <string name="pref_active_mon_freq_title">Sıklık [Min.]</string>
+    <string name="pref_active_mon_freq_summary">Zamanlayıcı referanslarını kaydetme sıklığı</string>
+    <string name="pref_force_en_title">İngilizce\'yi Zorla</string>
+    <string name="pref_force_en_summary">BBS\'yi İngilizce olmaya zorla (yeniden başlatma gerektirir)</string>
+    <string name="pref_section_advanced">Gelişmiş</string>
+    <string name="pref_debug_logging_summary">Logcat\'e hata ayıklama bilgisi ekleyin</string>
+    <string name="pref_debug_logging_title">Hata Ayıklama</string>
+    <string name="pref_select_dir_summary">Döküm dosyalarının nereye yazılacağını seçin</string>
+    <string name="pref_select_dir_title">Çıktı Dizinini Seç</string>
+    <string name="pref_select_dir_button">Seç</string>
+
+    <string name="pref_developer_title">Şarj olurken etkinleştir</string>
+    <string name="pref_developer_summary">Şarj sırasında istatistikleri etkinleştirin (risk size aittir, istatistikler tutarsız olabilir)</string>
+    <string name="pref_auto_refresh_title">Otomatik yenileme</string>
+    <string name="pref_auto_refresh_summary">Ekranları/ayarları değiştirirken \'geçerli\' otomatik olarak yeniden yükle</string>
+    <string name="pref_section_sharing">Paylaşım seçenekleri</string>
+    <string name="pref_save_dumpfile_title">Dumpfile</string>
+    <string name="pref_save_dumpfile_summary">Döküm dosyasını paylaşın</string>
+    <string name="pref_save_logcat_title">Logcat</string>
+    <string name="pref_save_logcat_summary">Logcat\'i paylaşın</string>
+    <string name="pref_save_dmesg_title">dmesg</string>
+    <string name="pref_save_dmesg_summary">dmesg\'i paylaşın</string>
+    <string name="pref_screen_permissions_title">Uygulama İzinleri</string>
+    <string name="pref_screen_permissions_summary">Gerekli izinleri kontrol edin</string>
+    <string name="pref_screen_import_export_title">İçe/Dışa Aktar</string>
+    <string name="pref_screen_import_export_summary">İçe Aktarma ve Dışa Aktarma Tercihleri</string>
+
+    <string name="pref_section_misc">Çeşitli</string>
+    <string name="pref_screen_widgets_title">Widget\'lar</string>
+    <string name="pref_screen_legacy_widgets_title">Metin Widget\'ı</string>
+    <string name="widget_default_stat_title">Açılacak varsayılan istatistik</string>
+    <string name="widget_default_stat_summary">Widget\'tan çağrılacak istatistiği ayarlayın</string>
+    <string name="widget_show_stat_type_title">Başlığı Göster</string>
+    <string name="widget_show_stat_type_summary">İstatistik Türünü Göster</string>
+    <string name="widget_show_text_color_title">Metin renkli</string>
+	<string name="widget_show_text_color_summary">Salt metin widget\'ında renkleri göster</string>
+    <string name="widget_fallback_stat_type_title">Yedek istatistik türü</string>
+    <string name="widget_fallback_stat_type_summary">Birincil olanın referansı yoksa widget\'ta gösterilecek yedek istatistik türünü ayarlayın</string>
+    <string name="pref_category_widgets_2x2_and_2x1">2x2 ve 2x1 Widget\'ları</string>
+    <string name="widget_default_stat_type_title">İstatistik türü</string>
+    <string name="widget_default_stat_type_summary">Widget\'ta gösterilecek istatistik türünü ayarlayın</string>
+    <string name="large_widget_font_size_title">Yazı Tipi Boyutu</string>
+    <string name="large_widget_font_size_summary">Widget\'ta kullanılacak yazı tipi boyutunu ayarlayın</string>
+    <string name="large_widget_show_pct_title">Yalnızca %\'yi göster</string>
+    <string name="large_widget_show_pct_summary">Süreleri yalnızca toplam zamanın %\'si olarak göster</string>
+    <string name="widget_opacity_title">Opaklık</string>
+    <string name="widget_opacity_summary">Widget opaklığını ayarlayın</string>
+    <string name="widget_bg_opacity_title">Arka Plan Opaklığı</string>
+    <string name="widget_bg_opacity_summary">Arka plan opaklığını ayarlayın</string>
+    <string name="pref_category_widget_1x1">1x1 Widget\'ı</string>
+    <string name="small_widget_refresh_on_tap_title">Dokunarak yenile</string>
+    <string name="small_widget_refresh_on_tap_summary">Widget\'a dokunulduğunda yenilenir (devre dışı bırakıldığında, dokunulduğunda uygulama açılır)</string>
+    <string name="thumbnail_size_title">Küçük Resim Boyutu</string>
+    <string name="medium_font_size_title">Orta Yazı Tipi Boyutu</string>
+
+    <!-- stats error / warnings -->
+    <string name="NO_STATS_WHEN_CHARGING">Cihaz prize takılı: istatistik yok</string>
+<!-- <string name="NO_ROOT_ERR">Bu istatistik, kök izinleri gerektirir</string> -->
+    <string name="NO_PERM_ERR">Bu istatistik, BATTERY_STATS İzni gerektirir</string>
+    <string name="NO_PERM_INFO">Sistem uygulaması olmadan izinler verilmeye çalışılıyor.</string>
+    <string name="NO_REF_ERR">Henüz referans ayarlanmadı</string>
+    <string name="NO_STATS">Henüz istatistik toplanmadı</string>
+    <string name="KWL_ACCESS_ERROR">Kernel Wakelocks\'a ne dosya ne de API ile erişilemedi</string>
+
+    <!-- from arrays.xml -->
+    <string name="stat_type_label_since_charged">Ödeme tarihinden itibaren</string>
+    <string name="stat_type_label_since_unplugged">Fişten çekildiğinden beri</string>
+    <string name="stat_type_label_since_custom">Özel Referanstan Beri.</string>
+    <string name="stat_type_label_since_screen_off">Ekran Kapalı olduğundan beri</string>
+    <string name="stat_type_label_since_boot">Önyüklemeden Beri</string>
+
+
+    <string name="widget_freq_label_none">Yok</string>
+    <string name="widget_freq_label_5">5 Dk.</string>
+    <string name="widget_freq_label_15">15 Dakika.</string>
+    <string name="widget_freq_label_30">*30 Dk.</string>
+    <string name="widget_freq_label_60">60 Dakika.</string>
+
+    <string name="widget_fontsize_16">X-Large (16)</string>
+    <string name="widget_fontsize_14">Büyük (14)</string>
+    <string name="widget_fontsize_12">Normal (12)</string>
+    <string name="widget_fontsize_10">*Küçük (10)</string>
+    <string name="widget_fontsize_8">Daha Küçük (8)</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+
+    <string-array name="pref_example_list_titles">
+        <item>Her zaman</item>
+        <item>Mümkün olduğunda</item>
+        <item>Hiçbir zaman</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 dakika</item>
+        <item>30 dakika</item>
+        <item>1 saat</item>
+        <item>3 saat</item>
+        <item>6 saat</item>
+        <item>Hiçbir zaman</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</ite>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+        <item>Giriş 1</item>
+        <item>Giriş 2</item>
+        <item>Giriş 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="multi_select_list_preference_default_value" />
+    <string name="title_activity_settings">Ayarlar</string>
+
+
+<resources>
