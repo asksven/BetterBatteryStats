@@ -115,7 +115,14 @@ public class HistoryItem implements Serializable, Parcelable
 				+ ", m_batteryStatusValue=" + m_batteryStatusValue
 				+ ", m_batteryHealthValue=" + m_batteryHealthValue
 				+ ", m_batteryPlugTypeValue=" + m_batteryPlugTypeValue
-				+ ", m_statesValue=" + m_statesValue + "]";
+				+ ", m_statesValue=" + m_statesValue + "]"
+				+ "{ battery: " + getBatteryLevel()
+				+ ", bt: " + getBluetoothOn()
+				+ ", charging: " + getCharging()
+				+ ", gps: " + getGpsOn()
+				+" , screen: " + getScreenOn()
+				+ ", wl: " + getWakelock()
+				+ ", wifi: " + getWifiRunning() + "}";
 	}
 
 	/**

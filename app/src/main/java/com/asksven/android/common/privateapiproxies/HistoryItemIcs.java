@@ -26,6 +26,9 @@ import com.asksven.android.common.utils.DateUtils;
 /**
  * ICS specific Value holder for BatteryStats$HistoryItem
  * @author sven
+ * These constants vary from version to version
+ * See also https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android12-platform-release/core/java/android/os/BatteryStats.java
+ *
  *
  */
 public class HistoryItemIcs extends HistoryItem implements Serializable, Parcelable

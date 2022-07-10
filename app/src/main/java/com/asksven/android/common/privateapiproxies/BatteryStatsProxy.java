@@ -116,12 +116,12 @@ public class BatteryStatsProxy
 
                 if (Build.VERSION.SDK_INT >= 22) {
                     m_proxy = new BatteryStatsProxy(ctx, true);
-                    // some devices, e.g. Samsung Galaxy S10 throw a Permission denied when reading the FileInputStream
-                    // if the instance could not be created try the old way
-                    if (m_proxy.m_Instance == null) {
-                        m_fallbackStats = true;
-                        m_proxy = new BatteryStatsProxy(ctx);
-                    }
+//                    // some devices, e.g. Samsung Galaxy S10 throw a Permission denied when reading the FileInputStream
+//                    // if the instance could not be created try the old way
+//                    if (m_proxy.m_Instance == null) {
+//                        m_fallbackStats = true;
+//                        m_proxy = new BatteryStatsProxy(ctx);
+//                    }
                 } else {
                     m_fallbackStats = false;
                     m_proxy = new BatteryStatsProxy(ctx);
@@ -3586,23 +3586,31 @@ public class BatteryStatsProxy
 					{
 						updateCmd = HistoryItemJellyBean.CMD_UPDATE;
 					}
-					else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) )
+					else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) )
 					{
 						updateCmd = HistoryItemLolipop.CMD_UPDATE;
 					}
-                    else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) )
+                    else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) )
                     {
                         updateCmd = HistoryItemMarshmallow.CMD_UPDATE;
                     }
-                    else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) || (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) )
+                    else if ( (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) )
                     {
                         updateCmd = HistoryItemNougat.CMD_UPDATE;
                     }
-                    else
+                    else if (Build.VERSION.SDK_INT < 32)
 					{
 						updateCmd = HistoryItemOreo.CMD_UPDATE;
 					}
-					
+                    else if (Build.VERSION.SDK_INT < 33)
+                    {
+                        updateCmd = HistoryItemAndroid12.CMD_UPDATE;
+                    }
+                    else
+                    {
+                        updateCmd = HistoryItemAndroid13.CMD_UPDATE;
+                    }
+
 					if (cmdValue == updateCmd)
 					{
 				        Field batteryLevelField 		= classHistoryItem.getField("batteryLevel"); 	// byte
@@ -3686,13 +3694,25 @@ public class BatteryStatsProxy
                                         batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
                                         batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
                             }
-                            else
+                            else if (Build.VERSION.SDK_INT < 32)
 							{
 								myItem = new HistoryItemOreo(timeValue, cmdValue, batteryLevelValue,
 						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
 						        		batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
 							}
-							
+                            else if (Build.VERSION.SDK_INT < 33)
+                            {
+                                myItem = new HistoryItemAndroid12(timeValue, cmdValue, batteryLevelValue,
+                                        batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+                                        batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
+                            }
+                            else
+                            {
+                                myItem = new HistoryItemAndroid13(timeValue, cmdValue, batteryLevelValue,
+                                        batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+                                        batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
+                            }
+
 					        myStats.add(myItem);
 
 				        }
