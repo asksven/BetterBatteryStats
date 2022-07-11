@@ -144,7 +144,8 @@ public class HistoryItemAndroid13 extends HistoryItem implements Serializable, P
      */
     public boolean isWifiRunning()
     {
-        boolean bWifiRunning = (m_states2Value & STATE2_WIFI_RUNNING_FLAG) != 0;
+//        boolean bWifiRunning = (m_states2Value & STATE2_WIFI_RUNNING_FLAG) != 0;
+        boolean bWifiRunning = (m_statesValue & STATE_WIFI_RADIO_ACTIVE_FLAG) != 0;
         return bWifiRunning;
     }
 
