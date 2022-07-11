@@ -3707,7 +3707,7 @@ public class BatteryStatsProxy
 							}
                             else if (Build.VERSION.SDK_INT == 30)
                             {
-                                myItem = new HistoryItemAnrdoid11(timeValue, cmdValue, batteryLevelValue,
+                                myItem = new HistoryItemAndroid11(timeValue, cmdValue, batteryLevelValue,
                                         batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
                                         batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
                             }
