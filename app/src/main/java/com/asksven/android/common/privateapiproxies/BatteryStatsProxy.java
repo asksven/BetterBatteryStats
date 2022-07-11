@@ -3598,10 +3598,15 @@ public class BatteryStatsProxy
                     {
                         updateCmd = HistoryItemNougat.CMD_UPDATE;
                     }
-                    else if (Build.VERSION.SDK_INT < 32)
+                    else if (Build.VERSION.SDK_INT < 30)
 					{
 						updateCmd = HistoryItemOreo.CMD_UPDATE;
 					}
+                    else if (Build.VERSION.SDK_INT == 30)
+                    {
+                        updateCmd = HistoryItemAndroid11.CMD_UPDATE;
+                    }
+
                     else if (Build.VERSION.SDK_INT < 33)
                     {
                         updateCmd = HistoryItemAndroid12.CMD_UPDATE;
@@ -3694,12 +3699,19 @@ public class BatteryStatsProxy
                                         batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
                                         batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
                             }
-                            else if (Build.VERSION.SDK_INT < 32)
+                            else if (Build.VERSION.SDK_INT < 30)
 							{
 								myItem = new HistoryItemOreo(timeValue, cmdValue, batteryLevelValue,
 						        		batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
 						        		batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
 							}
+                            else if (Build.VERSION.SDK_INT == 30)
+                            {
+                                myItem = new HistoryItemAnrdoid11(timeValue, cmdValue, batteryLevelValue,
+                                        batteryStatusValue, batteryHealthValue, batteryPlugTypeValue,
+                                        batteryTemperatureValue, batteryVoltageValue, statesValue, states2Value);
+                            }
+
                             else if (Build.VERSION.SDK_INT < 33)
                             {
                                 myItem = new HistoryItemAndroid12(timeValue, cmdValue, batteryLevelValue,
