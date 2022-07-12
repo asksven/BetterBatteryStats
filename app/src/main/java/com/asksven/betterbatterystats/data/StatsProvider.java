@@ -3028,7 +3028,8 @@ public class StatsProvider
 
 			if (( RootShell.getInstance().isRooted()))
 			{
-				Util.run("su -c dmesg > " + path + "/" + filename);
+				//Util.run("su -c dmesg > " + path + "/" + filename);
+				RootShell.getInstance().run("dmesg > " + path + "/" + filename);
 			}
 			else
 			{
