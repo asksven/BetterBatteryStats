@@ -41,6 +41,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.asksven.android.common.RootShell;
 import com.asksven.android.common.kernelutils.AlarmsDumpsys;
 import com.asksven.android.contrib.Util;
 import com.asksven.android.common.CommonLogSettings;
@@ -3025,7 +3026,14 @@ public class StatsProvider
             String filename = "dmesg-"
                     + DateUtils.now("yyyy-MM-dd_HHmmssSSS") + ".txt";
 
-			Util.run("dmesg > " + path + "/" + filename);
+			if (( RootShell.getInstance().isRooted()))
+			{
+				Util.run("su -c dmesg > " + path + "/" + filename);
+			}
+			else
+			{
+				Util.run("dmesg > " + path + "/" + filename);
+			}
 
             fileUri = Uri.fromFile(new File(path + "/" + filename));
             // workaround: force mediascanner to run
