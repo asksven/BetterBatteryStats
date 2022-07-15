@@ -164,9 +164,7 @@
                 android:summary="@string/pref_watchdog_on_unlock_summary"
                 android:title="@string/pref_watchdog_on_unlock_title" />
 
-            <PreferenceCategory
-                android:key="warnings"
-                android:title="@string/pref_section_warnings">
+            <PreferenceCategory android:key="warnings" android:title="@string/pref_section_warnings">
                 <com.asksven.betterbatterystats.contrib.SeekBarPreference
                     android:defaultValue="30"
                     android:key="watchdog_awake_threshold"
@@ -248,8 +246,13 @@
                 android:title="@string/pref_screen_import_export_title">
                 <intent android:action="com.asksven.betterbatterystats.ImportExportPreferencesActivity" />
             </PreferenceScreen>
-
+            <PreferenceScreen
+                android:summary="@string/pref_screen_diagnostics_summary"
+                android:title="@string/pref_screen_diagnostics_title">
+                <intent android:action="com.asksven.betterbatterystats.DiagnosticsActivity" />
+            </PreferenceScreen>
         </PreferenceScreen>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

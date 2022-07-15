@@ -149,7 +149,14 @@ public class BatteryStatsProxy
 
     public String getError()
     {
-        return m_lastError;
+        if (m_lastError == null)
+        {
+            return "";
+        }
+        else
+        {
+            return m_lastError;
+        }
     }
 
     public boolean isFallback()

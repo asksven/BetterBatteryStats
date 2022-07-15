@@ -213,10 +213,10 @@ public class SystemAppActivity extends BaseActivity
 
         BatteryStatsProxy stats = BatteryStatsProxy.getInstance(this);
 		String status = "";
-		if (stats.initFailed())
+		if ( (stats == null) || (stats.initFailed()) )
         {
             status = getString(R.string.label_failed);
-            if (!stats.getError().equals(""))
+            if ( (stats == null) || (!stats.getError().equals("")) )
             {
                 status = status + ": " + stats.getError();
             }

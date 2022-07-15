@@ -125,6 +125,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".DiagnosticsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.asksven.betterbatterystats.DiagnosticsActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".RawStatsActivity"
             android:configChanges="orientation"
             android:parentActivityName=".StatsActivity">

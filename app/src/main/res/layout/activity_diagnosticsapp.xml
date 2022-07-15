@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:id="@+id/main_layout">
+
+    <include layout="@layout/toolbar_icon" />
+
+    <!-- do not translate: strings are set in SystemAppActivity -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="4dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp" >
+
+
+        <TextView
+            android:id="@+id/textViewDiagnostics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="false"
+            android:text="Call Stack..."
+            android:textSize="10sp"
+            android:textIsSelectable="true"
+            android:typeface="monospace" />
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

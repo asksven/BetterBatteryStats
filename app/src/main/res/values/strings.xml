@@ -128,6 +128,7 @@
     <string name="label_help">Help</string>
     <string name="label_howto">How-To</string>
     <string name="label_system_app">System App</string>
+    <string name="label_diagnostics">Diagnostics</string>
     <string name="label_import_export">Import/Export</string>
     <string name="label_refresh">Refresh</string>
     <string name="label_share">Share</string>
@@ -273,6 +274,8 @@
     <string name="pref_screen_permissions_summary">Check for the required permissions</string>
     <string name="pref_screen_import_export_title">Import/Export</string>
     <string name="pref_screen_import_export_summary">Import and Export Preferences</string>
+    <string name="pref_screen_diagnostics_title">Diagostics</string>
+    <string name="pref_screen_diagnostics_summary">Help in Debugging API Calls</string>
 
     <string name="pref_section_misc">Misc</string>
     <string name="pref_screen_widgets_title">Widgets</string>
