@@ -51,6 +51,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.io.ByteArrayInputStream;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.cert.CertificateException;
@@ -92,6 +93,14 @@ public class DiagnosticsActivity extends BaseActivity
         final TextView tvDiags = (TextView) findViewById(R.id.textViewDiagnostics);
         ArrayList<String> list = diagGetService();
         tvDiags.setText("");
+        tvDiags.append("Build.VERSION.RELEASE: " + Build.VERSION.RELEASE + "\n");
+        tvDiags.append("Build.BRAND: "+ Build.BRAND + "\n");
+        tvDiags.append("Build.DEVICE: " + Build.DEVICE + "\n");
+        tvDiags.append("Build.MANUFACTURER" + Build.MANUFACTURER + "\n");
+        tvDiags.append("Build.MODEL: " + Build.MODEL + "\n");
+        tvDiags.append("Build.VERSION.SDK_INT: " + Build.VERSION.SDK_INT + "\n");
+        tvDiags.append("\n");
+
         for (int i=0; i < list.size(); i++)
         {
             tvDiags.append(list.get(i));
@@ -169,13 +178,32 @@ public class DiagnosticsActivity extends BaseActivity
             Method methodGetStatisticsStream;
             boolean withBoolParam = false;
             methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream", boolean.class);
+            try {
+                ret.add("resolving getStatisticsStream(boolean)");
+                methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream", boolean.class);
+                withBoolParam = true;
+            }
+            catch (NoSuchMethodException e)
+            {
+                ret.add("FAILED");
+                ret.add("falling back to getStatisticsStream()");
+
+                methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream");
+            }
+
             // returns a ParcelFileDescriptor
 
             Log.i(TAG, "invoking getStatisticsStream");
             ret.add("invoking getStatisticsStream");
 
             ParcelFileDescriptor pfd;
-            pfd = (ParcelFileDescriptor) methodGetStatisticsStream.invoke(iBatteryStatsInstance, true);
+            if (withBoolParam) {
+                pfd = (ParcelFileDescriptor) methodGetStatisticsStream.invoke(iBatteryStatsInstance, true);
+            }
+            else
+            {
+                pfd = (ParcelFileDescriptor) methodGetStatisticsStream.invoke(iBatteryStatsInstance);
+            }
 
             if (pfd != null)
             {
@@ -197,22 +225,68 @@ public class DiagnosticsActivity extends BaseActivity
 
                 byte[] data = readFully(fis, size);
 
-                Parcel parcel = Parcel.obtain();
-                parcel.unmarshall(data, 0, data.length);
-                parcel.setDataPosition(0);
 
-                @SuppressWarnings("rawtypes")
-                Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
+                try {
+                    Parcel parcel = Parcel.obtain();
+                    parcel.unmarshall(data, 0, data.length);
+                    parcel.setDataPosition(0);
 
-                Log.i(TAG, "reading CREATOR field");
-                Field creatorField = batteryStatsImpl.getField("CREATOR");
+                    @SuppressWarnings("rawtypes")
+                    Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
 
-                // From here on we don't need reflection anymore
-                @SuppressWarnings("rawtypes")
-                Parcelable.Creator batteryStatsImpl_CREATOR = (Parcelable.Creator) creatorField.get(batteryStatsImpl);
+                    Log.i(TAG, "reading CREATOR field");
+                    Field creatorField = batteryStatsImpl.getField("CREATOR");
 
-                Object m_Instance = batteryStatsImpl_CREATOR.createFromParcel(parcel);
-                ret.add("SUCCESS");
+                    // From here on we don't need reflection anymore
+                    @SuppressWarnings("rawtypes")
+                    Parcelable.Creator batteryStatsImpl_CREATOR = (Parcelable.Creator) creatorField.get(batteryStatsImpl);
+
+                    Object m_Instance = batteryStatsImpl_CREATOR.createFromParcel(parcel);
+                    ret.add("SUCCESS");
+                }
+                catch (NullPointerException e)
+                {
+                    ret.add("batteryStatsImpl_CREATOR.createFromParcel FAILED, trying readFrmParcel with PowerProfile set");
+
+                    Parcel parcel = Parcel.obtain();
+                    parcel.unmarshall(data, 0, data.length);
+                    parcel.setDataPosition(0);
+
+                    @SuppressWarnings("rawtypes")
+                    Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
+
+                    Constructor bsiEmptyConstructor = Class.forName("com.android.internal.os.BatteryStatsImpl").getConstructor();
+                    Object bsiInstance = bsiEmptyConstructor.newInstance();
+
+                    // Initialize the PowerProfile
+                    Constructor ppConstructor = Class.forName("com.android.internal.os.PowerProfile").getConstructor(Context.class);
+                    Object ppInstance = ppConstructor.newInstance(context);
+
+                    Method methodSetPowerProfileLocked = batteryStatsImpl.getMethod("setPowerProfileLocked", Class.forName("com.android.internal.os.PowerProfile"));
+
+                    // Parameter types
+                    Class[] paramTypesSetPowerProfileLocked= new Class[1];
+                    paramTypesSetPowerProfileLocked[0]= Class.forName("com.android.internal.os.PowerProfile");
+
+                    // Parameters
+                    Object[] paramSetPowerProfileLocked= new Object[1];
+                    paramSetPowerProfileLocked[0] = ppInstance;
+
+                    methodSetPowerProfileLocked.invoke(bsiInstance, paramSetPowerProfileLocked);
+
+                    Method methodReadFromParcel = batteryStatsImpl.getMethod("readFromParcel", Parcel.class);
+
+                    // Parameters
+                    Object[] paramReadFromParcel = new Object[1];
+                    paramReadFromParcel[0] = parcel;
+
+                    methodReadFromParcel.invoke(bsiInstance, paramReadFromParcel);
+
+                    Object m_Instance = bsiInstance;
+                    Log.i(TAG, "Service: " + m_Instance.toString());
+                    ret.add("SUCCESS");
+
+                }
             }
         }
         catch( Exception e )

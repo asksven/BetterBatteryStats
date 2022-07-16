@@ -491,22 +491,68 @@ public class BatteryStatsProxy
 
                     byte[] data = readFully(fis, size);
 
-                    Parcel parcel = Parcel.obtain();
-                    parcel.unmarshall(data, 0, data.length);
-                    parcel.setDataPosition(0);
+                    // we first try batteryStatsImpl_CREATOR, if this fails (p6xl) we fall pack to first setting a PowerProfile
+                    try {
+                        Parcel parcel = Parcel.obtain();
+                        parcel.unmarshall(data, 0, data.length);
+                        parcel.setDataPosition(0);
 
-                    @SuppressWarnings("rawtypes")
-                    Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
+                        @SuppressWarnings("rawtypes")
+                        Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
 
-                    if (CommonLogSettings.DEBUG) { Log.i(TAG, "reading CREATOR field"); }
-                    Field creatorField = batteryStatsImpl.getField("CREATOR");
+                        if (CommonLogSettings.DEBUG) {
+                            Log.i(TAG, "reading CREATOR field");
+                        }
+                        Field creatorField = batteryStatsImpl.getField("CREATOR");
 
-                    // From here on we don't need reflection anymore
-                    @SuppressWarnings("rawtypes")
-                    Parcelable.Creator batteryStatsImpl_CREATOR = (Parcelable.Creator) creatorField.get(batteryStatsImpl);
+                        // From here on we don't need reflection anymore
+                        @SuppressWarnings("rawtypes")
+                        Parcelable.Creator batteryStatsImpl_CREATOR = (Parcelable.Creator) creatorField.get(batteryStatsImpl);
 
-                    m_Instance = batteryStatsImpl_CREATOR.createFromParcel(parcel);
-                    m_lastError = "";
+                        m_Instance = batteryStatsImpl_CREATOR.createFromParcel(parcel);
+                        m_lastError = "";
+                    }
+                    catch (NullPointerException e)
+                    {
+                        Log.i(TAG, "batteryStatsImpl_CREATOR.createFromParcel FAILED, trying readFormParcel with PowerProfile set");
+                        Parcel parcel = Parcel.obtain();
+                        parcel.unmarshall(data, 0, data.length);
+                        parcel.setDataPosition(0);
+
+                        @SuppressWarnings("rawtypes")
+                        Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
+
+                        Constructor bsiEmptyConstructor = Class.forName("com.android.internal.os.BatteryStatsImpl").getConstructor();
+                        Object bsiInstance = bsiEmptyConstructor.newInstance();
+
+                        // Initialize the PowerProfile
+                        Constructor ppConstructor = Class.forName("com.android.internal.os.PowerProfile").getConstructor(Context.class);
+                        Object ppInstance = ppConstructor.newInstance(context);
+
+                        Method methodSetPowerProfileLocked = batteryStatsImpl.getMethod("setPowerProfileLocked", Class.forName("com.android.internal.os.PowerProfile"));
+
+                        // Parameter types
+                        Class[] paramTypesSetPowerProfileLocked= new Class[1];
+                        paramTypesSetPowerProfileLocked[0]= Class.forName("com.android.internal.os.PowerProfile");
+
+                        // Parameters
+                        Object[] paramSetPowerProfileLocked= new Object[1];
+                        paramSetPowerProfileLocked[0] = ppInstance;
+
+                        methodSetPowerProfileLocked.invoke(bsiInstance, paramSetPowerProfileLocked);
+
+                        Method methodReadFromParcel = batteryStatsImpl.getMethod("readFromParcel", Parcel.class);
+
+                        // Parameters
+                        Object[] paramReadFromParcel = new Object[1];
+                        paramReadFromParcel[0] = parcel;
+
+                        methodReadFromParcel.invoke(bsiInstance, paramReadFromParcel);
+
+                        m_Instance = bsiInstance;
+                        Log.i(TAG, "Service: " + m_Instance.toString());
+
+                    }
 
                 }
                 catch (IOException e)
@@ -2101,8 +2147,16 @@ public class BatteryStatsProxy
                 ClassLoader cl = ctx.getClassLoader();
                 @SuppressWarnings("rawtypes")
                 Class iBatteryStatsControllerActivityCounter = cl.loadClass("com.android.internal.os.BatteryStatsImpl$ControllerActivityCounterImpl");
-                Class iBatteryStatsLongSamplingCounter = cl.loadClass("com.android.internal.os.BatteryStatsImpl$LongSamplingCounter");
 
+                Class iBatteryStatsLongSamplingCounter = null;
+                if (Build.VERSION.SDK_INT < 33)
+                {
+                    iBatteryStatsLongSamplingCounter = cl.loadClass("com.android.internal.os.BatteryStatsImpl$LongSamplingCounter");
+                }
+                else
+                {
+                    iBatteryStatsLongSamplingCounter = cl.loadClass("com.android.internal.os.BatteryStatsImpl$TimeMultiStateCounter");
+                }
                 Method getIdleTimeCounter = iBatteryStatsControllerActivityCounter.getMethod("getIdleTimeCounter");
                 Method getRxTimeCounter = iBatteryStatsControllerActivityCounter.getMethod("getRxTimeCounter");
                 Method getTxTimeCounters = iBatteryStatsControllerActivityCounter.getMethod("getTxTimeCounters");
