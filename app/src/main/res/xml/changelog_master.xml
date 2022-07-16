@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="3.0-alpha-4" versioncode="100">
+    <release version="3.0-beta-3" versioncode="101">
         <change>The cat and mouse game continues</change>
+        <change>Added support for Android 13</change>
+        <change>Added diagnostics n advanced settings</change>
         <change>Update to API 30 since google is forcing that as a minimum for updates in the play store</change>
         <change>Should work on rooted and unrooted devices</change>
         <change>Updated permissions screen for instructions to grant access to private api</change>
