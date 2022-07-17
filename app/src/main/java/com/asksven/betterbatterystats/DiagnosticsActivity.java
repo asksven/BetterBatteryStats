@@ -177,8 +177,8 @@ public class DiagnosticsActivity extends BaseActivity
             // b) if a fails, retry with getStatisticsStream(boolean)
             Method methodGetStatisticsStream;
             boolean withBoolParam = false;
-            methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream", boolean.class);
-            try {
+            try
+            {
                 ret.add("resolving getStatisticsStream(boolean)");
                 methodGetStatisticsStream = iBatteryStats.getMethod("getStatisticsStream", boolean.class);
                 withBoolParam = true;
