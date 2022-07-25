@@ -128,6 +128,7 @@
     <string name="label_help">Ayuda</string>
     <string name="label_howto">Cómo hacer</string>
     <string name="label_system_app">Aplicación de Sistema</string>
+    <string name="label_diagnostics">Diagnóstico</string>
     <string name="label_import_export">Importar/Exportar</string>
     <string name="label_refresh">Refrescar</string>
     <string name="label_share">Compartir</string>
@@ -155,21 +156,28 @@
     <string name="label_about_translation6">Alemán por Minty123 @ xda</string>
     <string name="label_about_translation7">Portugués de Brasil por @caiorrs</string>
     <string name="label_about_translation8">Holandés por @Matthias-vdE</string>
-	
+	<string name="label_about_translation9">Turkish and other language improvements by Eleo @ xda</string>
+
     <string name="label_about_follow">Sígueme en Twitter</string>
     <string name="label_about_rate">Califica / Revisa en Google Play</string>
     <string name="label_about_xda">Hilo en XDA</string>
 	
     <!-- Preferences -->
+    <string name="label_theme_system">Systema (por defecto)</string>
     <string name="label_theme_dark">Oscuro</string>
     <string name="label_theme_light">Claro</string>
+
     <string name="pref_theme_title">Tema</string>
     <string name="pref_theme_summary">Cambiar temas</string>
 
     <!-- System app activity -->
-    <string name="expl_system_app">If your phone has root BBS will automatically grant these required permissions.\nFor unrooted devices the permissions can be granted using ADB.</string>
+    <string name="expl_system_app">Si su teléfono tiene root, BBS otorgará automáticamente estos permisos requeridos.\nPara dispositivos no rooteados, los permisos se pueden otorgar usando ADB.</string>
+    <string name="expl_private_api">A partir de SDK28, Android bloquea ciertas API privadas que se necesitan para controlar la batería. Para desbloquearlos, debe ejecutar:</string>
     <string name="expl_adb_gplay" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.BATTERY_STATS\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats\n\u00b7android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS</string>
     <string name="expl_adb_xda" translatable="false">adb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.BATTERY_STATS\n\nadb -d shell pm grant com.asksven.betterbatterystats_xdaedition android.permission.DUMP\n\nadb\u00b7-d\u00b7shell\u00b7pm\u00b7grant\n\u00b7com.asksven.betterbatterystats_xdaedition\n\u00b7android.permission.PACKAGE_USAGE_STATS</string>
+    <string name="expl_adb2_api28" translatable="false">adb -d shell settings put global hidden_api_policy_pre_p_apps 1\n\nadb -d shell settings put global hidden_api_policy_p_apps 1</string>
+    <string name="expl_adb2_api29" translatable="false">adb -d shell settings put global hidden_api_policy 1</string>
+    
     <string name="info_succeeded">Exitoso</string>
     <string name="info_root_required">A fin de usar esta característica la aplicación debe tener permisos de root</string>
     <string name="info_unknown_state">Error: No se puede determinar qué cambió</string>
@@ -251,7 +259,6 @@
     <string name="pref_select_dir_title">Seleccione directorio de salida</string>
     <string name="pref_select_dir_button">Seleccione</string>
 
-
     <string name="pref_developer_title">Habilitar durante carga</string>
     <string name="pref_developer_summary">Habilitar estadísticas durante la carga (a su propio riesgo, estadísticas pueden ser inconsistentes)</string>
     <string name="pref_auto_refresh_title">Auto refresco</string>
@@ -267,6 +274,8 @@
     <string name="pref_screen_permissions_summary">Verificar permisos requeridos</string>
     <string name="pref_screen_import_export_title">Importar/Exportar</string>
     <string name="pref_screen_import_export_summary">Importar y Exportar Preferencias</string>
+    <string name="pref_screen_diagnostics_title">Diagnóstico</string>
+    <string name="pref_screen_diagnostics_summary">Ayuda en la depuración de llamadas API</string>
 
     <string name="pref_section_misc">Misc</string>
     <string name="pref_screen_widgets_title">Widgets</string>
