@@ -86,10 +86,12 @@
     <string-array name="themeLabels">
         <item>@string/label_theme_light</item>
         <item>@string/label_theme_dark</item>
+        <item>@string/label_theme_system</item>
     </string-array>
     <string-array name="themeValues" translatable="false">
         <item name="1">0</item>
         <item name="2">1</item>
+        <item name="2">2</item>
     </string-array>
     
     <string-array name="thumbnailSizeLabels">
