@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="3.0-beta-3" versioncode="101">
+    <release version="3.0" versioncode="102">
         <change>The cat and mouse game continues</change>
         <change>Added support for Android 13</change>
-        <change>Added diagnostics n advanced settings</change>
+        <change>Added diagnostics in advanced settings</change>
         <change>Update to API 30 since google is forcing that as a minimum for updates in the play store</change>
         <change>Should work on rooted and unrooted devices</change>
         <change>Updated permissions screen for instructions to grant access to private api</change>
@@ -12,8 +12,7 @@
         <change>Removed separators from adb command so that they can be copy pasted</change>
         <change>Fixed on-boarding in regards to PACKAGE_USAGE_STATS / APPOPS_USAGE_STATS</change>
         <change>Theme now defaults to system theme</change>
-        <change>Removed features (appops, graph) that are not supported anymore</change>
-        <change>Updated target sdk since it will be required in Q3-2022</change>
+        <change>Removed appops that is not supported anymore</change>
         <change>Fixed adb command for android 9</change>
     </release>
 </changelog>
