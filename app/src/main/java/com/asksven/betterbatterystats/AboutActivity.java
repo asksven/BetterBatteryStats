@@ -42,7 +42,8 @@ public class AboutActivity extends BaseActivity
 
     private static final String TAG = "AboutStatsActivity";
     public static final String MARKET_LINK ="market://details?id=com.asksven.betterbatterystats";
-    public static final String TWITTER_LINK ="https://twitter.com/#!/asksven";
+    //public static final String TWITTER_LINK ="https://twitter.com/#!/asksven";
+    public static final String TWITTER_LINK ="https://twit.social/@asksven";
     public static final String XDA_LINK = "http://forum.xda-developers.com/showthread.php?p=72467976";
     
 
