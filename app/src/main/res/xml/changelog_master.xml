@@ -2,5 +2,6 @@
 <changelog>
     <release version="3.1" versioncode="103">
         <change>Removal of permissions since google wants to remove the app from the appstore (Not sure yet what will break)</change>
+        <change>Removed twitter link in about: I am no on Mastodon</change>
     </release>
 </changelog>
