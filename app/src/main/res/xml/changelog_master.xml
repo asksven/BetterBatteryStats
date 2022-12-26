@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="3.2" versioncode="104">
-        <change>Removal of permissions since google wants to remove the app from the appstore (Not sure yet what will break)</change>
-        <change>Removed twitter link in about: I am no on Mastodon</change>
+    <release version="3.3" versioncode="105">
+        <change>Added diagnostics for Samsung S20+ devices</change>
     </release>
 </changelog>

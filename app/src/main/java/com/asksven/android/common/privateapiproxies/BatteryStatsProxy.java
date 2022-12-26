@@ -38,6 +38,7 @@ import android.os.IBinder;
 import android.os.MemoryFile;
 import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
+import android.os.ParcelFormatException;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.provider.Settings;
@@ -115,15 +116,18 @@ public class BatteryStatsProxy
                 m_lastError = "";
 
                 if (Build.VERSION.SDK_INT >= 22) {
+                if (CommonLogSettings.DEBUG)
+                {
+                    Log.i(TAG, "getInstance.try with SDK_INT >= 22 (" + Build.VERSION.SDK_INT + ")");
+                }
                     m_proxy = new BatteryStatsProxy(ctx, true);
-//                    // some devices, e.g. Samsung Galaxy S10 throw a Permission denied when reading the FileInputStream
-//                    // if the instance could not be created try the old way
-//                    if (m_proxy.m_Instance == null) {
-//                        m_fallbackStats = true;
-//                        m_proxy = new BatteryStatsProxy(ctx);
-//                    }
                 } else {
                     m_fallbackStats = false;
+                    if (CommonLogSettings.DEBUG)
+                    {
+                        Log.i(TAG, "getInstance.try with SDK_INT < 22");
+                    }
+
                     m_proxy = new BatteryStatsProxy(ctx);
                 }
             }
@@ -131,11 +135,21 @@ public class BatteryStatsProxy
         catch (NullPointerException e)
         {
             if (Build.VERSION.SDK_INT >= 22) {
+                if (CommonLogSettings.DEBUG)
+                {
+                    Log.i(TAG, "getInstance.catch(NullPointerException) with SDK_INT >= 22 (" + Build.VERSION.SDK_INT + ")");
+                }
+
                 m_proxy = new BatteryStatsProxy(ctx, true);
                 // some devices, e.g. Samsung Galaxy S10 throw a Permission denied when reading the FileInputStream
                 // if the instance could not be created try the old way
                 if (m_proxy.m_Instance == null) {
                     m_fallbackStats = true;
+                    if (CommonLogSettings.DEBUG)
+                    {
+                        Log.i(TAG, "getInstance.catch(NullPointerException) with SDK_INT < 22 (fallback)");
+                    }
+
                     m_proxy = new BatteryStatsProxy(ctx);
                 }
             } else {
@@ -144,6 +158,38 @@ public class BatteryStatsProxy
             }
 
         }
+        catch (ParcelFormatException e)
+        {
+            if (Build.VERSION.SDK_INT >= 22) {
+                if (CommonLogSettings.DEBUG)
+                {
+                    Log.i(TAG, "getInstance.catch(ParcelFormatException) with SDK_INT >= 22 (" + Build.VERSION.SDK_INT + ")");
+                }
+
+                m_proxy = new BatteryStatsProxy(ctx, true);
+                // some devices, e.g. Samsung Galaxy S10 throw a Permission denied when reading the FileInputStream
+                // if the instance could not be created try the old way
+                if (m_proxy.m_Instance == null) {
+                    if (CommonLogSettings.DEBUG)
+                    {
+                        Log.i(TAG, "getInstance.catch(ParcelFormatException) with SDK_INT < 22 (fallback)");
+                    }
+                    m_fallbackStats = true;
+                    m_proxy = new BatteryStatsProxy(ctx);
+                }
+            } else {
+                m_fallbackStats = false;
+                m_proxy = new BatteryStatsProxy(ctx);
+            }
+        }
+        catch (Exception e)
+        {
+            if (CommonLogSettings.DEBUG)
+            {
+                Log.i(TAG, "getInstance.catch(Exception): " + e.getMessage());
+            }
+        }
+
 		return m_proxy;
 	}
 

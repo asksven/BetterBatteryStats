@@ -33,6 +33,7 @@ import android.os.IBinder;
 import android.os.MemoryFile;
 import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
+import android.os.ParcelFormatException;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -246,6 +247,7 @@ public class DiagnosticsActivity extends BaseActivity
                 }
                 catch (NullPointerException e)
                 {
+                    ret.add("NullPointerException occured");
                     ret.add("batteryStatsImpl_CREATOR.createFromParcel FAILED, trying readFrmParcel with PowerProfile set");
 
                     Parcel parcel = Parcel.obtain();
@@ -287,12 +289,57 @@ public class DiagnosticsActivity extends BaseActivity
                     ret.add("SUCCESS");
 
                 }
+                catch (ParcelFormatException e)
+                {
+                    ret.add("ParcelFormatException occured");
+                    ret.add("batteryStatsImpl_CREATOR.createFromParcel FAILED, trying readFrmParcel with PowerProfile set");
+
+                    Parcel parcel = Parcel.obtain();
+                    parcel.unmarshall(data, 0, data.length);
+                    parcel.setDataPosition(0);
+
+                    @SuppressWarnings("rawtypes")
+                    Class batteryStatsImpl = cl.loadClass("com.android.internal.os.BatteryStatsImpl");
+
+                    Constructor bsiEmptyConstructor = Class.forName("com.android.internal.os.BatteryStatsImpl").getConstructor();
+                    Object bsiInstance = bsiEmptyConstructor.newInstance();
+
+                    // Initialize the PowerProfile
+                    Constructor ppConstructor = Class.forName("com.android.internal.os.PowerProfile").getConstructor(Context.class);
+                    Object ppInstance = ppConstructor.newInstance(context);
+
+                    Method methodSetPowerProfileLocked = batteryStatsImpl.getMethod("setPowerProfileLocked", Class.forName("com.android.internal.os.PowerProfile"));
+
+                    // Parameter types
+                    Class[] paramTypesSetPowerProfileLocked= new Class[1];
+                    paramTypesSetPowerProfileLocked[0]= Class.forName("com.android.internal.os.PowerProfile");
+
+                    // Parameters
+                    Object[] paramSetPowerProfileLocked= new Object[1];
+                    paramSetPowerProfileLocked[0] = ppInstance;
+
+                    methodSetPowerProfileLocked.invoke(bsiInstance, paramSetPowerProfileLocked);
+
+                    Method methodReadFromParcel = batteryStatsImpl.getMethod("readFromParcel", Parcel.class);
+
+                    // Parameters
+                    Object[] paramReadFromParcel = new Object[1];
+                    paramReadFromParcel[0] = parcel;
+
+                    methodReadFromParcel.invoke(bsiInstance, paramReadFromParcel);
+
+                    Object m_Instance = bsiInstance;
+                    Log.i(TAG, "Service: " + m_Instance.toString());
+                    ret.add("SUCCESS");
+
+                }
+
             }
         }
         catch( Exception e )
         {
-            Log.e(TAG, "An exception occured in BatteryStatsProxy(). Message: " + e.getCause());
-            ret.add("FAILURE: an exception occured");
+            Log.e(TAG, "An exception occured in BatteryStatsProxy(). Cause: " + e.getCause() + ", Message: " + e.getMessage());
+            ret.add("FAILURE: an unhandled exception occured");
             ret.add("");
             ret.add("STACK TRACE");
             ret.add(Log.getStackTraceString(e));
