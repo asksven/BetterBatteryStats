@@ -24,6 +24,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.Wakelock;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
@@ -54,6 +55,7 @@ public class WriteUnpluggedReferenceService extends IntentService
 			StatsProvider.getInstance().setReferenceSinceUnplugged(0);
 
 			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.UNPLUGGED_REF_FILENAME);
+			i.setPackage(SysUtils.getPackageName(this));
 		    this.sendBroadcast(i);
 
 //			// save a new current ref

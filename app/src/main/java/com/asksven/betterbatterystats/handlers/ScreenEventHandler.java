@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.services.EventWatcherService;
 import com.asksven.betterbatterystats.services.WatchdogProcessingService;
 import com.asksven.betterbatterystats.services.WriteScreenOffReferenceService;
@@ -47,6 +48,7 @@ public class ScreenEventHandler extends BroadcastReceiver
 			Log.i(TAG, "Received Broadcast ACTION_SCREEN_OFF");
 			// start service to persist reference
 			Intent serviceIntent = new Intent(context, WriteScreenOffReferenceService.class);
+			serviceIntent.setPackage(SysUtils.getPackageName(context));
 			context.startService(serviceIntent);
 
 		}
@@ -62,6 +64,7 @@ public class ScreenEventHandler extends BroadcastReceiver
 //				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
 //				context.startService(serviceIntent);
 				Intent serviceIntent2 = new Intent(context, WriteScreenOnReferenceService.class);
+				serviceIntent2.setPackage(SysUtils.getPackageName(context));
 				context.startService(serviceIntent2);
 
 			}
@@ -83,6 +86,7 @@ public class ScreenEventHandler extends BroadcastReceiver
 //				Intent serviceIntent = new Intent(context, WatchdogProcessingService.class);
 //				context.startService(serviceIntent);
 				Intent serviceIntent2 = new Intent(context, WriteScreenOnReferenceService.class);
+				serviceIntent2.setPackage(SysUtils.getPackageName(context));
 				context.startService(serviceIntent2);
 
 

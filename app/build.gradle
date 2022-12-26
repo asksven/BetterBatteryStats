@@ -24,7 +24,7 @@ android {
         minSdkVersion 15
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 31
-        versionCode 105
+        versionCode 106
         versionName "3.3"
         versionNameSuffix = getBuildSuffix()
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'

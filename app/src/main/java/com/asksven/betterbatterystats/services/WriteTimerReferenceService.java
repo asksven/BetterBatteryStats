@@ -21,6 +21,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.Wakelock;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
@@ -50,6 +51,7 @@ public class WriteTimerReferenceService extends IntentService
 			String refName = StatsProvider.getInstance().setTimedReference(0);
 			
 			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, refName);
+			i.setPackage(SysUtils.getPackageName(this));
 		    this.sendBroadcast(i);
 
 		}

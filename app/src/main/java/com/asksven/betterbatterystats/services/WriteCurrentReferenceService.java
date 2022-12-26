@@ -21,6 +21,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.Wakelock;
 import com.asksven.betterbatterystats.data.Reference;
 import com.asksven.betterbatterystats.data.ReferenceStore;
@@ -54,6 +55,7 @@ public class WriteCurrentReferenceService extends IntentService
 			this.sendBroadcast(intentRefreshWidgets);
 			
 			Intent i = new Intent(ReferenceStore.REF_UPDATED).putExtra(Reference.EXTRA_REF_NAME, Reference.CURRENT_REF_FILENAME);
+			i.setPackage(SysUtils.getPackageName(this));
 		    this.sendBroadcast(i);
 
 		}

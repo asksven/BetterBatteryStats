@@ -118,4 +118,18 @@ public class SysUtils
 		return ret;
 	}
 
+	public static String getPackageName(Context ctx)
+	{
+		String ret = "unknown";
+		try
+		{
+			ret = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).packageName;
+		}
+		catch (PackageManager.NameNotFoundException e)
+		{
+			ret = "";
+		}
+		return ret;
+	}
+
 }

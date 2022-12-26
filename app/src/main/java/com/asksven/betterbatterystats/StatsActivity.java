@@ -228,6 +228,7 @@ public class StatsActivity extends ActionBarListActivity
 //		if (!SysUtils.hasBatteryStatsPermission(this) || !SysUtils.hasDumpsysPermission(this) || !SysUtils.hasPackageUsageStatsPermission(this))
 		{
 			Intent intentSystemApp = new Intent(this, SystemAppActivity.class);
+			intentSystemApp.setPackage(SysUtils.getPackageName(this));
 			this.startActivity(intentSystemApp);
 		}
 
@@ -606,17 +607,20 @@ public class StatsActivity extends ActionBarListActivity
 	        	Intent intentPrefs = null;
 	        	
 				intentPrefs = new Intent(this, PreferencesFragmentActivity.class);
+				intentPrefs.setPackage(SysUtils.getPackageName(this));
 	            this.startActivity(intentPrefs);
 	        	break;	
 
 	        case R.id.graph:  
 	        	//Intent intentGraph = new Intent(this, BatteryGraphActivity.class);
 	        	Intent intentGraph = new Intent(this, GraphActivity.class);
+				intentGraph.setPackage(SysUtils.getPackageName(this));
 	            this.startActivity(intentGraph);
 	        	break;
 	        	
 	        case R.id.rawstats:  
 	        	Intent intentRaw = new Intent(this, RawStatsActivity.class);
+				intentRaw.setPackage(SysUtils.getPackageName(this));
 	            this.startActivity(intentRaw);
 	        	break;	
 	        case R.id.refresh:
@@ -639,6 +643,7 @@ public class StatsActivity extends ActionBarListActivity
             case R.id.about:
             	// About
             	Intent intentAbout = new Intent(this, AboutActivity.class);
+				intentAbout.setPackage(SysUtils.getPackageName(this));
                 this.startActivity(intentAbout);
             	break;
 
@@ -1186,6 +1191,7 @@ public class StatsActivity extends ActionBarListActivity
 
 							shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachements);
 							shareIntent.setType("text/plain");
+							shareIntent.setPackage(SysUtils.getPackageName(StatsActivity.this));
 							startActivity(Intent.createChooser(shareIntent, "Share info to.."));
 						}
 					}

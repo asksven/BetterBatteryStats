@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="3.3" versioncode="105">
+    <release version="3.3" versioncode="106">
         <change>Added diagnostics for Samsung S20+ devices</change>
+        <change>Fixed implicit intents</change>
     </release>
 </changelog>

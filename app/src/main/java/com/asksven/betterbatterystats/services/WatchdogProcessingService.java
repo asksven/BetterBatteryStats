@@ -32,6 +32,7 @@ import com.asksven.android.common.privateapiproxies.BatteryStatsProxy;
 import com.asksven.android.common.privateapiproxies.Misc;
 import com.asksven.android.common.privateapiproxies.StatElement;
 import com.asksven.android.common.utils.DateUtils;
+import com.asksven.android.common.utils.SysUtils;
 import com.asksven.betterbatterystats.R;
 import com.asksven.betterbatterystats.StatsActivity;
 import com.asksven.betterbatterystats.data.Reference;
@@ -87,6 +88,7 @@ public class WatchdogProcessingService extends IntentService
 
 					// save screen on reference
 					Intent serviceIntent = new Intent(this.getApplicationContext(), WriteScreenOnReferenceService.class);
+					serviceIntent.setPackage(SysUtils.getPackageName(this));
 					this.startService(serviceIntent);
 
 					if (stats.hasScreenOffRef())
