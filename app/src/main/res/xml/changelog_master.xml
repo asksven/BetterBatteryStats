@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="3.3" versioncode="106">
+    <release version="3.3.1" versioncode="1067">
         <change>Added diagnostics for Samsung S20+ devices</change>
         <change>Fixed implicit intents</change>
-        <change>Brought back icons</change>
-
+        <change>Brought back most icons</change>
+        <change>Updated targetSdk to 33, updated libraries</change>
     </release>
 </changelog>

@@ -59,6 +59,7 @@ public class UidNameResolver
 			try
 			{
 				icon = manager.getApplicationIcon(myPackage);
+				//icon =manager.getDefaultActivityIcon();
 			}
 			catch (Exception e)
 			{
