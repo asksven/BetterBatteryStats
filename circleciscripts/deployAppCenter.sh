@@ -17,7 +17,7 @@ function uploadToAppCenter {
 
   npm install --prefix=$HOME/.local --global appcenter-cli
   # appcenter login --disable-telemetry --token ${APPCENTER_TOKEN}
-  appcenter distribute release \
+  appcenter --disable-telemetry distribute release \
     --app ${APPCENTER_APP} \
     --file ${APPCENTER_APK} \
     --group "${APPCENTER_GROUP}" \
