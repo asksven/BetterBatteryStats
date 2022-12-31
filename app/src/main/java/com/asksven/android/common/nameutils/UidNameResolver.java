@@ -22,6 +22,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.asksven.betterbatterystats.BbsApplication;
 
@@ -31,7 +32,7 @@ import com.asksven.betterbatterystats.BbsApplication;
  */
 public class UidNameResolver 
 {
-	
+	private static final String TAG = "UidNameResolver";
 	protected String[] m_packages;
 	protected String[] m_packageNames;
     private static UidNameResolver m_instance;
@@ -50,6 +51,7 @@ public class UidNameResolver
 	{
 		Drawable icon = null;
 		// retrieve and store the icon for that package
+
 		String myPackage = packageName;
 		if (!myPackage.equals(""))
 		{
@@ -61,6 +63,7 @@ public class UidNameResolver
 			catch (Exception e)
 			{
 				// nop: no icon found
+				Log.e(TAG, "UidNameResolver failed. exception: " + e.getMessage());
 				icon = null;
 			}
 		}				
