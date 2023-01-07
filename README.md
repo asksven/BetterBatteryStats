@@ -57,7 +57,6 @@ See also https://github.com/circleci/encrypted-files
 ## Decrypt (on CircleCI, as defined in `circle.yml` and using an env-variable `KEY`)
 
 `openssl enc -in encrypted-cipher -out encrypted -d -aes256 -k $KEY`
-`openssl aes-256-cbc -d -in secret-file-cipher -out secret-file-plain -k $KEY`
 
 ## The signing keys
 
