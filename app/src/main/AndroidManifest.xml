@@ -45,6 +45,12 @@
     <!-- Attempt to narrow down the A13 Samsung issue -->
     <uses-permission android:name="android.permission.READ_PRECISE_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
+    <uses-permission android:name="android.permission.QUERY_USERS" />
 
     <queries>
         <intent>
@@ -91,7 +97,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="3.3.1" versioncode="1067">
-        <change>Added diagnostics for Samsung S20+ devices</change>
-        <change>Fixed implicit intents</change>
-        <change>Brought back most icons</change>
-        <change>Updated targetSdk to 33, updated libraries</change>
+    <release version="3.4.0" versioncode="108">
+        <change>Initial prep for Andrid 14. Will not work yet!!!</change>
     </release>
 </changelog>

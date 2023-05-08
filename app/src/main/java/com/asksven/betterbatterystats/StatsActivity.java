@@ -15,9 +15,9 @@
  */
 package com.asksven.betterbatterystats;
 
-/**
- * @author sven
- *
+/*
+  @author sven
+
  */
 
 import android.app.AlertDialog;
@@ -93,7 +93,7 @@ public class StatsActivity extends ActionBarListActivity
     private static final int STATE_OFFSCREEN = 1;
     private static final int STATE_RETURNING = 2;
     
-    private int mState = STATE_ONSCREEN;
+    private final int mState = STATE_ONSCREEN;
 	/**
 	 * The logging TAG
 	 */
@@ -216,12 +216,12 @@ public class StatsActivity extends ActionBarListActivity
 
 		// On Pie and upward we disable private API checks
 
-		if (Build.VERSION.SDK_INT >= 28)
-		{
-			NonRootShell.getInstance().run("settings put global hidden_api_policy_pre_p_apps 1");
-			NonRootShell.getInstance().run("settings put global hidden_api_policy_p_apps 1");
-			NonRootShell.getInstance().run("settings put global hidden_api_policy 1");
-		}
+//		if (Build.VERSION.SDK_INT >= 28)
+//		{
+//			NonRootShell.getInstance().run("settings put global hidden_api_policy_pre_p_apps 1");
+//			NonRootShell.getInstance().run("settings put global hidden_api_policy_p_apps 1");
+//			NonRootShell.getInstance().run("settings put global hidden_api_policy 1");
+//		}
 
 		// show install as system app screen if root available but perms missing
 		if (!SystemAppActivity.hasAllPermissions(this))
@@ -449,8 +449,14 @@ public class StatsActivity extends ActionBarListActivity
         };
         
         //registering our receiver
-        this.registerReceiver(m_referenceSavedReceiver, intentFilter);
-        
+		if (Build.VERSION.SDK_INT >= 26) {
+			this.registerReceiver(m_referenceSavedReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
+		}
+		else
+		{
+			this.registerReceiver(m_referenceSavedReceiver, intentFilter);
+		}
+
 		// the service is always started as it handles the widget updates too
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		

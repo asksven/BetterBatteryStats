@@ -23,11 +23,13 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 
+import androidx.multidex.MultiDexApplication;
+
 
 /**
  * @author android
  */
-public class BbsApplication extends Application
+public class BbsApplication extends MultiDexApplication
 {
 
     private Locale localeEN = Locale.ENGLISH;
