@@ -1,6 +1,17 @@
 *Build* [![CircleCI](https://circleci.com/gh/asksven/BetterBatteryStats/tree/master.svg?style=svg)](https://circleci.com/gh/asksven/BetterBatteryStats/tree/master)
 
-#License
+Better Battery Stats provides more in-depth battery statistics for your Android device. It can be used to find applications that cause battery drain.
+
+It can be used without root, though it needs special permissions. With root access those permissions can be granted automatically. Without root access, the permissions can still be granted using the `adb` tool on a laptop or desktop computer:
+
+```
+adb -d shell pm grant com.asksven.betterbatterystats android.permission.BATTERY_STATS
+adb -d shell pm grant com.asksven.betterbatterystats android.permission.DUMP
+adb -d shell pm grant com.asksven.betterbatterystats android.permission.PACKAGE_USAGE_STATS
+adb -d shell settings put global hidden_api_policy 1
+```
+
+# License
 BetterBatteryStats is an open source project unter the terms of the Apache 2.0 License. The license does not apply to the use of the names "BetterBatteryStats" and "Better Battery Stats", nor to the icon / artwork created for BetterBatteryStats. 
 
 # Build
